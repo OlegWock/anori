@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "lib": ["es6", "es2019", "dom", "dom.iterable"],
+        "baseUrl": ".",
+        "paths": {
+            "@utils/*": ["./src/utils/*"],
+            "@components/*": ["./src/components/*"],
+            "@assets/*": ["./src/assets/*"]
+        },
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "allowSyntheticDefaultImports": true,
+        "strictNullChecks": true,
+        "module": "es6",
+        "target": "es6",
+        "jsx": "preserve", // Will be compiled with Babel anyway
+        "allowJs": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true
+    },
+
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS"
+        }
+    }
+}

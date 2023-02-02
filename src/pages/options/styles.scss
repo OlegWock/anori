@@ -1,0 +1,25 @@
+body,
+html,
+main {
+    height: 100%;
+    margin: 0;
+}
+
+main {
+    background: radial-gradient(circle, rgba(32, 199, 160, 1) 0%, rgba(35, 133, 110, 1) 100%);
+    background-position: 75% 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Options {
+    width: 900px;
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    background: white;
+}

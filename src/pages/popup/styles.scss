@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,400;0,700;1,200;1,400;1,700&display=swap');
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: #333;
+}
+
+.Popup {
+    width: 400px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+
+    .text-wrapper {
+        width: 80%;
+        text-align: center;
+        margin-top: 16px;
+    }
+}
