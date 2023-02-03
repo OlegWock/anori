@@ -1,0 +1,28 @@
+.NewWidgetWizard {
+    min-width: 800px;
+    max-width: 80vw;
+
+    display: flex;
+    flex-direction: column;
+
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .widgets-mocks {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 12px;
+
+            .WidgetCard {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.NewWidgetWizard-wrapper {
+    overflow: hidden;
+}

@@ -25,6 +25,7 @@ body {
     height: 100vh;
     width: 100vw;
     z-index: 0;
+    background-color: rgba(0, 0, 0, 0.35);
 
     &::before {
         content: "";
@@ -44,8 +45,6 @@ body {
     height: 100vh;
     width: 100vw;
     display: flex;
-    font-size: 22px;
-
 
     .sidebar {
         flex-grow: 0;
@@ -71,12 +70,11 @@ body {
         background: rgba(255, 255, 255, 0.04);
         backdrop-filter: blur(10px);
         z-index: 1;
+        overflow: hidden;
 
 
         display: flex;
         flex-direction: column;
-        // justify-content: center;
-        // align-items: center;
     }
 
 }

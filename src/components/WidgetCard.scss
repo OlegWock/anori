@@ -1,0 +1,27 @@
+.WidgetCard {
+    padding: 24px;
+    background: var(--background-lighter);
+    border-radius: 12px;
+    min-height: 140px;
+    min-width: 350px;
+    color: var(--accent);
+    position: relative;
+
+    
+    .remove-widget-btn {
+        position: absolute;
+        top: -14px;
+        right: -14px;
+        padding: 6px;
+        border-radius: 18px;
+        background: var(--background-lighter);
+        color: var(--accent);
+        border: 2px solid var(--accent);
+        display: flex;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 6px 4px;
+    }
+
+    .error-description {
+        margin-top: 48px;
+    }
+}

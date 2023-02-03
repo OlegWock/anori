@@ -30,24 +30,33 @@ const Start = () => {
     const [settingsVisible, setSettingsVisible] = useState(false);
 
     return (
-        <MotionConfig transition={{ duration: 0.2, }}>
+        <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
             <AnimatePresence>
                 <motion.div
                     className="StartPage"
                 >
                     <div className="sidebar">
                         <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
+                            {/* TODO: add context menu to these and allow edit/delete them right there */}
+                            {/* https://www.radix-ui.com/docs/primitives/components/context-menu */}
                             {folders.map(f => {
                                 return (<FolderButton key={f.id} icon={f.icon} name={f.name} active={activeFolder === f} onClick={() => setActiveFolder(f)} />);
                             })}
                             <div className="spacer" />
-                            <FolderButton layoutId='settings' icon="ion:settings-sharp" name='Settings' onClick={() => setSettingsVisible(true)} />
+                            <FolderButton
+                                layoutId='settings'
+                                icon="ion:settings-sharp"
+                                name='Settings'
+                                onClick={() => setSettingsVisible(true)}
+                                whileHover={{ rotate: 180 }}
+                                transition={{ type: 'spring', duration: 0.1 }}
+                            />
                         </FloatingDelayGroup>
                     </div>
 
                     <div className="widgets-area">
                         <AnimatePresence initial={false} mode='wait' custom={animationDirection}>
-                            <FolderContent key={activeFolder.id} folder={activeFolder} active animationDirection={animationDirection} />
+                            <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
                         </AnimatePresence>
                     </div>
                 </motion.div>

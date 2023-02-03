@@ -21,15 +21,16 @@ import './Tooltip.scss';
 
 interface Props {
     label: string;
-    delay?: number;
+    showDelay?: number;
+    resetDelay?: number;
     placement?: Placement;
     strategy?: Strategy;
     maxWidth?: number;
     children: JSX.Element;
 }
 
-export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0 }: Props) => {
-    const { delay, setCurrentId } = useDelayGroupContext();
+export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100 }: Props) => {
+    const { delay = showDelay, setCurrentId } = useDelayGroupContext();
     const [open, setOpen] = useState(false);
 
     const { x, y, reference, floating, strategy: localStrategy, context } = useFloating({
@@ -48,7 +49,7 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
     });
 
     const { getReferenceProps, getFloatingProps } = useInteractions([
-        useHover(context, { delay, restMs: 100 }),
+        useHover(context, { delay, restMs: resetDelay }),
         useFocus(context),
         useRole(context, { role: "tooltip" }),
         useDismiss(context),

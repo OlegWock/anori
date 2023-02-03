@@ -5,7 +5,8 @@
         "paths": {
             "@utils/*": ["./src/utils/*"],
             "@components/*": ["./src/components/*"],
-            "@assets/*": ["./src/assets/*"]
+            "@assets/*": ["./src/assets/*"],
+            "@plugins/*": ["./src/plugins/*"]
         },
         "outDir": "./dist/",
         "noImplicitAny": true,

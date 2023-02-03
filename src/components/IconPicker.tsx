@@ -6,6 +6,8 @@ import { allSets, iconSetPrettyNames, iconsBySet } from './icons/all-sets';
 import { Select } from './Select';
 import { Input } from './Input';
 import { Icon } from './Icon';
+import { Tooltip } from './Tooltip';
+import { FloatingDelayGroup } from '@floating-ui/react-dom-interactions';
 
 type IconPickerProps = PopoverRenderProps<{
     onSelected: (icon: string) => void,
@@ -16,9 +18,12 @@ const ICON_SIZE = 32;
 const PADDING = 10;
 
 const IconCell = ({ icon, onClick }: { icon: string, onClick?: () => void }) => {
-    return (<div style={{ padding: PADDING }} className='IconCell' data-icon={icon} onClick={onClick}>
-        <Icon icon={icon} width={ICON_SIZE} height={ICON_SIZE} />
-    </div>);
+    return (
+        <Tooltip label={icon} placement='bottom' showDelay={2000} resetDelay={0}>
+            <div style={{ padding: PADDING }} className='IconCell' data-icon={icon} onClick={onClick}>
+                <Icon icon={icon} width={ICON_SIZE} height={ICON_SIZE} />
+            </div>
+        </Tooltip>);
 };
 
 const IconRow = ({ index, data, style }: { index: number, style: CSSProperties, data: GridItemData }) => {

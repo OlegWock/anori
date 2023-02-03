@@ -2,19 +2,23 @@ import { motion } from 'framer-motion';
 import './Modal.scss';
 import { ReactNode } from 'react';
 import { Icon } from './Icon';
+import { createPortal } from 'react-dom';
+import clsx from 'clsx';
 
 export type ModalProps = {
     title: string;
     children: ReactNode;
+    headerButton?: ReactNode,
     layoutId?: string,
     closable?: boolean,
     closeOnClickOutside?: boolean,
     onClose?: () => void,
+    className?: string,
 };
 
-export const Modal = ({ children, title, layoutId, closable, onClose, closeOnClickOutside }: ModalProps) => {
-    return (
-        <motion.div
+export const Modal = ({ className, children, title, layoutId, closable, onClose, closeOnClickOutside, headerButton }: ModalProps) => {
+    return createPortal(
+        (<motion.div
             className="Modal-backdrop"
             onClick={() => closable && closeOnClickOutside && onClose && onClose()}
             initial={{ opacity: 0 }}
@@ -23,7 +27,7 @@ export const Modal = ({ children, title, layoutId, closable, onClose, closeOnCli
             transition={{ duration: 0.1 }}
         >
             <motion.div
-                className="Modal"
+                className={clsx("Modal", className)}
                 onClick={(e) => e.stopPropagation()}
                 layoutId={layoutId}
                 initial={{ y: '-100%', }}
@@ -32,6 +36,7 @@ export const Modal = ({ children, title, layoutId, closable, onClose, closeOnCli
                 transition={{ duration: 0.2 }}
             >
                 <div className="header">
+                    {headerButton}
                     <h1>{title}</h1>
                     {closable && <motion.button
                         className='close-button'
@@ -46,6 +51,7 @@ export const Modal = ({ children, title, layoutId, closable, onClose, closeOnCli
                 </div>
                 {children}
             </motion.div>
-        </motion.div>
-    )
+        </motion.div>),
+        document.body,
+    );
 }

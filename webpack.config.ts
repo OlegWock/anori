@@ -69,7 +69,8 @@ const generateManifest = (
         },
 
         permissions: [
-            'storage'
+            'storage',
+            'unlimitedStorage',
         ],
 
         host_permissions: ['*://*.example.com/*'],
@@ -229,6 +230,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 '@utils': path.resolve(__dirname, paths.src.utils),
                 '@components': path.resolve(__dirname, paths.src.components),
                 '@assets': path.resolve(__dirname, paths.src.assets),
+                '@plugins': path.resolve(__dirname, paths.src.plugins),
             },
 
             modules: [path.resolve(__dirname, paths.src.base), 'node_modules'],

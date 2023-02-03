@@ -21,13 +21,19 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    max-width: 600px;
+    max-width: 90vw;
+    max-height: 90vh;
 
     .header {
         display: flex;
-        justify-content: space-between;
+        gap: 16px;
         align-items: center;
         margin-bottom: 24px;
+
+        h1 {
+            flex-grow: 1;
+            line-height: 1;
+        }
     
         .close-button {
             border: none;
