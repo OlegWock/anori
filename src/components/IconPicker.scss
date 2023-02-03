@@ -1,0 +1,46 @@
+@use "./base.scss" as *;
+
+.IconPicker {
+    width: 410px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .icons-search {
+        margin-bottom: 8px;
+    }
+
+    .icons-grid {
+        @include scroll-mixin();
+
+        align-self: center;
+        overflow-x: hidden !important;
+    }
+}
+
+.IconRow {
+    display: flex;
+}
+
+.IconCell {
+    padding: 4px;
+    transition: 0.1s ease-in-out;
+    contain: paint;
+
+    &:not(.inactive):hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    &.inactive {
+        pointer-events: none;
+    }
+}

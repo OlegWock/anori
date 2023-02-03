@@ -1,0 +1,15 @@
+.FolderContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    color: var(--accent);
+
+    flex-grow: 1;
+    align-self: stretch;
+
+    &.active {
+
+    }
+}

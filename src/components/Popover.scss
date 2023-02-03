@@ -1,0 +1,10 @@
+.Popover {
+    background: var(--background);
+    color: var(--dark-primary);
+    width: max-content;
+    z-index: 9999;
+    padding: 16px;
+    border-radius: 6px;
+    box-shadow: rgba(255, 255, 255, 0.15) 0px 2px 10px 8px;
+    // border: 3px solid var(--accent);
+}

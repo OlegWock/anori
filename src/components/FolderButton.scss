@@ -1,0 +1,37 @@
+.FolderButton {
+    padding: 8px;
+    background: none;
+    cursor: pointer;
+    border-radius: 8px;
+    border-color: transparent;
+    border-width: 2px;
+    border-style: solid;
+    color: rgba(255, 255, 255, 0.733);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.1s ease-in-out;
+    position: relative;
+
+    &:hover {
+        transform: scale(1.15);
+        color: var(--accent);
+    }
+
+    .background-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: transparent;
+        pointer-events: none;
+        border-radius: 8px;
+        box-shadow: 0px 0px 7px 7px var(--accent-subtle);
+    }
+
+    &.active {
+        // border-color: var(--accent);
+        // box-shadow: 0px 0px 7px 7px var(--accent-subtle);
+    }
+}

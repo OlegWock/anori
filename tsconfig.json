@@ -22,6 +22,8 @@
     "ts-node": {
         "compilerOptions": {
             "module": "CommonJS"
-        }
+        },
+        "files": true,
+        "include": ["declarations.d.ts"]
     }
 }

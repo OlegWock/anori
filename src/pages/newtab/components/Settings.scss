@@ -1,0 +1,48 @@
+.Settings {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        button {
+            align-self: center;
+        }
+    }
+}
+
+.FolderItem {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 6px 0;
+
+    .folder-icon {
+        cursor: pointer;
+        background: none;
+        display: flex;
+        color: inherit;
+    }
+
+    input {
+        background: transparent;
+        border: none;
+        font-size: inherit;
+        color: inherit;
+        font-family: inherit;
+        border-radius: 6px;
+
+        &:focus {
+            outline: none;
+            outline: 2px solid var(--accent);
+        }
+    }
+
+    .folder-name {
+        padding: 2px 8px;
+        flex-grow: 1;
+    }
+}

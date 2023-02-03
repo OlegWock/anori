@@ -1,0 +1,82 @@
+@use '../../components/base.scss';
+
+@font-face {
+    font-family: 'Quicksand';
+    font-weight: 1 999;
+    font-display: swap;
+    src: url('/assets/Quicksand.ttf') format('truetype-variations');
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    font-family: 'Quicksand', BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.075rem;
+    color: var(--text);
+    height: 100vh;
+    background: url('/assets/images/default-bg.jpg');
+    overflow: hidden;
+}
+
+#root {
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+
+    &::before {
+        content: "";
+        pointer-events: none;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(50px);
+        background-image: radial-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
+        background-size: 30px 30px;
+    }
+}
+
+.StartPage {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    font-size: 22px;
+
+
+    .sidebar {
+        flex-grow: 0;
+        flex-shrink: 0;
+        padding: 38px 24px;
+        z-index: 1;
+
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+
+    .widgets-area {
+        position: relative;
+        margin: 32px;
+        margin-left: 0px;
+        flex: 1;
+        border-radius: 36px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(10px);
+        z-index: 1;
+
+
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        // align-items: center;
+    }
+
+}

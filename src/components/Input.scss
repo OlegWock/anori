@@ -1,0 +1,15 @@
+.Input {
+    border-radius: 8px;
+    padding: 0 15px;
+    font-size: 14px;
+    line-height: 1;
+    height: 35px;
+    min-width: 250px;
+    border: none;
+    color: var(--text-subtle);
+    background: var(--background-lighter);
+
+    &:focus {
+        outline: 2px solid var(--accent);
+    }
+}

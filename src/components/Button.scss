@@ -1,0 +1,55 @@
+@use "./base.scss";
+
+.Button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    white-space: nowrap;
+    color: var(--text);
+    font-family: inherit;
+    transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
+    padding: 2px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    // box-shadow: 0px 0px 2px 2px var(--accent);
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+   
+
+    &-size-compact {
+        font-size: 0.9rem;
+        padding: 4px 12px;
+        width: fit-content;
+        min-width: auto;
+    }
+
+    &-block {
+        width: 100%;
+    }
+}
+
+.LinkButton {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    display: inline;
+    color: #2689e4;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    border-bottom: 1px dashed #2689e4;
+    font-family: inherit;
+    transition: 0.1s linear;
+
+    svg {
+        vertical-align: bottom;
+        font-size: 1.2em;
+    }
+}
