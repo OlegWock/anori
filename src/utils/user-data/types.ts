@@ -1,3 +1,4 @@
+import { LayoutItem, LayoutItemSize } from "@utils/grid";
 import { ComponentType } from "react";
 
 export type StorageContent = {
@@ -21,7 +22,7 @@ export type WidgetInFolder<T extends {}> = {
     widgetId: ID,
     instanceId: ID,
     configutation: T,
-};
+} & LayoutItem;
 
 export type WidgetInFolderWithMeta<T extends {}> = WidgetInFolder<T> & {
     plugin: AodakePlugin,
@@ -58,6 +59,7 @@ export type WidgetDescriptor<T extends {}> = {
     configurationScreen: ComponentType<WidgetConfigurationProps<T>>,
     mainScreen: ComponentType<WidgetRenderProps<T>>,
     mock: ComponentType<{}>,
+    size: LayoutItemSize,
 };
 
 export type CommandDescriptor = {

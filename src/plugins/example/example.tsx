@@ -85,6 +85,10 @@ export const examplePlugin = {
         configurationScreen: ConfigScreen,
         mainScreen: MainScreen,
         mock: Mock,
+        size: {
+            width: 2,
+            height: 1,
+        }
     }],
     commands: [],
 } satisfies AodakePlugin;

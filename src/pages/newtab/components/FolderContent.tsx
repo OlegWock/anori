@@ -1,15 +1,17 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import './FolderContent.scss';
-import { Folder, homeFolder } from '@utils/user-data/types';
+import { Folder, WidgetInFolderWithMeta } from '@utils/user-data/types';
 import { Icon } from '@components/Icon';
 import clsx from 'clsx';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@components/Button';
-import { Modal } from '@components/Modal';
 import { NewWidgetWizard } from './NewWidgetWizard';
 import { useFolderWidgets } from '@utils/user-data/hooks';
 import { WidgetCard } from '@components/WidgetCard';
 import { FolderContentContext } from '@utils/FolderContentContext';
+import { useRef } from 'react';
+import { Layout, LayoutItem, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
+
 
 type FolderContentProps = {
     folder: Folder,
@@ -68,13 +70,42 @@ const actionButtonAnimations = {
     },
 };
 
+
 export const FolderContent = ({ folder, animationDirection }: FolderContentProps) => {
-    const { widgets, removeWidget } = useFolderWidgets(folder);
-    const [isEditing, setIsEditing] = useState(false);
+    const tryRepositionWidget = (widget: WidgetInFolderWithMeta<any>, event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        if (!mainRef.current) return;
+        console.log('tryRepositionWidget', { widget, event, info });
+        const mainBox = mainRef.current.getBoundingClientRect();
+        const relativePoint = {
+            x: info.point.x - mainBox.x,
+            y: info.point.y - mainBox.y,
+        };
+        const possibleSnapPoints = snapToSector({ grid: grisDimenstions, position: relativePoint });
+        console.log('Possible snap points:', possibleSnapPoints);
+        const snapPoint = possibleSnapPoints.find(p => !willItemOverlay({
+            arr: layoutTo2DArray({
+                grid: grisDimenstions,
+                layout: widgets.filter(w => w.instanceId !== widget.instanceId),
+            }),
+            item: {
+                ...widget,
+                ...p.position,
+            }
+        }));
+        console.log('Span point selected', snapPoint);
+        if (!snapPoint) return;
+        moveWidget(widget, snapPoint.position);
+    };
+
+    const { widgets, removeWidget, moveWidget } = useFolderWidgets(folder);
+    const [isEditing, setIsEditing] = useState(true);
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
 
+    const mainRef = useRef<HTMLDivElement>(null);
+    const grisDimenstions = useGrid(mainRef);
+
     useEffect(() => {
-        setIsEditing(false);
+        // setIsEditing(false);
     }, [folder.id]);
 
     return (
@@ -124,27 +155,45 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                     </div>
 
                 </header>
-
-                <main>
-                    <FolderContentContext.Provider value={{
-                        activeFolder: folder,
-                        isEditing,
-                    }}>
+                <FolderContentContext.Provider value={{
+                    activeFolder: folder,
+                    isEditing,
+                    boxSize: grisDimenstions.boxSize,
+                }}>
+                    <motion.main layout layoutRoot ref={mainRef}>
                         <AnimatePresence initial={false}>
-                            {widgets.map(w => {
+                            {widgets.map((w, i) => {
+                                const position = positionToPixelPosition({ grid: grisDimenstions, positon: w });
                                 return (<WidgetCard
+                                    drag
+                                    dragConstraints={mainRef}
+                                    dragSnapToOrigin
+                                    dragElastic={0}
+                                    onDragEnd={(e, info) => tryRepositionWidget(w, e, info)}
+                                    whileDrag={{ zIndex: 9, boxShadow: '0px 4px 4px 3px rgba(0,0,0,0.4)' }}
                                     key={w.instanceId}
                                     onRemove={() => removeWidget(w)}
-                                    exit={{ scale: 0 }}
+                                    width={w.width}
+                                    height={w.height}
+                                    style={{
+                                        position: 'absolute',
+                                        top: position.y,
+                                        left: position.x,
+                                    }}
                                 >
                                     <w.widget.mainScreen config={w.configutation} />
-                                </WidgetCard>)
+                                </WidgetCard>);
                             })}
                         </AnimatePresence>
-                    </FolderContentContext.Provider >
-                </main>
+                    </motion.main>
+                </FolderContentContext.Provider >
             </motion.div>
 
-            {newWidgetWizardVisible && <NewWidgetWizard folder={folder} onClose={() => setNewWidgetWizardVisible(false)} />}
+            {newWidgetWizardVisible && <NewWidgetWizard
+                folder={folder}
+                onClose={() => setNewWidgetWizardVisible(false)}
+                gridDimenstions={grisDimenstions}
+                layout={widgets}
+            />}
         </>);
 }

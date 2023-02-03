@@ -8,14 +8,27 @@ import { Modal } from '@components/Modal';
 import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { useFolderWidgets } from '@utils/user-data/hooks';
+import { GridDimensions, Layout, canFitItemInGrid } from '@utils/grid';
 
 
 export type NewWidgetWizardProps = {
     folder: Folder,
+    gridDimenstions: GridDimensions,
+    layout: Layout,
     onClose: () => void,
 };
 
-export const NewWidgetWizard = ({ onClose, folder }: NewWidgetWizardProps) => {
+export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: NewWidgetWizardProps) => {
+    const tryAddWidget = (config: any) => {
+        const position = canFitItemInGrid({ grid: gridDimenstions, layout, item: selectedWidget!.size });
+        if (!position) {
+            alert("Can't fit element in grid, sorry");
+            return;
+        }
+        addWidget({ plugin: selectedPlugin!, widget: selectedWidget!, config, position });
+        onClose();
+    };
+
     const { addWidget } = useFolderWidgets(folder);
     const [selectedPlugin, setSelectedPlugin] = useState<AodakePlugin | undefined>(undefined);
     const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor<any> | undefined>(undefined);
@@ -42,10 +55,7 @@ export const NewWidgetWizard = ({ onClose, folder }: NewWidgetWizardProps) => {
                     animate={{ translateX: '0%', opacity: 1 }}
                     exit={{ translateX: '-50%', opacity: 0 }}
                 >
-                    <selectedWidget.configurationScreen saveConfiguration={(config) => {
-                        addWidget({ plugin: selectedPlugin, widget: selectedWidget, config });
-                        onClose();
-                    }} />
+                    <selectedWidget.configurationScreen saveConfiguration={tryAddWidget} />
                 </motion.div>}
 
 
@@ -62,6 +72,8 @@ export const NewWidgetWizard = ({ onClose, folder }: NewWidgetWizardProps) => {
                             <div className='widgets-mocks'>
                                 {plugin.widgets.map(widget => {
                                     return (<WidgetCard
+                                        width={2}
+                                        height={1}
                                         key={widget.id}
                                         onClick={() => {
                                             setSelectedPlugin(plugin);

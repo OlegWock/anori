@@ -4,6 +4,7 @@ import { AodakePlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, Wid
 import { guid } from "@utils/misc";
 import { useEffect, useMemo } from "react";
 import { availablePluginsWithWidgets } from "@plugins/all";
+import { Position } from "@utils/grid";
 
 const foldersAtom = atomWithBrowserStorage('folders', []);
 const activeFolderAtom = atom<ID>('home');
@@ -86,18 +87,21 @@ const getFolderDetailsAtom = (id: ID) => {
 };
 
 export const useFolderWidgets = (folder: Folder) => {
-    const addWidget = <T extends {}>({ plugin, widget, config }: { plugin: AodakePlugin, widget: WidgetDescriptor<T>, config: T }) => {
+    const addWidget = <T extends {}>({ plugin, widget, config, position }: { plugin: AodakePlugin, widget: WidgetDescriptor<T>, config: T, position: Position }) => {
         const instanceId = guid();
+
         const data: WidgetInFolder<T> = {
             pluginId: plugin.id,
             widgetId: widget.id,
             instanceId,
             configutation: config,
+            ...widget.size,
+            ...position,
         };
 
         setDetails(p => {
             return {
-                ...p, 
+                ...p,
                 widgets: [
                     ...p.widgets,
                     data
@@ -116,7 +120,25 @@ export const useFolderWidgets = (folder: Folder) => {
                 widgets: p.widgets.filter(w => w.instanceId !== id),
             };
         });
-    }
+    };
+
+    const moveWidget = (widgetOrId: WidgetInFolder<any> | ID, position: Position) => {
+        const id = typeof widgetOrId === 'string' ? widgetOrId : widgetOrId.instanceId;
+        setDetails(p => {
+            return {
+                ...p,
+                widgets: p.widgets.map(w => {
+                    if (w.instanceId === id) {
+                        return {
+                            ...w,
+                            ...position,
+                        }
+                    }
+                    return w;
+                }),
+            };
+        });
+    };
 
     const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
     const [details, setDetails] = useAtom(atom);
@@ -140,5 +162,6 @@ export const useFolderWidgets = (folder: Folder) => {
         widgets,
         addWidget,
         removeWidget,
+        moveWidget,
     };
 };

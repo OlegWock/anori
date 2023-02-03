@@ -2,16 +2,14 @@
     padding: 24px;
     background: var(--background-lighter);
     border-radius: 12px;
-    min-height: 140px;
-    min-width: 350px;
+    // min-height: 150px;
+    // min-width: 300px;
     color: var(--accent);
     position: relative;
 
     
-    .remove-widget-btn {
+    .remove-widget-btn, .drag-widget-btn {
         position: absolute;
-        top: -14px;
-        right: -14px;
         padding: 6px;
         border-radius: 18px;
         background: var(--background-lighter);
@@ -19,6 +17,16 @@
         border: 2px solid var(--accent);
         display: flex;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 6px 4px;
+    }
+
+    .remove-widget-btn {
+        top: -14px;
+        right: -14px;
+    }
+
+    .drag-widget-btn {
+        top: -14px;
+        left: -14px;
     }
 
     .error-description {
