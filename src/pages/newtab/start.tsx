@@ -1,7 +1,6 @@
-import { injectStyles, mountPage, setPageTitle } from '@utils/mount';
+
+import { injectStyles, mountPage, setPageBackground, setPageTitle } from '@utils/mount';
 import './styles.scss';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 import { Icon, requestIconsFamily } from '@components/Icon';
 import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react-dom-interactions';
@@ -14,6 +13,7 @@ import { FolderContent } from './components/FolderContent';
 import { Folder, homeFolder } from '@utils/user-data/types';
 import { usePrevious } from '@utils/hooks';
 import { storage } from '@utils/storage';
+import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 
 const Start = () => {
     const { folders, activeFolder, setActiveFolder } = useFolders(true);
@@ -25,7 +25,6 @@ const Start = () => {
             ? 'down'
             : 'up';
 
-    // console.log('Folders:', folders);
 
     const [settingsVisible, setSettingsVisible] = useState(false);
 
@@ -74,6 +73,9 @@ storage.getOne('folders').then(foldersFromStorage => {
     folders.forEach(f => requestIconsFamily(f.icon.split(':')[0]));
 });
 setPageTitle('Aodake new tab');
+storage.getOne('theme').then(theme => {
+    applyTheme(theme || defaultTheme);
+})
 mountPage(<Start />);
 
 

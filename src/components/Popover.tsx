@@ -59,7 +59,7 @@ export const Popover = <D extends any = undefined>({
                 apply({ availableWidth, availableHeight, elements }) {
                     console.log('Size middleware call', { availableHeight, availableWidth })
                     Object.assign(elements.floating.style, {
-                        maxHeight: `${availableHeight}px`,
+                        // maxHeight: `${availableHeight}px`,
                         maxWidth: `${Math.min(Math.max(availableWidth, 0), 600)}px`,
                     });
                 },

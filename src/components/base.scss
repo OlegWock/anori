@@ -34,11 +34,11 @@ $text: rgb(229, 229, 229);
 :root {
     --accent: #{$accent};
     --accent-subtle: #{color.scale($accent, $alpha: -50%)};
-
     --background: #{$background};
     --background-lighter: #{color.scale($background, $lightness: +5%)};
     --text: #{$text};
-    --text-subtle: #{color.scale($text, $alpha: -15%)};
+    --text-subtle-1: #{color.scale($text, $alpha: -15%)};
+    --text-subtle-2: #{color.scale($text, $alpha: -35%)};
     --text-disabled: #{color.scale($text, $blackness: +45%)};
 }
 

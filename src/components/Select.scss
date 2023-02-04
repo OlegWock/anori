@@ -10,7 +10,7 @@
     gap: 12px;
     min-width: 250px;
     border: 0px solid transparent;
-    color: var(--text-subtle);
+    color: var(--text-subtle-1);
     background: var(--background-lighter);
 }
 
@@ -20,11 +20,11 @@
 }
 
 .SelectTrigger[data-placeholder] {
-    color: var(--text-subtle);
+    color: var(--text-subtle-1);
 }
 
 .SelectIcon {
-    color: var(--text-subtle);
+    color: var(--text-subtle-1);
 }
 
 .SelectContent {
@@ -68,7 +68,7 @@
     padding: 0 25px;
     font-size: 16px;
     line-height: 32px;
-    color: var(--text-subtle);
+    color: var(--text-subtle-1);
     font-weight: 600;
 }
 

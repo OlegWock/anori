@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 type ButtonSize = "normal" | "compact";
 
-interface ButtonProps extends Omit<React.ComponentProps<typeof motion.button>, "type"> {
+export interface ButtonProps extends Omit<React.ComponentProps<typeof motion.button>, "type"> {
     size?: ButtonSize,
     block?: boolean,
 }

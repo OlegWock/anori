@@ -69,7 +69,7 @@ export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultVal
         };
 
         loaded.current = false;
-        storage.get({ [name]: defaultValue } as GetStorageQueryWithDefaults).then(res => {
+        storage.get({ [name]: defaultValue } as unknown as GetStorageQueryWithDefaults).then(res => {
             _setValue(res[name]);
         });
         browser.storage.local.onChanged.addListener(callback);

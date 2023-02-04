@@ -1,8 +1,10 @@
 import { LayoutItem, LayoutItemSize } from "@utils/grid";
 import { ComponentType } from "react";
+import { Theme } from "./theme";
 
 export type StorageContent = {
     folders: Folder[],
+    theme: Theme,
 };
 
 export type ID = string;
@@ -64,5 +66,5 @@ export type WidgetDescriptor<T extends {}> = {
 };
 
 export type CommandDescriptor = {
-    
+
 };

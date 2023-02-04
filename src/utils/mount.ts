@@ -24,3 +24,7 @@ export const mountPage = (element: JSX.Element) => {
 export const setPageTitle = (title: string) => {
     document.title = title;
 };
+
+export const setPageBackground = (bg: string) => {
+    document.body.style.backgroundImage = `url(${bg})`;
+}

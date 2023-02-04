@@ -17,7 +17,8 @@ body {
     letter-spacing: 0.075rem;
     color: var(--text);
     height: 100vh;
-    background: url('/assets/images/default-bg.jpg');
+    background-image: url('/assets/images/backgrounds/forest-lake.jpg');
+    background-size: cover;
     overflow: hidden;
 }
 
@@ -35,7 +36,8 @@ body {
         height: 100vh;
         top: 0;
         left: 0;
-        backdrop-filter: blur(50px);
+        // backdrop-filter: blur(50px);
+        backdrop-filter: blur(15px);
         background-image: radial-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
         background-size: 30px 30px;
     }

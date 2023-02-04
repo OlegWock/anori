@@ -34,11 +34,12 @@
 
         .host {
             font-size: 12px;
+            color: var(--text-subtle-2);
         }
     }
 
     svg {
-        color: var(--accent);
+        color: rgba(255, 255, 255, 0.4);
     }
 }
 

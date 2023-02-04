@@ -12,6 +12,14 @@
         button {
             align-self: center;
         }
+
+        .customize-backgrounds {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 24px;
+
+        }
     }
 }
 
@@ -45,5 +53,36 @@
     .folder-name {
         padding: 2px 8px;
         flex-grow: 1;
+    }
+}
+
+.BackgroundPlate {
+    width: 250px;
+    height: 140px;
+    flex-grow: 1;
+    border-radius: 12px;
+    background-size: cover;
+    position: relative;
+
+    .color-cirles-wrapper {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 4px;
+
+        .color-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+        }
+    }
+
+    
+
+    &.active {
+        outline: 4px solid var(--accent);
     }
 }
