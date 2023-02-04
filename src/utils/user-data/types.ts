@@ -51,6 +51,7 @@ export type WidgetConfigurationProps<T extends {}> = {
 
 export type WidgetRenderProps<T extends {}> = {
     config: T,
+    instanceId: string,
 };
 
 export type WidgetDescriptor<T extends {}> = {

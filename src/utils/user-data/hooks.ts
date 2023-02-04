@@ -140,6 +140,24 @@ export const useFolderWidgets = (folder: Folder) => {
         });
     };
 
+    const updateWidgetConfig = <T extends {}>(widgetOrId: WidgetInFolder<T> | ID, newConfig: T) => {
+        const id = typeof widgetOrId === 'string' ? widgetOrId : widgetOrId.instanceId;
+        setDetails(p => {
+            return {
+                ...p,
+                widgets: p.widgets.map(w => {
+                    if (w.instanceId === id) {
+                        return {
+                            ...w,
+                            configutation: newConfig,
+                        }
+                    }
+                    return w;
+                }),
+            };
+        });
+    };
+
     const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
     const [details, setDetails] = useAtom(atom);
 
@@ -163,5 +181,6 @@ export const useFolderWidgets = (folder: Folder) => {
         addWidget,
         removeWidget,
         moveWidget,
+        updateWidgetConfig,
     };
 };

@@ -71,17 +71,21 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                             <h2>{plugin.name}</h2>
                             <div className='widgets-mocks'>
                                 {plugin.widgets.map(widget => {
-                                    return (<WidgetCard
-                                        width={2}
-                                        height={1}
-                                        key={widget.id}
-                                        onClick={() => {
-                                            setSelectedPlugin(plugin);
-                                            setSelectedWidget(widget);
-                                        }}
-                                    >
-                                        <widget.mock />
-                                    </WidgetCard>);
+                                    return (
+                                        <div key={widget.id}>
+                                            <WidgetCard
+                                                style={{ margin: 0 }}
+                                                width={widget.size.width}
+                                                height={widget.size.height}
+                                                onClick={() => {
+                                                    setSelectedPlugin(plugin);
+                                                    setSelectedWidget(widget);
+                                                }}
+                                            >
+                                                <widget.mock />
+                                            </WidgetCard>
+                                            <div className='widget-name'>{widget.name}</div>
+                                        </div>);
                                 })}
                             </div>
                         </section>);

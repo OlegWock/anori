@@ -1,7 +1,23 @@
-.ExampleWidget {
+.BookmarkWidget {
     display: flex;
     align-items: center;
     text-decoration: none;
+    flex-grow: 1;
+
+    &.size-s {
+        flex-direction: column;
+        align-items: flex-start;
+        flex-flow: column-reverse;
+        
+        .text {
+
+            h3 {
+                margin-top: 12px;
+                margin-bottom: 4px;
+            }
+        }
+
+    }
     
     .text {
         flex: 1;
@@ -26,7 +42,7 @@
     }
 }
 
-.ExampleWidget-config {
+.BookmarkWidget-config {
     display: flex;
     flex-direction: column;
     gap: 12px;

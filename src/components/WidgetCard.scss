@@ -1,14 +1,14 @@
 .WidgetCard {
-    padding: 24px;
+    padding: 18px;
     background: var(--background-lighter);
     border-radius: 12px;
-    // min-height: 150px;
-    // min-width: 300px;
+    display: flex;
+    flex-direction: column;
     color: var(--accent);
     position: relative;
 
     
-    .remove-widget-btn, .drag-widget-btn {
+    .remove-widget-btn, .drag-widget-btn, .edit-widget-btn {
         position: absolute;
         padding: 6px;
         border-radius: 18px;
@@ -21,6 +21,11 @@
 
     .remove-widget-btn {
         top: -14px;
+        right: -14px;
+    }
+
+    .edit-widget-btn {
+        top: 30px;
         right: -14px;
     }
 

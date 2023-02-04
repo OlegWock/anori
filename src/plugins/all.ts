@@ -1,9 +1,9 @@
 import { AodakePlugin } from "@utils/user-data/types";
-import { examplePlugin } from "./example/example";
+import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
 
 
 export const availablePlugins: AodakePlugin[] = [
-    examplePlugin,
+    bookmarkPlugin,
 ];
 
 export const availablePluginsWithWidgets = availablePlugins.filter(p => p.widgets.length > 0);

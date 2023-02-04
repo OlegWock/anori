@@ -39,10 +39,11 @@ type WidgetCardProps = {
     width: number,
     height: number,
     onRemove?: () => void,
+    onEdit?: () => void,
     children?: ReactNode,
 } & Omit<ComponentProps<typeof motion.div>, 'children'>;
 
-export const WidgetCard = ({ className, children, onRemove, style, width, height, ...props }: WidgetCardProps) => {
+export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, ...props }: WidgetCardProps) => {
     const { isEditing, boxSize } = useParentFolder();
     const dragControls = useDragControls();
 
@@ -50,7 +51,7 @@ export const WidgetCard = ({ className, children, onRemove, style, width, height
         className={clsx(className, 'WidgetCard')}
         transition={{ ease: 'easeInOut', duration: 0.15 }}
         exit={isEditing ? { scale: 0 } : undefined}
-        whileHover={{ scale: isEditing ? 1.02 : 1.05 }}
+        whileHover={isEditing ? undefined : { scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         dragControls={dragControls}
         dragListener={false}
@@ -64,6 +65,9 @@ export const WidgetCard = ({ className, children, onRemove, style, width, height
     >
         {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove}>
             <Icon icon='ion:close' width={20} height={20} />
+        </Button>}
+        {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit}>
+            <Icon icon='ion:pencil' width={20} height={20} />
         </Button>}
         {isEditing && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)}>
             <Icon icon='ic:baseline-drag-indicator' width={20} height={20} />

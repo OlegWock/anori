@@ -10,7 +10,9 @@ import { useFolderWidgets } from '@utils/user-data/hooks';
 import { WidgetCard } from '@components/WidgetCard';
 import { FolderContentContext } from '@utils/FolderContentContext';
 import { useRef } from 'react';
-import { Layout, LayoutItem, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
+import { DEFAULT_CARD_MARGIN, Layout, LayoutItem, fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
+import { useWindowIsResizing } from '@utils/hooks';
+import { Modal } from '@components/Modal';
 
 
 type FolderContentProps = {
@@ -97,15 +99,23 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
         moveWidget(widget, snapPoint.position);
     };
 
-    const { widgets, removeWidget, moveWidget } = useFolderWidgets(folder);
-    const [isEditing, setIsEditing] = useState(true);
+    const { widgets, removeWidget, moveWidget, updateWidgetConfig } = useFolderWidgets(folder);
+    const [isEditing, setIsEditing] = useState(false);
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
+    const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any>>(null);
 
     const mainRef = useRef<HTMLDivElement>(null);
     const grisDimenstions = useGrid(mainRef);
 
+    // We need this to workaround framer motion auto-repozition of drag elements on window resize
+    const isResizingWindow = useWindowIsResizing();
+
+    const adjusterdLayout = fixHorizontalOverflows({grid: grisDimenstions, layout: widgets});
+
+    console.log('Render folder content', {grisDimenstions, adjusterdLayout});
+
     useEffect(() => {
-        // setIsEditing(false);
+        setIsEditing(false);
     }, [folder.id]);
 
     return (
@@ -123,7 +133,12 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 exit="exit"
                 custom={animationDirection}
             >
-                <header>
+                <header
+                    style={{
+                        marginLeft: DEFAULT_CARD_MARGIN,
+                        marginRight: DEFAULT_CARD_MARGIN,
+                    }}
+                >
                     <h1>{folder.name}</h1>
 
                     <div className="action-buttons-wrapper">
@@ -162,17 +177,19 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 }}>
                     <motion.main layout layoutRoot ref={mainRef}>
                         <AnimatePresence initial={false}>
-                            {widgets.map((w, i) => {
+                            {/* {widgets.map((w, i) => { */}
+                            {adjusterdLayout.map((w, i) => {
                                 const position = positionToPixelPosition({ grid: grisDimenstions, positon: w });
                                 return (<WidgetCard
                                     drag
-                                    dragConstraints={mainRef}
+                                    dragConstraints={isResizingWindow ? { top: 0, left: 0, right: 0, bottom: 0 } : mainRef}
                                     dragSnapToOrigin
                                     dragElastic={0}
                                     onDragEnd={(e, info) => tryRepositionWidget(w, e, info)}
                                     whileDrag={{ zIndex: 9, boxShadow: '0px 4px 4px 3px rgba(0,0,0,0.4)' }}
                                     key={w.instanceId}
                                     onRemove={() => removeWidget(w)}
+                                    onEdit={() => setEditingWidget(w)}
                                     width={w.width}
                                     height={w.height}
                                     style={{
@@ -181,7 +198,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                         left: position.x,
                                     }}
                                 >
-                                    <w.widget.mainScreen config={w.configutation} />
+                                    <w.widget.mainScreen instanceId={w.instanceId} config={w.configutation} />
                                 </WidgetCard>);
                             })}
                         </AnimatePresence>
@@ -195,5 +212,16 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 gridDimenstions={grisDimenstions}
                 layout={widgets}
             />}
+
+            {!!editingWidget && <Modal
+                title="Edit widget"
+                onClose={() => setEditingWidget(null)}
+                closable
+            >
+                <editingWidget.widget.configurationScreen currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                    updateWidgetConfig(editingWidget.instanceId, config);
+                    setEditingWidget(null);
+                }} />
+            </Modal>}
         </>);
 }

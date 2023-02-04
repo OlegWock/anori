@@ -29,24 +29,35 @@ export type Layout<T extends {} = {}> = LayoutItem<T>[];
 type Grid2DArray = boolean[][];
 
 export const DEFAULT_BOX_SIZE = 180;
+export const MIN_BOX_SIZE = 150;
 export const DEFAULT_CARD_MARGIN = 16;
 
 export const calculateColumnWidth = (containerWidth: number, desiredSize: number) => {
     const columns = Math.round(containerWidth / desiredSize);
-    return Math.floor(containerWidth / columns);
+    const colWidth = Math.max(Math.floor(containerWidth / columns), MIN_BOX_SIZE);
+    return Number.isNaN(colWidth) ? desiredSize : colWidth;
 };
 
 export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number = DEFAULT_BOX_SIZE) => {
-    const [dimensions, setDimensions] = useState<GridDimensions>({
+    const [dimensions, setDimensions] = useState<GridDimensions & { position: PixelPosition, pixelSize: LayoutItemSize }>({
         boxSize: desiredSize,
         colums: 0,
         rows: 0,
+        position: {
+            x: 0,
+            y: 0,
+        },
+        pixelSize: {
+            width: 0,
+            height: 0,
+        }
     });
 
     useLayoutEffect(() => {
         if (ref.current) {
             // TODO: throttle these calculations
             const resizeObserver = new ResizeObserver((entries) => {
+                if (!ref.current) return;
                 const lastRecord = entries[entries.length - 1];
                 const { inlineSize: width, blockSize: height } = lastRecord.contentBoxSize[0];
                 const boxSize = calculateColumnWidth(width, desiredSize);
@@ -54,10 +65,19 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number = DEFAU
                 const rows = Math.floor(height / boxSize);
                 // const rows = 3;
 
+                const box = ref.current.getBoundingClientRect();
                 const dimensions = {
                     boxSize,
                     colums,
                     rows,
+                    position: {
+                        x: box.left,
+                        y: box.top,
+                    },
+                    pixelSize: {
+                        width: box.width,
+                        height: box.height,
+                    },
                 };
 
                 setDimensions(dimensions);
@@ -92,8 +112,8 @@ export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: 
 
     for (let item of layout) {
         const itemSectors = layoutItemToSectors(item);
-        // TODO: Check for out of bounds?
         itemSectors.forEach(s => {
+            if (s.x >= grid.colums || s.y >= grid.rows) return;
             if (arr[s.y][s.x] && !allowOverlay) throw new Error('elements in layout have overlay');
             arr[s.y][s.x] = true;
         })
@@ -118,9 +138,11 @@ export const canFitItemInGrid = ({ grid, layout, item }: { grid: GridDimensions,
         for (let j = 0; j < row.length; j++) {
             const cell = row[j];
             if (cell) continue;
-            if (!willItemOverlay({ arr, item: { ...item, x: j, y: i } })) {
-                return { x: j, y: i };
-            }
+            const overlay = willItemOverlay({ arr, item: { ...item, x: j, y: i } });
+            const overflow = (j + item.width > grid.colums) || (i + item.height > grid.rows);
+            if (overlay || overflow) continue;
+            
+            return { x: j, y: i };
         }
     }
 
@@ -157,13 +179,20 @@ export const positionToPixelPosition = ({ grid, positon }: { grid: GridDimension
     };
 };
 
-export const packLayout = ({ grid, layout }: { grid: GridDimensions, layout: Layout }): Layout => {
-    // TODO: implement this
-    return layout;
-};
-
-export const fixOverflows = ({grid, layout}: { grid: GridDimensions, layout: Layout }): Layout => {
-    // TODO: implement this
-    return layout;
+export const fixHorizontalOverflows = <T extends {}>({ grid, layout }: { grid: GridDimensions, layout: Layout<T> }): Layout<T> => {
+    let newLayout = [...layout];
+    for (let item of layout) {
+        const overflow = (item.x + item.width > grid.colums) || (item.y + item.height > grid.rows);
+        if (!overflow) continue;
+        newLayout = newLayout.filter(i => i !== item);
+        const position = canFitItemInGrid({grid, layout: newLayout, item});
+        if (position) {
+            newLayout.push({
+                ...item,
+                ...position,
+            });
+        }
+    }
+    return newLayout;
 };
 
