@@ -1,1 +1,0 @@
-This is content of test.txt file. You can import content directly or import assets's URL.

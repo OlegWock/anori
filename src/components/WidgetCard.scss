@@ -35,6 +35,14 @@
     }
 
     .error-description {
-        margin-top: 48px;
+        margin-top: 12px;
+    }
+
+    .overflow-protection {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        text-overflow: ellipsis;
     }
 }

@@ -43,6 +43,7 @@ $text: rgb(229, 229, 229);
 }
 
 * {
+    @include scroll-mixin();
     margin: 0;
     box-sizing: border-box;
     border: none;

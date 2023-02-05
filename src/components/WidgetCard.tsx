@@ -51,7 +51,9 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
         className={clsx(className, 'WidgetCard')}
         transition={{ ease: 'easeInOut', duration: 0.15 }}
         exit={isEditing ? { scale: 0 } : undefined}
-        whileHover={isEditing ? undefined : { scale: 1.05 }}
+        whileHover={{ 
+            scale: isEditing ? undefined : 1.05,
+        }}
         whileTap={{ scale: 0.95 }}
         dragControls={dragControls}
         dragListener={false}
@@ -59,6 +61,7 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
             width: width * boxSize - DEFAULT_CARD_MARGIN * 2,
             height: height * boxSize - DEFAULT_CARD_MARGIN * 2,
             margin: DEFAULT_CARD_MARGIN,
+            
             ...style,
         }}
         {...props}
@@ -73,7 +76,9 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
             <Icon icon='ic:baseline-drag-indicator' width={20} height={20} />
         </Button>}
         <ErrorBoundary>
+            <div className='overflow-protection'>
             {children}
+            </div>
         </ErrorBoundary>
     </motion.div>)
 };

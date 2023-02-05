@@ -1,0 +1,28 @@
+.RequirePermissions {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .text {
+        font-size: 0.8rem;
+        font-weight: 300;
+    }
+
+    .grant-button {
+        align-self: center;
+        margin-top: 36px;
+        padding: 2px 8px;
+        border: 2px solid var(--accent);
+        border-radius: 12px;
+    }
+}
+
+.RequirePermissions-modal {
+    .grant-button {
+        align-self: center;
+        margin-top: 36px;
+        padding: 2px 8px;
+        border: 2px solid var(--accent);
+        border-radius: 12px;
+    }
+}

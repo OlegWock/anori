@@ -1,9 +1,10 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { RefAttributes, useEffect, useLayoutEffect } from 'react';
 import browser from 'webextension-polyfill';
 import { allSets } from './icons/all-sets';
 import { IconifyJSON, Icon as OfflineIcon, addCollection } from '@iconify/react/dist/offline';
 import { useForceRerender } from '@utils/hooks';
 import { guid } from '@utils/misc';
+import { forwardRef } from 'react';
 
 
 const isFamilyLoaded = (family: string) => {
@@ -50,7 +51,7 @@ const familyLoadedCallbacks: Record<string, (family: string) => void> = {};
 
 
 
-export const Icon = (props: Omit<React.ComponentProps<typeof OfflineIcon>, 'icon'> & { icon: string }) => {
+export const Icon = forwardRef<RefAttributes<SVGSVGElement>, Omit<React.ComponentProps<typeof OfflineIcon>, 'icon'> & { icon: string }>((props, ref) => {
     useLayoutEffect(() => {
         const family = props.icon.split(':')[0];
         if (!family || isFamilyLoaded(family)) return;
@@ -67,7 +68,8 @@ export const Icon = (props: Omit<React.ComponentProps<typeof OfflineIcon>, 'icon
     }, [props.icon]);
 
     const rerender = useForceRerender();
-    return (<OfflineIcon {...props}>
+    // @ts-ignore incorrect ref typing
+    return (<OfflineIcon {...props} ref={ref}>
         <div style={{
             background: '#ffffff',
             borderRadius: 8,
@@ -76,4 +78,4 @@ export const Icon = (props: Omit<React.ComponentProps<typeof OfflineIcon>, 'icon
             height: props.height || props.width || 24,
         }} />
     </OfflineIcon>);
-};
+});

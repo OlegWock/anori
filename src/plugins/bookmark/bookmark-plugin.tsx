@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
-import { AodakePlugin, WidgetConfigurationProps, WidgetRenderProps } from "@utils/user-data/types";
+import { AodakePlugin, ConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import './styles.scss';
 import { Popover } from "@components/Popover";
@@ -8,14 +8,24 @@ import { IconPicker } from "@components/IconPicker";
 import { Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
+import { getAllWidgetsByPlugin } from "@utils/plugin";
+import { wait } from "@utils/misc";
 
-type ExampleConfigType = {
+type BookmarkWidgetConfigType = {
     url: string,
     title: string,
     icon: string,
 };
 
-const ConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationProps<ExampleConfigType>) => {
+const parseHost = (url: string) => {
+    try {
+        return new URL(url).hostname;
+    } catch (err) {
+        return `Couldn't parse hostname`
+    }
+}
+
+const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: ConfigurationScreenProps<BookmarkWidgetConfigType>) => {
     const onConfirm = () => {
         if (!title || !url) return;
 
@@ -50,14 +60,8 @@ const ConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationP
     </div>);
 };
 
-const MainScreen = ({ config, isMock, size }: WidgetRenderProps<ExampleConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
-    const host = useMemo(() => {
-        try {
-            return new URL(config.url).hostname;
-        } catch (err) {
-            return `Couldn't parse hostname`
-        }
-    }, [config.url])
+const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
+    const host = useMemo(() => parseHost(config.url), [config.url]);
 
     return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url}>
         <div className="text">
@@ -68,45 +72,92 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<ExampleConfigTyp
     </a>);
 };
 
+type PluginConfig = {
+    name: string,
+};
+
+const PluginConfigScreen = ({ currentConfig, saveConfiguration }: ConfigurationScreenProps<PluginConfig>) => {
+    const [name, setName] = useState(currentConfig ? currentConfig.name : '');
+    return (<div>
+        <label>Name:</label>
+        <Input value={name} onChange={e => setName(e.target.value)} />
+        <Button onClick={() => saveConfiguration({ name })}>Save</Button>
+    </div>)
+};
+
+const onCommandInput: OnCommandInputCallback = async (text: string) => {
+    const q = text.toLowerCase();
+    const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
+
+    return widgets.filter(w => {
+        const { url, title, icon } = w.configutation;
+        const inUrl = url.toLowerCase().includes(q);
+        const inTitle = title.toLowerCase().includes(q);
+        const inIcon = icon.toLowerCase().includes(q);
+
+        return inUrl || inTitle || inIcon;
+    }).map(w => {
+        const { url, title, icon } = w.configutation;
+        const host = parseHost(url);
+        return {
+            icon,
+            text: title,
+            hint: host,
+            key: w.instanceId,
+            onSelected: () => {
+                window.location.href = url;
+            }
+        };
+    });
+};
+
+const widgetSizeSDescriptor = {
+    id: 'bookmark-s',
+    name: 'Bookmark - size s',
+    configurationScreen: WidgetConfigScreen,
+    mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
+        return <MainScreen instanceId={instanceId} config={config} isMock={false} size="s" />
+    },
+    mock: () => {
+        return (<MainScreen instanceId="" size="s" isMock config={{
+            url: 'http://example.com',
+            title: 'Site name',
+            icon: 'ion:dice'
+        }} />)
+    },
+    size: {
+        width: 1,
+        height: 1,
+    }
+} as const;
+
+const widgetSizeMDescriptor = {
+    id: 'bookmark-m',
+    name: 'Bookmark - size m',
+    configurationScreen: WidgetConfigScreen,
+    mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
+        return <MainScreen instanceId={instanceId} config={config} isMock={false} size="m" />
+    },
+    mock: () => {
+        return (<MainScreen instanceId="" size="m" isMock config={{
+            url: 'http://example.com',
+            title: 'Site name',
+            icon: 'ion:dice'
+        }} />)
+    },
+    size: {
+        width: 2,
+        height: 1,
+    }
+} as const;
+
 export const bookmarkPlugin = {
     id: 'bookmark-plugin',
     name: 'Bookmarks',
-    widgets: [{
-        id: 'bookmark-s',
-        name: 'Bookmark - size s',
-        configurationScreen: ConfigScreen,
-        mainScreen: ({ config, instanceId }: WidgetRenderProps<ExampleConfigType>) => {
-            return <MainScreen instanceId={instanceId} config={config} isMock={false} size="s" />
-        },
-        mock: () => {
-            return (<MainScreen instanceId="" size="s" isMock config={{
-                url: 'http://example.com',
-                title: 'Site name',
-                icon: 'ion:dice'
-            }} />)
-        },
-        size: {
-            width: 1,
-            height: 1,
-        }
-    }, {
-        id: 'bookmark-m',
-        name: 'Bookmark - size m',
-        configurationScreen: ConfigScreen,
-        mainScreen: ({ config, instanceId }: WidgetRenderProps<ExampleConfigType>) => {
-            return <MainScreen instanceId={instanceId} config={config} isMock={false} size="m" />
-        },
-        mock: () => {
-            return (<MainScreen instanceId="" size="m" isMock config={{
-                url: 'http://example.com',
-                title: 'Site name',
-                icon: 'ion:dice'
-            }} />)
-        },
-        size: {
-            width: 2,
-            height: 1,
-        }
-    }],
-    commands: [],
+    widgets: [
+        widgetSizeSDescriptor,
+        widgetSizeMDescriptor,
+    ],
+    onCommandInput,
+    configurationScreen: PluginConfigScreen,
 } satisfies AodakePlugin;

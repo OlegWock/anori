@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { Icon } from './Icon';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
+import { useEffect } from 'react';
 
 export type ModalProps = {
     title: string;
@@ -17,6 +18,20 @@ export type ModalProps = {
 };
 
 export const Modal = ({ className, children, title, layoutId, closable, onClose, closeOnClickOutside, headerButton }: ModalProps) => {
+    useEffect(() => {
+        if (!closable || !onClose) return;
+
+        const handleEsc = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleEsc);
+
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, [closable, onClose]);
     return createPortal(
         (<motion.div
             className="Modal-backdrop"

@@ -99,7 +99,6 @@ export const atomWithBrowserStorage = <K extends StorageKey>(key: K, initialValu
     return derivedAtom
 };
 
-
 export const dynamicAtomWithBrowserStorage = <T>(key: string, initialValue: T): PrimitiveAtom<T> => {
     // @ts-ignore Types doesn't match, but code is totally same
     return atomWithBrowserStorage(key, initialValue);

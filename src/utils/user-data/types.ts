@@ -5,6 +5,7 @@ import { Theme } from "./theme";
 export type StorageContent = {
     folders: Folder[],
     theme: Theme,
+    stealFocus: boolean,
 };
 
 export type ID = string;
@@ -15,8 +16,8 @@ export type Folder = {
     icon: string,
 };
 
-export type FolderDetailsInStorage = {
-    widgets: WidgetInFolder<any>[],
+export type FolderDetailsInStorage<WT extends {} = any> = {
+    widgets: WidgetInFolder<WT>[],
 };
 
 export type WidgetInFolder<T extends {}> = {
@@ -26,8 +27,8 @@ export type WidgetInFolder<T extends {}> = {
     configutation: T,
 } & LayoutItem;
 
-export type WidgetInFolderWithMeta<T extends {}> = WidgetInFolder<T> & {
-    plugin: AodakePlugin,
+export type WidgetInFolderWithMeta<T extends WT, P extends {}, WT extends {}> = WidgetInFolder<T> & {
+    plugin: AodakePlugin<P, WT>,
     widget: WidgetDescriptor<T>,
 }
 
@@ -39,14 +40,20 @@ export const homeFolder = {
 
 // ------ Plugins
 
-export type AodakePlugin = {
+export type AodakePlugin<T extends {} = {}, WT extends {} = {}> = {
     id: ID,
     name: string,
-    widgets: WidgetDescriptor<any>[],
-    commands: CommandDescriptor[],
+    widgets: WidgetDescriptor<WT>[],
+    configurationScreen: ComponentType<ConfigurationScreenProps<T>> | null,
+    onCommandInput?: OnCommandInputCallback,
+    onStart?: () => void,
+    scheduledCallback?: {
+        intervalInMinutes: number,
+        callback: () => void,
+    }
 };
 
-export type WidgetConfigurationProps<T extends {}> = {
+export type ConfigurationScreenProps<T extends {}> = {
     currentConfig?: T,
     saveConfiguration: (config: T) => void,
 };
@@ -56,15 +63,25 @@ export type WidgetRenderProps<T extends {}> = {
     instanceId: string,
 };
 
-export type WidgetDescriptor<T extends {}> = {
+export type WidgetDescriptor<T extends {} = {}> = {
     id: ID,
     name: string,
-    configurationScreen: ComponentType<WidgetConfigurationProps<T>>,
-    mainScreen: ComponentType<WidgetRenderProps<T>>,
     mock: ComponentType<{}>,
     size: LayoutItemSize,
-};
+} & ({
+    configurationScreen: ComponentType<ConfigurationScreenProps<T>>,
+    mainScreen: ComponentType<WidgetRenderProps<T>>,
+} | {
+    configurationScreen: null,
+    mainScreen: ComponentType<WidgetRenderProps<{}>>,
+});
 
-export type CommandDescriptor = {
+export type OnCommandInputCallback = (text: string) => Promise<CommandItem[]>;
 
+export type CommandItem = {
+    icon?: string,
+    text: string,
+    key: string,
+    hint?: string,
+    onSelected: () => void,
 };

@@ -4,7 +4,7 @@ import './Settings.scss';
 import { DragControls, MotionProps, Reorder, motion, useDragControls, useMotionValue } from 'framer-motion';
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
-import { Folder, homeFolder } from '@utils/user-data/types';
+import { AodakePlugin, Folder, homeFolder } from '@utils/user-data/types';
 import { useEffect, useRef, useState } from 'react';
 import { Position, findIndex } from '@utils/find-index';
 import { IconPicker } from '@components/IconPicker';
@@ -13,6 +13,10 @@ import { storage, useBrowserStorageValue } from '@utils/storage';
 import { setPageBackground } from '@utils/mount';
 import clsx from 'clsx';
 import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
+import { availablePlugins } from '@plugins/all';
+import { usePluginConfig } from '@utils/plugin';
+import { Checkbox } from '@components/Checkbox';
+import { Hint } from '@components/Hint';
 
 export type SettingsProps = {};
 
@@ -62,6 +66,16 @@ const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconCh
     </motion.div>)
 };
 
+const PlusinConfigurationSection = <T extends {}>({ plugin }: { plugin: AodakePlugin<T> }) => {
+    const [config, setConfig, isDefault] = usePluginConfig(plugin);
+    if (!plugin.configurationScreen || isDefault) return null;
+
+    return (<section>
+        <h3>{plugin.name}</h3>
+        <plugin.configurationScreen currentConfig={config} saveConfiguration={setConfig} />
+    </section>);
+};
+
 const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonProps) => {
     console.log('Render plate', theme);
     const backgroundUrl = browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background}`);
@@ -83,11 +97,21 @@ const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonPro
 export const Settings = ({ }: SettingsProps) => {
     const { folders, setFolders, createFolder, updateFolder, removeFolder } = useFolders();
     const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
+    const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
 
     return (<div className='Settings'>
         The Settings Menu is a powerful tool for customizing your user experience. Here, you can tweak everything from the default color scheme to the order of folders.
         With the Settings Menu, you have total control over the look and feel of your new tab.
 
+        <section>
+            <h2>Options</h2>
+            <div>
+                <Checkbox checked={stealFocus} onChange={setStealFocus}>
+                    Steal focus from addressbar
+                    <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
+                </Checkbox>
+            </div>
+        </section>
         <section>
             <h2>Folders</h2>
             <div className="folders-dnd">
@@ -113,7 +137,7 @@ export const Settings = ({ }: SettingsProps) => {
         </section>
 
         <section>
-            <h2>Background</h2>
+            <h2>Theme</h2>
             <div className="customize-backgrounds">
                 {themes.map((theme) => {
                     return (<ThemePlate
@@ -127,6 +151,13 @@ export const Settings = ({ }: SettingsProps) => {
                     />)
                 })}
             </div>
+        </section>
+
+        <section>
+            <h2>Plugin settings</h2>
+            {availablePlugins.filter(p => p.configurationScreen !== null).map(p => {
+                return (<PlusinConfigurationSection plugin={p} key={p.id} />);
+            })}
         </section>
     </div>)
 };

@@ -13,6 +13,7 @@ import { useRef } from 'react';
 import { DEFAULT_CARD_MARGIN, Layout, LayoutItem, fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
 import { useWindowIsResizing } from '@utils/hooks';
 import { Modal } from '@components/Modal';
+import { PluginUtilsContext, createPluginStorageHook } from '@utils/plugin';
 
 
 type FolderContentProps = {
@@ -74,7 +75,7 @@ const actionButtonAnimations = {
 
 
 export const FolderContent = ({ folder, animationDirection }: FolderContentProps) => {
-    const tryRepositionWidget = (widget: WidgetInFolderWithMeta<any>, event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const tryRepositionWidget = (widget: WidgetInFolderWithMeta<any, any, any>, event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         if (!mainRef.current) return;
         console.log('tryRepositionWidget', { widget, event, info });
         const mainBox = mainRef.current.getBoundingClientRect();
@@ -102,7 +103,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const { widgets, removeWidget, moveWidget, updateWidgetConfig } = useFolderWidgets(folder);
     const [isEditing, setIsEditing] = useState(false);
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
-    const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any>>(null);
+    const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
 
     const mainRef = useRef<HTMLDivElement>(null);
     const grisDimenstions = useGrid(mainRef);
@@ -110,9 +111,9 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     // We need this to workaround framer motion auto-repozition of drag elements on window resize
     const isResizingWindow = useWindowIsResizing();
 
-    const adjusterdLayout = fixHorizontalOverflows({grid: grisDimenstions, layout: widgets});
+    const adjusterdLayout = fixHorizontalOverflows({ grid: grisDimenstions, layout: widgets });
 
-    console.log('Render folder content', {grisDimenstions, adjusterdLayout});
+    console.log('Render folder content', { grisDimenstions, adjusterdLayout });
 
     useEffect(() => {
         setIsEditing(false);
@@ -180,26 +181,34 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                             {/* {widgets.map((w, i) => { */}
                             {adjusterdLayout.map((w, i) => {
                                 const position = positionToPixelPosition({ grid: grisDimenstions, positon: w });
-                                return (<WidgetCard
-                                    drag
-                                    dragConstraints={isResizingWindow ? { top: 0, left: 0, right: 0, bottom: 0 } : mainRef}
-                                    dragSnapToOrigin
-                                    dragElastic={0}
-                                    onDragEnd={(e, info) => tryRepositionWidget(w, e, info)}
-                                    whileDrag={{ zIndex: 9, boxShadow: '0px 4px 4px 3px rgba(0,0,0,0.4)' }}
-                                    key={w.instanceId}
-                                    onRemove={() => removeWidget(w)}
-                                    onEdit={() => setEditingWidget(w)}
-                                    width={w.width}
-                                    height={w.height}
-                                    style={{
-                                        position: 'absolute',
-                                        top: position.y,
-                                        left: position.x,
-                                    }}
-                                >
-                                    <w.widget.mainScreen instanceId={w.instanceId} config={w.configutation} />
-                                </WidgetCard>);
+                                return (<PluginUtilsContext.Provider key={w.instanceId} value={{
+                                    pluginId: w.pluginId,
+                                    instanceId: w.instanceId,
+                                    useStorage: createPluginStorageHook(w.plugin),
+                                    config: w.configutation,
+                                    updateConfig: (config) => updateWidgetConfig(w.instanceId, config),
+                                }}>
+                                    <WidgetCard
+                                        drag
+                                        dragConstraints={isResizingWindow ? { top: 0, left: 0, right: 0, bottom: 0 } : mainRef}
+                                        dragSnapToOrigin
+                                        dragElastic={0}
+                                        onDragEnd={(e, info) => tryRepositionWidget(w, e, info)}
+                                        whileDrag={{ zIndex: 9, boxShadow: '0px 4px 4px 3px rgba(0,0,0,0.4)' }}
+                                        key={w.instanceId}
+                                        onRemove={() => removeWidget(w)}
+                                        onEdit={w.widget.configurationScreen ? () => setEditingWidget(w) : undefined}
+                                        width={w.width}
+                                        height={w.height}
+                                        style={{
+                                            position: 'absolute',
+                                            top: position.y,
+                                            left: position.x,
+                                        }}
+                                    >
+                                        <w.widget.mainScreen instanceId={w.instanceId} config={w.configutation} />
+                                    </WidgetCard>
+                                </PluginUtilsContext.Provider>);
                             })}
                         </AnimatePresence>
                     </motion.main>
@@ -213,7 +222,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 layout={widgets}
             />}
 
-            {!!editingWidget && <Modal
+            {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
                 title="Edit widget"
                 onClose={() => setEditingWidget(null)}
                 closable

@@ -44,7 +44,7 @@ export const themes: Theme[] = [
         name: 'Sakura',
         background: 'sakura.jpg',
         colors: {
-            accent: '#c95e99',
+            accent: '#E0A3C5',
             text: '#ffffff',
             background: '#954c68',
         }

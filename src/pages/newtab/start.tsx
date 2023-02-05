@@ -14,6 +14,8 @@ import { Folder, homeFolder } from '@utils/user-data/types';
 import { usePrevious } from '@utils/hooks';
 import { storage } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
+import { CommandMenu } from '@components/command-menu/CommandMenu';
+import { watchForPermissionChanges } from '@utils/permissions';
 
 const Start = () => {
     const { folders, activeFolder, setActiveFolder } = useFolders(true);
@@ -33,6 +35,7 @@ const Start = () => {
             <AnimatePresence>
                 <motion.div
                     className="StartPage"
+                    key='start-page'
                 >
                     <div className="sidebar">
                         <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
@@ -60,7 +63,9 @@ const Start = () => {
                     </div>
                 </motion.div>
 
-                {settingsVisible && <Modal title='Settings' key='settings' closable onClose={() => setSettingsVisible(false)}>
+                <CommandMenu key='command-menu' />
+
+                {settingsVisible && <Modal title='Settings' key='settings' className='settings-modal' closable onClose={() => setSettingsVisible(false)}>
                     <Settings />
                 </Modal>}
             </AnimatePresence>
@@ -68,6 +73,8 @@ const Start = () => {
     );
 };
 
+
+watchForPermissionChanges();
 storage.getOne('folders').then(foldersFromStorage => {
     const folders = [homeFolder, ...(foldersFromStorage || [])];
     folders.forEach(f => requestIconsFamily(f.icon.split(':')[0]));

@@ -80,7 +80,7 @@ const getFolderDetailsAtom = (id: ID) => {
     if (!folderDetailsAtoms[id]) {
         folderDetailsAtoms[id] = dynamicAtomWithBrowserStorage(`Folder.${id}`, {
             widgets: [],
-        });
+        } satisfies FolderDetailsInStorage);
     }
 
     return folderDetailsAtoms[id];
@@ -149,7 +149,10 @@ export const useFolderWidgets = (folder: Folder) => {
                     if (w.instanceId === id) {
                         return {
                             ...w,
-                            configutation: newConfig,
+                            configutation: {
+                                ...w.configutation,
+                                ...newConfig,
+                            },
                         }
                     }
                     return w;
@@ -161,7 +164,7 @@ export const useFolderWidgets = (folder: Folder) => {
     const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
     const [details, setDetails] = useAtom(atom);
 
-    const widgets: WidgetInFolderWithMeta<any>[] = details.widgets.filter(w => {
+    const widgets: WidgetInFolderWithMeta<any, any, any>[] = details.widgets.filter(w => {
         const plugin = availablePluginsWithWidgets.find(p => p.id === w.pluginId);
         if (!plugin) return false;
         return !!plugin.widgets.find(d => d.id === w.widgetId);

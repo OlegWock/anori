@@ -54,26 +54,26 @@ const generateManifest = (
             '48': 'assets/images/icon48.png',
             '128': 'assets/images/icon128.png',
         },
-        action: {
-            default_icon: {
-                '16': 'assets/images/icon16.png',
-                '24': 'assets/images/icon24.png',
-                '32': 'assets/images/icon32.png',
-            },
-            default_title: 'Aodake settings',
-            default_popup: '/pages/options/index.html',
-        },
-        options_ui: {
-            page: '/pages/options/index.html',
-            open_in_tab: true,
-        },
-
         permissions: [
             'storage',
             'unlimitedStorage',
         ],
+        host_permissions: [],
+        optional_permissions: [
+            "tabs",
+            "tabGroups",
+            "topSites",
+            "bookmarks",
+            "downloads",
+            "history",
+            "system.cpu",
+            "system.memory",
+            "system.storage",
 
-        host_permissions: ['*://*.example.com/*'],
+        ],
+        optional_host_permissions: [
+            "*://*/*"
+        ],
 
         chrome_url_overrides : {
             newtab: "pages/newtab/start.html"

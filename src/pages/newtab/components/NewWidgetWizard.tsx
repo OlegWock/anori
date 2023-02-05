@@ -19,13 +19,13 @@ export type NewWidgetWizardProps = {
 };
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: NewWidgetWizardProps) => {
-    const tryAddWidget = (config: any) => {
-        const position = canFitItemInGrid({ grid: gridDimenstions, layout, item: selectedWidget!.size });
+    const tryAddWidget = (plugin: AodakePlugin, widget: WidgetDescriptor<any>, config: any) => {
+        const position = canFitItemInGrid({ grid: gridDimenstions, layout, item: widget.size });
         if (!position) {
             alert("Can't fit element in grid, sorry");
             return;
         }
-        addWidget({ plugin: selectedPlugin!, widget: selectedWidget!, config, position });
+        addWidget({ plugin, widget, config, position });
         onClose();
     };
 
@@ -48,14 +48,14 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
         >
 
             <AnimatePresence initial={false} mode="popLayout">
-                {inConfigurationStage && <motion.div
+                {(inConfigurationStage && !!selectedWidget.configurationScreen) && <motion.div
                     key='configuration'
                     className='NewWidgetWizard'
                     initial={{ translateX: '-50%', opacity: 0 }}
                     animate={{ translateX: '0%', opacity: 1 }}
                     exit={{ translateX: '-50%', opacity: 0 }}
                 >
-                    <selectedWidget.configurationScreen saveConfiguration={tryAddWidget} />
+                    <selectedWidget.configurationScreen saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config)} />
                 </motion.div>}
 
 
@@ -78,8 +78,12 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                                                 width={widget.size.width}
                                                 height={widget.size.height}
                                                 onClick={() => {
-                                                    setSelectedPlugin(plugin);
-                                                    setSelectedWidget(widget);
+                                                    if (widget.configurationScreen) {
+                                                        setSelectedPlugin(plugin);
+                                                        setSelectedWidget(widget);
+                                                    } else {
+                                                        tryAddWidget(plugin, widget, {});
+                                                    }
                                                 }}
                                             >
                                                 <widget.mock />

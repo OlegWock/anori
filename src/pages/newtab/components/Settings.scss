@@ -3,11 +3,14 @@
     flex-direction: column;
     gap: 24px;
     max-width: 600px;
+    overflow: auto;
+    padding: 0 18px;
+    margin: 0 6px;
 
     section {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 6px;
 
         button {
             align-self: center;

@@ -14,6 +14,7 @@ html {
 body {
     font-family: 'Quicksand', BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 14px;
+    line-height: 1.65;
     letter-spacing: 0.075rem;
     color: var(--text);
     height: 100vh;
@@ -79,4 +80,13 @@ body {
         flex-direction: column;
     }
 
+}
+
+.settings-modal {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    .header {
+        padding: 0 24px;
+    }
 }

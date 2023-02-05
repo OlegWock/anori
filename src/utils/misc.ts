@@ -8,3 +8,7 @@ export const guid = () => {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
+
+export const wait = (ms: number): Promise<void> => {
+    return new Promise((resolve) => setTimeout(() => resolve(), ms));
+};
