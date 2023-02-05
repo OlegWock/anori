@@ -64,7 +64,8 @@ export const CommandMenu = () => {
         <Command.Dialog open={open} onOpenChange={setOpen} label="Global Command Menu" shouldFilter={false}>
             <Command.Input value={query} onValueChange={updateQuery} className='Input' placeholder='Enter command' />
             <Command.List>
-                <Command.Empty>No results found.</Command.Empty>
+                {!!query && <Command.Empty>No results found.</Command.Empty>}
+                {!query && <Command.Empty>Nothing here yet. Try adding some widgets to folder.</Command.Empty>}
 
                 {actions.filter(({items}) => items.length !== 0).map(({ plugin, items }) => {
                     return (<Command.Group heading={plugin.name} key={plugin.id}>

@@ -5,7 +5,7 @@ import { DragControls, MotionProps, Reorder, motion, useDragControls, useMotionV
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AodakePlugin, Folder, homeFolder } from '@utils/user-data/types';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Position, findIndex } from '@utils/find-index';
 import { IconPicker } from '@components/IconPicker';
 import { Popover } from '@components/Popover';
@@ -84,6 +84,7 @@ const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonPro
         className={clsx('BackgroundPlate', className)}
         whileHover={{ scale: 1.05 }}
         transition={{ type: 'spring', duration: 0.1 }}
+        withoutBorder
         {...props}
     >
         <div className="color-cirles-wrapper">
@@ -95,6 +96,40 @@ const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonPro
 };
 
 export const Settings = ({ }: SettingsProps) => {
+    const exportSettings = async () => {
+        const storage = await browser.storage.local.get(null);
+        const aElement = document.createElement('a');
+        aElement.setAttribute('download', 'aodake-backup.json');
+
+        const blob = new Blob([JSON.stringify(storage, null, 4)], {
+            type: 'text/plain'
+        });
+        const href = URL.createObjectURL(blob);
+        aElement.href = href;
+        aElement.setAttribute('target', '_blank');
+        aElement.click();
+        URL.revokeObjectURL(href);
+    };
+
+    const importSettings = async () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.addEventListener('change', (e) => {
+            const file = (e.target as HTMLInputElement).files![0];
+            const reader = new FileReader();
+            reader.readAsText(file, 'UTF-8');
+            reader.addEventListener('load', async (e) => {
+                const text = e.target!.result as string;
+                const json = JSON.parse(text);
+
+                // TODO: will be a good idea to validate before importing
+                await browser.storage.local.set(json);
+                window.location.reload();
+            });
+        });
+
+        input.click();
+    };
     const { folders, setFolders, createFolder, updateFolder, removeFolder } = useFolders();
     const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
@@ -110,6 +145,14 @@ export const Settings = ({ }: SettingsProps) => {
                     Steal focus from addressbar
                     <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
                 </Checkbox>
+            </div>
+        </section>
+        <section>
+            <h2>Import and export</h2>
+            <div>Here you can backup your settings or restore older backup.</div>
+            <div className="import-export-button">
+                <Button onClick={importSettings}>Import</Button>
+                <Button onClick={exportSettings}>Export</Button>
             </div>
         </section>
         <section>

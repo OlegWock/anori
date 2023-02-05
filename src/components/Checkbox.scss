@@ -3,6 +3,20 @@
     align-items: center;
     gap: 12px;
 
+    &:not([data-disabled]) {
+        button,
+        label {
+            cursor: pointer;
+        }
+    }
+
+    &[data-disabled] {
+        button,
+        label {
+            cursor: not-allowed;
+        }
+    }
+
     &-root {
         width: 20px;
         height: 20px;

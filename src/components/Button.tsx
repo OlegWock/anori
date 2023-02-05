@@ -8,13 +8,15 @@ type ButtonSize = "normal" | "compact";
 export interface ButtonProps extends Omit<React.ComponentProps<typeof motion.button>, "type"> {
     size?: ButtonSize,
     block?: boolean,
+    withoutBorder?: boolean,
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ size = "normal", block = false,  ...props}, ref) => {
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ size = "normal", withoutBorder = false, block = false,  ...props}, ref) => {
     return <motion.button {...props} ref={ref} className={classNames('Button', {
         [`Button-normal`]: true, 
         [`Button-size-${size}`]: true,
         [`Button-block`]: block,
+        'with-border': !withoutBorder,
     }, props.className)}/>
 });
 

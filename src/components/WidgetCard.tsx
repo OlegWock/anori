@@ -66,13 +66,13 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
         }}
         {...props}
     >
-        {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove}>
+        {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove} withoutBorder>
             <Icon icon='ion:close' width={20} height={20} />
         </Button>}
-        {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit}>
+        {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit} withoutBorder>
             <Icon icon='ion:pencil' width={20} height={20} />
         </Button>}
-        {isEditing && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)}>
+        {isEditing && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder>
             <Icon icon='ic:baseline-drag-indicator' width={20} height={20} />
         </Button>}
         <ErrorBoundary>

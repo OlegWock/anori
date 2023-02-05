@@ -9,7 +9,6 @@ import { Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
 import { getAllWidgetsByPlugin } from "@utils/plugin";
-import { wait } from "@utils/misc";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -44,7 +43,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: ConfigurationS
                     onSelected: setIcon,
                 }}
             >
-                <Button><Icon icon={icon} width={48} /></Button>
+                <Button className="icon-picker-trigger"><Icon icon={icon} width={48} /></Button>
             </Popover>
         </div>
         <div>
@@ -70,19 +69,6 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
         </div>
         <Icon icon={config.icon} width={size === 'm' ? 92 : 36} height={size === 'm' ? 92 : 36} />
     </a>);
-};
-
-type PluginConfig = {
-    name: string,
-};
-
-const PluginConfigScreen = ({ currentConfig, saveConfiguration }: ConfigurationScreenProps<PluginConfig>) => {
-    const [name, setName] = useState(currentConfig ? currentConfig.name : '');
-    return (<div>
-        <label>Name:</label>
-        <Input value={name} onChange={e => setName(e.target.value)} />
-        <Button onClick={() => saveConfiguration({ name })}>Save</Button>
-    </div>)
 };
 
 const onCommandInput: OnCommandInputCallback = async (text: string) => {
@@ -159,5 +145,5 @@ export const bookmarkPlugin = {
         widgetSizeMDescriptor,
     ],
     onCommandInput,
-    configurationScreen: PluginConfigScreen,
+    configurationScreen: null,
 } satisfies AodakePlugin;

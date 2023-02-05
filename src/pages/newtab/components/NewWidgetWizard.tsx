@@ -38,7 +38,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
     return (
         <Modal
             title={inConfigurationStage ? 'Configure widget' : 'Add widget'}
-            headerButton={inConfigurationStage ? <Button onClick={() => {
+            headerButton={inConfigurationStage ? <Button withoutBorder onClick={() => {
                 setSelectedPlugin(undefined);
                 setSelectedWidget(undefined);
             }}><Icon icon='ion:arrow-back' width={24} height={24} /></Button> : undefined}
