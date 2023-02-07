@@ -1,8 +1,9 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as RadixSelect from '@radix-ui/react-select';
-import classnames from 'clsx';
+import classnames, { clsx } from 'clsx';
 import './Select.scss';
 import { Icon } from './Icon';
+import { Input } from './Input';
 
 
 export type SelectProps<T> = {
@@ -12,6 +13,7 @@ export type SelectProps<T> = {
     value: T,
     onChange: (newVal: T) => void,
     placeholder?: string,
+    shouldDisplayOption?: (opt: T, query: string) => boolean,
 };
 
 export const Select = <T,>({ options, value, onChange, placeholder = 'Select...', getOptionKey, getOptionLabel }: SelectProps<T>) => {
@@ -21,6 +23,7 @@ export const Select = <T,>({ options, value, onChange, placeholder = 'Select...'
 
         onChange(option);
     };
+
     const [innerValue, setInnerValue] = useState(getOptionKey(value));
 
     useLayoutEffect(() => {
@@ -36,7 +39,7 @@ export const Select = <T,>({ options, value, onChange, placeholder = 'Select...'
                 </RadixSelect.Icon>
             </RadixSelect.Trigger>
             <RadixSelect.Portal>
-                <RadixSelect.Content className="SelectContent">
+                <RadixSelect.Content className={clsx("SelectContent")}>
                     <RadixSelect.ScrollUpButton className="SelectScrollButton">
                         <Icon icon="ion:chevron-up" />
                     </RadixSelect.ScrollUpButton>

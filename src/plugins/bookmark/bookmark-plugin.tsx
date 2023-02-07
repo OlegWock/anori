@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
-import { AodakePlugin, ConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
+import { AodakePlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import './styles.scss';
 import { Popover } from "@components/Popover";
@@ -24,7 +24,7 @@ const parseHost = (url: string) => {
     }
 }
 
-const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: ConfigurationScreenProps<BookmarkWidgetConfigType>) => {
+const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkWidgetConfigType>) => {
     const onConfirm = () => {
         if (!title || !url) return;
 
@@ -64,7 +64,7 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
 
     return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url}>
         <div className="text">
-            <h3>{config.title}</h3>
+            <h2>{config.title}</h2>
             <div className="host">{host}</div>
         </div>
         <Icon icon={config.icon} width={size === 'm' ? 92 : 36} height={size === 'm' ? 92 : 36} />
@@ -101,13 +101,14 @@ const widgetSizeSDescriptor = {
     id: 'bookmark-s',
     name: 'Bookmark - size s',
     configurationScreen: WidgetConfigScreen,
+    withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
         return <MainScreen instanceId={instanceId} config={config} isMock={false} size="s" />
     },
     mock: () => {
         return (<MainScreen instanceId="" size="s" isMock config={{
             url: 'http://example.com',
-            title: 'Site name',
+            title: 'Example',
             icon: 'ion:dice'
         }} />)
     },
@@ -121,13 +122,14 @@ const widgetSizeMDescriptor = {
     id: 'bookmark-m',
     name: 'Bookmark - size m',
     configurationScreen: WidgetConfigScreen,
+    withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
         return <MainScreen instanceId={instanceId} config={config} isMock={false} size="m" />
     },
     mock: () => {
         return (<MainScreen instanceId="" size="m" isMock config={{
             url: 'http://example.com',
-            title: 'Site name',
+            title: 'Example',
             icon: 'ion:dice'
         }} />)
     },

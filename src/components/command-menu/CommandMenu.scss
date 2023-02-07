@@ -36,13 +36,25 @@
         }
     }
 
+    .cmdk-scrollarea {
+        margin: 6px 0;
+        max-height: min(40vh, 600px);
+
+        .cmdk-scrollarea-content {
+            max-height: min(40vh, 600px);
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+        }
+
+    }
+
     [cmdk-list] {
         background-color: var(--background);
         border-radius: 14px;
-        display: flex;
-        flex-direction: column;
-        padding: 8px;
         font-size: 1.1rem;
+
+        // overflow: auto;
 
         [cmdk-group] {
             [cmdk-group-heading] {
@@ -55,8 +67,8 @@
         }
 
         [cmdk-item] [cmdk-group],
-        [cmdk-group] + [cmdk-group],
-        [cmdk-group] + [cmdk-item] {
+        [cmdk-group]+[cmdk-group],
+        [cmdk-group]+[cmdk-item] {
             margin-top: 12px;
         }
 
@@ -83,11 +95,16 @@
 
             [cmdk-item-text] {
                 flex-grow: 1;
+                flex-shrink: 1;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
 
             [cmdk-item-right-hint] {
                 color: var(--text-subtle-2);
                 font-size: 0.8rem;
+                white-space: nowrap;
             }
         }
 

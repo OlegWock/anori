@@ -13,14 +13,15 @@ html {
 
 body {
     font-family: 'Quicksand', BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    font-size: 14px;
     line-height: 1.65;
     letter-spacing: 0.075rem;
     color: var(--text);
     height: 100vh;
-    background-image: url('/assets/images/backgrounds/forest-lake.jpg');
+    // background-image: url('/assets/images/backgrounds/greenery.jpg');
+    background-image: var(--background-image);
     background-size: cover;
     overflow: hidden;
+    font-size: 1rem;
 }
 
 #root {
@@ -83,10 +84,10 @@ body {
 }
 
 .settings-modal {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding: 0px !important;
 
     .header {
-        padding: 0 24px;
+        padding: 24px;
+        padding-bottom: 0px;
     }
 }

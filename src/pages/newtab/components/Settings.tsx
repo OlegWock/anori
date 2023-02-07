@@ -17,6 +17,7 @@ import { availablePlugins } from '@plugins/all';
 import { usePluginConfig } from '@utils/plugin';
 import { Checkbox } from '@components/Checkbox';
 import { Hint } from '@components/Hint';
+import { ScrollArea } from '@components/ScrollArea';
 
 export type SettingsProps = {};
 
@@ -47,7 +48,7 @@ const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconCh
                     onSelected: (icon: string) => onIconChange && onIconChange(icon),
                 }}
             >
-                <button className='folder-icon'><Icon icon={folder.icon} width={ICON_SIZE} /></button>
+                <Button className='folder-icon'><Icon icon={folder.icon} width={ICON_SIZE} /></Button>
             </Popover>
             <input
                 value={folder.name}
@@ -61,7 +62,7 @@ const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconCh
 
     return (<motion.div className='FolderItem'>
         <span style={{ width: ICON_SIZE }} />
-        <button className='folder-icon'><Icon icon={folder.icon} width={ICON_SIZE} /></button>
+        <button className='folder-icon static'><Icon icon={folder.icon} width={ICON_SIZE} /></button>
         <span className='folder-name'>{folder.name}</span>
     </motion.div>)
 };
@@ -134,73 +135,75 @@ export const Settings = ({ }: SettingsProps) => {
     const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
 
-    return (<div className='Settings'>
-        The Settings Menu is a powerful tool for customizing your user experience. Here, you can tweak everything from the default color scheme to the order of folders.
-        With the Settings Menu, you have total control over the look and feel of your new tab.
+    return (<ScrollArea className='Settings'>
+        <div className="settings-content">
+            The Settings Menu is a powerful tool for customizing your user experience. Here, you can tweak everything from the default color scheme to the order of folders.
+            With the Settings Menu, you have total control over the look and feel of your new tab.
 
-        <section>
-            <h2>Options</h2>
-            <div>
-                <Checkbox checked={stealFocus} onChange={setStealFocus}>
-                    Steal focus from addressbar
-                    <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
-                </Checkbox>
-            </div>
-        </section>
-        <section>
-            <h2>Import and export</h2>
-            <div>Here you can backup your settings or restore older backup.</div>
-            <div className="import-export-button">
-                <Button onClick={importSettings}>Import</Button>
-                <Button onClick={exportSettings}>Export</Button>
-            </div>
-        </section>
-        <section>
-            <h2>Folders</h2>
-            <div className="folders-dnd">
-                <FolderItem folder={homeFolder} />
-                <Reorder.Group axis="y" values={folders} onReorder={setFolders} as="div">
-                    {folders.map((f, index) => {
-                        return (
-                            <FolderItem
-                                key={f.id}
-                                folder={f}
-                                editable
-                                onNameChange={name => updateFolder(f.id, { name })}
-                                onIconChange={icon => updateFolder(f.id, { icon })}
-                                onRemove={() => removeFolder(f.id)}
-                            />)
+            <section>
+                <h2>Options</h2>
+                <div>
+                    <Checkbox checked={stealFocus} onChange={setStealFocus}>
+                        Steal focus from addressbar
+                        <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
+                    </Checkbox>
+                </div>
+            </section>
+            <section>
+                <h2>Import and export</h2>
+                <div>Here you can backup your settings or restore older backup.</div>
+                <div className="import-export-button">
+                    <Button onClick={importSettings}>Import</Button>
+                    <Button onClick={exportSettings}>Export</Button>
+                </div>
+            </section>
+            <section>
+                <h2>Folders</h2>
+                <div className="folders-dnd">
+                    <FolderItem folder={homeFolder} />
+                    <Reorder.Group axis="y" values={folders} onReorder={setFolders} as="div">
+                        {folders.map((f, index) => {
+                            return (
+                                <FolderItem
+                                    key={f.id}
+                                    folder={f}
+                                    editable
+                                    onNameChange={name => updateFolder(f.id, { name })}
+                                    onIconChange={icon => updateFolder(f.id, { icon })}
+                                    onRemove={() => removeFolder(f.id)}
+                                />)
+                        })}
+                    </Reorder.Group>
+                </div>
+
+                <Button onClick={() => createFolder()}>
+                    <Icon icon='ion:add' height={24} /> Create new folder
+                </Button>
+            </section>
+
+            <section>
+                <h2>Theme</h2>
+                <div className="customize-backgrounds">
+                    {themes.map((theme) => {
+                        return (<ThemePlate
+                            theme={theme}
+                            className={clsx({ 'active': theme.name === currentTheme.name })}
+                            onClick={() => {
+                                setTheme(theme);
+                                applyTheme(theme);
+                            }}
+                            key={theme.name}
+                        />)
                     })}
-                </Reorder.Group>
-            </div>
+                </div>
+            </section>
 
-            <Button onClick={() => createFolder()}>
-                <Icon icon='ion:add' height={24} /> Create new folder
-            </Button>
-        </section>
-
-        <section>
-            <h2>Theme</h2>
-            <div className="customize-backgrounds">
-                {themes.map((theme) => {
-                    return (<ThemePlate
-                        theme={theme}
-                        className={clsx({ 'active': theme.name === currentTheme.name })}
-                        onClick={() => {
-                            setTheme(theme);
-                            applyTheme(theme);
-                        }}
-                        key={theme.name}
-                    />)
+            <section>
+                <h2>Plugin settings</h2>
+                {availablePlugins.filter(p => p.configurationScreen !== null).map(p => {
+                    return (<PlusinConfigurationSection plugin={p} key={p.id} />);
                 })}
-            </div>
-        </section>
-
-        <section>
-            <h2>Plugin settings</h2>
-            {availablePlugins.filter(p => p.configurationScreen !== null).map(p => {
-                return (<PlusinConfigurationSection plugin={p} key={p.id} />);
-            })}
-        </section>
-    </div>)
+            </section>
+        </div>
+    </ScrollArea>)
 };

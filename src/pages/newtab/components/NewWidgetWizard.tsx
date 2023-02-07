@@ -9,6 +9,7 @@ import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { useFolderWidgets } from '@utils/user-data/hooks';
 import { GridDimensions, Layout, canFitItemInGrid } from '@utils/grid';
+import { MotionScrollArea, ScrollArea } from '@components/ScrollArea';
 
 
 export type NewWidgetWizardProps = {
@@ -55,46 +56,49 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                     animate={{ translateX: '0%', opacity: 1 }}
                     exit={{ translateX: '-50%', opacity: 0 }}
                 >
-                    <selectedWidget.configurationScreen saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config)} />
+                    <selectedWidget.configurationScreen widgetId={selectedWidget.id} saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config)} />
                 </motion.div>}
 
 
-                {!inConfigurationStage && <motion.div
+                {!inConfigurationStage && <MotionScrollArea
                     key='select'
                     className='NewWidgetWizard'
                     initial={{ translateX: '50%', opacity: 0 }}
                     animate={{ translateX: '0%', opacity: 1 }}
                     exit={{ translateX: '50%', opacity: 0 }}
                 >
-                    {availablePluginsWithWidgets.map(plugin => {
-                        return (<section key={plugin.id}>
-                            <h2>{plugin.name}</h2>
-                            <div className='widgets-mocks'>
-                                {plugin.widgets.map(widget => {
-                                    return (
-                                        <div key={widget.id}>
-                                            <WidgetCard
-                                                style={{ margin: 0 }}
-                                                width={widget.size.width}
-                                                height={widget.size.height}
-                                                onClick={() => {
-                                                    if (widget.configurationScreen) {
-                                                        setSelectedPlugin(plugin);
-                                                        setSelectedWidget(widget);
-                                                    } else {
-                                                        tryAddWidget(plugin, widget, {});
-                                                    }
-                                                }}
-                                            >
-                                                <widget.mock />
-                                            </WidgetCard>
-                                            <div className='widget-name'>{widget.name}</div>
-                                        </div>);
-                                })}
-                            </div>
-                        </section>);
-                    })}
-                </motion.div>}
+                        {availablePluginsWithWidgets.map(plugin => {
+                            return (<section key={plugin.id}>
+                                <h2>{plugin.name}</h2>
+                                <div className="widgets-mock-background">
+                                    <div className='widgets-mocks'>
+                                        {plugin.widgets.map(widget => {
+                                            return (
+                                                <div key={widget.id}>
+                                                    <WidgetCard
+                                                        withAnimation={false}
+                                                        style={{ margin: 0 }}
+                                                        width={widget.size.width}
+                                                        height={widget.size.height}
+                                                        onClick={() => {
+                                                            if (widget.configurationScreen) {
+                                                                setSelectedPlugin(plugin);
+                                                                setSelectedWidget(widget);
+                                                            } else {
+                                                                tryAddWidget(plugin, widget, {});
+                                                            }
+                                                        }}
+                                                    >
+                                                        <widget.mock />
+                                                    </WidgetCard>
+                                                    <div className='widget-name'>{widget.name}</div>
+                                                </div>);
+                                        })}
+                                    </div>
+                                </div>
+                            </section>);
+                        })}
+                </MotionScrollArea>}
             </AnimatePresence>
         </Modal>
     );

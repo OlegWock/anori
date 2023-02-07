@@ -7,7 +7,7 @@ type StorageKey = keyof StorageContent;
 
 type StoageValue<T extends StorageKey> = StorageContent[T] | undefined;
 
-type SetStoragePayload = { [key in StorageKey]: StorageContent[key] };
+type SetStoragePayload = { [key in StorageKey]?: StorageContent[key] };
 type GetStorageQueryWithDefaults = SetStoragePayload;
 type StorageChanges = {
     [key in StorageKey]: {
@@ -70,6 +70,7 @@ export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultVal
 
         loaded.current = false;
         storage.get({ [name]: defaultValue } as unknown as GetStorageQueryWithDefaults).then(res => {
+            // @ts-ignore
             _setValue(res[name]);
         });
         browser.storage.local.onChanged.addListener(callback);

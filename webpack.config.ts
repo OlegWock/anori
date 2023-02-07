@@ -7,6 +7,7 @@ import * as TerserPlugin from 'terser-webpack-plugin';
 import * as GenerateFiles from 'generate-file-webpack-plugin';
 import * as CopyPlugin from 'copy-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import * as MomentTimezoneDataPlugin from 'moment-timezone-data-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import * as FileManagerPlugin from 'filemanager-webpack-plugin';
 import {
@@ -24,6 +25,7 @@ import {
 } from './build_helpers/webpack-utils';
 import type { Manifest } from 'webextension-polyfill';
 import { version, name, description, author } from './package.json';
+const currentYear = new Date().getFullYear();
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -45,6 +47,7 @@ const generateManifest = (
         version: version,
         author: author,
         manifest_version: 3,
+        minimum_chrome_version: "99",
         background: {
             service_worker: 'background-wrapper.js',
         },
@@ -57,25 +60,26 @@ const generateManifest = (
         permissions: [
             'storage',
             'unlimitedStorage',
+            'sessions',
         ],
         host_permissions: [],
         optional_permissions: [
-            "tabs",
-            "tabGroups",
-            "topSites",
-            "bookmarks",
-            "downloads",
-            "history",
-            "system.cpu",
-            "system.memory",
-            "system.storage",
+            'tabs',
+            'tabGroups',
+            'topSites',
+            'bookmarks',
+            'downloads',
+            'history',
+            'system.cpu',
+            'system.memory',
+            'system.storage',
 
         ],
         optional_host_permissions: [
             "*://*/*"
         ],
 
-        chrome_url_overrides : {
+        chrome_url_overrides: {
             newtab: "pages/newtab/start.html"
         },
         web_accessible_resources: [
@@ -156,7 +160,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 content: generatePageContentForScript(pageTemplate, {
                     scripts: scriptsToInject
                         .map((url) => {
-                            return `<script src="${url}"></script>`;
+                            return `<script src="${url}" async></script>`;
                         })
                         .join('\n'),
                 }),
@@ -164,7 +168,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         );
     });
 
-    // TODO: somehow automatically inject these in generated manifest?
+
     const contentscripts = walkSync(paths.src.contentscripts, {
         globs: scriptExtensions.map((ext) => '**/*' + ext),
         directories: false,
@@ -243,7 +247,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 if (!pathData.chunk?.name) {
                     throw new Error(
                         'Unexpected chunk. Please make sure that all source files belong to ' +
-                            'one of predefined chunks or are entrypoints'
+                        'one of predefined chunks or are entrypoints'
                     );
                 }
                 return outputs[pathData.chunk.name];
@@ -376,6 +380,10 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                         },
                     },
                 ],
+            }),
+            new MomentTimezoneDataPlugin({
+                startYear: currentYear - 2,
+                endYear: currentYear + 5,
             }),
             ...zipPlugin,
         ],

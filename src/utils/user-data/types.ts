@@ -16,7 +16,7 @@ export type Folder = {
     icon: string,
 };
 
-export type FolderDetailsInStorage<WT extends {} = any> = {
+export type FolderDetailsInStorage<WT extends {} = any> = {
     widgets: WidgetInFolder<WT>[],
 };
 
@@ -44,7 +44,7 @@ export type AodakePlugin<T extends {} = {}, WT extends {} = {}> = {
     id: ID,
     name: string,
     widgets: WidgetDescriptor<WT>[],
-    configurationScreen: ComponentType<ConfigurationScreenProps<T>> | null,
+    configurationScreen: ComponentType<PluginConfigurationScreenProps<T>> | null,
     onCommandInput?: OnCommandInputCallback,
     onStart?: () => void,
     scheduledCallback?: {
@@ -53,7 +53,14 @@ export type AodakePlugin<T extends {} = {}, WT extends {} = {}> = {
     }
 };
 
-export type ConfigurationScreenProps<T extends {}> = {
+export type WidgetConfigurationScreenProps<T extends {}> = {
+    widgetId: ID,
+    instanceId?: ID,
+    currentConfig?: T,
+    saveConfiguration: (config: T) => void,
+};
+
+export type PluginConfigurationScreenProps<T extends {}> = {
     currentConfig?: T,
     saveConfiguration: (config: T) => void,
 };
@@ -68,8 +75,9 @@ export type WidgetDescriptor<T extends {} = {}> = {
     name: string,
     mock: ComponentType<{}>,
     size: LayoutItemSize,
+    withAnimation: boolean,
 } & ({
-    configurationScreen: ComponentType<ConfigurationScreenProps<T>>,
+    configurationScreen: ComponentType<WidgetConfigurationScreenProps<T>>,
     mainScreen: ComponentType<WidgetRenderProps<T>>,
 } | {
     configurationScreen: null,
@@ -80,6 +88,7 @@ export type OnCommandInputCallback = (text: string) => Promise<CommandItem[]>;
 
 export type CommandItem = {
     icon?: string,
+    image?: string,
     text: string,
     key: string,
     hint?: string,

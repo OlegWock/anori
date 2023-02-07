@@ -32,6 +32,7 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
             window.removeEventListener('keydown', handleEsc);
         };
     }, [closable, onClose]);
+    
     return createPortal(
         (<motion.div
             className="Modal-backdrop"

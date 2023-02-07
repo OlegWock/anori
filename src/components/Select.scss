@@ -4,7 +4,7 @@
     justify-content: space-between;
     border-radius: 8px;
     padding: 0 15px;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 1;
     height: 35px;
     gap: 12px;
@@ -34,6 +34,17 @@
     box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
     z-index: 9999;
     border: 2px solid var(--accent);
+
+    &.popper {
+        width: var(--radix-select-trigger-width);
+        max-height: var(--radix-select-content-available-height);
+    }
+
+    .search-input {
+        padding: 6px 15px;
+        margin: 8px;
+        min-width: auto;
+    }
 }
 
 .SelectViewport {
@@ -92,7 +103,6 @@
     align-items: center;
     justify-content: center;
     height: 25px;
-    background-color: white;
-    color: var(--violet11);
+    background-color: var(--background);
     cursor: default;
 }

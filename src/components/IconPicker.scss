@@ -18,6 +18,7 @@
     }
 
     .icons-grid {
+        // TODO: will be good to migrate to <ScrollArea> component instead of this mixin, but we don't own underlaying grid component...
         @include scroll-mixin();
 
         align-self: center;

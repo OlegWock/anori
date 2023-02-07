@@ -38,12 +38,13 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 type WidgetCardProps = {
     width: number,
     height: number,
+    withAnimation: boolean,
     onRemove?: () => void,
     onEdit?: () => void,
     children?: ReactNode,
 } & Omit<ComponentProps<typeof motion.div>, 'children'>;
 
-export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, ...props }: WidgetCardProps) => {
+export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, ...props }: WidgetCardProps) => {
     const { isEditing, boxSize } = useParentFolder();
     const dragControls = useDragControls();
 
@@ -51,10 +52,10 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
         className={clsx(className, 'WidgetCard')}
         transition={{ ease: 'easeInOut', duration: 0.15 }}
         exit={isEditing ? { scale: 0 } : undefined}
-        whileHover={{ 
+        whileHover={withAnimation ? { 
             scale: isEditing ? undefined : 1.05,
-        }}
-        whileTap={{ scale: 0.95 }}
+        } : undefined}
+        whileTap={withAnimation ? { scale: 0.95 } : undefined}
         dragControls={dragControls}
         dragListener={false}
         style={{

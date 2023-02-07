@@ -10,12 +10,13 @@ import { Settings } from './components/Settings';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
-import { Folder, homeFolder } from '@utils/user-data/types';
+import { Folder, ID, homeFolder } from '@utils/user-data/types';
 import { usePrevious } from '@utils/hooks';
 import { storage } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 import { CommandMenu } from '@components/command-menu/CommandMenu';
 import { watchForPermissionChanges } from '@utils/permissions';
+
 
 const Start = () => {
     const { folders, activeFolder, setActiveFolder } = useFolders(true);
@@ -82,7 +83,8 @@ storage.getOne('folders').then(foldersFromStorage => {
 setPageTitle('Aodake new tab');
 storage.getOne('theme').then(theme => {
     applyTheme(theme || defaultTheme);
-})
+});
+
 mountPage(<Start />);
 
 

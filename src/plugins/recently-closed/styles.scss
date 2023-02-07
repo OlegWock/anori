@@ -1,0 +1,53 @@
+.RecentlyClosedWidget {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+
+    .sessions-list {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .Session {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 6px 6px;
+        cursor: pointer;
+        transition: 0.15s ease-in-out;
+        border-radius: 8px;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        svg {
+            min-width: 18px;
+            max-width: 18px;
+        }
+        .fav-icon {
+            width: 18px;
+            border-radius: 9px;
+        }
+
+        .title {
+            flex-grow: 1;
+            flex-shrink: 1;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+
+        .last-modified {
+            font-size: 0.65rem;
+            color: var(--text-subtle-2);
+            white-space: nowrap;
+            min-width: 110px;
+            text-align: right;
+        }
+    }
+}

@@ -1,33 +1,36 @@
 .Settings {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    max-width: 600px;
-    overflow: auto;
-    padding: 0 18px;
     margin: 0 6px;
+    margin-bottom: 12px;
 
-    section {
+    .settings-content {
+        padding: 0 18px;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 24px;
+        max-width: 600px;
 
-        button {
-            align-self: center;
-        }
-
-        .customize-backgrounds {
+        section {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 24px;
+            flex-direction: column;
+            gap: 6px;
 
-        }
+            button {
+                align-self: center;
+            }
 
-        .import-export-button {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 8px;
+            .customize-backgrounds {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 24px;
+
+            }
+
+            .import-export-button {
+                display: flex;
+                justify-content: space-around;
+                margin-top: 8px;
+            }
         }
     }
 }
@@ -43,6 +46,11 @@
         background: none;
         display: flex;
         color: inherit;
+        padding: 6px 12px;
+
+        &.static {
+            padding: 6px 14px;
+        }
     }
 
     input {
@@ -62,6 +70,10 @@
     .folder-name {
         padding: 2px 8px;
         flex-grow: 1;
+    }
+
+    .Button {
+        background: var(--background);
     }
 }
 
@@ -89,7 +101,7 @@
         }
     }
 
-    
+
 
     &.active {
         outline: 4px solid var(--accent);

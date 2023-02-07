@@ -14,21 +14,21 @@ export type Theme = {
 
 export const themes: Theme[] = [
     {
-        name: 'Forest lake',
-        background: 'forest-lake.jpg',
-        colors: {
-            accent: '#4fc6e6',
-            text: '#ffffff',
-            background: '#0c4866',
-        }
-    },
-    {
         name: 'Greenery',
         background: 'greenery.jpg',
         colors: {
             accent: '#2eb46a',
             text: '#ffffff',
             background: '#124737',
+        }
+    },
+    {
+        name: 'Forest lake',
+        background: 'forest-lake.jpg',
+        colors: {
+            accent: '#4fc6e6',
+            text: '#ffffff',
+            background: '#0c4866',
         }
     },
     {
@@ -75,6 +75,7 @@ export const applyTheme = (theme: Theme) => {
     setPageBackground(browser.runtime.getURL(`/assets/images/backgrounds/${theme.background}`));
 
     const root = document.documentElement;
+    root.style.setProperty('--background-image', `url('/assets/images/backgrounds/${theme.background}')`);
     root.style.setProperty('--accent', theme.colors.accent);
     root.style.setProperty('--accent-subtle', transparentize(0.5, theme.colors.accent));
     root.style.setProperty('--background', theme.colors.background);

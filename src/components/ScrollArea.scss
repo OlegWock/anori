@@ -1,0 +1,81 @@
+.ScrollAreaRoot {
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    --scrollbar-size: 10px;
+
+    &.darker {
+        .ScrollAreaThumb {
+            background: var(--background);
+        }
+    }
+
+    &.only-vertical {
+        overflow-x: hidden;
+        .ScrollAreaViewport {
+            &>div[style] {
+                // Related to https://github.com/radix-ui/primitives/issues/926
+                display: block !important;
+            }
+        }
+    }
+
+    .ScrollAreaViewport {
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        flex-shrink: 1;
+
+        &>div[style] {
+            // Related to https://github.com/radix-ui/primitives/issues/926
+            display: block !important;
+        }
+    }
+
+    .ScrollAreaScrollbar {
+        display: flex;
+        /* ensures no selection */
+        user-select: none;
+        /* disable browser handling of all panning and zooming gestures on touch devices */
+        touch-action: none;
+        padding: 2px;
+        border-radius: var(--scrollbar-size);
+        background: transparent;
+        transition: background 160ms ease-out;
+    }
+
+    .ScrollAreaScrollbar[data-orientation='vertical'] {
+        width: var(--scrollbar-size);
+    }
+
+    .ScrollAreaScrollbar[data-orientation='horizontal'] {
+        flex-direction: column;
+        height: var(--scrollbar-size);
+    }
+
+    .ScrollAreaThumb {
+        flex: 1;
+        background: var(--background-lighter);
+        border-radius: var(--scrollbar-size);
+        position: relative;
+    }
+
+    /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
+    .ScrollAreaThumb::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .ScrollAreaCorner {
+        background: transparent;
+    }
+}

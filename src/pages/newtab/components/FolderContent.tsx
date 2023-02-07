@@ -194,6 +194,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                         dragSnapToOrigin
                                         dragElastic={0}
                                         onDragEnd={(e, info) => tryRepositionWidget(w, e, info)}
+                                        withAnimation={w.widget.withAnimation}
                                         whileDrag={{ zIndex: 9, boxShadow: '0px 4px 4px 3px rgba(0,0,0,0.4)' }}
                                         key={w.instanceId}
                                         onRemove={() => removeWidget(w)}
@@ -227,7 +228,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 onClose={() => setEditingWidget(null)}
                 closable
             >
-                <editingWidget.widget.configurationScreen currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
                     updateWidgetConfig(editingWidget.instanceId, config);
                     setEditingWidget(null);
                 }} />
