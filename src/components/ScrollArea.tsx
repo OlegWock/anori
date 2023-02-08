@@ -3,6 +3,7 @@ import './ScrollArea.scss';
 import { ReactNode } from 'react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import { forwardRef } from 'react';
 
 type ScrollAreaProps = {
     children?: ReactNode,
@@ -13,8 +14,8 @@ type ScrollAreaProps = {
     onlyVertical?: boolean,
 }
 
-export const ScrollArea = ({ children, className, constentClassName, type = "auto", darker, onlyVertical = true }: ScrollAreaProps) => {
-    return (<RadixScrollArea.Root className={clsx("ScrollAreaRoot", className, { 'darker': darker, 'only-vertical': onlyVertical })} type={type}>
+export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({ children, className, constentClassName, type = "auto", darker, onlyVertical = true }, ref) => {
+    return (<RadixScrollArea.Root className={clsx("ScrollAreaRoot", className, { 'darker': darker, 'only-vertical': onlyVertical })} type={type} ref={ref}>
         <RadixScrollArea.Viewport className={clsx("ScrollAreaViewport", constentClassName)}>
             {children}
         </RadixScrollArea.Viewport>
@@ -26,6 +27,6 @@ export const ScrollArea = ({ children, className, constentClassName, type = "aut
         </RadixScrollArea.Scrollbar>
         <RadixScrollArea.Corner className="ScrollAreaCorner" />
     </RadixScrollArea.Root>)
-};
+});
 
 export const MotionScrollArea = motion(ScrollArea);

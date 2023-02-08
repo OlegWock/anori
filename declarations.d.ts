@@ -2,6 +2,10 @@
 import * as browser from 'webextension-polyfill';
 
 declare module 'webextension-polyfill' {
+    interface Browser {
+        system: any;
+    }
+    
     namespace Storage {
         interface Static {
             session: StorageArea;

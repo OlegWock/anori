@@ -24,9 +24,8 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
     };
     const controls = useAnimationControls();
     const favIcon = session.tab ? session.tab.favIconUrl : '';
-    const lastModified = useMemo(() => moment.unix(session.lastModified).fromNow(), [session.lastModified]);
+    const lastModified = useMemo(() => moment.unix(session.lastModified).fromNow(true), [session.lastModified]);
 
-    console.log('Session', session);
     return (<motion.div
         className='Session'
         animate={controls}
@@ -108,7 +107,7 @@ const onCommandInput: OnCommandInputCallback = async (query: string) => {
             image: favIcon,
             text: title || '',
             key: id,
-            hint: moment.unix(s.lastModified).fromNow(),
+            hint: moment.unix(s.lastModified).fromNow(true),
             onSelected: async () => {
                 await browser.sessions.restore(id);
                 window.close();

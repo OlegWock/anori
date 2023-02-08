@@ -1,0 +1,29 @@
+.SystemStatusWidget {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+
+
+    .spacer {
+        flex-grow: 1;
+    }
+
+    .metric-value {
+        font-size: 2rem;
+    }
+
+    .metric-name {
+
+    }
+}
+
+.SystemStatusWidget-config {
+    display: flex;
+    flex-direction: column;
+    
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+}

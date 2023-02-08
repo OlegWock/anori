@@ -61,6 +61,8 @@ const generateManifest = (
             'storage',
             'unlimitedStorage',
             'sessions',
+            'system.cpu',
+            'system.memory',
         ],
         host_permissions: [],
         optional_permissions: [
@@ -70,8 +72,6 @@ const generateManifest = (
             'bookmarks',
             'downloads',
             'history',
-            'system.cpu',
-            'system.memory',
             'system.storage',
 
         ],
