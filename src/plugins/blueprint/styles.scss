@@ -1,0 +1,26 @@
+.PluginWidget {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-grow: 1;
+
+}
+
+.PluginWidget-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    &>div {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+}

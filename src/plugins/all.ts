@@ -4,6 +4,7 @@ import { datetimePlugin } from "./datetime/datetime-plugin";
 import { searchPlugin } from "./search/search-plugin";
 import { recentlyClosedPlugin } from "./recently-closed/recently-closed-plugin";
 import { systemStatusPlugin } from "./system-status/system-status-plugin";
+import { calendarPlugin } from "./calendar/plugin";
 
 
 export const availablePlugins: AodakePlugin[] = [
@@ -12,6 +13,7 @@ export const availablePlugins: AodakePlugin[] = [
     searchPlugin,
     recentlyClosedPlugin,
     systemStatusPlugin,
+    calendarPlugin,
 ];
 
 export const availablePluginsWithWidgets = availablePlugins.filter(p => p.widgets.length > 0);
