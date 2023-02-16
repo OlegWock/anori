@@ -4,7 +4,7 @@ import './Settings.scss';
 import { DragControls, MotionProps, Reorder, motion, useDragControls, useMotionValue } from 'framer-motion';
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
-import { AodakePlugin, Folder, homeFolder } from '@utils/user-data/types';
+import { AnoriPlugin, Folder, homeFolder } from '@utils/user-data/types';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Position, findIndex } from '@utils/find-index';
 import { IconPicker } from '@components/IconPicker';
@@ -67,7 +67,7 @@ const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconCh
     </motion.div>)
 };
 
-const PlusinConfigurationSection = <T extends {}>({ plugin }: { plugin: AodakePlugin<T> }) => {
+const PlusinConfigurationSection = <T extends {}>({ plugin }: { plugin: AnoriPlugin<T> }) => {
     const [config, setConfig, isDefault] = usePluginConfig(plugin);
     if (!plugin.configurationScreen || isDefault) return null;
 
@@ -100,7 +100,7 @@ export const Settings = ({ }: SettingsProps) => {
     const exportSettings = async () => {
         const storage = await browser.storage.local.get(null);
         const aElement = document.createElement('a');
-        aElement.setAttribute('download', 'aodake-backup.json');
+        aElement.setAttribute('download', 'anori-backup.json');
 
         const blob = new Blob([JSON.stringify(storage, null, 4)], {
             type: 'text/plain'
@@ -198,11 +198,25 @@ export const Settings = ({ }: SettingsProps) => {
                 </div>
             </section>
 
-            <section>
+            {availablePlugins.filter(p => p.configurationScreen !== null).length !== 0 && <section>
                 <h2>Plugin settings</h2>
                 {availablePlugins.filter(p => p.configurationScreen !== null).map(p => {
                     return (<PlusinConfigurationSection plugin={p} key={p.id} />);
                 })}
+            </section>}
+
+            <section>
+                <h2>About Anori</h2>
+                <p>
+                    Anori is free and open source extension. Source code can be found on <a href="https://github.com/OlegWock/anori">GitHub</a>. 
+                    If you would like to propose a feature or report a bug, please 
+                    create <a href="https://github.com/OlegWock/anori/issues/new">new issue</a> in repository. 
+                    If you just want to say thanks you can give a star to that repo :).
+                </p>
+
+                <p>
+                    If you would like to modify this extension, add you own plugin or widget, please refer to <a href='https://github.com/OlegWock/anori/blob/master/DEVELOPMENT_AND_EXTENDING.md'>documentation</a>.
+                </p>
             </section>
         </div>
     </ScrollArea>)

@@ -16,6 +16,8 @@ import { storage } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 import { CommandMenu } from '@components/command-menu/CommandMenu';
 import { watchForPermissionChanges } from '@utils/permissions';
+import moment from 'moment-timezone';
+console.log('Locale', moment.locale());
 
 
 const Start = () => {
@@ -40,8 +42,6 @@ const Start = () => {
                 >
                     <div className="sidebar">
                         <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
-                            {/* TODO: add context menu to these and allow edit/delete them right there */}
-                            {/* https://www.radix-ui.com/docs/primitives/components/context-menu */}
                             {folders.map(f => {
                                 return (<FolderButton key={f.id} icon={f.icon} name={f.name} active={activeFolder === f} onClick={() => setActiveFolder(f)} />);
                             })}
@@ -80,7 +80,7 @@ storage.getOne('folders').then(foldersFromStorage => {
     const folders = [homeFolder, ...(foldersFromStorage || [])];
     folders.forEach(f => requestIconsFamily(f.icon.split(':')[0]));
 });
-setPageTitle('Aodake new tab');
+setPageTitle('Anori new tab');
 storage.getOne('theme').then(theme => {
     applyTheme(theme || defaultTheme);
 });

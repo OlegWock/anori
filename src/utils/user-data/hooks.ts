@@ -1,10 +1,12 @@
-import { atomWithBrowserStorage, dynamicAtomWithBrowserStorage } from "@utils/storage";
-import { PrimitiveAtom, atom, useAtom } from "jotai";
-import { AodakePlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, WidgetInFolder, WidgetInFolderWithMeta, homeFolder } from "./types";
+import { atomWithBrowserStorage, dynamicAtomWithBrowserStorage, storage } from "@utils/storage";
+import { PrimitiveAtom, atom, getDefaultStore, useAtom } from "jotai";
+import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, WidgetInFolder, WidgetInFolderWithMeta, homeFolder } from "./types";
 import { guid } from "@utils/misc";
 import { useEffect, useMemo } from "react";
 import { availablePluginsWithWidgets } from "@plugins/all";
 import { Position } from "@utils/grid";
+import browser from 'webextension-polyfill';
+import { NamespacedStorage } from "@utils/namespaced-storage";
 
 const foldersAtom = atomWithBrowserStorage('folders', []);
 const activeFolderAtom = atom<ID>('home');
@@ -20,7 +22,12 @@ export const useFolders = (includeHome = false) => {
     };
 
     const removeFolder = (id: ID) => {
-        // TODO: don't forget to wipe all widgets from this folder;
+        const atom = getFolderDetailsAtom(id);
+        const store = getDefaultStore();
+        store.set(atom, { widgets: [] });
+        setTimeout(() => {
+            browser.storage.local.remove(`Folder.${id}`);
+        }, 0);
         setFolders(p => p.filter(f => f.id !== id));
     };
 
@@ -87,7 +94,7 @@ const getFolderDetailsAtom = (id: ID) => {
 };
 
 export const useFolderWidgets = (folder: Folder) => {
-    const addWidget = <T extends {}>({ plugin, widget, config, position }: { plugin: AodakePlugin, widget: WidgetDescriptor<T>, config: T, position: Position }) => {
+    const addWidget = <T extends {}>({ plugin, widget, config, position }: { plugin: AnoriPlugin, widget: WidgetDescriptor<T>, config: T, position: Position }) => {
         const instanceId = guid();
 
         const data: WidgetInFolder<T> = {
@@ -114,6 +121,7 @@ export const useFolderWidgets = (folder: Folder) => {
 
     const removeWidget = (widgetOrId: WidgetInFolder<any> | ID) => {
         const id = typeof widgetOrId === 'string' ? widgetOrId : widgetOrId.instanceId;
+        NamespacedStorage.get(`WidgetStorage.${id}`).clear();
         setDetails(p => {
             return {
                 ...p,

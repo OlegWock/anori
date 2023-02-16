@@ -1,0 +1,71 @@
+.Combobox-input {}
+
+.Combobox-options {
+    position: absolute;
+    background-color: var(--background);
+    border-radius: 6px;
+    box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+    z-index: 9999;
+    border: 2px solid var(--accent);
+    padding: 5px;
+
+    .Combobox-option {
+        font-size: 0.875rem;
+        line-height: 1;
+        color: var(--text);
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        padding: 0 16px;
+        position: relative;
+        user-select: none;
+
+        .highlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+
+        .content {
+            z-index: 1;
+            display: flex;
+            gap: 8px;
+        }
+
+        .check-icon {
+            opacity: 0;
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+
+        &[data-active="true"] {
+            outline: none;
+            
+            color: var(--text);
+        }
+
+        &[data-selected="true"] {
+            .check-icon {
+                opacity: 1;
+            }
+        }
+    }
+
+    .Combobox-no-results {
+        font-size: 0.875rem;
+        line-height: 1;
+        color: var(--text);
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        padding: 0 35px 0 25px;
+        position: relative;
+        user-select: none;
+    }
+}

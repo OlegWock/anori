@@ -1,4 +1,4 @@
-import { AodakePlugin, Folder, WidgetDescriptor } from '@utils/user-data/types';
+import { AnoriPlugin, Folder, WidgetDescriptor } from '@utils/user-data/types';
 import './NewWidgetWizard.scss';
 import { availablePluginsWithWidgets } from '@plugins/all';
 import { WidgetCard } from '@components/WidgetCard';
@@ -20,7 +20,7 @@ export type NewWidgetWizardProps = {
 };
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: NewWidgetWizardProps) => {
-    const tryAddWidget = (plugin: AodakePlugin, widget: WidgetDescriptor<any>, config: any) => {
+    const tryAddWidget = (plugin: AnoriPlugin, widget: WidgetDescriptor<any>, config: any) => {
         const position = canFitItemInGrid({ grid: gridDimenstions, layout, item: widget.size });
         if (!position) {
             alert("Can't fit element in grid, sorry");
@@ -31,7 +31,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
     };
 
     const { addWidget } = useFolderWidgets(folder);
-    const [selectedPlugin, setSelectedPlugin] = useState<AodakePlugin | undefined>(undefined);
+    const [selectedPlugin, setSelectedPlugin] = useState<AnoriPlugin | undefined>(undefined);
     const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor<any> | undefined>(undefined);
 
     console.log('Render NewWidgetWizard', { selectedPlugin, selectedWidget });
@@ -48,10 +48,11 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
             className='NewWidgetWizard-wrapper'
         >
 
-            <AnimatePresence initial={false} mode="popLayout">
+            <AnimatePresence initial={false} mode="wait">
                 {(inConfigurationStage && !!selectedWidget.configurationScreen) && <motion.div
                     key='configuration'
                     className='NewWidgetWizard'
+                    transition={{ duration: 0.18 }}
                     initial={{ translateX: '-50%', opacity: 0 }}
                     animate={{ translateX: '0%', opacity: 1 }}
                     exit={{ translateX: '-50%', opacity: 0 }}
@@ -63,10 +64,12 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                 {!inConfigurationStage && <MotionScrollArea
                     key='select'
                     className='NewWidgetWizard'
+                    transition={{ duration: 0.18 }}
                     initial={{ translateX: '50%', opacity: 0 }}
                     animate={{ translateX: '0%', opacity: 1 }}
                     exit={{ translateX: '50%', opacity: 0 }}
                 >
+                    <div className='new-widget-content'>
                         {availablePluginsWithWidgets.map(plugin => {
                             return (<section key={plugin.id}>
                                 <h2>{plugin.name}</h2>
@@ -90,14 +93,17 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                                                         }}
                                                     >
                                                         <widget.mock />
+                                                        <div className="interaction-blocker"></div>
                                                     </WidgetCard>
                                                     <div className='widget-name'>{widget.name}</div>
-                                                </div>);
+                                                </div>
+                                            );
                                         })}
                                     </div>
                                 </div>
                             </section>);
                         })}
+                    </div>
                 </MotionScrollArea>}
             </AnimatePresence>
         </Modal>

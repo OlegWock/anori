@@ -1,5 +1,5 @@
 
-import { AodakePlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
+import { AnoriPlugin, OnCommandInputCallback, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
 import { Button } from '@components/Button';
 import { useState } from 'react';
@@ -7,20 +7,21 @@ import { Input } from '@components/Input';
 import { Select } from '@components/Select';
 import { Icon } from '@components/Icon';
 import { Tooltip } from '@components/Tooltip';
+import { getAllWidgetsByPlugin } from '@utils/plugin';
 
 
 const providersPretty = {
     'google': 'Google',
-    'googleImages': 'Google Images',
-    'youtube': 'Youtube',
+    'images': 'Google Images',
+    'yt': 'YouTube',
     'bing': 'Bing',
     'duck': 'DuckDuckGo',
 } as const;
 
 const providersIcons = {
     'google': 'logos:google-icon',
-    'googleImages': 'logos:google-photos',
-    'youtube': 'logos:youtube-icon',
+    'images': 'logos:google-photos',
+    'yt': 'logos:youtube-icon',
     'bing': 'logos:bing',
     'duck': 'logos:duckduckgo',
 } as const;
@@ -32,6 +33,16 @@ const providers = Object.keys(providersPretty) as Provider[];
 type WidgetConfig = {
     defaultProvider: Provider,
 };
+
+const generateSearchUrl = (provider: Provider, query: string) => {
+    return {
+        'google': `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+        'images': `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`,
+        'yt': `https://www.yt.com/results?search_query=${encodeURIComponent(query)}`,
+        'bing': `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
+        'duck': `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
+    }[provider];
+}
 
 
 const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<WidgetConfig>) => {
@@ -55,13 +66,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
 const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     const doSearch = () => {
-        const url = {
-            'google': `https://www.google.com/search?q=${encodeURIComponent(query)}`,
-            'googleImages': `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`,
-            'youtube': `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
-            'bing': `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
-            'duck': `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
-        }[activeProvider];
+        const url = generateSearchUrl(activeProvider, query);
         window.location.href = url;
     };
 
@@ -97,6 +102,24 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     </div>)
 };
 
+const onCommandInput: OnCommandInputCallback = async (text: string) => {
+    const tokens = text.split(' ');
+    const command = tokens[0];
+    const shouldFilterProviders = (providers as string[]).includes(command);
+    const query = shouldFilterProviders ? tokens.slice(1).join(' ') : text;
+    if (!query) return [];
+    return providers.filter(p => shouldFilterProviders ? p === command : true).map(p => {
+        const url = generateSearchUrl(p, query);
+
+        return {
+            icon: providersIcons[p],
+            text: `Search ${providersPretty[p]} for «${query}»`,
+            onSelected: () => window.location.href = url,
+            key: p,
+        }
+    });
+};
+
 const widgetDescriptor = {
     id: 'search-widget',
     name: 'Search',
@@ -115,8 +138,9 @@ const widgetDescriptor = {
 export const searchPlugin = {
     id: 'search-plugin',
     name: 'Internet search',
+    onCommandInput,
     widgets: [
         widgetDescriptor,
     ],
     configurationScreen: null,
-} satisfies AodakePlugin;
+} satisfies AnoriPlugin;

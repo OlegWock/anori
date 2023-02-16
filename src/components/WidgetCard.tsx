@@ -44,7 +44,7 @@ type WidgetCardProps = {
     children?: ReactNode,
 } & Omit<ComponentProps<typeof motion.div>, 'children'>;
 
-export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, ...props }: WidgetCardProps) => {
+export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, ...props }: WidgetCardProps) => {
     const { isEditing, boxSize } = useParentFolder();
     const dragControls = useDragControls();
 
@@ -65,6 +65,7 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
             
             ...style,
         }}
+        onDragEnd={onDragEnd}
         {...props}
     >
         {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove} withoutBorder>
@@ -73,7 +74,7 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
         {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit} withoutBorder>
             <Icon icon='ion:pencil' width={20} height={20} />
         </Button>}
-        {isEditing && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder>
+        {(isEditing && !!onDragEnd) && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder>
             <Icon icon='ic:baseline-drag-indicator' width={20} height={20} />
         </Button>}
         <ErrorBoundary>

@@ -6,6 +6,7 @@ import { Button } from "@components/Button";
 import './RequirePermissions.scss';
 import { availablePermissionsAtom, containsHostPermission, normalizeHost, updateAvailablePermissions } from "@utils/permissions";
 import { Modal } from "./Modal";
+import { AnimatePresence } from "framer-motion";
 
 
 export type RequirePermissionsProps = {
@@ -52,17 +53,19 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
                         <Button className="grant-button" onClick={grantPermissions}>Grant permissions</Button>
                     </>}
                 </div>
-                {modalVisible && <Modal
-                    title="Additional permissions required"
-                    className="RequirePermissions-modal"
-                    closable
-                    onClose={() => setModalVisible(false)}
-                >
-                    <div>This widget requires additional permissions. Those are:</div>
-                    {missingPermissions.length !== 0 && <div>API permissions: <strong>{missingPermissions.join(', ')}</strong>.</div>}
-                    {missingHostPermissions.length !== 0 && <div>Host permissions: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
-                    <Button className="grant-button" onClick={grantPermissions}>Grant permissions</Button>
-                </Modal>}
+                <AnimatePresence>
+                    {modalVisible && <Modal
+                        title="Additional permissions required"
+                        className="RequirePermissions-modal"
+                        closable
+                        onClose={() => setModalVisible(false)}
+                    >
+                        <div>This widget requires additional permissions. Those are:</div>
+                        {missingPermissions.length !== 0 && <div>API permissions: <strong>{missingPermissions.join(', ')}</strong>.</div>}
+                        {missingHostPermissions.length !== 0 && <div>Host permissions: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
+                        <Button className="grant-button" onClick={grantPermissions}>Grant permissions</Button>
+                    </Modal>}
+                </AnimatePresence>
             </>)
     }
 };

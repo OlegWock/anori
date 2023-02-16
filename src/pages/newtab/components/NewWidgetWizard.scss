@@ -2,44 +2,52 @@
     width: 800px;
     max-width: 80vw;
 
-    display: flex;
-    flex-direction: column;
+
     overflow: auto;
     margin-right: -16px;
     padding-right: 16px;
+    margin-left: -4px;
+    padding-left: 4px;
 
-    section {
+    .new-widget-content {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 24px;
 
-        .widgets-mock-background {
-            background-image: var(--background-image);
-            background-size: cover;
-            border-radius: 16px;
+        section {
+            display: flex;
+            flex-direction: column;
 
-            .widgets-mocks {
-                display: flex;
-                flex-wrap: wrap;
-                align-items: flex-start;
-                gap: 12px;
-                padding: 12px;
-                backdrop-filter: blur(10px);
+            .widgets-mock-background {
+                background-image: var(--background-image);
+                background-size: cover;
                 border-radius: 16px;
 
-                .WidgetCard {
-                    cursor: pointer;
-                }
+                .widgets-mocks {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    gap: 12px;
+                    padding: 12px;
+                    backdrop-filter: blur(10px);
+                    border-radius: 16px;
 
-                .widget-name {
-                    margin-top: 6px;
-                    margin-left: 8px;
-                    word-wrap: normal;
+                    .WidgetCard {
+                        cursor: pointer;
+                    }
 
+                    .widget-name {
+                        margin-top: 6px;
+                        margin-left: 8px;
+                        word-wrap: normal;
+
+                    }
                 }
             }
         }
     }
+
+
 }
 
 .NewWidgetWizard-wrapper {

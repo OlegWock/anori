@@ -4,6 +4,7 @@
 
     .settings-content {
         padding: 0 18px;
+        padding-bottom: 36px;
         display: flex;
         flex-direction: column;
         gap: 24px;
@@ -13,6 +14,10 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+
+            p {
+                margin-bottom: 12px;
+            }
 
             button {
                 align-self: center;

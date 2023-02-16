@@ -2,7 +2,7 @@ import { Command } from 'cmdk';
 import { useEffect, useState } from 'react';
 import './CommandMenu.scss';
 import { Icon } from '@components/Icon';
-import { AodakePlugin, CommandItem } from '@utils/user-data/types';
+import { AnoriPlugin, CommandItem } from '@utils/user-data/types';
 import { availablePlugins } from '@plugins/all';
 import { wait } from '@utils/misc';
 import { ScrollArea } from '@components/ScrollArea';
@@ -11,7 +11,7 @@ const ON_COMMAND_INPUT_TIMEOUT = 300;
 
 type ActionsWithMetadata = {
     items: CommandItem[],
-    plugin: AodakePlugin<any, any>
+    plugin: AnoriPlugin<any, any>
 };
 
 export const CommandMenu = () => {
@@ -79,7 +79,7 @@ export const CommandMenu = () => {
                                         onSelected();
                                     }}>
                                         <div cmdk-item-icon="">
-                                            {!!icon && <Icon icon={icon} height={24} />}
+                                            {!!icon && <Icon icon={icon} height={24} width={24} />}
                                             {!!image && <img src={image} height={24} />}
                                         </div>
                                         <div cmdk-item-text="">{text}</div>

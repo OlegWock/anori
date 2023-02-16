@@ -1,0 +1,66 @@
+.TasksWidget {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-decoration: none;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .ScrollAreaRoot {
+        flex-grow: 1;
+    }
+
+    .tasks-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .tasks-list {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 2px;
+        padding: 2px 0;
+    }
+
+    .task {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+
+        .Input {
+            flex-grow: 1;
+            margin: 0 2px;
+            padding: 4px 8px;
+        }
+    }
+
+    .no-tasks {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text-subtle-2);
+    }
+
+}
+
+.TasksWidget-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    &>div {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+}

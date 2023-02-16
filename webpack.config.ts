@@ -52,8 +52,6 @@ const generateManifest = (
             service_worker: 'background-wrapper.js',
         },
         icons: {
-            '16': 'assets/images/icon16.png',
-            '32': 'assets/images/icon32.png',
             '48': 'assets/images/icon48.png',
             '128': 'assets/images/icon128.png',
         },
@@ -67,13 +65,6 @@ const generateManifest = (
         host_permissions: [],
         optional_permissions: [
             'tabs',
-            'tabGroups',
-            'topSites',
-            'bookmarks',
-            'downloads',
-            'history',
-            'system.storage',
-
         ],
         optional_host_permissions: [
             "*://*/*"
@@ -385,6 +376,8 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 startYear: currentYear - 2,
                 endYear: currentYear + 5,
             }),
+            // Ignore all locale files of moment.js
+            new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }),
             ...zipPlugin,
         ],
 

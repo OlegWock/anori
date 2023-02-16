@@ -13,7 +13,8 @@ import { useRef } from 'react';
 import { DEFAULT_CARD_MARGIN, Layout, LayoutItem, fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
 import { useWindowIsResizing } from '@utils/hooks';
 import { Modal } from '@components/Modal';
-import { PluginUtilsContext, createPluginStorageHook } from '@utils/plugin';
+import { WidgetMetadataContext } from '@utils/plugin';
+import { OnboardingCard } from '@components/OnboardingCard';
 
 
 type FolderContentProps = {
@@ -111,9 +112,9 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     // We need this to workaround framer motion auto-repozition of drag elements on window resize
     const isResizingWindow = useWindowIsResizing();
 
-    const adjusterdLayout = fixHorizontalOverflows({ grid: grisDimenstions, layout: widgets });
+    const adjustedLayout = fixHorizontalOverflows({ grid: grisDimenstions, layout: widgets });
 
-    console.log('Render folder content', { grisDimenstions, adjusterdLayout });
+    console.log('Render folder content', { grisDimenstions, adjusterdLayout: adjustedLayout });
 
     useEffect(() => {
         setIsEditing(false);
@@ -178,13 +179,11 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 }}>
                     <motion.main layout layoutRoot ref={mainRef}>
                         <AnimatePresence initial={false}>
-                            {/* {widgets.map((w, i) => { */}
-                            {adjusterdLayout.map((w, i) => {
+                            {adjustedLayout.map((w, i) => {
                                 const position = positionToPixelPosition({ grid: grisDimenstions, positon: w });
-                                return (<PluginUtilsContext.Provider key={w.instanceId} value={{
+                                return (<WidgetMetadataContext.Provider key={w.instanceId} value={{
                                     pluginId: w.pluginId,
                                     instanceId: w.instanceId,
-                                    useStorage: createPluginStorageHook(w.plugin),
                                     config: w.configutation,
                                     updateConfig: (config) => updateWidgetConfig(w.instanceId, config),
                                 }}>
@@ -209,29 +208,35 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     >
                                         <w.widget.mainScreen instanceId={w.instanceId} config={w.configutation} />
                                     </WidgetCard>
-                                </PluginUtilsContext.Provider>);
+                                </WidgetMetadataContext.Provider>);
                             })}
+                            {widgets.length === 0 && <OnboardingCard />}
                         </AnimatePresence>
                     </motion.main>
                 </FolderContentContext.Provider >
             </motion.div>
 
-            {newWidgetWizardVisible && <NewWidgetWizard
-                folder={folder}
-                onClose={() => setNewWidgetWizardVisible(false)}
-                gridDimenstions={grisDimenstions}
-                layout={widgets}
-            />}
+            <AnimatePresence>
+                {newWidgetWizardVisible && <NewWidgetWizard
+                    folder={folder}
+                    key='new-widget-wizard'
+                    onClose={() => setNewWidgetWizardVisible(false)}
+                    gridDimenstions={grisDimenstions}
+                    layout={widgets}
+                />}
 
-            {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
-                title="Edit widget"
-                onClose={() => setEditingWidget(null)}
-                closable
-            >
-                <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
-                    updateWidgetConfig(editingWidget.instanceId, config);
-                    setEditingWidget(null);
-                }} />
-            </Modal>}
+
+                {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
+                    title="Edit widget"
+                    key='edit-widget-modal'
+                    onClose={() => setEditingWidget(null)}
+                    closable
+                >
+                    <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                        updateWidgetConfig(editingWidget.instanceId, config);
+                        setEditingWidget(null);
+                    }} />
+                </Modal>}
+            </AnimatePresence>
         </>);
 }

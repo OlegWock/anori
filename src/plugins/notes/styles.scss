@@ -1,0 +1,26 @@
+.NotesWidget {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-decoration: none;
+    flex-grow: 1;
+
+    .Input {
+        margin: 2px;
+        min-width: none;
+        padding: 4px 8px;
+        height: auto;
+    }
+
+    .note-title {
+        font-size: 1.5rem; // h2
+    }
+
+    .note-body {
+        resize: none;
+        flex-grow: 1;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+    }
+}

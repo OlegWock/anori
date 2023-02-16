@@ -1,5 +1,5 @@
 
-import { AodakePlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
+import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
 import browser from 'webextension-polyfill';
 import { useMemo, useState } from 'react';
@@ -26,7 +26,6 @@ const CpuWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
             // @ts-ignore
             const results = await browser.system.cpu.getInfo() as any;
             const cpuTime: CpuTime[] = results.processors.map((t: any) => t.usage);
-            console.log({ cpuTime, lastResults });
             if (lastResults) {
                 const load = lastResults.map((last, ind) => {
                     const current = cpuTime[ind];
@@ -35,7 +34,6 @@ const CpuWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
                     return 1 - spentIdle / totalDiff;
                 });
                 const avgLoad = avg(load);
-                console.log({ load, avgLoad });
                 setLoad(avgLoad);
             }
             lastResults = cpuTime;
@@ -69,7 +67,6 @@ const MemoryWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
         const load = async () => {
             // @ts-ignore
             const results = await browser.system.memory.getInfo();
-            console.log('Memory', results);
             const usedCapacity = results.capacity - results.availableCapacity;
             setAllocatedMemory(usedCapacity / results.capacity);
         };
@@ -121,4 +118,4 @@ export const systemStatusPlugin = {
         ramWidgetDescriptor,
     ],
     configurationScreen: null,
-} satisfies AodakePlugin;
+} satisfies AnoriPlugin;

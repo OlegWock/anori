@@ -1,14 +1,12 @@
 import browser from 'webextension-polyfill';
 import { dynamicAtomWithBrowserStorage, storage } from "./storage";
-import { AodakePlugin, FolderDetailsInStorage, ID, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
+import { AnoriPlugin, FolderDetailsInStorage, ID, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
 import { PrimitiveAtom, WritableAtom, atom, useAtom } from 'jotai';
-import { selectAtom } from 'jotai/utils';
 import { SetStateAction, createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { focusAtom } from 'jotai-optics';
-import { OpticFor } from 'optics-ts';
+import { NamespacedStorage } from './namespaced-storage';
 
 
-export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin: AodakePlugin<PT, WT>) => {
+export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin: AnoriPlugin<PT, WT>) => {
     const foldersFromStorage = await storage.getOne('folders');
     const folders = [
         homeFolder,
@@ -36,60 +34,43 @@ export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin
 
 };
 
-type UsePluginStorageHook<T extends {}> = <K extends keyof T>(key: K, defaultValue: T[K]) => readonly [val: T[K], setter: (newVal: T[K] | ((old: T[K]) => T[K])) => void];
-
-const pluginStorageAtoms: Record<ID, PrimitiveAtom<any>> = {};
-const getPluginStorageAtom = (plugin: AodakePlugin) => {
-    if (!pluginStorageAtoms[plugin.id]) {
-        pluginStorageAtoms[plugin.id] = dynamicAtomWithBrowserStorage<any>(`PluginStorage.${plugin.id}`, {});
-    }
-
-    return pluginStorageAtoms[plugin.id];
-};
-export const createPluginStorageHook = <T extends {}>(plugin: AodakePlugin) => {
-    const atom = getPluginStorageAtom(plugin);
-
-    const hook: UsePluginStorageHook<T> = <K extends keyof T>(key: K, defaultValue: T[K]) => {
-        const focusedAtom = useMemo(() => focusAtom(atom, (optic: OpticFor<any>) => optic.prop(key)), [key]);
-        const [value, setValue] = useAtom(focusedAtom);
-
-        const correctedValue: T[K] = value === undefined ? defaultValue : value;
-
-        const correctedSetValue = (newVal: T[K] | ((old: T[K]) => T[K])) => {
-            // @ts-ignore
-            const toStore = typeof newVal === 'function' ? newVal(correctedValue) : newVal;
-            setValue(toStore);
-        };
-
-        return [correctedValue, correctedSetValue] as const;
-    };
-
-    return hook;
-};
-
-export type PluginUtilsContextType<StorageT extends {}, WidgetConfigT extends {}> = {
+export type WidgetMetadataContextType<WidgetConfigT extends {}> = {
     pluginId: string,
     instanceId: string,
-    useStorage: UsePluginStorageHook<StorageT>,
     config: WidgetConfigT,
     updateConfig: (update: Partial<WidgetConfigT>) => void,
 };
 
-export const PluginUtilsContext = createContext({
+export const WidgetMetadataContext = createContext({
     pluginId: '',
-} as PluginUtilsContextType<{}, {}>);
+} as WidgetMetadataContextType<{}>);
 
-export const usePluginUtils = <WidgetConfigT extends {} = {}, StorageT extends {} = {}>() => {
-    const val = useContext(PluginUtilsContext) as PluginUtilsContextType<StorageT, WidgetConfigT>;
-    if (!val.pluginId) throw new Error('usePluginUtils should be used only inside widgets');
+export const useWidgetMetadata = <WidgetConfigT extends {} = {}>() => {
+    const val = useContext(WidgetMetadataContext) as WidgetMetadataContextType<WidgetConfigT>;
+    if (!val.pluginId) throw new Error('useWidgetMetadata should be used only inside widgets');
 
     return val;
 };
 
+export const useWidgetStorage = <StorageT extends {}>() => {
+    const metadata = useWidgetMetadata();
+    const nsStorage = useMemo(() => NamespacedStorage.get<StorageT>(`WidgetStorage.${metadata.instanceId}`), [metadata.pluginId]);
+    return nsStorage;
+};
+
+// ---- Plugin storage ----
+
+export const usePluginStorage = <StorageT extends {}>() => {
+    const metadata = useWidgetMetadata();
+    const nsStorage = useMemo(() => NamespacedStorage.get<StorageT>(`PluginStorage.${metadata.pluginId}`), [metadata.pluginId]);
+    return nsStorage;
+};
+
+// ---- Plugin config ----
 
 const ATOM_NOT_SET_VALUE = Symbol.for('default');
 const pluginConfigAtoms: Record<ID, PrimitiveAtom<any>> = {};
-const getPluginConfigAtom = <T extends {}>(plugin: AodakePlugin<T>) => {
+const getPluginConfigAtom = <T extends {}>(plugin: AnoriPlugin<T>) => {
     if (!pluginConfigAtoms[plugin.id]) {
         pluginConfigAtoms[plugin.id] = dynamicAtomWithBrowserStorage(`PluginConfig.${plugin.id}`, ATOM_NOT_SET_VALUE);
     }
@@ -99,9 +80,9 @@ const getPluginConfigAtom = <T extends {}>(plugin: AodakePlugin<T>) => {
     ], void>;
 };
 
-export function usePluginConfig<T extends {}>(plugin: AodakePlugin<T>): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
-export function usePluginConfig<T extends {}>(plugin: AodakePlugin<T>, defaultConfig: T): readonly [value: T, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
-export function usePluginConfig<T extends {}>(plugin: AodakePlugin<T>, defaultConfig?: T): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean] {
+export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
+export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig: T): readonly [value: T, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
+export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig?: T): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean] {
 
     const [val, setVal] = useAtom(getPluginConfigAtom<T>(plugin));
     const isDefault = val === ATOM_NOT_SET_VALUE;
@@ -113,7 +94,7 @@ export function usePluginConfig<T extends {}>(plugin: AodakePlugin<T>, defaultCo
     ] as const;
 }
 
-export const getPluginConfig = <T extends {}>(plugin: AodakePlugin<T>) => {
+export const getPluginConfig = <T extends {}>(plugin: AnoriPlugin<T>) => {
     // @ts-ignore
     return storage.getOne(`PluginConfig.${plugin.id}`) as Promise<T | undefined>;
 };

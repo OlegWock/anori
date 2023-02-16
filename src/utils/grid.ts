@@ -55,7 +55,6 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number = DEFAU
 
     useLayoutEffect(() => {
         if (ref.current) {
-            // TODO: throttle these calculations
             const resizeObserver = new ResizeObserver((entries) => {
                 if (!ref.current) return;
                 const lastRecord = entries[entries.length - 1];
@@ -125,6 +124,7 @@ export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: 
 export const willItemOverlay = ({ arr, item }: { arr: Grid2DArray, item: LayoutItem }): boolean => {
     const itemSectors = layoutItemToSectors(item);
     for (let sector of itemSectors) {
+        if (arr.length <= sector.y || arr[sector.y].length <= sector.x) continue; // Ignore overflow
         if (arr[sector.y][sector.x]) return true;
     }
     return false;

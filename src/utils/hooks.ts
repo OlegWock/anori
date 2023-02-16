@@ -6,12 +6,14 @@ export const useForceRerender = () => {
     return () => setState({});
 };
 
-export function usePrevious<T>(value: T) {
+export function usePrevious<T>(value: T): T | undefined;
+export function usePrevious<T>(value: T, defaultValue: T): T;
+export function usePrevious<T>(value: T, defaultValue?: T) {
     const ref = useRef<T>();
     useLayoutEffect(() => {
         ref.current = value;
     }, [value]);
-    return ref.current;
+    return ref.current === undefined ? defaultValue : ref.current;
 };
 
 export const useWindowIsResizing = () => {
@@ -34,4 +36,10 @@ export const useWindowIsResizing = () => {
     }, []);
 
     return isResizing;
+};
+
+export const useMirrorStateToRef = <T>(val: T) => {
+    const ref = useRef(val);
+    ref.current = val;
+    return ref;
 };

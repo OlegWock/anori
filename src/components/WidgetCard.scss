@@ -7,6 +7,14 @@
     color: var(--text);
     position: relative;
 
+    .interaction-blocker {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
     
     .remove-widget-btn, .drag-widget-btn, .edit-widget-btn {
         position: absolute;

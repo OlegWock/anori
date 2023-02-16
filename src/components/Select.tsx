@@ -13,7 +13,6 @@ export type SelectProps<T> = {
     value: T,
     onChange: (newVal: T) => void,
     placeholder?: string,
-    shouldDisplayOption?: (opt: T, query: string) => boolean,
 };
 
 export const Select = <T,>({ options, value, onChange, placeholder = 'Select...', getOptionKey, getOptionLabel }: SelectProps<T>) => {

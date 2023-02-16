@@ -20,8 +20,8 @@ export const Checkbox = ({ children, defaultChecked, checked, onChange }: Checkb
                 <Icon icon="ion:checkmark-sharp" width={14} height={14} />
             </RadixCheckbox.Indicator>
         </RadixCheckbox.Root>
-        <label className="Label" htmlFor={id}>
+        {!!children && <label className="Label" htmlFor={id}>
             {children}
-        </label>
+        </label>}
     </div>)
 };

@@ -28,7 +28,7 @@ export type WidgetInFolder<T extends {}> = {
 } & LayoutItem;
 
 export type WidgetInFolderWithMeta<T extends WT, P extends {}, WT extends {}> = WidgetInFolder<T> & {
-    plugin: AodakePlugin<P, WT>,
+    plugin: AnoriPlugin<P, WT>,
     widget: WidgetDescriptor<T>,
 }
 
@@ -40,7 +40,7 @@ export const homeFolder = {
 
 // ------ Plugins
 
-export type AodakePlugin<T extends {} = {}, WT extends {} = {}> = {
+export type AnoriPlugin<T extends {} = {}, WT extends {} = {}> = {
     id: ID,
     name: string,
     widgets: WidgetDescriptor<WT>[],

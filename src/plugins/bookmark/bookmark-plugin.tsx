@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
-import { AodakePlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
+import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import './styles.scss';
 import { Popover } from "@components/Popover";
@@ -148,4 +148,4 @@ export const bookmarkPlugin = {
     ],
     onCommandInput,
     configurationScreen: null,
-} satisfies AodakePlugin;
+} satisfies AnoriPlugin;

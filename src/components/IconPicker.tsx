@@ -1,13 +1,16 @@
 import { CSSProperties, useMemo, useState } from 'react';
 import './IconPicker.scss';
+import browser from 'webextension-polyfill';
 import { PopoverRenderProps } from './Popover';
 import { FixedSizeList } from 'react-window';
-import { allSets, iconSetPrettyNames, iconsBySet } from './icons/all-sets';
+import { allSets, iconSetPrettyNames } from './icons/all-sets';
 import { Select } from './Select';
 import { Input } from './Input';
 import { Icon } from './Icon';
 import { Tooltip } from './Tooltip';
 import { FloatingDelayGroup } from '@floating-ui/react-dom-interactions';
+import { atom, useAtom } from 'jotai';
+import { useEffect } from 'react';
 
 type IconPickerProps = PopoverRenderProps<{
     onSelected: (icon: string) => void,
@@ -44,13 +47,28 @@ type GridItemData = {
     onSelected: (name: string) => void,
 }
 
+const iconsBySetAtom = atom<Record<string, string[]> | null>(null);
+
 export const IconPicker = ({ data, close }: IconPickerProps) => {
     const [selectedFamily, setSelectedFamily] = useState(allSets[0]);
     const [query, setQuery] = useState('');
+    const [iconsBySet, setIconsBySet] = useAtom(iconsBySetAtom);
 
-    const iconsList = useMemo(() => iconsBySet[selectedFamily].filter(icon => icon.includes(query.toLowerCase())), [selectedFamily, query]);
+    const iconsList = useMemo(() => iconsBySet === null ? [] : iconsBySet[selectedFamily].filter(icon => icon.includes(query.toLowerCase())), [selectedFamily, query, iconsBySet]);
 
     const ROWS = Math.ceil(iconsList.length / COLUMNS);
+
+    useEffect(() => {
+        const load = async () => {
+            const url = browser.runtime.getURL(`/assets/icons/meta.json`);
+            const resp = await fetch(url);
+            const json = await resp.json();
+            setIconsBySet(json);
+        };
+        if (iconsBySet === null) {
+            load();
+        }
+    }, []);
 
     return (<div className='IconPicker'>
         <section>

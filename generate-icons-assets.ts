@@ -18,10 +18,10 @@ const SAVE_TO = join(__dirname, 'src/assets/icons');
 const SAVE_TO_CATALOG = join(__dirname, 'src/components/icons');
 
 
-const sets = ICON_SETS_TO_LOAD.map((setName, i , arr) => {
-    console.log('Loading set', setName, `${i+1}/${arr.length}`);
+const sets = ICON_SETS_TO_LOAD.map((setName, i, arr) => {
+    console.log('Loading set', setName, `${i + 1}/${arr.length}`);
     const jsonPath = locate(setName);
-    const iconsJson = readFileSync(jsonPath, {encoding: 'utf-8'});
+    const iconsJson = readFileSync(jsonPath, { encoding: 'utf-8' });
     const data = JSON.parse(iconsJson);
     return {
         name: setName,
@@ -31,7 +31,7 @@ const sets = ICON_SETS_TO_LOAD.map((setName, i , arr) => {
 });
 
 sets.forEach((set, i, arr) => {
-    console.log('Saving set', set.name, `${i+1}/${arr.length}`);
+    console.log('Saving set', set.name, `${i + 1}/${arr.length}`);
     const minifiedJson = JSON.stringify(set.data, null, 4);
     writeFileSync(
         join(SAVE_TO, `${set.name}.json`),
@@ -46,11 +46,16 @@ export const allSets = [\n${sets.map(s => `    ${JSON.stringify(s.name)}, // htt
 export const iconSetPrettyNames: Record<string, string> = {
 ${sets.map(s => `    '${s.name}': ${JSON.stringify(s.data.info.name)},`).join('\n')}
 } as const;
-
-export const iconsBySet: Record<string, string[]> = {
-    ${sets.map(s => `'${s.name}': ${JSON.stringify(Object.keys(s.data.icons))},`).join('\n\n// ------------------ \n\n')}
-};
 `
+
+const iconsBySet: Record<string, string[]> = {};
+sets.forEach(s => {
+    iconsBySet[s.name] = Object.keys(s.data.icons);
+});
+writeFileSync(
+    join(SAVE_TO, `meta.json`),
+    JSON.stringify(iconsBySet, null, 4),
+);
 
 console.log('Saving all-sets.ts');
 writeFileSync(

@@ -9,11 +9,24 @@ import { Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
 import { getAllWidgetsByPlugin } from "@utils/plugin";
+import { Checkbox } from "@components/Checkbox";
+import { Combobox } from "@components/Combobox";
 
 type PluginWidgetConfigType = {
 
 };
 
+
+const cities = [
+    'Bratislava',
+    'Trnava',
+    'Kyiv',
+    'Gdansk',
+    'Berlin',
+    'Prague',
+    'Fukuoka',
+    'Tokyo'
+];
 
 const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<PluginWidgetConfigType>) => {
     const onConfirm = () => {
@@ -21,9 +34,21 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
         saveConfiguration({});
     };
 
-    return (<div className="PluginWidget-config">
+    const [selectedCity, setCity] = useState('Kyiv');
+
+    return (<div className="WeatherWidget-config">
+        <div>Current city: {selectedCity}</div>
         <div>
-            
+            <label>Select city</label>
+            <Combobox<string>
+                options={cities}
+                value={selectedCity}
+                onChange={setCity}
+                getOptionKey={o => o}
+                getOptionLabel={o => o}
+                shouldDisplayOption={(o, q) => o.toLowerCase().includes(q.toLowerCase())}
+                placeholder="Select city"
+            />
         </div>
 
         <Button className="save-config" onClick={onConfirm}>Save</Button>
@@ -32,17 +57,11 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
 
-    return (<div className="PluginWidget">
+    return (<div className="WeatherWidget">
 
     </div>);
 };
 
-const onCommandInput: OnCommandInputCallback = async (text: string) => {
-    const q = text.toLowerCase();
-    const widgets = await getAllWidgetsByPlugin(pluginnamePlugin);
-
-    return [];
-};
 
 const widgetDescriptor = {
     id: 'widget',
@@ -59,12 +78,11 @@ const widgetDescriptor = {
     }
 } as const;
 
-export const pluginnamePlugin = {
-    id: 'pluginname-plugin',
-    name: 'Plugin',
+export const weatherPlugin = {
+    id: 'weather-plugin',
+    name: 'Weather',
     widgets: [
         widgetDescriptor,
     ],
-    onCommandInput,
     configurationScreen: null,
 } satisfies AnoriPlugin;

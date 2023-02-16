@@ -1,5 +1,5 @@
 import moment, { MomentTimezone } from 'moment-timezone';
-import { AodakePlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
+import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
 import { Button } from '@components/Button';
 import { useState } from 'react';
@@ -9,6 +9,7 @@ import { Select } from '@components/Select';
 import { title } from 'process';
 import clsx from 'clsx';
 import { useEffect } from 'react';
+import { Combobox } from '@components/Combobox';
 
 
 type WidgetConfig = {
@@ -55,12 +56,15 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         </div>
         <div>
             <label>Timezone</label>
-            <Select<string>
+            {/* TODO: use combobox instead? */}
+            <Combobox<string>
                 options={allTz}
                 value={tz}
                 onChange={setTz}
+                placeholder='Start typing to search...'
                 getOptionKey={o => o}
                 getOptionLabel={o => o.replace(/_/igm, ' ')}
+                shouldDisplayOption={(o, t) => o.toLowerCase().includes(t.toLowerCase())}
             />
         </div>
         <div>
@@ -136,4 +140,4 @@ export const datetimePlugin = {
         widgetDescriptor,
     ],
     configurationScreen: null,
-} satisfies AodakePlugin;
+} satisfies AnoriPlugin;

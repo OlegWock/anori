@@ -1,5 +1,5 @@
 
-import { AodakePlugin, OnCommandInputCallback, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
+import { AnoriPlugin, OnCommandInputCallback, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
 import { Button } from '@components/Button';
 import browser from 'webextension-polyfill';
@@ -19,8 +19,12 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
     const restore = async () => {
         controls.start('swipe', { duration: 0.1 });
         await wait(100);
-        if (!isMock) await browser.sessions.restore(session.tab ? session.tab.sessionId : session.window?.sessionId);
-        window.close();
+        if (isMock) {
+            controls.set('reset');
+        } else {
+            await browser.sessions.restore(session.tab ? session.tab.sessionId : session.window?.sessionId);
+            window.close();
+        }
     };
     const controls = useAnimationControls();
     const favIcon = session.tab ? session.tab.favIconUrl : '';
@@ -44,7 +48,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
         {!!favIcon && <img className="fav-icon" src={favIcon} />}
         {!favIcon && <Icon icon={session.tab ? 'ic:baseline-tab' : 'ic:outline-window'} />}
         <div className="title">
-            {session.tab ? session.tab.title : session.window?.title}
+            {session.tab ? (session.tab.title || 'Tab') : (session.window?.title || 'Window')}
         </div>
         <div className="last-modified">
             {lastModified}
@@ -124,7 +128,7 @@ const widgetDescriptor = {
         height: 3,
     },
     configurationScreen: null,
-    mainScreen: (props) => (<RequirePermissions permissions={['sessions']}><WidgetScreen {...props} /></RequirePermissions>),
+    mainScreen: (props) => (<RequirePermissions permissions={['sessions', 'tabs']}><WidgetScreen {...props} /></RequirePermissions>),
     withAnimation: false,
     mock: () => (<WidgetScreen config={{}} instanceId='mock' />),
 } satisfies WidgetDescriptor<{}>;
@@ -137,4 +141,4 @@ export const recentlyClosedPlugin = {
     ],
     configurationScreen: null,
     onCommandInput,
-} satisfies AodakePlugin;
+} satisfies AnoriPlugin;
