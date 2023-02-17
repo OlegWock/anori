@@ -140,8 +140,8 @@ export const Settings = ({ }: SettingsProps) => {
             The Settings Menu is a powerful tool for customizing your user experience. Here, you can tweak everything from the default color scheme to the order of folders.
             With the Settings Menu, you have total control over the look and feel of your new tab.
 
-            {/* Focus stealer works only in Chrome */}
-            {X_BROWSER === 'chrome' && <section>
+            {/* Focus stealer works only in Chrome and Safari */}
+            {X_BROWSER !== 'firefox' && <section>
                 <h2>Options</h2>
                 <div>
                     <Checkbox checked={stealFocus} onChange={setStealFocus}>

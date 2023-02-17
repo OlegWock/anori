@@ -32,7 +32,7 @@ const currentYear = new Date().getFullYear();
 interface WebpackEnvs {
     WEBPACK_WATCH: boolean;
     mode?: 'development' | 'production';
-    targetBrowser?: 'chrome' | 'firefox';
+    targetBrowser?: 'chrome' | 'firefox' | 'safari';
 }
 
 const generateManifest = (
@@ -83,7 +83,7 @@ const generateManifest = (
     };
 
     // Chrome (with manifest v3) treated as default platform. So, need to patch it for Firefox manifest v2
-    if (targetBrowser === 'firefox') {
+    if (targetBrowser === 'firefox' || targetBrowser === 'safari') {
         const unavailablePermissions = [
             'system.cpu',
             'system.memory',
@@ -92,6 +92,7 @@ const generateManifest = (
         manifest.manifest_version = 2;
 
         delete manifest.host_permissions;
+        delete manifest.minimum_chrome_version;
 
         manifest.optional_permissions = [
             ...manifest.optional_permissions!,
@@ -118,11 +119,18 @@ const generateManifest = (
             return (descriptor as Manifest.WebExtensionManifestWebAccessibleResourcesC2ItemType).resources;
         });
 
-        manifest.browser_specific_settings = {
-            gecko: {
-                strict_min_version: "99.0"
-            }
-        };
+        if (targetBrowser === 'firefox') {
+            manifest.browser_specific_settings = {
+                gecko: {
+                    strict_min_version: "99.0"
+                }
+            };
+        }
+
+        if (targetBrowser === 'safari') {
+            manifest.browser_url_overrides = manifest.chrome_url_overrides;
+            delete manifest.chrome_url_overrides;
+        }
     }
 
     return manifest;
@@ -157,7 +165,10 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
 
     const { mode = 'development', targetBrowser = 'chrome', WEBPACK_WATCH } = env;
 
-    const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
+    const paths = createPathsObject(
+        baseSrc, 
+        targetBrowser === 'safari' ? `./safari-app/anori/Shared (Extension)/Resources` : joinPath(baseDist, targetBrowser)
+    );
 
     const pageTemplate = fs.readFileSync(paths.src.pageHtmlTemplate, {
         encoding: 'utf-8',
@@ -231,7 +242,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
 
     // @ts-expect-error There is some issue with types provided with FileManagerPlugin and CJS/ESM imports
     let zipPlugin: FileManagerPlugin[] = [];
-    if (!WEBPACK_WATCH) {
+    if (!WEBPACK_WATCH && targetBrowser !== 'safari') {
         zipPlugin = [
             // @ts-expect-error Same as above
             new FileManagerPlugin({

@@ -12,6 +12,9 @@
         "dev:ff": "webpack build --config webpack.config.ts --env mode=development --env targetBrowser=firefox",
         "production:ff": "webpack build --config webpack.config.ts --env mode=production --env targetBrowser=firefox",
         "watch:ff": "webpack watch --config webpack.config.ts --env targetBrowser=firefox",
+        "dev:sf": "webpack build --config webpack.config.ts --env mode=development --env targetBrowser=safari",
+        "production:sf": "webpack build --config webpack.config.ts --env mode=production --env targetBrowser=safari",
+        "watch:sf": "webpack watch --config webpack.config.ts --env targetBrowser=safari",
 
         "prepare": "husky install",
         "lint": "eslint .",

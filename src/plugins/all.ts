@@ -9,8 +9,13 @@ import { weatherPlugin } from "./weather/weather-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
 
-const unavailableOnFirefox: AnoriPlugin[] = [
+const unavailableInFirefox: AnoriPlugin[] = [
     systemStatusPlugin,
+];
+
+const unavailableInSafari: AnoriPlugin[] = [
+    systemStatusPlugin,
+    recentlyClosedPlugin,
 ];
 
 export const availablePlugins: AnoriPlugin[] = [
@@ -27,9 +32,13 @@ export const availablePlugins: AnoriPlugin[] = [
     // weatherPlugin,
 ].filter(plugin => {
     if (X_BROWSER === 'firefox') {
-        return !unavailableOnFirefox.includes(plugin);
+        return !unavailableInFirefox.includes(plugin);
     }
-
+    
+    if (X_BROWSER === 'safari') {
+        return !unavailableInSafari.includes(plugin);
+    }
+    
     return true;
 });
 

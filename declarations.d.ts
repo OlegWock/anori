@@ -18,6 +18,7 @@ declare module 'webextension-polyfill' {
 
         interface WebExtensionManifest {
             optional_host_permissions?: MatchPattern[];
+            browser_url_overrides?: WebExtensionManifestChromeUrlOverridesType;
         }
     }
 }

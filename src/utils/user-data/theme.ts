@@ -74,6 +74,14 @@ export const defaultTheme = themes[0];
 export const applyTheme = (theme: Theme) => {
     setPageBackground(browser.runtime.getURL(`/assets/images/backgrounds/${theme.background}`));
 
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = 'theme-color';
+    }
+    meta.content = theme.colors.background;
+    document.head.appendChild(meta);
+
     const root = document.documentElement;
     root.style.setProperty('--background-image', `url('/assets/images/backgrounds/${theme.background}')`);
     root.style.setProperty('--accent', theme.colors.accent);

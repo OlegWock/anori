@@ -24,4 +24,4 @@ declare module '*.css' {
 }
 
 declare const X_MODE: 'development' | 'production';
-declare const X_BROWSER: 'chrome' | 'firefox';
+declare const X_BROWSER: 'chrome' | 'firefox' | 'safari';

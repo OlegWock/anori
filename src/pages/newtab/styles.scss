@@ -40,6 +40,7 @@ body {
         left: 0;
         // backdrop-filter: blur(50px);
         backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         background-image: radial-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
         background-size: 30px 30px;
     }
@@ -73,6 +74,7 @@ body {
         border-radius: 36px;
         background: rgba(255, 255, 255, 0.04);
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         z-index: 1;
         overflow: hidden;
 
