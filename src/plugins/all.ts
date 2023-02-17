@@ -9,6 +9,9 @@ import { weatherPlugin } from "./weather/weather-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
 
+const unavailableOnFirefox: AnoriPlugin[] = [
+    systemStatusPlugin,
+];
 
 export const availablePlugins: AnoriPlugin[] = [
     bookmarkPlugin,
@@ -22,6 +25,12 @@ export const availablePlugins: AnoriPlugin[] = [
     
     // Not finished yet
     // weatherPlugin,
-];
+].filter(plugin => {
+    if (X_BROWSER === 'firefox') {
+        return !unavailableOnFirefox.includes(plugin);
+    }
+
+    return true;
+});
 
 export const availablePluginsWithWidgets = availablePlugins.filter(p => p.widgets.length > 0);

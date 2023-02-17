@@ -1,3 +1,5 @@
+@import "../../components/base.scss";
+
 .NotesWidget {
     display: flex;
     flex-direction: column;
@@ -10,6 +12,8 @@
         min-width: none;
         padding: 4px 8px;
         height: auto;
+
+        @include scroll-mixin-darker();
     }
 
     .note-title {

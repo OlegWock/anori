@@ -32,7 +32,7 @@ const currentYear = new Date().getFullYear();
 interface WebpackEnvs {
     WEBPACK_WATCH: boolean;
     mode?: 'development' | 'production';
-    targetBrowser?: 'chrome';
+    targetBrowser?: 'chrome' | 'firefox';
 }
 
 const generateManifest = (
@@ -40,8 +40,8 @@ const generateManifest = (
     targetBrowser: Exclude<WebpackEnvs['targetBrowser'], undefined>,
     libsRoot: string,
     commonChunks: { [name: string]: Chunk }
-) => {
-    return {
+): Manifest.WebExtensionManifest => {
+    const manifest: Manifest.WebExtensionManifest = {
         name: name,
         description: description,
         version: version,
@@ -62,7 +62,7 @@ const generateManifest = (
             'system.cpu',
             'system.memory',
         ],
-        host_permissions: [],
+        host_permissions: [] as string[],
         optional_permissions: [
             'tabs',
         ],
@@ -80,7 +80,52 @@ const generateManifest = (
                 use_dynamic_url: true,
             },
         ],
-    } satisfies Manifest.WebExtensionManifest;
+    };
+
+    // Chrome (with manifest v3) treated as default platform. So, need to patch it for Firefox manifest v2
+    if (targetBrowser === 'firefox') {
+        const unavailablePermissions = [
+            'system.cpu',
+            'system.memory',
+        ];
+
+        manifest.manifest_version = 2;
+
+        delete manifest.host_permissions;
+
+        manifest.optional_permissions = [
+            ...manifest.optional_permissions!,
+            ...manifest.optional_host_permissions!,
+        ];
+
+        delete manifest.optional_host_permissions;
+
+        manifest.permissions = manifest.permissions!.filter(p => !unavailablePermissions.includes(p));
+
+        manifest.background = {
+            "persistent": false,
+            "scripts": [
+                `${libsRoot}/vendor_libs.js`,
+                `${libsRoot}/ext_libs.js`,
+                "background-script.js"
+            ]
+        };
+
+        manifest.browser_action = manifest.action;
+        delete manifest.action;
+
+        manifest.web_accessible_resources = manifest.web_accessible_resources!.flatMap(descriptor => {
+            return (descriptor as Manifest.WebExtensionManifestWebAccessibleResourcesC2ItemType).resources;
+        });
+
+        manifest.browser_specific_settings = {
+            gecko: {
+                strict_min_version: "99.0"
+            }
+        };
+    }
+
+    return manifest;
 };
 
 const baseSrc = './src';

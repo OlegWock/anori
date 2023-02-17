@@ -140,7 +140,8 @@ export const Settings = ({ }: SettingsProps) => {
             The Settings Menu is a powerful tool for customizing your user experience. Here, you can tweak everything from the default color scheme to the order of folders.
             With the Settings Menu, you have total control over the look and feel of your new tab.
 
-            <section>
+            {/* Focus stealer works only in Chrome */}
+            {X_BROWSER === 'chrome' && <section>
                 <h2>Options</h2>
                 <div>
                     <Checkbox checked={stealFocus} onChange={setStealFocus}>
@@ -148,7 +149,7 @@ export const Settings = ({ }: SettingsProps) => {
                         <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
                     </Checkbox>
                 </div>
-            </section>
+            </section>}
             <section>
                 <h2>Import and export</h2>
                 <div>Here you can backup your settings or restore older backup.</div>

@@ -5,13 +5,17 @@ import { writeFileSync, readFileSync } from 'fs';
 const ICON_SETS_TO_LOAD = [
     'ion',
     'ic',
-    'fluent-emoji',
     'fluent-emoji-flat',
     'twemoji',
+    'flat-color-icons',
     'logos',
     'skill-icons',
+    'vscode-icons',
     'circle-flags',
     'flagpack',
+
+    // This one is tooooooo heavy and slow downs extension
+    // 'fluent-emoji',
 ];
 
 const SAVE_TO = join(__dirname, 'src/assets/icons');
@@ -32,7 +36,7 @@ const sets = ICON_SETS_TO_LOAD.map((setName, i, arr) => {
 
 sets.forEach((set, i, arr) => {
     console.log('Saving set', set.name, `${i + 1}/${arr.length}`);
-    const minifiedJson = JSON.stringify(set.data, null, 4);
+    const minifiedJson = JSON.stringify(set.data);
     writeFileSync(
         join(SAVE_TO, `${set.name}.json`),
         minifiedJson,
@@ -54,7 +58,7 @@ sets.forEach(s => {
 });
 writeFileSync(
     join(SAVE_TO, `meta.json`),
-    JSON.stringify(iconsBySet, null, 4),
+    JSON.stringify(iconsBySet),
 );
 
 console.log('Saving all-sets.ts');
