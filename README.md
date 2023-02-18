@@ -13,19 +13,21 @@
 
 <details>
     <summary>Screenshot</summary>
-    ![screenshot](screenshot.png)
+    
+![screenshot](screenshot.png)
 </details>
 
 <details>
     <summary>Widgets</summary>
-    * Bookmark
-    * World time
-    * Notes
-    * Tasks
-    * Internet search
-    * Calendar
-    * Recently closed tabs (only Chrome & Firefox)
-    * CPU and RAM load (only Chrome)
+
+* Bookmark
+* World time
+* Notes
+* Tasks
+* Internet search
+* Calendar
+* Recently closed tabs (only Chrome & Firefox)
+* CPU and RAM load (only Chrome)
 </details>
 
 # Installation
