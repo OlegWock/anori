@@ -13,12 +13,12 @@
 
 <details>
     <summary>Screenshot</summary>
-    
+
 ![screenshot](screenshot.png)
 </details>
 
 <details>
-    <summary>Widgets</summary>
+    <summary>Widgets list</summary>
 
 * Bookmark
 * World time

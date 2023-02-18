@@ -106,9 +106,8 @@ const generateManifest = (
         manifest.background = {
             "persistent": false,
             "scripts": [
-                `${libsRoot}/vendor_libs.js`,
-                `${libsRoot}/ext_libs.js`,
-                "background-script.js"
+                `${libsRoot}/other.js`,
+                "background.js"
             ]
         };
 

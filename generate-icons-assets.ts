@@ -39,7 +39,10 @@ sets.forEach((set, i, arr) => {
     console.log('Saving set', set.name, `${i + 1}/${arr.length}`);
     const minifiedJson = JSON.stringify(set.data);
     writeFileSync(
-        join(SAVE_TO, `${set.name}.json`),
+        // We use weird extension because of Fiefox addons store not accepting JSONs larger 4MB
+        // Ref: https://github.com/mozilla/addons-linter/issues/3910
+        // Ref: https://github.com/mozilla/addons-linter/issues/3680
+        join(SAVE_TO, `${set.name}.jsonx`),
         minifiedJson,
     );
 });
