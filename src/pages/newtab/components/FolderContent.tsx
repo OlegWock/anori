@@ -122,61 +122,61 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
 
     return (
         <>
-            <motion.div
-                key={`FolderContent-${folder.id}`}
-                className="FolderContent"
-                transition={{
-                    duration: 0.2,
-                    type: 'spring',
-                }}
-                variants={variants}
-                initial="initial"
-                animate="visible"
-                exit="exit"
-                custom={animationDirection}
-            >
-                <header
-                    style={{
-                        marginLeft: DEFAULT_CARD_MARGIN,
-                        marginRight: DEFAULT_CARD_MARGIN,
+            <FolderContentContext.Provider value={{
+                activeFolder: folder,
+                isEditing,
+                boxSize: grisDimenstions.boxSize,
+            }}>
+                <motion.div
+                    key={`FolderContent-${folder.id}`}
+                    className="FolderContent"
+                    transition={{
+                        duration: 0.2,
+                        type: 'spring',
                     }}
+                    variants={variants}
+                    initial="initial"
+                    animate="visible"
+                    exit="exit"
+                    custom={animationDirection}
                 >
-                    <h1>{folder.name}</h1>
+                    <header
+                        style={{
+                            marginLeft: DEFAULT_CARD_MARGIN,
+                            marginRight: DEFAULT_CARD_MARGIN,
+                        }}
+                    >
+                        <h1>{folder.name}</h1>
 
-                    <div className="action-buttons-wrapper">
-                        <AnimatePresence initial={false} mode="wait">
-                            {isEditing && <motion.div className='action-buttons' key='editing-buttons' {...actionButtonAnimations}>
-                                <Button
-                                    onClick={() => setNewWidgetWizardVisible(true)}
-                                >
-                                    <Icon icon='ion:add' height={24} />
-                                </Button>
+                        <div className="action-buttons-wrapper">
+                            <AnimatePresence initial={false} mode="wait">
+                                {isEditing && <motion.div className='action-buttons' key='editing-buttons' {...actionButtonAnimations}>
+                                    <Button
+                                        onClick={() => setNewWidgetWizardVisible(true)}
+                                    >
+                                        <Icon icon='ion:add' height={24} />
+                                    </Button>
 
-                                <Button
-                                    onClick={() => setIsEditing(false)}
-                                >
-                                    <Icon icon='ion:checkmark' height={24} />
-                                </Button>
-                            </motion.div>}
+                                    <Button
+                                        onClick={() => setIsEditing(false)}
+                                    >
+                                        <Icon icon='ion:checkmark' height={24} />
+                                    </Button>
+                                </motion.div>}
 
-                            {!isEditing && <motion.div className='action-buttons' key='viewing-buttons' {...actionButtonAnimations}>
-                                <Button
-                                    onClick={() => setIsEditing(true)}
-                                    key='start-editing'
-                                    {...actionButtonAnimations}
-                                >
-                                    <Icon icon='ion:pencil' height={24} />
-                                </Button>
-                            </motion.div>}
-                        </AnimatePresence>
-                    </div>
+                                {!isEditing && <motion.div className='action-buttons' key='viewing-buttons' {...actionButtonAnimations}>
+                                    <Button
+                                        onClick={() => setIsEditing(true)}
+                                        key='start-editing'
+                                        {...actionButtonAnimations}
+                                    >
+                                        <Icon icon='ion:pencil' height={24} />
+                                    </Button>
+                                </motion.div>}
+                            </AnimatePresence>
+                        </div>
 
-                </header>
-                <FolderContentContext.Provider value={{
-                    activeFolder: folder,
-                    isEditing,
-                    boxSize: grisDimenstions.boxSize,
-                }}>
+                    </header>
                     <motion.main layout layoutRoot ref={mainRef}>
                         <AnimatePresence initial={false}>
                             {adjustedLayout.map((w, i) => {
@@ -213,30 +213,31 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                             {widgets.length === 0 && <OnboardingCard />}
                         </AnimatePresence>
                     </motion.main>
-                </FolderContentContext.Provider >
-            </motion.div>
 
-            <AnimatePresence>
-                {newWidgetWizardVisible && <NewWidgetWizard
-                    folder={folder}
-                    key='new-widget-wizard'
-                    onClose={() => setNewWidgetWizardVisible(false)}
-                    gridDimenstions={grisDimenstions}
-                    layout={widgets}
-                />}
+                </motion.div>
+
+                <AnimatePresence>
+                    {newWidgetWizardVisible && <NewWidgetWizard
+                        folder={folder}
+                        key='new-widget-wizard'
+                        onClose={() => setNewWidgetWizardVisible(false)}
+                        gridDimenstions={grisDimenstions}
+                        layout={widgets}
+                    />}
 
 
-                {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
-                    title="Edit widget"
-                    key='edit-widget-modal'
-                    onClose={() => setEditingWidget(null)}
-                    closable
-                >
-                    <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
-                        updateWidgetConfig(editingWidget.instanceId, config);
-                        setEditingWidget(null);
-                    }} />
-                </Modal>}
-            </AnimatePresence>
+                    {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
+                        title="Edit widget"
+                        key='edit-widget-modal'
+                        onClose={() => setEditingWidget(null)}
+                        closable
+                    >
+                        <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                            updateWidgetConfig(editingWidget.instanceId, config);
+                            setEditingWidget(null);
+                        }} />
+                    </Modal>}
+                </AnimatePresence>
+            </FolderContentContext.Provider >
         </>);
 }
