@@ -1,7 +1,7 @@
 
-import { injectStyles, mountPage, setPageBackground, setPageTitle } from '@utils/mount';
+import { mountPage, setPageTitle } from '@utils/mount';
 import './styles.scss';
-import { Icon, requestIconsFamily } from '@components/Icon';
+import { requestIconsFamily } from '@components/Icon';
 import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react-dom-interactions';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { Settings } from './components/Settings';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
-import { Folder, ID, homeFolder } from '@utils/user-data/types';
+import { homeFolder } from '@utils/user-data/types';
 import { usePrevious } from '@utils/hooks';
 import { storage } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';

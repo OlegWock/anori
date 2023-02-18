@@ -1,8 +1,8 @@
-import { atomWithBrowserStorage, dynamicAtomWithBrowserStorage, storage } from "@utils/storage";
+import { atomWithBrowserStorage, dynamicAtomWithBrowserStorage } from "@utils/storage";
 import { PrimitiveAtom, atom, getDefaultStore, useAtom } from "jotai";
 import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, WidgetInFolder, WidgetInFolderWithMeta, homeFolder } from "./types";
 import { guid } from "@utils/misc";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { availablePluginsWithWidgets } from "@plugins/all";
 import { Position } from "@utils/grid";
 import browser from 'webextension-polyfill';

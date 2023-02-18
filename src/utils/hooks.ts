@@ -14,7 +14,7 @@ export function usePrevious<T>(value: T, defaultValue?: T) {
         ref.current = value;
     }, [value]);
     return ref.current === undefined ? defaultValue : ref.current;
-};
+}
 
 export const useWindowIsResizing = () => {
     const TIMEOUT = 1000;

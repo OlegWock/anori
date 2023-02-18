@@ -8,6 +8,7 @@ import * as GenerateFiles from 'generate-file-webpack-plugin';
 import * as CopyPlugin from 'copy-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import * as MomentTimezoneDataPlugin from 'moment-timezone-data-webpack-plugin';
+// eslint-disable-next-line unused-imports/no-unused-imports
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import * as FileManagerPlugin from 'filemanager-webpack-plugin';
 import {

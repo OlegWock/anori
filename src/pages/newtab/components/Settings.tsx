@@ -1,13 +1,13 @@
 import browser from 'webextension-polyfill';
 import { useFolders } from '@utils/user-data/hooks';
 import './Settings.scss';
-import { DragControls, MotionProps, Reorder, motion, useDragControls, useMotionValue } from 'framer-motion';
+import { Reorder, motion, useDragControls } from 'framer-motion';
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, Folder, homeFolder } from '@utils/user-data/types';
 import { IconPicker } from '@components/IconPicker';
 import { Popover } from '@components/Popover';
-import { storage, useBrowserStorageValue } from '@utils/storage';
+import { useBrowserStorageValue } from '@utils/storage';
 import clsx from 'clsx';
 import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';

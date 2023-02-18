@@ -1,13 +1,9 @@
 
-import { AnoriPlugin, OnCommandInputCallback, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
+import { AnoriPlugin, OnCommandInputCallback, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
-import { Button } from '@components/Button';
 import browser from 'webextension-polyfill';
 import { useMemo, useState } from 'react';
-import { Input } from '@components/Input';
-import { Select } from '@components/Select';
 import { Icon } from '@components/Icon';
-import { Tooltip } from '@components/Tooltip';
 import { RequirePermissions } from '@components/RequirePermissions';
 import { useEffect } from 'react';
 import moment from 'moment-timezone';

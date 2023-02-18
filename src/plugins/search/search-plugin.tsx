@@ -7,7 +7,6 @@ import { Input } from '@components/Input';
 import { Select } from '@components/Select';
 import { Icon } from '@components/Icon';
 import { Tooltip } from '@components/Tooltip';
-import { getAllWidgetsByPlugin } from '@utils/plugin';
 
 
 const providersPretty = {

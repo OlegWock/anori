@@ -1,4 +1,4 @@
-import { ReactNode, useState, forwardRef, useRef } from 'react'
+import { useState, forwardRef, useRef } from 'react'
 import './Combobox.scss';
 import { HTMLMotionProps, motion } from 'framer-motion';
 import clsx from 'clsx';

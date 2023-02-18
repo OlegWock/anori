@@ -1,4 +1,4 @@
-import moment, { MomentTimezone } from 'moment-timezone';
+import moment from 'moment-timezone';
 import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
 import { Button } from '@components/Button';
@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { Input } from '@components/Input';
 import { useMemo } from 'react';
 import { Select } from '@components/Select';
-import { title } from 'process';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { Combobox } from '@components/Combobox';

@@ -91,7 +91,7 @@ export const atomWithBrowserStorage = <K extends StorageKey>(key: K, initialValu
     let isLoaded = false;
     const baseAtom = atom(initialValue)
     baseAtom.onMount = (setValue) => {
-        ; (async () => {
+         (async () => {
             if (isLoaded) return;
             const item = await storage.getOne(key);
             if (item !== undefined) setValue(item);

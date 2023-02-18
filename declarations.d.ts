@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as browser from 'webextension-polyfill';
 
 declare module 'webextension-polyfill' {
-    interface Browser {
-        system: any;
-    }
-    
     namespace Storage {
         interface Static {
             session: StorageArea;

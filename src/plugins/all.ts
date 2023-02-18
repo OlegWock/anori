@@ -5,7 +5,6 @@ import { searchPlugin } from "./search/search-plugin";
 import { recentlyClosedPlugin } from "./recently-closed/recently-closed-plugin";
 import { systemStatusPlugin } from "./system-status/system-status-plugin";
 import { calendarPlugin } from "./calendar/calendar-plugin";
-import { weatherPlugin } from "./weather/weather-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
 

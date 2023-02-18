@@ -1,5 +1,4 @@
-import { RefObject, useEffect, useLayoutEffect, useState } from "react";
-import minBy from 'lodash/minBy';
+import { RefObject, useLayoutEffect, useState } from "react";
 import sortBy from 'lodash/sortBy';
 
 export type GridDimensions = {

@@ -1,4 +1,4 @@
-import { atom, getDefaultStore, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import browser, { Manifest } from 'webextension-polyfill';
 import { useState } from "react";
 import { ReactNode } from "react";

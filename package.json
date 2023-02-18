@@ -15,9 +15,9 @@
         "dev:sf": "webpack build --config webpack.config.ts --env mode=development --env targetBrowser=safari",
         "production:sf": "webpack build --config webpack.config.ts --env mode=production --env targetBrowser=safari",
         "watch:sf": "webpack watch --config webpack.config.ts --env targetBrowser=safari",
-
         "prepare": "husky install",
         "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
         "pre-commit": "run-p lint",
         "icons": "ts-node generate-icons-assets.ts"
     },
@@ -85,6 +85,7 @@
         "@types/webpack-bundle-analyzer": "^4.6.0",
         "eslint": "^8.33.0",
         "eslint-config-prettier": "^8.6.0",
+        "eslint-plugin-unused-imports": "^2.0.0",
         "husky": "^8.0.3",
         "npm-run-all": "^4.1.5",
         "webpack-bundle-analyzer": "^4.7.0"

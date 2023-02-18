@@ -1,8 +1,8 @@
 import browser from 'webextension-polyfill';
 import { dynamicAtomWithBrowserStorage, storage } from "./storage";
 import { AnoriPlugin, FolderDetailsInStorage, ID, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
-import { PrimitiveAtom, WritableAtom, atom, useAtom } from 'jotai';
-import { SetStateAction, createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { PrimitiveAtom, WritableAtom, useAtom } from 'jotai';
+import { SetStateAction, createContext, useContext, useMemo } from 'react';
 import { NamespacedStorage } from './namespaced-storage';
 
 

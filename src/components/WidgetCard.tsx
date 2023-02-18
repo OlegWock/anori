@@ -1,6 +1,6 @@
 import { Component, ComponentProps } from 'react';
 import './WidgetCard.scss';
-import { motion, useAnimation, useDragControls } from 'framer-motion';
+import { motion, useDragControls } from 'framer-motion';
 import clsx from 'clsx';
 import { useParentFolder } from '@utils/FolderContentContext';
 import { Button } from './Button';

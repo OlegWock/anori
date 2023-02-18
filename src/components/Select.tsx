@@ -1,9 +1,8 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { ReactNode, useLayoutEffect, useState } from 'react';
 import * as RadixSelect from '@radix-ui/react-select';
 import classnames, { clsx } from 'clsx';
 import './Select.scss';
 import { Icon } from './Icon';
-import { Input } from './Input';
 
 
 export type SelectProps<T> = {

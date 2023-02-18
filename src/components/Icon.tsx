@@ -1,4 +1,4 @@
-import { RefAttributes, useEffect, useLayoutEffect } from 'react';
+import { RefAttributes, useLayoutEffect } from 'react';
 import browser from 'webextension-polyfill';
 import { allSets } from './icons/all-sets';
 import { IconifyJSON, Icon as OfflineIcon, addCollection } from '@iconify/react/dist/offline';

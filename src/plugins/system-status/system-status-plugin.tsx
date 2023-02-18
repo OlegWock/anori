@@ -1,12 +1,9 @@
 
-import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
+import { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
 import browser from 'webextension-polyfill';
-import { useMemo, useState } from 'react';
-import { RequirePermissions } from '@components/RequirePermissions';
+import { useState } from 'react';
 import { useEffect } from 'react';
-import { Select } from '@components/Select';
-import { Button } from '@components/Button';
 
 type CpuTime = {
     idle: number,

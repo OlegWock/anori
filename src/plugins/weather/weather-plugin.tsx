@@ -1,15 +1,7 @@
 import { Button } from "@components/Button";
-import { Input } from "@components/Input";
-import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
+import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import './styles.scss';
-import { Popover } from "@components/Popover";
-import { IconPicker } from "@components/IconPicker";
-import { Icon } from "@components/Icon";
-import { useMemo } from "react";
-import clsx from "clsx";
-import { getAllWidgetsByPlugin } from "@utils/plugin";
-import { Checkbox } from "@components/Checkbox";
 import { Combobox } from "@components/Combobox";
 
 type PluginWidgetConfigType = {

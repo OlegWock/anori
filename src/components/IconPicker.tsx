@@ -8,7 +8,6 @@ import { Select } from './Select';
 import { Input } from './Input';
 import { Icon } from './Icon';
 import { Tooltip } from './Tooltip';
-import { FloatingDelayGroup } from '@floating-ui/react-dom-interactions';
 import { atom, useAtom } from 'jotai';
 import { useEffect } from 'react';
 

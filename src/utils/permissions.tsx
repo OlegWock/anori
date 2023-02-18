@@ -1,8 +1,5 @@
-import { atom, getDefaultStore, useAtom } from "jotai";
+import { atom, getDefaultStore } from "jotai";
 import browser, { Manifest } from 'webextension-polyfill';
-import { useState } from "react";
-import { ReactNode } from "react";
-import { Button } from "@components/Button";
 
 export const availablePermissionsAtom = atom<null | { hosts: string[], permissions: Manifest.OptionalPermission[], }>(null);
 

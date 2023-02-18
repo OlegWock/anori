@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps } from "react";
 import { motion } from 'framer-motion';
 import { Icon } from "./Icon";
 import { Tooltip } from "./Tooltip";

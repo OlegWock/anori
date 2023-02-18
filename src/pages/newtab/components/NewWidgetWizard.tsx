@@ -9,7 +9,7 @@ import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { useFolderWidgets } from '@utils/user-data/hooks';
 import { GridDimensions, Layout, canFitItemInGrid } from '@utils/grid';
-import { MotionScrollArea, ScrollArea } from '@components/ScrollArea';
+import { MotionScrollArea } from '@components/ScrollArea';
 
 
 export type NewWidgetWizardProps = {
