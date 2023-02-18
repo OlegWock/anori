@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import browser from 'webextension-polyfill';
 import { StorageContent } from "./user-data/types";
-import { PrimitiveAtom, atom } from "jotai";
+import { PrimitiveAtom, atom, getDefaultStore } from "jotai";
 
 type StorageKey = keyof StorageContent;
 
@@ -81,12 +81,22 @@ export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultVal
     return [value, setValue] as const;
 };
 
-export const atomWithBrowserStorage = <K extends StorageKey>(key: K, initialValue: StorageContent[K]): PrimitiveAtom<StorageContent[K]> => {
+
+type AtomWithBrowserStorageOptions = {
+    forceLoad?: boolean, // Otherwise content will be loaded when atom first used in provider
+    onLoad?: () => void,
+};
+
+export const atomWithBrowserStorage = <K extends StorageKey>(key: K, initialValue: StorageContent[K], { forceLoad, onLoad }: AtomWithBrowserStorageOptions = {}): PrimitiveAtom<StorageContent[K]> => {
+    let isLoaded = false;
     const baseAtom = atom(initialValue)
     baseAtom.onMount = (setValue) => {
         ; (async () => {
+            if (isLoaded) return;
             const item = await storage.getOne(key);
             if (item !== undefined) setValue(item);
+            isLoaded = true;
+            if (onLoad) onLoad();
         })()
     }
     const derivedAtom = atom(
@@ -97,10 +107,24 @@ export const atomWithBrowserStorage = <K extends StorageKey>(key: K, initialValu
             storage.setOne(key, nextValue);
         }
     )
+
+    // This approach in incompatible with custom Jotai providers
+    if (forceLoad) {
+        storage.getOne(key).then(item => {
+            
+            if (item !== undefined) {
+                const store = getDefaultStore();
+                store.set(baseAtom, item);
+            }
+            isLoaded = true;
+            if (onLoad) onLoad();
+        });
+    }
+
     return derivedAtom
 };
 
-export const dynamicAtomWithBrowserStorage = <T>(key: string, initialValue: T): PrimitiveAtom<T> => {
+export const dynamicAtomWithBrowserStorage = <T>(key: string, initialValue: T, options: AtomWithBrowserStorageOptions = {}): PrimitiveAtom<T> => {
     // @ts-ignore Types doesn't match, but code is totally same
-    return atomWithBrowserStorage(key, initialValue);
+    return atomWithBrowserStorage(key, initialValue, options);
 };

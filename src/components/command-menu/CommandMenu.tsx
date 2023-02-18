@@ -14,6 +14,8 @@ type ActionsWithMetadata = {
     plugin: AnoriPlugin<any, any>
 };
 
+const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+
 export const CommandMenu = () => {
     const updateQuery = (val: string) => {
         setQuery(val);
@@ -52,7 +54,8 @@ export const CommandMenu = () => {
     // Toggle the menu when ⌘K is pressed
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
-            if (e.key === 'k' && e.metaKey) {
+            const correctModifier = (e.metaKey && isMacLike) || (e.ctrlKey && !isMacLike);
+            if (e.key === 'k' && correctModifier) {
                 setOpen((open) => !open);
             }
         }

@@ -60,14 +60,24 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 };
 
 const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
+    const onClick = () => {
+        setIsLoading(true);
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 5000);
+    };
+
+    const [isLoading, setIsLoading] = useState(false);
     const host = useMemo(() => parseHost(config.url), [config.url]);
 
-    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url}>
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onClick}>
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
         </div>
-        <Icon icon={config.icon} width={size === 'm' ? 92 : 36} height={size === 'm' ? 92 : 36} />
+        {isLoading && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? 92 : 36} height={size === 'm' ? 92 : 36} />}
+        {!isLoading && <Icon icon={config.icon} width={size === 'm' ? 92 : 36} height={size === 'm' ? 92 : 36} />}
     </a>);
 };
 

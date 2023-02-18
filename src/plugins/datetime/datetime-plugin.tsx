@@ -56,7 +56,6 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         </div>
         <div>
             <label>Timezone</label>
-            {/* TODO: use combobox instead? */}
             <Combobox<string>
                 options={allTz}
                 value={tz}

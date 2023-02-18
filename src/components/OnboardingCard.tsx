@@ -4,7 +4,7 @@ import { WidgetCard } from './WidgetCard';
 export const OnboardingCard = () => {
     return (
         <WidgetCard
-            width={3}
+            width={4}
             height={3}
             withAnimation={false}
         >
@@ -19,6 +19,7 @@ export const OnboardingCard = () => {
                 <div>
                     If you click on gear icon in bottom left corner you'll open settings. There you can manage your folders (which you find on sidebar to the left) and change theme.
                 </div>
+                <div>Oh, and we also have command menu for quick access. Just hit Cmd+K on Mac or Ctrl+K on Windows/Linux.</div>
                 <div>
                     This card will disappear once you add your first widget.
                 </div>

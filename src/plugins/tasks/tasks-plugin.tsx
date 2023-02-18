@@ -1,14 +1,10 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
-import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
+import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, ID } from "@utils/user-data/types";
 import { useState } from "react";
 import './styles.scss';
-import { Popover } from "@components/Popover";
-import { IconPicker } from "@components/IconPicker";
 import { Icon } from "@components/Icon";
-import { useMemo } from "react";
-import clsx from "clsx";
-import { getAllWidgetsByPlugin, useWidgetStorage } from "@utils/plugin";
+import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { Checkbox } from "@components/Checkbox";
 import { guid } from "@utils/misc";
@@ -21,14 +17,16 @@ type TaskWidgetConfigType = {
 type Task = {
     id: string,
     text: string,
-}
+};
+
+type TaskWidgetStorageType = { tasks: Task[] };
 
 const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<TaskWidgetConfigType>) => {
     const onConfirm = () => {
         saveConfiguration({ title });
     };
 
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState(currentConfig ? currentConfig.title : 'ToDo');
 
     return (<div className="TasksWidget-config">
         <div>
@@ -61,7 +59,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
         }));
     };
 
-    const storage = useWidgetStorage<{ tasks: Task[] }>();
+    const storage = useWidgetStorage<TaskWidgetStorageType>();
     const [tasks, setTasks] = storage.useValue('tasks', []);
     return (<div className="TasksWidget">
         <div className="tasks-header">
@@ -133,6 +131,39 @@ const Mock = () => {
     </div>);
 };
 
+
+const onCommandInput: OnCommandInputCallback = async (text: string) => {
+    const pullTasksFromWidget = async (instaceId: ID) => {
+        const storage = getWidgetStorage<TaskWidgetStorageType>(instaceId);
+        await storage.waitForLoad();
+        const tasks = storage.get('tasks') || [];
+        return { tasks, instaceId };
+    };
+
+    const markTaskAsCompleted = async (instaceId: ID, taskId: ID) => {
+        const storage = getWidgetStorage<TaskWidgetStorageType>(instaceId);
+        await storage.waitForLoad();
+        const tasks = storage.get('tasks') || [];
+        storage.set('tasks', tasks.filter(t => t.id !== taskId));
+    };
+
+    const q = text.toLowerCase();
+    const widgets = await getAllWidgetsByPlugin(tasksPlugin);
+    const tasksByWidget = await Promise.all(widgets.map(w => pullTasksFromWidget(w.instanceId)));
+    return tasksByWidget.flatMap(({tasks, instaceId}) => {
+        return tasks.filter(t => t.text.toLowerCase().includes(q)).map(t => {
+            return {
+                icon: 'ion:checkmark-circle-outline',
+                text: `Complete '${t.text}'`,
+                key: t.id,
+                onSelected: () => {
+                    markTaskAsCompleted(instaceId, t.id);
+                },
+            };
+        });
+    });
+};
+
 const widgetDescriptorM = {
     id: 'tasks-m',
     name: 'Tasks - size m',
@@ -167,4 +198,5 @@ export const tasksPlugin = {
         widgetDescriptorL,
     ],
     configurationScreen: null,
+    onCommandInput,
 } satisfies AnoriPlugin;

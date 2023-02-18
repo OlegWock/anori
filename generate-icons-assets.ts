@@ -4,6 +4,7 @@ import { writeFileSync, readFileSync } from 'fs';
 
 const ICON_SETS_TO_LOAD = [
     'ion',
+    'fluent',
     'ic',
     'fluent-emoji-flat',
     'twemoji',

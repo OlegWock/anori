@@ -8,6 +8,8 @@ import browser from 'webextension-polyfill';
 export class NamespacedStorage<T extends {} = {}> {
     ns: string;
     atom: PrimitiveAtom<Partial<T>>;
+    loaded: boolean;
+    private _loadingPromise: Promise<void>;
 
     static get<T extends {} = {}>(ns: string): NamespacedStorage<T> {
         const inCache = cache.get(ns);
@@ -19,8 +21,23 @@ export class NamespacedStorage<T extends {} = {}> {
     }
 
     private constructor(ns: string) {
+        let onLoad = () => { };
         this.ns = ns;
-        this.atom = dynamicAtomWithBrowserStorage(ns, {});
+        this._loadingPromise = new Promise((resolve) => {
+            onLoad = () => {
+                this.loaded = true;
+                resolve();
+            };
+        });
+        this.atom = dynamicAtomWithBrowserStorage(ns, {}, {
+            forceLoad: true,
+            onLoad: onLoad,
+        });
+        this.loaded = false;
+    }
+
+    waitForLoad() {
+        return this._loadingPromise;
     }
 
     get<K extends keyof T>(name: K): T[K] | undefined {
@@ -59,7 +76,7 @@ export class NamespacedStorage<T extends {} = {}> {
 
         return [correctedValue, correctedSetValue] as const;
     }
-    
+
 }
 
 const cache: Map<string, NamespacedStorage> = new Map();

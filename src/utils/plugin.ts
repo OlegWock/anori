@@ -52,17 +52,25 @@ export const useWidgetMetadata = <WidgetConfigT extends {} = {}>() => {
     return val;
 };
 
+export const getWidgetStorage = <StorageT extends {}>(instanceId: ID) => {
+    return NamespacedStorage.get<StorageT>(`WidgetStorage.${instanceId}`);
+};
+
 export const useWidgetStorage = <StorageT extends {}>() => {
     const metadata = useWidgetMetadata();
-    const nsStorage = useMemo(() => NamespacedStorage.get<StorageT>(`WidgetStorage.${metadata.instanceId}`), [metadata.pluginId]);
+    const nsStorage = useMemo(() => getWidgetStorage<StorageT>(metadata.instanceId), [metadata.pluginId]);
     return nsStorage;
 };
 
 // ---- Plugin storage ----
 
+export const getPluginStorage = <StorageT extends {}>(pluginId: ID) => {
+    return NamespacedStorage.get<StorageT>(`PluginStorage.${pluginId}`);
+};
+
 export const usePluginStorage = <StorageT extends {}>() => {
     const metadata = useWidgetMetadata();
-    const nsStorage = useMemo(() => NamespacedStorage.get<StorageT>(`PluginStorage.${metadata.pluginId}`), [metadata.pluginId]);
+    const nsStorage = useMemo(() => getPluginStorage<StorageT>(metadata.pluginId), [metadata.pluginId]);
     return nsStorage;
 };
 

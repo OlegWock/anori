@@ -5,12 +5,9 @@ import { DragControls, MotionProps, Reorder, motion, useDragControls, useMotionV
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, Folder, homeFolder } from '@utils/user-data/types';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Position, findIndex } from '@utils/find-index';
 import { IconPicker } from '@components/IconPicker';
 import { Popover } from '@components/Popover';
 import { storage, useBrowserStorageValue } from '@utils/storage';
-import { setPageBackground } from '@utils/mount';
 import clsx from 'clsx';
 import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';
@@ -216,7 +213,11 @@ export const Settings = ({ }: SettingsProps) => {
                 </p>
 
                 <p>
-                    If you would like to modify this extension, add you own plugin or widget, please refer to <a href='https://github.com/OlegWock/anori/blob/master/DEVELOPMENT_AND_EXTENDING.md'>documentation</a>.
+                    If you would like to modify this extension, add you own plugin or widget, please refer to <a href="https://github.com/OlegWock/anori/blob/master/DEVELOPMENT_AND_EXTENDING.md">documentation</a>.
+                </p>
+
+                <p>
+                    Follow me on <a href="https://twitter.com/OlegWock">Twitter</a> and <a href="https://stand-with-ukraine.pp.ua/">support Ukraine</a>. 
                 </p>
             </section>
         </div>

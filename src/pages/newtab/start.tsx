@@ -76,6 +76,7 @@ const Start = () => {
 
 
 watchForPermissionChanges();
+
 storage.getOne('folders').then(foldersFromStorage => {
     const folders = [homeFolder, ...(foldersFromStorage || [])];
     folders.forEach(f => requestIconsFamily(f.icon.split(':')[0]));
@@ -84,6 +85,10 @@ setPageTitle('Anori new tab');
 storage.getOne('theme').then(theme => {
     applyTheme(theme || defaultTheme);
 });
+
+// Fequently used in UI, preload to avoid flashes later
+requestIconsFamily('ion');
+requestIconsFamily('fluent');
 
 mountPage(<Start />);
 
