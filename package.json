@@ -18,9 +18,7 @@
 
         "prepare": "husky install",
         "lint": "eslint .",
-        "format:check": "prettier --check .",
-        "format": "prettier --write .",
-        "pre-commit": "run-p format:check lint",
+        "pre-commit": "run-p lint",
         "icons": "ts-node generate-icons-assets.ts"
     },
     "browserslist": ">0.25% and Chrome > 80",
@@ -89,7 +87,6 @@
         "eslint-config-prettier": "^8.6.0",
         "husky": "^8.0.3",
         "npm-run-all": "^4.1.5",
-        "prettier": "^2.8.3",
         "webpack-bundle-analyzer": "^4.7.0"
     }
 }
