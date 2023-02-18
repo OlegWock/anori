@@ -23,7 +23,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import "./Popover.scss";
 import classNames from "clsx";
 
-export type PopoverProps<D extends any = undefined> = {
+export type PopoverProps<D = undefined> = {
     component: (data: PopoverRenderProps<D>) => JSX.Element;
     trigger?: 'click' | 'hover';
     placement?: Placement;
@@ -34,14 +34,14 @@ export type PopoverProps<D extends any = undefined> = {
     initialFocus?: number;
 } & (D extends undefined ? { additionalData?: D } : { additionalData: D });
 
-export type PopoverRenderProps<D extends any = undefined> = {
+export type PopoverRenderProps<D = undefined> = {
     close: () => void;
     labelId: string;
     descriptionId: string;
     data: D,
 }
 
-export const Popover = <D extends any = undefined>({
+export const Popover = <D = undefined>({
     children, component: ContentComponent, placement = 'top', additionalData = undefined,
     className, style = {}, onStateChange, trigger = 'click', initialFocus = 0
 }: PopoverProps<D>) => {
@@ -136,7 +136,7 @@ export const Popover = <D extends any = undefined>({
                                 <ContentComponent
                                     labelId={labelId}
                                     descriptionId={descriptionId}
-                                    // @ts-ignore
+                                    // @ts-ignore Additional data typing is kind ad-hoc, couldn't figure out better way to do it
                                     data={additionalData}
                                     close={() => {
                                         setOpen(false);

@@ -208,7 +208,7 @@ export const Combobox = <T,>({ options, getOptionKey, getOptionLabel, shouldDisp
                                             setInputValue(getOptionLabel(item));
                                             setOpen(false);
                                             openRef.current = false;
-                                            // @ts-ignore
+                                            // @ts-ignore maybe we should use refs.domReference to please ts?
                                             refs.reference.current?.focus();
                                         },
                                     })}

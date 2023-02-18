@@ -16,8 +16,6 @@ import { Checkbox } from '@components/Checkbox';
 import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
 
-export type SettingsProps = {};
-
 
 const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
     folder: Folder,
@@ -93,7 +91,7 @@ const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonPro
     </Button>);
 };
 
-export const Settings = ({ }: SettingsProps) => {
+export const Settings = () => {
     const exportSettings = async () => {
         const storage = await browser.storage.local.get(null);
         const aElement = document.createElement('a');

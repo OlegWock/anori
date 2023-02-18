@@ -109,7 +109,7 @@ export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: 
         return [...Array(grid.colums)].map(() => false);
     });
 
-    for (let item of layout) {
+    for (const item of layout) {
         const itemSectors = layoutItemToSectors(item);
         itemSectors.forEach(s => {
             if (s.x >= grid.colums || s.y >= grid.rows) return;
@@ -123,7 +123,7 @@ export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: 
 
 export const willItemOverlay = ({ arr, item }: { arr: Grid2DArray, item: LayoutItem }): boolean => {
     const itemSectors = layoutItemToSectors(item);
-    for (let sector of itemSectors) {
+    for (const sector of itemSectors) {
         if (arr.length <= sector.y || arr[sector.y].length <= sector.x) continue; // Ignore overflow
         if (arr[sector.y][sector.x]) return true;
     }
@@ -181,7 +181,7 @@ export const positionToPixelPosition = ({ grid, positon }: { grid: GridDimension
 
 export const fixHorizontalOverflows = <T extends {}>({ grid, layout }: { grid: GridDimensions, layout: Layout<T> }): Layout<T> => {
     let newLayout = [...layout];
-    for (let item of layout) {
+    for (const item of layout) {
         const overflow = (item.x + item.width > grid.colums) || (item.y + item.height > grid.rows);
         if (!overflow) continue;
         newLayout = newLayout.filter(i => i !== item);

@@ -62,7 +62,7 @@ export const useFolders = (includeHome = false) => {
 
     const [activeId, setActiveId] = useAtom(activeFolderAtom);
     const [folders, setFolders] = useAtom(foldersAtom);
-    let foldersFinal = [...folders];
+    const foldersFinal = [...folders];
     if (includeHome) {
         foldersFinal.unshift(homeFolder);
     }

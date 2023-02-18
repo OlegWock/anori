@@ -69,7 +69,7 @@ export class NamespacedStorage<T extends {} = {}> {
         const correctedValue: T[K] = value === undefined ? defaultValue : value;
 
         const correctedSetValue = (newVal: T[K] | ((old: T[K]) => T[K])) => {
-            // @ts-ignore
+            // @ts-ignore Couldn't figure out better types
             const toStore = typeof newVal === 'function' ? newVal(correctedValue) : newVal;
             setValue(toStore);
         };

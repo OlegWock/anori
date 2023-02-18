@@ -47,7 +47,7 @@ const unsubscribe = (callbackId: string) => {
 };
 
 const loadedFamilies: string[] = [];
-let loadingPromises: Record<string, Promise<void> | undefined> = {};
+const loadingPromises: Record<string, Promise<void> | undefined> = {};
 const familyLoadedCallbacks: Record<string, (family: string) => void> = {};
 
 

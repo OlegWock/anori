@@ -23,7 +23,7 @@ const CpuWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
     const [load, setLoad] = useState(0);
     useEffect(() => {
         const load = async () => {
-            // @ts-ignore
+            // @ts-ignore I couldn't make proper declarations for system.* APIs and it's just one time usage...
             const results = await browser.system.cpu.getInfo() as any;
             const cpuTime: CpuTime[] = results.processors.map((t: any) => t.usage);
             if (lastResults) {
@@ -65,7 +65,7 @@ const MemoryWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
     const [allocatedMemory, setAllocatedMemory] = useState(0);
     useEffect(() => {
         const load = async () => {
-            // @ts-ignore
+            // @ts-ignore I couldn't make proper declarations for system.* APIs and it's just one time usage...
             const results = await browser.system.memory.getInfo();
             const usedCapacity = results.capacity - results.availableCapacity;
             setAllocatedMemory(usedCapacity / results.capacity);

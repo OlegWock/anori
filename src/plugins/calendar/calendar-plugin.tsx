@@ -63,7 +63,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         const monthNumber = startOfMonth.month();
         const startOfFirstWeek = startOfMonth.clone().weekday(1);
 
-        let currentDate = startOfFirstWeek.clone();
+        const currentDate = startOfFirstWeek.clone();
         for (let week = 0; currentDate.isSame(currentMonth, 'month') || week === 0; week++) {
             const row: ReactNode[] = [];
             for (let weekday = 0; weekday < 7; weekday++) {

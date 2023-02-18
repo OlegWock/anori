@@ -53,7 +53,7 @@ export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultVal
     const loaded = useRef(false);
 
     const setValue = (newVal: StorageContent[K] | ((old: StorageContent[K]) => StorageContent[K])) => {
-        // @ts-ignore
+        // @ts-ignore Couldn't figure out better types
         const toStore = typeof newVal === 'function' ? newVal(value) : newVal;
         _setValue(toStore);
 
@@ -70,7 +70,7 @@ export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultVal
 
         loaded.current = false;
         storage.get({ [name]: defaultValue } as unknown as GetStorageQueryWithDefaults).then(res => {
-            // @ts-ignore
+            // @ts-ignore Couldn't figure out better types
             _setValue(res[name]);
         });
         browser.storage.local.onChanged.addListener(callback);
