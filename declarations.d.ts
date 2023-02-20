@@ -1,3 +1,5 @@
+import 'webextension-polyfill';
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 declare module 'webextension-polyfill' {

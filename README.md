@@ -32,10 +32,8 @@
 
 # Installation
 
-TODO: update links after publishing extension
-
-* If you use Chrome or any browser based on Chromium -> install extension from [Chrome Web Store](https://chrome.google.com/webstore/category/extensions)
-* If you use Firefox -> install extension from [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/)
+* If you use Chrome or any browser based on Chromium -> install extension from [Chrome Web Store](https://chrome.google.com/webstore/detail/anori/ddeaekifelikgnaacipabpmjpffgifek)
+* If you use Firefox -> install extension from [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/addon/anori/)
 * If you use Safari -> sorry, but you'll need to build this extension from soruces. Please reffer to [documentation](/DEVELOPMENT_AND_EXTENDING.md) for details.
 
 # Building from sources and extending
