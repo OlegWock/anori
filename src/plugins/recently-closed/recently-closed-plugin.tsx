@@ -77,7 +77,11 @@ const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
     return (<div className='RecentlyClosedWidget'>
         <h2>Recently closed</h2>
         <ScrollArea className="sessions-list" darker type="hover">
-            {sessions.map(s => {
+            {sessions.filter(s => {
+                const url = s.tab ? s.tab.url : '';
+                if (url && (url.includes('pages/newtab/start.html?focused') || url.includes('chrome://newtab/'))) return false;
+                return true;
+            }).map(s => {
                 const id = s.tab ? s.tab.sessionId : s.window!.sessionId;
                 return (<Session key={id?.toString()} session={s} isMock={instanceId === 'mock'}/>);
             })}
