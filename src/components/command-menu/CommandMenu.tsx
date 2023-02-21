@@ -56,10 +56,10 @@ export const CommandMenu = () => {
         const down = (e: KeyboardEvent) => {
             const correctModifier = (e.metaKey && isMacLike) || (e.ctrlKey && !isMacLike);
             if (e.key === 'k' && correctModifier) {
+                e.preventDefault();
                 setOpen((open) => !open);
             }
         }
-
         document.addEventListener('keydown', down);
         return () => document.removeEventListener('keydown', down);
     }, [])

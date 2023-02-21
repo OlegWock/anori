@@ -25,6 +25,7 @@ const availableTimeFormatsMap: Record<string, string> = {
     'hh:mm A': '09:32 PM',
     'H:mm': '9:32 (24-hours)',
     'HH:mm': '09:32 (24-hours)',
+    'HH:mm:ss': '09:32:00'
 };
 
 const availableTimeFormats = Object.keys(availableTimeFormatsMap);
@@ -37,6 +38,7 @@ const availableDateFormatsMap: Record<string, string> = {
     'Do MMM Y': '14th Oct 1983',
     'Do MMMM Y': '14th October 1983',
     'D/M/Y': '14/10/1983',
+    'Y-MM-DD': '1983-10-14',
 };
 
 const availableDateFormats = Object.keys(availableDateFormatsMap);
@@ -94,7 +96,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
 
     const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment]);
     const date = useMemo(() => config.dateFormat === 'noDate' ? '' : currentMoment.format(config.dateFormat), [currentMoment]);
-    const withAmPm = config.timeFormat.includes('A') || config.timeFormat.includes('a');
+    const smallerTime = config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss');
 
     useEffect(() => {
         console.log('Reloading timer');
@@ -106,7 +108,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     }, [config.tz]);
 
     return (<div className='DateTimeWidget'>
-        <div className={clsx("time", { "with-am-pm": withAmPm })}>{time}</div>
+        <div className={clsx("time", { "smaller-time": smallerTime })}>{time}</div>
         {!!date && <div className='date'>{date}</div>}
         <div className="spacer" />
         <div className="title">{config.title}</div>
