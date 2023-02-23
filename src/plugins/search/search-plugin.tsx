@@ -37,7 +37,7 @@ const generateSearchUrl = (provider: Provider, query: string) => {
     return {
         'google': `https://www.google.com/search?q=${encodeURIComponent(query)}`,
         'images': `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`,
-        'yt': `https://www.yt.com/results?search_query=${encodeURIComponent(query)}`,
+        'yt': `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
         'bing': `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
         'duck': `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
     }[provider];
