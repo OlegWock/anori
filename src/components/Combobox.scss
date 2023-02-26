@@ -1,3 +1,5 @@
+@import "./base.scss";
+
 .Combobox-input {}
 
 .Combobox-options {
@@ -8,6 +10,7 @@
     z-index: 9999;
     border: 2px solid var(--accent);
     padding: 5px;
+    @include scroll-mixin();
 
     .Combobox-option {
         font-size: 0.875rem;

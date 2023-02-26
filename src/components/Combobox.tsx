@@ -114,7 +114,7 @@ export const Combobox = <T,>({ options, getOptionKey, getOptionLabel, shouldDisp
             size({
                 apply({ rects, availableHeight, elements }) {
                     Object.assign(elements.floating.style, {
-                        width: `${rects.reference.width}px`,
+                        minWidth: `${rects.reference.width}px`,
                         maxHeight: `${availableHeight}px`
                     });
                 },
