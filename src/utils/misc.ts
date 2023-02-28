@@ -12,3 +12,11 @@ export const guid = () => {
 export const wait = (ms: number): Promise<void> => {
     return new Promise((resolve) => setTimeout(() => resolve(), ms));
 };
+
+export const parseHost = (url: string) => {
+    try {
+        return new URL(url).hostname;
+    } catch (err) {
+        return `Couldn't parse hostname`
+    }
+};

@@ -67,6 +67,8 @@ const generateManifest = (
         host_permissions: [] as string[],
         optional_permissions: [
             'tabs',
+            'favicon',
+            'topSites'
         ],
         optional_host_permissions: [
             "*://*/*"
@@ -81,6 +83,11 @@ const generateManifest = (
                 matches: ['<all_urls>'],
                 use_dynamic_url: true,
             },
+            {
+                resources: ["_favicon/*"],
+                matches: ["<all_urls>"],
+                use_dynamic_url: true,
+            }
         ],
     };
 
@@ -89,6 +96,7 @@ const generateManifest = (
         const unavailablePermissions = [
             'system.cpu',
             'system.memory',
+            'favicon'
         ];
 
         manifest.manifest_version = 2;
@@ -104,6 +112,7 @@ const generateManifest = (
         delete manifest.optional_host_permissions;
 
         manifest.permissions = manifest.permissions!.filter(p => !unavailablePermissions.includes(p));
+        manifest.optional_permissions = manifest.optional_permissions!.filter(p => !unavailablePermissions.includes(p));
 
         manifest.background = {
             "persistent": false,
@@ -167,7 +176,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
     const { mode = 'development', targetBrowser = 'chrome', WEBPACK_WATCH } = env;
 
     const paths = createPathsObject(
-        baseSrc, 
+        baseSrc,
         targetBrowser === 'safari' ? `./safari-app/anori/Shared (Extension)/Resources` : joinPath(baseDist, targetBrowser)
     );
 

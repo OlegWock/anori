@@ -7,6 +7,7 @@ import { systemStatusPlugin } from "./system-status/system-status-plugin";
 import { calendarPlugin } from "./calendar/calendar-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
+import { topSitesPlugin } from "./top-sites/top-sites-plugin";
 
 const unavailableInFirefox: AnoriPlugin[] = [
     systemStatusPlugin,
@@ -15,6 +16,7 @@ const unavailableInFirefox: AnoriPlugin[] = [
 const unavailableInSafari: AnoriPlugin[] = [
     systemStatusPlugin,
     recentlyClosedPlugin,
+    topSitesPlugin,
 ];
 
 export const availablePlugins: AnoriPlugin[] = [
@@ -25,6 +27,7 @@ export const availablePlugins: AnoriPlugin[] = [
     searchPlugin,
     calendarPlugin,
     recentlyClosedPlugin,
+    topSitesPlugin,
     systemStatusPlugin,
     
     // Not finished yet
