@@ -13,15 +13,15 @@ type BetterCacheGroupTest =
     // eslint-disable-next-line @typescript-eslint/ban-types
     | Exclude<CacheGroup['test'], Function>
     | ((
-          module: webpack.Module,
-          {
-              chunkGraph,
-              moduleGraph,
-          }: {
-              chunkGraph: webpack.ChunkGraph;
-              moduleGraph: webpack.ModuleGraph;
-          }
-      ) => boolean);
+        module: webpack.Module,
+        {
+            chunkGraph,
+            moduleGraph,
+        }: {
+            chunkGraph: webpack.ChunkGraph;
+            moduleGraph: webpack.ModuleGraph;
+        }
+    ) => boolean);
 
 export interface Chunk {
     test: BetterCacheGroupTest;
@@ -99,5 +99,6 @@ export const generateBackgroundWorkerWrapper = (scripts: string[]) => {
 };
 
 export const isUiRelated = (name: string) => {
-    return name.includes('react') || name.includes('jquery') || name.includes('/components/');
+    return name.includes('react') || name.includes('jquery') || name.includes('framer')
+        || name.includes('polished') || name.includes('floating-ui') || name.includes('/components/');
 };

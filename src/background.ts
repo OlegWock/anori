@@ -4,7 +4,7 @@ import browser from 'webextension-polyfill';
 
 console.log('Background init');
 
-const VERSIONS_WITH_CHANGES = ['1.0.6'];
+const VERSIONS_WITH_CHANGES = ['1.1.0'];
 
 const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
     const v1Tokens = v1.split('.').map(d => parseInt(d));
