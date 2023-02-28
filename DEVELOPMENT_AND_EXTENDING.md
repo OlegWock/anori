@@ -38,7 +38,7 @@ Widgets are main building blocks of page. Each plugin may provide multiple widge
 
 * ID (there shouldn't be widgets with same ID in one plugin).
 * Name.
-* Size of widget. This is desribed not in pixels, but in 'boxes'. While 'box' can we of different size, you can assume it's around 180px (`DEFAULT_BOX_SIZE` constant).
+* Size of widget. This is desribed not in pixels, but in 'boxes'. While 'box' can we of different size, you can assume it's around 180px for normal mode and 140px for compact mode.
 * Optional configuration screen (if widget requires configuration before adding it to folder)
 * Main component which will be rendered in folder
 * Mock component which will be rendered in catalog of widgets (present to user when adding new widget to folder)
@@ -73,6 +73,10 @@ There is a couple of hooks, components and other utlities you might find useful 
 > `useParentFolder()`
 
 This hook exposes info about parent folder of current widget. Info includes folder name, is user currently in edit mode and current box size.
+
+> `useSizeSettings()`
+
+This hook exposes info about current mode: compact/normal and font size, block size and gap size in that mode. As well as helper `rem` function.
 
 > `getPluginConfig(pluginDescriptor)`
 > `usePluginConfig(pluginDescriptor)`

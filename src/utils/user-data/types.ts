@@ -8,6 +8,8 @@ export type StorageContent = {
     stealFocus: boolean,
 
     hasUnreadReleaseNotes: boolean,
+
+    compactMode: boolean,
 };
 
 export type ID = string;

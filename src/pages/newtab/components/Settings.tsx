@@ -9,7 +9,7 @@ import { IconPicker } from '@components/IconPicker';
 import { Popover } from '@components/Popover';
 import { useBrowserStorageValue } from '@utils/storage';
 import clsx from 'clsx';
-import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
+import { Theme, applyCompactMode, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';
 import { usePluginConfig } from '@utils/plugin';
 import { Checkbox } from '@components/Checkbox';
@@ -73,7 +73,6 @@ const PlusinConfigurationSection = <T extends {}>({ plugin }: { plugin: AnoriPlu
 };
 
 const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonProps) => {
-    console.log('Render plate', theme);
     const backgroundUrl = browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background}`);
     return (<Button
         style={{ backgroundImage: `url(${backgroundUrl})` }}
@@ -129,22 +128,30 @@ export const Settings = () => {
     const { folders, setFolders, createFolder, updateFolder, removeFolder } = useFolders();
     const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
+    const [compactMode, setCompactMode] = useBrowserStorageValue('compactMode', false);
 
     return (<ScrollArea className='Settings'>
         <div className="settings-content">
             The Settings Menu is a powerful tool for customizing your user experience. Here, you can tweak everything from the default color scheme to the order of folders.
             With the Settings Menu, you have total control over the look and feel of your new tab.
 
-            {/* Focus stealer works only in Chrome and Safari */}
-            {X_BROWSER !== 'firefox' && <section>
+
+            <section>
                 <h2>Options</h2>
-                <div>
-                    <Checkbox checked={stealFocus} onChange={setStealFocus}>
+                <div className='options-checkboxes'>
+                    {/* Focus stealer works only in Chrome and Safari */}
+                    {X_BROWSER !== 'firefox' && <Checkbox checked={stealFocus} onChange={setStealFocus}>
                         Steal focus from addressbar
                         <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
+                    </Checkbox>}
+                    <Checkbox checked={compactMode} onChange={checked => {
+                        setCompactMode(checked);
+                        applyCompactMode(checked);
+                    }}>
+                        Compact mode
                     </Checkbox>
                 </div>
-            </section>}
+            </section>
             <section>
                 <h2>Import and export</h2>
                 <div>Here you can backup your settings or restore older backup.</div>
@@ -204,9 +211,9 @@ export const Settings = () => {
             <section>
                 <h2>About Anori</h2>
                 <p>
-                    Anori is free and open source extension. Source code can be found on <a href="https://github.com/OlegWock/anori">GitHub</a>. 
-                    If you would like to propose a feature or report a bug, please 
-                    create <a href="https://github.com/OlegWock/anori/issues/new">new issue</a> in repository. 
+                    Anori is free and open source extension. Source code can be found on <a href="https://github.com/OlegWock/anori">GitHub</a>.
+                    If you would like to propose a feature or report a bug, please
+                    create <a href="https://github.com/OlegWock/anori/issues/new">new issue</a> in repository.
                     If you just want to say thanks you can give a star to that repo :).
                 </p>
 
@@ -215,7 +222,7 @@ export const Settings = () => {
                 </p>
 
                 <p>
-                    Follow me on <a href="https://twitter.com/OlegWock">Twitter</a> and <a href="https://stand-with-ukraine.pp.ua/">support Ukraine</a>. 
+                    Follow me on <a href="https://twitter.com/OlegWock">Twitter</a> and <a href="https://stand-with-ukraine.pp.ua/">support Ukraine</a>.
                 </p>
             </section>
         </div>

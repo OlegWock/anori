@@ -1,4 +1,5 @@
 import { setPageBackground } from "@utils/mount";
+import { useBrowserStorageValue } from "@utils/storage";
 import { darken, lighten, transparentize } from "polished";
 import browser from 'webextension-polyfill';
 
@@ -92,4 +93,24 @@ export const applyTheme = (theme: Theme) => {
     root.style.setProperty('--text-subtle-1', transparentize(0.15, theme.colors.text));
     root.style.setProperty('--text-subtle-2', transparentize(0.35, theme.colors.text));
     root.style.setProperty('--text-disabled', darken(0.45, theme.colors.text));
+};
+
+export const applyCompactMode = (isCompact: boolean) => {
+    const root = document.documentElement;
+    const size = isCompact ? 14 : 16;
+    root.style.setProperty('font-size', size + 'px');
+};
+
+export const useSizeSettings = () => {
+    const [isCompact] = useBrowserStorageValue('compactMode', false);
+    const fontSize = isCompact ? 14 : 16;
+    const rem = (n: number) => fontSize * n;
+
+    return {
+        isCompact,
+        blockSize: isCompact ? 140 : 180,
+        gapSize: isCompact ? 8 : 16,
+        fontSize: fontSize,
+        rem,
+    };
 };

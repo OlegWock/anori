@@ -9,6 +9,7 @@ import { Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
 import { getAllWidgetsByPlugin } from "@utils/plugin";
+import { useSizeSettings } from "@utils/user-data/theme";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -33,6 +34,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const [title, setTitle] = useState(currentConfig?.title || 'Example');
     const [url, setUrl] = useState(currentConfig?.url || 'http://example.com');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
+    const { rem } = useSizeSettings();
 
     return (<div className="BookmarkWidget-config">
         <div>
@@ -43,7 +45,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
                     onSelected: setIcon,
                 }}
             >
-                <Button className="icon-picker-trigger"><Icon icon={icon} width={48} /></Button>
+                <Button className="icon-picker-trigger"><Icon icon={icon} width={rem(3)} /></Button>
             </Popover>
         </div>
         <div>
@@ -70,14 +72,15 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
 
     const [isLoading, setIsLoading] = useState(false);
     const host = useMemo(() => parseHost(config.url), [config.url]);
+    const { rem } = useSizeSettings();
 
     return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onClick}>
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
         </div>
-        {isLoading && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? 92 : 36} height={size === 'm' ? 92 : 36} />}
-        {!isLoading && <Icon icon={config.icon} width={size === 'm' ? 92 : 36} height={size === 'm' ? 92 : 36} />}
+        {isLoading && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
+        {!isLoading && <Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
     </a>);
 };
 

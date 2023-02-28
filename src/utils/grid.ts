@@ -27,17 +27,35 @@ export type Layout<T extends {} = {}> = LayoutItem<T>[];
 
 type Grid2DArray = boolean[][];
 
-export const DEFAULT_BOX_SIZE = 180;
-export const MIN_BOX_SIZE = 150;
-export const DEFAULT_CARD_MARGIN = 16;
-
 export const calculateColumnWidth = (containerWidth: number, desiredSize: number) => {
+    const minBoxSize = desiredSize * 0.85;
     const columns = Math.round(containerWidth / desiredSize);
-    const colWidth = Math.max(Math.floor(containerWidth / columns), MIN_BOX_SIZE);
+    const colWidth = Math.max(Math.floor(containerWidth / columns), minBoxSize);
     return Number.isNaN(colWidth) ? desiredSize : colWidth;
 };
 
-export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number = DEFAULT_BOX_SIZE) => {
+export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number) => {
+    const calculateDimensions = () => {
+        const box = ref.current!.getBoundingClientRect();
+        const boxSize = calculateColumnWidth(box.width, desiredSize);
+        const colums = Math.floor(box.width / boxSize);
+        const rows = Math.floor(box.height / boxSize);
+
+        return {
+            boxSize,
+            colums,
+            rows,
+            position: {
+                x: box.left,
+                y: box.top,
+            },
+            pixelSize: {
+                width: box.width,
+                height: box.height,
+            },
+        };
+    };
+
     const [dimensions, setDimensions] = useState<GridDimensions & { position: PixelPosition, pixelSize: LayoutItemSize }>({
         boxSize: desiredSize,
         colums: 0,
@@ -56,35 +74,14 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number = DEFAU
         if (ref.current) {
             const resizeObserver = new ResizeObserver((entries) => {
                 if (!ref.current) return;
-                const lastRecord = entries[entries.length - 1];
-                const { inlineSize: width, blockSize: height } = lastRecord.contentBoxSize[0];
-                const boxSize = calculateColumnWidth(width, desiredSize);
-                const colums = Math.floor(width / boxSize);
-                const rows = Math.floor(height / boxSize);
-                // const rows = 3;
-
-                const box = ref.current.getBoundingClientRect();
-                const dimensions = {
-                    boxSize,
-                    colums,
-                    rows,
-                    position: {
-                        x: box.left,
-                        y: box.top,
-                    },
-                    pixelSize: {
-                        width: box.width,
-                        height: box.height,
-                    },
-                };
-
+                const dimensions = calculateDimensions();
                 setDimensions(dimensions);
             });
 
             resizeObserver.observe(ref.current);
             return () => resizeObserver.disconnect();
         }
-    }, [ref.current]);
+    }, [ref.current, desiredSize]);
 
     return dimensions;
 };
@@ -140,7 +137,7 @@ export const canFitItemInGrid = ({ grid, layout, item }: { grid: GridDimensions,
             const overlay = willItemOverlay({ arr, item: { ...item, x: j, y: i } });
             const overflow = (j + item.width > grid.colums) || (i + item.height > grid.rows);
             if (overlay || overflow) continue;
-            
+
             return { x: j, y: i };
         }
     }
@@ -184,7 +181,7 @@ export const fixHorizontalOverflows = <T extends {}>({ grid, layout }: { grid: G
         const overflow = (item.x + item.width > grid.colums) || (item.y + item.height > grid.rows);
         if (!overflow) continue;
         newLayout = newLayout.filter(i => i !== item);
-        const position = canFitItemInGrid({grid, layout: newLayout, item});
+        const position = canFitItemInGrid({ grid, layout: newLayout, item });
         if (position) {
             newLayout.push({
                 ...item,

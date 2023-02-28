@@ -1,5 +1,5 @@
 .WidgetCard {
-    padding: 18px;
+    padding: 1rem;
     background: var(--background-lighter);
     border-radius: 12px;
     display: flex;
@@ -40,6 +40,23 @@
     .drag-widget-btn {
         top: -14px;
         left: -14px;
+    }
+
+    @at-root .compact & {
+        .remove-widget-btn {
+            top: -8px;
+            right: -4px;
+        }
+    
+        .edit-widget-btn {
+            top: 30px;
+            right: -4px;
+        }
+    
+        .drag-widget-btn {
+            top: -8px;
+            left: -4px;
+        }
     }
 
     .error-description {

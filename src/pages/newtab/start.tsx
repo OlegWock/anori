@@ -13,12 +13,13 @@ import { FolderContent } from './components/FolderContent';
 import { homeFolder } from '@utils/user-data/types';
 import { usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage';
-import { applyTheme, defaultTheme } from '@utils/user-data/theme';
+import { applyCompactMode, applyTheme, defaultTheme, useSizeSettings } from '@utils/user-data/theme';
 import { CommandMenu } from '@components/command-menu/CommandMenu';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import { WhatsNew } from '@components/WhatsNew';
+import clsx from 'clsx';
 
 
 const Start = () => {
@@ -66,11 +67,13 @@ const Start = () => {
     useHotkeys('alt+8', () => switchToFolderByIndex(7));
     useHotkeys('alt+9', () => switchToFolderByIndex(8));
 
+    const { isCompact } = useSizeSettings();
+
     return (
         <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
             <AnimatePresence>
                 <motion.div
-                    className="StartPage"
+                    className={clsx("StartPage", { 'compact': isCompact })}
                     key='start-page'
                 >
                     <div className="sidebar">
@@ -134,6 +137,9 @@ storage.getOne('folders').then(foldersFromStorage => {
 setPageTitle('Anori new tab');
 storage.getOne('theme').then(theme => {
     applyTheme(theme || defaultTheme);
+});
+storage.getOne('compactMode').then(compactMode => {
+    applyCompactMode(compactMode || false);
 });
 
 // Fequently used in UI, preload to avoid flashes later

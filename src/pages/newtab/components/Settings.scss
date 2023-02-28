@@ -23,6 +23,12 @@
                 align-self: center;
             }
 
+            .options-checkboxes {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
             .customize-backgrounds {
                 display: flex;
                 flex-wrap: wrap;

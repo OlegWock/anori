@@ -9,12 +9,13 @@ import { useFolderWidgets } from '@utils/user-data/hooks';
 import { WidgetCard } from '@components/WidgetCard';
 import { FolderContentContext } from '@utils/FolderContentContext';
 import { useRef } from 'react';
-import { DEFAULT_CARD_MARGIN, fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
+import { fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
 import { useWindowIsResizing } from '@utils/hooks';
 import { Modal } from '@components/Modal';
 import { WidgetMetadataContext } from '@utils/plugin';
 import { OnboardingCard } from '@components/OnboardingCard';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useSizeSettings } from '@utils/user-data/theme';
 
 
 type FolderContentProps = {
@@ -106,8 +107,10 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
     const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
 
+    const { blockSize, gapSize } = useSizeSettings();
+    console.log('Desired block size:', blockSize);
     const mainRef = useRef<HTMLDivElement>(null);
-    const grisDimenstions = useGrid(mainRef);
+    const grisDimenstions = useGrid(mainRef, blockSize);
 
     // We need this to workaround framer motion auto-repozition of drag elements on window resize
     const isResizingWindow = useWindowIsResizing();
@@ -152,8 +155,8 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 >
                     <header
                         style={{
-                            marginLeft: DEFAULT_CARD_MARGIN,
-                            marginRight: DEFAULT_CARD_MARGIN,
+                            marginLeft: gapSize,
+                            marginRight: gapSize,
                         }}
                     >
                         <h1>{folder.name}</h1>
