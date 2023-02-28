@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { MouseEventHandler, useEffect, useLayoutEffect, useRef, useState } from "react"
 
 export const useForceRerender = () => {
     const [state, setState] = useState({});
@@ -42,4 +42,20 @@ export const useMirrorStateToRef = <T>(val: T) => {
     const ref = useRef(val);
     ref.current = val;
     return ref;
+};
+
+
+export const useLinkNavigationState = () => {
+    const onLinkClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+        if (e.metaKey || e.ctrlKey) return;
+        setIsNavigating(true);
+
+        setTimeout(() => {
+            setIsNavigating(false);
+        }, 5000);
+    };
+
+    const [isNavigating, setIsNavigating] = useState(false);
+
+    return {isNavigating, onLinkClick}
 };

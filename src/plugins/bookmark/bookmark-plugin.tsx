@@ -10,6 +10,8 @@ import { useMemo } from "react";
 import clsx from "clsx";
 import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { useSizeSettings } from "@utils/user-data/theme";
+import { parseHost } from "@utils/misc";
+import { useLinkNavigationState } from "@utils/hooks";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -17,13 +19,7 @@ type BookmarkWidgetConfigType = {
     icon: string,
 };
 
-const parseHost = (url: string) => {
-    try {
-        return new URL(url).hostname;
-    } catch (err) {
-        return `Couldn't parse hostname`
-    }
-}
+
 
 const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkWidgetConfigType>) => {
     const onConfirm = () => {
@@ -62,25 +58,17 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 };
 
 const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
-    const onClick = () => {
-        setIsLoading(true);
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 5000);
-    };
-
-    const [isLoading, setIsLoading] = useState(false);
     const host = useMemo(() => parseHost(config.url), [config.url]);
     const { rem } = useSizeSettings();
+    const {onLinkClick, isNavigating} = useLinkNavigationState();
 
-    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onClick}>
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick}>
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
         </div>
-        {isLoading && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
-        {!isLoading && <Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
+        {isNavigating && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
+        {!isNavigating && <Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
     </a>);
 };
 

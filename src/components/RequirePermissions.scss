@@ -1,7 +1,11 @@
+@import "./base.scss";
+
 .RequirePermissions {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    overflow: auto;
+    @include scroll-mixin-darker();
 
     .text {
         font-size: 0.8rem;
@@ -11,6 +15,7 @@
     .grant-button {
         align-self: center;
         margin-top: 36px;
+        white-space: break-spaces;
     }
 }
 

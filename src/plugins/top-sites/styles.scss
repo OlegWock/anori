@@ -1,0 +1,88 @@
+.TopSitesWidget {
+    display: grid;
+    gap: 0.5rem;
+    flex-grow: 1;
+    align-self: stretch;
+
+    &.horizontal {
+        grid-template-columns: repeat(6, 1fr);
+
+        .site-title {
+            height: 2.5rem;
+        }
+    }
+
+    &.vertical {
+        grid-template-rows: repeat(6, 1fr);
+
+        .site-title {
+            height: 1.25rem;
+            white-space: nowrap;
+        }
+    }
+
+    a {
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: 0.1s ease-in-out;
+        width: 0;
+        min-width: 100%;
+        position: relative;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+
+            .remove-link {
+                display: flex;
+            }
+        }
+
+
+        .remove-link {
+            display: none;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            z-index: 1;
+            padding: 2px;
+            background: var(--background-lighter);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+    }
+
+    img,
+    .loading {
+        margin: 0.5rem;
+        width: 32px;
+    }
+
+    .loading {
+        animation: spin 1.5s ease-in-out infinite;
+    }
+
+    .site-title {
+        line-height: 1.25rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        align-self: stretch;
+        font-size: 0.875rem;
+        text-align: center;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
