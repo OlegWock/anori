@@ -1,4 +1,5 @@
 import './OnboardingCard.scss';
+import { ShortcutHint } from './ShortcutHint';
 import { WidgetCard } from './WidgetCard';
 
 export const OnboardingCard = () => {
@@ -20,7 +21,7 @@ export const OnboardingCard = () => {
                     If you click on the gear icon in the bottom left corner, you'll open settings. There you can manage your folders (which you find on the sidebar to the left) and change theme.
                 </div>
                 <div>
-                    Oh, and we also have a command menu for quick access. Just hit Cmd+K on Mac or Ctrl+K on Windows/Linux.
+                    Oh, and we also have a command menu for quick access. Just hit <ShortcutHint shortcut='meta+k' /> (explore more shortcuts by pressing <ShortcutHint shortcut='alt+h' /> ).
                 </div>
                 <div>
                     This card will disappear once you add your first widget.

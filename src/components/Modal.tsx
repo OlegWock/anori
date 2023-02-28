@@ -4,8 +4,8 @@ import { ReactNode } from 'react';
 import { Icon } from './Icon';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
-import { useEffect } from 'react';
 import useMeasure from 'react-use-measure';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 export type ModalProps = {
     title: string;
@@ -19,20 +19,10 @@ export type ModalProps = {
 };
 
 export const Modal = ({ className, children, title, layoutId, closable, onClose, closeOnClickOutside, headerButton }: ModalProps) => {
-    useEffect(() => {
+    useHotkeys('esc', () => {
         if (!closable || !onClose) return;
-
-        const handleEsc = (event: KeyboardEvent) => {
-            if (event.key === "Escape") {
-                onClose();
-            }
-        };
-        window.addEventListener('keydown', handleEsc);
-
-        return () => {
-            window.removeEventListener('keydown', handleEsc);
-        };
-    }, [closable, onClose]);
+        onClose();
+    });
 
     const [ref, bounds] = useMeasure();
     const isPresent = useIsPresent();

@@ -1,5 +1,6 @@
 import { Command } from 'cmdk';
 import { useEffect, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import './CommandMenu.scss';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, CommandItem } from '@utils/user-data/types';
@@ -13,8 +14,6 @@ type ActionsWithMetadata = {
     items: CommandItem[],
     plugin: AnoriPlugin<any, any>
 };
-
-const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 
 export const CommandMenu = () => {
     const updateQuery = (val: string) => {
@@ -51,18 +50,7 @@ export const CommandMenu = () => {
         loadActionsByQuery('');
     }, []);
 
-    // Toggle the menu when ⌘K is pressed
-    useEffect(() => {
-        const down = (e: KeyboardEvent) => {
-            const correctModifier = (e.metaKey && isMacLike) || (e.ctrlKey && !isMacLike);
-            if (e.key === 'k' && correctModifier) {
-                e.preventDefault();
-                setOpen((open) => !open);
-            }
-        }
-        document.addEventListener('keydown', down);
-        return () => document.removeEventListener('keydown', down);
-    }, [])
+    useHotkeys('meta+k', () => setOpen((open) => !open), []);
 
     return (
         <Command.Dialog open={open} onOpenChange={setOpen} label="Global Command Menu" shouldFilter={false}>

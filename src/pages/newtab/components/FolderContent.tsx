@@ -14,6 +14,7 @@ import { useWindowIsResizing } from '@utils/hooks';
 import { Modal } from '@components/Modal';
 import { WidgetMetadataContext } from '@utils/plugin';
 import { OnboardingCard } from '@components/OnboardingCard';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 
 type FolderContentProps = {
@@ -118,6 +119,16 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     useEffect(() => {
         setIsEditing(false);
     }, [folder.id]);
+
+    useHotkeys('alt+e', () => {
+        setIsEditing(true);
+        setNewWidgetWizardVisible(true);
+    });
+
+    useHotkeys('alt+a', () => {
+        setIsEditing(true);
+        setNewWidgetWizardVisible(true);
+    });
 
     return (
         <>
