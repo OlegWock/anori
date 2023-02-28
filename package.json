@@ -1,7 +1,7 @@
 {
     "name": "Anori",
     "description": "New tab with batteries",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "repository": "git@github.com:OlegWock/anori.git",
     "author": "OlegWock <olegwock@gmail.com>",
     "license": "MIT",
