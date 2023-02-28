@@ -57,6 +57,7 @@ const generateManifest = (
             '128': 'assets/images/icon128.png',
         },
         permissions: [
+            'alarms',
             'storage',
             'unlimitedStorage',
             'sessions',
@@ -407,7 +408,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             // We use wrapper to load common chunks before main script
             new GenerateFiles({
                 file: 'background-wrapper.js',
-                content: generateBackgroundWorkerWrapper([`${libsRoot}/other.js`, `background.js`]),
+                content: generateBackgroundWorkerWrapper([`${libsRoot}/ui.js`, `${libsRoot}/other.js`, `background.js`]),
             }),
             new GenerateFiles({
                 file: paths.dist.manifest,

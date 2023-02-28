@@ -12,12 +12,13 @@ import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { homeFolder } from '@utils/user-data/types';
 import { usePrevious } from '@utils/hooks';
-import { storage } from '@utils/storage';
+import { storage, useBrowserStorageValue } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 import { CommandMenu } from '@components/command-menu/CommandMenu';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
+import { WhatsNew } from '@components/WhatsNew';
 
 
 const Start = () => {
@@ -46,6 +47,8 @@ const Start = () => {
 
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
+    const [whatsNewVisible, setWhatsNewVisible] = useState(false);
+    const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
 
     useHotkeys('meta+up, alt+up', () => swithFolderUp());
     useHotkeys('meta+down, alt+down', () => swithFolderDown());
@@ -77,6 +80,16 @@ const Start = () => {
                             })}
                             <div className="spacer" />
                             <FolderButton
+                                layoutId='whats-new'
+                                icon="ion:newspaper-outline"
+                                name="What's new"
+                                withRedDot={hasUnreadReleaseNotes}
+                                onClick={() => {
+                                    setWhatsNewVisible(true);
+                                    setHasUnreadReleaseNotes(false);
+                                }}
+                            />
+                            <FolderButton
                                 layoutId='settings'
                                 icon="ion:settings-sharp"
                                 name='Settings'
@@ -99,8 +112,12 @@ const Start = () => {
                 {settingsVisible && <Modal title='Settings' key='settings' className='settings-modal' closable onClose={() => setSettingsVisible(false)}>
                     <Settings />
                 </Modal>}
-                {shortcutsHelpVisible && <Modal title='Help' key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
+                {shortcutsHelpVisible && <Modal title='Shortcuts' key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
                     <ShortcutsHelp />
+                </Modal>}
+
+                {whatsNewVisible && <Modal title="What's new" key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
+                    <WhatsNew />
                 </Modal>}
             </AnimatePresence>
         </MotionConfig>

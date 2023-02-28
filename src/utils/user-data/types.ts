@@ -6,6 +6,8 @@ export type StorageContent = {
     folders: Folder[],
     theme: Theme,
     stealFocus: boolean,
+
+    hasUnreadReleaseNotes: boolean,
 };
 
 export type ID = string;

@@ -71,7 +71,7 @@
         "sass": "^1.53.0",
         "sass-loader": "^13.0.2",
         "string-replace-loader": "^3.1.0",
-        "style-loader": "^3.3.1",
+        "style-loader": "git+https://github.com/OlegWock/style-loader",
         "terser-webpack-plugin": "^5.3.3",
         "to-string-loader": "^1.2.0",
         "ts-loader": "^9.4.2",

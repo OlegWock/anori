@@ -1,5 +1,41 @@
 import { availablePlugins } from '@plugins/all';
+import { storage } from '@utils/storage';
 import browser from 'webextension-polyfill';
+
+console.log('Background init');
+
+const VERSIONS_WITH_CHANGES = ['1.0.6'];
+
+const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
+    const v1Tokens = v1.split('.').map(d => parseInt(d));
+    const v2Tokens = v2.split('.').map(d => parseInt(d));
+    for (let ind = 0; ind < Math.min(v1Tokens.length, v2Tokens.length); ind++) {
+        if (v1Tokens[ind] > v2Tokens[ind]) return -1;
+        if (v1Tokens[ind] < v2Tokens[ind]) return 1;
+    }
+
+    return 0;
+};
+
+
+browser.runtime.onInstalled.addListener((details) => {
+    console.log('onInstalled', details);
+    if (details.reason === 'update' && details.previousVersion) {
+        const { previousVersion } = details;
+        const currentVersion = browser.runtime.getManifest().version;
+        console.log('Extension updated, prev version:', previousVersion, 'current version:', currentVersion);
+        // If at least one of VERSIONS_WITH_CHANGES is newer than previous version
+        const hasImportantUpdates = VERSIONS_WITH_CHANGES.some(v => {
+            return compareVersions(v, previousVersion) === -1 && compareVersions(v, currentVersion) >= 0;
+        });
+        console.log('Has important updates:', hasImportantUpdates);
+        if (hasImportantUpdates) {
+            storage.setOne('hasUnreadReleaseNotes', true);
+        }
+    }
+});
+
+console.log('Planted onInstalled handler');
 
 const runScheduledCallbacks = async () => {
     const { scheduledCallbacksInfo } = await browser.storage.session.get({
