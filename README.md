@@ -27,6 +27,7 @@
 * Internet search
 * Calendar
 * Recently closed tabs (only Chrome & Firefox)
+* Top sites (only Chrome & Firefox)
 * CPU and RAM load (only Chrome)
 </details>
 
