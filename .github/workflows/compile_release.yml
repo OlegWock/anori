@@ -21,22 +21,15 @@ jobs:
                   node-version: 16
                   cache: 'yarn'
             - run: yarn install --frozen-lockfile
-            - id: set_var
-              run: |
-                  content=`cat ./package.json`
-                  # the following lines are only required for multi line json
-                  content="${content//'%'/'%25'}"
-                  content="${content//$'\n'/'%0A'}"
-                  content="${content//$'\r'/'%0D'}"
-                  # end of optional handling for multi line json
-                  echo "::set-output name=packageJson::$content"
-                  echo "packageJson=$content" >> $GITHUB_OUTPUT
+            - name: get-version
+              id: package-version
+              uses: martinbeentjes/npm-get-version-action@main
             - run: yarn run production
             - run: yarn run production:ff
             - name: Release
               uses: softprops/action-gh-release@v1
               with:
-                  tag_name: 'v${{fromJson(steps.set_var.outputs.packageJson).version}}'
+                  tag_name: 'v${{steps.package-version.outputs.current-version}}'
                   generate_release_notes: true
                   files: |
                       dist/*.zip
