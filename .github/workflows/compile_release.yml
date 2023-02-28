@@ -1,5 +1,8 @@
 name: 'Build extension and create release'
 
+permissions:
+    contents: write
+
 on:
     workflow_dispatch:
     push:
@@ -27,6 +30,7 @@ jobs:
                   content="${content//$'\r'/'%0D'}"
                   # end of optional handling for multi line json
                   echo "::set-output name=packageJson::$content"
+                  echo "packageJson=$content" >> $GITHUB_OUTPUT
             - run: yarn run production
             - run: yarn run production:ff
             - name: Release
