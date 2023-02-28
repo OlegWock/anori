@@ -7,6 +7,7 @@ export const WhatsNew = () => {
             <h2>1.0.6</h2>
             <ul>
                 <li>Added support for shortcuts across extension. Press <ShortcutHint shortcut='alt+h' /> to see them all!</li>
+                <li>Added compact mode</li>
             </ul>
         </section>
     </div>)

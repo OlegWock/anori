@@ -6,7 +6,7 @@ import { useParentFolder } from '@utils/FolderContentContext';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { ReactNode } from 'react';
-import { DEFAULT_CARD_MARGIN } from '@utils/grid';
+import { useSizeSettings } from '@utils/user-data/theme';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
     constructor(props: { children: ReactNode }) {
@@ -47,39 +47,40 @@ type WidgetCardProps = {
 export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, ...props }: WidgetCardProps) => {
     const { isEditing, boxSize } = useParentFolder();
     const dragControls = useDragControls();
+    const { gapSize, rem } = useSizeSettings();
 
     return (<motion.div
         className={clsx(className, 'WidgetCard')}
         transition={{ ease: 'easeInOut', duration: 0.15 }}
         exit={isEditing ? { scale: 0 } : undefined}
-        whileHover={withAnimation ? { 
+        whileHover={withAnimation ? {
             scale: isEditing ? undefined : 1.05,
         } : undefined}
         whileTap={withAnimation ? { scale: 0.95 } : undefined}
         dragControls={dragControls}
         dragListener={false}
         style={{
-            width: width * boxSize - DEFAULT_CARD_MARGIN * 2,
-            height: height * boxSize - DEFAULT_CARD_MARGIN * 2,
-            margin: DEFAULT_CARD_MARGIN,
-            
+            width: width * boxSize - gapSize * 2,
+            height: height * boxSize - gapSize * 2,
+            margin: gapSize,
+
             ...style,
         }}
         onDragEnd={onDragEnd}
         {...props}
     >
         {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove} withoutBorder>
-            <Icon icon='ion:close' width={20} height={20} />
+            <Icon icon='ion:close' width={rem(1.25)} height={rem(1.25)} />
         </Button>}
         {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit} withoutBorder>
-            <Icon icon='ion:pencil' width={20} height={20} />
+            <Icon icon='ion:pencil' width={rem(1.25)} height={rem(1.25)} />
         </Button>}
         {(isEditing && !!onDragEnd) && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder>
-            <Icon icon='ic:baseline-drag-indicator' width={20} height={20} />
+            <Icon icon='ic:baseline-drag-indicator' width={rem(1.25)} height={rem(1.25)} />
         </Button>}
         <ErrorBoundary>
             <div className='overflow-protection'>
-            {children}
+                {children}
             </div>
         </ErrorBoundary>
     </motion.div>)

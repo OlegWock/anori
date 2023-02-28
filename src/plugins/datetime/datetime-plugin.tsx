@@ -99,7 +99,6 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     const smallerTime = config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss');
 
     useEffect(() => {
-        console.log('Reloading timer');
         const tid = window.setInterval(() => {
             setCurrentMoment(moment().tz(config.tz));
         }, 1000);

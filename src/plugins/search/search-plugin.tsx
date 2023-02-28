@@ -7,6 +7,7 @@ import { Input } from '@components/Input';
 import { Select } from '@components/Select';
 import { Icon } from '@components/Icon';
 import { Tooltip } from '@components/Tooltip';
+import { useSizeSettings } from '@utils/user-data/theme';
 
 
 const providersPretty = {
@@ -71,6 +72,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
 
     const [activeProvider, setProvider] = useState(config.defaultProvider);
     const [query, setQuery] = useState('');
+    const { rem } = useSizeSettings();
 
 
     return (<div className='SearchWidget'>
@@ -82,7 +84,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
                         onClick={() => setProvider(p)}
                         active={p === activeProvider}
                     >
-                        <Icon icon={providersIcons[p]} height={24} width={24} />
+                        <Icon icon={providersIcons[p]} height={rem(1.5)} width={rem(1.5)} />
                     </Button>
                 </Tooltip>)
             })}
@@ -95,7 +97,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
                 onChange={e => setQuery(e.target.value)}
                 placeholder='Search...'
             />
-            <Button withoutBorder onClick={doSearch}><Icon icon="ion:search" /></Button>
+            <Button withoutBorder onClick={doSearch}><Icon width={rem(1)} height={rem(1)} icon="ion:search" /></Button>
         </div>
 
     </div>)

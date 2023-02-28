@@ -24,7 +24,6 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
     const [offsetMonths, setOffsetMonths] = useState(0);
     const prevOffset = usePrevious(offsetMonths, offsetMonths);
     const direction = prevOffset > offsetMonths ? "right" : "left";
-    console.log('Render calendar', { offsetMonths, prevOffset, direction });
     const currentMonth = useMemo(() => today.clone().add(offsetMonths, 'months'), [today, offsetMonths]);
 
     const monthName = useMemo(() => currentMonth.format('MMMM'), [currentMonth]);
