@@ -59,6 +59,12 @@ Optionally, it can also have:
 * Icon or image URL. See below for details about icons.
 * Hint which will be displayed on right side of item.
 
+### Plugin callbacks
+
+You can provide plugin-wide callbacks which will be invoked either on browser start or periodically. If you provide `onStart` callback, extension will run it on root level of background service worker. Use this callback to register any additional handlers required for your plugin to function. 
+
+You can also provide `scheduledCallback` object with two fields: `intervalInMinutes` and `callback`. This `callback` will be invoked every `intervalInMinutes` minutes (values smaller than 1 will be rounded to 1 minute).
+
 
 ## Useful APIs
 

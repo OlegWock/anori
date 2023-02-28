@@ -22,17 +22,16 @@ const runScheduledCallbacks = async () => {
     await browser.storage.session.set({ scheduledCallbacksInfo });
 };
 
-browser.runtime.onStartup.addListener(async () => {
-    availablePlugins.forEach(plugin => {
-        if (plugin.onStart) {
-            try {
-                plugin.onStart();
-            } catch (err) {
-                console.error('Error while executing plugin onStart callback', err);
-            }
+availablePlugins.forEach(plugin => {
+    if (plugin.onStart) {
+        try {
+            plugin.onStart();
+        } catch (err) {
+            console.error('Error while executing plugin onStart callback', err);
         }
-    })
+    }
 });
+
 
 browser.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'scheduledCallbacks') {
