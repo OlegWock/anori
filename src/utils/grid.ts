@@ -1,5 +1,4 @@
 import { RefObject, useLayoutEffect, useState } from "react";
-import sortBy from 'lodash/sortBy';
 
 export type GridDimensions = {
     boxSize: number,
@@ -165,7 +164,9 @@ export const snapToSector = ({ grid, position }: { grid: GridDimensions, positio
         });
     });
 
-    return sortBy(possibleSnapPoints, (s) => distanceBetweenPoints(s.pixelPosition, position))!;
+    return possibleSnapPoints.sort((a, b) => {
+        return distanceBetweenPoints(a.pixelPosition, position) - distanceBetweenPoints(b.pixelPosition, position)
+    });
 };
 
 export const positionToPixelPosition = ({ grid, positon }: { grid: GridDimensions, positon: Position }): PixelPosition => {

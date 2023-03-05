@@ -15,6 +15,7 @@ import { usePluginConfig } from '@utils/plugin';
 import { Checkbox } from '@components/Checkbox';
 import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
+import { toCss } from '@utils/color';
 
 
 const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
@@ -83,9 +84,9 @@ const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonPro
         {...props}
     >
         <div className="color-cirles-wrapper">
-            <div className='color-circle' style={{ backgroundColor: theme.colors.background }} />
-            <div className='color-circle' style={{ backgroundColor: theme.colors.text }} />
-            <div className='color-circle' style={{ backgroundColor: theme.colors.accent }} />
+            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.background) }} />
+            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.text) }} />
+            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.accent) }} />
         </div>
     </Button>);
 };
@@ -190,10 +191,10 @@ export const Settings = () => {
                     {themes.map((theme) => {
                         return (<ThemePlate
                             theme={theme}
-                            className={clsx({ 'active': theme.name === currentTheme.name })}
+                            className={clsx({ 'active': theme.name === currentTheme })}
                             onClick={() => {
-                                setTheme(theme);
-                                applyTheme(theme);
+                                setTheme(theme.name);
+                                applyTheme(theme.name);
                             }}
                             key={theme.name}
                         />)

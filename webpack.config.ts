@@ -450,18 +450,15 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         optimization: {
             minimizer: [
                 new TerserPlugin({
-                    exclude: /node_modules/i,
                     extractComments: false,
                     terserOptions: {
                         compress: {
-                            defaults: false,
-                            // Uncomment next line if you would like to remove console logs in production
-                            // drop_console: mode === 'production',
                         },
-                        mangle: false,
+                        // Uncomment if Chrome store rejects update
+                        // mangle: false,
                         output: {
-                            // If we don't beautify, Chrome store likely will reject extension
-                            beautify: true,
+                            // Uncomment if Chrome store rejects update
+                            // beautify: true,
                         },
                     },
                 }),

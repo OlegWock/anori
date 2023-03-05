@@ -1,15 +1,17 @@
+import { Color, darken, fromHsl, lighten, toCss, transparentize } from "@utils/color";
 import { setPageBackground } from "@utils/mount";
 import { useBrowserStorageValue } from "@utils/storage";
-import { darken, lighten, transparentize } from "polished";
 import browser from 'webextension-polyfill';
+
+
 
 export type Theme = {
     name: string,
     background: string,
     colors: {
-        accent: string,
-        background: string,
-        text: string,
+        accent: Color,
+        background: Color,
+        text: Color,
     },
 };
 
@@ -18,61 +20,63 @@ export const themes: Theme[] = [
         name: 'Greenery',
         background: 'greenery.jpg',
         colors: {
-            accent: '#2eb46a',
-            text: '#ffffff',
-            background: '#124737',
+            accent: fromHsl(147, 59.3, 44.3),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(162, 59.6, 17.5),
         }
     },
     {
         name: 'Forest lake',
         background: 'forest-lake.jpg',
         colors: {
-            accent: '#4fc6e6',
-            text: '#ffffff',
-            background: '#0c4866',
+            accent: fromHsl(193, 75.1, 60.6),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(200, 78.9, 22.4),
         }
     },
     {
         name: 'Mountains',
         background: 'mountains.jpg',
         colors: {
-            accent: '#0070C8',
-            text: '#ffffff',
-            background: '#033e65',
+            accent: fromHsl(206, 100, 39.2),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(204, 94.2, 20.4),
         }
     },
     {
         name: 'Sakura',
         background: 'sakura.jpg',
         colors: {
-            accent: '#E0A3C5',
-            text: '#ffffff',
-            background: '#954c68',
+            accent: fromHsl(327, 49.6, 75.9),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(337, 32.4, 44.1),
         }
     },
     {
         name: 'Sunflowers',
         background: 'sunflowers.jpg',
         colors: {
-            accent: '#2C7691',
-            text: '#ffffff',
-            background: '#213B47',
+            accent: fromHsl(196, 53.4, 37.1),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(199, 36.5, 20.4),
         }
     },
     {
         name: 'Hygge',
         background: 'table.jpg',
         colors: {
-            accent: '#93918D',
-            text: '#ffffff',
-            background: '#453E39',
+            accent: fromHsl(40, 2.7, 56.5),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(25, 9.5, 24.7),
         }
     },
 ];
 
-export const defaultTheme = themes[0];
+export const defaultTheme = themes[0].name;
 
-export const applyTheme = (theme: Theme) => {
+export const applyTheme = (themeName: Theme["name"]) => {
+    const theme = themes.find(t => t.name === themeName);
+    if (!theme) return;
     setPageBackground(browser.runtime.getURL(`/assets/images/backgrounds/${theme.background}`));
 
     let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
@@ -80,19 +84,19 @@ export const applyTheme = (theme: Theme) => {
         meta = document.createElement('meta');
         meta.name = 'theme-color';
     }
-    meta.content = theme.colors.background;
+    meta.content = toCss(theme.colors.background);
     document.head.appendChild(meta);
 
     const root = document.documentElement;
     root.style.setProperty('--background-image', `url('/assets/images/backgrounds/${theme.background}')`);
-    root.style.setProperty('--accent', theme.colors.accent);
-    root.style.setProperty('--accent-subtle', transparentize(0.5, theme.colors.accent));
-    root.style.setProperty('--background', theme.colors.background);
-    root.style.setProperty('--background-lighter', lighten(0.05, theme.colors.background));
-    root.style.setProperty('--text', theme.colors.text);
-    root.style.setProperty('--text-subtle-1', transparentize(0.15, theme.colors.text));
-    root.style.setProperty('--text-subtle-2', transparentize(0.35, theme.colors.text));
-    root.style.setProperty('--text-disabled', darken(0.45, theme.colors.text));
+    root.style.setProperty('--accent', toCss(theme.colors.accent));
+    root.style.setProperty('--accent-subtle', toCss(transparentize(theme.colors.accent, 0.5)));
+    root.style.setProperty('--background', toCss(theme.colors.background));
+    root.style.setProperty('--background-lighter', toCss(lighten(theme.colors.background, 0.05)));
+    root.style.setProperty('--text', toCss(theme.colors.text));
+    root.style.setProperty('--text-subtle-1', toCss(transparentize(theme.colors.text, 0.15)));
+    root.style.setProperty('--text-subtle-2', toCss(transparentize(theme.colors.text, 0.35)));
+    root.style.setProperty('--text-disabled', toCss(darken(theme.colors.text, 0.45)));
 };
 
 export const applyCompactMode = (isCompact: boolean) => {

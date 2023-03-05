@@ -4,7 +4,7 @@ import { Theme } from "./theme";
 
 export type StorageContent = {
     folders: Folder[],
-    theme: Theme,
+    theme: Theme["name"],
     stealFocus: boolean,
 
     hasUnreadReleaseNotes: boolean,
