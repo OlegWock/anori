@@ -130,6 +130,7 @@ export const Settings = () => {
     const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
     const [compactMode, setCompactMode] = useBrowserStorageValue('compactMode', false);
+    const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
 
     return (<ScrollArea className='Settings'>
         <div className="settings-content">
@@ -150,6 +151,10 @@ export const Settings = () => {
                         applyCompactMode(checked);
                     }}>
                         Compact mode
+                    </Checkbox>
+                    <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
+                        Show animation on open
+                        <Hint text={`If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look.`} />
                     </Checkbox>
                 </div>
             </section>

@@ -1,5 +1,8 @@
 .WhatsNew {
     max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 
     ul {
         margin-left: 22px;

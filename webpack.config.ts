@@ -460,6 +460,10 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                             // Uncomment if Chrome store rejects update
                             // beautify: true,
                         },
+
+                        // Uncomment for profiling production build
+                        // keep_classnames: true,
+                        // keep_fnames: true,
                     },
                 }),
             ],

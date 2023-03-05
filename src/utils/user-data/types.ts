@@ -10,6 +10,7 @@ export type StorageContent = {
     hasUnreadReleaseNotes: boolean,
 
     compactMode: boolean,
+    showLoadAnimation: boolean,
 };
 
 export type ID = string;

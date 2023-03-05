@@ -99,3 +99,32 @@ body {
         padding-bottom: 0px;
     }
 }
+
+
+.loading-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background-lighter);
+    pointer-events: none;
+    z-index: 999999999;
+
+    &.active {
+        animation-duration: 500ms;
+        animation-name: loading-keyframes;
+        animation-iteration-count: 1;
+    }
+}
+
+
+@keyframes loading-keyframes {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}

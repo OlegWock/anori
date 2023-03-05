@@ -142,6 +142,18 @@ storage.getOne('compactMode').then(compactMode => {
     applyCompactMode(compactMode || false);
 });
 
+storage.getOne('showLoadAnimation').then(showLoadAnimation => {
+    const div = document.querySelector('.loading-cover');
+    if (!div) return;
+    if (!showLoadAnimation) {
+        div.remove();
+        return;
+    }
+
+    div.addEventListener("animationend", () => div.remove());
+    div.classList.add('active');
+});
+
 // Fequently used in UI, preload to avoid flashes later
 requestIconsFamily('ion');
 requestIconsFamily('fluent');
