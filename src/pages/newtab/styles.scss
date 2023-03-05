@@ -112,6 +112,7 @@ body {
     z-index: 999999999;
 
     &.active {
+        animation-delay: 150ms;
         animation-duration: 500ms;
         animation-name: loading-keyframes;
         animation-iteration-count: 1;
