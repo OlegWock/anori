@@ -6,7 +6,7 @@ export const WhatsNew = () => {
         <section>
             <h2>1.2.0</h2>
             <ul>
-                <li>We got rid of a few internal libraries and adjusted compilation settings, so extension files now take less space. This should make loading extension slightly faster</li>
+                <li>We got rid of a few internal libraries and adjusted compilation settings, so extension files now take less space. This should make loading extension slightly faster (around 10%)</li>
                 <li>Added 'Show animation on open' option to settings</li>
             </ul>
         </section>
