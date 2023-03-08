@@ -14,6 +14,7 @@ const ICON_SETS_TO_LOAD = [
     'vscode-icons',
     'circle-flags',
     'flagpack',
+    'wi',
 
     // This one is tooooooo heavy and slow downs extension
     // 'fluent-emoji',

@@ -36,6 +36,6 @@ export const fromHsl = (hueDeg: number, saturationPer: number, lightnessPer: num
 };
 
 export const toCss = (c: Color) => {
-    console.log('Converting color', c, 'to css', `hsl(${c.hue.toFixed(4)}turn ${(c.saturation * 100).toFixed(2)}% ${(c.lightness * 100).toFixed(2)}% / ${c.alpha})`);
+    // console.log('Converting color', c, 'to css', `hsl(${c.hue.toFixed(4)}turn ${(c.saturation * 100).toFixed(2)}% ${(c.lightness * 100).toFixed(2)}% / ${c.alpha})`);
     return `hsl(${c.hue.toFixed(4)}turn ${(c.saturation * 100).toFixed(2)}% ${(c.lightness * 100).toFixed(2)}% / ${c.alpha})`;
 };

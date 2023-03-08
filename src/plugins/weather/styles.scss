@@ -1,8 +1,64 @@
 .WeatherWidget {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    flex-grow: 1;
+
+    &.current {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        flex-grow: 1;
+        gap: 0.5rem;
+    }
+
+    &.forecast {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        text-decoration: none;
+        flex-grow: 1;
+        gap: 0.5rem;
+
+        h2 {
+            line-height: 1.15;
+        }
+        .location {
+            font-size: 0.9rem;
+        }
+
+        .day-row {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            flex-grow: 1;
+            gap: 0.5rem;
+
+            .temperature {
+                font-size: 1.35rem;
+            }
+        }
+    }
+
+
+    svg {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .temperature {
+        font-size: 2rem;
+        line-height: 1;
+        margin-bottom: 0.33rem;
+    }
+
+    .location,
+    .wind,
+    .last-update,
+    .temperature {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .last-update {
+        white-space: nowrap;
+    }
 
 }
 

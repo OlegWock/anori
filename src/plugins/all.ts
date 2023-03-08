@@ -8,6 +8,7 @@ import { calendarPlugin } from "./calendar/calendar-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
 import { topSitesPlugin } from "./top-sites/top-sites-plugin";
+import { weatherPlugin } from "./weather/weather-plugin";
 
 const unavailableInFirefox: AnoriPlugin[] = [
     systemStatusPlugin,
@@ -25,13 +26,11 @@ export const availablePlugins: AnoriPlugin[] = [
     notesPlugin,
     tasksPlugin,
     searchPlugin,
+    weatherPlugin,
     calendarPlugin,
     recentlyClosedPlugin,
     topSitesPlugin,
     systemStatusPlugin,
-    
-    // Not finished yet
-    // weatherPlugin,
 ].filter(plugin => {
     if (X_BROWSER === 'firefox') {
         return !unavailableInFirefox.includes(plugin);

@@ -11,6 +11,7 @@ export const allSets = [
     "vscode-icons", // https://icon-sets.iconify.design/vscode-icons/
     "circle-flags", // https://icon-sets.iconify.design/circle-flags/
     "flagpack", // https://icon-sets.iconify.design/flagpack/
+    "wi", // https://icon-sets.iconify.design/wi/
 ];
 
 export const iconSetPrettyNames: Record<string, string> = {
@@ -25,4 +26,5 @@ export const iconSetPrettyNames: Record<string, string> = {
     'vscode-icons': "VSCode Icons",
     'circle-flags': "Circle Flags",
     'flagpack': "Flagpack",
+    'wi': "Weather Icons",
 } as const;
