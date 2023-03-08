@@ -69,11 +69,12 @@ export const gerCurrentWeather = async (city: City): Promise<CurrentWeather> => 
 };
 
 export const getForecast = async (city: City): Promise<WeatherForecast[]> => {
+    const tz = moment.tz.guess();
     const response = await fetch(`https://api.open-meteo.com/v1/forecast`
         + `?latitude=${encodeURIComponent(city.latitude)}`
         + `&longitude=${encodeURIComponent(city.longitude)}`
         + `&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,winddirection_10m_dominant`
-        + `&timezone=auto`);
+        + `&timezone=${encodeURIComponent(tz)}`);
     const json = await response.json();
 
     const results = (json.daily.time as any[]).slice(0, 5).map((dateRaw, i) => {
