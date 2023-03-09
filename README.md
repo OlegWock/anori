@@ -7,7 +7,7 @@
 * Use bookmarks, calendar, todo, notes and other useful widgets
 * Organize them in folders
 * Quickly access your widgets using Cmd+K menu
-* Choose from 6 different color schemes and backgrounds
+* Choose from 8 different color schemes and backgrounds
 * Supports Chrome, Firefox and Safari
 * Easily extend app with your own widgets
 
