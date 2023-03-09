@@ -44,7 +44,7 @@ const weatherCodeToIcon = (code: number) => {
     if ([61, 63, 65].includes(code)) return 'wi:rain';
     if ([66, 67].includes(code)) return 'wi:rain-mix';
     if ([71, 73, 75, 77, 85, 86].includes(code)) return 'wi:snow';
-    if ([80, 81, 82].includes(code)) return 'wi:rain-mix';
+    if ([80, 81, 82].includes(code)) return 'wi:rain';
     if ([95, 96, 99].includes(code)) return 'wi:thunderstorm';
 
     return 'wi:cloud';
@@ -59,7 +59,7 @@ const weatherCodeDescription = (code: number) => {
     if ([61, 63, 65].includes(code)) return 'Rain';
     if ([66, 67].includes(code)) return 'Freezing rain';
     if ([71, 73, 75, 77, 85, 86].includes(code)) return 'Snow';
-    if ([80, 81, 82].includes(code)) return 'Rain and snow';
+    if ([80, 81, 82].includes(code)) return 'Rain shower';
     if ([95, 96, 99].includes(code)) return 'Thunderstorm';
 
     return 'Unknown weather code'
@@ -335,7 +335,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
                         </Tooltip>
                         <div>
                             <div className="temperature">
-                                <div>{formatTemperature(f.temperatureMin, config.temperatureUnit, false)} - {formatTemperature(f.temperatureMax, config.temperatureUnit)}</div>
+                                <div>{formatTemperature(f.temperatureMin, config.temperatureUnit, false)} &ndash; {formatTemperature(f.temperatureMax, config.temperatureUnit)}</div>
                             </div>
                             <div className="wind">
                                 <Icon icon="ion:arrow-back" height={rem(1.2)} style={{ transform: `rotate(${Math.round((f.windDirection + 90) % 360)}deg)` }} />
