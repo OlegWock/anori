@@ -70,6 +70,24 @@ export const themes: Theme[] = [
             background: fromHsl(25, 9.5, 24.7),
         }
     },
+    {
+        name: 'Maples',
+        background: 'maple.jpg',
+        colors: {
+            accent: fromHsl(9, 69, 46),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(2, 35, 17),
+        }
+    },
+    {
+        name: 'Highlands',
+        background: 'highlands.jpg',
+        colors: {
+            accent: fromHsl(40, 98, 47),
+            text: fromHsl(0, 0, 100),
+            background: fromHsl(31, 39, 25),
+        }
+    },
 ];
 
 export const defaultTheme = themes[0].name;
