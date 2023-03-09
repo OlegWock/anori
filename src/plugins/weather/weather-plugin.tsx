@@ -65,6 +65,8 @@ const weatherCodeDescription = (code: number) => {
     return 'Unknown weather code'
 };
 
+const CACHE_TIME = 1000 * 60 * 10;
+
 const mockCity = {
     "id": 3060972,
     "name": "Bratislava",
@@ -205,9 +207,10 @@ const useCurrentWeather = (config: PluginWidgetConfigType) => {
         const load = async () => {
             const fromStorage = store.get('weather');
             if (fromStorage) {
+                setWeather(fromStorage);
+                if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
                 setIsLoading(false)
                 setIsRefreshing(true);
-                setWeather(fromStorage);
             } else {
                 setIsLoading(true)
                 setIsRefreshing(false);
@@ -250,10 +253,11 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
         const load = async () => {
             const fromStorage = store.get('weather');
             if (fromStorage) {
-                setIsLoading(false)
-                setIsRefreshing(true);
                 setForecast(fromStorage.forecast);
                 setLastUpdated(fromStorage.lastUpdated);
+                if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
+                setIsLoading(false)
+                setIsRefreshing(true);
             } else {
                 setIsLoading(true)
                 setIsRefreshing(false);
