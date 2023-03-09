@@ -22,6 +22,7 @@
 
 * Bookmark
 * World time
+* Weather
 * Notes
 * Tasks
 * Internet search
