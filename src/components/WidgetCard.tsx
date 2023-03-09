@@ -6,7 +6,7 @@ import { useParentFolder } from '@utils/FolderContentContext';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { ReactNode } from 'react';
-import { useSizeSettings } from '@utils/user-data/theme';
+import { useSizeSettings } from '@utils/compact';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
     constructor(props: { children: ReactNode }) {

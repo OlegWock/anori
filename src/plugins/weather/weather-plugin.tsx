@@ -9,8 +9,8 @@ import { useWidgetStorage } from "@utils/plugin";
 import moment from "moment";
 import { Icon } from "@components/Icon";
 import { Tooltip } from "@components/Tooltip";
-import { useSizeSettings } from "@utils/user-data/theme";
 import { FloatingDelayGroup } from "@floating-ui/react-dom-interactions";
+import { useSizeSettings } from "@utils/compact";
 
 type PluginWidgetConfigType = {
     location: City,

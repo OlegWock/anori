@@ -7,7 +7,7 @@ import { Input } from '@components/Input';
 import { Select } from '@components/Select';
 import { Icon } from '@components/Icon';
 import { Tooltip } from '@components/Tooltip';
-import { useSizeSettings } from '@utils/user-data/theme';
+import { useSizeSettings } from '@utils/compact';
 
 
 const providersPretty = {

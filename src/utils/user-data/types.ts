@@ -10,6 +10,7 @@ export type StorageContent = {
     hasUnreadReleaseNotes: boolean,
 
     compactMode: boolean,
+    automaticCompactMode: boolean,
     showLoadAnimation: boolean,
 };
 

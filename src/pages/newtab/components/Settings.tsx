@@ -9,7 +9,7 @@ import { IconPicker } from '@components/IconPicker';
 import { Popover } from '@components/Popover';
 import { useBrowserStorageValue } from '@utils/storage';
 import clsx from 'clsx';
-import { Theme, applyCompactMode, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
+import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';
 import { usePluginConfig } from '@utils/plugin';
 import { Checkbox } from '@components/Checkbox';
@@ -129,7 +129,8 @@ export const Settings = () => {
     const { folders, setFolders, createFolder, updateFolder, removeFolder } = useFolders();
     const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
-    const [compactMode, setCompactMode] = useBrowserStorageValue('compactMode', false);
+    const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
+    const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', false);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
 
     return (<ScrollArea className='Settings'>
@@ -146,11 +147,11 @@ export const Settings = () => {
                         Steal focus from addressbar
                         <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
                     </Checkbox>}
-                    <Checkbox checked={compactMode} onChange={checked => {
-                        setCompactMode(checked);
-                        applyCompactMode(checked);
-                    }}>
-                        Compact mode
+                    <Checkbox checked={isAutomaticCompact} onChange={setAutomaticCompact}>
+                        Automatically switch to compact mode based on screen size
+                    </Checkbox>
+                    <Checkbox checked={manualCompactMode} onChange={setManualCompactMode} disabled={isAutomaticCompact}>
+                        Use compact mode
                     </Checkbox>
                     <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
                         Show animation on open

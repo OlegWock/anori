@@ -13,13 +13,14 @@ import { FolderContent } from './components/FolderContent';
 import { homeFolder } from '@utils/user-data/types';
 import { usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage';
-import { applyCompactMode, applyTheme, defaultTheme, useSizeSettings } from '@utils/user-data/theme';
+import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 import { CommandMenu } from '@components/command-menu/CommandMenu';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import { WhatsNew } from '@components/WhatsNew';
 import clsx from 'clsx';
+import { CompactModeProvider, useSizeSettings } from '@utils/compact';
 
 
 const Start = () => {
@@ -138,9 +139,6 @@ setPageTitle('Anori new tab');
 storage.getOne('theme').then(theme => {
     applyTheme(theme || defaultTheme);
 });
-storage.getOne('compactMode').then(compactMode => {
-    applyCompactMode(compactMode || false);
-});
 
 storage.getOne('showLoadAnimation').then(showLoadAnimation => {
     const div = document.querySelector('.loading-cover');
@@ -158,6 +156,8 @@ storage.getOne('showLoadAnimation').then(showLoadAnimation => {
 requestIconsFamily('ion');
 requestIconsFamily('fluent');
 
-mountPage(<Start />);
+mountPage(<CompactModeProvider>
+    <Start />
+</CompactModeProvider>);
 
 

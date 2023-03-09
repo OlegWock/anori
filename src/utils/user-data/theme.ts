@@ -1,6 +1,5 @@
 import { Color, darken, fromHsl, lighten, toCss, transparentize } from "@utils/color";
 import { setPageBackground } from "@utils/mount";
-import { useBrowserStorageValue } from "@utils/storage";
 import browser from 'webextension-polyfill';
 
 
@@ -115,24 +114,4 @@ export const applyTheme = (themeName: Theme["name"]) => {
     root.style.setProperty('--text-subtle-1', toCss(transparentize(theme.colors.text, 0.15)));
     root.style.setProperty('--text-subtle-2', toCss(transparentize(theme.colors.text, 0.35)));
     root.style.setProperty('--text-disabled', toCss(darken(theme.colors.text, 0.45)));
-};
-
-export const applyCompactMode = (isCompact: boolean) => {
-    const root = document.documentElement;
-    const size = isCompact ? 14 : 16;
-    root.style.setProperty('font-size', size + 'px');
-};
-
-export const useSizeSettings = () => {
-    const [isCompact] = useBrowserStorageValue('compactMode', false);
-    const fontSize = isCompact ? 14 : 16;
-    const rem = (n: number) => fontSize * n;
-
-    return {
-        isCompact,
-        blockSize: isCompact ? 140 : 180,
-        gapSize: isCompact ? 8 : 16,
-        fontSize: fontSize,
-        rem,
-    };
 };

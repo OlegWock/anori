@@ -9,9 +9,9 @@ import { Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
 import { getAllWidgetsByPlugin } from "@utils/plugin";
-import { useSizeSettings } from "@utils/user-data/theme";
 import { parseHost } from "@utils/misc";
 import { useLinkNavigationState } from "@utils/hooks";
+import { useSizeSettings } from "@utils/compact";
 
 type BookmarkWidgetConfigType = {
     url: string,

@@ -15,7 +15,7 @@ import { Modal } from '@components/Modal';
 import { WidgetMetadataContext } from '@utils/plugin';
 import { OnboardingCard } from '@components/OnboardingCard';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useSizeSettings } from '@utils/user-data/theme';
+import { useSizeSettings } from '@utils/compact';
 
 
 type FolderContentProps = {
