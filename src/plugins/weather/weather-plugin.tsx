@@ -384,7 +384,7 @@ const widgetDescriptorForecast = {
     },
     size: {
         width: 2,
-        height: 5,
+        height: 4,
     }
 } as const;
 
