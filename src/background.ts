@@ -45,6 +45,13 @@ browser.runtime.onInstalled.addListener((details) => {
             })
         }
     }
+
+    if (details.reason === 'install') {
+        browser.tabs.create({
+            url: 'https://anori.sinja.io/welcome',
+            active: true,
+        });
+    }
 });
 
 console.log('Planted onInstalled handler');
