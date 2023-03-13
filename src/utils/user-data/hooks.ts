@@ -67,7 +67,7 @@ export const useFolders = (includeHome = false) => {
         foldersFinal.unshift(homeFolder);
     }
 
-    const activeFolder = activeId === homeFolder.id ? homeFolder : folders.find(f => f.id === activeId)!;
+    const activeFolder = activeId === homeFolder.id ? homeFolder : (folders.find(f => f.id === activeId)! || homeFolder);
 
     return {
         folders: foldersFinal,
