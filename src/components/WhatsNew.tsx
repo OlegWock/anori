@@ -4,6 +4,11 @@ import './WhatsNew.scss';
 export const WhatsNew = () => {
     return (<div className="WhatsNew">
         <section>
+            <h2>1.3.0</h2>
+            <ul>
+                <li>Now you can search in all icon sets at once (I don't believe I added this only now lol).</li>
+                <li>Icon picker now doesn't go beyond screen edge on smaller screens.</li>
+            </ul>
             <h2>1.2.0</h2>
             <ul>
                 <li>New weather widget! Give it a try, it can display both current weather in selected city and weather forecast.</li>
