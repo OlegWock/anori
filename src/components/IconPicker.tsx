@@ -34,26 +34,32 @@ const IconRow = ({ index, data, style }: { index: number, style: CSSProperties, 
 
     return (<div className='IconRow' style={style}>
         {data.iconsList.slice(indexStart, indexEnd).map((icon) => {
-            const iconName = data.familyName + ':' + icon;
-            return (<IconCell key={iconName} icon={iconName} onClick={() => data.onSelected(iconName)} />)
+            return (<IconCell key={icon} icon={icon} onClick={() => data.onSelected(icon)} />)
         })}
     </div>)
 }
 
 type GridItemData = {
-    familyName: string,
     iconsList: string[],
     onSelected: (name: string) => void,
 }
 
 const iconsBySetAtom = atom<Record<string, string[]> | null>(null);
+const ALL_SETS = '##ALL_SETS##';
 
 export const IconPicker = ({ data, close }: IconPickerProps) => {
-    const [selectedFamily, setSelectedFamily] = useState(allSets[0]);
+    const [selectedFamily, setSelectedFamily] = useState(ALL_SETS);
     const [query, setQuery] = useState('');
     const [iconsBySet, setIconsBySet] = useAtom(iconsBySetAtom);
 
-    const iconsList = useMemo(() => iconsBySet === null ? [] : iconsBySet[selectedFamily].filter(icon => icon.includes(query.toLowerCase())), [selectedFamily, query, iconsBySet]);
+    const iconsList = useMemo(() => {
+        if (iconsBySet === null) return [];
+        const base = selectedFamily === ALL_SETS ? Object.entries(iconsBySet) : [[selectedFamily, iconsBySet[selectedFamily]]] as const;
+        return base
+            .map(([family, icons]) => icons.map(icon => `${family}:${icon}`))
+            .flat()
+            .filter(icon => icon.split(':')[1].includes(query.toLowerCase()));
+    }, [selectedFamily, query, iconsBySet]);
 
     const ROWS = Math.ceil(iconsList.length / COLUMNS);
 
@@ -73,11 +79,11 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
         <section>
             <label>Icons family:</label>
             <Select<string>
-                options={allSets}
+                options={[ALL_SETS, ...allSets]}
                 value={selectedFamily}
                 onChange={setSelectedFamily}
                 getOptionKey={o => o}
-                getOptionLabel={o => iconSetPrettyNames[o]}
+                getOptionLabel={o => o === ALL_SETS ? 'All icons' : iconSetPrettyNames[o]}
             />
         </section>
 
@@ -96,7 +102,6 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
                         close();
                         data.onSelected(icon);
                     },
-                    familyName: selectedFamily,
                 }}
             >
                 {IconRow}
