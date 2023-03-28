@@ -16,6 +16,7 @@ import { Checkbox } from '@components/Checkbox';
 import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
 import { toCss } from '@utils/color';
+import moment from 'moment-timezone';
 
 
 const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
@@ -95,7 +96,8 @@ export const Settings = () => {
     const exportSettings = async () => {
         const storage = await browser.storage.local.get(null);
         const aElement = document.createElement('a');
-        aElement.setAttribute('download', 'anori-backup.json');
+        const datetime = moment().format('DD-MM-yyyy_HH-mm');
+        aElement.setAttribute('download', `anori-backup-${datetime}.json`);
 
         const blob = new Blob([JSON.stringify(storage, null, 4)], {
             type: 'text/plain'
