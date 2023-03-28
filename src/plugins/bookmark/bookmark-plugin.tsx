@@ -27,8 +27,8 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 
         saveConfiguration({ title, url, icon });
     };
-    const [title, setTitle] = useState(currentConfig?.title || 'Example');
-    const [url, setUrl] = useState(currentConfig?.url || 'http://example.com');
+    const [title, setTitle] = useState(currentConfig?.title || '');
+    const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
     const { rem } = useSizeSettings();
 

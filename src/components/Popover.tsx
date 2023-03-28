@@ -67,7 +67,8 @@ export const Popover = <D = undefined>({
             }),
             flip(),
             shift({
-                padding: 5
+                padding: 5,
+                crossAxis: true,
             }),
         ],
         placement,
