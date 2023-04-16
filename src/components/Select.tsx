@@ -17,7 +17,7 @@ export type SelectProps<T> = {
 export const Select = <T,>({ options, value, onChange, placeholder = 'Select...', getOptionKey, getOptionLabel }: SelectProps<T>) => {
     const innerOnChange = (newVal: string) => {
         const option = options.find(o => getOptionKey(o) === newVal);
-        if (!option) throw new Error('Value not found in selects options');
+        if (option === undefined) throw new Error('Value not found in selects options');
 
         onChange(option);
     };

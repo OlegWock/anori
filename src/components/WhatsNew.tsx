@@ -8,7 +8,8 @@ export const WhatsNew = () => {
             <section>
                 <h2>1.4.0</h2>
                 <ul>
-                    <li>Recently closed tabs widget now presented in two sizes for dear folks with smaller screens &lt;3</li>
+                    <li>Recently closed tabs widget now presented in two sizes for dear folks with smaller screens &lt;3.</li>
+                    <li>You can now select first day of a week in calendar widget.</li>
                 </ul>
             </section>
             <section>

@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
+import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import './styles.scss';
 import { Icon } from "@components/Icon";
@@ -10,21 +10,52 @@ import { useEffect } from "react";
 import { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePrevious } from "@utils/hooks";
-import { useParentFolder } from "@utils/FolderContentContext";
+import { Select } from "@components/Select";
 
 type CalendarWidgetConfigType = {
-
+    // 0 is monday, 6 is sunday
+    // This is marked as optional because first version of widget didn't had this 
+    // settings, thus it's not guaranteed to have this set
+    firstDay?: number, 
 };
 
+const weekdays = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+];
 
+const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<CalendarWidgetConfigType>) => {
+    const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
+
+    return (<div className='SearchWidget-config'>
+        <div>
+            <label>First day of week</label>
+            <Select<number>
+                options={[0, 1, 2, 3, 4, 5, 6]}
+                value={firstDay}
+                onChange={setFirstDay}
+                getOptionKey={o => o.toString()}
+                getOptionLabel={o => weekdays[o]}
+            />
+        </div>
+
+        <Button className='save-config' onClick={() => saveConfiguration({ firstDay })}>Save</Button>
+    </div>)
+};
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConfigType>) => {
-    const { isEditing } = useParentFolder();
     const [today, setToday] = useState(() => moment());
     const [offsetMonths, setOffsetMonths] = useState(0);
     const prevOffset = usePrevious(offsetMonths, offsetMonths);
     const direction = prevOffset > offsetMonths ? "right" : "left";
     const currentMonth = useMemo(() => today.clone().add(offsetMonths, 'months'), [today, offsetMonths]);
+
+    const firstDayShift = config.firstDay ?? 0;
 
     const monthName = useMemo(() => currentMonth.format('MMMM'), [currentMonth]);
 
@@ -56,7 +87,10 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         const res: ReactNode[] = [];
         const startOfMonth = today.clone().add(offsetMonths, 'months').startOf('month');
         const monthNumber = startOfMonth.month();
-        const startOfFirstWeek = startOfMonth.clone().weekday(1);
+        const startOfFirstWeek = startOfMonth.clone().weekday((1 + firstDayShift) % 7);
+        if (startOfFirstWeek.isAfter(startOfMonth)) {
+            startOfFirstWeek.subtract(1, 'week');
+        }
 
         const currentDate = startOfFirstWeek.clone();
         for (let week = 0; currentDate.isSame(currentMonth, 'month') || week === 0; week++) {
@@ -89,6 +123,8 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         return () => clearInterval(tid);
     });
 
+    const headerDays = [...weekdays.slice(firstDayShift), ...weekdays.slice(0, firstDayShift)];
+
     return (<div className="CalendarWidget">
         <h3 className="header">
             <Button withoutBorder onClick={() => setOffsetMonths(p => p - 1)}>
@@ -101,13 +137,9 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         </h3>
         <motion.div className="calendar-grid">
             <div className="calendar-row weekdays" key='weekdays'>
-                <div className="calendar-cell">M</div>
-                <div className="calendar-cell">T</div>
-                <div className="calendar-cell">W</div>
-                <div className="calendar-cell">T</div>
-                <div className="calendar-cell">F</div>
-                <div className="calendar-cell">S</div>
-                <div className="calendar-cell">S</div>
+                {headerDays.map(weekday => {
+                    return (<div className="calendar-cell" key={weekday}>{weekday[0]}</div>);
+                })}
             </div>
             <AnimatePresence mode="wait" custom={direction} initial={false}>
                 {rows}
@@ -121,7 +153,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
 const widgetDescriptor = {
     id: 'calendar-m',
     name: 'Calendar',
-    configurationScreen: null,
+    configurationScreen: ConfigScreen,
     withAnimation: false,
     mainScreen: MainScreen,
     mock: () => {
