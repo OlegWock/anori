@@ -125,10 +125,23 @@ const onCommandInput: OnCommandInputCallback = async (query: string) => {
 
 const widgetDescriptor = {
     id: 'recently-closed-widget',
-    name: 'Recently closed tabs',
+    name: 'Recently closed tabs - size m',
     size: {
         width: 3,
         height: 3,
+    },
+    configurationScreen: null,
+    mainScreen: (props) => (<RequirePermissions permissions={['sessions', 'tabs']}><WidgetScreen {...props} /></RequirePermissions>),
+    withAnimation: false,
+    mock: () => (<WidgetScreen config={{}} instanceId='mock' />),
+} satisfies WidgetDescriptor<{}>;
+
+const widgetDescriptorS = {
+    id: 'recently-closed-widget-s',
+    name: 'Recently closed tabs - size s',
+    size: {
+        width: 2,
+        height: 2,
     },
     configurationScreen: null,
     mainScreen: (props) => (<RequirePermissions permissions={['sessions', 'tabs']}><WidgetScreen {...props} /></RequirePermissions>),
@@ -141,6 +154,7 @@ export const recentlyClosedPlugin = {
     name: 'Recently closed tabs',
     widgets: [
         widgetDescriptor,
+        widgetDescriptorS,
     ],
     configurationScreen: null,
     onCommandInput,
