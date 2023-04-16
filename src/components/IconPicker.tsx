@@ -1,4 +1,4 @@
-import { CSSProperties, Ref, useMemo, useRef, useState } from 'react';
+import { CSSProperties, Ref, useMemo, useState } from 'react';
 import './IconPicker.scss';
 import browser from 'webextension-polyfill';
 import { PopoverRenderProps } from './Popover';
