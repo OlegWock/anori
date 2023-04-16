@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo, useState } from 'react';
+import { CSSProperties, Ref, useMemo, useRef, useState } from 'react';
 import './IconPicker.scss';
 import browser from 'webextension-polyfill';
 import { PopoverRenderProps } from './Popover';
@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 
 type IconPickerProps = PopoverRenderProps<{
     onSelected: (icon: string) => void,
+    inputRef?: Ref<HTMLInputElement>
 }>;
 
 const COLUMNS = 8;
@@ -89,7 +90,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
 
         <section>
             <label>Icons: </label>
-            <Input value={query} onChange={e => setQuery(e.target.value)} placeholder='Search' className='icons-search' />
+            <Input ref={data.inputRef} value={query} onChange={e => setQuery(e.target.value)} placeholder='Search' className='icons-search' />
             <FixedSizeList<GridItemData>
                 className="icons-grid"
                 height={350}

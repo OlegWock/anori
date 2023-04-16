@@ -1,4 +1,4 @@
-import React, { cloneElement, useMemo, useState } from "react";
+import React, { MutableRefObject, cloneElement, useMemo, useState } from "react";
 import {
     Placement,
     offset,
@@ -31,7 +31,7 @@ export type PopoverProps<D = undefined> = {
     style?: React.CSSProperties;
     children: JSX.Element;
     onStateChange?: (open: boolean) => void,
-    initialFocus?: number;
+    initialFocus?: number | MutableRefObject<HTMLElement | null>;
 } & (D extends undefined ? { additionalData?: D } : { additionalData: D });
 
 export type PopoverRenderProps<D = undefined> = {

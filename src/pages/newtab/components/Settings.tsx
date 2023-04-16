@@ -17,6 +17,7 @@ import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
 import { toCss } from '@utils/color';
 import moment from 'moment-timezone';
+import { useRef } from 'react';
 
 
 const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
@@ -27,6 +28,7 @@ const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconCh
     onRemove?: () => void,
 }) => {
     const controls = useDragControls();
+    const iconSearchRef = useRef<HTMLInputElement>(null);
 
     const ICON_SIZE = 22;
 
@@ -41,8 +43,10 @@ const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconCh
             <Icon icon='ic:baseline-drag-indicator' width={ICON_SIZE} onPointerDown={(e) => controls.start(e)} />
             <Popover
                 component={IconPicker}
+                initialFocus={iconSearchRef}
                 additionalData={{
                     onSelected: (icon: string) => onIconChange && onIconChange(icon),
+                    inputRef: iconSearchRef,
                 }}
             >
                 <Button className='folder-icon'><Icon icon={folder.icon} width={ICON_SIZE} /></Button>

@@ -1,7 +1,7 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import './styles.scss';
 import { Popover } from "@components/Popover";
 import { IconPicker } from "@components/IconPicker";
@@ -31,14 +31,17 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
     const { rem } = useSizeSettings();
+    const iconSearchRef = useRef<HTMLInputElement>(null);
 
     return (<div className="BookmarkWidget-config">
         <div>
             <label>Icon:</label>
             <Popover
                 component={IconPicker}
+                initialFocus={iconSearchRef}
                 additionalData={{
                     onSelected: setIcon,
+                    inputRef: iconSearchRef,
                 }}
             >
                 <Button className="icon-picker-trigger"><Icon icon={icon} width={rem(3)} /></Button>
