@@ -63,11 +63,11 @@ export class NamespacedStorage<T extends {} = {}> {
 
 
     useValue<K extends keyof T>(name: K, defaultValue: T[K]) {
-        // @ts-ignore-error
-        const focusedAtom = useMemo(() => focusAtom(this.atom, (optic: OpticFor<any>) => optic.prop(name)), [name]);
+        // @ts-ignore Couldn't figure out better types
+        const focusedAtom = useMemo(() => focusAtom(this.atom, (optic: OpticFor<any>) => optic.prop(name)), [name]) as PrimitiveAtom<T[K] | undefined>;
         const [value, setValue] = useAtom(focusedAtom);
 
-        const correctedValue: T[K] = value === undefined ? defaultValue : value;
+        const correctedValue: T[K] = useMemo(() => value === undefined ? defaultValue : value, [value]);
 
         const correctedSetValue = (newVal: T[K] | ((old: T[K]) => T[K])) => {
             // @ts-ignore Couldn't figure out better types
