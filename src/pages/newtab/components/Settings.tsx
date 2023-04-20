@@ -253,7 +253,7 @@ export const Settings = () => {
                     {draftCustomIcons.map((draftCustomIcon) => {
                         const validName = isValidCustomIconName(draftCustomIcon.name) || draftCustomIcon.name.length === 0;
                         return (<motion.div
-                            layout
+                            layout="position"
                             layoutId={draftCustomIcon.id}
                             className='draft-icon-section'
                             key={draftCustomIcon.id}
