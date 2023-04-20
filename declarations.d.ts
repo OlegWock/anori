@@ -19,3 +19,20 @@ declare module 'webextension-polyfill' {
         }
     }
 }
+
+
+declare global {
+    type FileSystemDirectoryNamesIterator = AsyncIterable<string>;
+    type FileSystemDirectoryHandlesIterator = AsyncIterable<FileSystemDirectoryHandle | FileSystemFileHandle>;
+    type FileSystemDirectoryEntriesIterator = AsyncIterable<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>;
+
+    interface FileSystemDirectoryHandle {
+        keys(): FileSystemDirectoryNamesIterator,
+        values(): FileSystemDirectoryHandlesIterator,
+        entries(): FileSystemDirectoryEntriesIterator,
+    }
+
+    interface FileSystemFileHandle {
+        createWritable(): Promise<FileSystemWritableFileStream>,
+    }
+}

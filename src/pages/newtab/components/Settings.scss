@@ -29,6 +29,71 @@
                 gap: 10px;
             }
 
+            .no-custom-icons-alert {
+                padding: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .custom-icons-grid {
+                display: grid;
+                // grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));;
+                gap: 12px;
+                margin-bottom: 8px;
+
+                .custom-icon-plate {
+                    padding: 12px;
+                    border-radius: 12px;
+                    background: var(--background-lighter);
+                    display: flex;
+                    gap: 12px;
+                    align-items: center;
+
+                    .custom-icon-name {
+                        flex: 1;
+                        text-overflow: ellipsis;
+                        font-size: 0.9rem;
+                        overflow: hidden;
+                    }
+                }
+            }
+
+            .draft-icons-list {
+                border: 3px solid var(--background-lighter);
+                border-radius: 12px;
+                margin-bottom: 8px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px;
+            }
+
+            .draft-icon-section {
+                display: flex;
+                align-items: center;
+                gap: 32px;
+
+                .draft-icon-preview {
+                    align-self: center;
+                }
+
+                .draft-icon-name-wrapper {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    
+                    .draft-icon-name {
+                    }
+
+                    .draft-icon-name-error {
+                    }
+                }
+            }
+
             .customize-backgrounds {
                 display: flex;
                 flex-wrap: wrap;

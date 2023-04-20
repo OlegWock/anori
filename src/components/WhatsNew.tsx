@@ -4,8 +4,33 @@ import './WhatsNew.scss';
 
 export const WhatsNew = () => {
     return (<div className="WhatsNew">
-        <ScrollArea>
+        <ScrollArea className='WhatsNew-scrollarea'>
             <div className='WhatsNew-content'>
+                <section>
+                    <h2>1.5.0</h2>
+                    <p>
+                        Huge news! Now you can upload your own icons and use them for folders or bookmarks.
+                        Anori supports jpg, gif, png and svg. You can upload your first icon in settings. And here
+                        are a few cool icon packs for your inspiration, enjoy!
+                    </p>
+                    <ul>
+                        <li><a target="_blank" href='https://www.svgrepo.com/collection/stylized-app-icons/'>Cute stylized app icons</a></li>
+                        <li><a target="_blank" href='https://www.svgrepo.com/collection/landscape-circled-vectors/'>Landscapes</a></li>
+                        <li><a target="_blank" href='https://www.svgrepo.com/collection/animal-sticker-stamp-vectors/'>Animals</a></li>
+                        <li><a target="_blank" href='https://www.pngrepo.com/collection/traveling-flat-icons/'>Traveling flat icons</a></li>
+                    </ul>
+                    <p>
+                        This feature uses a kinda experimental API which support only recently landed in Firefox, so if
+                        you don't see 'Custom icons' section in settings, make sure you're using at least Firefox 111.
+                        Chrome users should be fine as is.
+                    </p>
+
+                    <p>
+                        <strong>Please note.</strong> To support custom icons in backups, format of backups also changed 
+                        (now it's zip which includes your custom icons). So if you use this feature you might
+                        want to export a fresh backup.
+                    </p>
+                </section>
                 <section>
                     <h2>1.4.0</h2>
                     <ul>

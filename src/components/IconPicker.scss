@@ -17,6 +17,16 @@
         margin-bottom: 8px;
     }
 
+    .no-custom-icons-alert {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 48px 24px;
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+    }
+
     .icons-grid {
         // TODO: will be good to migrate to <ScrollArea> component instead of this mixin, but we don't own underlaying grid component...
         @include scroll-mixin();

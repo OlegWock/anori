@@ -1,4 +1,5 @@
 {
+    "include": ["declarations.d.ts", "src/**/*"],
     "compilerOptions": {
         "lib": ["es6", "es2019", "dom", "dom.iterable"],
         "baseUrl": ".",
@@ -17,7 +18,7 @@
         "jsx": "preserve", // Will be compiled with Babel anyway
         "allowJs": true,
         "moduleResolution": "node",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
     },
 
     "ts-node": {

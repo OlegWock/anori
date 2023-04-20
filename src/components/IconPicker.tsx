@@ -10,6 +10,7 @@ import { Icon } from './Icon';
 import { Tooltip } from './Tooltip';
 import { atom, useAtom } from 'jotai';
 import { useEffect } from 'react';
+import { useCustomIcons } from '@utils/custom-icons';
 
 type IconPickerProps = PopoverRenderProps<{
     onSelected: (icon: string) => void,
@@ -52,10 +53,18 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
     const [selectedFamily, setSelectedFamily] = useState(ALL_SETS);
     const [query, setQuery] = useState('');
     const [iconsBySet, setIconsBySet] = useAtom(iconsBySetAtom);
+    const { customIcons } = useCustomIcons();
 
     const iconsList = useMemo(() => {
         if (iconsBySet === null) return [];
-        const base = selectedFamily === ALL_SETS ? Object.entries(iconsBySet) : [[selectedFamily, iconsBySet[selectedFamily]]] as const;
+        let base: [string, string[]][];
+        if (selectedFamily === ALL_SETS) {
+            base = [...Object.entries(iconsBySet), ['custom', customIcons.map(i => i.name)]];
+        } else if (selectedFamily === 'custom') {
+            base = [[selectedFamily, customIcons.map(i => i.name)]]
+        } else {
+            base = [[selectedFamily, iconsBySet[selectedFamily]]];
+        }
         return base
             .map(([family, icons]) => icons.map(icon => `${family}:${icon}`))
             .flat()
@@ -91,7 +100,10 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
         <section>
             <label>Icons: </label>
             <Input ref={data.inputRef} value={query} onChange={e => setQuery(e.target.value)} placeholder='Search' className='icons-search' />
-            <FixedSizeList<GridItemData>
+            {(selectedFamily === 'custom' && iconsList.length === 0) ? <div className='no-custom-icons-alert'>
+                <p>Custom icons are icons which you upload for later use in Anori. </p>
+                <p>Currently, you don't have any custom icons. To upload your first custom icon please head to settings.</p>
+            </div> : <FixedSizeList<GridItemData>
                 className="icons-grid"
                 height={350}
                 itemCount={ROWS}
@@ -106,7 +118,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
                 }}
             >
                 {IconRow}
-            </FixedSizeList>
+            </FixedSizeList>}
         </section>
 
     </div>)

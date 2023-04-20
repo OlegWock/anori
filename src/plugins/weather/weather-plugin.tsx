@@ -29,7 +29,6 @@ const formatTemperature = (valueInCelsius: number, to: Temperature, withUnit = t
 };
 
 const formatSpeed = (speedInKmPerHour: number, to: Speed): string => {
-    console.log('Convert speed', speedInKmPerHour, 'to', to);
     if (to === 'km/h') return `${speedInKmPerHour.toFixed(1)} km/h`;
     if (to === 'm/s') return `${Math.round(speedInKmPerHour * (5 / 18))} m/s`;
     return `${(speedInKmPerHour * 0.6213).toFixed(1)} mph`;
@@ -218,7 +217,6 @@ const useCurrentWeather = (config: PluginWidgetConfigType) => {
             }
             try {
                 const weather = await gerCurrentWeather(config.location);
-                console.log('Got weather', weather);
                 setWeather({
                     ...weather,
                     lastUpdated: Date.now(),
@@ -265,7 +263,6 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
             }
             try {
                 const weather = await getForecast(config.location);
-                console.log('Got weather', weather);
                 setForecast(weather);
                 setLastUpdated(Date.now());
             } catch (err) {

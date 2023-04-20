@@ -21,6 +21,7 @@ import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import { WhatsNew } from '@components/WhatsNew';
 import clsx from 'clsx';
 import { CompactModeProvider, useSizeSettings } from '@utils/compact';
+import { getAllCustomIcons } from '@utils/custom-icons';
 
 
 const Start = () => {
@@ -120,7 +121,7 @@ const Start = () => {
                     <ShortcutsHelp />
                 </Modal>}
 
-                {whatsNewVisible && <Modal title="What's new" key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
+                {whatsNewVisible && <Modal title="What's new" className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
                     <WhatsNew />
                 </Modal>}
             </AnimatePresence>
@@ -155,6 +156,7 @@ storage.getOne('showLoadAnimation').then(showLoadAnimation => {
 // Fequently used in UI, preload to avoid flashes later
 requestIconsFamily('ion');
 requestIconsFamily('fluent');
+getAllCustomIcons();
 
 mountPage(<CompactModeProvider>
     <Start />

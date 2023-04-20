@@ -23,6 +23,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
     const tryAddWidget = (plugin: AnoriPlugin, widget: WidgetDescriptor<any>, config: any) => {
         const position = canFitItemInGrid({ grid: gridDimenstions, layout, item: widget.size });
         if (!position) {
+            // TODO: replace with toast
             alert("Can't fit element in grid, sorry");
             return;
         }

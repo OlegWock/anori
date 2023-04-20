@@ -1,6 +1,5 @@
-import { IconProps } from '@iconify/react';
 import './Hint.scss';
-import { Icon } from './Icon';
+import { Icon, IconProps } from './Icon';
 import { Tooltip } from './Tooltip';
 import clsx from 'clsx';
 

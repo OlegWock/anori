@@ -108,7 +108,6 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
 
     const { blockSize, gapSize } = useSizeSettings();
-    console.log('Desired block size:', blockSize);
     const mainRef = useRef<HTMLDivElement>(null);
     const grisDimenstions = useGrid(mainRef, blockSize);
 

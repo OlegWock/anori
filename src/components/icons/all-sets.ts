@@ -1,4 +1,5 @@
 
+import { CUSTOM_ICONS_AVAILABLE } from '@utils/custom-icons';
 export const allSets = [
     "ion", // https://icon-sets.iconify.design/ion/
     "fluent", // https://icon-sets.iconify.design/fluent/
@@ -11,7 +12,7 @@ export const allSets = [
     "vscode-icons", // https://icon-sets.iconify.design/vscode-icons/
     "circle-flags", // https://icon-sets.iconify.design/circle-flags/
     "flagpack", // https://icon-sets.iconify.design/flagpack/
-    "wi", // https://icon-sets.iconify.design/wi/
+    "wi", // https://icon-sets.iconify.design/wi/,
 ];
 
 export const iconSetPrettyNames: Record<string, string> = {
@@ -28,3 +29,9 @@ export const iconSetPrettyNames: Record<string, string> = {
     'flagpack': "Flagpack",
     'wi': "Weather Icons",
 } as const;
+
+if (CUSTOM_ICONS_AVAILABLE) {
+    // Icons uploaded by user
+    allSets.push('custom');
+    iconSetPrettyNames['custom'] = 'Custom icons';
+}

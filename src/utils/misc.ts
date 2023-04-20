@@ -20,3 +20,11 @@ export const parseHost = (url: string) => {
         return `Couldn't parse hostname`
     }
 };
+
+export const asyncIterableToArray = async <T>(iter: AsyncIterable<T>): Promise<T[]> => {
+    const res: T[] = [];
+    for await (const val of iter) {
+        res.push(val);
+    }
+    return res;
+};

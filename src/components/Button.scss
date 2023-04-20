@@ -20,7 +20,7 @@
         padding: 6px 18px;
         border-radius: 24px;
 
-        &:hover {
+        &:hover:not(:disabled):not([aria-disabled="true"]) {
             background: rgba(255, 255, 255, 0.1);
         }
 
@@ -29,8 +29,9 @@
         }
     }
 
-    &:disabled {
+    &:disabled, &[aria-disabled="true"] {
         cursor: not-allowed;
+        color: var(--text-disabled);
     }
 
 

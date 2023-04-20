@@ -50,11 +50,18 @@ sets.forEach((set, i, arr) => {
 
 
 const allSetsTs = `
-export const allSets = [\n${sets.map(s => `    ${JSON.stringify(s.name)}, // https://icon-sets.iconify.design/${s.name}/`).join('\n')}\n];
+import { CUSTOM_ICONS_AVAILABLE } from '@utils/custom-icons';
+export const allSets = [\n${sets.map(s => `    ${JSON.stringify(s.name)}, // https://icon-sets.iconify.design/${s.name}/`).join('\n')},\n];
 
 export const iconSetPrettyNames: Record<string, string> = {
 ${sets.map(s => `    '${s.name}': ${JSON.stringify(s.data.info.name)},`).join('\n')}
 } as const;
+
+if (CUSTOM_ICONS_AVAILABLE) {
+    // Icons uploaded by user
+    allSets.push('custom');
+    iconSetPrettyNames['custom'] = 'Custom icons';
+}
 `
 
 const iconsBySet: Record<string, string[]> = {};

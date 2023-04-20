@@ -1,10 +1,13 @@
-import { RefAttributes, useLayoutEffect } from 'react';
+import { ComponentPropsWithoutRef, RefAttributes, useLayoutEffect } from 'react';
 import browser from 'webextension-polyfill';
 import { allSets } from './icons/all-sets';
 import { IconifyJSON, Icon as OfflineIcon, addCollection } from '@iconify/react/dist/offline';
 import { useForceRerender } from '@utils/hooks';
 import { guid } from '@utils/misc';
 import { forwardRef } from 'react';
+import { useCustomIcon } from '@utils/custom-icons';
+import './Icon.scss';
+import clsx from 'clsx';
 
 
 const isFamilyLoaded = (family: string) => {
@@ -20,6 +23,7 @@ const loadFamily = async (family: string) => {
 };
 
 export const requestIconsFamily = async (family: string) => {
+    if (family === 'custom') return;
     if (!allSets.includes(family)) {
         console.error(`Unknown icons family ${family}, please make sure it's included in generate-icons script in root of project and run that script to regenerate icons.`);
         return;
@@ -50,12 +54,37 @@ const loadedFamilies: string[] = [];
 const loadingPromises: Record<string, Promise<void> | undefined> = {};
 const familyLoadedCallbacks: Record<string, (family: string) => void> = {};
 
+export type IconProps = {
+    icon: string,
+    width?: number | string,
+    height?: number | string,
+    className?: string,
+} & ComponentPropsWithoutRef<"div">;
 
+const CustomIcon = forwardRef<RefAttributes<HTMLElement>, IconProps>(({icon, className, ...props}, ref) => {
+    const iconInfo = useCustomIcon(icon);
 
-export const Icon = forwardRef<RefAttributes<SVGSVGElement>, Omit<React.ComponentProps<typeof OfflineIcon>, 'icon'> & { icon: string }>((props, ref) => {
+    if (!iconInfo) {
+        // @ts-ignore incorrect ref types?
+        return (<div ref={ref} style={{
+            background: '#ffffff',
+            borderRadius: 8,
+            opacity: 0.35,
+            width: props.width || props.height || 24,
+            height: props.height || props.width || 24,
+        }} />);
+    }
+
+    // @ts-ignore incorrect ref types?
+    return (<img className={clsx('CustomIcon', className)} ref={ref} src={iconInfo.urlObject} {...props} />);
+});
+
+export const Icon = forwardRef<RefAttributes<SVGSVGElement>, IconProps>((props, ref) => {
+    const [family, iconName] = props.icon.split(':');
+    const rerender = useForceRerender();
+
     useLayoutEffect(() => {
-        const family = props.icon.split(':')[0];
-        if (!family || isFamilyLoaded(family)) return;
+        if (!family || isFamilyLoaded(family) || family === 'custom') return;
 
         const callbackId = subscribeToLoadEvents((loadedFamily) => {
             if (loadedFamily === family) {
@@ -68,7 +97,10 @@ export const Icon = forwardRef<RefAttributes<SVGSVGElement>, Omit<React.Componen
         return () => unsubscribe(callbackId);
     }, [props.icon]);
 
-    const rerender = useForceRerender();
+    if (family === 'custom') {
+        return (<CustomIcon {...props} icon={iconName}  />);
+    }
+
     // @ts-ignore incorrect ref typing
     return (<OfflineIcon {...props} ref={ref}>
         <div style={{
