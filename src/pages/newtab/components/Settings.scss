@@ -117,6 +117,10 @@
     align-items: center;
     margin: 6px 0;
 
+    .folder-drag-indicator {
+        touch-action: none;
+    }
+
     .folder-icon {
         cursor: pointer;
         background: none;

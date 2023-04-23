@@ -8,6 +8,7 @@
     "scripts": {
         "dev": "webpack build --config webpack.config.ts --env mode=development",
         "production": "webpack build --config webpack.config.ts --env mode=production",
+        "production:all-permissions": "webpack build --config webpack.config.ts --env mode=production --env targetBrowser=chrome-all-permissions",
         "watch": "webpack watch --config webpack.config.ts",
         "dev:ff": "webpack build --config webpack.config.ts --env mode=development --env targetBrowser=firefox",
         "production:ff": "webpack build --config webpack.config.ts --env mode=production --env targetBrowser=firefox",
@@ -18,6 +19,7 @@
         "prepare": "husky install",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
+        "typecheck": "tsc --noEmit",
         "pre-commit": "run-p lint",
         "icons": "ts-node generate-icons-assets.ts"
     },

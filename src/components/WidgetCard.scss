@@ -40,6 +40,8 @@
     .drag-widget-btn {
         top: -14px;
         left: -14px;
+
+        touch-action: none;
     }
 
     @at-root .compact & {

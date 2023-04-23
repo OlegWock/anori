@@ -9,6 +9,7 @@
 
 html {
     height: 100vh;
+    height: 100dvh;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
     letter-spacing: 0.075rem;
     color: var(--text);
     height: 100vh;
+    height: 100dvh;
     // background-image: url('/assets/images/backgrounds/greenery.jpg');
     background-image: var(--background-image);
     background-size: cover;
@@ -26,7 +28,9 @@ body {
 
 #root {
     height: 100vh;
+    height: 100dvh;
     width: 100vw;
+    width: 100dvw;
     z-index: 0;
     background-color: rgba(0, 0, 0, 0.35);
 
@@ -35,7 +39,9 @@ body {
         pointer-events: none;
         position: fixed;
         width: 100vw;
+        width: 100dvw;
         height: 100vh;
+        height: 100dvh;
         top: 0;
         left: 0;
         background-image: radial-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
@@ -45,6 +51,7 @@ body {
 
 .StartPage {
     height: 100vh;
+    height: 100dvh;
     width: 100vw;
     display: flex;
 

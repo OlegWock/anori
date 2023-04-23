@@ -33,7 +33,7 @@ const currentYear = new Date().getFullYear();
 interface WebpackEnvs {
     WEBPACK_WATCH: boolean;
     mode?: 'development' | 'production';
-    targetBrowser?: 'chrome' | 'firefox' | 'safari';
+    targetBrowser?: 'chrome' | 'chrome-all-permissions' | 'firefox' | 'safari';
 }
 
 const generateManifest = (
@@ -90,6 +90,20 @@ const generateManifest = (
             }
         ],
     };
+
+    if (targetBrowser === 'chrome-all-permissions') {
+        manifest.permissions = [
+            ...manifest.permissions!,
+            ...manifest.optional_permissions!,
+        ];
+        manifest.optional_permissions = [];
+
+        manifest.host_permissions = [
+            ...manifest.host_permissions!,
+            ...manifest.optional_host_permissions!,
+        ];
+        manifest.optional_host_permissions = [];
+    }
 
     // Chrome (with manifest v3) treated as default platform. So, need to patch it for Firefox manifest v2
     if (targetBrowser === 'firefox' || targetBrowser === 'safari') {
