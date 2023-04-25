@@ -17,6 +17,7 @@ type BookmarkWidgetConfigType = {
     url: string,
     title: string,
     icon: string,
+    openInNewWindow: boolean,
 };
 
 
@@ -25,11 +26,12 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const onConfirm = () => {
         if (!title || !url) return;
 
-        saveConfiguration({ title, url, icon });
+        saveConfiguration({ title, url, icon, openInNewWindow });
     };
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
+    const [openInNewWindow, setOpenInNewWindow] = useState(currentConfig?.openInNewWindow || false);
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
 
@@ -56,6 +58,15 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             <Input value={url} onChange={(e) => setUrl(e.target.value)} />
         </div>
 
+        <div className="open-in-new-window">
+            <label>Open in new window:</label>
+            <input
+                type="checkbox"
+                checked={openInNewWindow}
+                onChange={(e) => setOpenInNewWindow(e.target.checked)}
+            />
+        </div>
+
         <Button className="save-config" onClick={onConfirm}>Save</Button>
     </div>);
 };
@@ -65,7 +76,7 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
     const { rem } = useSizeSettings();
     const {onLinkClick, isNavigating} = useLinkNavigationState();
 
-    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick}>
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} target={config.openInNewWindow ? '_blank' : undefined} rel={config.openInNewWindow ? 'noopener noreferrer' : undefined}>
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
@@ -113,7 +124,8 @@ const widgetSizeSDescriptor = {
         return (<MainScreen instanceId="" size="s" isMock config={{
             url: 'http://example.com',
             title: 'Example',
-            icon: 'ion:dice'
+            icon: 'ion:dice',
+            openInNewWindow: false
         }} />)
     },
     size: {
@@ -134,7 +146,8 @@ const widgetSizeMDescriptor = {
         return (<MainScreen instanceId="" size="m" isMock config={{
             url: 'http://example.com',
             title: 'Example',
-            icon: 'ion:dice'
+            icon: 'ion:dice',
+            openInNewWindow: false
         }} />)
     },
     size: {
