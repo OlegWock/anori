@@ -1,7 +1,7 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, ID } from "@utils/user-data/types";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import './styles.scss';
 import { Icon } from "@components/Icon";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
@@ -40,12 +40,14 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigType>) => {
     const addTask = () => {
+        const id = guid();
         setTasks(p => {
             return [
                 ...p,
-                { id: guid(), text: '' },
+                { id, text: '' },
             ]
         });
+        lastAddedTaskRef.current = id;
     };
 
     const completeTask = (id: Task["id"]) => {
@@ -59,8 +61,11 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
         }));
     };
 
+
     const storage = useWidgetStorage<TaskWidgetStorageType>();
     const [tasks, setTasks] = storage.useValue('tasks', []);
+    const lastAddedTaskRef = useRef('');
+
     return (<div className="TasksWidget">
         <div className="tasks-header">
             <h2>{config.title}</h2>
@@ -80,7 +85,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
                                 exit={{ opacity: 0 }}
                             >
                                 <Checkbox checked={false} onChange={() => completeTask(t.id)} />
-                                <Input value={t.text} onValueChange={v => editTask(t.id, v)} placeholder="Task description..." />
+                                <Input autoFocus={lastAddedTaskRef.current === t.id} value={t.text} onValueChange={v => editTask(t.id, v)} placeholder="Task description..." />
                             </motion.div>
                         })}
                     </AnimatePresence>
