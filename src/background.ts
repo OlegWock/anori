@@ -97,3 +97,11 @@ browser.alarms.create('scheduledCallbacks', {
     delayInMinutes: 5,
 });
 
+
+(X_BROWSER === 'chrome' ? browser.action : browser.browserAction).onClicked.addListener(() => {
+    browser.tabs.create({
+        url: browser.runtime.getURL('/pages/newtab/start.html'),
+        active: true,
+    })
+});
+

@@ -48,6 +48,9 @@ const generateManifest = (
         version: version,
         author: author,
         manifest_version: 3,
+        action: {
+            default_title: 'Open Anori new tab'
+        },
         minimum_chrome_version: "99",
         background: {
             service_worker: 'background-wrapper.js',
@@ -110,10 +113,15 @@ const generateManifest = (
         const unavailablePermissions = [
             'system.cpu',
             'system.memory',
-            'favicon'
+            'favicon',
         ];
 
+        const additionalPermissions: string[] = [];
+
         manifest.manifest_version = 2;
+
+        manifest.browser_action = manifest.action;
+        delete manifest.action;
 
         delete manifest.host_permissions;
         delete manifest.minimum_chrome_version;
@@ -125,7 +133,10 @@ const generateManifest = (
 
         delete manifest.optional_host_permissions;
 
-        manifest.permissions = manifest.permissions!.filter(p => !unavailablePermissions.includes(p));
+        manifest.permissions = [
+            ...manifest.permissions!.filter(p => !unavailablePermissions.includes(p)),
+            ...additionalPermissions
+        ];
         manifest.optional_permissions = manifest.optional_permissions!.filter(p => !unavailablePermissions.includes(p));
 
         manifest.background = {
