@@ -46,7 +46,10 @@ const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconCh
             as="div"
             className='FolderItem'
         >
-            <Icon className='folder-drag-indicator' icon='ic:baseline-drag-indicator' width={ICON_SIZE} onPointerDown={(e) => controls.start(e)} />
+            <Icon className='folder-drag-indicator' icon='ic:baseline-drag-indicator' width={ICON_SIZE} onPointerDown={(e) => {
+                e.preventDefault();
+                controls.start(e);
+            }} />
             <Popover
                 component={IconPicker}
                 initialFocus={iconSearchRef}
