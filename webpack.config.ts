@@ -51,7 +51,7 @@ const generateManifest = (
         action: {
             default_title: 'Open Anori new tab'
         },
-        minimum_chrome_version: "99",
+        minimum_chrome_version: "104",
         background: {
             service_worker: 'background-wrapper.js',
         },
