@@ -1,12 +1,13 @@
 import { Command } from 'cmdk';
 import { useEffect, useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 import './CommandMenu.scss';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, CommandItem } from '@utils/user-data/types';
 import { availablePlugins } from '@plugins/all';
 import { wait } from '@utils/misc';
 import { ScrollArea } from '@components/ScrollArea';
+import { useHotkeys } from '@utils/hooks';
+import { trackEvent } from '@utils/analytics';
 
 const ON_COMMAND_INPUT_TIMEOUT = 300;
 
@@ -64,9 +65,10 @@ export const CommandMenu = () => {
                         {actions.filter(({ items }) => items.length !== 0).map(({ plugin, items }) => {
                             return (<Command.Group heading={plugin.name} key={plugin.id}>
                                 {items.map(({ icon, text, hint, key, onSelected, image }) => {
-                                    return (<Command.Item key={key} value={key} onSelect={e => {
+                                    return (<Command.Item key={key} value={key} onSelect={async (e) => {
                                         setOpen(false);
                                         setQuery('');
+                                        await trackEvent('Command option selected', { plugin: plugin.id });
                                         onSelected();
                                     }}>
                                         <div cmdk-item-icon="">

@@ -35,7 +35,12 @@ const getIconsDirHandle = async () => {
     const opfsRoot = await navigator.storage.getDirectory();
     const iconsDir = await opfsRoot.getDirectoryHandle(CUSTOM_ICONS_FOLDER_NAME, { create: true });
     return iconsDir;
-}
+};
+
+export const getAllCustomIconNames = async (): Promise<string[]> => {
+    const files = await getAllCustomIconFiles();
+    return files.map(f => f.name);
+};
 
 export const getAllCustomIcons = async (): Promise<CustomIcon[]> => {
     const files = await getAllCustomIconFiles();

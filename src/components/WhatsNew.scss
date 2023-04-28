@@ -24,6 +24,10 @@
             gap: 24px;
             padding: 0 18px;
         }
+
+        .margin-top {
+            margin-top: 1rem;
+        }
     
         ul {
             margin-left: 22px;
@@ -31,6 +35,15 @@
     
         p:not(:first-of-type) {
             margin-top: 2rem;
+        }
+
+        .analytics-checkbox {
+            margin-top: 1rem;
+            font-size: 1.25rem;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--background-lighter);
         }
     }
 }

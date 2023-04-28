@@ -24,6 +24,8 @@ import { Input } from '@components/Input';
 import { downloadBlob, showOpenFilePicker } from '@utils/files';
 import { Tooltip } from '@components/Tooltip';
 import JSZip from 'jszip';
+import { analyticsEnabledAtom } from '@utils/analytics';
+import { useAtom } from 'jotai';
 
 
 const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
@@ -191,6 +193,7 @@ export const Settings = () => {
     const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
     const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', false);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
+    const [analyticsEnabled, setAnalyticsEnabled] = useAtom(analyticsEnabledAtom);
 
     const { customIcons, addNewCustomIcon, removeCustomIcon } = useCustomIcons();
     const [draftCustomIcons, setDraftCustomIcons] = useState<DraftCustomIcon[]>([]);
@@ -201,6 +204,19 @@ export const Settings = () => {
             The Settings Menu is a powerful tool for customizing your user experience. Here, you can tweak everything from the default color scheme to the order of folders.
             With the Settings Menu, you have total control over the look and feel of your new tab.
 
+            <motion.section layout="position">
+                <h2>Analytics</h2>
+                <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
+                    Enable sending analytics
+                    <Hint content={<>
+                        Analytics helps me better understand how users interact with Anori and 
+                        which features are used the most. I doesn't share any private info like content of 
+                        notes or URL of bookmarks.
+                        
+                        <div style={{marginTop: '0.5rem'}}>This helps me to develop better product so I ask you to enable sending analytics.</div>
+                        </>} />
+                </Checkbox>
+            </motion.section>
 
             <motion.section layout="position">
                 <h2>Options</h2>
@@ -208,7 +224,7 @@ export const Settings = () => {
                     {/* Focus stealer works only in Chrome and Safari */}
                     {X_BROWSER !== 'firefox' && <Checkbox checked={stealFocus} onChange={setStealFocus}>
                         Steal focus from addressbar
-                        <Hint text='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
+                        <Hint content='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
                     </Checkbox>}
                     <Checkbox checked={isAutomaticCompact} onChange={setAutomaticCompact}>
                         Automatically switch to compact mode based on screen size
@@ -218,7 +234,7 @@ export const Settings = () => {
                     </Checkbox>
                     <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
                         Show animation on open
-                        <Hint text={`If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look.`} />
+                        <Hint content="If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look." />
                     </Checkbox>
                 </div>
             </motion.section>

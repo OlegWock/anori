@@ -1,4 +1,7 @@
 import { MouseEventHandler, useEffect, useLayoutEffect, useRef, useState } from "react"
+import { useHotkeys as useHotkeysOriginal } from 'react-hotkeys-hook';
+import { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
+import { trackEvent } from "./analytics";
 
 export const useForceRerender = () => {
     const [state, setState] = useState({});
@@ -58,4 +61,14 @@ export const useLinkNavigationState = () => {
     const [isNavigating, setIsNavigating] = useState(false);
 
     return {isNavigating, onLinkClick}
+};
+
+export const useHotkeys = (keys: Keys, callback: HotkeyCallback, options?: OptionsOrDependencyArray, dependencies?: OptionsOrDependencyArray) => {
+    const patchedCallback: HotkeyCallback = (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent) => {
+        const finalKeys = Array.isArray(keys) ? keys.join('+') : keys;
+        trackEvent('Hotkey used', {hotkey: finalKeys});
+        return callback(keyboardEvent, hotkeysEvent);
+    };
+
+    return useHotkeysOriginal(keys, patchedCallback, options, dependencies);
 };

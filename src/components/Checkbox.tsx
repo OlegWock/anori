@@ -12,11 +12,12 @@ type CheckboxProps = {
     disabled?: boolean,
     checked?: boolean,
     onChange?: (newState: boolean) => void,
+    className?: string,
 }
 
-export const Checkbox = ({ children, defaultChecked, checked, onChange, disabled }: CheckboxProps) => {
+export const Checkbox = ({ children, defaultChecked, checked, onChange, disabled, className }: CheckboxProps) => {
     const id = useId();
-    return (<div className={clsx('Checkbox', {'Checkbox-disabled': disabled})} data-disabled={disabled || undefined}>
+    return (<div className={clsx('Checkbox', {'Checkbox-disabled': disabled}, className)} data-disabled={disabled || undefined}>
         <RadixCheckbox.Root disabled={disabled} className="Checkbox-root" defaultChecked={defaultChecked} id={id} checked={checked} onCheckedChange={onChange}>
             <RadixCheckbox.Indicator className="Checkbox-indicator">
                 <Icon icon="ion:checkmark-sharp" width={14} height={14} />

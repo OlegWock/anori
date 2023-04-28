@@ -1,7 +1,7 @@
 {
     "name": "Anori",
     "description": "Customizable new tab: compose your own page from widgets",
-    "version": "1.5.1",
+    "version": "1.6.0",
     "repository": "git@github.com:OlegWock/anori.git",
     "author": "OlegWock <olegwock@gmail.com>",
     "license": "MIT",
@@ -59,6 +59,7 @@
         "jotai": "^2.0.0",
         "jotai-optics": "^0.3.0",
         "jszip": "^3.10.1",
+        "mixpanel-browser": "juanfer0002/mixpanel-js-mv3#cc7d3a9e4c37e3f9d7de1789a38794e861c3e40a",
         "moment-timezone": "^0.5.40",
         "moment-timezone-data-webpack-plugin": "^1.5.1",
         "optics-ts": "^2.4.0",
@@ -84,6 +85,7 @@
         "webpack-cli": "^5.0.1"
     },
     "devDependencies": {
+        "@types/mixpanel-browser": "^2.38.1",
         "@types/webpack-bundle-analyzer": "^4.6.0",
         "eslint": "^8.33.0",
         "eslint-config-prettier": "^8.6.0",
