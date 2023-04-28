@@ -71,7 +71,8 @@ const generateManifest = (
         optional_permissions: [
             'tabs',
             'favicon',
-            'topSites'
+            'topSites',
+            'bookmarks'
         ],
         optional_host_permissions: [
             "*://*/*"

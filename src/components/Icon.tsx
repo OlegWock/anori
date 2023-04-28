@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, RefAttributes, useLayoutEffect } from 'react';
+import { ComponentPropsWithoutRef, RefAttributes, useLayoutEffect, useMemo } from 'react';
 import browser from 'webextension-polyfill';
 import { allSets } from './icons/all-sets';
 import { IconifyJSON, Icon as OfflineIcon, addCollection } from '@iconify/react/dist/offline';
@@ -8,6 +8,8 @@ import { forwardRef } from 'react';
 import { useCustomIcon } from '@utils/custom-icons';
 import './Icon.scss';
 import clsx from 'clsx';
+import { useAtomValue } from 'jotai';
+import { availablePermissionsAtom } from '@utils/permissions';
 
 
 const isFamilyLoaded = (family: string) => {
@@ -54,14 +56,17 @@ const loadedFamilies: string[] = [];
 const loadingPromises: Record<string, Promise<void> | undefined> = {};
 const familyLoadedCallbacks: Record<string, (family: string) => void> = {};
 
-export type IconProps = {
-    icon: string,
+type BaseIconProps = {
     width?: number | string,
     height?: number | string,
     className?: string,
-} & ComponentPropsWithoutRef<"div">;
+} & ComponentPropsWithoutRef<"div">
 
-const CustomIcon = forwardRef<RefAttributes<HTMLElement>, IconProps>(({icon, className, ...props}, ref) => {
+export type IconProps = {
+    icon: string,
+} & BaseIconProps;
+
+const CustomIcon = forwardRef<RefAttributes<HTMLElement>, IconProps>(({ icon, className, ...props }, ref) => {
     const iconInfo = useCustomIcon(icon);
 
     if (!iconInfo) {
@@ -98,7 +103,7 @@ export const Icon = forwardRef<RefAttributes<SVGSVGElement>, IconProps>((props, 
     }, [props.icon]);
 
     if (family === 'custom') {
-        return (<CustomIcon {...props} icon={iconName}  />);
+        return (<CustomIcon {...props} icon={iconName} />);
     }
 
     // @ts-ignore incorrect ref typing
@@ -111,4 +116,43 @@ export const Icon = forwardRef<RefAttributes<SVGSVGElement>, IconProps>((props, 
             height: props.height || props.width || 24,
         }} />
     </OfflineIcon>);
+});
+
+
+type FaviconProps = {
+    url: string,
+    fallback?: string,
+} & BaseIconProps;
+
+export const Favicon = forwardRef<HTMLElement, FaviconProps>((props, ref) => {
+    const permissions = useAtomValue(availablePermissionsAtom);
+    // @ts-expect-error new permission not yet in types
+    const hasPermission = permissions?.permissions.includes('favicon');
+    const iconUrl = useMemo(() => {
+        const size = (props.width || props.height || 64).toString();
+        if (hasPermission) {
+            const resUrl = new URL(browser.runtime.getURL("/_favicon/"));
+            resUrl.searchParams.set("pageUrl", props.url);
+            resUrl.searchParams.set("size", size);
+            return resUrl.toString();
+        } else {
+            try {
+                const host = new URL(props.url).host;
+                return `https://magnificent-orange-damselfly.faviconkit.com/${host}/${size}`;
+            } catch (err) {
+                console.log('Error parsing host from', props.url);
+                return '';
+            }
+        }
+    }, [hasPermission, props.url])
+
+
+
+    if (iconUrl) {
+        // @ts-ignore incorrect ref typing
+        return (<img src={iconUrl} {...props} ref={ref} />);
+    }
+
+    // @ts-ignore incorrect ref typing
+    return (<Icon icon={props.fallback || 'ic:baseline-tab'} {...props} ref={ref} />);
 });

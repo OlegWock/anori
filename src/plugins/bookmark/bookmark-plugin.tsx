@@ -1,17 +1,22 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import './styles.scss';
-import { Popover } from "@components/Popover";
+import { Popover, PopoverRenderProps } from "@components/Popover";
 import { IconPicker } from "@components/IconPicker";
-import { Icon } from "@components/Icon";
+import { Favicon, Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
 import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { parseHost } from "@utils/misc";
 import { useLinkNavigationState } from "@utils/hooks";
 import { useSizeSettings } from "@utils/compact";
+import { RequirePermissions } from "@components/RequirePermissions";
+import browser from 'webextension-polyfill';
+import { ScrollArea } from "@components/ScrollArea";
+import { motion } from "framer-motion";
+
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -19,6 +24,83 @@ type BookmarkWidgetConfigType = {
     icon: string,
 };
 
+type PickBookmarkProps = {
+    onSelected: (title: string, url: string) => void,
+};
+
+type BrowserBookmark = {
+    id: string,
+    title: string,
+    url: string,
+    dateAdded: number,
+};
+
+const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickBookmarkProps>) => {
+    const [bookmarks, setBookmarks] = useState<BrowserBookmark[]>([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        const walkNode = (node: browser.Bookmarks.BookmarkTreeNode): BrowserBookmark[] => {
+            if (node.children) {
+                const res = node.children.map(n => walkNode(n));
+                return res.flat();
+            } else {
+                return [{
+                    id: node.id,
+                    title: node.title,
+                    url: node.url!,
+                    dateAdded: node.dateAdded || 0,
+                }];
+            }
+        };
+
+        const main = async () => {
+            const nodes = await browser.bookmarks.getTree();
+            const bookmarks = nodes.flatMap(n => walkNode(n));
+            setBookmarks(bookmarks);
+        }
+
+        main();
+    }, []);
+
+    const { rem } = useSizeSettings();
+
+    const filteredBookmarks = bookmarks.filter(({ title, url }) => {
+        const q = searchQuery.toLowerCase();
+        return title.toLowerCase().includes(q) || url.toLowerCase().includes(q);
+    });
+
+    return (<div className="PickBookmark">
+        <Input value={searchQuery} onValueChange={setSearchQuery} placeholder="Search bookmarks" />
+        <ScrollArea>
+            {filteredBookmarks.map(bk => {
+                return (<motion.div
+                    key={bk.id}
+                    className='bookmark'
+                    onClick={() => {
+                        onSelected(bk.title, bk.url)
+                        close();
+                    }}
+                >
+                    <Favicon url={bk.url} height={rem(1)} />
+                    <div className="title">
+                        {bk.title || bk.url}
+                    </div>
+                </motion.div>);
+            })}
+            {filteredBookmarks.length === 0 && <div className="no-results">
+                No results
+            </div>}
+        </ScrollArea>
+    </div>);
+};
+
+const PickBookmark = (props: PopoverRenderProps<PickBookmarkProps>) => {
+    // @ts-expect-error favicon is not present in webextension-polyfill typings yet
+    return (<RequirePermissions permissions={["bookmarks", "favicon"]} >
+        <_PickBookmark {...props} />
+    </RequirePermissions >);
+};
 
 
 const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkWidgetConfigType>) => {
@@ -34,7 +116,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const iconSearchRef = useRef<HTMLInputElement>(null);
 
     return (<div className="BookmarkWidget-config">
-        <div>
+        <div className="field">
             <label>Icon:</label>
             <Popover
                 component={IconPicker}
@@ -47,23 +129,38 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
                 <Button className="icon-picker-trigger"><Icon icon={icon} width={rem(3)} /></Button>
             </Popover>
         </div>
-        <div>
+        <div className="field">
             <label>Title:</label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
-        <div>
+        <div className="field">
             <label>URL:</label>
-            <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+            <div className="url-import-wrapper">
+                <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+                <Popover
+                    component={PickBookmark}
+                    additionalData={{
+                        onSelected: (title, url) => {
+                            console.log('Selected bookmark', title, url);
+                            setTitle(title);
+                            setUrl(url);
+                        },
+                    }}
+                >
+                    <Button>Import</Button>
+                </Popover>
+            </div>
         </div>
 
         <Button className="save-config" onClick={onConfirm}>Save</Button>
+
     </div>);
 };
 
 const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
     const host = useMemo(() => parseHost(config.url), [config.url]);
     const { rem } = useSizeSettings();
-    const {onLinkClick, isNavigating} = useLinkNavigationState();
+    const { onLinkClick, isNavigating } = useLinkNavigationState();
 
     return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick}>
         <div className="text">

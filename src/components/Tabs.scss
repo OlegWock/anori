@@ -1,0 +1,53 @@
+.Tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.Tabs-list {
+    flex-shrink: 0;
+    display: flex;
+    margin-bottom: 0.75rem;
+}
+
+.Tabs-trigger {
+    flex-grow: 1;
+    flex-basis: 0;
+    width: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    white-space: nowrap;
+    color: var(--text);
+    font-family: inherit;
+    transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
+    padding: 2px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-left-width: 0;
+    border-right-width: 0;
+    padding: 6px 18px;
+
+    &:first-child {
+        border-top-left-radius: 24px;
+        border-bottom-left-radius: 24px;
+        border-left-width: 2px;
+    }
+
+    &:last-child {
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+        border-right-width: 2px;
+    }
+
+    &:hover:not(:disabled):not([aria-disabled="true"]) {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    &[data-state='active'] {
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
