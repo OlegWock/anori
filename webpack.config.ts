@@ -144,12 +144,10 @@ const generateManifest = (
             "persistent": false,
             "scripts": [
                 `${libsRoot}/other.js`,
+                `${libsRoot}/ui.js`,
                 "background.js"
             ]
         };
-
-        manifest.browser_action = manifest.action;
-        delete manifest.action;
 
         manifest.web_accessible_resources = manifest.web_accessible_resources!.flatMap(descriptor => {
             return (descriptor as Manifest.WebExtensionManifestWebAccessibleResourcesC2ItemType).resources;
