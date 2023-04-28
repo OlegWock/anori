@@ -3,6 +3,7 @@
     align-items: center;
     text-decoration: none;
     flex-grow: 1;
+    max-height: 100%;
 
     &.size-s {
         flex-direction: column;

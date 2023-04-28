@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, RefAttributes, useLayoutEffect, useMemo } from 'react';
+import { ComponentPropsWithoutRef, RefAttributes, useLayoutEffect, useMemo, useState } from 'react';
 import browser from 'webextension-polyfill';
 import { allSets } from './icons/all-sets';
 import { IconifyJSON, Icon as OfflineIcon, addCollection } from '@iconify/react/dist/offline';
@@ -122,15 +122,18 @@ export const Icon = forwardRef<RefAttributes<SVGSVGElement>, IconProps>((props, 
 type FaviconProps = {
     url: string,
     fallback?: string,
+    useFaviconApiIfPossible?: boolean,
 } & BaseIconProps;
 
 export const Favicon = forwardRef<HTMLElement, FaviconProps>((props, ref) => {
     const permissions = useAtomValue(availablePermissionsAtom);
     // @ts-expect-error new permission not yet in types
     const hasPermission = permissions?.permissions.includes('favicon');
+    const [imageError, setImageError] = useState(false);
+
     const iconUrl = useMemo(() => {
         const size = (props.width || props.height || 64).toString();
-        if (hasPermission) {
+        if (hasPermission && props.useFaviconApiIfPossible) {
             const resUrl = new URL(browser.runtime.getURL("/_favicon/"));
             resUrl.searchParams.set("pageUrl", props.url);
             resUrl.searchParams.set("size", size);
@@ -148,9 +151,9 @@ export const Favicon = forwardRef<HTMLElement, FaviconProps>((props, ref) => {
 
 
 
-    if (iconUrl) {
+    if (iconUrl && !imageError) {
         // @ts-ignore incorrect ref typing
-        return (<img src={iconUrl} {...props} ref={ref} />);
+        return (<img src={iconUrl} onError={() => setImageError(true)} {...props} ref={ref} />);
     }
 
     // @ts-ignore incorrect ref typing
