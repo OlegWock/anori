@@ -80,7 +80,11 @@ export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
     const userId = await getUserId();
     console.log('Before mixpanel call');
     mixpanel.identify(userId);
-    mixpanel.track('Daily stats', data, { send_immediately: true, transport: 'xhr' });
+    const promise = new Promise<void>((resolve) => {
+        mixpanel.track('Daily stats', data, { send_immediately: true }, () => resolve());
+    });
+    await promise;
+    await storage.setOne('analyticsLastSend', Date.now());
 };
 
 export const trackEvent = async (eventName: string, props: Record<string, any> = {}, timeout = 300) => {
