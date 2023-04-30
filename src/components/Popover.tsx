@@ -17,7 +17,7 @@ import {
     safePolygon,
     Side,
     size
-} from "@floating-ui/react-dom-interactions";
+} from "@floating-ui/react";
 import { mergeRefs } from "react-merge-refs";
 import { motion, AnimatePresence } from "framer-motion"
 import "./Popover.scss";

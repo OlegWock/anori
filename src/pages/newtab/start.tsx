@@ -3,7 +3,7 @@ import { mountPage, setPageTitle } from '@utils/mount';
 import './styles.scss';
 import { requestIconsFamily } from '@components/Icon';
 import { FolderButton } from '@components/FolderButton';
-import { FloatingDelayGroup } from '@floating-ui/react-dom-interactions';
+import { FloatingDelayGroup } from '@floating-ui/react';
 import { useState } from 'react';
 import { Modal } from '@components/Modal';
 import { Settings } from './components/Settings';

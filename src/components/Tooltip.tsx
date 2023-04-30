@@ -15,7 +15,7 @@ import {
     useDelayGroup,
     FloatingPortal,
     Strategy
-} from "@floating-ui/react-dom-interactions";
+} from "@floating-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import './Tooltip.scss';
 

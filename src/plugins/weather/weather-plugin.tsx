@@ -9,7 +9,7 @@ import { useWidgetStorage } from "@utils/plugin";
 import moment from "moment";
 import { Icon } from "@components/Icon";
 import { Tooltip } from "@components/Tooltip";
-import { FloatingDelayGroup } from "@floating-ui/react-dom-interactions";
+import { FloatingDelayGroup } from "@floating-ui/react";
 import { useSizeSettings } from "@utils/compact";
 
 type PluginWidgetConfigType = {
