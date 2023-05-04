@@ -22,7 +22,7 @@ type BookmarkWidgetConfigType = {
     url: string,
     title: string,
     icon: string,
-    openInNewTap?: boolean,
+    openInNewTab?: boolean,
 };
 
 type PickBookmarkProps = {
@@ -108,12 +108,12 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const onConfirm = () => {
         if (!title || !url) return;
 
-        saveConfiguration({ title, url, icon, openInNewTap });
+        saveConfiguration({ title, url, icon, openInNewTab });
     };
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
-    const [openInNewTap, setOpenInNewTap] = useState(currentConfig?.openInNewTap || false);
+    const [openInNewTab, setOpenInNewTab] = useState(currentConfig?.openInNewTab || false);
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
 
@@ -154,11 +154,8 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             </div>
         </div>
 
-        <div className="open-in-new-tap">
-            <label>Open in a new tap:</label>
-            <div>
-                <Checkbox checked={openInNewTap} onChange={setOpenInNewTap} />
-            </div>
+        <div className="open-in-new-tab">
+            <Checkbox checked={openInNewTab} onChange={setOpenInNewTab}>Open in a new tab</Checkbox>
         </div>
 
         <Button className="save-config" onClick={onConfirm}>Save</Button>
@@ -171,13 +168,15 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
     const { rem } = useSizeSettings();
     const { onLinkClick, isNavigating } = useLinkNavigationState();
 
-    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} target={config.openInNewTap ? '_blank' : undefined} rel={config.openInNewTap ? 'noopener noreferrer' : undefined}>
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} target={config.openInNewTab ? '_blank' : undefined} rel={config.openInNewTab ? 'noopener noreferrer' : undefined}>
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
         </div>
-        {isNavigating && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
-        {!isNavigating && <Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />}
+        {(isNavigating && !config.openInNewTab)
+            ? (<Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
+            : (<Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
+        }
     </a>);
 };
 
@@ -220,7 +219,7 @@ const widgetSizeSDescriptor = {
             url: 'http://example.com',
             title: 'Example',
             icon: 'ion:dice',
-            openInNewTap: false
+            openInNewTab: false
         }} />)
     },
     size: {
@@ -242,7 +241,7 @@ const widgetSizeMDescriptor = {
             url: 'http://example.com',
             title: 'Example',
             icon: 'ion:dice',
-            openInNewTap: false
+            openInNewTab: false
         }} />)
     },
     size: {
