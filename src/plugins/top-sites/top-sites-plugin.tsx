@@ -8,13 +8,14 @@ import { parseHost } from "@utils/misc";
 import clsx from "clsx";
 import { useLinkNavigationState } from "@utils/hooks";
 import { Icon } from "@components/Icon";
-import { usePluginStorage } from "@utils/plugin";
+import { useWidgetStorage } from "@utils/plugin";
+import { useParentFolder } from "@utils/FolderContentContext";
 
 type PluginWidgetConfigType = {
 
 };
 
-type PluginStorageType = {
+type WidgetStorageType = {
     blacklist: string[],
 }
 
@@ -22,16 +23,17 @@ const REQUIRED_PERMISSIONS = X_BROWSER === 'firefox' ? ['topSites'] : ['topSites
 
 const LinkPlate = ({ href, favicon, title, onRemove }: { href: string, favicon: string, title: string, onRemove: () => void }) => {
     const { onLinkClick, isNavigating } = useLinkNavigationState();
+    const { isEditing } = useParentFolder();
 
     return (<a href={href} onClick={onLinkClick}>
         {isNavigating && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={32} height={32} />}
         {!isNavigating && <img src={favicon} />}
         <div className="site-title">{title}</div>
-        <Button className="remove-link" onClick={e => {
+        {isEditing && <Button className="remove-link" onClick={e => {
             e.preventDefault();
             e.stopPropagation();
             onRemove();
-        }}><Icon icon='ion:close' width={16} height={16} /></Button>
+        }}><Icon icon='ion:close' width={16} height={16} /></Button>}
     </a>);
 };
 
@@ -40,7 +42,7 @@ const MainScreen = ({ config, instanceId, type }: WidgetRenderProps<PluginWidget
         setBlacklist(b => [...b, url]);
     };
 
-    const store = usePluginStorage<PluginStorageType>();
+    const store = useWidgetStorage<WidgetStorageType>()
     const [blacklist, setBlacklist] = store.useValue('blacklist', []);
 
     const [sites, setSites] = useState<browser.TopSites.MostVisitedURL[]>([]);

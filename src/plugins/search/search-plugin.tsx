@@ -8,6 +8,7 @@ import { Select } from '@components/Select';
 import { Icon } from '@components/Icon';
 import { Tooltip } from '@components/Tooltip';
 import { useSizeSettings } from '@utils/compact';
+import { FloatingDelayGroup } from '@floating-ui/react';
 
 
 const providersPretty = {
@@ -77,17 +78,19 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
 
     return (<div className='SearchWidget'>
         <div className="providers">
-            {providers.map(p => {
-                return (<Tooltip key={p} label={providersPretty[p]} placement='top'>
-                    <Button
-                        className='provider-button'
-                        onClick={() => setProvider(p)}
-                        active={p === activeProvider}
-                    >
-                        <Icon icon={providersIcons[p]} height={rem(1.5)} width={rem(1.5)} />
-                    </Button>
-                </Tooltip>)
-            })}
+            <FloatingDelayGroup delay={200}>
+                {providers.map(p => {
+                    return (<Tooltip key={p} label={providersPretty[p]} placement='top'>
+                        <Button
+                            className='provider-button'
+                            onClick={() => setProvider(p)}
+                            active={p === activeProvider}
+                        >
+                            <Icon icon={providersIcons[p]} height={rem(1.5)} width={rem(1.5)} />
+                        </Button>
+                    </Tooltip>)
+                })}
+            </FloatingDelayGroup>
         </div>
 
         <div className="search-input-wrapper">

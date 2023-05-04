@@ -6,6 +6,10 @@ export type StorageContent = {
     folders: Folder[],
     theme: Theme["name"],
     stealFocus: boolean,
+    userId: string,
+
+    analyticsEnabled: boolean,
+    analyticsLastSend: number,
 
     hasUnreadReleaseNotes: boolean,
 

@@ -19,6 +19,8 @@ export type RequirePermissionsProps = {
 };
 
 
+const permissionUnavailableOnFirefox = ['favicon']
+
 export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, isMock }: RequirePermissionsProps) => {
     const grantPermissions = async () => {
         const granted = await browser.permissions.request({
@@ -34,8 +36,8 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
     const [modalVisible, setModalVisible] = useState(false)
 
     if (!currentPermissions) return null;
-
-    const missingPermissions = permissions.filter(p => !currentPermissions.permissions.includes(p));
+    const isFirefox = navigator.userAgent.includes('Firefox/');
+    const missingPermissions = permissions.filter(p => !currentPermissions.permissions.includes(p)).filter(p => isFirefox ? !permissionUnavailableOnFirefox.includes(p) : true);
     const missingHostPermissions = hosts.filter(h => !containsHostPermission(currentPermissions.hosts, h));
 
     if (isMock || (missingPermissions.length === 0 && missingHostPermissions.length === 0)) {

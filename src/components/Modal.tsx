@@ -5,7 +5,7 @@ import { Icon } from './Icon';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import useMeasure from 'react-use-measure';
-import { useHotkeys } from 'react-hotkeys-hook';
+import { useHotkeys } from '@utils/hooks';
 
 export type ModalProps = {
     title: string;

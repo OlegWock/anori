@@ -3,12 +3,13 @@
     align-items: center;
     text-decoration: none;
     flex-grow: 1;
+    max-height: 100%;
 
     &.size-s {
         flex-direction: column;
         align-items: flex-start;
         flex-flow: column-reverse;
-        
+
         .text {
 
             h3 {
@@ -18,7 +19,7 @@
         }
 
     }
-    
+
     .text {
         flex: 1;
         display: flex;
@@ -52,8 +53,9 @@
     flex-direction: column;
     gap: 12px;
     align-items: stretch;
+    min-width: 500px;
 
-    &>div {
+    .field {
         display: flex;
         flex-direction: column;
     }
@@ -70,6 +72,65 @@
     .open-in-new-tap {
         display: flex;
         gap: 8px;
+
+    .url-import-wrapper {
+        display: flex;
+        gap: 0.5rem;
+
+        .Input {
+            flex-grow: 1;
+        }
+    }
+}
+
+.PickBookmark {
+    max-height: max(40vh, 600px);
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+
+    .Input {
+        margin-bottom: 0.5rem;
+    }
+
+    .bookmark {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.4rem;
+        cursor: pointer;
+        transition: 0.15s ease-in-out;
+        border-radius: 8px;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        svg {
+            min-width: 18px;
+            max-width: 18px;
+        }
+
+        .fav-icon {
+            width: 18px;
+            border-radius: 9px;
+        }
+
+        .title {
+            flex-grow: 1;
+            flex-shrink: 1;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+    }
+
+    .no-results {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4rem;
     }
 }
 

@@ -31,6 +31,12 @@ export const storage = {
         const res = await storageGet(key);
         return res[key];
     },
+    getOneUntyped: async (key: string) => {
+        // @ts-ignore untyped
+        const res = await storageGet(key);
+        // @ts-ignore untyped
+        return res[key];
+    },
     set: (changes: SetStoragePayload) => {
         return browser.storage.local.set(changes);
     },

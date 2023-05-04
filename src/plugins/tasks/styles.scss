@@ -28,11 +28,32 @@
         display: flex;
         align-items: center;
         gap: 2px;
+        position: relative;
+
+        &:hover {
+            .drag-control {
+                visibility: visible;
+            }
+        }
+
+        .drag-control {
+            visibility: hidden;
+            position: absolute;
+            right: 0;
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.25rem;
+            padding: 0.25rem;
+            cursor: grab;
+        }
 
         .Input {
             flex-grow: 1;
             margin: 0 2px;
             padding: 0.25rem 0.5rem;
+            text-overflow: ellipsis;
         }
     }
 

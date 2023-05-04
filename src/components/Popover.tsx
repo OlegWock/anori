@@ -17,7 +17,7 @@ import {
     safePolygon,
     Side,
     size
-} from "@floating-ui/react-dom-interactions";
+} from "@floating-ui/react";
 import { mergeRefs } from "react-merge-refs";
 import { motion, AnimatePresence } from "framer-motion"
 import "./Popover.scss";
@@ -60,7 +60,7 @@ export const Popover = <D = undefined>({
                     console.log('Size middleware call', { availableHeight, availableWidth })
                     Object.assign(elements.floating.style, {
                         // maxHeight: `${availableHeight}px`,
-                        maxWidth: `${Math.min(Math.max(availableWidth, 0), 600)}px`,
+                        maxWidth: `${Math.min(Math.max(availableWidth, 0), 632)}px`,
                     });
                 },
                 padding: 5

@@ -1,11 +1,52 @@
+import { useAtom } from 'jotai';
 import { ScrollArea } from './ScrollArea';
 import { ShortcutHint } from './ShortcutHint';
 import './WhatsNew.scss';
+import { analyticsEnabledAtom } from '@utils/analytics';
+import { Checkbox } from './Checkbox';
 
 export const WhatsNew = () => {
+    const [analyticsEnabled, setAnalyticsEnabled] = useAtom(analyticsEnabledAtom);
+
     return (<div className="WhatsNew">
         <ScrollArea className='WhatsNew-scrollarea'>
             <div className='WhatsNew-content'>
+                <section>
+                    <h2>1.6.0</h2>
+                    <p>
+                        Recently, Anori got a lot of traction on tiki-toki app, and I'd like to use this opportunity to
+                        welcome new users. I hope you get yourself comfortable with Anori. In this version, I addressed
+                        some bugs and inconveniences you reported, now you can:
+                    </p>
+                    <ul className='margin-top'>
+                        <li>
+                            Open Anori tab by clicking on extension icon in top right 
+                            corner (especially useful for Opera users).
+                        </li>
+                        <li>
+                            Reorder tasks in ToDo widget.
+                        </li>
+                        <li>
+                            Import bookmark from browser (when adding new bookmark to folder).
+                        </li>
+                    </ul>
+
+                    <p>
+                        I also added analytics to better understand which functions you use the most and which aren't 
+                        used. Analytics is opt-in, so Anori won't send any data if you don't enable analytics. And
+                        even when enabled, extension doesn't send any private info. All it collect is: how much folders
+                        you have, which widgets you use, which theme you use, how many custom icons you have, how often
+                        you use keyboard shortcuts. Anori doesn't send name of your folder, or URL of bookmarks, or 
+                        content of your notes.
+                    </p>
+
+                    <p>
+                        I kindly ask you to enable this feature, as it will help me to develop better product. 
+                        You can always change your choice in settings. 
+                    </p>
+
+                    <Checkbox className="analytics-checkbox" checked={analyticsEnabled} onChange={setAnalyticsEnabled}>Enable sending analytics</Checkbox>
+                </section>
                 <section>
                     <h2>1.5.0</h2>
                     <p>
@@ -26,7 +67,7 @@ export const WhatsNew = () => {
                     </p>
 
                     <p>
-                        <strong>Please note.</strong> To support custom icons in backups, format of backups also changed 
+                        <strong>Please note.</strong> To support custom icons in backups, format of backups also changed
                         (now it's zip which includes your custom icons). So if you use this feature you might
                         want to export a fresh backup.
                     </p>

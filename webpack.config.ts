@@ -48,7 +48,10 @@ const generateManifest = (
         version: version,
         author: author,
         manifest_version: 3,
-        minimum_chrome_version: "99",
+        action: {
+            default_title: 'Open Anori new tab'
+        },
+        minimum_chrome_version: "104",
         background: {
             service_worker: 'background-wrapper.js',
         },
@@ -68,7 +71,8 @@ const generateManifest = (
         optional_permissions: [
             'tabs',
             'favicon',
-            'topSites'
+            'topSites',
+            'bookmarks'
         ],
         optional_host_permissions: [
             "*://*/*"
@@ -110,10 +114,15 @@ const generateManifest = (
         const unavailablePermissions = [
             'system.cpu',
             'system.memory',
-            'favicon'
+            'favicon',
         ];
 
+        const additionalPermissions: string[] = [];
+
         manifest.manifest_version = 2;
+
+        manifest.browser_action = manifest.action;
+        delete manifest.action;
 
         delete manifest.host_permissions;
         delete manifest.minimum_chrome_version;
@@ -125,19 +134,20 @@ const generateManifest = (
 
         delete manifest.optional_host_permissions;
 
-        manifest.permissions = manifest.permissions!.filter(p => !unavailablePermissions.includes(p));
+        manifest.permissions = [
+            ...manifest.permissions!.filter(p => !unavailablePermissions.includes(p)),
+            ...additionalPermissions
+        ];
         manifest.optional_permissions = manifest.optional_permissions!.filter(p => !unavailablePermissions.includes(p));
 
         manifest.background = {
             "persistent": false,
             "scripts": [
                 `${libsRoot}/other.js`,
+                `${libsRoot}/ui.js`,
                 "background.js"
             ]
         };
-
-        manifest.browser_action = manifest.action;
-        delete manifest.action;
 
         manifest.web_accessible_resources = manifest.web_accessible_resources!.flatMap(descriptor => {
             return (descriptor as Manifest.WebExtensionManifestWebAccessibleResourcesC2ItemType).resources;

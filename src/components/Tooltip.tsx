@@ -1,4 +1,4 @@
-import { cloneElement, useState } from "react";
+import { ReactNode, cloneElement, useId, useState } from "react";
 import {
     Placement,
     offset,
@@ -15,12 +15,12 @@ import {
     useDelayGroup,
     FloatingPortal,
     Strategy
-} from "@floating-ui/react-dom-interactions";
+} from "@floating-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import './Tooltip.scss';
 
 interface Props {
-    label: string;
+    label: ReactNode;
     showDelay?: number;
     resetDelay?: number;
     placement?: Placement;
@@ -32,6 +32,7 @@ interface Props {
 export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100 }: Props) => {
     const { delay = showDelay, setCurrentId } = useDelayGroupContext();
     const [open, setOpen] = useState(false);
+    const id = useId();
 
     const { x, y, reference, floating, strategy: localStrategy, context } = useFloating({
         placement,
@@ -41,7 +42,7 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
             setOpen(open);
 
             if (open) {
-                setCurrentId(label);
+                setCurrentId(id);
             }
         },
         middleware: [offset(5), flip(), shift({ padding: 8 })],
@@ -53,7 +54,7 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
         useFocus(context),
         useRole(context, { role: "tooltip" }),
         useDismiss(context),
-        useDelayGroup(context, { id: label })
+        useDelayGroup(context, { id })
     ]);
 
     const translate = {

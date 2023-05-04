@@ -1,14 +1,15 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, ID } from "@utils/user-data/types";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import './styles.scss';
 import { Icon } from "@components/Icon";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, LayoutGroup, Reorder, motion, useDragControls } from "framer-motion";
 import { Checkbox } from "@components/Checkbox";
 import { guid } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
+import { useSizeSettings } from "@utils/compact";
 
 type TaskWidgetConfigType = {
     title: string,
@@ -38,14 +39,47 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     </div>);
 };
 
+const Task = ({ task, autoFocus, onEdit, onComplete }: {
+    task: Task,
+    autoFocus?: boolean,
+    onEdit: (newText: string) => void,
+    onComplete: () => void
+}) => {
+    const controls = useDragControls();
+    const { rem } = useSizeSettings();
+
+    return (<Reorder.Item
+        key={task.id}
+        value={task}
+        layout
+        className="task"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ opacity: 0 }}
+        dragListener={false}
+        dragControls={controls}
+    >
+        <div className='drag-control'>
+            <Icon icon='ic:baseline-drag-indicator' width={rem(1)} onPointerDown={(e) => {
+                e.preventDefault();
+                controls.start(e);
+            }} />
+        </div>
+        <Checkbox checked={false} onChange={() => onComplete()} />
+        <Input autoFocus={autoFocus} value={task.text} onValueChange={v => onEdit(v)} placeholder="Task description..." />
+    </Reorder.Item>);
+};
+
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigType>) => {
     const addTask = () => {
+        const id = guid();
         setTasks(p => {
             return [
                 ...p,
-                { id: guid(), text: '' },
+                { id, text: '' },
             ]
         });
+        lastAddedTaskRef.current = id;
     };
 
     const completeTask = (id: Task["id"]) => {
@@ -59,8 +93,11 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
         }));
     };
 
+
     const storage = useWidgetStorage<TaskWidgetStorageType>();
     const [tasks, setTasks] = storage.useValue('tasks', []);
+    const lastAddedTaskRef = useRef('');
+
     return (<div className="TasksWidget">
         <div className="tasks-header">
             <h2>{config.title}</h2>
@@ -68,23 +105,13 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
         </div>
         {tasks.length !== 0 && <ScrollArea darker>
             <LayoutGroup>
-                <motion.div className="tasks-list" layout>
+                <Reorder.Group axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layout layoutScroll>
                     <AnimatePresence initial={false}>
                         {tasks.map(t => {
-                            return <motion.div
-                                key={t.id}
-                                layout
-                                className="task"
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                            >
-                                <Checkbox checked={false} onChange={() => completeTask(t.id)} />
-                                <Input value={t.text} onValueChange={v => editTask(t.id, v)} placeholder="Task description..." />
-                            </motion.div>
+                            return (<Task task={t} key={t.id} onComplete={() => completeTask(t.id)} onEdit={v => editTask(t.id, v)} />);
                         })}
                     </AnimatePresence>
-                </motion.div>
+                </Reorder.Group>
             </LayoutGroup>
         </ScrollArea>}
         {tasks.length === 0 && <motion.div key='no-tasks' className="no-tasks">
@@ -150,7 +177,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
     const q = text.toLowerCase();
     const widgets = await getAllWidgetsByPlugin(tasksPlugin);
     const tasksByWidget = await Promise.all(widgets.map(w => pullTasksFromWidget(w.instanceId)));
-    return tasksByWidget.flatMap(({tasks, instaceId}) => {
+    return tasksByWidget.flatMap(({ tasks, instaceId }) => {
         return tasks.filter(t => t.text.toLowerCase().includes(q)).map(t => {
             return {
                 icon: 'ion:checkmark-circle-outline',

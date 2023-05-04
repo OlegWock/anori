@@ -10,11 +10,10 @@ import { WidgetCard } from '@components/WidgetCard';
 import { FolderContentContext } from '@utils/FolderContentContext';
 import { useRef } from 'react';
 import { fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
-import { useWindowIsResizing } from '@utils/hooks';
+import { useHotkeys, useWindowIsResizing } from '@utils/hooks';
 import { Modal } from '@components/Modal';
 import { WidgetMetadataContext } from '@utils/plugin';
 import { OnboardingCard } from '@components/OnboardingCard';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { useSizeSettings } from '@utils/compact';
 
 

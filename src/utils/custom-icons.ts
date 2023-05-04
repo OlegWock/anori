@@ -22,18 +22,33 @@ export const CUSTOM_ICONS_AVAILABLE = (() => {
 const iconsCache: Record<string, string> = {};
 const iconsAtom = atom<CustomIcon[]>([]);
 
+const getMimeFromFile = (f: FileSystemFileHandle) => {
+    const name = f.name.toLowerCase();
+    // SVG requires special treatment because of Firefox which doesn't display it unsless correct mime type set
+    console.log('Check mime for file with name', f.name);
+    if (name.endsWith('.svg')) return 'image/svg+xml';
+
+    return '';
+};
+
 const getIconsDirHandle = async () => {
     const opfsRoot = await navigator.storage.getDirectory();
     const iconsDir = await opfsRoot.getDirectoryHandle(CUSTOM_ICONS_FOLDER_NAME, { create: true });
     return iconsDir;
-}
+};
+
+export const getAllCustomIconNames = async (): Promise<string[]> => {
+    const files = await getAllCustomIconFiles();
+    return files.map(f => f.name);
+};
 
 export const getAllCustomIcons = async (): Promise<CustomIcon[]> => {
     const files = await getAllCustomIconFiles();
     const icons: CustomIcon[] = await Promise.all(
         files.sort((a, b) => a.name.localeCompare(b.name)).map(async (handle) => {
             const file = await (handle as FileSystemFileHandle).getFile();
-            const urlObject = iconsCache[handle.name] ? iconsCache[handle.name] : URL.createObjectURL(file);
+            const blob = new Blob([file], { type: getMimeFromFile(handle) });
+            const urlObject = iconsCache[handle.name] ? iconsCache[handle.name] : URL.createObjectURL(blob);
             if (!iconsCache[handle.name]) iconsCache[handle.name] = urlObject;
             return {
                 name: handle.name,
@@ -53,7 +68,7 @@ export const getAllCustomIconFiles = async () => {
 
 export const removeAllCustomIcons = async () => {
     const opfsRoot = await navigator.storage.getDirectory();
-    await opfsRoot.removeEntry(CUSTOM_ICONS_FOLDER_NAME, {recursive: true});
+    await opfsRoot.removeEntry(CUSTOM_ICONS_FOLDER_NAME, { recursive: true });
 };
 
 export const getCustomIcon = async (name: string): Promise<CustomIcon | null> => {
@@ -68,7 +83,8 @@ export const getCustomIcon = async (name: string): Promise<CustomIcon | null> =>
     try {
         const fileHandle = await iconsDir.getFileHandle(name);
         const file = await fileHandle.getFile();
-        const urlObject = URL.createObjectURL(file);
+        const blob = new Blob([file], { type: getMimeFromFile(fileHandle) });
+        const urlObject = URL.createObjectURL(blob);
         iconsCache[name] = urlObject;
         return {
             name,
