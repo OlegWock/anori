@@ -12,6 +12,14 @@ export const WhatsNew = () => {
         <ScrollArea className='WhatsNew-scrollarea'>
             <div className='WhatsNew-content'>
                 <section>
+                    <h2>1.7.0</h2>
+
+                    <ul>
+                        <li>Added option to open bookmarks in a new tab. Contribution from @bil0ak. Thanks!</li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>1.6.0</h2>
                     <p>
                         Recently, Anori got a lot of traction on tiki-toki app, and I'd like to use this opportunity to
