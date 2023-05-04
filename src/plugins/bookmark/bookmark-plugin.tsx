@@ -12,12 +12,13 @@ import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { parseHost } from "@utils/misc";
 import { useLinkNavigationState } from "@utils/hooks";
 import { useSizeSettings } from "@utils/compact";
+import { Checkbox } from "@components/Checkbox";
 
 type BookmarkWidgetConfigType = {
     url: string,
     title: string,
     icon: string,
-    openInNewWindow: boolean,
+    openInNewTap?: boolean,
 };
 
 
@@ -26,12 +27,12 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const onConfirm = () => {
         if (!title || !url) return;
 
-        saveConfiguration({ title, url, icon, openInNewWindow });
+        saveConfiguration({ title, url, icon, openInNewTap });
     };
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
-    const [openInNewWindow, setOpenInNewWindow] = useState(currentConfig?.openInNewWindow || false);
+    const [openInNewTap, setOpenInNewTap] = useState(currentConfig?.openInNewTap || false);
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
 
@@ -58,13 +59,11 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             <Input value={url} onChange={(e) => setUrl(e.target.value)} />
         </div>
 
-        <div className="open-in-new-window">
-            <label>Open in new window:</label>
-            <input
-                type="checkbox"
-                checked={openInNewWindow}
-                onChange={(e) => setOpenInNewWindow(e.target.checked)}
-            />
+        <div className="open-in-new-tap">
+            <label>Open in a new tap:</label>
+            <div>
+                <Checkbox checked={openInNewTap} onChange={setOpenInNewTap} />
+            </div>
         </div>
 
         <Button className="save-config" onClick={onConfirm}>Save</Button>
@@ -76,7 +75,7 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
     const { rem } = useSizeSettings();
     const {onLinkClick, isNavigating} = useLinkNavigationState();
 
-    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} target={config.openInNewWindow ? '_blank' : undefined} rel={config.openInNewWindow ? 'noopener noreferrer' : undefined}>
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} target={config.openInNewTap ? '_blank' : undefined} rel={config.openInNewTap ? 'noopener noreferrer' : undefined}>
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
@@ -125,7 +124,7 @@ const widgetSizeSDescriptor = {
             url: 'http://example.com',
             title: 'Example',
             icon: 'ion:dice',
-            openInNewWindow: false
+            openInNewTap: false
         }} />)
     },
     size: {
@@ -147,7 +146,7 @@ const widgetSizeMDescriptor = {
             url: 'http://example.com',
             title: 'Example',
             icon: 'ion:dice',
-            openInNewWindow: false
+            openInNewTap: false
         }} />)
     },
     size: {
