@@ -17,6 +17,7 @@ const providersPretty = {
     'yt': 'YouTube',
     'bing': 'Bing',
     'duck': 'DuckDuckGo',
+    'ecosia': 'Ecosia',
 } as const;
 
 const providersIcons = {
@@ -25,6 +26,7 @@ const providersIcons = {
     'yt': 'logos:youtube-icon',
     'bing': 'logos:bing',
     'duck': 'logos:duckduckgo',
+    'ecosia': 'twemoji:deciduous-tree',
 } as const;
 
 type Provider = keyof typeof providersPretty;
@@ -42,6 +44,7 @@ const generateSearchUrl = (provider: Provider, query: string) => {
         'yt': `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
         'bing': `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
         'duck': `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
+        'ecosia': `https://www.ecosia.org/search?q=${encodeURIComponent(query)}`,
     }[provider];
 }
 
