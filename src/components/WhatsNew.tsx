@@ -16,6 +16,7 @@ export const WhatsNew = () => {
 
                     <ul>
                         <li>Added option to open bookmarks in a new tab. Contribution from @bil0ak. Thanks!</li>
+                        <li>Added Ecosia as search provider to Internet search widget. Contribution from @Radeox. Thanks!</li>
                     </ul>
                 </section>
 
