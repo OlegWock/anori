@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { useBrowserStorageValue } from "./storage";
+import { useMirrorStateToRef } from "./hooks";
 
 const CompactModeContext = createContext(false);
 
@@ -13,12 +14,15 @@ export const CompactModeProvider = ({children}: {children: ReactNode}) => {
     const [isAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
     const [isManualCompact] = useBrowserStorageValue('compactMode', false);
     const [screenWidth, setScreenWidth] = useState(() => window.screen.width);
+    const screenWidthRef = useMirrorStateToRef(screenWidth);
     const isCompact = isAutomaticCompact ? screenWidth < 1500 : isManualCompact;
 
     useEffect(() => {
         const tid = setInterval(() => {
-            // If screen size is same, this won't do re-render
-            setScreenWidth(window.screen.width);
+            // set state seem to take a lot of time in some cases, let's try to avoid it when unnecessary
+            if (window.screen.width !== screenWidthRef.current) {
+                setScreenWidth(window.screen.width);
+            }
         }, 50);
 
         return () => clearInterval(tid);
