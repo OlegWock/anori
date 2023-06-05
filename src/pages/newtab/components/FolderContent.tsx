@@ -101,7 +101,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
         moveWidget(widget, snapPoint.position);
     };
 
-    const { widgets, removeWidget, moveWidget, updateWidgetConfig } = useFolderWidgets(folder);
+    const { widgets, removeWidget, moveWidget, updateWidgetConfig, folderDataLoaded } = useFolderWidgets(folder);
     const [isEditing, setIsEditing] = useState(false);
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
     const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
@@ -221,7 +221,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     </WidgetCard>
                                 </WidgetMetadataContext.Provider>);
                             })}
-                            {widgets.length === 0 && <OnboardingCard />}
+                            {widgets.length === 0 && folderDataLoaded && <OnboardingCard />}
                         </AnimatePresence>
                     </motion.main>
 

@@ -22,7 +22,7 @@ export const FolderButton = ({ name, active, icon, className, withRedDot, ...pro
         })} {...props}>
             {active && <motion.div className="background-glow" layoutId="FolderButton-glow" transition={{ duration: 0.2, type: "spring" }} />}
             {withRedDot && <motion.div className="red-dot"></motion.div>}
-            <Icon icon={icon} width={24} />
+            <Icon icon={icon} width={24} height={24} />
         </motion.button>
     </Tooltip>)
 };

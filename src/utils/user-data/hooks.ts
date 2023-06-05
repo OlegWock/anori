@@ -169,7 +169,7 @@ export const useFolderWidgets = (folder: Folder) => {
     };
 
     const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
-    const [details, setDetails] = useAtomWithStorage(atom);
+    const [details, setDetails, meta] = useAtomWithStorage(atom);
 
     const widgets: WidgetInFolderWithMeta<any, any, any>[] = details.widgets.filter(w => {
         const plugin = availablePluginsWithWidgets.find(p => p.id === w.pluginId);
@@ -192,5 +192,6 @@ export const useFolderWidgets = (folder: Folder) => {
         removeWidget,
         moveWidget,
         updateWidgetConfig,
+        folderDataLoaded: meta.status !== 'notLoaded',
     };
 };
