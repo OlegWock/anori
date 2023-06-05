@@ -7,7 +7,7 @@ import { Icon } from '@components/Icon';
 import { AnoriPlugin, Folder, homeFolder } from '@utils/user-data/types';
 import { IconPicker } from '@components/IconPicker';
 import { Popover } from '@components/Popover';
-import { useBrowserStorageValue } from '@utils/storage';
+import { useAtomWithStorage, useBrowserStorageValue } from '@utils/storage';
 import clsx from 'clsx';
 import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';
@@ -25,7 +25,6 @@ import { downloadBlob, showOpenFilePicker } from '@utils/files';
 import { Tooltip } from '@components/Tooltip';
 import JSZip from 'jszip';
 import { analyticsEnabledAtom } from '@utils/analytics';
-import { useAtom } from 'jotai';
 
 
 const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
@@ -193,7 +192,7 @@ export const Settings = () => {
     const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
     const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', false);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
-    const [analyticsEnabled, setAnalyticsEnabled] = useAtom(analyticsEnabledAtom);
+    const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
 
     const { customIcons, addNewCustomIcon, removeCustomIcon } = useCustomIcons();
     const [draftCustomIcons, setDraftCustomIcons] = useState<DraftCustomIcon[]>([]);

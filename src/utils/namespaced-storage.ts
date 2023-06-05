@@ -1,19 +1,18 @@
-import { PrimitiveAtom, getDefaultStore, useAtom } from "jotai";
-import { dynamicAtomWithBrowserStorage } from "./storage";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, focusAtomWithStorage, getAtomWithStorageValue, setAtomWithStorageValue, useAtomWithStorage } from "./storage";
 import { useMemo } from "react";
-import { focusAtom } from "jotai-optics";
-import { OpticFor } from "optics-ts";
 import browser from 'webextension-polyfill';
 
 export class NamespacedStorage<T extends {} = {}> {
     ns: string;
-    atom: PrimitiveAtom<Partial<T>>;
+    atom: AtomWithBrowserStorage<Partial<T>>;
     loaded: boolean;
     private _loadingPromise: Promise<void>;
 
     static get<T extends {} = {}>(ns: string): NamespacedStorage<T> {
         const inCache = cache.get(ns);
-        if (inCache) return inCache;
+        if (inCache) {
+            return inCache as NamespacedStorage<T>;
+        }
 
         const nsStorage = new NamespacedStorage<T>(ns);
         cache.set(ns, nsStorage);
@@ -29,7 +28,7 @@ export class NamespacedStorage<T extends {} = {}> {
                 resolve();
             };
         });
-        this.atom = dynamicAtomWithBrowserStorage(ns, {}, {
+        this.atom = atomWithBrowserStorage<Partial<T>>(ns, {}, {
             forceLoad: true,
             onLoad: onLoad,
         });
@@ -41,41 +40,27 @@ export class NamespacedStorage<T extends {} = {}> {
     }
 
     get<K extends keyof T>(name: K): T[K] | undefined {
-        const atomStore = getDefaultStore();
-        const val = atomStore.get(this.atom);
-        return val[name];
+        const { value } = getAtomWithStorageValue(this.atom);
+        return value[name];
     }
 
     set<K extends keyof T>(name: K, val: T[K]) {
-        const atomStore = getDefaultStore();
-        const currentState = atomStore.get(this.atom);
-        atomStore.set(this.atom, {
+        const { value: currentState } = getAtomWithStorageValue(this.atom);
+        setAtomWithStorageValue(this.atom, {
             ...currentState,
             [name]: val,
         });
     }
 
     clear() {
-        const atomStore = getDefaultStore();
-        atomStore.set(this.atom, {});
+        setAtomWithStorageValue(this.atom, {});
         return browser.storage.local.remove(this.ns);
     }
 
 
     useValue<K extends keyof T>(name: K, defaultValue: T[K]) {
-        // @ts-ignore Couldn't figure out better types
-        const focusedAtom = useMemo(() => focusAtom(this.atom, (optic: OpticFor<any>) => optic.prop(name)), [name]) as PrimitiveAtom<T[K] | undefined>;
-        const [value, setValue] = useAtom(focusedAtom);
-
-        const correctedValue: T[K] = useMemo(() => value === undefined ? defaultValue : value, [value]);
-
-        const correctedSetValue = (newVal: T[K] | ((old: T[K]) => T[K])) => {
-            // @ts-ignore Couldn't figure out better types
-            const toStore = typeof newVal === 'function' ? newVal(correctedValue) : newVal;
-            setValue(toStore);
-        };
-
-        return [correctedValue, correctedSetValue] as const;
+        const focusedAtom = useMemo(() => focusAtomWithStorage(this.atom, name, defaultValue), [name]) as AtomWithBrowserStorage<Required<T>[K]>;
+        return useAtomWithStorage(focusedAtom);
     }
 
 }

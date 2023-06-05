@@ -1,5 +1,5 @@
-import { atomWithBrowserStorage, dynamicAtomWithBrowserStorage } from "@utils/storage";
-import { PrimitiveAtom, atom, getDefaultStore, useAtom } from "jotai";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, atomWithBrowserStorageStatic, setAtomWithStorageValue, useAtomWithStorage } from "@utils/storage";
+import { atom, useAtom } from "jotai";
 import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, WidgetInFolder, WidgetInFolderWithMeta, homeFolder } from "./types";
 import { guid } from "@utils/misc";
 import { useMemo } from "react";
@@ -8,7 +8,7 @@ import { Position } from "@utils/grid";
 import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
 
-const foldersAtom = atomWithBrowserStorage('folders', []);
+const foldersAtom = atomWithBrowserStorageStatic('folders', []);
 const activeFolderAtom = atom<ID>('home');
 export const useFolders = (includeHome = false) => {
     const createFolder = (name = 'New folder', icon = 'ion:folder-open-sharp') => {
@@ -23,8 +23,7 @@ export const useFolders = (includeHome = false) => {
 
     const removeFolder = (id: ID) => {
         const atom = getFolderDetailsAtom(id);
-        const store = getDefaultStore();
-        store.set(atom, { widgets: [] });
+        setAtomWithStorageValue(atom, { widgets: [] });
         setTimeout(() => {
             browser.storage.local.remove(`Folder.${id}`);
         }, 0);
@@ -61,7 +60,7 @@ export const useFolders = (includeHome = false) => {
     }
 
     const [activeId, setActiveId] = useAtom(activeFolderAtom);
-    const [folders, setFolders] = useAtom(foldersAtom);
+    const [folders, setFolders] = useAtomWithStorage(foldersAtom);
     const foldersFinal = [...folders];
     if (includeHome) {
         foldersFinal.unshift(homeFolder);
@@ -82,10 +81,10 @@ export const useFolders = (includeHome = false) => {
 };
 
 
-const folderDetailsAtoms: Record<ID, PrimitiveAtom<FolderDetailsInStorage>> = {};
+const folderDetailsAtoms: Record<ID, AtomWithBrowserStorage<FolderDetailsInStorage>> = {};
 const getFolderDetailsAtom = (id: ID) => {
     if (!folderDetailsAtoms[id]) {
-        folderDetailsAtoms[id] = dynamicAtomWithBrowserStorage(`Folder.${id}`, {
+        folderDetailsAtoms[id] = atomWithBrowserStorage<FolderDetailsInStorage>(`Folder.${id}`, {
             widgets: [],
         } satisfies FolderDetailsInStorage);
     }
@@ -170,7 +169,7 @@ export const useFolderWidgets = (folder: Folder) => {
     };
 
     const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
-    const [details, setDetails] = useAtom(atom);
+    const [details, setDetails] = useAtomWithStorage(atom);
 
     const widgets: WidgetInFolderWithMeta<any, any, any>[] = details.widgets.filter(w => {
         const plugin = availablePluginsWithWidgets.find(p => p.id === w.pluginId);

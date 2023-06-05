@@ -1,12 +1,12 @@
-import { useAtom } from 'jotai';
 import { ScrollArea } from './ScrollArea';
 import { ShortcutHint } from './ShortcutHint';
 import './WhatsNew.scss';
 import { analyticsEnabledAtom } from '@utils/analytics';
 import { Checkbox } from './Checkbox';
+import { useAtomWithStorage } from '@utils/storage';
 
 export const WhatsNew = () => {
-    const [analyticsEnabled, setAnalyticsEnabled] = useAtom(analyticsEnabledAtom);
+    const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
 
     return (<div className="WhatsNew">
         <ScrollArea className='WhatsNew-scrollarea'>

@@ -1,10 +1,10 @@
 import { getAllCustomIconNames } from "./custom-icons";
 import { guid, wait } from "./misc";
-import { atomWithBrowserStorage, storage } from "./storage";
+import { atomWithBrowserStorageStatic, storage } from "./storage";
 import { FolderDetailsInStorage } from "./user-data/types";
 import mixpanel from 'mixpanel-browser';
 
-export const analyticsEnabledAtom = atomWithBrowserStorage('analyticsEnabled', false);
+export const analyticsEnabledAtom = atomWithBrowserStorageStatic('analyticsEnabled', false);
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
 const MIXPANEL_TOKEN = '102076bf45f59f216724374916b45d48';
 
@@ -41,8 +41,8 @@ export const gatherDailyUsageData = async (): Promise<any> => {
 
     const usedTheme = await storage.getOne('theme') || '';
 
-    const homeFolderDetails = ((await storage.getOneUntyped('Folder.home')) || { widgets: [] }) as FolderDetailsInStorage;
-    const folderDetails = await Promise.all(folders.map(f => storage.getOneUntyped(`Folder.${f.id}`))) as FolderDetailsInStorage[];
+    const homeFolderDetails = ((await storage.getOneDynamic('Folder.home')) || { widgets: [] }) as FolderDetailsInStorage;
+    const folderDetails = await Promise.all(folders.map(f => storage.getOneDynamic(`Folder.${f.id}`))) as FolderDetailsInStorage[];
 
     const widgetsUsage: Record<string, number> = {};
     homeFolderDetails.widgets.forEach(w => {

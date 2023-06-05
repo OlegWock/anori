@@ -25,7 +25,6 @@ const iconsAtom = atom<CustomIcon[]>([]);
 const getMimeFromFile = (f: FileSystemFileHandle) => {
     const name = f.name.toLowerCase();
     // SVG requires special treatment because of Firefox which doesn't display it unsless correct mime type set
-    console.log('Check mime for file with name', f.name);
     if (name.endsWith('.svg')) return 'image/svg+xml';
 
     return '';

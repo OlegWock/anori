@@ -1,7 +1,6 @@
 import browser from 'webextension-polyfill';
-import { dynamicAtomWithBrowserStorage, storage } from "./storage";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithStorage } from "./storage";
 import { AnoriPlugin, FolderDetailsInStorage, ID, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
-import { PrimitiveAtom, WritableAtom, useAtom } from 'jotai';
 import { SetStateAction, createContext, useContext, useMemo } from 'react';
 import { NamespacedStorage } from './namespaced-storage';
 
@@ -76,29 +75,25 @@ export const usePluginStorage = <StorageT extends {}>() => {
 
 // ---- Plugin config ----
 
-const ATOM_NOT_SET_VALUE = Symbol.for('default');
-const pluginConfigAtoms: Record<ID, PrimitiveAtom<any>> = {};
+const pluginConfigAtoms: Record<ID, AtomWithBrowserStorage<any>> = {};
 const getPluginConfigAtom = <T extends {}>(plugin: AnoriPlugin<T>) => {
     if (!pluginConfigAtoms[plugin.id]) {
-        pluginConfigAtoms[plugin.id] = dynamicAtomWithBrowserStorage(`PluginConfig.${plugin.id}`, ATOM_NOT_SET_VALUE);
+        pluginConfigAtoms[plugin.id] = atomWithBrowserStorage<T | undefined>(`PluginConfig.${plugin.id}`, undefined);
     }
 
-    return pluginConfigAtoms[plugin.id] as WritableAtom<T | typeof ATOM_NOT_SET_VALUE, [
-        SetStateAction<T>
-    ], void>;
+    return pluginConfigAtoms[plugin.id];
 };
 
 export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
 export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig: T): readonly [value: T, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
 export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig?: T): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean] {
 
-    const [val, setVal] = useAtom(getPluginConfigAtom<T>(plugin));
-    const isDefault = val === ATOM_NOT_SET_VALUE;
+    const [val, setVal, meta] = useAtomWithStorage(getPluginConfigAtom<T>(plugin));
     
     return [
-        isDefault ? defaultConfig : val, 
+        meta.usingDefaultValue ? defaultConfig : val, 
         setVal, 
-        isDefault
+        meta.usingDefaultValue,
     ] as const;
 }
 

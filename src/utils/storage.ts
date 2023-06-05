@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 import { StorageContent } from "./user-data/types";
-import { PrimitiveAtom, atom, getDefaultStore, useAtom } from "jotai";
+import { SetStateAction, WritableAtom, atom, getDefaultStore, useAtom } from "jotai";
 
 type StorageKey = keyof StorageContent;
 
@@ -31,16 +31,19 @@ export const storage = {
         const res = await storageGet(key);
         return res[key];
     },
-    getOneUntyped: async (key: string) => {
+    getOneDynamic: async <V>(key: string) => {
         // @ts-ignore untyped
         const res = await storageGet(key);
         // @ts-ignore untyped
-        return res[key];
+        return res[key] as V | undefined;
     },
     set: (changes: SetStoragePayload) => {
         return browser.storage.local.set(changes);
     },
     setOne: <K extends StorageKey>(key: K, val: StorageContent[K]) => {
+        return browser.storage.local.set({ [key]: val });
+    },
+    setOneDynamic: async <V>(key: string, val: V) => {
         return browser.storage.local.set({ [key]: val });
     },
     addListener: (cb: StorageChangeCallback) => {
@@ -53,59 +56,183 @@ export const storage = {
     },
 };
 
-const storageAtoms: Record<string, PrimitiveAtom<any>> = {};
+const storageAtoms: Record<string, AtomWithBrowserStorage<any>> = {};
+
 export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultValue: StorageContent[K]) => {
     if (!storageAtoms[name]) {
-        storageAtoms[name] = atomWithBrowserStorage(name, defaultValue, { forceLoad: true });
+        storageAtoms[name] = atomWithBrowserStorageStatic(name, defaultValue, { forceLoad: true });
     }
-    const atom = storageAtoms[name] as PrimitiveAtom<StorageContent[K]>;
-    return useAtom(atom);
+    const atom = storageAtoms[name];
+    return useAtomWithStorage(atom);
 };
 
 
-type AtomWithBrowserStorageOptions = {
+type AtomWithBrowserStorageOptions<T> = {
     forceLoad?: boolean, // Otherwise content will be loaded when atom first used in provider
-    onLoad?: () => void,
+    onLoad?: (value: T | undefined) => void,
 };
 
-export const atomWithBrowserStorage = <K extends StorageKey>(key: K, initialValue: StorageContent[K], { forceLoad, onLoad }: AtomWithBrowserStorageOptions = {}): PrimitiveAtom<StorageContent[K]> => {
+const SYMBOL_NOT_LOADED = Symbol();
+const SYMBOL_NO_VALUE = Symbol();
+
+export type AtomWithBrowserStorageMeta<T> = {
+    defaultValue: T,
+    currentValue: T | typeof SYMBOL_NO_VALUE | typeof SYMBOL_NOT_LOADED,
+};
+
+type AtomWithStorageStatus = 'loaded' | 'empty' | 'notLoaded';
+
+type UseAtomWithStorageResult<T> = [
+    value: T,
+    setValue: (val: SetStateAction<T>) => void,
+    meta: {
+        status: AtomWithStorageStatus,
+        usingDefaultValue: boolean,
+    },
+];
+
+// Tiny type hack to not allow using atoms with storage with jotai's `useAtom`
+// Atoms with browser storage shouldn't be used with jotai's `useAtom`, you should use `useAtomWithStorage` from this file
+export type AtomWithBrowserStorage<V> = { __doNotUseThisWithJotaisUseAtom: 1, v: V };
+
+export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceLoad, onLoad }: AtomWithBrowserStorageOptions<V> = {}) => {
     let isLoaded = false;
-    const baseAtom = atom(initialValue)
+    const baseAtom = atom<AtomWithBrowserStorageMeta<V>>({
+        defaultValue,
+        currentValue: SYMBOL_NOT_LOADED
+    });
+
     baseAtom.onMount = (setValue) => {
         (async () => {
             if (isLoaded) return;
-            const item = await storage.getOne(key);
-            if (item !== undefined) setValue(item);
+            const item = await storage.getOneDynamic<V>(key);
+            if (item === undefined) {
+                setValue({
+                    defaultValue,
+                    currentValue: SYMBOL_NO_VALUE,
+                });
+            } else {
+                setValue({
+                    defaultValue,
+                    currentValue: item,
+                });
+            }
             isLoaded = true;
-            if (onLoad) onLoad();
-        })()
-    }
-    const derivedAtom = atom(
+            if (onLoad) onLoad(item);
+        })();
+    };
+
+    const derivedAtom = atom<AtomWithBrowserStorageMeta<V>, [V], void>(
         (get) => get(baseAtom),
         (get, set, update) => {
-            const nextValue = typeof update === 'function' ? update(get(baseAtom)) : update;
-            set(baseAtom, nextValue);
-            storage.setOne(key, nextValue);
+            const currentAtomValueMeta = get(baseAtom);
+            const shouldUseDefaultValue = currentAtomValueMeta.currentValue === SYMBOL_NOT_LOADED || currentAtomValueMeta.currentValue === SYMBOL_NO_VALUE;
+            const currentValue = shouldUseDefaultValue ? currentAtomValueMeta.defaultValue : currentAtomValueMeta.currentValue;
+            const nextValue = typeof update === 'function' ? update(currentValue) : update;
+            const nextValueMeta = {
+                defaultValue: currentAtomValueMeta.defaultValue,
+                currentValue: nextValue,
+            }
+            set(baseAtom, nextValueMeta);
+            storage.setOneDynamic<V>(key, nextValue);
         }
-    )
+    );
 
     // This approach in incompatible with custom Jotai providers
     if (forceLoad) {
-        storage.getOne(key).then(item => {
-
-            if (item !== undefined) {
-                const store = getDefaultStore();
-                store.set(baseAtom, item);
+        storage.getOneDynamic<V>(key).then(item => {
+            const store = getDefaultStore();
+            if (item === undefined) {
+                store.set(baseAtom, {
+                    defaultValue,
+                    currentValue: SYMBOL_NO_VALUE,
+                });
+            } else {
+                store.set(baseAtom, {
+                    defaultValue,
+                    currentValue: item,
+                });
             }
             isLoaded = true;
-            if (onLoad) onLoad();
+            if (onLoad) onLoad(item);
         });
     }
 
-    return derivedAtom
+    return derivedAtom as unknown as AtomWithBrowserStorage<V>;
 };
 
-export const dynamicAtomWithBrowserStorage = <T>(key: string, initialValue: T, options: AtomWithBrowserStorageOptions = {}): PrimitiveAtom<T> => {
-    // @ts-ignore Types doesn't match, but code is totally same
-    return atomWithBrowserStorage(key, initialValue, options);
+export const atomWithBrowserStorageStatic = <K extends StorageKey>(key: K, initialValue: StorageContent[K], options: AtomWithBrowserStorageOptions<StorageContent[K]> = {}) => {
+    return atomWithBrowserStorage<StorageContent[K]>(key, initialValue, options);
+};
+
+export const focusAtomWithStorage = <T extends {}, K extends keyof T>(storageAtom: AtomWithBrowserStorage<T>, key: K, defaultValue: Required<T>[K]): AtomWithBrowserStorage<T[K]> => {
+    return atom<AtomWithBrowserStorageMeta<Required<T>[K]>, [Required<T>[K]], void>(
+        (get) => {
+            const valueWithMeta = get(storageAtom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>);
+            const shouldUseDefaultValue = valueWithMeta.currentValue === SYMBOL_NOT_LOADED || valueWithMeta.currentValue === SYMBOL_NO_VALUE;
+            const value = (shouldUseDefaultValue ? valueWithMeta.defaultValue : valueWithMeta.currentValue) as T;
+            const propValue = value[key] === undefined ? defaultValue : value[key];
+            const currentValue = (() => {
+                if (valueWithMeta.currentValue === SYMBOL_NOT_LOADED) return SYMBOL_NOT_LOADED;
+                if (valueWithMeta.currentValue === SYMBOL_NO_VALUE || propValue === undefined) return SYMBOL_NO_VALUE;
+                return propValue;
+            })();
+
+            return {
+                defaultValue,
+                currentValue,
+            }
+        },
+        (get, set, update) => {
+            const valueWithMeta = get(storageAtom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>);
+            const shouldUseDefaultValue = valueWithMeta.currentValue === SYMBOL_NOT_LOADED || valueWithMeta.currentValue === SYMBOL_NO_VALUE;
+            const value = (shouldUseDefaultValue ? valueWithMeta.defaultValue : valueWithMeta.currentValue) as T;
+            const propValue = value[key];
+            const finalValue = { ...value };
+            if (typeof update === 'function') {
+                finalValue[key] = update(propValue === undefined ? defaultValue : propValue);
+            } else {
+                finalValue[key] = update;
+            }
+            set(storageAtom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>, finalValue);
+        },
+    ) as unknown as AtomWithBrowserStorage<T[K]>;
+};
+
+export const getAtomWithStorageValue = <T>(atom: AtomWithBrowserStorage<T>) => {
+    const atomStore = getDefaultStore();
+    const valueWithMeta = atomStore.get(atom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>);
+    const shouldUseDefaultValue = valueWithMeta.currentValue === SYMBOL_NOT_LOADED || valueWithMeta.currentValue === SYMBOL_NO_VALUE;
+    const value = (shouldUseDefaultValue ? valueWithMeta.defaultValue : valueWithMeta.currentValue) as T;
+    const status = ((): AtomWithStorageStatus => {
+        if (valueWithMeta.currentValue === SYMBOL_NOT_LOADED) return 'notLoaded';
+        if (valueWithMeta.currentValue === SYMBOL_NO_VALUE) return 'empty';
+        return 'loaded';
+    })();
+
+    return {
+        value,
+        status,
+    };
+};
+
+export const setAtomWithStorageValue = <T>(atom: AtomWithBrowserStorage<T>, value: T) => {
+    const atomStore = getDefaultStore();
+    atomStore.set(atom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>, value);
+};
+
+export const useAtomWithStorage = <T>(atom: AtomWithBrowserStorage<T>): UseAtomWithStorageResult<T> => {
+    const [valueWithMeta, setValue] = useAtom(atom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>);
+    const shouldUseDefaultValue = valueWithMeta.currentValue === SYMBOL_NOT_LOADED || valueWithMeta.currentValue === SYMBOL_NO_VALUE;
+    const value = (shouldUseDefaultValue ? valueWithMeta.defaultValue : valueWithMeta.currentValue) as T;
+    const status = (() => {
+        if (valueWithMeta.currentValue === SYMBOL_NOT_LOADED) return 'notLoaded';
+        if (valueWithMeta.currentValue === SYMBOL_NO_VALUE) return 'empty';
+        return 'loaded';
+    })();
+
+    return [value, setValue, {
+        status,
+        usingDefaultValue: shouldUseDefaultValue,
+    }];
 };
