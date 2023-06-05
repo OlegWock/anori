@@ -1,0 +1,203 @@
+.SettingsModal {
+    padding: 0px !important;
+
+    .modal-header {
+        padding: 24px;
+        padding-bottom: 0px;
+    }
+}
+
+.Settings {
+    margin: 0 6px;
+    margin-bottom: 6px;
+
+    .settings-content {
+        padding: 0 18px;
+        padding-bottom: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 600px;
+        min-width: 600px;
+    }
+}
+
+.MainSettingsScreen {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.GeneralSettingsScreen {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.CustomIconsScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .no-custom-icons-alert {
+        padding: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .custom-icons-grid {
+        display: grid;
+        // grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        ;
+        gap: 12px;
+        margin-bottom: 8px;
+
+        .custom-icon-plate {
+            padding: 12px;
+            border-radius: 12px;
+            background: var(--background-lighter);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+
+            .custom-icon-name {
+                flex: 1;
+                text-overflow: ellipsis;
+                font-size: 0.9rem;
+                overflow: hidden;
+            }
+        }
+    }
+
+    .draft-icons-list {
+        border: 3px solid var(--background-lighter);
+        border-radius: 12px;
+        margin-bottom: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .draft-icon-section {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+
+        .draft-icon-preview {
+            align-self: center;
+        }
+
+        .draft-icon-name-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .draft-icon-name {}
+
+            .draft-icon-name-error {}
+        }
+    }
+}
+
+.FoldersScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+
+    .add-folder-btn {
+        align-self: center;
+    }
+}
+
+.ThemesScreen {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 4px;
+}
+
+.ImportExportScreen {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .import-export-button {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 8px;
+    }
+}
+
+.HelpAboutScreen {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.PluginsScreen {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.ScreenButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: var(--background-lighter);
+    border-radius: 12px;
+    color: var(--text);
+    gap: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+        background: var(--accent-subtle);
+    }
+
+    .icon {
+        opacity: 0.5;
+    }
+}
+
+.BackgroundPlate {
+    width: 250px;
+    height: 140px;
+    flex-grow: 1;
+    border-radius: 12px;
+    background-size: cover;
+    background-clip: padding-box;
+    position: relative;
+    border: 4px solid transparent;
+
+    .color-cirles-wrapper {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 4px;
+
+        .color-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+        }
+    }
+
+
+
+    &.active {
+        border-color: var(--accent);
+    }
+}

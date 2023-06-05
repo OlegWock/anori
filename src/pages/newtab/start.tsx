@@ -6,7 +6,7 @@ import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react';
 import { useState } from 'react';
 import { Modal } from '@components/Modal';
-import { Settings } from './components/Settings';
+import { SettingsModal } from './settings/Settings';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
@@ -47,7 +47,7 @@ const Start = () => {
             : 'up';
 
 
-    const [settingsVisible, setSettingsVisible] = useState(false);
+    const [settingsVisible, setSettingsVisible] = useState(true);
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
@@ -113,9 +113,7 @@ const Start = () => {
 
                 <CommandMenu key='command-menu' />
 
-                {settingsVisible && <Modal title='Settings' key='settings' className='settings-modal' closable onClose={() => setSettingsVisible(false)}>
-                    <Settings />
-                </Modal>}
+                {settingsVisible && <SettingsModal key='settings' onClose={() => setSettingsVisible(false)} />}
                 {shortcutsHelpVisible && <Modal title='Shortcuts' key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
                     <ShortcutsHelp />
                 </Modal>}

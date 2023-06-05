@@ -1,0 +1,46 @@
+.FolderItem {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 6px 0;
+
+    .folder-drag-indicator {
+        touch-action: none;
+        cursor: grab;
+    }
+
+    .folder-icon {
+        cursor: pointer;
+        background: none;
+        display: flex;
+        color: inherit;
+        padding: 6px 12px;
+
+        &.static {
+            padding: 6px 14px;
+        }
+    }
+
+    input {
+        background: transparent;
+        border: none;
+        font-size: inherit;
+        color: inherit;
+        font-family: inherit;
+        border-radius: 6px;
+
+        &:focus {
+            outline: none;
+            outline: 2px solid var(--accent);
+        }
+    }
+
+    .folder-name {
+        padding: 2px 8px;
+        flex-grow: 1;
+    }
+
+    .Button {
+        background: var(--background);
+    }
+}
