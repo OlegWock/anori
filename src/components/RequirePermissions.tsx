@@ -7,6 +7,7 @@ import './RequirePermissions.scss';
 import { availablePermissionsAtom, containsHostPermission, normalizeHost, updateAvailablePermissions } from "@utils/permissions";
 import { Modal } from "./Modal";
 import { AnimatePresence } from "framer-motion";
+import clsx from "clsx";
 
 
 export type RequirePermissionsProps = {
@@ -45,7 +46,7 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
     } else {
         return (
             <>
-                <div className="RequirePermissions" onClick={() => compact ? setModalVisible(true) : null}>
+                <div className={clsx("RequirePermissions", compact && "compact")} onClick={() => compact ? setModalVisible(true) : null}>
                     <h3>Eh?</h3>
                     {compact && <div className="text">Additional permissions required. Click to see details.</div>}
                     {!compact && <>

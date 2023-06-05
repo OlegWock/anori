@@ -115,7 +115,7 @@ const widgetDescriptorHorizontal = {
     configurationScreen: null,
     withAnimation: false,
     // @ts-expect-error favicon is not present in webextension-polyfill typings yet
-    mainScreen: (props) => <RequirePermissions permissions={REQUIRED_PERMISSIONS}><MainScreen type="horizontal" {...props} /></RequirePermissions>,
+    mainScreen: (props) => <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}><MainScreen type="horizontal" {...props} /></RequirePermissions>,
     mock: () => <Mock type="horizontal" />,
     size: {
         width: 4,
@@ -129,7 +129,7 @@ const widgetDescriptorVertical = {
     configurationScreen: null,
     withAnimation: false,
     // @ts-expect-error favicon is not present in webextension-polyfill typings yet
-    mainScreen: (props) => <RequirePermissions permissions={REQUIRED_PERMISSIONS}><MainScreen type="vertical" {...props} /></RequirePermissions>,
+    mainScreen: (props) => <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}><MainScreen type="vertical" {...props} /></RequirePermissions>,
     mock: () => <Mock type="vertical" />,
     size: {
         width: 1,

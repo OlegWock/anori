@@ -7,8 +7,11 @@
     overflow: auto;
     @include scroll-mixin-darker();
 
+    &.compact {
+        cursor: pointer;
+    }
+    
     .text {
-        font-size: 0.8rem;
         font-weight: 300;
     }
 
