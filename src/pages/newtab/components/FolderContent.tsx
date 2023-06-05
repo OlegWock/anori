@@ -191,6 +191,31 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
 
                     </header>
                     <motion.main layout layoutRoot ref={mainRef}>
+                        <AnimatePresence>
+                            {isEditing && new Array(grisDimenstions.colums * grisDimenstions.rows).fill(null).map((_, i) => {
+                                const x = i % grisDimenstions.colums;
+                                const y = Math.floor(i / grisDimenstions.colums);
+                                const position = positionToPixelPosition({ grid: grisDimenstions, positon: { x, y } });
+                                return (<motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.18 }}
+                                    className='yolo'
+                                    key={`${x}_${y}`}
+                                    style={{
+                                        position: 'absolute',
+                                        top: position.y,
+                                        left: position.x,
+                                        margin: gapSize,
+                                        width: grisDimenstions.boxSize - gapSize * 2,
+                                        height: grisDimenstions.boxSize - gapSize * 2,
+                                        background: 'rgba(255, 255, 255, 0.15)',
+                                        borderRadius: 12,
+                                    }}
+                                />);
+                            })}
+                        </AnimatePresence>
                         <AnimatePresence initial={false}>
                             {adjustedLayout.map((w, i) => {
                                 const position = positionToPixelPosition({ grid: grisDimenstions, positon: w });
