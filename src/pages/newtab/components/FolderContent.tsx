@@ -15,6 +15,7 @@ import { Modal } from '@components/Modal';
 import { WidgetMetadataContext } from '@utils/plugin';
 import { OnboardingCard } from '@components/OnboardingCard';
 import { useSizeSettings } from '@utils/compact';
+import { useBrowserStorageValue } from '@utils/storage';
 
 
 type FolderContentProps = {
@@ -105,6 +106,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const [isEditing, setIsEditing] = useState(false);
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
     const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
+    const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
 
     const { blockSize, gapSize } = useSizeSettings();
     const mainRef = useRef<HTMLDivElement>(null);
@@ -175,7 +177,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     </Button>
                                 </motion.div>}
 
-                                {!isEditing && <motion.div className='action-buttons' key='viewing-buttons' {...actionButtonAnimations}>
+                                {!isEditing && !hideEditFolderButton && <motion.div className='action-buttons' key='viewing-buttons' {...actionButtonAnimations}>
                                     <Button
                                         onClick={() => setIsEditing(true)}
                                         key='start-editing'

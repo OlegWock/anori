@@ -15,7 +15,7 @@ import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
 import { toCss } from '@utils/color';
 import moment from 'moment-timezone';
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 import { CUSTOM_ICONS_AVAILABLE, getAllCustomIconFiles, isValidCustomIconName, removeAllCustomIcons, useCustomIcons } from '@utils/custom-icons';
 import { guid } from '@utils/misc';
 import { Input } from '@components/Input';
@@ -26,6 +26,7 @@ import { analyticsEnabledAtom } from '@utils/analytics';
 import { FolderItem } from './FolderItem';
 import { atom, useAtom } from 'jotai';
 import { Modal } from '@components/Modal';
+import { setPageTitle } from '@utils/mount';
 
 type DraftCustomIcon = {
     id: string,
@@ -103,9 +104,20 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
     const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
     const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', false);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
+    const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
+    const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
 
+    useEffect(() => {
+        setPageTitle(newTabTitle);
+    }, [newTabTitle]);
+
     return (<motion.div {...props} className='GeneralSettingsScreen'>
+        <div className='new-tab-title-wrapper'>
+            <label>New tab title: <Hint content="We can't set icon for new page, but you can try using emoji here 😉" /></label>
+            <Input value={newTabTitle} onValueChange={setNewTabTitle} />
+        </div>
+
         <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
             Enable sending analytics
             <Hint content={<>
@@ -131,7 +143,10 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
             Show animation on open
             <Hint content="If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look." />
         </Checkbox>
-
+        <Checkbox checked={hideEditFolderButton} onChange={setHideEditFolderButton}>
+            Hide "Edit folder" button
+            <Hint content="Extra minimalistic, yeah." />
+        </Checkbox>
     </motion.div>);
 };
 

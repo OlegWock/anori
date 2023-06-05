@@ -16,6 +16,8 @@ export type StorageContent = {
     compactMode: boolean,
     automaticCompactMode: boolean,
     showLoadAnimation: boolean,
+    hideEditFolderButton: boolean,
+    newTabTitle: string,
 };
 
 export type ID = string;

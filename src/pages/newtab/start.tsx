@@ -47,7 +47,7 @@ const Start = () => {
             : 'up';
 
 
-    const [settingsVisible, setSettingsVisible] = useState(true);
+    const [settingsVisible, setSettingsVisible] = useState(false);
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
@@ -133,9 +133,13 @@ storage.getOne('folders').then(foldersFromStorage => {
     const folders = [homeFolder, ...(foldersFromStorage || [])];
     folders.forEach(f => requestIconsFamily(f.icon.split(':')[0]));
 });
-setPageTitle('Anori new tab');
+
 storage.getOne('theme').then(theme => {
     applyTheme(theme || defaultTheme);
+});
+
+storage.getOne('newTabTitle').then(title => {
+    setPageTitle(title || 'Anori new tab');
 });
 
 storage.getOne('showLoadAnimation').then(showLoadAnimation => {

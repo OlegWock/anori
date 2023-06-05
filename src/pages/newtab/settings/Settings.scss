@@ -32,6 +32,18 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    .new-tab-title-wrapper {
+        margin-bottom: 10px;
+        label {
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        .Input {
+            width: 100%;
+        }
+    }
 }
 
 .CustomIconsScreen {
