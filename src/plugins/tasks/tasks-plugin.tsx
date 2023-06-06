@@ -10,6 +10,8 @@ import { Checkbox } from "@components/Checkbox";
 import { guid } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
 import { useSizeSettings } from "@utils/compact";
+import { translate } from "@translations/index";
+import { useTranslation } from "react-i18next";
 
 type TaskWidgetConfigType = {
     title: string,
@@ -27,15 +29,16 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
         saveConfiguration({ title });
     };
 
-    const [title, setTitle] = useState(currentConfig ? currentConfig.title : 'ToDo');
+    const { t } = useTranslation();
+    const [title, setTitle] = useState(currentConfig ? currentConfig.title : t('tasks-plugin.todo'));
 
     return (<div className="TasksWidget-config">
         <div>
-            <label>Card title:</label>
+            <label>{t('title')}:</label>
             <Input value={title} onValueChange={setTitle} />
         </div>
 
-        <Button className="save-config" onClick={onConfirm}>Save</Button>
+        <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
     </div>);
 };
 
@@ -47,6 +50,7 @@ const Task = ({ task, autoFocus, onEdit, onComplete }: {
 }) => {
     const controls = useDragControls();
     const { rem } = useSizeSettings();
+    const { t } = useTranslation();
 
     return (<Reorder.Item
         key={task.id}
@@ -66,7 +70,7 @@ const Task = ({ task, autoFocus, onEdit, onComplete }: {
             }} />
         </div>
         <Checkbox checked={false} onChange={() => onComplete()} />
-        <Input autoFocus={autoFocus} value={task.text} onValueChange={v => onEdit(v)} placeholder="Task description..." />
+        <Input autoFocus={autoFocus} value={task.text} onValueChange={v => onEdit(v)} placeholder={t('tasks-plugin.taskDescription')} />
     </Reorder.Item>);
 };
 
@@ -97,6 +101,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
     const storage = useWidgetStorage<TaskWidgetStorageType>();
     const [tasks, setTasks] = storage.useValue('tasks', []);
     const lastAddedTaskRef = useRef('');
+    const { t } = useTranslation();
 
     return (<div className="TasksWidget">
         <div className="tasks-header">
@@ -115,23 +120,24 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
             </LayoutGroup>
         </ScrollArea>}
         {tasks.length === 0 && <motion.div key='no-tasks' className="no-tasks">
-            No tasks here yet
+            {t('tasks-plugin.noTasks')}
         </motion.div>}
 
     </div>);
 };
 
 const Mock = () => {
+    const { t } = useTranslation();
     const tasks: Task[] = [
-        { id: '1', text: 'Stupid walk for stupid mental health' },
-        { id: '2', text: 'Lay on couch' },
-        { id: '3', text: 'Lay on floor' },
-        { id: '4', text: 'Try not to cry' },
+        { id: '0', text: t('tasks-plugin.exampleTask0') },
+        { id: '1', text: t('tasks-plugin.exampleTask1') },
+        { id: '2', text: t('tasks-plugin.exampleTask2') },
+        { id: '3', text: t('tasks-plugin.exampleTask3') },
     ];
 
     return (<div className="TasksWidget">
         <div className="tasks-header">
-            <h2>ToDo</h2>
+            <h2>{t('tasks-plugin.todo')}</h2>
             <Button><Icon icon='ion:add' height={16} /></Button>
         </div>
         <ScrollArea darker>
@@ -148,7 +154,7 @@ const Mock = () => {
                                 exit={{ opacity: 0 }}
                             >
                                 <Checkbox checked={false} />
-                                <Input value={t.text} placeholder="Task description..." />
+                                <Input value={t.text} />
                             </motion.div>
                         })}
                     </AnimatePresence>
@@ -181,7 +187,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
         return tasks.filter(t => t.text.toLowerCase().includes(q)).map(t => {
             return {
                 icon: 'ion:checkmark-circle-outline',
-                text: `Complete '${t.text}'`,
+                text: translate('tasks-plugin.completeTask', { task: t.text }),
                 key: t.id,
                 onSelected: () => {
                     markTaskAsCompleted(instaceId, t.id);
@@ -193,7 +199,9 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 
 const widgetDescriptorM = {
     id: 'tasks-m',
-    name: 'Tasks - size m',
+    get name() {
+        return translate('tasks-plugin.widgetSizeMName');
+    },
     configurationScreen: WidgetConfigScreen,
     withAnimation: false,
     mainScreen: MainScreen,
@@ -206,7 +214,9 @@ const widgetDescriptorM = {
 
 const widgetDescriptorL = {
     id: 'tasks-l',
-    name: 'Tasks - size l',
+    get name() {
+        return translate('tasks-plugin.widgetSizeLName');
+    },
     configurationScreen: WidgetConfigScreen,
     withAnimation: false,
     mainScreen: MainScreen,
@@ -219,7 +229,9 @@ const widgetDescriptorL = {
 
 export const tasksPlugin = {
     id: 'tasks-plugin',
-    name: 'Tasks',
+    get name() {
+        return translate('tasks-plugin.name');
+    },
     widgets: [
         widgetDescriptorM,
         widgetDescriptorL,

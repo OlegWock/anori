@@ -3,15 +3,18 @@ import { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import './styles.scss';
 import { useWidgetStorage } from "@utils/plugin";
+import { translate } from "@translations/index";
+import { useTranslation } from "react-i18next";
 
 type PluginWidgetConfigType = {
 
 };
 
 const Mock = () => {
+    const { t } = useTranslation();
     return (<div className="NotesWidget">
-        <Input value="Shopping list" className="note-title" spellCheck={false} />
-        <Textarea value="Veryyyyyyyyy long shopping list. Believe me." className="note-body" spellCheck={false} />
+        <Input value={t('notes-plugin.exampleTitle')} className="note-title" spellCheck={false} />
+        <Textarea value={t('notes-plugin.exampleText')} className="note-body" spellCheck={false} />
     </div>);
 };
 
@@ -21,13 +24,14 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
     const [body, setBody] = storage.useValue('body', '');
     const [titleFocused, setTitleFocused] = useState(false);
     const [bodyFocused, setBodyFocused] = useState(false);
+    const { t } = useTranslation();
 
     return (<div className="NotesWidget">
         <Input
             value={title}
             onValueChange={setTitle}
             className="note-title"
-            placeholder="Note title"
+            placeholder={t('notes-plugin.noteTitle')}
             spellCheck={titleFocused}
             onFocus={() => setTitleFocused(true)}
             onBlur={() => setTitleFocused(false)}
@@ -36,7 +40,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
             value={body}
             onValueChange={setBody}
             className="note-body"
-            placeholder="Text of note..."
+            placeholder={t('notes-plugin.noteText')}
             spellCheck={bodyFocused}
             onFocus={() => setBodyFocused(true)}
             onBlur={() => setBodyFocused(false)}
@@ -46,7 +50,9 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
 
 const widgetDescriptorS = {
     id: 'notes-s',
-    name: 'Notes - size s',
+    get name() {
+        return translate('notes-plugin.widgetSizeSName');
+    },
     configurationScreen: null,
     withAnimation: false,
     mainScreen: MainScreen,
@@ -59,7 +65,9 @@ const widgetDescriptorS = {
 
 const widgetDescriptorM = {
     id: 'notes-m',
-    name: 'Notes - size m',
+    get name() {
+        return translate('notes-plugin.widgetSizeMName');
+    },
     configurationScreen: null,
     withAnimation: false,
     mainScreen: MainScreen,
@@ -72,7 +80,9 @@ const widgetDescriptorM = {
 
 const widgetDescriptorL = {
     id: 'notes-l',
-    name: 'Notes - size l',
+    get name() {
+        return translate('notes-plugin.widgetSizeLName');
+    },
     configurationScreen: null,
     withAnimation: false,
     mainScreen: MainScreen,
@@ -87,7 +97,9 @@ const widgetDescriptorL = {
 
 export const notesPlugin = {
     id: 'notes-plugin',
-    name: 'Notes',
+    get name() {
+        return translate('notes-plugin.name');
+    },
     widgets: [
         widgetDescriptorS,
         widgetDescriptorM,

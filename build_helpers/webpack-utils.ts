@@ -67,6 +67,7 @@ export const createPathsObject = (baseSrc: string, baseDist: string) => {
             components: joinPath(baseSrc, 'components'),
             assets: joinPath(baseSrc, 'assets'),
             plugins: joinPath(baseSrc, 'plugins'),
+            translations: joinPath(baseSrc, 'translations'),
         },
         dist: {
             base: baseDist,

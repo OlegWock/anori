@@ -11,6 +11,8 @@ import { Icon } from "@components/Icon";
 import { Tooltip } from "@components/Tooltip";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import { useSizeSettings } from "@utils/compact";
+import { translate } from "@translations/index";
+import { useTranslation } from "react-i18next";
 
 type PluginWidgetConfigType = {
     location: City,
@@ -29,9 +31,9 @@ const formatTemperature = (valueInCelsius: number, to: Temperature, withUnit = t
 };
 
 const formatSpeed = (speedInKmPerHour: number, to: Speed): string => {
-    if (to === 'km/h') return `${speedInKmPerHour.toFixed(1)} km/h`;
-    if (to === 'm/s') return `${Math.round(speedInKmPerHour * (5 / 18))} m/s`;
-    return `${(speedInKmPerHour * 0.6213).toFixed(1)} mph`;
+    if (to === 'km/h') return `${speedInKmPerHour.toFixed(1)} ${translate('weather-plugin.kmh')}`;
+    if (to === 'm/s') return `${Math.round(speedInKmPerHour * (5 / 18))} ${translate('weather-plugin.ms')}`;
+    return `${(speedInKmPerHour * 0.6213).toFixed(1)} ${translate('weather-plugin.mph')}`;
 };
 
 const weatherCodeToIcon = (code: number) => {
@@ -50,18 +52,18 @@ const weatherCodeToIcon = (code: number) => {
 };
 
 const weatherCodeDescription = (code: number) => {
-    if (code === 0) return 'Clear sky';
-    if ([1, 2, 3].includes(code)) return 'Partly cloudy';
-    if ([45, 48].includes(code)) return 'Fog';
-    if ([51, 53, 55].includes(code)) return 'Drizzle';
-    if ([56, 57].includes(code)) return 'Freezing drizzle';
-    if ([61, 63, 65].includes(code)) return 'Rain';
-    if ([66, 67].includes(code)) return 'Freezing rain';
-    if ([71, 73, 75, 77, 85, 86].includes(code)) return 'Snow';
-    if ([80, 81, 82].includes(code)) return 'Rain shower';
-    if ([95, 96, 99].includes(code)) return 'Thunderstorm';
+    if (code === 0) return translate('weather-plugin.clearSky');
+    if ([1, 2, 3].includes(code)) return translate('weather-plugin.partlyCloudy');
+    if ([45, 48].includes(code)) return translate('weather-plugin.fog');
+    if ([51, 53, 55].includes(code)) return translate('weather-plugin.drizzle');
+    if ([56, 57].includes(code)) return translate('weather-plugin.freezingDrizzle');
+    if ([61, 63, 65].includes(code)) return translate('weather-plugin.rain');
+    if ([66, 67].includes(code)) return translate('weather-plugin.freezingRain');
+    if ([71, 73, 75, 77, 85, 86].includes(code)) return translate('weather-plugin.snow');
+    if ([80, 81, 82].includes(code)) return translate('weather-plugin.rainShower');
+    if ([95, 96, 99].includes(code)) return translate('weather-plugin.thunderstorm');
 
-    return 'Unknown weather code'
+    return translate('weather-plugin.unknownCode');
 };
 
 const CACHE_TIME = 1000 * 60 * 10;
@@ -85,47 +87,6 @@ const mockWeather = {
     }
 };
 
-const mockForecast = {
-    forecast: [
-        {
-            date: moment(),
-            windSpeed: 2.3,
-            windDirection: 190,
-            weatherCode: 1,
-            temperatureMin: 10,
-            temperatureMax: 15,
-        }, {
-            date: moment().add(1, 'day'),
-            windSpeed: 3.1,
-            windDirection: 210,
-            weatherCode: 1,
-            temperatureMin: 5,
-            temperatureMax: 9,
-        }, {
-            date: moment().add(2, 'day'),
-            windSpeed: 3.6,
-            windDirection: 280,
-            weatherCode: 0,
-            temperatureMin: 12,
-            temperatureMax: 16,
-        }, {
-            date: moment().add(3, 'day'),
-            windSpeed: 2.3,
-            windDirection: 190,
-            weatherCode: 0,
-            temperatureMin: 11,
-            temperatureMax: 16,
-        }, {
-            date: moment().add(4, 'day'),
-            windSpeed: 4.5,
-            windDirection: 90,
-            weatherCode: 1,
-            temperatureMin: 14,
-            temperatureMax: 18,
-        },
-    ],
-    lastUpdated: Date.now(),
-};
 
 const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<PluginWidgetConfigType>) => {
     const onConfirm = () => {
@@ -154,10 +115,11 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const [loadingCities, setLoadingCities] = useState(false);
     const [temperatureUnit, setTemperatureUnit] = useState<Temperature>(currentConfig ? currentConfig.temperatureUnit : 'c');
     const [speedUnit, setSpeedUnit] = useState<Speed>(currentConfig ? currentConfig.speedUnit : 'km/h');
+    const { t } = useTranslation();
 
     return (<div className="WeatherWidget-config">
         <div>
-            <label>Select city</label>
+            <label>{t('weather-plugin.selectCity')}:</label>
             <Combobox<City | null>
                 options={cities}
                 value={selectedCity}
@@ -167,12 +129,12 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
                 getOptionKey={o => o ? o.id.toString() : ''}
                 getOptionLabel={o => o ? formatCityLabel(o) : ''}
                 shouldDisplayOption={(o, q) => !!o}
-                placeholder="Select city"
+                placeholder={t('weather-plugin.selectCity')}
             />
         </div>
 
         <div>
-            <label>Temperature unit</label>
+            <label>{t('weather-plugin.temperatureUnit')}:</label>
             <Select<Temperature>
                 options={['c', 'f']}
                 getOptionKey={o => o}
@@ -182,7 +144,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             />
         </div>
         <div>
-            <label>Wind speed unit</label>
+            <label>{t('weather-plugin.speedUnit')}</label>
             <Select<Speed>
                 options={['km/h', 'm/s', 'mph']}
                 getOptionKey={o => o}
@@ -192,7 +154,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             />
         </div>
 
-        <Button className="save-config" onClick={onConfirm}>Save</Button>
+        <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
     </div>);
 };
 
@@ -287,12 +249,12 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
 const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
     const { weather } = instanceId === 'mock' ? mockWeather : useCurrentWeather(config);
     const { rem } = useSizeSettings();
+    const { t } = useTranslation();
 
-    return (<Tooltip label={!weather ? 'Loading...' : `Last updated at ${moment(weather.lastUpdated).format('HH:mm')}`} placement="top">
+    return (<Tooltip label={!weather ? t('loading') : t('lastUpdatedAt', {datetime: moment(weather.lastUpdated).format('HH:mm')})} placement="top">
         <div className="WeatherWidget current">
             {!!weather && <>
-
-                <Tooltip label={`${weatherCodeDescription(weather.weatherCode)} (weather code ${weather.weatherCode})`}>
+                <Tooltip label={`${weatherCodeDescription(weather.weatherCode)} (${t('weather-plugin.weatherCode', {code: weather.weatherCode})})`}>
                     <Icon icon={weatherCodeToIcon(weather.weatherCode)} width={rem(6)} height={rem(6)} />
                 </Tooltip>
                 <div>
@@ -316,13 +278,56 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
 
 
 const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
+    const mockForecast = {
+        forecast: [
+            {
+                date: moment(),
+                windSpeed: 2.3,
+                windDirection: 190,
+                weatherCode: 1,
+                temperatureMin: 10,
+                temperatureMax: 15,
+            }, {
+                date: moment().add(1, 'day'),
+                windSpeed: 3.1,
+                windDirection: 210,
+                weatherCode: 1,
+                temperatureMin: 5,
+                temperatureMax: 9,
+            }, {
+                date: moment().add(2, 'day'),
+                windSpeed: 3.6,
+                windDirection: 280,
+                weatherCode: 0,
+                temperatureMin: 12,
+                temperatureMax: 16,
+            }, {
+                date: moment().add(3, 'day'),
+                windSpeed: 2.3,
+                windDirection: 190,
+                weatherCode: 0,
+                temperatureMin: 11,
+                temperatureMax: 16,
+            }, {
+                date: moment().add(4, 'day'),
+                windSpeed: 4.5,
+                windDirection: 90,
+                weatherCode: 1,
+                temperatureMin: 14,
+                temperatureMax: 18,
+            },
+        ],
+        lastUpdated: Date.now(),
+    };
+
     const { forecast, lastUpdated } = instanceId === 'mock' ? mockForecast : useForecastWeather(config);
     const { rem } = useSizeSettings();
+    const { t } = useTranslation();
 
-    return (<Tooltip label={!lastUpdated ? 'Loading...' : `Last updated at ${moment(lastUpdated).format('HH:mm')}`} placement="top">
+    return (<Tooltip label={!lastUpdated ? t('loading') : t('lastUpdatedAt', {datetime: moment(lastUpdated).format('HH:mm')})} placement="top">
         <div className="WeatherWidget forecast">
             <div>
-                <h2>Forecast</h2>
+                <h2>{t('weather-plugin.forecast')}</h2>
                 <div className="location">
                     <Icon icon="ion:location-sharp" height={rem(1.2)} />
                     <div>{config.location.name}</div>
@@ -331,7 +336,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
             {!!forecast && <FloatingDelayGroup delay={500}>
                 {forecast.map(f => {
                     return (<div key={f.date.toISOString()} className="day-row">
-                        <Tooltip label={`${weatherCodeDescription(f.weatherCode)} (weather code ${f.weatherCode})`}>
+                        <Tooltip label={`${weatherCodeDescription(f.weatherCode)} (${t('weather-plugin.weatherCode', {code: f.weatherCode})})`}>
                             <Icon icon={weatherCodeToIcon(f.weatherCode)} width={rem(6)} height={rem(6)} />
                         </Tooltip>
                         <div>
@@ -357,7 +362,9 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
 
 const widgetDescriptorCurrent = {
     id: 'weather-current',
-    name: 'Current weather',
+    get name() {
+        return translate('weather-plugin.currentWeather');
+    },
     configurationScreen: WidgetConfigScreen,
     withAnimation: false,
     mainScreen: MainScreenCurrent,
@@ -372,7 +379,9 @@ const widgetDescriptorCurrent = {
 
 const widgetDescriptorForecast = {
     id: 'weather-forecast',
-    name: 'Weather forecast',
+    get name() {
+        return translate('weather-plugin.weatherForecast');
+    },
     configurationScreen: WidgetConfigScreen,
     withAnimation: false,
     mainScreen: MainScreenForecast,
@@ -387,7 +396,9 @@ const widgetDescriptorForecast = {
 
 export const weatherPlugin = {
     id: 'weather-plugin',
-    name: 'Weather',
+    get name() {
+        return translate('weather-plugin.name');
+    },
     widgets: [
         widgetDescriptorCurrent,
         widgetDescriptorForecast,

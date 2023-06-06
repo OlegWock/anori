@@ -28,6 +28,9 @@ import { atom, useAtom } from 'jotai';
 import { Modal } from '@components/Modal';
 import { setPageTitle } from '@utils/mount';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
+import { useTranslation } from 'react-i18next';
+import { Select } from '@components/Select';
+import { Language, SHOW_LANGUAGE_SELECT_IN_SETTINGS, availableTranslations, availableTranslationsPrettyNames, switchTranslationLanguage } from '@translations/index';
 
 type DraftCustomIcon = {
     id: string,
@@ -87,11 +90,12 @@ const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonPro
 
 const MainScreen = (props: ComponentProps<typeof motion.div>) => {
     const [screen, setScreen] = useAtom(currentScreenAtom);
+    const { t } = useTranslation();
     const hasPluginsWithSettings = availablePlugins.filter(p => p.configurationScreen !== null).length !== 0;
 
     return (<motion.div {...props} className='MainSettingsScreen'>
-        <ScreenButton onClick={() => setScreen('general')} icon='ion:settings-sharp' name="General" />
-        {CUSTOM_ICONS_AVAILABLE && <ScreenButton onClick={() => setScreen('custom-icons')} icon='ion:file-tray-full' name="Custom icons" />}
+        <ScreenButton onClick={() => setScreen('general')} icon='ion:settings-sharp' name={t('settings.general')} />
+        {CUSTOM_ICONS_AVAILABLE && <ScreenButton onClick={() => setScreen('custom-icons')} icon='ion:file-tray-full' name={t('settings.customIcons')} />}
         <ScreenButton onClick={() => setScreen('folders')} icon='ion:folder-open-sharp' name="Folders" />
         {hasPluginsWithSettings && <ScreenButton onClick={() => setScreen('plugins')} icon='ion:code-slash-sharp' name="Plugins" />}
         <ScreenButton onClick={() => setScreen('theme')} icon='ion:color-palette' name="Theme" />
@@ -102,6 +106,7 @@ const MainScreen = (props: ComponentProps<typeof motion.div>) => {
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
+    const [language, setLanguage] = useBrowserStorageValue('language', 'en');
     const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
     const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', false);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
@@ -114,7 +119,20 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
     }, [newTabTitle]);
 
     return (<motion.div {...props} className='GeneralSettingsScreen'>
-        <div className='new-tab-title-wrapper'>
+        {SHOW_LANGUAGE_SELECT_IN_SETTINGS && <div className='input-wrapper'>
+            <label>Language:</label>
+            <Select<Language> 
+                value={language}
+                onChange={(newLang) => {
+                    setLanguage(newLang);
+                    switchTranslationLanguage(newLang);
+                }}
+                options={availableTranslations}
+                getOptionKey={o => o}
+                getOptionLabel={o => availableTranslationsPrettyNames[o]}
+            />
+        </div>}
+        <div className='input-wrapper'>
             <label>New tab title: <Hint content="We can't set icon for new page, but you can try using emoji here 😉" /></label>
             <Input value={newTabTitle} onValueChange={setNewTabTitle} />
         </div>

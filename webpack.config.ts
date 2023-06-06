@@ -316,6 +316,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 '@components': path.resolve(__dirname, paths.src.components),
                 '@assets': path.resolve(__dirname, paths.src.assets),
                 '@plugins': path.resolve(__dirname, paths.src.plugins),
+                '@translations': path.resolve(__dirname, paths.src.translations),
             },
 
             modules: [path.resolve(__dirname, paths.src.base), 'node_modules'],
@@ -466,8 +467,8 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 startYear: currentYear - 2,
                 endYear: currentYear + 5,
             }),
-            // Ignore all locale files of moment.js
-            new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }),
+            // TODO: need to include only locales we support in the extension
+            // new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }),
             ...zipPlugin,
         ],
 

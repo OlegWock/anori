@@ -10,6 +10,8 @@ import { useLinkNavigationState } from "@utils/hooks";
 import { Icon } from "@components/Icon";
 import { useWidgetStorage } from "@utils/plugin";
 import { useParentFolder } from "@utils/FolderContentContext";
+import { translate } from "@translations/index";
+import { useSizeSettings } from "@utils/compact";
 
 type PluginWidgetConfigType = {
 
@@ -59,7 +61,6 @@ const MainScreen = ({ config, instanceId, type }: WidgetRenderProps<PluginWidget
             setSites(
                 data.filter(s => !blacklist.includes(s.url)).slice(0, 6)
             );
-
         };
 
         load();
@@ -81,37 +82,40 @@ const MainScreen = ({ config, instanceId, type }: WidgetRenderProps<PluginWidget
 };
 
 const Mock = ({ type }: { type: 'horizontal' | 'vertical' }) => {
+    const { rem } = useSizeSettings();
     return (<div className={clsx("TopSitesWidget", type)}>
         <a href="#">
-            <img src={browser.runtime.getURL('/assets/images/icon48.png')} />
-            <div className="site-title">Some site</div>
+            <Icon icon="logos:facebook" height={rem(2)} width={rem(2)} />
+            <div className="site-title">Facebook</div>
         </a>
         <a href="#">
-            <img src={browser.runtime.getURL('/assets/images/icon48.png')} />
-            <div className="site-title">Social media</div>
+            <Icon icon="logos:twitter" height={rem(2)} width={rem(2)} />
+            <div className="site-title">Twitter</div>
         </a>
         <a href="#">
-            <img src={browser.runtime.getURL('/assets/images/icon48.png')} />
-            <div className="site-title">News</div>
+            <Icon icon="logos:jira" height={rem(2)} width={rem(2)} />
+            <div className="site-title">Jira</div>
         </a>
         <a href="#">
-            <img src={browser.runtime.getURL('/assets/images/icon48.png')} />
-            <div className="site-title">Weather</div>
+        <Icon icon="logos:github-icon" height={rem(2)} width={rem(2)} />
+            <div className="site-title">GitHub</div>
         </a>
         <a href="#">
-            <img src={browser.runtime.getURL('/assets/images/icon48.png')} />
-            <div className="site-title">Lorem</div>
+            <Icon icon="logos:whatsapp-icon" height={rem(2)} width={rem(2)} />
+            <div className="site-title">Whatsapp</div>
         </a>
         <a href="#">
-            <img src={browser.runtime.getURL('/assets/images/icon48.png')} />
-            <div className="site-title">Ipsum</div>
+            <Icon icon="logos:notion-icon" height={rem(2)} width={rem(2)} />
+            <div className="site-title">Notion</div>
         </a>
     </div>);
 }
 
 const widgetDescriptorHorizontal = {
     id: 'top-sites-horizontal',
-    name: 'Top sites - horizontal',
+    get name() {
+        return translate('top-sites-plugin.widgetHorizontal');
+    },
     configurationScreen: null,
     withAnimation: false,
     // @ts-expect-error favicon is not present in webextension-polyfill typings yet
@@ -125,7 +129,9 @@ const widgetDescriptorHorizontal = {
 
 const widgetDescriptorVertical = {
     id: 'top-sites-vertical',
-    name: 'Top sites - vertical',
+    get name() {
+        return translate('top-sites-plugin.widgetVertical');
+    },
     configurationScreen: null,
     withAnimation: false,
     // @ts-expect-error favicon is not present in webextension-polyfill typings yet
@@ -139,7 +145,9 @@ const widgetDescriptorVertical = {
 
 export const topSitesPlugin = {
     id: 'top-sites-plugin',
-    name: 'Top sites',
+    get name() {
+        return translate('top-sites-plugin.name');
+    },
     widgets: [
         widgetDescriptorHorizontal,
         widgetDescriptorVertical,

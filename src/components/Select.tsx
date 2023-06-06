@@ -6,7 +6,7 @@ import { Icon } from './Icon';
 
 
 export type SelectProps<T> = {
-    options: T[],
+    options: T[] | readonly T[],
     getOptionKey: (opt: T) => string,
     getOptionLabel: (opt: T) => ReactNode,
     value: T,

@@ -11,30 +11,33 @@ import { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePrevious } from "@utils/hooks";
 import { Select } from "@components/Select";
+import { useTranslation } from "react-i18next";
+import { translate } from "@translations/index";
 
 type CalendarWidgetConfigType = {
     // 0 is monday, 6 is sunday
     // This is marked as optional because first version of widget didn't had this 
     // settings, thus it's not guaranteed to have this set
-    firstDay?: number, 
+    firstDay?: number,
 };
 
-const weekdays = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-];
-
 const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<CalendarWidgetConfigType>) => {
+    const { t } = useTranslation();
+    const weekdays = [
+        t('weekday0'),
+        t('weekday1'),
+        t('weekday2'),
+        t('weekday3'),
+        t('weekday4'),
+        t('weekday5'),
+        t('weekday6'),
+    ];
+
     const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
 
     return (<div className='SearchWidget-config'>
         <div>
-            <label>First day of week</label>
+            <label>{t('calendar-plugin.firstDayOfWeek')}:</label>
             <Select<number>
                 options={[0, 1, 2, 3, 4, 5, 6]}
                 value={firstDay}
@@ -44,11 +47,22 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
             />
         </div>
 
-        <Button className='save-config' onClick={() => saveConfiguration({ firstDay })}>Save</Button>
+        <Button className='save-config' onClick={() => saveConfiguration({ firstDay })}>{t('save')}</Button>
     </div>)
 };
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConfigType>) => {
+    const { t } = useTranslation();
+    const weekdays = [
+        t('weekday0'),
+        t('weekday1'),
+        t('weekday2'),
+        t('weekday3'),
+        t('weekday4'),
+        t('weekday5'),
+        t('weekday6'),
+    ];
+
     const [today, setToday] = useState(() => moment());
     const [offsetMonths, setOffsetMonths] = useState(0);
     const prevOffset = usePrevious(offsetMonths, offsetMonths);
@@ -152,7 +166,9 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
 
 const widgetDescriptor = {
     id: 'calendar-m',
-    name: 'Calendar',
+    get name() {
+        return translate('calendar-plugin.widgetName')
+    },
     configurationScreen: ConfigScreen,
     withAnimation: false,
     mainScreen: MainScreen,
@@ -167,7 +183,9 @@ const widgetDescriptor = {
 
 export const calendarPlugin = {
     id: 'calendar-plugin',
-    name: 'Calendar',
+    get name() {
+        return translate('calendar-plugin.name');
+    },
     widgets: [
         widgetDescriptor,
     ],

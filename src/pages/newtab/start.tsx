@@ -21,6 +21,7 @@ import { WhatsNew } from '@components/WhatsNew';
 import clsx from 'clsx';
 import { CompactModeProvider, useSizeSettings } from '@utils/compact';
 import { getAllCustomIcons } from '@utils/custom-icons';
+import { initTranslation } from '@translations/index';
 
 
 const Start = () => {
@@ -158,6 +159,7 @@ storage.getOne('showLoadAnimation').then(showLoadAnimation => {
 requestIconsFamily('ion');
 requestIconsFamily('fluent');
 getAllCustomIcons();
+initTranslation();
 
 mountPage(<CompactModeProvider>
     <Start />

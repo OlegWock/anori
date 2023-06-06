@@ -4,6 +4,7 @@ import './styles.scss';
 import browser from 'webextension-polyfill';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { translate } from '@translations/index';
 
 type CpuTime = {
     idle: number,
@@ -83,7 +84,9 @@ const MemoryWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
 
 const cpuWidgetDescriptor = {
     id: 'cpu-load-status',
-    name: 'CPU load',
+    get name() {
+        return translate('system-status-plugin.cpuLoad');
+    },
     size: {
         width: 1,
         height: 1,
@@ -96,7 +99,9 @@ const cpuWidgetDescriptor = {
 
 const ramWidgetDescriptor = {
     id: 'ram-load-status',
-    name: 'RAM load',
+    get name() {
+        return translate('system-status-plugin.ramLoad');
+    },
     size: {
         width: 1,
         height: 1,
@@ -109,7 +114,9 @@ const ramWidgetDescriptor = {
 
 export const systemStatusPlugin = {
     id: 'system-status-plugin',
-    name: 'System status',
+    get name() {
+        return translate('system-status-plugin.name');
+    },
     widgets: [
         cpuWidgetDescriptor,
         ramWidgetDescriptor,

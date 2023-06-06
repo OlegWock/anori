@@ -9,6 +9,8 @@ import { Icon } from '@components/Icon';
 import { Tooltip } from '@components/Tooltip';
 import { useSizeSettings } from '@utils/compact';
 import { FloatingDelayGroup } from '@floating-ui/react';
+import { translate } from '@translations/index';
+import { useTranslation } from 'react-i18next';
 
 
 const providersPretty = {
@@ -51,6 +53,7 @@ const generateSearchUrl = (provider: Provider, query: string) => {
 
 const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<WidgetConfig>) => {
     const [defaultProvider, setDefaultProvider] = useState<Provider>(currentConfig ? currentConfig.defaultProvider : 'google');
+    const { t } = useTranslation();
 
     return (<div className='SearchWidget-config'>
         <div>
@@ -64,7 +67,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
             />
         </div>
 
-        <Button className='save-config' onClick={() => saveConfiguration({ defaultProvider })}>Save</Button>
+        <Button className='save-config' onClick={() => saveConfiguration({ defaultProvider })}>{t('save')}</Button>
     </div>)
 };
 
@@ -77,6 +80,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     const [activeProvider, setProvider] = useState(config.defaultProvider);
     const [query, setQuery] = useState('');
     const { rem } = useSizeSettings();
+    const { t } = useTranslation();
 
 
     return (<div className='SearchWidget'>
@@ -101,7 +105,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
                 onKeyDown={e => e.key === 'Enter' ? doSearch() : null}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder='Search...'
+                placeholder={t('search')}
             />
             <Button withoutBorder onClick={doSearch}><Icon width={rem(1)} height={rem(1)} icon="ion:search" /></Button>
         </div>
@@ -120,7 +124,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 
         return {
             icon: providersIcons[p],
-            text: `Search ${providersPretty[p]} for «${query}»`,
+            text: translate('seach-plugin.searchProviderForQ', { provider: providersPretty[p], query }),
             onSelected: () => window.location.href = url,
             key: p,
         }
@@ -129,7 +133,9 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 
 const widgetDescriptor = {
     id: 'search-widget',
-    name: 'Search',
+    get name() {
+        return translate('search-plugin.widgetName');
+    },
     size: {
         width: 4,
         height: 1,
@@ -144,7 +150,9 @@ const widgetDescriptor = {
 
 export const searchPlugin = {
     id: 'search-plugin',
-    name: 'Internet search',
+    get name() {
+        return translate('search-plugin.name');
+    },
     onCommandInput,
     widgets: [
         widgetDescriptor,

@@ -10,6 +10,8 @@ import moment from 'moment-timezone';
 import { motion, useAnimationControls } from 'framer-motion';
 import { wait } from '@utils/misc';
 import { ScrollArea } from '@components/ScrollArea';
+import { translate } from '@translations/index';
+import { useTranslation } from 'react-i18next';
 
 const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMock: boolean }) => {
     const restore = async () => {
@@ -28,6 +30,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
         if (X_BROWSER === 'chrome') return moment.unix(session.lastModified).fromNow(true);
         if (X_BROWSER === 'firefox') return moment(session.lastModified).fromNow(true);
     }, [session.lastModified]);
+    const { t } = useTranslation();
 
     return (<motion.div
         className='Session'
@@ -47,7 +50,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
         {!!favIcon && <img className="fav-icon" src={favIcon} />}
         {!favIcon && <Icon icon={session.tab ? 'ic:baseline-tab' : 'ic:outline-window'} />}
         <div className="title">
-            {session.tab ? (session.tab.title || 'Tab') : (session.window?.title || 'Window')}
+            {session.tab ? (session.tab.title || t('recently-closed-plugin.tab')) : (session.window?.title || t('recently-closed-plugin.window'))}
         </div>
         <div className="last-modified">
             {lastModified}
@@ -83,7 +86,7 @@ const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
                 return true;
             }).map(s => {
                 const id = s.tab ? s.tab.sessionId : s.window!.sessionId;
-                return (<Session key={id?.toString()} session={s} isMock={instanceId === 'mock'}/>);
+                return (<Session key={id?.toString()} session={s} isMock={instanceId === 'mock'} />);
             })}
         </ScrollArea>
 
@@ -125,7 +128,9 @@ const onCommandInput: OnCommandInputCallback = async (query: string) => {
 
 const widgetDescriptor = {
     id: 'recently-closed-widget',
-    name: 'Recently closed tabs - size m',
+    get name() {
+        return translate('recently-closed-plugin.widgetSizeMName');
+    },
     size: {
         width: 3,
         height: 3,
@@ -138,7 +143,9 @@ const widgetDescriptor = {
 
 const widgetDescriptorS = {
     id: 'recently-closed-widget-s',
-    name: 'Recently closed tabs - size s',
+    get name() {
+        return translate('recently-closed-plugin.widgetSizeSName');
+    },
     size: {
         width: 2,
         height: 2,
@@ -151,7 +158,9 @@ const widgetDescriptorS = {
 
 export const recentlyClosedPlugin = {
     id: 'recently-closed-plugin',
-    name: 'Recently closed tabs',
+    get name() {
+        return translate('recently-closed-plugin.name');
+    },
     widgets: [
         widgetDescriptor,
         widgetDescriptorS,

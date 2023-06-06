@@ -1,0 +1,124 @@
+{
+    "translation": {
+        "icon": "Icon",
+        "title": "Title",
+        "url": "URL",
+        "save": "Save",
+        "import": "Import",
+        "noResults": "No results",
+        "example": "Example",
+        "settings": {
+            "general": "General",
+            "customIcons": "Custom icons"
+        },
+        "weekday0": "Monday",
+        "weekday1": "Tuesday",
+        "weekday2": "Wednesday",
+        "weekday3": "Thursday",
+        "weekday4": "Friday",
+        "weekday5": "Saturday",
+        "weekday6": "Sunday",
+        "timezone": "Timezone",
+        "startTypingToSearch": "Start typing to search...",
+        "search": "Search...",
+        "loading": "Loading...",
+        "lastUpdatedAt": "Last updated at {{datetime}}",
+
+
+        "bookmark-plugin": {
+            "name": "Bookmarks",
+            "widgetSizeSName": "Bookmark - size S",
+            "widgetSizeMName": "Bookmark - size M",
+            "openInNewTab": "Open in a new tab",
+            "searchBookmarks": "Search bookmarks"
+        },
+        "calendar-plugin": {
+            "name": "Calendar",
+            "widgetName": "Calendar",
+            "firstDayOfWeek": "First day of week"
+        },
+        "datetime-plugin": {
+            "name": "Date and time",
+            "widgetName": "Date and time",
+            "withoutDate": "Without date",
+            "timeFormat": "Time format",
+            "dateFormat": "Date format",
+            "24hours": "24 hours"
+        },
+
+        "notes-plugin": {
+            "name": "Notes",
+            "widgetSizeSName": "Notes - size S",
+            "widgetSizeMName": "Notes - size M",
+            "widgetSizeLName": "Notes - size L",
+            "noteTitle": "Note title",
+            "noteText": "Text of note...",
+            "exampleTitle": "Shopping list",
+            "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
+        },
+        
+        "recently-closed-plugin": {
+            "name": "Recently closed tabs",
+            "widgetSizeSName": "Recently closed tabs - size S",
+            "widgetSizeMName": "Recently closed tabs - size M",
+            "tab": "Tab",
+            "window": "Window"
+        },
+
+        "search-plugin": {
+            "name": "Internet search",
+            "widgetName": "Search",
+            "searchProviderForQ": "Search {{provider}} for «{{query}}»"
+        },
+
+        "system-status-plugin": {
+            "name": "System status",
+            "ramLoad": "RAM load",
+            "cpuLoad": "CPU load"
+        },
+        "tasks-plugin": {
+            "name": "Tasks",
+            "widgetSizeMName": "Tasks - size M",
+            "widgetSizeLName": "Tasks - size L",
+            "todo": "ToDo",
+            "completeTask": "Complete «{{task}}»",
+            "taskDescription": "Task description...",
+            "noTasks": "No tasks here yet",
+            "exampleTask0": "Stupid walk for stupid mental health",
+            "exampleTask1": "Lay on couch",
+            "exampleTask2": "Lay on floor",
+            "exampleTask3": "Try not to cry"
+        }, 
+
+        "top-sites-plugin": {
+            "name": "Top sites",
+            "widgetHorizontal": "Top sites - horizontal",
+            "widgetVertical": "Top sites - vertical"
+        },
+
+        "weather-plugin": {
+            "name": "Weather",
+            "weatherForecast": "Weather forecast",
+            "forecast": "forecast",
+            "currentWeather": "Current weather",
+            "kmh": "km/h",
+            "ms": "m/s",
+            "mph": "mph",
+            "clearSky": "Clear sky",
+            "partlyCloudy": "Partly cloudy",
+            "fog": "Fog",
+            "drizzle": "Drizzle",
+            "freezingDrizzle": "Freezing drizzle",
+            "rain": "Rain",
+            "freezingRain": "Freezing rain",
+            "snow": "Snow",
+            "rainShower": "Rain shower",
+            "thunderstorm": "Thunderstorm",
+            "unknownCode": "Unknown weather code",
+            "selectCity": "Select city",
+            "temperatureUnit": "Temperature unit",
+            "speedUnit": "Wind speed unit",
+            "weatherCode": "weather code {{code}}"
+        }
+    }
+}

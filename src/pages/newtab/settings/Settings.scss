@@ -25,6 +25,7 @@
 .MainSettingsScreen {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
     gap: 1rem;
 }
 
@@ -33,7 +34,7 @@
     flex-direction: column;
     gap: 10px;
 
-    .new-tab-title-wrapper {
+    .input-wrapper {
         margin-bottom: 10px;
 
         label {
@@ -42,7 +43,7 @@
             align-items: center;
         }
 
-        .Input {
+        .Input, .SelectTrigger {
             width: 100%;
         }
     }

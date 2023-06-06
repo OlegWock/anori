@@ -1,6 +1,7 @@
 import { LayoutItem, LayoutItemSize } from "@utils/grid";
 import { ComponentType } from "react";
 import { Theme } from "./theme";
+import { Language } from "@translations/index";
 
 export type StorageContent = {
     folders: Folder[],
@@ -18,6 +19,7 @@ export type StorageContent = {
     showLoadAnimation: boolean,
     hideEditFolderButton: boolean,
     newTabTitle: string,
+    language: Language,
 };
 
 export type ID = string;

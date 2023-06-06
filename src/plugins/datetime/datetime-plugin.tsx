@@ -9,6 +9,8 @@ import { Select } from '@components/Select';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { Combobox } from '@components/Combobox';
+import { translate } from '@translations/index';
+import { useTranslation } from 'react-i18next';
 
 
 type WidgetConfig = {
@@ -18,32 +20,44 @@ type WidgetConfig = {
     dateFormat: string,
 };
 
-const availableTimeFormatsMap: Record<string, string> = {
-    'h:mm a': '9:32 pm',
-    'hh:mm a': '09:32 pm',
-    'h:mm A': '9:32 PM',
-    'hh:mm A': '09:32 PM',
-    'H:mm': '9:32 (24-hours)',
-    'HH:mm': '09:32 (24-hours)',
-    'HH:mm:ss': '09:32:00'
-};
-
-const availableTimeFormats = Object.keys(availableTimeFormatsMap);
-
-const availableDateFormatsMap: Record<string, string> = {
-    'noDate': 'Without date',
-    'MMM Do, Y': 'Oct 14th, 1983',
-    'MMMM Do, Y': 'October 14th, 1983',
-    'M/D/Y': '10/14/1983',
-    'Do MMM Y': '14th Oct 1983',
-    'Do MMMM Y': '14th October 1983',
-    'D/M/Y': '14/10/1983',
-    'Y-MM-DD': '1983-10-14',
-};
-
-const availableDateFormats = Object.keys(availableDateFormatsMap);
 
 const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<WidgetConfig>) => {
+    const { t } = useTranslation();
+
+    const date = moment({
+        hour: 9,
+        minute: 33,
+        second: 42,
+        date: 14,
+        month: 10,
+        year: 1983,
+    });
+
+    const availableTimeFormatsMap: Record<string, string> = {
+        'h:mm a': date.format('h:mm a'),
+        'hh:mm a': date.format('hh:mm a'),
+        'h:mm A': date.format('h:mm A'),
+        'hh:mm A': date.format('hh:mm A'),
+        'H:mm': `${date.format('H:mm')} (${t('datetime-plugin.24hours')})`,
+        'HH:mm': `${date.format('HH:mm')} (${t('datetime-plugin.24hours')})`,
+        'HH:mm:ss': date.format('HH:mm:ss'),
+    };
+    
+    const availableTimeFormats = Object.keys(availableTimeFormatsMap);
+    
+    const availableDateFormatsMap: Record<string, string> = {
+        'noDate': t('datetime-plugin.withoutDate'),
+        'MMM Do, Y': date.format('MMM Do, Y'),
+        'MMMM Do, Y': date.format('MMMM Do, Y'),
+        'M/D/Y': date.format('M/D/Y'),
+        'Do MMM Y': date.format('Do MMM Y'),
+        'Do MMMM Y': date.format('Do MMMM Y'),
+        'D/M/Y': date.format('D/M/Y'),
+        'Y-MM-DD': date.format('Y-MM-DD'),
+    };
+    
+    const availableDateFormats = Object.keys(availableDateFormatsMap);
+
     const allTz = useMemo(() => moment.tz.names(), []);
     const [title, setTitle] = useState(currentConfig ? currentConfig.title : '');
     const [timeFormat, setTimeFormat] = useState(currentConfig ? currentConfig.timeFormat : 'HH:mm');
@@ -52,23 +66,23 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
     return (<div className='DateTimeWidget-config'>
         <div>
-            <label>Widget title</label>
+            <label>{t('title')}</label>
             <Input value={title} onChange={e => setTitle(e.target.value)} />
         </div>
         <div>
-            <label>Timezone</label>
+            <label>{t('timezone')}</label>
             <Combobox<string>
                 options={allTz}
                 value={tz}
                 onChange={setTz}
-                placeholder='Start typing to search...'
+                placeholder={t('startTypingToSearch')}
                 getOptionKey={o => o}
                 getOptionLabel={o => o.replace(/_/igm, ' ')}
                 shouldDisplayOption={(o, t) => o.toLowerCase().includes(t.toLowerCase())}
             />
         </div>
         <div>
-            <label>Time format</label>
+            <label>{t('datetime-plugin.timeFormat')}</label>
             <Select<string>
                 options={availableTimeFormats}
                 value={timeFormat}
@@ -78,7 +92,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
             />
         </div>
         <div>
-            <label>Date format</label>
+            <label>{t('datetime-plugin.dateFormat')}</label>
             <Select<string>
                 options={availableDateFormats}
                 value={dateFormat}
@@ -87,7 +101,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
                 getOptionLabel={o => availableDateFormatsMap[o]}
             />
         </div>
-        <Button className='save-config' onClick={() => saveConfiguration({ title, timeFormat, dateFormat, tz })}>Save</Button>
+        <Button className='save-config' onClick={() => saveConfiguration({ title, timeFormat, dateFormat, tz })}>{t('save')}</Button>
     </div>)
 };
 
@@ -116,7 +130,9 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
 
 const widgetDescriptor = {
     id: 'datetime-widget',
-    name: 'Date and time',
+    get name(){
+        return translate('datetime-plugin.widgetName');
+    },
     size: {
         width: 1,
         height: 1,
@@ -134,7 +150,9 @@ const widgetDescriptor = {
 
 export const datetimePlugin = {
     id: 'datetime-plugin',
-    name: 'Date and time',
+    get name(){
+        return translate('datetime-plugin.name');
+    },
     widgets: [
         widgetDescriptor,
     ],

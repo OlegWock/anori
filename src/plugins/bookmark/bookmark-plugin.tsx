@@ -17,6 +17,8 @@ import { RequirePermissions } from "@components/RequirePermissions";
 import browser from 'webextension-polyfill';
 import { ScrollArea } from "@components/ScrollArea";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { translate } from "@translations/index";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -39,6 +41,7 @@ type BrowserBookmark = {
 const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickBookmarkProps>) => {
     const [bookmarks, setBookmarks] = useState<BrowserBookmark[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const { t } = useTranslation();
 
     useEffect(() => {
         const walkNode = (node: browser.Bookmarks.BookmarkTreeNode): BrowserBookmark[] => {
@@ -72,7 +75,7 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
     });
 
     return (<div className="PickBookmark">
-        <Input value={searchQuery} onValueChange={setSearchQuery} placeholder="Search bookmarks" />
+        <Input value={searchQuery} onValueChange={setSearchQuery} placeholder={t('bookmark-plugin.searchBookmarks')} />
         <ScrollArea>
             {filteredBookmarks.map(bk => {
                 return (<motion.div
@@ -90,7 +93,7 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
                 </motion.div>);
             })}
             {filteredBookmarks.length === 0 && <div className="no-results">
-                No results
+                {t('noResults')}
             </div>}
         </ScrollArea>
     </div>);
@@ -116,10 +119,11 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const [openInNewTab, setOpenInNewTab] = useState(currentConfig?.openInNewTab || false);
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
 
     return (<div className="BookmarkWidget-config">
         <div className="field">
-            <label>Icon:</label>
+            <label>{t('icon')}:</label>
             <Popover
                 component={IconPicker}
                 initialFocus={iconSearchRef}
@@ -132,11 +136,11 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             </Popover>
         </div>
         <div className="field">
-            <label>Title:</label>
+            <label>{t('title')}:</label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
         <div className="field">
-            <label>URL:</label>
+            <label>{t('url')}:</label>
             <div className="url-import-wrapper">
                 <Input value={url} onChange={(e) => setUrl(e.target.value)} />
                 <Popover
@@ -149,16 +153,16 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
                         },
                     }}
                 >
-                    <Button>Import</Button>
+                    <Button>{t('import')}</Button>
                 </Popover>
             </div>
         </div>
 
         <div className="open-in-new-tab">
-            <Checkbox checked={openInNewTab} onChange={setOpenInNewTab}>Open in a new tab</Checkbox>
+            <Checkbox checked={openInNewTab} onChange={setOpenInNewTab}>{t('bookmark-plugin.openInNewTab')}</Checkbox>
         </div>
 
-        <Button className="save-config" onClick={onConfirm}>Save</Button>
+        <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
 
     </div>);
 };
@@ -208,16 +212,19 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 
 const widgetSizeSDescriptor = {
     id: 'bookmark-s',
-    name: 'Bookmark - size s',
+    get name() {
+        return translate('bookmark-plugin.widgetSizeSName')
+    },
     configurationScreen: WidgetConfigScreen,
     withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
         return <MainScreen instanceId={instanceId} config={config} isMock={false} size="s" />
     },
     mock: () => {
+        const { t } = useTranslation();
         return (<MainScreen instanceId="" size="s" isMock config={{
             url: 'http://example.com',
-            title: 'Example',
+            title: t('example'),
             icon: 'ion:dice',
             openInNewTab: false
         }} />)
@@ -230,16 +237,19 @@ const widgetSizeSDescriptor = {
 
 const widgetSizeMDescriptor = {
     id: 'bookmark-m',
-    name: 'Bookmark - size m',
+    get name() {
+        return translate('bookmark-plugin.widgetSizeMName')
+    },
     configurationScreen: WidgetConfigScreen,
     withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
         return <MainScreen instanceId={instanceId} config={config} isMock={false} size="m" />
     },
     mock: () => {
+        const { t } = useTranslation();
         return (<MainScreen instanceId="" size="m" isMock config={{
             url: 'http://example.com',
-            title: 'Example',
+            title: t('example'),
             icon: 'ion:dice',
             openInNewTab: false
         }} />)
@@ -252,7 +262,9 @@ const widgetSizeMDescriptor = {
 
 export const bookmarkPlugin = {
     id: 'bookmark-plugin',
-    name: 'Bookmarks',
+    get name() {
+        return translate('bookmark-plugin.name')
+    },
     widgets: [
         widgetSizeSDescriptor,
         widgetSizeMDescriptor,
