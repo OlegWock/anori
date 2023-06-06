@@ -180,7 +180,7 @@
         "weather-plugin": {
             "name": "Weather",
             "weatherForecast": "Weather forecast",
-            "forecast": "forecast",
+            "forecast": "Forecast",
             "currentWeather": "Current weather",
             "kmh": "km/h",
             "ms": "m/s",
