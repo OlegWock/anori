@@ -20,28 +20,31 @@ moment.locale('en');
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
-export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
+// Not all translations are finished yet
+// export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
+
+export const availableTranslations = ['en', 'uk'] as const;
 
 export type Language = typeof availableTranslations[number];
 
 export const availableTranslationsPrettyNames = {
     'en': 'English',
-    'es': 'Español',
-    'de': 'Deutsch',
-    'fr': 'Français',
+    // 'es': 'Español',
+    // 'de': 'Deutsch',
+    // 'fr': 'Français',
     'uk': 'Українська',
-    'zh-cn': 'Chinese',
-    'zh-tw': 'Chinese (Taiwan)',
+    // 'zh-cn': 'Chinese',
+    // 'zh-tw': 'Chinese (Taiwan)',
 } satisfies Record<Language, string>;
 
 const resources = {
     en: enTranslation,
-    es: esTranslation,
-    de: deTranslation,
-    fr: frTranslation,
+    // es: esTranslation,
+    // de: deTranslation,
+    // fr: frTranslation,
     uk: uaTranslation,
-    'zh-cn': zhCnTranslation,
-    'zh-tw': zhTwanslation,
+    // 'zh-cn': zhCnTranslation,
+    // 'zh-tw': zhTwanslation,
 } satisfies Record<Language, any>;
 
 export const initTranslation = async () => {
