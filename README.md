@@ -40,4 +40,4 @@
 
 # Building from sources and extending
 
-All details about building from sources and extending app with your own widgets are in [separate document](/DEVELOPMENT_AND_EXTENDING.md).
+All details about building from sources and extending app with your own widgets are in [separate document](/DEVELOPMENT_AND_EXTENDING.md). If you wan't to contribute to the project, please read [contribution guidelines](CONTRIBUTING.md) first.
