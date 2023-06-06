@@ -7,7 +7,7 @@ export const ShortcutsHelp = () => {
             <div className='hint-wrapper'>
                 <ShortcutHint shortcut='alt+h' />
             </div>
-            <div>Show/hide this help</div>
+            <div>Show/hide shortcuts cheatsheet</div>
         </div>
         <div className="shortcut-row">
             <div className='hint-wrapper'>

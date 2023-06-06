@@ -27,6 +27,7 @@ import { FolderItem } from './FolderItem';
 import { atom, useAtom } from 'jotai';
 import { Modal } from '@components/Modal';
 import { setPageTitle } from '@utils/mount';
+import { ShortcutsHelp } from '@components/ShortcutsHelp';
 
 type DraftCustomIcon = {
     id: string,
@@ -351,7 +352,6 @@ const ImportExportScreen = (props: ComponentProps<typeof motion.div>) => {
 };
 
 const HelpAboutScreen = (props: ComponentProps<typeof motion.div>) => {
-    // TODO: rework this section
     return (<motion.div {...props} className='HelpAboutScreen'>
         <p>
             Anori is free and open source extension. Source code can be found on <a href="https://github.com/OlegWock/anori">GitHub</a>.
@@ -361,12 +361,17 @@ const HelpAboutScreen = (props: ComponentProps<typeof motion.div>) => {
         </p>
 
         <p>
-            If you would like to modify this extension, add you own plugin or widget, please refer to <a href="https://github.com/OlegWock/anori/blob/master/DEVELOPMENT_AND_EXTENDING.md">documentation</a>.
+            If you would like to modify this extension, add you own plugin or widget, please refer to <a href="https://github.com/OlegWock/anori">readme</a> for more info.
         </p>
 
         <p>
-            Follow me on <a href="https://twitter.com/OlegWock">Twitter</a> and <a href="https://stand-with-ukraine.pp.ua/">support Ukraine</a>.
+            Follow author on <a href="https://twitter.com/OlegWock">Twitter</a> and <a href="https://stand-with-ukraine.pp.ua/">support Ukraine</a>.
         </p>
+
+        <section className='shortcuts-section'>
+            <h2>Shortcuts</h2>
+            <ShortcutsHelp />
+        </section>
     </motion.div>)
 };
 
