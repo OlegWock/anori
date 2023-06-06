@@ -3,20 +3,45 @@ import { initReactI18next } from 'react-i18next';
 
 import enTranslation from './en.json';
 import esTranslation from './es.json';
+import deTranslation from './de.json';
+import frTranslation from './fr.json';
+import uaTranslation from './ua.json';
+import zhCnTranslation from './zh-cn.json';
+import zhTwanslation from './zh-tw.json';
 import { storage } from '@utils/storage';
 import moment from 'moment';
 import 'moment/locale/es';
+import 'moment/locale/de';
+import 'moment/locale/uk';
+import 'moment/locale/fr';
+import 'moment/locale/zh-cn';
+import 'moment/locale/zh-tw';
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = false;
 
-export const availableTranslations = ['en', 'es'] as const;
+export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
 
 export type Language = typeof availableTranslations[number];
 
 export const availableTranslationsPrettyNames = {
     'en': 'English',
-    'es': 'Español'
+    'es': 'Español',
+    'de': 'Deutsch',
+    'fr': 'Français',
+    'uk': 'Українська',
+    'zh-cn': 'Chinese',
+    'zh-tw': 'Chinese (Taiwan)',
 } satisfies Record<Language, string>;
+
+const resources = {
+    en: enTranslation,
+    es: esTranslation,
+    de: deTranslation,
+    fr: frTranslation,
+    uk: uaTranslation,
+    'zh-cn': zhCnTranslation,
+    'zh-tw': zhTwanslation,
+} satisfies Record<Language, any>;
 
 export const initTranslation = async () => {
     const lang = await storage.getOne('language');
@@ -28,10 +53,7 @@ export const initTranslation = async () => {
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
         },
-        resources: {
-            en: enTranslation,
-            es: esTranslation,
-        }
+        resources,
     });
 };
 

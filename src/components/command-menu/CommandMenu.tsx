@@ -8,6 +8,7 @@ import { wait } from '@utils/misc';
 import { ScrollArea } from '@components/ScrollArea';
 import { useHotkeys } from '@utils/hooks';
 import { trackEvent } from '@utils/analytics';
+import { useTranslation } from 'react-i18next';
 
 const ON_COMMAND_INPUT_TIMEOUT = 300;
 
@@ -46,6 +47,7 @@ export const CommandMenu = () => {
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [actions, setActions] = useState<ActionsWithMetadata[]>([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         loadActionsByQuery('');
@@ -54,13 +56,13 @@ export const CommandMenu = () => {
     useHotkeys('meta+k', () => setOpen((open) => !open), []);
 
     return (
-        <Command.Dialog open={open} onOpenChange={setOpen} label="Global Command Menu" shouldFilter={false}>
-            <Command.Input value={query} onValueChange={updateQuery} className='Input' placeholder='Enter command' />
+        <Command.Dialog open={open} onOpenChange={setOpen} label={t('commandMenu.name')} shouldFilter={false}>
+            <Command.Input value={query} onValueChange={updateQuery} className='Input' placeholder={t('commandMenu.placeholder')} />
             <Command.List>
                 <ScrollArea className='cmdk-scrollarea'>
                     <div className="cmdk-scrollarea-content">
-                        {!!query && <Command.Empty>No results found.</Command.Empty>}
-                        {!query && <Command.Empty>Nothing here yet. Try adding some widgets to folder.</Command.Empty>}
+                        {!!query && <Command.Empty>{t('noResults')}</Command.Empty>}
+                        {!query && <Command.Empty>{t('commandMenu.noWidgets')}</Command.Empty>}
 
                         {actions.filter(({ items }) => items.length !== 0).map(({ plugin, items }) => {
                             return (<Command.Group heading={plugin.name} key={plugin.id}>

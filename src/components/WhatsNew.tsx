@@ -4,13 +4,17 @@ import './WhatsNew.scss';
 import { analyticsEnabledAtom } from '@utils/analytics';
 import { Checkbox } from './Checkbox';
 import { useAtomWithStorage } from '@utils/storage';
+import { useTranslation } from 'react-i18next';
 
 export const WhatsNew = () => {
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
-
+    const { t, i18n } = useTranslation();
     return (<div className="WhatsNew">
         <ScrollArea className='WhatsNew-scrollarea'>
             <div className='WhatsNew-content'>
+                {i18n.language !== 'en' && <section>
+                    {t('availableOnlyInEnglish')}
+                </section>}
                 <section>
                     <h2>1.7.0</h2>
 
@@ -18,8 +22,8 @@ export const WhatsNew = () => {
                         <li>Added option to open bookmarks in a new tab. Contribution from @bil0ak. Thanks!</li>
                         <li>Added Ecosia as search provider to Internet search widget. Contribution from @Radeox. Thanks!</li>
                         <li>
-                            Settings grown to be quite lengthy for single modal, so in this version they got reorganized 
-                            into separate screens. And we have two new options: to hide "Edit folder" button and to 
+                            Settings grown to be quite lengthy for single modal, so in this version they got reorganized
+                            into separate screens. And we have two new options: to hide "Edit folder" button and to
                             change page title.
                         </li>
                     </ul>
@@ -34,7 +38,7 @@ export const WhatsNew = () => {
                     </p>
                     <ul className='margin-top'>
                         <li>
-                            Open Anori tab by clicking on extension icon in top right 
+                            Open Anori tab by clicking on extension icon in top right
                             corner (especially useful for Opera users).
                         </li>
                         <li>
@@ -46,17 +50,17 @@ export const WhatsNew = () => {
                     </ul>
 
                     <p>
-                        I also added analytics to better understand which functions you use the most and which aren't 
+                        I also added analytics to better understand which functions you use the most and which aren't
                         used. Analytics is opt-in, so Anori won't send any data if you don't enable analytics. And
                         even when enabled, extension doesn't send any private info. All it collect is: how much folders
                         you have, which widgets you use, which theme you use, how many custom icons you have, how often
-                        you use keyboard shortcuts. Anori doesn't send name of your folder, or URL of bookmarks, or 
+                        you use keyboard shortcuts. Anori doesn't send name of your folder, or URL of bookmarks, or
                         content of your notes.
                     </p>
 
                     <p>
-                        I kindly ask you to enable this feature, as it will help me to develop better product. 
-                        You can always change your choice in settings. 
+                        I kindly ask you to enable this feature, as it will help me to develop better product.
+                        You can always change your choice in settings.
                     </p>
 
                     <Checkbox className="analytics-checkbox" checked={analyticsEnabled} onChange={setAnalyticsEnabled}>Enable sending analytics</Checkbox>

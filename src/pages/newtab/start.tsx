@@ -22,6 +22,7 @@ import clsx from 'clsx';
 import { CompactModeProvider, useSizeSettings } from '@utils/compact';
 import { getAllCustomIcons } from '@utils/custom-icons';
 import { initTranslation } from '@translations/index';
+import { useTranslation } from 'react-i18next';
 
 
 const Start = () => {
@@ -52,6 +53,7 @@ const Start = () => {
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
+    const {t} = useTranslation();
 
     useHotkeys('meta+up, alt+up', () => swithFolderUp());
     useHotkeys('meta+down, alt+down', () => swithFolderDown());
@@ -87,7 +89,7 @@ const Start = () => {
                             <FolderButton
                                 layoutId='whats-new'
                                 icon="ion:newspaper-outline"
-                                name="What's new"
+                                name={t('whatsNew')}
                                 withRedDot={hasUnreadReleaseNotes}
                                 onClick={() => {
                                     setWhatsNewVisible(true);
@@ -97,7 +99,7 @@ const Start = () => {
                             <FolderButton
                                 layoutId='settings'
                                 icon="ion:settings-sharp"
-                                name='Settings'
+                                name={t('settings.title')}
                                 onClick={() => setSettingsVisible(true)}
                                 whileHover={{ rotate: 180 }}
                                 transition={{ type: 'spring', duration: 0.1 }}
@@ -115,11 +117,11 @@ const Start = () => {
                 <CommandMenu key='command-menu' />
 
                 {settingsVisible && <SettingsModal key='settings' onClose={() => setSettingsVisible(false)} />}
-                {shortcutsHelpVisible && <Modal title='Shortcuts' key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
+                {shortcutsHelpVisible && <Modal title={t('shortcuts.title')} key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
                     <ShortcutsHelp />
                 </Modal>}
 
-                {whatsNewVisible && <Modal title="What's new" className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
+                {whatsNewVisible && <Modal title={t('whatsNew')} className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
                     <WhatsNew />
                 </Modal>}
             </AnimatePresence>

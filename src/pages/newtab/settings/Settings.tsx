@@ -28,7 +28,7 @@ import { atom, useAtom } from 'jotai';
 import { Modal } from '@components/Modal';
 import { setPageTitle } from '@utils/mount';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Select } from '@components/Select';
 import { Language, SHOW_LANGUAGE_SELECT_IN_SETTINGS, availableTranslations, availableTranslationsPrettyNames, switchTranslationLanguage } from '@translations/index';
 
@@ -42,16 +42,7 @@ type DraftCustomIcon = {
 
 type SettingScreen = 'main' | 'general' | 'custom-icons' | 'folders' | 'plugins' | 'theme' | 'import-export' | 'about-help';
 const currentScreenAtom = atom<SettingScreen>('main');
-const screenPrettyName = {
-    'main': 'Settings',
-    'general': 'General settings',
-    'custom-icons': 'Custom icons',
-    'folders': 'Folders',
-    'plugins': 'Plugins settings',
-    'theme': 'Theme',
-    'import-export': 'Import & export',
-    'about-help': 'Help & about the extension',
-} as const;
+
 
 const ScreenButton = ({ icon, name, ...props }: { icon: string, name: string } & ComponentProps<"button">) => {
     return (<button className='ScreenButton' {...props}>
@@ -94,13 +85,13 @@ const MainScreen = (props: ComponentProps<typeof motion.div>) => {
     const hasPluginsWithSettings = availablePlugins.filter(p => p.configurationScreen !== null).length !== 0;
 
     return (<motion.div {...props} className='MainSettingsScreen'>
-        <ScreenButton onClick={() => setScreen('general')} icon='ion:settings-sharp' name={t('settings.general')} />
-        {CUSTOM_ICONS_AVAILABLE && <ScreenButton onClick={() => setScreen('custom-icons')} icon='ion:file-tray-full' name={t('settings.customIcons')} />}
-        <ScreenButton onClick={() => setScreen('folders')} icon='ion:folder-open-sharp' name="Folders" />
-        {hasPluginsWithSettings && <ScreenButton onClick={() => setScreen('plugins')} icon='ion:code-slash-sharp' name="Plugins" />}
-        <ScreenButton onClick={() => setScreen('theme')} icon='ion:color-palette' name="Theme" />
-        <ScreenButton onClick={() => setScreen('import-export')} icon='ion:archive-sharp' name="Import & export" />
-        <ScreenButton onClick={() => setScreen('about-help')} icon='ion:help-buoy-sharp' name="Help & about" />
+        <ScreenButton onClick={() => setScreen('general')} icon='ion:settings-sharp' name={t('settings.general.title')} />
+        {CUSTOM_ICONS_AVAILABLE && <ScreenButton onClick={() => setScreen('custom-icons')} icon='ion:file-tray-full' name={t('settings.customIcons.title')} />}
+        <ScreenButton onClick={() => setScreen('folders')} icon='ion:folder-open-sharp' name={t('settings.folders.title')} />
+        {hasPluginsWithSettings && <ScreenButton onClick={() => setScreen('plugins')} icon='ion:code-slash-sharp' name={t('settings.pluginSettings.title')} />}
+        <ScreenButton onClick={() => setScreen('theme')} icon='ion:color-palette' name={t('settings.theme.title')} />
+        <ScreenButton onClick={() => setScreen('import-export')} icon='ion:archive-sharp' name={t('settings.importExport.title')} />
+        <ScreenButton onClick={() => setScreen('about-help')} icon='ion:help-buoy-sharp' name={t('settings.aboutHelp.title')} />
     </motion.div>)
 };
 
@@ -113,6 +104,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
     const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+    const { t } = useTranslation();
 
     useEffect(() => {
         setPageTitle(newTabTitle);
@@ -120,8 +112,8 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
 
     return (<motion.div {...props} className='GeneralSettingsScreen'>
         {SHOW_LANGUAGE_SELECT_IN_SETTINGS && <div className='input-wrapper'>
-            <label>Language:</label>
-            <Select<Language> 
+            <label>{t("settings.general.language")}:</label>
+            <Select<Language>
                 value={language}
                 onChange={(newLang) => {
                     setLanguage(newLang);
@@ -133,38 +125,36 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
             />
         </div>}
         <div className='input-wrapper'>
-            <label>New tab title: <Hint content="We can't set icon for new page, but you can try using emoji here 😉" /></label>
+            <label>{t("settings.general.newTabTitle")}: <Hint content={t("settings.general.newTabTitleHint")} /></label>
             <Input value={newTabTitle} onValueChange={setNewTabTitle} />
         </div>
 
         <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
-            Enable sending analytics
+            {t("settings.general.enableAnalytics")}
             <Hint content={<>
-                Analytics helps me better understand how users interact with Anori and
-                which features are used the most. I doesn't share any private info like content of
-                notes or URL of bookmarks.
+                {t("settings.general.analyticsHintP1")}
 
-                <div style={{ marginTop: '0.5rem' }}>This helps me to develop better product so I ask you to enable sending analytics.</div>
+                <div style={{ marginTop: '0.5rem' }}>{t("settings.general.analyticsHintP2")}</div>
             </>} />
         </Checkbox>
         {/* Focus stealer works only in Chrome and Safari */}
         {X_BROWSER !== 'firefox' && <Checkbox checked={stealFocus} onChange={setStealFocus}>
-            Steal focus from addressbar
-            <Hint content='If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).' />
+            {t("settings.general.stealFocus")}
+            <Hint content={t("settings.general.stealFocusHint")} />
         </Checkbox>}
         <Checkbox checked={isAutomaticCompact} onChange={setAutomaticCompact}>
-            Automatically switch to compact mode based on screen size
+            {t("settings.general.automaticCompact")}
         </Checkbox>
         <Checkbox checked={manualCompactMode} onChange={setManualCompactMode} disabled={isAutomaticCompact}>
-            Use compact mode
+            {t("settings.general.useCompact")}
         </Checkbox>
         <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
-            Show animation on open
-            <Hint content="If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look." />
+            {t("settings.general.showAnimationOnOpen")}
+            <Hint content={t("settings.general.showAnimationOnOpenHint")} />
         </Checkbox>
         <Checkbox checked={hideEditFolderButton} onChange={setHideEditFolderButton}>
-            Hide "Edit folder" button
-            <Hint content="Extra minimalistic, yeah." />
+            {t("settings.general.hideEditButton")}
+            <Hint content={t("settings.general.hideEditButtonHint")} />
         </Checkbox>
     </motion.div>);
 };
@@ -195,7 +185,7 @@ const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
 
         if (hasErrors) {
             // TODO: replace with toast
-            alert('Please provide valid file(s). Anori supports .png, .jpg, .gif, .jpeg and .svg');
+            alert(t('settings.customIcons.incorrectFormat'));
             return;
         }
         setDraftCustomIcons(p => [...p, ...importedFiles]);
@@ -206,13 +196,14 @@ const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
         setDraftCustomIcons([]);
     };
 
+    const { t } = useTranslation();
     const { customIcons, addNewCustomIcon, removeCustomIcon } = useCustomIcons();
     const [draftCustomIcons, setDraftCustomIcons] = useState<DraftCustomIcon[]>([]);
     const hasDraftIconsWithInvalidName = draftCustomIcons.some(i => !isValidCustomIconName(i.name));
 
     return (<motion.div {...props} className='CustomIconsScreen'>
         {customIcons.length === 0 && <div className='no-custom-icons-alert'>
-            You don't have any custom icons yet.
+            {t("settings.customIcons.noIcons")}
         </div>}
 
         <motion.div className='custom-icons-grid' layout>
@@ -257,20 +248,21 @@ const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
                 </motion.div>);
             })}
 
-            {hasDraftIconsWithInvalidName && <Tooltip placement='top' label='Some of icons have invalid name, please fix them before saving.'>
-                <Button visuallyDisabled>Save icons</Button>
+            {hasDraftIconsWithInvalidName && <Tooltip placement='top' label={t("settings.customIcons.invalidNames")}>
+                <Button visuallyDisabled>{t("settings.customIcons.saveIcons")}</Button>
             </Tooltip>}
-            {!hasDraftIconsWithInvalidName && <Button onClick={saveDraftCustomIcons}>Save icons</Button>}
+            {!hasDraftIconsWithInvalidName && <Button onClick={saveDraftCustomIcons}>{t("settings.customIcons.saveIcons")}</Button>}
         </motion.div>}
 
-        {draftCustomIcons.length === 0 && <Tooltip label='We support png, jpg, gif and svg and recommend using square images with size between 128 and 256 pixels (not applicable to svg).' maxWidth={500} placement='top'>
-            <Button onClick={importCustomIcons}>Import icons</Button>
+        {draftCustomIcons.length === 0 && <Tooltip label={t("settings.customIcons.supportedFormats")} maxWidth={500} placement='top'>
+            <Button onClick={importCustomIcons}>{t("settings.customIcons.importIcons")}</Button>
         </Tooltip>}
     </motion.div>)
 };
 
 const FoldersScreen = (props: ComponentProps<typeof motion.div>) => {
     const { folders, setFolders, createFolder, updateFolder, removeFolder } = useFolders();
+    const { t } = useTranslation();
 
     return (<motion.div {...props} className='FoldersScreen'>
         <motion.div>
@@ -291,7 +283,7 @@ const FoldersScreen = (props: ComponentProps<typeof motion.div>) => {
         </motion.div>
 
         <Button className='add-folder-btn' onClick={() => createFolder()}>
-            <Icon icon='ion:add' height={24} /> Create new folder
+            <Icon icon='ion:add' height={24} /> {t('settings.folders.createNew')}
         </Button>
     </motion.div>)
 };
@@ -358,42 +350,64 @@ const ImportExportScreen = (props: ComponentProps<typeof motion.div>) => {
         window.location.reload();
     };
 
+    const { t } = useTranslation();
+
     const { addNewCustomIcon } = useCustomIcons();
 
     return (<motion.div {...props} className='ImportExportScreen'>
-        <div>Here you can backup your settings or restore older backup.</div>
+        <div>{t('settings.importExport.info')}</div>
         <div className="import-export-button">
-            <Button onClick={importSettings}>Import</Button>
-            <Button onClick={exportSettings}>Export</Button>
+            <Button onClick={importSettings}>{t('settings.importExport.import')}</Button>
+            <Button onClick={exportSettings}>{t('settings.importExport.export')}</Button>
         </div>
     </motion.div>)
 };
 
 const HelpAboutScreen = (props: ComponentProps<typeof motion.div>) => {
+    const { t, i18n } = useTranslation();
     return (<motion.div {...props} className='HelpAboutScreen'>
         <p>
-            Anori is free and open source extension. Source code can be found on <a href="https://github.com/OlegWock/anori">GitHub</a>.
-            If you would like to propose a feature or report a bug, please
-            create <a href="https://github.com/OlegWock/anori/issues/new">new issue</a> in repository.
-            If you just want to say thanks you can give a star to that repo :).
+            <Trans t={t} i18nKey="settings.aboutHelp.p1">
+                <a href="https://github.com/OlegWock/anori"></a>.
+                <a href="https://github.com/OlegWock/anori/issues/new"></a>
+            </Trans>
+        </p>
+        {i18n.language !== 'en' && <p>
+            {t('settings.aboutHelp.onlyEnglishPlease')}
+        </p>}
+        <p>
+            <Trans t={t} i18nKey="settings.aboutHelp.p2">
+                <a href="https://github.com/OlegWock/anori"></a>
+            </Trans>
         </p>
 
         <p>
-            If you would like to modify this extension, add you own plugin or widget, please refer to <a href="https://github.com/OlegWock/anori">readme</a> for more info.
-        </p>
-
-        <p>
-            Follow author on <a href="https://twitter.com/OlegWock">Twitter</a> and <a href="https://stand-with-ukraine.pp.ua/">support Ukraine</a>.
+            <Trans t={t} i18nKey="settings.aboutHelp.p3">
+                <a href="https://twitter.com/OlegWock"></a>
+                <a href="https://stand-with-ukraine.pp.ua/"></a>
+            </Trans>
         </p>
 
         <section className='shortcuts-section'>
-            <h2>Shortcuts</h2>
+            <h2>{t('shortcuts.title')}</h2>
             <ShortcutsHelp />
         </section>
     </motion.div>)
 };
 
 export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
+    const { t } = useTranslation();
+    const screenPrettyName = {
+        'main': t('settings.title'),
+        'general': t('settings.general.title'),
+        'custom-icons': t('settings.customIcons.title'),
+        'folders': t('settings.folders.title'),
+        'plugins': t('settings.pluginSettings.title'),
+        'theme': t('settings.theme.title'),
+        'import-export': t('settings.importExport.title'),
+        'about-help': t('settings.aboutHelp.title'),
+    } as const;
+
     const [screen, setScreen] = useAtom(currentScreenAtom);
 
     const mainScreenEnter = { x: '-30%', opacity: 0 };

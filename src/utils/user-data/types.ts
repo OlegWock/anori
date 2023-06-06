@@ -1,7 +1,7 @@
 import { LayoutItem, LayoutItemSize } from "@utils/grid";
 import { ComponentType } from "react";
 import { Theme } from "./theme";
-import { Language } from "@translations/index";
+import { Language, translate } from "@translations/index";
 
 export type StorageContent = {
     folders: Folder[],
@@ -48,7 +48,9 @@ export type WidgetInFolderWithMeta<T extends WT, P extends {}, WT extends {}> = 
 
 export const homeFolder = {
     id: 'home',
-    name: 'Home',
+    get name() {
+        return translate('home');
+    },
     icon: 'ion:home'
 } satisfies Folder;
 
