@@ -369,7 +369,7 @@ const HelpAboutScreen = (props: ComponentProps<typeof motion.div>) => {
     return (<motion.div {...props} className='HelpAboutScreen'>
         <p>
             <Trans t={t} i18nKey="settings.aboutHelp.p1">
-                <a href="https://github.com/OlegWock/anori"></a>.
+                <a href="https://github.com/OlegWock/anori"></a>
                 <a href="https://github.com/OlegWock/anori/issues/new"></a>
             </Trans>
         </p>

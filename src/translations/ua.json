@@ -1,205 +1,206 @@
 {
     "translation": {
-        "icon": "Icon",
-        "title": "Title",
-        "url": "URL",
-        "save": "Save",
-        "import": "Import",
-        "noResults": "No results",
-        "example": "Example",
-        "weekday0": "Monday",
-        "weekday1": "Tuesday",
-        "weekday2": "Wednesday",
-        "weekday3": "Thursday",
-        "weekday4": "Friday",
-        "weekday5": "Saturday",
-        "weekday6": "Sunday",
-        "timezone": "Timezone",
-        "startTypingToSearch": "Start typing to search...",
-        "search": "Search...",
-        "loading": "Loading...",
-        "lastUpdatedAt": "Last updated at {{datetime}}",
-        "home": "Home",
-        "availableOnlyInEnglish": "Available only in English",
+        "icon": "Іконка",
+        "title": "Заголовок",
+        "url": "Посилання",
+        "save": "Зберегти",
+        "import": "Імпорт",
+        "noResults": "Жодних результатів",
+        "example": "Приклад",
+        "weekday0": "Понеділок",
+        "weekday1": "Вівторок",
+        "weekday2": "Середа",
+        "weekday3": "Четвер",
+        "weekday4": "Пʼятниця",
+        "weekday5": "Субота",
+        "weekday6": "Неділя",
+        "timezone": "Часовий пояс",
+        "startTypingToSearch": "Почніть друкувати для пошуку...",
+        "search": "Пошук...",
+        "loading": "Завантаження...",
+        "lastUpdatedAt": "Останнє оновлення о {{datetime}}",
+        "home": "Головна",
+        "availableOnlyInEnglish": "Доступно тільки англійською мовою.",
 
-        "whatsNew": "What's new",
+        "whatsNew": "Що нового",
 
         "settings": {
-            "title": "Settings",
+            "title": "Налаштування",
             "general": {
-                "title": "General",
-                "language": "Language",
-                "newTabTitle": "New tab title",
-                "newTabTitleHint": "We can't set icon for new page, but you can try using emoji here 😉",
-                "enableAnalytics": "Enable sending analytics",
-                "analyticsHintP1": "Analytics helps me better understand how users interact with Anori and which features are used the most. I doesn't share any private info like content of notes or URL of bookmarks.",
-                "analyticsHintP2": "This helps me to develop better product so I ask you to enable sending analytics.",
-                "stealFocus": "Steal focus from addressbar",
-                "stealFocusHint": "If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).",
-                "automaticCompact": "Automatically switch to compact mode based on screen size",
-                "useCompact": "Use compact mode",
-                "showAnimationOnOpen": "Show animation on open",
-                "showAnimationOnOpenHint": "If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look.",
-                "hideEditButton": "Hide \"Edit folder\" button",
-                "hideEditButtonHint": "Extra minimalistic, yeah."
+                "title": "Загальні",
+                "language": "Мова розширення",
+                "newTabTitle": "Заголовок нової вкладки",
+                "newTabTitleHint": "Ми не можемо встановити іконку для вкладки, але ви можете використовувати емоджі тут 😉",
+                "enableAnalytics": "Дозволити надсилання аналітики",
+                "analyticsHintP1": "Аналітика дозволяє мені краще розуміти як користувачі взаємодіють з Anori і які функції є найбільш важливими. Приватна інформація (накшталт змісту нотаток чи збережені посилання) нікуди не надсилається.",
+                "analyticsHintP2": "Це дозволяє мені робити кращий продукт і ви можете допомогти мені, ввімкнувши аналітику.",
+                "stealFocus": "Забирати фокус з пошукового рядка",
+                "stealFocusHint": "Якщо ця функція ввімкнена, вона змусить браузер переміщувати фокус з пошукового рядка до цієї сторінки коли ви відкриваєте нову вкладку. Це дозволяє відразу викликати меню команд (Cmd+K), без ручного перемикання фокуса за допомогою кліку або натискання Tab.",
+                "automaticCompact": "Автоматично перемикатись в компактний режим, в залежності від розміру екрану",
+                "useCompact": "Компактний режим",
+                "showAnimationOnOpen": "Показувати анімацію при відкритті",
+                "showAnimationOnOpenHint": "Коли ця опція ввімкнена, розширення покаже анімацію при відкритті нової вкладки, що приховає можливе мигання при завантаженні сторінки.",
+                "hideEditButton": "Сховати кнопку \"Редагувати папку\"",
+                "hideEditButtonHint": "Дуже мінімалістично."
             },
             "customIcons": {
-                "title": "Custom icons",
-                "incorrectFormat": "Please provide valid file(s). Anori supports .png, .jpg, .gif, .jpeg and .svg",
-                "noIcons": "You don't have any custom icons yet.",
-                "invalidNames": "Some of icons have invalid name, please fix them before saving.",
-                "saveIcons": "Save icons",
-                "supportedFormats": "We support png, jpg, gif and svg and recommend using square images with size between 128 and 256 pixels (not applicable to svg).",
-                "importIcons": "Import icons"
+                "title": "Власні іконки",
+                "incorrectFormat": "Будь ласка використовуйте файли коретних форматів. Anori підтримує .png, .jpg, .gif, .jpeg та .svg",
+                "noIcons": "У вас ще немає власних іконок.",
+                "invalidNames": "У деяких з іконом некоректні імена, будь ласка виправте їх перед зберіганням.",
+                "saveIcons": "Зберегти іконки",
+                "supportedFormats": "Ми підтримуємо png, jpg, gif і svg та рекомендуємо використовувати квадратні зображення розміром від 128 до 256 пікселів (не відноситься до svg).",
+                "importIcons": "Імпортувати іконки"
             },
             "folders": {
-                "title": "Folders",
-                "createNew": "Create new folder"
+                "title": "Папки",
+                "createNew": "Створити нову папку"
             },
             "pluginSettings": {
-                "title": "Plugin settings"
+                "title": "Налаштування плагінів"
             },
             "theme": {
-                "title": "Theme"
+                "title": "Тема оформлення"
             },
             "importExport": {
-                "title": "Import & export",
-                "info": "Here you can backup your settings or restore older backup.",
-                "import": "Import",
-                "export": "Export"
+                "title": "Імпорт та експорт",
+                "info": "Тут ви можете завантажити резервну копію ваших налаштувань або відновити налаштування з старого бекапу.",
+                "import": "Імпорт",
+                "export": "Експорт"
             },
             "aboutHelp": {
-                "title": "Help & about the extension",
-                "onlyEnglishPlease": "I (author of the project) don't speak a lot of languages, so please file your issues in English. Thanks!",
-                "p1": "Anori is free and open source extension. Source code can be found on <0>GitHub</0>. If you would like to propose a feature or report a bug, please create <1>new issue</1> in repository. If you just want to say thanks you can give a star to that repo :).",
-                "p2": "If you would like to modify this extension, add you own plugin or widget, please refer to <0>readme</0> for more info.",
-                "p3": "Follow author on <0>Twitter</0> and <1>support Ukraine</1>."
+                "title": "Допомога та про розширення",
+                "onlyEnglishPlease": "Я (автор цього проєкту) не знаю багато мов, тому будь ласка створюйте issues англійською. Дякую!",
+                "p1": "Anori це безкоштовне розширення з відкритим вихідним кодом. Код можна знайти на <0>GitHub</0>. Якщо ви хочете запропонувати нову функцію або розповісти про знайдений баг, створіть <1>новий issue</1> в репозиторії. Якщо просто хочете сказати \"дякую\", то можете поставити йому зірочку :).",
+                "p2": "Якщо ви хотіли б додати власний плагін до Anori, ви можете знайти більше інформації в <0>readme</0>.",
+                "p3": "Підписуйтесь на мене в <0>Twitter</0>, <1>підтримуйте Україну</1> і лишайтесь сильними ❤️."
             }
         },
 
         "shortcuts": {
-            "title": "Shortcuts",
-            "showCheatsheet": "Show/hide shortcuts cheatsheet",
-            "toggleSettings": "Show/hide settings",
-            "displayCommandMenu": "Display command menu",
-            "closeMenuOrModal": "Close command menu or modal window",
-            "switchToFolderAbove": "Switch to folder above",
-            "switchToFolderBelow": "Switch to folder below",
-            "switchToNFolder": "Switch to 1st folder (works with other numbers too!)",
-            "editCurrentFolder": "Edit current folder",
-            "addNewWidget": "Add new widget to current folder"
+            "title": "Комбінації клавіш",
+            "showCheatsheet": "Відкрити/закрити довідку з комбінаціями клвіш",
+            "toggleSettings": "Відкрити/закрити налаштування",
+            "displayCommandMenu": "Відкрити меню команд",
+            "closeMenuOrModal": "Закрити меню команд або модальне вікно",
+            "switchToFolderAbove": "Перейти до папки вище",
+            "switchToFolderBelow": "Перейти до папки нижче",
+            "switchToNFolder": "Перейти до першої папки (працює з іншими номерами також!)",
+            "editCurrentFolder": "Редагувати поточну папку",
+            "addNewWidget": "Додати новий віджет до поточної папки"
         },
 
         "onboarding": {
-            "title": "Fresh start, huh?",
-            "p1": "Hello! I'm onboarding card, and my mission here is to help you set up your perfect new tab.",
-            "p2": "Click on pencil in top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
-            "p3": "If you click on the gear icon in the bottom left corner, you'll open settings. There you can manage your folders (which you find on the sidebar to the left) and change theme.",
-            "p4": "Oh, and we also have a command menu for quick access. Just hit <0 /> (explore more shortcuts by pressing <1 />).",
-            "p5": "This card will disappear once you add your first widget."
+            "title": "Новий початок?",
+            "p1": "Привіт! Давайте налаштуємо вашу ідеальну нову вкладку.",
+            "p2": "Натисніть на олівець в правому верхньому куті. Це перемкне сторінку в режим редагування. В ньому ви можете додати нові віджети а також перемістити чи видалити поточні віджети.",
+            "p3": "Якщо ви натиснете по іконці з шестернею в лівому нижньому куті, ви відкриєте налаштування. Тут ви можете налаштувати розширення під себе а також створювати нові папки і редагувати та видаляти поточні папки (котрі ви знайдете в боковій панелі зліва).",
+            "p4": "А також в Anori є командне меню для швидкого доступу до певних функцій. Просто натисніть <0 /> (а щоб подивитись всі доступні комбінації клавіш натисніть <1 />).",
+            "p5": "Ця картка зникне автоматично після того як ви додасте свій перший віджет."
         },
 
         "commandMenu": {
-            "name": "Global Command Menu",
-            "placeholder": "Enter command",
-            "noWidgets": "Nothing here yet. Try adding some widgets to folder."
+            "name": "Командне меню",
+            "placeholder": "Введіть команду",
+            "noWidgets": "Поки що пусто. Спробуйте додати віджетів до папки."
         },
 
 
         "bookmark-plugin": {
-            "name": "Bookmarks",
-            "widgetSizeSName": "Bookmark - size S",
-            "widgetSizeMName": "Bookmark - size M",
-            "openInNewTab": "Open in a new tab",
-            "searchBookmarks": "Search bookmarks"
+            "name": "Заклакди",
+            "widgetSizeSName": "Закладка - розмір S",
+            "widgetSizeMName": "Закладка - розмір M",
+            "openInNewTab": "Відкривати в новій вкладці",
+            "searchBookmarks": "Пошук закладок"
         },
         "calendar-plugin": {
-            "name": "Calendar",
-            "widgetName": "Calendar",
-            "firstDayOfWeek": "First day of week"
+            "name": "Календар",
+            "widgetName": "Календар",
+            "firstDayOfWeek": "Перший день тижня"
         },
         "datetime-plugin": {
-            "name": "Date and time",
-            "widgetName": "Date and time",
-            "withoutDate": "Without date",
-            "timeFormat": "Time format",
-            "dateFormat": "Date format",
-            "24hours": "24 hours"
+            "name": "Дата і час",
+            "widgetName": "Дата і час",
+            "withoutDate": "Без дати",
+            "timeFormat": "Формат часу",
+            "dateFormat": "Формат дати",
+            "24hours": "24 години"
         },
 
         "notes-plugin": {
-            "name": "Notes",
-            "widgetSizeSName": "Notes - size S",
-            "widgetSizeMName": "Notes - size M",
-            "widgetSizeLName": "Notes - size L",
-            "noteTitle": "Note title",
-            "noteText": "Text of note...",
-            "exampleTitle": "Shopping list",
-            "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
+            "name": "Нотатки",
+            "widgetSizeSName": "Нотатки - розмір S",
+            "widgetSizeMName": "Нотатки - розмір M",
+            "widgetSizeLName": "Нотатки - розмір L",
+            "noteTitle": "Заголовок",
+            "noteText": "Текст нотатки...",
+            "exampleTitle": "Список покупок",
+            "exampleText": "Овочі, кетчуп, мівіна, сир, мука, оливкова олія"
         },
         
         "recently-closed-plugin": {
-            "name": "Recently closed tabs",
-            "widgetSizeSName": "Recently closed tabs - size S",
-            "widgetSizeMName": "Recently closed tabs - size M",
-            "tab": "Tab",
-            "window": "Window"
+            "name": "Нещодавно закриті вкладки",
+            "widgetSizeSName": "Нещодавно закриті вкладки - розмір S",
+            "widgetSizeMName": "Нещодавно закриті вкладки - розмір M",
+            "widgetTitle": "Нещодавно закриті",
+            "tab": "Вкладка",
+            "window": "Вікно"
         },
 
         "search-plugin": {
-            "name": "Internet search",
-            "widgetName": "Search",
-            "searchProviderForQ": "Search {{provider}} for «{{query}}»"
+            "name": "Пошук в мережі",
+            "widgetName": "Пошук",
+            "searchProviderForQ": "Шукати «{{query}}» в {{provider}}"
         },
 
         "system-status-plugin": {
-            "name": "System status",
-            "ramLoad": "RAM load",
-            "cpuLoad": "CPU load"
+            "name": "Статус системи",
+            "ramLoad": "Навантаження RAM",
+            "cpuLoad": "Навантаження CPU"
         },
         "tasks-plugin": {
-            "name": "Tasks",
-            "widgetSizeMName": "Tasks - size M",
-            "widgetSizeLName": "Tasks - size L",
-            "todo": "ToDo",
-            "completeTask": "Complete «{{task}}»",
-            "taskDescription": "Task description...",
-            "noTasks": "No tasks here yet",
-            "exampleTask0": "Stupid walk for stupid mental health",
-            "exampleTask1": "Lay on couch",
-            "exampleTask2": "Lay on floor",
-            "exampleTask3": "Try not to cry"
+            "name": "Завдання",
+            "widgetSizeMName": "Завдання - розмір M",
+            "widgetSizeLName": "Завдання - розмір L",
+            "todo": "Список справ",
+            "completeTask": "Помітити «{{task}}» як виконане",
+            "taskDescription": "Опис завдання...",
+            "noTasks": "Поки що нічого немає",
+            "exampleTask0": "Накрутитись",
+            "exampleTask1": "Погладити кота",
+            "exampleTask2": "Погладити кота знову",
+            "exampleTask3": "Розкрутитись"
         }, 
 
         "top-sites-plugin": {
-            "name": "Top sites",
-            "widgetHorizontal": "Top sites - horizontal",
-            "widgetVertical": "Top sites - vertical"
+            "name": "Найвідвідуваніші сайти",
+            "widgetHorizontal": "Найвідвідуваніші сайти - горизонтальний",
+            "widgetVertical": "Найвідвідуваніші сайти - вертикальний"
         },
 
         "weather-plugin": {
-            "name": "Weather",
-            "weatherForecast": "Weather forecast",
-            "forecast": "Forecast",
-            "currentWeather": "Current weather",
-            "kmh": "km/h",
-            "ms": "m/s",
-            "mph": "mph",
-            "clearSky": "Clear sky",
-            "partlyCloudy": "Partly cloudy",
-            "fog": "Fog",
-            "drizzle": "Drizzle",
-            "freezingDrizzle": "Freezing drizzle",
-            "rain": "Rain",
-            "freezingRain": "Freezing rain",
-            "snow": "Snow",
-            "rainShower": "Rain shower",
-            "thunderstorm": "Thunderstorm",
-            "unknownCode": "Unknown weather code",
-            "selectCity": "Select city",
-            "temperatureUnit": "Temperature unit",
-            "speedUnit": "Wind speed unit",
-            "weatherCode": "weather code {{code}}"
+            "name": "Погода",
+            "weatherForecast": "Прогноз погоди",
+            "forecast": "Прогноз",
+            "currentWeather": "Поточна погода",
+            "kmh": "км/г",
+            "ms": "м/с",
+            "mph": "мил/г",
+            "clearSky": "Чисте небо",
+            "partlyCloudy": "Мінлива хмарність",
+            "fog": "Туман",
+            "drizzle": "Мряка",
+            "freezingDrizzle": "Крижаний слабкий дощ",
+            "rain": "Дощ",
+            "freezingRain": "Крижаний дощ",
+            "snow": "Сніг",
+            "rainShower": "Дощ з снігом",
+            "thunderstorm": "Гроза",
+            "unknownCode": "Невідомий погодний код",
+            "selectCity": "Оберіть місто",
+            "temperatureUnit": "Одиниця вимірювання температури",
+            "speedUnit": "Одиниця вимірювання швидкості вітру",
+            "weatherCode": "погодний код {{code}}"
         }
     }
 }

@@ -61,6 +61,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
 
 const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
     const [sessions, setSessions] = useState<browser.Sessions.Session[]>([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const load = async () => {
@@ -78,7 +79,7 @@ const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
     }, []);
 
     return (<div className='RecentlyClosedWidget'>
-        <h2>Recently closed</h2>
+        <h2>{t('recently-closed-plugin.widgetTitle')}</h2>
         <ScrollArea className="sessions-list" darker type="hover">
             {sessions.filter(s => {
                 const url = s.tab ? s.tab.url : '';
