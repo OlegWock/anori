@@ -16,8 +16,9 @@ import 'moment/locale/uk';
 import 'moment/locale/fr';
 import 'moment/locale/zh-cn';
 import 'moment/locale/zh-tw';
+moment.locale('en');
 
-export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = false;
+export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
 export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
 
@@ -45,6 +46,7 @@ const resources = {
 
 export const initTranslation = async () => {
     const lang = await storage.getOne('language');
+    moment.locale(lang);
     i18n.use(initReactI18next).init({
         debug: true,
         returnNull: false,

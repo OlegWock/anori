@@ -52,7 +52,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 };
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConfigType>) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const weekdays = [
         t('weekday0'),
         t('weekday1'),
@@ -63,6 +63,8 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         t('weekday6'),
     ];
 
+    console.log('Render calendar', i18n.language);
+
     const [today, setToday] = useState(() => moment());
     const [offsetMonths, setOffsetMonths] = useState(0);
     const prevOffset = usePrevious(offsetMonths, offsetMonths);
@@ -72,6 +74,10 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
     const firstDayShift = config.firstDay ?? 0;
 
     const monthName = useMemo(() => currentMonth.format('MMMM'), [currentMonth]);
+
+    useEffect(() => {
+        setToday(moment());
+    }, [i18n.language]);
 
     const variants = {
         exit: (direction: 'left' | 'right') => {
@@ -96,12 +102,14 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         }
     };
 
+
+
     const rows: ReactNode[] = useMemo(() => {
         console.log('Render rows', { direction });
         const res: ReactNode[] = [];
         const startOfMonth = today.clone().add(offsetMonths, 'months').startOf('month');
         const monthNumber = startOfMonth.month();
-        const startOfFirstWeek = startOfMonth.clone().weekday((1 + firstDayShift) % 7);
+        const startOfFirstWeek = startOfMonth.clone().day((1 + firstDayShift) % 7);
         if (startOfFirstWeek.isAfter(startOfMonth)) {
             startOfFirstWeek.subtract(1, 'week');
         }
@@ -130,7 +138,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         }
 
         return res;
-    }, [today, offsetMonths]);
+    }, [today, offsetMonths, i18n.language]);
 
     useEffect(() => {
         const tid = setInterval(() => setToday(moment()), 1000 * 60);

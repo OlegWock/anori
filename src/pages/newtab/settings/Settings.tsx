@@ -116,6 +116,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
             <Select<Language>
                 value={language}
                 onChange={(newLang) => {
+                    console.log('Saving new language', newLang);
                     setLanguage(newLang);
                     switchTranslationLanguage(newLang);
                 }}
