@@ -1,10 +1,10 @@
 @use '../../components/base.scss';
 
 @font-face {
-    font-family: 'Quicksand';
+    font-family: 'Nunito';
     font-weight: 1 999;
     font-display: swap;
-    src: url('/assets/Quicksand.ttf') format('truetype-variations');
+    src: url('/assets/Nunito.ttf') format('truetype-variations');
 }
 
 html {
@@ -13,13 +13,15 @@ html {
 }
 
 body {
-    font-family: 'Quicksand', BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: 'Nunito', BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     line-height: 1.65;
     letter-spacing: 0.075rem;
     color: var(--text);
     height: 100vh;
     height: 100dvh;
-    // background-image: url('/assets/images/backgrounds/greenery.jpg');
     background-image: var(--background-image);
     background-size: cover;
     overflow: hidden;
