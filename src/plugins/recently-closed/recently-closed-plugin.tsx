@@ -24,13 +24,13 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
             window.close();
         }
     };
+    const { t, i18n } = useTranslation();
     const controls = useAnimationControls();
     const favIcon = session.tab ? session.tab.favIconUrl : '';
     const lastModified = useMemo(() => {
         if (X_BROWSER === 'chrome') return moment.unix(session.lastModified).fromNow(true);
         if (X_BROWSER === 'firefox') return moment(session.lastModified).fromNow(true);
-    }, [session.lastModified]);
-    const { t } = useTranslation();
+    }, [session.lastModified, i18n.language]);
 
     return (<motion.div
         className='Session'

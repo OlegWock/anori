@@ -13,6 +13,7 @@ import { FloatingDelayGroup } from "@floating-ui/react";
 import { useSizeSettings } from "@utils/compact";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
+import { useOnChangeEffect } from "@utils/hooks";
 
 type PluginWidgetConfigType = {
     location: City,
@@ -208,6 +209,7 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [forecast, setForecast] = useState<WeatherForecast[] | null>(null);
     const [lastUpdated, setLastUpdated] = useState<number>(0);
+    const { i18n } = useTranslation();
 
     useEffect(() => {
         const load = async () => {
@@ -237,6 +239,17 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
 
         load();
     }, []);
+
+    useOnChangeEffect(() => {
+        if (forecast) {
+            setForecast(forecast.map(f => {
+                return {
+                    ...f,
+                    date: f.date.clone().locale(i18n.language),
+                }
+            }));
+        }
+    }, [i18n.language]);
 
     return {
         isLoading,

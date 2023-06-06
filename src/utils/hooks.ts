@@ -47,6 +47,17 @@ export const useMirrorStateToRef = <T>(val: T) => {
     return ref;
 };
 
+export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
+    const isFirstRun = useRef(true);
+    useEffect(() => {
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
+
+        return fn();
+    }, deps);
+};
 
 export const useLinkNavigationState = () => {
     const onLinkClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
