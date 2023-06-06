@@ -1,5 +1,8 @@
 {
     "translation": {
+        "appName": "Anori",
+        "appDescription": "Customizable new tab: compose your own page from widgets",
+        "appActionTitle": "Open Anori new tab",
         "icon": "Icon",
         "title": "Title",
         "url": "URL",
