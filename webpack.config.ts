@@ -25,7 +25,7 @@ import {
     scriptExtensions,
 } from './build_helpers/webpack-utils';
 import type { Manifest } from 'webextension-polyfill';
-import { version, name, description, author } from './package.json';
+import { version, name, author } from './package.json';
 const currentYear = new Date().getFullYear();
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -43,13 +43,14 @@ const generateManifest = (
     commonChunks: { [name: string]: Chunk }
 ): Manifest.WebExtensionManifest => {
     const manifest: Manifest.WebExtensionManifest = {
-        name: name,
-        description: description,
+        name: '__MSG_appName__',
+        description: '__MSG_appDescription__',
         version: version,
         author: author,
         manifest_version: 3,
+        default_locale: "en",
         action: {
-            default_title: 'Open Anori new tab'
+            default_title: '__MSG_appActionTitle__'
         },
         minimum_chrome_version: "104",
         background: {
@@ -459,6 +460,15 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                             const assetAbsolutePath = path.resolve(paths.src.assets);
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                             return path.join(paths.dist.assets, absoluteFilename!.replace(assetAbsolutePath, ''));
+                        },
+                    },
+                    {
+                        from: `**`,
+                        context: paths.src.locales,
+                        to: ({ context, absoluteFilename }) => {
+                            const assetAbsolutePath = path.resolve(paths.src.locales);
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                            return path.join(paths.dist.locales, absoluteFilename!.replace(assetAbsolutePath, ''));
                         },
                     },
                 ],

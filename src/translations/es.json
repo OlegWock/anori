@@ -108,6 +108,16 @@
             "noWidgets": "Nothing here yet. Try adding some widgets to folder."
         },
 
+        "requirePermissions": {
+            "eh": "Eh?",
+            "modalTitle": "Additional permissions required",
+            "compactText": "Additional permissions required. Click to see details.",
+            "text": "This widget requires additional permissions. Those are:",
+            "apiPermissions": "API permissions",
+            "hostPermissions": "Host permissions",
+            "grant": "Grant permissions"
+        },
+
 
         "bookmark-plugin": {
             "name": "Bookmarks",

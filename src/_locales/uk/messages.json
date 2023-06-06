@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "Anori"
+    },
+    "appDescription": {
+        "message": "Нова вкладка з кастомізацією: зберіть свою власну сторінку з віджетів"
+    },
+    "appActionTitle": {
+        "message": "Відкрити нову вкладку Anori"
+    }
+}

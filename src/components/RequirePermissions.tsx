@@ -8,6 +8,7 @@ import { availablePermissionsAtom, containsHostPermission, normalizeHost, update
 import { Modal } from "./Modal";
 import { AnimatePresence } from "framer-motion";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 
 export type RequirePermissionsProps = {
@@ -34,7 +35,8 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
         console.log('Permissions granted', granted);
     };
     const [currentPermissions, setPermissions] = useAtom(availablePermissionsAtom);
-    const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
+    const { t } = useTranslation();
 
     if (!currentPermissions) return null;
     const isFirefox = navigator.userAgent.includes('Firefox/');
@@ -47,26 +49,26 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
         return (
             <>
                 <div className={clsx("RequirePermissions", compact && "compact")} onClick={() => compact ? setModalVisible(true) : null}>
-                    <h3>Eh?</h3>
-                    {compact && <div className="text">Additional permissions required. Click to see details.</div>}
+                    <h3>{t('requirePermissions.eh')}</h3>
+                    {compact && <div className="text">{t('requirePermissions.compactText')}</div>}
                     {!compact && <>
-                        <div>This widget requires additional permissions. Those are:</div>
-                        {missingPermissions.length !== 0 && <div>API permissions: <strong>{missingPermissions.join(', ')}</strong>.</div>}
-                        {missingHostPermissions.length !== 0 && <div>Host permissions: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
-                        <Button className="grant-button" onClick={grantPermissions}>Grant permissions</Button>
+                        <div>{t('requirePermissions.text')}</div>
+                        {missingPermissions.length !== 0 && <div>{t('requirePermissions.apiPermissions')}: <strong>{missingPermissions.join(', ')}</strong>.</div>}
+                        {missingHostPermissions.length !== 0 && <div>{t('requirePermissions.hostPermissions')}: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
+                        <Button className="grant-button" onClick={grantPermissions}>{t('requirePermissions.grant')}</Button>
                     </>}
                 </div>
                 <AnimatePresence>
                     {modalVisible && <Modal
-                        title="Additional permissions required"
+                        title={t('requirePermissions.modalTitle')}
                         className="RequirePermissions-modal"
                         closable
                         onClose={() => setModalVisible(false)}
                     >
-                        <div>This widget requires additional permissions. Those are:</div>
-                        {missingPermissions.length !== 0 && <div>API permissions: <strong>{missingPermissions.join(', ')}</strong>.</div>}
-                        {missingHostPermissions.length !== 0 && <div>Host permissions: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
-                        <Button className="grant-button" onClick={grantPermissions}>Grant permissions</Button>
+                        <div>{t('requirePermissions.text')}</div>
+                        {missingPermissions.length !== 0 && <div>{t('requirePermissions.apiPermissions')}: <strong>{missingPermissions.join(', ')}</strong>.</div>}
+                        {missingHostPermissions.length !== 0 && <div>{t('requirePermissions.hostPermissions')}: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
+                        <Button className="grant-button" onClick={grantPermissions}>{t('requirePermissions.grant')}</Button>
                     </Modal>}
                 </AnimatePresence>
             </>)

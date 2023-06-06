@@ -5,7 +5,7 @@ import enTranslation from './en.json';
 import esTranslation from './es.json';
 import deTranslation from './de.json';
 import frTranslation from './fr.json';
-import uaTranslation from './ua.json';
+import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
 import zhTwanslation from './zh-tw.json';
 import { storage } from '@utils/storage';
@@ -42,7 +42,7 @@ const resources = {
     // es: esTranslation,
     // de: deTranslation,
     // fr: frTranslation,
-    uk: uaTranslation,
+    uk: ukTranslation,
     // 'zh-cn': zhCnTranslation,
     // 'zh-tw': zhTwanslation,
 } satisfies Record<Language, any>;

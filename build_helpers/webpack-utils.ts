@@ -66,6 +66,7 @@ export const createPathsObject = (baseSrc: string, baseDist: string) => {
             utils: joinPath(baseSrc, 'utils'),
             components: joinPath(baseSrc, 'components'),
             assets: joinPath(baseSrc, 'assets'),
+            locales: joinPath(baseSrc, '_locales'),
             plugins: joinPath(baseSrc, 'plugins'),
             translations: joinPath(baseSrc, 'translations'),
         },
@@ -76,6 +77,7 @@ export const createPathsObject = (baseSrc: string, baseDist: string) => {
             pages: 'pages',
             libs: 'libs',
             assets: 'assets',
+            locales: '_locales',
 
             manifest: 'manifest.json',
         },

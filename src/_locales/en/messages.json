@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "Anori"
+    },
+    "appDescription": {
+        "message": "Customizable new tab: compose your own page from widgets"
+    },
+    "appActionTitle": {
+        "message": "Open Anori new tab"
+    }
+}

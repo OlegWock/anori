@@ -2,6 +2,7 @@ import { availablePlugins } from '@plugins/all';
 import { sendAnalyticsIfEnabled } from '@utils/analytics';
 import { storage } from '@utils/storage';
 import browser from 'webextension-polyfill';
+import { Language, availableTranslations } from './translations';
 
 console.log('Background init');
 
@@ -22,7 +23,7 @@ const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
 };
 
 
-browser.runtime.onInstalled.addListener((details) => {
+browser.runtime.onInstalled.addListener(async (details) => {
     console.log('onInstalled', details);
     if (details.reason === 'update' && details.previousVersion) {
         const { previousVersion } = details;
@@ -52,6 +53,22 @@ browser.runtime.onInstalled.addListener((details) => {
             url: 'https://anori.sinja.io/welcome',
             active: true,
         });
+        const acceptedLanguages = await browser.i18n.getAcceptLanguages();
+        const userLocale = browser.i18n.getUILanguage();
+        const possibleLanguages = [userLocale, ...acceptedLanguages].map(l => l.toLowerCase());
+        let bestCandidate = 'en';
+        for (const lang of possibleLanguages) {
+            if ((availableTranslations as readonly string[]).includes(lang)) {
+                bestCandidate = lang;
+                break;
+            }
+            const withoutRegion = lang.split('-')[0];
+            if ((availableTranslations as readonly string[]).includes(withoutRegion)) {
+                bestCandidate = withoutRegion;
+                break;
+            }
+        }
+        storage.setOne('language', bestCandidate as Language);
     }
 });
 
