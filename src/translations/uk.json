@@ -133,7 +133,8 @@
         },
         "datetime-plugin": {
             "name": "Дата і час",
-            "widgetName": "Дата і час",
+            "widgetNameS": "Дата і час - розмір S",
+            "widgetNameM": "Дата і час - розмір M",
             "withoutDate": "Без дати",
             "timeFormat": "Формат часу",
             "dateFormat": "Формат дати",

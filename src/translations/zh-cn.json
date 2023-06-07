@@ -133,7 +133,8 @@
         },
         "datetime-plugin": {
             "name": "Date and time",
-            "widgetName": "Date and time",
+            "widgetNameS": "Date and time  size S",
+            "widgetNameM": "Date and time  size M",
             "withoutDate": "Without date",
             "timeFormat": "Time format",
             "dateFormat": "Date format",

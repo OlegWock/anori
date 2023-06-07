@@ -3,18 +3,75 @@
     flex-direction: column;
     flex-grow: 1;
 
-    .time {
-        font-size: 2rem;
-        line-height: 1.2;
+    &-size-s {
+        .time {
+            font-size: 2rem;
+            line-height: 1.2;
 
-        &.smaller-time {
-            font-size: 1.45rem;
+            &.smaller-time {
+                font-size: 1.45rem;
+            }
+        }
+
+        .date,
+        .title {
+            font-size: 0.85rem;
         }
     }
 
-    .date, .title {
-        font-size: 0.85rem;
+    &-size-m {
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        .analog-clock {
+            position: relative;
+            // top: 0;
+            opacity: 0.5;
+            height: 4rem;
+            width: 4rem;
+            border: 2px solid #ffffff;
+            border-radius: 9999999px;
+
+            .hand {
+                width: 50%;
+                right: 50%;
+                height: 3px;
+                background: #ffffff;
+                position: absolute;
+                top: 50%;
+                border-radius: 6px;
+                transform-origin: 98%;
+
+                &.hour-hand {
+                    width: 30%;
+                }
+
+                &.min-hand {
+                    width: 45%;
+                }
+            }
+
+
+        }
+
+        .time {
+            font-size: 4rem;
+            line-height: 1.2;
+        }
+
+        .date {
+            font-size: 1.5rem;
+        }
+
+        .title {
+            // position: absolute;
+            // bottom: 0;
+            font-size: 1.5rem;
+        }
     }
+
+
 
     .spacer {
         flex-grow: 1;

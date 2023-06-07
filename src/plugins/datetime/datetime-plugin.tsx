@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { Combobox } from '@components/Combobox';
 import { translate } from '@translations/index';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 
 
 type WidgetConfig = {
@@ -21,7 +22,7 @@ type WidgetConfig = {
 };
 
 
-const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<WidgetConfig>) => {
+const ConfigScreen = ({ currentConfig, saveConfiguration, size }: WidgetConfigurationScreenProps<WidgetConfig> & { size: 's' | 'm' }) => {
     const { t } = useTranslation();
 
     const date = moment({
@@ -42,9 +43,9 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         'HH:mm': `${date.format('HH:mm')} (${t('datetime-plugin.24hours')})`,
         'HH:mm:ss': date.format('HH:mm:ss'),
     };
-    
+
     const availableTimeFormats = Object.keys(availableTimeFormatsMap);
-    
+
     const availableDateFormatsMap: Record<string, string> = {
         'noDate': t('datetime-plugin.withoutDate'),
         'MMM Do, Y': date.format('MMM Do, Y'),
@@ -59,13 +60,16 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         'D/M/Y': date.format('D/M/Y'),
         'Y-MM-DD': date.format('Y-MM-DD'),
     };
-    
+
     const availableDateFormats = Object.keys(availableDateFormatsMap);
+
+    const defaultTimeFormat = size === 's' ? 'HH:mm' : 'HH:mm:ss';
+    const defaultDateFormat = size === 's' ? 'noDate' : 'Do MMMM Y';
 
     const allTz = useMemo(() => moment.tz.names(), []);
     const [title, setTitle] = useState(currentConfig ? currentConfig.title : '');
-    const [timeFormat, setTimeFormat] = useState(currentConfig ? currentConfig.timeFormat : 'HH:mm');
-    const [dateFormat, setDateFormat] = useState(currentConfig ? currentConfig.dateFormat : 'noDate');
+    const [timeFormat, setTimeFormat] = useState(currentConfig ? currentConfig.timeFormat : defaultTimeFormat);
+    const [dateFormat, setDateFormat] = useState(currentConfig ? currentConfig.dateFormat : defaultDateFormat);
     const [tz, setTz] = useState(currentConfig ? currentConfig.tz : moment.tz.guess());
 
     return (<div className='DateTimeWidget-config'>
@@ -109,12 +113,15 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
     </div>)
 };
 
-const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
+const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size: 's' | 'm' }) => {
     const [currentMoment, setCurrentMoment] = useState(moment().tz(config.tz));
 
     const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment]);
     const date = useMemo(() => config.dateFormat === 'noDate' ? '' : currentMoment.format(config.dateFormat), [currentMoment]);
-    const smallerTime = config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss');
+    const smallerTime = (config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss')) && size === 's';
+    const seconds = currentMoment.seconds();
+    const minutes = currentMoment.minutes();
+    const hours = currentMoment.hours();
 
     useEffect(() => {
         const tid = window.setInterval(() => {
@@ -124,7 +131,22 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
         return () => window.clearInterval(tid);
     }, [config.tz]);
 
-    return (<div className='DateTimeWidget'>
+    return (<div className={clsx('DateTimeWidget', `DateTimeWidget-size-${size}`)}>
+        {size === 'm' && <div className='analog-clock'>
+            <motion.div
+                className="hand hour-hand"
+                style={{
+                    rotate: `${((hours / 12) * 360) + ((minutes / 60) * 30) + 90}deg`
+                }}
+            />
+            <motion.div
+                className="hand min-hand"
+                style={{
+                    rotate: `${((minutes / 60) * 360) + ((seconds / 60) * 6) + 90}deg`
+                }}
+            />
+        </div>}
+        {size === 'm' && <div className="spacer" />}
         <div className={clsx("time", { "smaller-time": smallerTime })}>{time}</div>
         {!!date && <div className='date'>{date}</div>}
         <div className="spacer" />
@@ -132,33 +154,54 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     </div>)
 };
 
-const widgetDescriptor = {
+const widgetDescriptorS = {
     id: 'datetime-widget',
-    get name(){
-        return translate('datetime-plugin.widgetName');
+    get name() {
+        return translate('datetime-plugin.widgetNameS');
     },
     size: {
         width: 1,
         height: 1,
     },
-    configurationScreen: ConfigScreen,
-    mainScreen: WidgetScreen,
+    configurationScreen: (props: WidgetConfigurationScreenProps<WidgetConfig>) => (<ConfigScreen size='s' {...props} />),
+    mainScreen: (props: WidgetRenderProps<WidgetConfig>) => (<WidgetScreen size="s" {...props} />),
     withAnimation: false,
     mock: () => (<WidgetScreen config={{
         title: 'Bratislava',
         tz: 'Europe/Bratislava',
         timeFormat: 'HH:mm',
         dateFormat: 'Do MMM Y',
-    }} instanceId='mock' />),
+    }} instanceId='mock' size='s' />),
+} satisfies WidgetDescriptor<WidgetConfig>;
+
+const widgetDescriptorM = {
+    id: 'datetime-widget-m',
+    get name() {
+        return translate('datetime-plugin.widgetNameM');
+    },
+    size: {
+        width: 2,
+        height: 2,
+    },
+    configurationScreen: (props: WidgetConfigurationScreenProps<WidgetConfig>) => (<ConfigScreen size='m' {...props} />),
+    mainScreen: (props: WidgetRenderProps<WidgetConfig>) => (<WidgetScreen size="m" {...props} />),
+    withAnimation: false,
+    mock: () => (<WidgetScreen config={{
+        title: 'Bratislava',
+        tz: 'Europe/Bratislava',
+        timeFormat: 'HH:mm:ss',
+        dateFormat: 'Do MMMM Y',
+    }} instanceId='mock' size='m' />),
 } satisfies WidgetDescriptor<WidgetConfig>;
 
 export const datetimePlugin = {
     id: 'datetime-plugin',
-    get name(){
+    get name() {
         return translate('datetime-plugin.name');
     },
     widgets: [
-        widgetDescriptor,
+        widgetDescriptorS,
+        widgetDescriptorM,
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

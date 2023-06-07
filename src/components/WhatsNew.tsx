@@ -27,11 +27,12 @@ export const WhatsNew = () => {
                             change page title.
                         </li>
                         <li>
-                            We changed font used in the extension (Quicksand → Nunito). Old font doesn't support 
+                            I changed font used in the extension (Quicksand → Nunito). Old font doesn't support 
                             Cyrillic and I plan to double down on translating the extension into other languages, so
                             it was a deal-breaker. I also tweaked styles a bit so text should be more readable now.
                             I hope you'll like new font!
                         </li>
+                        <li>New big datetime widget!</li>
                     </ul>
                 </section>
 
