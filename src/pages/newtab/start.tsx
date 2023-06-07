@@ -53,7 +53,7 @@ const Start = () => {
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     useHotkeys('meta+up, alt+up', () => swithFolderUp());
     useHotkeys('meta+down, alt+down', () => swithFolderDown());
@@ -161,10 +161,10 @@ storage.getOne('showLoadAnimation').then(showLoadAnimation => {
 requestIconsFamily('ion');
 requestIconsFamily('fluent');
 getAllCustomIcons();
-initTranslation();
-
-mountPage(<CompactModeProvider>
-    <Start />
-</CompactModeProvider>);
+initTranslation().then(() => {
+    mountPage(<CompactModeProvider>
+        <Start />
+    </CompactModeProvider>);
+});
 
 
