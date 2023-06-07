@@ -49,9 +49,13 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         'noDate': t('datetime-plugin.withoutDate'),
         'MMM Do, Y': date.format('MMM Do, Y'),
         'MMMM Do, Y': date.format('MMMM Do, Y'),
+        'MMM D, Y': date.format('MMM D, Y'),
+        'MMMM D, Y': date.format('MMMM D, Y'),
         'M/D/Y': date.format('M/D/Y'),
         'Do MMM Y': date.format('Do MMM Y'),
         'Do MMMM Y': date.format('Do MMMM Y'),
+        'D MMM Y': date.format('D MMM Y'),
+        'D MMMM Y': date.format('D MMMM Y'),
         'D/M/Y': date.format('D/M/Y'),
         'Y-MM-DD': date.format('Y-MM-DD'),
     };
