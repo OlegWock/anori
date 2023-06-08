@@ -41,3 +41,8 @@
 # Building from sources and extending
 
 All details about building from sources and extending app with your own widgets are in [separate document](/DEVELOPMENT_AND_EXTENDING.md). If you wan't to contribute to the project, please read [contribution guidelines](CONTRIBUTING.md) first.
+
+
+# License
+
+Source code prior and including commit [1449a1c3effcc62e088f706e839c003e69e555b9](https://github.com/OlegWock/anori/tree/1449a1c3effcc62e088f706e839c003e69e555b9) was distributed under MIT license. Now license is AGPL, you can find full text [here]().

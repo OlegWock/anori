@@ -122,7 +122,6 @@
             "name": "Bookmarks",
             "widgetSizeSName": "Bookmark - size S",
             "widgetSizeMName": "Bookmark - size M",
-            "openInNewTab": "Open in a new tab",
             "searchBookmarks": "Search bookmarks"
         },
         "calendar-plugin": {

@@ -19,7 +19,6 @@ export const WhatsNew = () => {
                     <h2>1.7.0</h2>
 
                     <ul>
-                        <li>Added option to open bookmarks in a new tab. Contribution from @bil0ak. Thanks!</li>
                         <li>Added Ecosia as search provider to Internet search widget. Contribution from @Radeox. Thanks!</li>
                         <li>
                             Settings grown to be quite lengthy for single modal, so in this version they got reorganized

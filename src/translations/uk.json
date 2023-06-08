@@ -123,7 +123,6 @@
             "name": "Заклакди",
             "widgetSizeSName": "Закладка - розмір S",
             "widgetSizeMName": "Закладка - розмір M",
-            "openInNewTab": "Відкривати в новій вкладці",
             "searchBookmarks": "Пошук закладок"
         },
         "calendar-plugin": {

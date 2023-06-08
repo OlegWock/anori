@@ -12,7 +12,6 @@ import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { parseHost } from "@utils/misc";
 import { useLinkNavigationState } from "@utils/hooks";
 import { useSizeSettings } from "@utils/compact";
-import { Checkbox } from "@components/Checkbox";
 import { RequirePermissions } from "@components/RequirePermissions";
 import browser from 'webextension-polyfill';
 import { ScrollArea } from "@components/ScrollArea";
@@ -24,7 +23,6 @@ type BookmarkWidgetConfigType = {
     url: string,
     title: string,
     icon: string,
-    openInNewTab?: boolean,
 };
 
 type PickBookmarkProps = {
@@ -111,12 +109,11 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     const onConfirm = () => {
         if (!title || !url) return;
 
-        saveConfiguration({ title, url, icon, openInNewTab });
+        saveConfiguration({ title, url, icon });
     };
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
-    const [openInNewTab, setOpenInNewTab] = useState(currentConfig?.openInNewTab || false);
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
@@ -158,10 +155,6 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             </div>
         </div>
 
-        <div className="open-in-new-tab">
-            <Checkbox checked={openInNewTab} onChange={setOpenInNewTab}>{t('bookmark-plugin.openInNewTab')}</Checkbox>
-        </div>
-
         <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
 
     </div>);
@@ -172,12 +165,12 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
     const { rem } = useSizeSettings();
     const { onLinkClick, isNavigating } = useLinkNavigationState();
 
-    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} target={config.openInNewTab ? '_blank' : undefined} rel={config.openInNewTab ? 'noopener noreferrer' : undefined}>
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} >
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
         </div>
-        {(isNavigating && !config.openInNewTab)
+        {isNavigating
             ? (<Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
             : (<Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
         }
@@ -226,7 +219,6 @@ const widgetSizeSDescriptor = {
             url: 'http://example.com',
             title: t('example'),
             icon: 'ion:dice',
-            openInNewTab: false
         }} />)
     },
     size: {
@@ -251,7 +243,6 @@ const widgetSizeMDescriptor = {
             url: 'http://example.com',
             title: t('example'),
             icon: 'ion:dice',
-            openInNewTab: false
         }} />)
     },
     size: {
