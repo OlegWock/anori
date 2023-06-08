@@ -14,6 +14,7 @@ import { useSizeSettings } from "@utils/compact";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { useOnChangeEffect } from "@utils/hooks";
+import { capitalize } from "@utils/strings";
 
 type PluginWidgetConfigType = {
     location: City,
@@ -139,7 +140,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
             <Select<Temperature>
                 options={['c', 'f']}
                 getOptionKey={o => o}
-                getOptionLabel={o => o === 'c' ? 'Celsius' : 'Fahrenheit'}
+                getOptionLabel={o => o === 'c' ? '°C' : '°F'}
                 value={temperatureUnit}
                 onChange={setTemperatureUnit}
             />
@@ -362,7 +363,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
                             </div>
                             <div className="location">
                                 <Icon icon="ion:time-outline" height={rem(1.2)} />
-                                <div>{f.date.format('dddd')}</div>
+                                <div>{capitalize(f.date.format('dddd'))}</div>
                             </div>
                         </div>
                     </div>);

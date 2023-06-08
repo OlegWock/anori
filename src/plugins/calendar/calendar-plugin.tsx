@@ -13,6 +13,7 @@ import { usePrevious } from "@utils/hooks";
 import { Select } from "@components/Select";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
+import { capitalize } from "@utils/strings";
 
 type CalendarWidgetConfigType = {
     // 0 is monday, 6 is sunday
@@ -73,7 +74,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
 
     const firstDayShift = config.firstDay ?? 0;
 
-    const monthName = useMemo(() => currentMonth.format('MMMM'), [currentMonth]);
+    const monthName = useMemo(() => capitalize(currentMonth.format('MMMM')), [currentMonth]);
 
     useEffect(() => {
         setToday(moment());

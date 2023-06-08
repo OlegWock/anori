@@ -12,6 +12,7 @@ import { Combobox } from '@components/Combobox';
 import { translate } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { capitalize } from '@utils/strings';
 
 
 type WidgetConfig = {
@@ -48,10 +49,10 @@ const ConfigScreen = ({ currentConfig, saveConfiguration, size }: WidgetConfigur
 
     const availableDateFormatsMap: Record<string, string> = {
         'noDate': t('datetime-plugin.withoutDate'),
-        'MMM Do, Y': date.format('MMM Do, Y'),
-        'MMMM Do, Y': date.format('MMMM Do, Y'),
-        'MMM D, Y': date.format('MMM D, Y'),
-        'MMMM D, Y': date.format('MMMM D, Y'),
+        'MMM Do, Y': capitalize(date.format('MMM Do, Y')),
+        'MMMM Do, Y': capitalize(date.format('MMMM Do, Y')),
+        'MMM D, Y': capitalize(date.format('MMM D, Y')),
+        'MMMM D, Y': capitalize(date.format('MMMM D, Y')),
         'M/D/Y': date.format('M/D/Y'),
         'Do MMM Y': date.format('Do MMM Y'),
         'Do MMMM Y': date.format('Do MMMM Y'),
@@ -117,7 +118,14 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
     const [currentMoment, setCurrentMoment] = useState(moment().tz(config.tz));
 
     const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment]);
-    const date = useMemo(() => config.dateFormat === 'noDate' ? '' : currentMoment.format(config.dateFormat), [currentMoment]);
+    const date = useMemo(() => {
+        if (config.dateFormat === 'noDate') return '';
+        let date = currentMoment.format(config.dateFormat);
+        if (config.dateFormat.startsWith('MMM')) {
+            date = capitalize(date);
+        }
+        return date;
+    }, [currentMoment]);
     const smallerTime = (config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss')) && size === 's';
     const seconds = currentMoment.seconds();
     const minutes = currentMoment.minutes();

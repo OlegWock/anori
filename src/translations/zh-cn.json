@@ -210,7 +210,7 @@
             "rainShower": "Rain shower",
             "thunderstorm": "Thunderstorm",
             "unknownCode": "Unknown weather code",
-            "selectCity": "Select city",
+            "selectCity": "Select city (use latin)",
             "temperatureUnit": "Temperature unit",
             "speedUnit": "Wind speed unit",
             "weatherCode": "weather code {{code}}"
