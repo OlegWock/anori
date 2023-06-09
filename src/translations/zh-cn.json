@@ -6,8 +6,10 @@
         "icon": "Icon",
         "title": "Title",
         "url": "URL",
+        "urls": "URLs",
         "save": "Save",
         "import": "Import",
+        "add": "Add",
         "noResults": "No results",
         "example": "Example",
         "weekday0": "Monday",
@@ -24,9 +26,7 @@
         "lastUpdatedAt": "Last updated at {{datetime}}",
         "home": "Home",
         "availableOnlyInEnglish": "Available only in English",
-
         "whatsNew": "What's new",
-
         "settings": {
             "title": "Settings",
             "general": {
@@ -79,7 +79,6 @@
                 "p3": "Follow author on <0>Twitter</0> and <1>support Ukraine</1>."
             }
         },
-
         "shortcuts": {
             "title": "Shortcuts",
             "showCheatsheet": "Show/hide shortcuts cheatsheet",
@@ -92,7 +91,6 @@
             "editCurrentFolder": "Edit current folder",
             "addNewWidget": "Add new widget to current folder"
         },
-
         "onboarding": {
             "title": "Fresh start, huh?",
             "p1": "Hello! I'm onboarding card, and my mission here is to help you set up your perfect new tab.",
@@ -101,13 +99,11 @@
             "p4": "Oh, and we also have a command menu for quick access. Just hit <0 /> (explore more shortcuts by pressing <1 />).",
             "p5": "This card will disappear once you add your first widget."
         },
-
         "commandMenu": {
             "name": "Global Command Menu",
             "placeholder": "Enter command",
             "noWidgets": "Nothing here yet. Try adding some widgets to folder."
         },
-
         "requirePermissions": {
             "eh": "Eh?",
             "modalTitle": "Additional permissions required",
@@ -117,8 +113,6 @@
             "hostPermissions": "Host permissions",
             "grant": "Grant permissions"
         },
-
-
         "bookmark-plugin": {
             "name": "Bookmarks",
             "widgetSizeSName": "Bookmark - size S",
@@ -143,7 +137,6 @@
             "dateFormat": "Date format",
             "24hours": "24 hours"
         },
-
         "notes-plugin": {
             "name": "Notes",
             "widgetSizeSName": "Notes - size S",
@@ -154,7 +147,6 @@
             "exampleTitle": "Shopping list",
             "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
         },
-        
         "recently-closed-plugin": {
             "name": "Recently closed tabs",
             "widgetSizeSName": "Recently closed tabs - size S",
@@ -163,13 +155,11 @@
             "tab": "Tab",
             "window": "Window"
         },
-
         "search-plugin": {
             "name": "Internet search",
             "widgetName": "Search",
             "searchProviderForQ": "Search {{provider}} for «{{query}}»"
         },
-
         "system-status-plugin": {
             "name": "System status",
             "ramLoad": "RAM load",
@@ -187,14 +177,12 @@
             "exampleTask1": "Lay on couch",
             "exampleTask2": "Lay on floor",
             "exampleTask3": "Try not to cry"
-        }, 
-
+        },
         "top-sites-plugin": {
             "name": "Top sites",
             "widgetHorizontal": "Top sites - horizontal",
             "widgetVertical": "Top sites - vertical"
         },
-
         "weather-plugin": {
             "name": "Weather",
             "weatherForecast": "Weather forecast",

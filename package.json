@@ -21,7 +21,13 @@
         "lint:fix": "eslint . --fix",
         "typecheck": "tsc --noEmit",
         "pre-commit": "run-p lint",
-        "icons": "ts-node generate-icons-assets.ts"
+        "icons": "ts-node generate-icons-assets.ts",
+        "translations:check": "ts-node translations-manager.ts check",
+        "translations:add-missing": "ts-node translations-manager.ts add-missing",
+        "translations:extract": "ts-node translations-manager.ts extract-untranslated",
+        "translations:merge": "ts-node translations-manager.ts merge-back",
+        "translations:locales": "ts-node translations-manager.ts generate-locales"
+
     },
     "browserslist": ">0.25% and Chrome > 80",
     "dependencies": {
@@ -58,6 +64,7 @@
         "inject-react-anywhere": "^1.0.0",
         "jotai": "^2.0.0",
         "jszip": "^3.10.1",
+        "lodash": "^4.17.21",
         "mixpanel-browser": "juanfer0002/mixpanel-js-mv3#cc7d3a9e4c37e3f9d7de1789a38794e861c3e40a",
         "moment-timezone": "^0.5.40",
         "moment-timezone-data-webpack-plugin": "^1.5.1",
@@ -86,6 +93,7 @@
         "webpack-cli": "^5.0.1"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.195",
         "@types/mixpanel-browser": "^2.38.1",
         "@types/webpack-bundle-analyzer": "^4.6.0",
         "eslint": "^8.33.0",

@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import browser, { Manifest } from 'webextension-polyfill';
+import browser from 'webextension-polyfill';
 import { useState } from "react";
 import { ReactNode } from "react";
 import { Button } from "@components/Button";
