@@ -6,8 +6,10 @@
         "icon": "Icon",
         "title": "Title",
         "url": "URL",
+        "urls": "URLs",
         "save": "Save",
         "import": "Import",
+        "add": "Add",
         "noResults": "No results",
         "example": "Example",
         "weekday0": "Monday",
@@ -122,6 +124,10 @@
             "name": "Bookmarks",
             "widgetSizeSName": "Bookmark - size S",
             "widgetSizeMName": "Bookmark - size M",
+            "groupWidgetSizeSName": "Bookmark group - size S",
+            "groupWidgetSizeMName": "Bookmark group - size M",
+            "openInGroup": "Open in a tab group",
+            "group": "Group",
             "searchBookmarks": "Search bookmarks"
         },
         "calendar-plugin": {

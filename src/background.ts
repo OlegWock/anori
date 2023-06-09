@@ -72,6 +72,24 @@ browser.runtime.onInstalled.addListener(async (details) => {
     }
 });
 
+browser.runtime.onMessage.addListener(async (message, sender) => {
+    if (message.type === 'plugin-command') {
+        const plugin = availablePlugins.find(p => p.id === message.pluginId);
+        if (!plugin) {
+            console.warn('Got message for unknown plugin', message.pluginId);
+            return;
+        }
+        if (!plugin.onMessage || !plugin.onMessage[message.command]) {
+            console.warn('Plugin', plugin.id, `can't handle command`, message.command);
+            return;
+        }
+
+        return plugin.onMessage[message.command](message.args, sender?.tab?.id);
+    }
+
+    return true;
+});
+
 const runScheduledCallbacks = async () => {
     const { scheduledCallbacksInfo } = await browser.storage.session.get({
         'scheduledCallbacksInfo': {},

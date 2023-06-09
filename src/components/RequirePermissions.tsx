@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ReactNode } from "react";
 import { Button } from "@components/Button";
 import './RequirePermissions.scss';
-import { availablePermissionsAtom, containsHostPermission, normalizeHost, updateAvailablePermissions } from "@utils/permissions";
+import { CorrectPermission, availablePermissionsAtom, containsHostPermission, normalizeHost, updateAvailablePermissions } from "@utils/permissions";
 import { Modal } from "./Modal";
 import { AnimatePresence } from "framer-motion";
 import clsx from "clsx";
@@ -13,9 +13,10 @@ import { useTranslation } from "react-i18next";
 
 export type RequirePermissionsProps = {
     hosts?: string[],
-    permissions?: Manifest.OptionalPermission[],
+    permissions?: CorrectPermission[],
     children?: ReactNode,
     compact?: boolean,
+    onGrant?: () => void,
 
     isMock?: boolean,
 };
@@ -23,9 +24,10 @@ export type RequirePermissionsProps = {
 
 const permissionUnavailableOnFirefox = ['favicon']
 
-export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, isMock }: RequirePermissionsProps) => {
+export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, isMock, onGrant }: RequirePermissionsProps) => {
     const grantPermissions = async () => {
         const granted = await browser.permissions.request({
+            // @ts-ignore I know what I'm doing
             permissions: missingPermissions,
             origins: missingHostPermissions.map(host => {
                 return `*://${normalizeHost(host)}/*`;
@@ -33,7 +35,9 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
         });
         if (granted) updateAvailablePermissions();
         console.log('Permissions granted', granted);
+        if (onGrant) onGrant();
     };
+
     const [currentPermissions, setPermissions] = useAtom(availablePermissionsAtom);
     const [modalVisible, setModalVisible] = useState(false);
     const { t } = useTranslation();

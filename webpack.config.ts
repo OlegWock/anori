@@ -73,7 +73,8 @@ const generateManifest = (
             'tabs',
             'favicon',
             'topSites',
-            'bookmarks'
+            'bookmarks',
+            'tabGroups',
         ],
         optional_host_permissions: [
             "*://*/*"
@@ -116,6 +117,7 @@ const generateManifest = (
             'system.cpu',
             'system.memory',
             'favicon',
+            'tabGroups',
         ];
 
         const additionalPermissions: string[] = [];
@@ -318,7 +320,11 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 '@assets': path.resolve(__dirname, paths.src.assets),
                 '@plugins': path.resolve(__dirname, paths.src.plugins),
                 '@translations': path.resolve(__dirname, paths.src.translations),
+
+                // This by default resolves to version for browser, which then breaks background worker
+                'decode-named-character-reference': path.resolve(__dirname, 'node_modules/decode-named-character-reference/index.js'),
             },
+            aliasFields: ['browser', 'worker'],
 
             modules: [path.resolve(__dirname, paths.src.base), 'node_modules'],
             extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],

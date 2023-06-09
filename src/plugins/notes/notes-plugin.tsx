@@ -18,7 +18,7 @@ const Mock = () => {
     const { t } = useTranslation();
     return (<div className="NotesWidget">
         <Input value={t('notes-plugin.exampleTitle')} className="note-title" spellCheck={false} />
-        <Textarea value={t('notes-plugin.exampleText')} className="note-body" spellCheck={false} />
+        <div className="note-body-rendered">{t('notes-plugin.exampleText')}</div>
     </div>);
 };
 

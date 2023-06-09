@@ -1,14 +1,14 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
-import { useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import './styles.scss';
 import { Popover, PopoverRenderProps } from "@components/Popover";
 import { IconPicker } from "@components/IconPicker";
 import { Favicon, Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
-import { getAllWidgetsByPlugin } from "@utils/plugin";
+import { createOnMessageHandlers, getAllWidgetsByPlugin } from "@utils/plugin";
 import { parseHost } from "@utils/misc";
 import { useLinkNavigationState } from "@utils/hooks";
 import { useSizeSettings } from "@utils/compact";
@@ -18,11 +18,21 @@ import { ScrollArea } from "@components/ScrollArea";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
+import { Checkbox } from "@components/Checkbox";
+import { useAtomValue } from "jotai";
+import { availablePermissionsAtom } from "@utils/permissions";
 
 type BookmarkWidgetConfigType = {
     url: string,
     title: string,
     icon: string,
+};
+
+type BookmarkGroupWidgetConfigType = {
+    title: string,
+    icon: string,
+    openInTabGroup: boolean,
+    urls: string[],
 };
 
 type PickBookmarkProps = {
@@ -34,6 +44,17 @@ type BrowserBookmark = {
     title: string,
     url: string,
     dateAdded: number,
+};
+
+type BookmarksMessageHandlers = {
+    'openGroup': {
+        args: {
+            urls: string[],
+            openInTabGroup: boolean,
+            title: string,
+        },
+        result: void,
+    },
 };
 
 const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickBookmarkProps>) => {
@@ -98,14 +119,120 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
 };
 
 const PickBookmark = (props: PopoverRenderProps<PickBookmarkProps>) => {
-    // @ts-expect-error favicon is not present in webextension-polyfill typings yet
     return (<RequirePermissions permissions={["bookmarks", "favicon"]} >
         <_PickBookmark {...props} />
     </RequirePermissions >);
 };
 
+const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkGroupWidgetConfigType>) => {
+    const onConfirm = () => {
+        const cleanedUrls = urls.filter(u => !!u);
+        if (!title || urls.length === 0) return;
 
-const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkWidgetConfigType>) => {
+        saveConfiguration({ title, icon, urls: cleanedUrls, openInTabGroup });
+    };
+    const currentPermissions = useAtomValue(availablePermissionsAtom);
+    const [title, setTitle] = useState(currentConfig?.title ?? '');
+    const [urls, setUrls] = useState(currentConfig?.urls ?? ['']);
+    const [icon, setIcon] = useState(currentConfig?.icon ?? 'ion:dice');
+    const [openInTabGroup, setOpenInTabGroup] = useState<boolean>(currentConfig?.openInTabGroup ?? (X_BROWSER === 'chrome' && !!currentPermissions?.permissions.includes('tabGroups')));
+    const { rem } = useSizeSettings();
+    const iconSearchRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
+
+    return (<div className="BookmarkWidget-config">
+        <div className="field">
+            <label>{t('icon')}:</label>
+            <Popover
+                component={IconPicker}
+                initialFocus={iconSearchRef}
+                additionalData={{
+                    onSelected: setIcon,
+                    inputRef: iconSearchRef,
+                }}
+            >
+                <Button className="icon-picker-trigger"><Icon icon={icon} width={rem(3)} /></Button>
+            </Popover>
+        </div>
+        <div className="field">
+            <label>{t('title')}:</label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+        </div>
+        <div className="field">
+
+            <label>{t('urls')}:</label>
+
+            <div className="urls">
+                {urls.map((url, ind) => {
+                    return (<div className="url-import-wrapper" key={ind.toString()}>
+                        <Input value={url} onValueChange={(newUrl) => setUrls(p => {
+                            const copy = [...p];
+                            copy[ind] = newUrl;
+                            return copy;
+                        })} />
+                        <Popover
+                            component={PickBookmark}
+                            additionalData={{
+                                onSelected: (title, url) => {
+                                    console.log('Selected bookmark', title, url);
+                                    setUrls(p => {
+                                        const copy = [...p];
+                                        copy[ind] = url;
+                                        return copy;
+                                    })
+                                },
+                            }}
+                        >
+                            <Button>{t('import')}</Button>
+                        </Popover>
+                        <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
+                    </div>);
+                })}
+                <Button className="add-button" onClick={() => setUrls((p) => [...p, ''])}>{t('add')}</Button>
+            </div>
+        </div>
+        {X_BROWSER === 'chrome' && <div className="field">
+            {currentPermissions?.permissions.includes('tabGroups') && <Checkbox checked={openInTabGroup} onChange={setOpenInTabGroup}>
+                {t('bookmark-plugin.openInGroup')}
+            </Checkbox>}
+            {!currentPermissions?.permissions.includes('tabGroups') && <Popover trigger="hover" component={({ close }) => <RequirePermissions permissions={["tabGroups"]} onGrant={() => close()} />}>
+                <Checkbox disabled checked={openInTabGroup} onChange={setOpenInTabGroup}>
+                    {t('bookmark-plugin.openInGroup')}
+                </Checkbox>
+            </Popover>}
+        </div>}
+
+        <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
+
+    </div>);
+};
+
+const BookmarkGroupWidget = ({ config, isMock, size }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
+    const openGroup: MouseEventHandler<HTMLAnchorElement> = (e) => {
+        onLinkClick(e);
+        sendMessage('openGroup', {
+            urls: config.urls,
+            openInTabGroup: config.openInTabGroup,
+            title: config.title,
+        });
+    };
+    const { rem } = useSizeSettings();
+    const { onLinkClick, isNavigating } = useLinkNavigationState();
+    const { t } = useTranslation();
+
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href="#" onClick={openGroup} >
+        <div className="text">
+            <h2>{config.title}</h2>
+            <div className="host">{t('bookmark-plugin.group')}</div>
+        </div>
+        {isNavigating
+            ? (<Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
+            : (<Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
+        }
+    </a>);
+};
+
+const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkWidgetConfigType>) => {
     const onConfirm = () => {
         if (!title || !url) return;
 
@@ -160,7 +287,7 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     </div>);
 };
 
-const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
+const BookmarkWidget = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
     const host = useMemo(() => parseHost(config.url), [config.url]);
     const { rem } = useSizeSettings();
     const { onLinkClick, isNavigating } = useLinkNavigationState();
@@ -180,42 +307,58 @@ const MainScreen = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetCo
 const onCommandInput: OnCommandInputCallback = async (text: string) => {
     const q = text.toLowerCase();
     const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
-
-    return widgets.filter(w => {
-        const { url, title, icon } = w.configutation;
-        const inUrl = url.toLowerCase().includes(q);
-        const inTitle = title.toLowerCase().includes(q);
-        const inIcon = icon.toLowerCase().includes(q);
+    return widgets.filter(widget => {
+        const w = widget;
+        const inUrl = ('url' in w.configutation && w.configutation.url.toLowerCase().includes(q)) || ('urls' in w.configutation && w.configutation.urls.join('').toLowerCase().includes(q));
+        const inTitle = w.configutation.title.toLowerCase().includes(q);
+        const inIcon = w.configutation.icon.toLowerCase().includes(q);
 
         return inUrl || inTitle || inIcon;
     }).map(w => {
-        const { url, title, icon } = w.configutation;
-        const host = parseHost(url);
-        return {
-            icon,
-            text: title,
-            hint: host,
-            key: w.instanceId,
-            onSelected: () => {
-                window.location.href = url;
-            }
-        };
+        if ('url' in w.configutation) {
+            const { url, title, icon } = w.configutation;
+            const host = parseHost(url);
+            return {
+                icon,
+                text: title,
+                hint: host,
+                key: w.instanceId,
+                onSelected: () => {
+                    window.location.href = url;
+                }
+            };
+        } else {
+            const { urls, title, icon, openInTabGroup } = w.configutation;
+            return {
+                icon,
+                text: title,
+                hint: translate('bookmark-plugin.group'),
+                key: w.instanceId,
+                onSelected: () => {
+                    sendMessage('openGroup', {
+                        urls,
+                        title,
+                        openInTabGroup,
+                    });
+                }
+            };
+        }
     });
 };
 
-const widgetSizeSDescriptor = {
+const bookmarkWidgetSizeSDescriptor = {
     id: 'bookmark-s',
     get name() {
         return translate('bookmark-plugin.widgetSizeSName')
     },
-    configurationScreen: WidgetConfigScreen,
+    configurationScreen: BookmarkWidgetConfigScreen,
     withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
-        return <MainScreen instanceId={instanceId} config={config} isMock={false} size="s" />
+        return <BookmarkWidget instanceId={instanceId} config={config} isMock={false} size="s" />
     },
     mock: () => {
         const { t } = useTranslation();
-        return (<MainScreen instanceId="" size="s" isMock config={{
+        return (<BookmarkWidget instanceId="" size="s" isMock config={{
             url: 'http://example.com',
             title: t('example'),
             icon: 'ion:dice',
@@ -227,22 +370,22 @@ const widgetSizeSDescriptor = {
     }
 } as const;
 
-const widgetSizeMDescriptor = {
+const bookmarkWidgetSizeMDescriptor = {
     id: 'bookmark-m',
     get name() {
         return translate('bookmark-plugin.widgetSizeMName')
     },
-    configurationScreen: WidgetConfigScreen,
+    configurationScreen: BookmarkWidgetConfigScreen,
     withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
-        return <MainScreen instanceId={instanceId} config={config} isMock={false} size="m" />
+        return <BookmarkWidget instanceId={instanceId} config={config} isMock={false} size="m" />
     },
     mock: () => {
         const { t } = useTranslation();
-        return (<MainScreen instanceId="" size="m" isMock config={{
+        return (<BookmarkWidget instanceId="" size="m" isMock config={{
             url: 'http://example.com',
             title: t('example'),
-            icon: 'ion:dice',
+            icon: 'ion:chatbox-ellipses',
         }} />)
     },
     size: {
@@ -251,15 +394,94 @@ const widgetSizeMDescriptor = {
     }
 } as const;
 
-export const bookmarkPlugin = {
+
+const bookmarkGroupWidgetSizeSDescriptor = {
+    id: 'bookmark-group-s',
+    get name() {
+        return translate('bookmark-plugin.groupWidgetSizeSName')
+    },
+    configurationScreen: BookmarGroupkWidgetConfigScreen,
+    withAnimation: true,
+    mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkGroupWidgetConfigType>) => {
+        return <BookmarkGroupWidget instanceId={instanceId} config={config} isMock={false} size="s" />
+    },
+    mock: () => {
+        const { t } = useTranslation();
+        return (<BookmarkGroupWidget instanceId="" size="s" isMock config={{
+            urls: ['http://example.com'],
+            openInTabGroup: false,
+            title: t('example'),
+            icon: 'ion:cloud',
+        }} />)
+    },
+    size: {
+        width: 1,
+        height: 1,
+    }
+} as const;
+
+const bookmarkGroupWidgetSizeMDescriptor = {
+    id: 'bookmark-group-m',
+    get name() {
+        return translate('bookmark-plugin.groupWidgetSizeMName')
+    },
+    configurationScreen: BookmarGroupkWidgetConfigScreen,
+    withAnimation: true,
+    mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkGroupWidgetConfigType>) => {
+        return <BookmarkGroupWidget instanceId={instanceId} config={config} isMock={false} size="m" />
+    },
+    mock: () => {
+        const { t } = useTranslation();
+        return (<BookmarkGroupWidget instanceId="" size="m" isMock config={{
+            urls: ['http://example.com'],
+            openInTabGroup: false,
+            title: t('example'),
+            icon: 'ion:image',
+        }} />)
+    },
+    size: {
+        width: 2,
+        height: 1,
+    }
+} as const;
+
+const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandlers>('bookmark-plugin', {
+    'openGroup': async (args, senderTabId) => {
+        const tabs = await Promise.all(args.urls.map((url, i) => {
+            return browser.tabs.create({
+                url,
+                active: i === 0,
+            });
+        }));
+        if (senderTabId !== undefined) browser.tabs.remove(senderTabId);
+        if (args.openInTabGroup) {
+            const groupId = await browser.tabs.group({
+                tabIds: tabs.map(t => t.id!),
+            });
+
+            // @ts-expect-error tabGroups isn't in typing yet (see declaration.d.ts)
+            await browser.tabGroups.update(groupId, { collapsed: false, title: args.title });
+        }
+    },
+});
+
+export const bookmarkPlugin: AnoriPlugin<{}, BookmarkWidgetConfigType | BookmarkGroupWidgetConfigType> = {
     id: 'bookmark-plugin',
     get name() {
         return translate('bookmark-plugin.name')
     },
     widgets: [
-        widgetSizeSDescriptor,
-        widgetSizeMDescriptor,
+        [
+            bookmarkWidgetSizeSDescriptor,
+            bookmarkWidgetSizeMDescriptor,
+        ],
+        [
+            bookmarkGroupWidgetSizeSDescriptor,
+            bookmarkGroupWidgetSizeMDescriptor,
+        ]
     ],
     onCommandInput,
     configurationScreen: null,
-} satisfies AnoriPlugin;
+    onMessage: handlers,
+};
+

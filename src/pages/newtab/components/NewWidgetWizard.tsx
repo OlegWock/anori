@@ -76,27 +76,53 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                                 <h2>{plugin.name}</h2>
                                 <div className="widgets-mock-background">
                                     <div className='widgets-mocks'>
-                                        {plugin.widgets.map(widget => {
+                                        {plugin.widgets.map(widgetOrGroup => {
+                                            if (Array.isArray(widgetOrGroup)) {
+                                                return (<div className='widgets-group'>
+                                                    {widgetOrGroup.map(widget => {
+                                                        return (<div key={widget.id}>
+                                                            <WidgetCard
+                                                                withAnimation={false}
+                                                                style={{ margin: 0 }}
+                                                                width={widget.size.width}
+                                                                height={widget.size.height}
+                                                                onClick={() => {
+                                                                    if (widget.configurationScreen) {
+                                                                        setSelectedPlugin(plugin);
+                                                                        setSelectedWidget(widget);
+                                                                    } else {
+                                                                        tryAddWidget(plugin, widget, {});
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <widget.mock />
+                                                                <div className="interaction-blocker"></div>
+                                                            </WidgetCard>
+                                                            <div className='widget-name'>{widget.name}</div>
+                                                        </div>);
+                                                    })}
+                                                </div>);
+                                            }
                                             return (
-                                                <div key={widget.id}>
+                                                <div key={widgetOrGroup.id}>
                                                     <WidgetCard
                                                         withAnimation={false}
                                                         style={{ margin: 0 }}
-                                                        width={widget.size.width}
-                                                        height={widget.size.height}
+                                                        width={widgetOrGroup.size.width}
+                                                        height={widgetOrGroup.size.height}
                                                         onClick={() => {
-                                                            if (widget.configurationScreen) {
+                                                            if (widgetOrGroup.configurationScreen) {
                                                                 setSelectedPlugin(plugin);
-                                                                setSelectedWidget(widget);
+                                                                setSelectedWidget(widgetOrGroup);
                                                             } else {
-                                                                tryAddWidget(plugin, widget, {});
+                                                                tryAddWidget(plugin, widgetOrGroup, {});
                                                             }
                                                         }}
                                                     >
-                                                        <widget.mock />
+                                                        <widgetOrGroup.mock />
                                                         <div className="interaction-blocker"></div>
                                                     </WidgetCard>
-                                                    <div className='widget-name'>{widget.name}</div>
+                                                    <div className='widget-name'>{widgetOrGroup.name}</div>
                                                 </div>
                                             );
                                         })}

@@ -59,10 +59,11 @@ export const homeFolder = {
 export type AnoriPlugin<T extends {} = {}, WT extends {} = {}> = {
     id: ID,
     name: string,
-    widgets: WidgetDescriptor<WT>[],
+    widgets: Array<WidgetDescriptor<WT> | WidgetDescriptor<WT>[]>,
     configurationScreen: ComponentType<PluginConfigurationScreenProps<T>> | null,
     onCommandInput?: OnCommandInputCallback,
     onStart?: () => void,
+    onMessage?: Record<string, (args: any, senderTab?: number) => any>,
     scheduledCallback?: {
         intervalInMinutes: number,
         callback: () => void,
@@ -110,3 +111,10 @@ export type CommandItem = {
     hint?: string,
     onSelected: () => void,
 };
+
+export type OnMessageDescriptor<I extends {}, O> = {
+    args: I,
+    result: O,
+}
+
+export type OnMessageHandler<I extends {}, O> = (args: I) => O;

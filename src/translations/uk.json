@@ -123,6 +123,10 @@
             "name": "Заклакди",
             "widgetSizeSName": "Закладка - розмір S",
             "widgetSizeMName": "Закладка - розмір M",
+            "groupWidgetSizeSName": "Група закладок - розмір S",
+            "groupWidgetSizeMName": "Група закладок - розмір M",
+            "openInGroup": "Згрупувати після відкриття",
+            "group": "Група",
             "searchBookmarks": "Пошук закладок"
         },
         "calendar-plugin": {

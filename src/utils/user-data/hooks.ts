@@ -174,10 +174,10 @@ export const useFolderWidgets = (folder: Folder) => {
     const widgets: WidgetInFolderWithMeta<any, any, any>[] = details.widgets.filter(w => {
         const plugin = availablePluginsWithWidgets.find(p => p.id === w.pluginId);
         if (!plugin) return false;
-        return !!plugin.widgets.find(d => d.id === w.widgetId);
+        return !!plugin.widgets.flat().find(d => d.id === w.widgetId);
     }).map(w => {
         const plugin = availablePluginsWithWidgets.find(p => p.id === w.pluginId)!;
-        const widget = plugin.widgets.find(d => d.id === w.widgetId)!;
+        const widget = plugin.widgets.flat().find(d => d.id === w.widgetId)!;
 
         return {
             ...w,

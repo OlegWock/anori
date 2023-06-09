@@ -103,5 +103,6 @@ export const generateBackgroundWorkerWrapper = (scripts: string[]) => {
 
 export const isUiRelated = (name: string) => {
     return name.includes('react') || name.includes('jquery') || name.includes('framer')
-        || name.includes('polished') || name.includes('floating-ui') || name.includes('/components/');
+        || name.includes('polished') || name.includes('floating-ui') || name.includes('/components/') 
+        || name.includes('markdown') || name.includes('decode-named-character-reference');
 };

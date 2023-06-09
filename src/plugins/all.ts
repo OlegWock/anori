@@ -10,17 +10,17 @@ import { tasksPlugin } from "./tasks/tasks-plugin";
 import { topSitesPlugin } from "./top-sites/top-sites-plugin";
 import { weatherPlugin } from "./weather/weather-plugin";
 
-const unavailableInFirefox: AnoriPlugin[] = [
+const unavailableInFirefox: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
 ];
 
-const unavailableInSafari: AnoriPlugin[] = [
+const unavailableInSafari: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
     recentlyClosedPlugin,
     topSitesPlugin,
 ];
 
-export const availablePlugins: AnoriPlugin[] = [
+export const availablePlugins: AnoriPlugin<any, any>[] = [
     bookmarkPlugin,
     datetimePlugin,
     notesPlugin,

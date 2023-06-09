@@ -32,6 +32,7 @@ export const WhatsNew = () => {
                             I hope you'll like new font!
                         </li>
                         <li>New big datetime widget!</li>
+                        <li>New bookmark group widget!</li>
                         <li>Notes widget now supports markdown.</li>
                     </ul>
                 </section>

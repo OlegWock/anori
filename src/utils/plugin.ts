@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 import { AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithStorage } from "./storage";
-import { AnoriPlugin, FolderDetailsInStorage, ID, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
+import { AnoriPlugin, FolderDetailsInStorage, ID, OnMessageDescriptor, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
 import { SetStateAction, createContext, useContext, useMemo } from 'react';
 import { NamespacedStorage } from './namespaced-storage';
 
@@ -22,7 +22,7 @@ export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin
 
     const widgets = folderDetails.flatMap(details => details.widgets);
     return widgets.filter(w => w.pluginId === plugin.id).map(w => {
-        const widget = plugin.widgets.find(d => d.id === w.widgetId)!;
+        const widget = plugin.widgets.flat().find(d => d.id === w.widgetId)!;
 
         return {
             ...w,
@@ -100,4 +100,21 @@ export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultCon
 export const getPluginConfig = <T extends {}>(plugin: AnoriPlugin<T>) => {
     // @ts-ignore It's dynamic property, but I don't want to code custom util for one usage
     return storage.getOne(`PluginConfig.${plugin.id}`) as Promise<T | undefined>;
+};
+
+
+// TODO: Message passing should be documented, see examples of usage in bookmarks plugin
+export const createOnMessageHandlers = <T extends {[key in string]: OnMessageDescriptor<any, any>},>(pluginId: string, handlers: {[K in keyof T]: (args: T[K]["args"], senderTab?: number) => T[K]["result"]}) => {
+    return {
+        handlers,
+        sendMessage: <K extends keyof T>(command: K, args: T[K]["args"]): Promise<T[K]["result"]> => {
+            const message = {
+                type: 'plugin-command',
+                pluginId,
+                command,
+                args,
+            };
+            return browser.runtime.sendMessage(message);
+        },
+    };
 };

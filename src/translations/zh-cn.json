@@ -123,6 +123,10 @@
             "name": "Bookmarks",
             "widgetSizeSName": "Bookmark - size S",
             "widgetSizeMName": "Bookmark - size M",
+            "groupWidgetSizeSName": "Bookmark group - size S",
+            "groupWidgetSizeMName": "Bookmark group - size M",
+            "openInGroup": "Open in a tab group",
+            "group": "Group",
             "searchBookmarks": "Search bookmarks"
         },
         "calendar-plugin": {

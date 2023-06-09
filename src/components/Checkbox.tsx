@@ -1,6 +1,6 @@
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
 import './Checkbox.scss';
-import { useId } from 'react';
+import { forwardRef, useId } from 'react';
 import { Icon } from './Icon';
 import { ReactNode } from 'react';
 import clsx from 'clsx';
@@ -15,10 +15,10 @@ type CheckboxProps = {
     className?: string,
 }
 
-export const Checkbox = ({ children, defaultChecked, checked, onChange, disabled, className }: CheckboxProps) => {
+export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(({ children, defaultChecked, checked, onChange, disabled, className }, ref) => {
     const id = useId();
-    return (<div className={clsx('Checkbox', {'Checkbox-disabled': disabled}, className)} data-disabled={disabled || undefined}>
-        <RadixCheckbox.Root disabled={disabled} className="Checkbox-root" defaultChecked={defaultChecked} id={id} checked={checked} onCheckedChange={onChange}>
+    return (<div ref={ref} className={clsx('Checkbox', {'Checkbox-disabled': disabled}, className)} data-disabled={disabled || undefined}>
+        <RadixCheckbox.Root  disabled={disabled} className="Checkbox-root" defaultChecked={defaultChecked} id={id} checked={checked} onCheckedChange={onChange}>
             <RadixCheckbox.Indicator className="Checkbox-indicator">
                 <Icon icon="ion:checkmark-sharp" width={14} height={14} />
             </RadixCheckbox.Indicator>
@@ -27,4 +27,4 @@ export const Checkbox = ({ children, defaultChecked, checked, onChange, disabled
             {children}
         </label>}
     </div>)
-};
+});

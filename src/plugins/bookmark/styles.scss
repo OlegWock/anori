@@ -77,6 +77,18 @@
             flex-grow: 1;
         }
     }
+
+    .urls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        
+    }
+
+    .add-button {
+        align-self: center;
+    }
 }
 
 .PickBookmark {

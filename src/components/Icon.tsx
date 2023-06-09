@@ -127,7 +127,6 @@ type FaviconProps = {
 
 export const Favicon = forwardRef<HTMLElement, FaviconProps>((props, ref) => {
     const permissions = useAtomValue(availablePermissionsAtom);
-    // @ts-expect-error new permission not yet in types
     const hasPermission = permissions?.permissions.includes('favicon');
     const [imageError, setImageError] = useState(false);
 
