@@ -20,11 +20,30 @@
         font-size: 1.5rem; // h2
     }
 
-    .note-body {
+    .note-body-editor {
         resize: none;
         flex-grow: 1;
         font-family: inherit;
         font-size: inherit;
         line-height: inherit;
+    }
+
+    .note-body-rendered {
+        flex-grow: 1;
+        flex-shrink: 1;
+        overflow: auto;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        margin: 0 0.75rem;
+        cursor: text;
+
+        p:not(:first-child) {
+            margin-top: 0.25rem;
+        }
+
+        .notes-body-placeholder {
+            opacity: 0.5;
+        }
     }
 }

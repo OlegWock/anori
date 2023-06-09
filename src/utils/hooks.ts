@@ -83,3 +83,18 @@ export const useHotkeys = (keys: Keys, callback: HotkeyCallback, options?: Optio
 
     return useHotkeysOriginal(keys, patchedCallback, options, dependencies);
 };
+
+export const useRunAfterNextRender = () => {
+    const functionsList = useRef<(() => void)[]>([]);
+
+    useEffect(() => {
+        while (functionsList.current.length > 0) {
+            const func = functionsList.current.pop()!;
+            func();
+        }
+    });
+
+    return (func: () => void) => {
+        functionsList.current.push(func);
+    };
+};
