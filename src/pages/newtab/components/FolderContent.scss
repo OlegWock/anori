@@ -41,3 +41,23 @@
         }
     }
 }
+
+.edit-widget-modal {
+    padding: 0px !important;
+
+    .modal-header {
+        padding: 24px;
+        padding-bottom: 0px;
+    }
+
+    .edit-widget-scrollarea {
+        margin: 0 6px;
+        margin-bottom: 12px;
+    
+        .edit-widget-content {
+            padding: 0 18px;
+            padding-bottom: 18px;
+        }
+    }
+}
+

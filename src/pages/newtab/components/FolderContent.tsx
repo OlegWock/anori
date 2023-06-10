@@ -16,6 +16,8 @@ import { WidgetMetadataContext } from '@utils/plugin';
 import { OnboardingCard } from '@components/OnboardingCard';
 import { useSizeSettings } from '@utils/compact';
 import { useBrowserStorageValue } from '@utils/storage';
+import { useTranslation } from 'react-i18next';
+import { ScrollArea } from '@components/ScrollArea';
 
 
 type FolderContentProps = {
@@ -109,6 +111,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
 
     const { blockSize, gapSize } = useSizeSettings();
+    const { t } = useTranslation();
     const mainRef = useRef<HTMLDivElement>(null);
     const grisDimenstions = useGrid(mainRef, blockSize);
 
@@ -265,15 +268,20 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
 
 
                     {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
-                        title="Edit widget"
+                        title={t("editWidget")}
                         key='edit-widget-modal'
+                        className='edit-widget-modal'
                         onClose={() => setEditingWidget(null)}
                         closable
                     >
-                        <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
-                            updateWidgetConfig(editingWidget.instanceId, config);
-                            setEditingWidget(null);
-                        }} />
+                        <ScrollArea className='edit-widget-scrollarea'>
+                            <div className='edit-widget-content'>
+                            <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                                updateWidgetConfig(editingWidget.instanceId, config);
+                                setEditingWidget(null);
+                            }} />
+                            </div>
+                        </ScrollArea>
                     </Modal>}
                 </AnimatePresence>
             </FolderContentContext.Provider >

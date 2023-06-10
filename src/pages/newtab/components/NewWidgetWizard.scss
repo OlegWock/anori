@@ -1,13 +1,7 @@
 .NewWidgetWizard {
     width: 800px;
     max-width: 80vw;
-
-
-    overflow: auto;
-    margin-right: -16px;
-    padding-right: 16px;
-    margin-left: -4px;
-    padding-left: 4px;
+    overflow: hidden;
 
     .new-widget-content {
         display: flex;
@@ -50,5 +44,20 @@
 }
 
 .NewWidgetWizard-wrapper {
-    overflow: hidden;
+    padding: 0px !important;
+
+    .modal-header {
+        padding: 24px;
+        padding-bottom: 0px;
+    }
+
+    .NewWidgetWizard-scrollarea {
+        margin: 0 6px;
+        margin-bottom: 12px;
+    
+        .NewWidgetWizard {
+            padding: 0 18px;
+            padding-bottom: 18px;
+        }
+    }
 }

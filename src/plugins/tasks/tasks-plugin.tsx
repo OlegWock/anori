@@ -12,6 +12,7 @@ import { ScrollArea } from "@components/ScrollArea";
 import { useSizeSettings } from "@utils/compact";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
+import { listItemAnimation } from "@components/animations";
 
 type TaskWidgetConfigType = {
     title: string,
@@ -149,9 +150,7 @@ const Mock = () => {
                                 key={t.id}
                                 layout
                                 className="task"
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ opacity: 0 }}
+                                {...listItemAnimation}
                             >
                                 <Checkbox checked={false} />
                                 <Input value={t.text} />

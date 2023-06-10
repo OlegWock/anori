@@ -27,6 +27,9 @@
         "home": "Home",
         "availableOnlyInEnglish": "Available only in English",
         "whatsNew": "What's new",
+        "editWidget": "Edit widget",
+        "configureWidget": "Configure widget",
+        "addWidget": "Add widget",
         "settings": {
             "title": "Settings",
             "general": {

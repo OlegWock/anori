@@ -27,7 +27,6 @@
         "translations:extract": "ts-node translations-manager.ts extract-untranslated",
         "translations:merge": "ts-node translations-manager.ts merge-back",
         "translations:locales": "ts-node translations-manager.ts generate-locales"
-
     },
     "browserslist": ">0.25% and Chrome > 80",
     "dependencies": {

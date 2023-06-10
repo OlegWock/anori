@@ -9,18 +9,19 @@ import { Favicon, Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
 import { createOnMessageHandlers, getAllWidgetsByPlugin } from "@utils/plugin";
-import { parseHost } from "@utils/misc";
+import { guid, parseHost } from "@utils/misc";
 import { useLinkNavigationState } from "@utils/hooks";
 import { useSizeSettings } from "@utils/compact";
 import { RequirePermissions } from "@components/RequirePermissions";
 import browser from 'webextension-polyfill';
 import { ScrollArea } from "@components/ScrollArea";
-import { motion } from "framer-motion";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
 import { Checkbox } from "@components/Checkbox";
 import { useAtomValue } from "jotai";
 import { availablePermissionsAtom } from "@utils/permissions";
+import { listItemAnimation } from "@components/animations";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -126,14 +127,16 @@ const PickBookmark = (props: PopoverRenderProps<PickBookmarkProps>) => {
 
 const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkGroupWidgetConfigType>) => {
     const onConfirm = () => {
-        const cleanedUrls = urls.filter(u => !!u);
+        const cleanedUrls = urls.map(u => u.url).filter(u => !!u);
         if (!title || urls.length === 0) return;
 
         saveConfiguration({ title, icon, urls: cleanedUrls, openInTabGroup });
     };
     const currentPermissions = useAtomValue(availablePermissionsAtom);
     const [title, setTitle] = useState(currentConfig?.title ?? '');
-    const [urls, setUrls] = useState(currentConfig?.urls ?? ['']);
+    const [urls, setUrls] = useState<{ id: string, url: string }[]>(() => {
+        return currentConfig?.urls ? currentConfig.urls.map(url => ({ id: guid(), url })) : [{ id: guid(), url: '' }];
+    });
     const [icon, setIcon] = useState(currentConfig?.icon ?? 'ion:dice');
     const [openInTabGroup, setOpenInTabGroup] = useState<boolean>(currentConfig?.openInTabGroup ?? (X_BROWSER === 'chrome' && !!currentPermissions?.permissions.includes('tabGroups')));
     const { rem } = useSizeSettings();
@@ -141,6 +144,7 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
     const { t } = useTranslation();
 
     return (<div className="BookmarkWidget-config">
+
         <div className="field">
             <label>{t('icon')}:</label>
             <Popover
@@ -158,53 +162,59 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
             <label>{t('title')}:</label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
-        <div className="field">
-
-            <label>{t('urls')}:</label>
-
-            <div className="urls">
-                {urls.map((url, ind) => {
-                    return (<div className="url-import-wrapper" key={ind.toString()}>
-                        <Input value={url} onValueChange={(newUrl) => setUrls(p => {
-                            const copy = [...p];
-                            copy[ind] = newUrl;
-                            return copy;
-                        })} />
-                        <Popover
-                            component={PickBookmark}
-                            additionalData={{
-                                onSelected: (title, url) => {
-                                    console.log('Selected bookmark', title, url);
-                                    setUrls(p => {
-                                        const copy = [...p];
-                                        copy[ind] = url;
-                                        return copy;
-                                    })
-                                },
-                            }}
+        <label>{t('urls')}:</label>
+        <LayoutGroup>
+            <motion.div className="urls" layout>
+                <AnimatePresence initial={false} mode="sync">
+                    {urls.map(({ id, url }, ind) => {
+                        return (<motion.div
+                            className="url-import-wrapper"
+                            layout
+                            key={id}
+                            {...listItemAnimation}
                         >
-                            <Button>{t('import')}</Button>
-                        </Popover>
-                        <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
-                    </div>);
-                })}
-                <Button className="add-button" onClick={() => setUrls((p) => [...p, ''])}>{t('add')}</Button>
-            </div>
-        </div>
-        {X_BROWSER === 'chrome' && <div className="field">
-            {currentPermissions?.permissions.includes('tabGroups') && <Checkbox checked={openInTabGroup} onChange={setOpenInTabGroup}>
-                {t('bookmark-plugin.openInGroup')}
-            </Checkbox>}
-            {!currentPermissions?.permissions.includes('tabGroups') && <Popover trigger="hover" component={({ close }) => <RequirePermissions permissions={["tabGroups"]} onGrant={() => close()} />}>
-                <Checkbox disabled checked={openInTabGroup} onChange={setOpenInTabGroup}>
+                            <Input value={url} onValueChange={(newUrl) => setUrls(p => {
+                                const copy = [...p];
+                                copy[ind].url = newUrl;
+                                return copy;
+                            })} />
+                            <Popover
+                                component={PickBookmark}
+                                additionalData={{
+                                    onSelected: (title, url) => {
+                                        console.log('Selected bookmark', title, url);
+                                        setUrls(p => {
+                                            const copy = [...p];
+                                            copy[ind].url = url;
+                                            return copy;
+                                        })
+                                    },
+                                }}
+                            >
+                                <Button>{t('import')}</Button>
+                            </Popover>
+                            <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
+                        </motion.div>);
+                    })}
+                </AnimatePresence>
+                <Button layout="position" className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: '' }])}>{t('add')}</Button>
+            </motion.div>
+            {X_BROWSER === 'chrome' && <motion.div className="field" layout="position">
+                {currentPermissions?.permissions.includes('tabGroups') && <Checkbox checked={openInTabGroup} onChange={setOpenInTabGroup}>
                     {t('bookmark-plugin.openInGroup')}
-                </Checkbox>
-            </Popover>}
-        </div>}
+                </Checkbox>}
+                {!currentPermissions?.permissions.includes('tabGroups') && <Popover trigger="hover" component={({ close }) => <RequirePermissions permissions={["tabGroups"]} onGrant={() => close()} />}>
+                    <Checkbox disabled checked={openInTabGroup} onChange={setOpenInTabGroup}>
+                        {t('bookmark-plugin.openInGroup')}
+                    </Checkbox>
+                </Popover>}
+            </motion.div>}
 
-        <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
-
-    </div>);
+            <motion.div layout className="save-config">
+                <Button onClick={onConfirm}>{t('save')}</Button>
+            </motion.div>
+        </LayoutGroup>
+    </div >);
 };
 
 const BookmarkGroupWidget = ({ config, isMock, size }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {

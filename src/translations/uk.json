@@ -27,6 +27,9 @@
         "home": "Головна",
         "availableOnlyInEnglish": "Доступно тільки англійською мовою.",
         "whatsNew": "Що нового",
+        "editWidget": "Редагувати віджет",
+        "configureWidget": "Налаштувати віджет",
+        "addWidget": "Додати віджет",
         "settings": {
             "title": "Налаштування",
             "general": {
