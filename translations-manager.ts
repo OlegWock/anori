@@ -51,13 +51,13 @@ const main = async () => {
         console.log('Checking for missing or untranslated strings.');
 
         let exitWithError = false;
-        console.log('------------------------------')
         Object.entries(results).forEach(([lang, result]) => {
-            console.log(`Language ${lang}`);
-            console.log(`Missing keys`, result.missing.length);
-            console.log(`Excessive keys`, result.excessive.length);
-            console.log('------------------------------');
-            if (result.missing.length !== 0 || result.excessive.length !== 0) exitWithError = true;
+            if (result.missing.length === 0 && result.excessive.length === 0) {
+                console.log(`✅ Language ${lang} all good!`);
+            } else {
+                console.log(`❌ Language ${lang} has ${result.missing.length} missing keys and ${result.excessive.length} excessive keys`);
+                exitWithError = true;
+            }
         });
         if (exitWithError) {
             process.exit(1);
@@ -67,9 +67,11 @@ const main = async () => {
 
         console.log('------------------------------')
         Object.entries(results).forEach(([lang, result]) => {
-            console.log(`Language ${lang}`);
-            console.log(`Untranslated keys`, result.untranslated.length);
-            console.log('------------------------------');
+            if (result.untranslated.length === 0) {
+                console.log(`✅ Language ${lang} all good!`);
+            } else {
+                console.log(`❌ Language ${lang} has ${result.untranslated.length} untranslated keys`);
+            }
         });
     } else if (args[0] === 'add-missing') {
         Object.entries(results).filter(([lang, { missing }]) => missing.length !== 0).forEach(([lang, { untranslated, excessive }]) => {
