@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import browser, { Storage } from 'webextension-polyfill';
 import { StorageContent } from "./user-data/types";
 import { SetStateAction, WritableAtom, atom, getDefaultStore, useAtom } from "jotai";
 
@@ -96,8 +96,6 @@ type UseAtomWithStorageResult<T> = [
 export type AtomWithBrowserStorage<V> = { __doNotUseThisWithJotaisUseAtom: 1, v: V };
 
 export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceLoad, onLoad }: AtomWithBrowserStorageOptions<V> = {}) => {
-    // TODO: we need to listen for storage changes and sync values back into atom
-
     let isLoaded = false;
     const baseAtom = atom<AtomWithBrowserStorageMeta<V>>({
         defaultValue,
@@ -105,7 +103,17 @@ export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceL
     });
 
     baseAtom.onMount = (setValue) => {
-        (async () => {
+        const onChange = (changes: Storage.StorageAreaOnChangedChangesType) => {
+            if (changes[key]) {
+                const newValue = changes[key].newValue as V;
+                setValue({
+                    defaultValue,
+                    currentValue: newValue === undefined ? SYMBOL_NO_VALUE : newValue,
+                });
+            }
+        };
+
+        const load = async () => {
             if (isLoaded) return;
             const item = await storage.getOneDynamic<V>(key);
             if (item === undefined) {
@@ -121,7 +129,12 @@ export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceL
             }
             isLoaded = true;
             if (onLoad) onLoad(item);
-        })();
+        };
+
+        load();
+        browser.storage.local.onChanged.addListener(onChange);
+
+        return () => browser.storage.local.onChanged.removeListener(onChange);
     };
 
     const derivedAtom = atom<AtomWithBrowserStorageMeta<V>, [V], void>(

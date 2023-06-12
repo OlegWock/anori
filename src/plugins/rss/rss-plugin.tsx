@@ -14,7 +14,7 @@ import { useSizeSettings } from "@utils/compact";
 import moment from "moment-timezone";
 import { RelativeTime } from "@components/RelativeTime";
 import { ClampTextToFit } from "@components/ClampTextToFit";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { listItemAnimation } from "@components/animations";
 import { ScrollArea } from "@components/ScrollArea";
 import { Tooltip } from "@components/Tooltip";
