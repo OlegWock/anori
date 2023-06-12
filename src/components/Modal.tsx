@@ -1,4 +1,4 @@
-import { motion, useIsPresent } from 'framer-motion';
+import { LayoutGroup, motion, useIsPresent } from 'framer-motion';
 import './Modal.scss';
 import { ReactNode } from 'react';
 import { Icon } from './Icon';
@@ -76,7 +76,9 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
                             <Icon icon='ion:close' width={24} height={24} />
                         </motion.button>}
                     </div>
-                    {children}
+                    <LayoutGroup>
+                        {children}
+                    </LayoutGroup>
                 </motion.div>
             </motion.div>
         </motion.div>),

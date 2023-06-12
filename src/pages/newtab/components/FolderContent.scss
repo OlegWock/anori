@@ -57,6 +57,9 @@
         .edit-widget-content {
             padding: 0 18px;
             padding-bottom: 18px;
+            width: 800px;
+            max-width: 80vw;
+            overflow: hidden;
         }
     }
 }

@@ -2,6 +2,8 @@ import { Button } from "@components/Button";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
 import './styles.scss';
 import { getAllWidgetsByPlugin } from "@utils/plugin";
+import { translate } from "@translations/index";
+import { useTranslation } from "react-i18next";
 
 type PluginWidgetConfigType = {
 
@@ -14,9 +16,11 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
         saveConfiguration({});
     };
 
+    const { t } = useTranslation();
+
     return (<div className="PluginWidget-config">
         <div>
-            
+            {t('blueprint-plugin.name')}
         </div>
 
         <Button className="save-config" onClick={onConfirm}>Save</Button>
@@ -24,9 +28,9 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 };
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
-
+    const { t } = useTranslation();
     return (<div className="PluginWidget">
-
+        {t('blueprint-plugin.name')}
     </div>);
 };
 
@@ -39,9 +43,11 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 
 const widgetDescriptor = {
     id: 'widget',
-    name: 'Widget name',
+    get name() {
+        return translate('blueprint-plugin.widgetName');
+    },
     configurationScreen: WidgetConfigScreen,
-    withAnimation: true,
+    withAnimation: false,
     mainScreen: MainScreen,
     mock: () => {
         return (<MainScreen instanceId="mock" config={{}} />)
@@ -54,7 +60,9 @@ const widgetDescriptor = {
 
 export const pluginnamePlugin = {
     id: 'pluginname-plugin',
-    name: 'Plugin',
+    get name() {
+        return translate('blueprint-plugin.name');
+    },
     widgets: [
         widgetDescriptor,
     ],

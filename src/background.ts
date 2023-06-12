@@ -73,6 +73,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
 });
 
 browser.runtime.onMessage.addListener(async (message, sender) => {
+    console.log('onMessage', message);
     if (message.type === 'plugin-command') {
         const plugin = availablePlugins.find(p => p.id === message.pluginId);
         if (!plugin) {
@@ -133,6 +134,8 @@ browser.alarms.onAlarm.addListener((alarm) => {
 
 // @ts-ignore Add this into global scope for debug
 self.sendAnalyticsIfEnabled = sendAnalyticsIfEnabled;
+// @ts-ignore Add this into global scope for debug
+self.runScheduledCallbacks = runScheduledCallbacks;
 
 browser.alarms.create('scheduledCallbacks', {
     periodInMinutes: 5,

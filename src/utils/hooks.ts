@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useLayoutEffect, useRef, useState } from "react"
+import { MouseEventHandler, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
 import { useHotkeys as useHotkeysOriginal } from 'react-hotkeys-hook';
 import { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
 import { trackEvent } from "./analytics";
@@ -59,6 +59,19 @@ export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.Depende
     }, deps);
 };
 
+
+export const useOnChangeLayoutEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
+    const isFirstRun = useRef(true);
+    useLayoutEffect(() => {
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
+
+        return fn();
+    }, deps);
+};
+
 export const useLinkNavigationState = () => {
     const onLinkClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
         if (e.metaKey || e.ctrlKey) return;
@@ -96,5 +109,34 @@ export const useRunAfterNextRender = () => {
 
     return (func: () => void) => {
         functionsList.current.push(func);
+    };
+};
+
+
+export const useIntervalRender = (interval: number) => {
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+    useEffect(() => {
+        const tid = setInterval(() => forceUpdate(), interval);
+        return () => clearInterval(tid);
+    }, [interval]);
+};
+
+export const useScheduledRender = () => {
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const tid = useRef<null | NodeJS.Timeout>(null);
+
+    useEffect(() => {
+        return () => {
+            if (tid.current) clearTimeout(tid.current);
+        };
+    }, []);
+
+    return (delay: number) => {
+        if (tid.current) clearTimeout(tid.current);
+        tid.current = setTimeout(() => {
+            forceUpdate();
+            tid.current = null;
+        }, delay);
     };
 };

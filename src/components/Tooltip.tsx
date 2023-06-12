@@ -1,4 +1,4 @@
-import { ReactNode, cloneElement, useId, useState } from "react";
+import { ReactNode, Ref, cloneElement, useId, useState } from "react";
 import {
     Placement,
     offset,
@@ -18,6 +18,7 @@ import {
 } from "@floating-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import './Tooltip.scss';
+import { mergeRefs } from "react-merge-refs";
 
 interface Props {
     label: ReactNode;
@@ -27,9 +28,10 @@ interface Props {
     strategy?: Strategy;
     maxWidth?: number;
     children: JSX.Element;
+    targetRef?: Ref<HTMLElement>
 }
 
-export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100 }: Props) => {
+export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100, targetRef }: Props) => {
     const { delay = showDelay, setCurrentId } = useDelayGroupContext();
     const [open, setOpen] = useState(false);
     const id = useId();
@@ -50,7 +52,12 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
     });
 
     const { getReferenceProps, getFloatingProps } = useInteractions([
-        useHover(context, { delay, restMs: resetDelay }),
+        useHover(context, {
+            delay: typeof delay === 'object' ? delay : {
+                open: showDelay,
+                close: resetDelay,
+            },
+        }),
         useFocus(context),
         useRole(context, { role: "tooltip" }),
         useDismiss(context),
@@ -64,11 +71,16 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
         'right': { translateX: -5 },
     }[placement.includes('-') ? placement.split('-')[0] : placement];
 
+    const refs: Ref<any>[] = [reference];
+    if (targetRef) refs.push(targetRef);
+    const mergedRef = mergeRefs(refs);
+
     return (
         <>
+        {}
             {cloneElement(
                 children,
-                getReferenceProps({ ref: reference, ...children.props })
+                getReferenceProps({ ref: mergedRef, ...children.props })
             )}
             <FloatingPortal root={document.body}>
                 <AnimatePresence>

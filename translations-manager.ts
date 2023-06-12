@@ -47,14 +47,27 @@ const main = async () => {
         }
     });
 
-    if (args[0] === 'check') {
+    if (args[0] === 'check-missing') {
         console.log('Checking for missing or untranslated strings.');
 
+        let exitWithError = false;
         console.log('------------------------------')
         Object.entries(results).forEach(([lang, result]) => {
             console.log(`Language ${lang}`);
             console.log(`Missing keys`, result.missing.length);
             console.log(`Excessive keys`, result.excessive.length);
+            console.log('------------------------------');
+            if (result.missing.length !== 0 || result.excessive.length !== 0) exitWithError = true;
+        });
+        if (exitWithError) {
+            process.exit(1);
+        }
+    } else if (args[0] === 'check-untranslated') {
+        console.log('Checking for untranslated strings.');
+
+        console.log('------------------------------')
+        Object.entries(results).forEach(([lang, result]) => {
+            console.log(`Language ${lang}`);
             console.log(`Untranslated keys`, result.untranslated.length);
             console.log('------------------------------');
         });

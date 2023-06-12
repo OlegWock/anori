@@ -1,0 +1,156 @@
+.RssFeed {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .title-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.25rem;
+
+        svg {
+            color: rgba(255, 255, 255, 0.6);
+        }
+    }
+
+    .posts {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .separator {
+        align-self: stretch;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .Post {
+        padding: 0.25rem;
+        border-radius: 6px;
+    }
+}
+
+.RssFeed-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .presets {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        .preset {
+
+        }
+    }
+
+    .urls {
+        margin-top: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .url-wrapper {
+        display: flex;
+        gap: 0.5rem;
+
+        .Input {
+            flex-grow: 1;
+        }
+    }
+
+    .button-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .save-config {
+        margin-top: 16px;
+    }
+}
+
+
+.RssLatestPost {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-decoration: none;
+    flex: 1;
+    max-height: 100%;
+
+    .Post {
+        max-height: 100%;
+    }
+
+}
+
+.RssLatestPost-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    &>div {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+}
+
+.Post {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .title {
+        flex: 1;
+        line-height: 1.25;
+        overflow: hidden;
+    }
+
+    .description {
+        margin-top: 4px;
+        color: var(--text-subtle-2);
+    }
+
+    .details {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        column-gap: 12px;
+        row-gap: 8px;
+        margin-top: 8px;
+
+        svg {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .feed-name,
+        .post-date {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1;
+            color: var(--text-subtle-1);
+        }
+    }
+}

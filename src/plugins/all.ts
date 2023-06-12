@@ -9,6 +9,7 @@ import { notesPlugin } from "./notes/notes-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
 import { topSitesPlugin } from "./top-sites/top-sites-plugin";
 import { weatherPlugin } from "./weather/weather-plugin";
+import { rssPlugin } from "./rss/rss-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
@@ -23,6 +24,7 @@ const unavailableInSafari: AnoriPlugin<any, any>[] = [
 export const availablePlugins: AnoriPlugin<any, any>[] = [
     bookmarkPlugin,
     datetimePlugin,
+    rssPlugin,
     notesPlugin,
     tasksPlugin,
     searchPlugin,

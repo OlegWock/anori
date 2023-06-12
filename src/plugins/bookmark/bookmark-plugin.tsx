@@ -15,7 +15,7 @@ import { useSizeSettings } from "@utils/compact";
 import { RequirePermissions } from "@components/RequirePermissions";
 import browser from 'webextension-polyfill';
 import { ScrollArea } from "@components/ScrollArea";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
 import { Checkbox } from "@components/Checkbox";
@@ -143,61 +143,65 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
     const iconSearchRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
 
-    return (<div className="BookmarkWidget-config">
-
-        <div className="field">
-            <label>{t('icon')}:</label>
-            <Popover
-                component={IconPicker}
-                initialFocus={iconSearchRef}
-                additionalData={{
-                    onSelected: setIcon,
-                    inputRef: iconSearchRef,
-                }}
-            >
-                <Button className="icon-picker-trigger"><Icon icon={icon} width={rem(3)} /></Button>
-            </Popover>
-        </div>
-        <div className="field">
-            <label>{t('title')}:</label>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-        </div>
-        <label>{t('urls')}:</label>
-        <LayoutGroup>
-            <motion.div className="urls" layout>
-                <AnimatePresence initial={false} mode="sync">
-                    {urls.map(({ id, url }, ind) => {
-                        return (<motion.div
-                            className="url-import-wrapper"
-                            layout
-                            key={id}
-                            {...listItemAnimation}
-                        >
-                            <Input value={url} onValueChange={(newUrl) => setUrls(p => {
-                                const copy = [...p];
-                                copy[ind].url = newUrl;
-                                return copy;
-                            })} />
-                            <Popover
-                                component={PickBookmark}
-                                additionalData={{
-                                    onSelected: (title, url) => {
-                                        console.log('Selected bookmark', title, url);
-                                        setUrls(p => {
-                                            const copy = [...p];
-                                            copy[ind].url = url;
-                                            return copy;
-                                        })
-                                    },
-                                }}
+    return (
+        <motion.div className="BookmarkWidget-config">
+            <div className="field">
+                <label>{t('icon')}:</label>
+                <Popover
+                    component={IconPicker}
+                    initialFocus={iconSearchRef}
+                    additionalData={{
+                        onSelected: setIcon,
+                        inputRef: iconSearchRef,
+                    }}
+                >
+                    <Button className="icon-picker-trigger"><Icon icon={icon} width={rem(3)} /></Button>
+                </Popover>
+            </div>
+            <div className="field">
+                <label>{t('title')}:</label>
+                <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+            </div>
+            <div className="field">
+                <label>{t('urls')}:</label>
+                <div className="urls">
+                    <AnimatePresence initial={false}>
+                        {urls.map(({ id, url }, ind) => {
+                            return (<motion.div
+                                className="url-import-wrapper"
+                                layout
+                                key={id}
+                                {...listItemAnimation}
                             >
-                                <Button>{t('import')}</Button>
-                            </Popover>
-                            <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
-                        </motion.div>);
-                    })}
-                </AnimatePresence>
-                <Button layout="position" className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: '' }])}>{t('add')}</Button>
+                                <Input value={url} onValueChange={(newUrl) => setUrls(p => {
+                                    const copy = [...p];
+                                    copy[ind].url = newUrl;
+                                    return copy;
+                                })} />
+                                <Popover
+                                    component={PickBookmark}
+                                    additionalData={{
+                                        onSelected: (title, url) => {
+                                            console.log('Selected bookmark', title, url);
+                                            setUrls(p => {
+                                                const copy = [...p];
+                                                copy[ind].url = url;
+                                                return copy;
+                                            })
+                                        },
+                                    }}
+                                >
+                                    <Button>{t('import')}</Button>
+                                </Popover>
+                                <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
+                            </motion.div>);
+                        })}
+                    </AnimatePresence>
+                </div>
+            </div>
+
+            <motion.div layout className="add-button-wrapper">
+                <Button className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: '' }])}>{t('add')}</Button>
             </motion.div>
             {X_BROWSER === 'chrome' && <motion.div className="field" layout="position">
                 {currentPermissions?.permissions.includes('tabGroups') && <Checkbox checked={openInTabGroup} onChange={setOpenInTabGroup}>
@@ -213,8 +217,8 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
             <motion.div layout className="save-config">
                 <Button onClick={onConfirm}>{t('save')}</Button>
             </motion.div>
-        </LayoutGroup>
-    </div >);
+        </motion.div>
+    );
 };
 
 const BookmarkGroupWidget = ({ config, isMock, size }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {

@@ -78,9 +78,9 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                                     <h2>{plugin.name}</h2>
                                     <div className="widgets-mock-background">
                                         <div className='widgets-mocks'>
-                                            {plugin.widgets.map(widgetOrGroup => {
+                                            {plugin.widgets.map((widgetOrGroup, ind) => {
                                                 if (Array.isArray(widgetOrGroup)) {
-                                                    return (<div className='widgets-group'>
+                                                    return (<div className='widgets-group' key={`group-${ind}`}>
                                                         {widgetOrGroup.map(widget => {
                                                             return (<div key={widget.id}>
                                                                 <WidgetCard

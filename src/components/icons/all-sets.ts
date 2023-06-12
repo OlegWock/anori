@@ -4,6 +4,7 @@ export const allSets = [
     "ion", // https://icon-sets.iconify.design/ion/
     "fluent", // https://icon-sets.iconify.design/fluent/
     "ic", // https://icon-sets.iconify.design/ic/
+    "jam", // https://icon-sets.iconify.design/jam/
     "fluent-emoji-flat", // https://icon-sets.iconify.design/fluent-emoji-flat/
     "twemoji", // https://icon-sets.iconify.design/twemoji/
     "flat-color-icons", // https://icon-sets.iconify.design/flat-color-icons/
@@ -19,6 +20,7 @@ export const iconSetPrettyNames: Record<string, string> = {
     'ion': "IonIcons",
     'fluent': "Fluent UI System Icons",
     'ic': "Google Material Icons",
+    'jam': "Jam Icons",
     'fluent-emoji-flat': "Fluent Emoji Flat",
     'twemoji': "Twitter Emoji",
     'flat-color-icons': "Flat Color Icons",

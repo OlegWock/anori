@@ -1,0 +1,9 @@
+.Alert {
+    padding: 1rem;
+    border-radius: 12px;
+    background-color: var(--accent-subtle);
+
+    &-info {
+        background-color: var(--background-lighter);
+    }
+}

@@ -20,6 +20,8 @@
         "weekday5": "Субота",
         "weekday6": "Неділя",
         "timezone": "Часовий пояс",
+        "refreshing": "Оновлення...",
+        "refresh": "Оновити",
         "startTypingToSearch": "Почніть друкувати для пошуку...",
         "search": "Пошук...",
         "loading": "Завантаження...",
@@ -209,6 +211,30 @@
             "temperatureUnit": "Одиниця вимірювання температури",
             "speedUnit": "Одиниця вимірювання швидкості вітру",
             "weatherCode": "погодний код {{code}}"
+        },
+        "rss-plugin": {
+            "name": "RSS",
+            "widgetFeedName": "RSS стрічка",
+            "widgetLatestPostName": "Останній пост з RSS стрічки",
+            "feedUrl": "Посилання на RSS стрічку",
+            "feedUrls": "Посилання на RSS стрічки",
+            "noPosts": "Поки що немає постів",
+            "presetsTitle": "Додайте посилання на ваші улюблені стрічки або оберіть один з готових наборів:",
+            "presetForDevelopers": "Для розробників",
+            "presetForDesigners": "Для дизайнерів",
+            "presetInteresting": "Просто цікаві штуки",
+            "presetForDevelopersTitle": "Розробка",
+            "presetForDesignersTitle": "Дизайн",
+            "presetInterestingTitle": "Цікаві штуки",
+            "examplePostTitle1": "Як організувати вашу нову вкладку в Anori як про",
+            "examplePostDescription1": "Почніть з старих добрих закладок і дайте волю вашій фантазії. Іноді трішки хаосу це все що треба для щастя...",
+            "exampleFeedTitle1": "Блог Anori",
+            "examplePostTitle2": "8 найкорисніших розширень для браузера",
+            "examplePostDescription2": "Сьогодні ми вам розкажемо як зробити з вашого браузера справжню машину для продуктивності. В головній ролі зірка шоу — Anori.",
+            "exampleFeedTitle2": "Продуктивність 101",
+            "examplePostTitle3": "Розширення що дозволяє вам створити власну нову вкладку з віджетів!",
+            "examplePostDescription3": "Ви можете створити вашу власну нову вкладку з віджетів (завдання, нотатки, календар, закладки тощо) і організувати все по папкам.",
+            "exampleFeedTitle3": "Reddit"
         }
     }
 }

@@ -326,6 +326,16 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             },
             aliasFields: ['browser', 'worker'],
 
+            fallback: {
+
+                // Required for rss-parser
+                http: false,
+                https: false,
+                "url": require.resolve("url/"),
+                "timers": require.resolve("timers-browserify"),
+                "stream": require.resolve("stream-browserify")
+            },
+
             modules: [path.resolve(__dirname, paths.src.base), 'node_modules'],
             extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
         },

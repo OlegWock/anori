@@ -96,6 +96,8 @@ type UseAtomWithStorageResult<T> = [
 export type AtomWithBrowserStorage<V> = { __doNotUseThisWithJotaisUseAtom: 1, v: V };
 
 export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceLoad, onLoad }: AtomWithBrowserStorageOptions<V> = {}) => {
+    // TODO: we need to listen for storage changes and sync values back into atom
+
     let isLoaded = false;
     const baseAtom = atom<AtomWithBrowserStorageMeta<V>>({
         defaultValue,

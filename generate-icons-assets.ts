@@ -6,6 +6,7 @@ const ICON_SETS_TO_LOAD = [
     'ion',
     'fluent',
     'ic',
+    'jam',
     'fluent-emoji-flat',
     'twemoji',
     'flat-color-icons',

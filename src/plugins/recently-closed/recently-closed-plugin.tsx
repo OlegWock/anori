@@ -12,6 +12,7 @@ import { wait } from '@utils/misc';
 import { ScrollArea } from '@components/ScrollArea';
 import { translate } from '@translations/index';
 import { useTranslation } from 'react-i18next';
+import { RelativeTime } from '@components/RelativeTime';
 
 const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMock: boolean }) => {
     const restore = async () => {
@@ -28,8 +29,8 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
     const controls = useAnimationControls();
     const favIcon = session.tab ? session.tab.favIconUrl : '';
     const lastModified = useMemo(() => {
-        if (X_BROWSER === 'chrome') return moment.unix(session.lastModified).fromNow(true);
-        if (X_BROWSER === 'firefox') return moment(session.lastModified).fromNow(true);
+        if (X_BROWSER === 'chrome') return moment.unix(session.lastModified);
+        return moment(session.lastModified);
     }, [session.lastModified, i18n.language]);
 
     return (<motion.div
@@ -53,7 +54,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
             {session.tab ? (session.tab.title || t('recently-closed-plugin.tab')) : (session.window?.title || t('recently-closed-plugin.window'))}
         </div>
         <div className="last-modified">
-            {lastModified}
+            <RelativeTime m={lastModified} withoutSuffix />
         </div>
 
     </motion.div>)

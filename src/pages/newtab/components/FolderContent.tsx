@@ -275,12 +275,12 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         closable
                     >
                         <ScrollArea className='edit-widget-scrollarea'>
-                            <div className='edit-widget-content'>
-                            <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
-                                updateWidgetConfig(editingWidget.instanceId, config);
-                                setEditingWidget(null);
-                            }} />
-                            </div>
+                            <motion.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{opacity: 1, translateX: '0%'}}>
+                                <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                                    updateWidgetConfig(editingWidget.instanceId, config);
+                                    setEditingWidget(null);
+                                }} />
+                            </motion.div>
                         </ScrollArea>
                     </Modal>}
                 </AnimatePresence>
