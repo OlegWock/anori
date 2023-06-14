@@ -15,7 +15,7 @@ import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
 import { toCss } from '@utils/color';
 import moment from 'moment-timezone';
-import { ComponentProps, useEffect, useState } from 'react';
+import { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { CUSTOM_ICONS_AVAILABLE, getAllCustomIconFiles, isValidCustomIconName, removeAllCustomIcons, useCustomIcons } from '@utils/custom-icons';
 import { guid } from '@utils/misc';
 import { Input } from '@components/Input';
@@ -31,6 +31,7 @@ import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import { Trans, useTranslation } from 'react-i18next';
 import { Select } from '@components/Select';
 import { Language, SHOW_LANGUAGE_SELECT_IN_SETTINGS, availableTranslations, availableTranslationsPrettyNames, switchTranslationLanguage } from '@translations/index';
+import { useScreenWidth } from '@utils/compact';
 
 type DraftCustomIcon = {
     id: string,
@@ -99,12 +100,20 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
     const [language, setLanguage] = useBrowserStorageValue('language', 'en');
     const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
+    const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue('automaticCompactModeThreshold', 1500);
     const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', false);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
     const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+    const screenWidth = useScreenWidth();
     const { t } = useTranslation();
+
+    const screenSizeBreakpoints = useMemo(() => [
+        500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600,
+        1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800,
+        2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900, 4000
+    ], []);
 
     useEffect(() => {
         setPageTitle(newTabTitle);
@@ -143,12 +152,22 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
             {t("settings.general.stealFocus")}
             <Hint content={t("settings.general.stealFocusHint")} />
         </Checkbox>}
-        <Checkbox checked={isAutomaticCompact} onChange={setAutomaticCompact}>
-            {t("settings.general.automaticCompact")}
-        </Checkbox>
         <Checkbox checked={manualCompactMode} onChange={setManualCompactMode} disabled={isAutomaticCompact}>
             {t("settings.general.useCompact")}
         </Checkbox>
+        <Checkbox checked={isAutomaticCompact} onChange={setAutomaticCompact}>
+            {t("settings.general.automaticCompact")}
+        </Checkbox>
+        {isAutomaticCompact && <div>
+            <label>{t('settings.general.automaticCompactModeThreshold', { screenWidth: screenWidth })}</label>
+            <Select<number>
+                options={screenSizeBreakpoints}
+                getOptionKey={o => o.toString()}
+                getOptionLabel={o => `< ${o}${t('px')}`}
+                value={automaticCompactModeThreshold}
+                onChange={setAutomaticCompactModeThreshold}
+            />
+        </div>}
         <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
             {t("settings.general.showAnimationOnOpen")}
             <Hint content={t("settings.general.showAnimationOnOpenHint")} />

@@ -28,6 +28,7 @@
         "lastUpdatedAt": "Last updated at {{datetime}}",
         "home": "Home",
         "availableOnlyInEnglish": "Available only in English",
+        "px": "px",
         "whatsNew": "What's new",
         "editWidget": "Edit widget",
         "configureWidget": "Configure widget",
@@ -49,7 +50,8 @@
                 "showAnimationOnOpen": "Show animation on open",
                 "showAnimationOnOpenHint": "If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look.",
                 "hideEditButton": "Hide \"Edit folder\" button",
-                "hideEditButtonHint": "Extra minimalistic, yeah."
+                "hideEditButtonHint": "Extra minimalistic, yeah.",
+                "automaticCompactModeThreshold": "Switch to compact mode if screen size is smaller than (your current screen width is {{screenWidth}}px)"
             },
             "customIcons": {
                 "title": "Custom icons",

@@ -36,6 +36,7 @@ export const WhatsNew = () => {
                         <li>New big datetime widget!</li>
                         <li>New bookmark group widget!</li>
                         <li>Notes widget now supports markdown.</li>
+                        <li>Now you can select screen width threshold for Anori to switch to compact mode.</li>
                     </ul>
                 </section>
 

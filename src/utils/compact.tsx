@@ -10,12 +10,9 @@ export const applyCompactMode = (isCompact: boolean) => {
     root.style.setProperty('font-size', size + 'px');
 };
 
-export const CompactModeProvider = ({children}: {children: ReactNode}) => {
-    const [isAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
-    const [isManualCompact] = useBrowserStorageValue('compactMode', false);
+export const useScreenWidth = () => {
     const [screenWidth, setScreenWidth] = useState(() => window.screen.width);
     const screenWidthRef = useMirrorStateToRef(screenWidth);
-    const isCompact = isAutomaticCompact ? screenWidth < 1500 : isManualCompact;
 
     useEffect(() => {
         const tid = setInterval(() => {
@@ -27,6 +24,16 @@ export const CompactModeProvider = ({children}: {children: ReactNode}) => {
 
         return () => clearInterval(tid);
     }, []);
+
+    return screenWidth;
+};
+
+export const CompactModeProvider = ({children}: {children: ReactNode}) => {
+    const [isAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
+    const [isManualCompact] = useBrowserStorageValue('compactMode', false);
+    const screenWidth = useScreenWidth();
+    const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue('automaticCompactModeThreshold', 1500);
+    const isCompact = isAutomaticCompact ? screenWidth < automaticCompactModeThreshold : isManualCompact;
 
     useEffect(() => {
         applyCompactMode(isCompact);

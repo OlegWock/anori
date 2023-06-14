@@ -12,9 +12,11 @@ export type SelectProps<T> = {
     value: T,
     onChange: (newVal: T) => void,
     placeholder?: string,
+    triggerClassname?: string,
+    contentClassname?: string,
 };
 
-export const Select = <T,>({ options, value, onChange, placeholder = 'Select...', getOptionKey, getOptionLabel }: SelectProps<T>) => {
+export const Select = <T,>({ options, value, onChange, placeholder = 'Select...', getOptionKey, getOptionLabel, triggerClassname, contentClassname }: SelectProps<T>) => {
     const innerOnChange = (newVal: string) => {
         const option = options.find(o => getOptionKey(o) === newVal);
         if (option === undefined) throw new Error('Value not found in selects options');
@@ -30,14 +32,14 @@ export const Select = <T,>({ options, value, onChange, placeholder = 'Select...'
 
     return (
         <RadixSelect.Root value={innerValue} onValueChange={innerOnChange}>
-            <RadixSelect.Trigger className="SelectTrigger" aria-label={placeholder}>
+            <RadixSelect.Trigger className={clsx("SelectTrigger", triggerClassname)} aria-label={placeholder}>
                 <RadixSelect.Value placeholder={placeholder} />
                 <RadixSelect.Icon className="SelectIcon">
                     <Icon icon="ion:chevron-down" />
                 </RadixSelect.Icon>
             </RadixSelect.Trigger>
             <RadixSelect.Portal>
-                <RadixSelect.Content className={clsx("SelectContent")}>
+                <RadixSelect.Content className={clsx("SelectContent", contentClassname)}>
                     <RadixSelect.ScrollUpButton className="SelectScrollButton">
                         <Icon icon="ion:chevron-up" />
                     </RadixSelect.ScrollUpButton>

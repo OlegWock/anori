@@ -43,9 +43,13 @@
             align-items: center;
         }
 
-        .Input, .SelectTrigger {
+        .Input {
             width: 100%;
         }
+    }
+
+    .SelectTrigger {
+        width: 100%;
     }
 }
 

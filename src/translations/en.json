@@ -28,6 +28,7 @@
         "lastUpdatedAt": "Last updated at {{datetime}}",
         "home": "Home",
         "availableOnlyInEnglish": "Available only in English",
+        "px": "px",
 
         "whatsNew": "What's new",
         "editWidget": "Edit widget",
@@ -47,7 +48,8 @@
                 "stealFocus": "Steal focus from addressbar",
                 "stealFocusHint": "If enabled, this will force browser to move focus from address bar to this page when opening new tab and you will be able to use command menu (Cmd+K) without needing to move focus to page manually (by clicking or pressing Tab).",
                 "automaticCompact": "Automatically switch to compact mode based on screen size",
-                "useCompact": "Use compact mode",
+                "automaticCompactModeThreshold": "Switch to compact mode if screen size is smaller than (your current screen width is {{screenWidth}}px)",
+                "useCompact": "Always use compact mode",
                 "showAnimationOnOpen": "Show animation on open",
                 "showAnimationOnOpenHint": "If enabled, extension will show quick loading animation which will hide initial flicker of loading data and provide better look.",
                 "hideEditButton": "Hide \"Edit folder\" button",
