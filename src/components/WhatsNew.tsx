@@ -19,6 +19,7 @@ export const WhatsNew = () => {
                     <h2>1.7.0</h2>
 
                     <ul>
+                        <li>New RSS plguin. It includes two widgets: one to display latest post from RSS feed and one to show posts from multiple feeds in one timeline.</li>
                         <li>Added Ecosia as search provider to Internet search widget. Contribution from @Radeox. Thanks!</li>
                         <li>
                             Settings grown to be quite lengthy for single modal, so in this version they got reorganized
@@ -31,6 +32,7 @@ export const WhatsNew = () => {
                             it was a deal-breaker. I also tweaked styles a bit so text should be more readable now.
                             I hope you'll like new font!
                         </li>
+                        <li>Added Ukrainian translation.</li>
                         <li>New big datetime widget!</li>
                         <li>New bookmark group widget!</li>
                         <li>Notes widget now supports markdown.</li>
