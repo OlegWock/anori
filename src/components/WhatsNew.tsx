@@ -32,7 +32,7 @@ export const WhatsNew = () => {
                             it was a deal-breaker. I also tweaked styles a bit so text should be more readable now.
                             I hope you'll like new font!
                         </li>
-                        <li>Added Ukrainian translation.</li>
+                        <li>Added Ukrainian translation. If you would like to help translating Anori into your language, check <a target="_blank" href="https://github.com/OlegWock/anori/issues/37#issuecomment-1579050787">this</a>.</li>
                         <li>New big datetime widget!</li>
                         <li>New bookmark group widget!</li>
                         <li>Notes widget now supports markdown.</li>
