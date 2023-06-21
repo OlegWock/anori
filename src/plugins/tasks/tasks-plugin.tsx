@@ -196,7 +196,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
     });
 };
 
-const widgetDescriptorM = {
+export const tasksWidgetDescriptorM = {
     id: 'tasks-m',
     get name() {
         return translate('tasks-plugin.widgetSizeMName');
@@ -211,7 +211,7 @@ const widgetDescriptorM = {
     }
 } as const;
 
-const widgetDescriptorL = {
+export const tasksWidgetDescriptorL = {
     id: 'tasks-l',
     get name() {
         return translate('tasks-plugin.widgetSizeLName');
@@ -232,8 +232,8 @@ export const tasksPlugin = {
         return translate('tasks-plugin.name');
     },
     widgets: [
-        widgetDescriptorM,
-        widgetDescriptorL,
+        tasksWidgetDescriptorM,
+        tasksWidgetDescriptorL,
     ],
     configurationScreen: null,
     onCommandInput,

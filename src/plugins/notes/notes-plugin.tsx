@@ -76,7 +76,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
     </div>);
 };
 
-const widgetDescriptorS = {
+export const notesWidgetDescriptorS = {
     id: 'notes-s',
     get name() {
         return translate('notes-plugin.widgetSizeSName');
@@ -91,7 +91,7 @@ const widgetDescriptorS = {
     }
 } as const;
 
-const widgetDescriptorM = {
+export const notesWidgetDescriptorM = {
     id: 'notes-m',
     get name() {
         return translate('notes-plugin.widgetSizeMName');
@@ -106,7 +106,7 @@ const widgetDescriptorM = {
     }
 } as const;
 
-const widgetDescriptorL = {
+export const notesWidgetDescriptorL = {
     id: 'notes-l',
     get name() {
         return translate('notes-plugin.widgetSizeLName');
@@ -129,9 +129,9 @@ export const notesPlugin = {
         return translate('notes-plugin.name');
     },
     widgets: [
-        widgetDescriptorS,
-        widgetDescriptorM,
-        widgetDescriptorL,
+        notesWidgetDescriptorS,
+        notesWidgetDescriptorM,
+        notesWidgetDescriptorL,
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

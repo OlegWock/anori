@@ -40,6 +40,12 @@
             flex-grow: 1;
         }
     }
+
+    &.onboarding-visible > main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .edit-widget-modal {

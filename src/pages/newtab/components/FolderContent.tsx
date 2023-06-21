@@ -13,11 +13,12 @@ import { fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapT
 import { useHotkeys, useWindowIsResizing } from '@utils/hooks';
 import { Modal } from '@components/Modal';
 import { WidgetMetadataContext } from '@utils/plugin';
-import { OnboardingCard } from '@components/OnboardingCard';
 import { useSizeSettings } from '@utils/compact';
 import { useBrowserStorageValue } from '@utils/storage';
 import { useTranslation } from 'react-i18next';
 import { ScrollArea } from '@components/ScrollArea';
+import { Onboarding } from '@components/Onboarding';
+import clsx from 'clsx';
 
 
 type FolderContentProps = {
@@ -115,6 +116,8 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const mainRef = useRef<HTMLDivElement>(null);
     const grisDimenstions = useGrid(mainRef, blockSize);
 
+    const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
+
     // We need this to workaround framer motion auto-repozition of drag elements on window resize
     const isResizingWindow = useWindowIsResizing();
 
@@ -145,7 +148,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
             }}>
                 <motion.div
                     key={`FolderContent-${folder.id}`}
-                    className="FolderContent"
+                    className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
                     transition={{
                         duration: 0.2,
                         type: 'spring',
@@ -204,7 +207,6 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.18 }}
-                                    className='yolo'
                                     key={`${x}_${y}`}
                                     style={{
                                         position: 'absolute',
@@ -251,8 +253,8 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     </WidgetCard>
                                 </WidgetMetadataContext.Provider>);
                             })}
-                            {widgets.length === 0 && folderDataLoaded && <OnboardingCard />}
                         </AnimatePresence>
+                        {shouldShowOnboarding && <Onboarding />}
                     </motion.main>
 
                 </motion.div>

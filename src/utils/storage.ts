@@ -38,12 +38,23 @@ export const storage = {
         return res[key] as V | undefined;
     },
     set: (changes: SetStoragePayload) => {
+        Object.keys(changes).forEach((key) => {
+            if (storageAtoms[key]) {
+                setAtomWithStorageValue(storageAtoms[key], changes[key as keyof typeof changes]);
+            }
+        });
         return browser.storage.local.set(changes);
     },
     setOne: <K extends StorageKey>(key: K, val: StorageContent[K]) => {
+        if (storageAtoms[key]) {
+            setAtomWithStorageValue(storageAtoms[key], val);
+        }
         return browser.storage.local.set({ [key]: val });
     },
     setOneDynamic: async <V>(key: string, val: V) => {
+        if (storageAtoms[key]) {
+            setAtomWithStorageValue(storageAtoms[key], val);
+        }
         return browser.storage.local.set({ [key]: val });
     },
     addListener: (cb: StorageChangeCallback) => {

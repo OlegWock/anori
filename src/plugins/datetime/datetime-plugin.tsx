@@ -162,7 +162,7 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
     </div>)
 };
 
-const widgetDescriptorS = {
+export const datetimeWidgetDescriptorS = {
     id: 'datetime-widget',
     get name() {
         return translate('datetime-plugin.widgetNameS');
@@ -182,7 +182,7 @@ const widgetDescriptorS = {
     }} instanceId='mock' size='s' />),
 } satisfies WidgetDescriptor<WidgetConfig>;
 
-const widgetDescriptorM = {
+export const datetimeWidgetDescriptorM = {
     id: 'datetime-widget-m',
     get name() {
         return translate('datetime-plugin.widgetNameM');
@@ -208,8 +208,8 @@ export const datetimePlugin = {
         return translate('datetime-plugin.name');
     },
     widgets: [
-        widgetDescriptorS,
-        widgetDescriptorM,
+        datetimeWidgetDescriptorS,
+        datetimeWidgetDescriptorM,
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

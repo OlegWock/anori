@@ -4,6 +4,7 @@ import { Children, ReactElement, ReactNode, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
 import { usePrevious } from '@utils/hooks';
+import { slidingScreensAnimation } from './animations';
 
 export type TabsProps = {
     children: ReactElement<TabProps> | ReactElement<TabProps>[],
@@ -11,39 +12,6 @@ export type TabsProps = {
 };
 
 const TabContent = motion(RadixTabs.Content);
-
-const variants = {
-    visible: {
-        translateX: '0%',
-        opacity: 1,
-    },
-    initial: (custom: 'right' | 'left') => {
-        if (custom === 'left') {
-            return {
-                translateX: '-35%',
-                opacity: 0,
-            };
-        } else {
-            return {
-                translateX: '35%',
-                opacity: 0,
-            };
-        }
-    },
-    exit: (custom: 'right' | 'left') => {
-        if (custom === 'left') {
-            return {
-                translateX: '35%',
-                opacity: 0,
-            };
-        } else {
-            return {
-                translateX: '-35%',
-                opacity: 0,
-            };
-        }
-    }
-}
 
 export const Tabs = ({ children, defaultTab }: TabsProps) => {
     const tabs = Children.map(children, (el) => {
@@ -87,10 +55,10 @@ export const Tabs = ({ children, defaultTab }: TabsProps) => {
                     type: 'tween',
                     ease: 'easeInOut'
                 }}
-                variants={variants}
-                initial="initial"
-                animate="visible"
-                exit="exit"
+                variants={slidingScreensAnimation}
+                initial="init"
+                animate="show"
+                exit="hide"
                 custom={animationDirection}
             >
                 {activeTabInfo.content}

@@ -124,14 +124,14 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 
         return {
             icon: providersIcons[p],
-            text: translate('seach-plugin.searchProviderForQ', { provider: providersPretty[p], query }),
+            text: translate('search-plugin.searchProviderForQ', { provider: providersPretty[p], query }),
             onSelected: () => window.location.href = url,
             key: p,
         }
     });
 };
 
-const widgetDescriptor = {
+export const searchWidgetDescriptor = {
     id: 'search-widget',
     get name() {
         return translate('search-plugin.widgetName');
@@ -155,7 +155,7 @@ export const searchPlugin = {
     },
     onCommandInput,
     widgets: [
-        widgetDescriptor,
+        searchWidgetDescriptor,
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

@@ -104,7 +104,7 @@ const runScheduledCallbacks = async () => {
             try {
                 plugin.scheduledCallback.callback();
             } catch (err) {
-                console.error('Error while executing plugin sheduled callback', err);
+                console.error(`Error while executing plugin (id ${plugin.id}) sheduled callback`, err);
             }
             scheduledCallbacksInfo[plugin.id] = now;
         }
@@ -117,7 +117,7 @@ availablePlugins.forEach(plugin => {
         try {
             plugin.onStart();
         } catch (err) {
-            console.error('Error while executing plugin onStart callback', err);
+            console.error(`Error while executing plugin (id ${plugin.id}) onStart callback`, err);
         }
     }
 });

@@ -360,7 +360,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
     });
 };
 
-const bookmarkWidgetSizeSDescriptor = {
+export const bookmarkWidgetSizeSDescriptor = {
     id: 'bookmark-s',
     get name() {
         return translate('bookmark-plugin.widgetSizeSName')
@@ -384,7 +384,7 @@ const bookmarkWidgetSizeSDescriptor = {
     }
 } as const;
 
-const bookmarkWidgetSizeMDescriptor = {
+export const bookmarkWidgetSizeMDescriptor = {
     id: 'bookmark-m',
     get name() {
         return translate('bookmark-plugin.widgetSizeMName')
@@ -409,7 +409,7 @@ const bookmarkWidgetSizeMDescriptor = {
 } as const;
 
 
-const bookmarkGroupWidgetSizeSDescriptor = {
+export const bookmarkGroupWidgetSizeSDescriptor = {
     id: 'bookmark-group-s',
     get name() {
         return translate('bookmark-plugin.groupWidgetSizeSName')
@@ -434,7 +434,7 @@ const bookmarkGroupWidgetSizeSDescriptor = {
     }
 } as const;
 
-const bookmarkGroupWidgetSizeMDescriptor = {
+export const bookmarkGroupWidgetSizeMDescriptor = {
     id: 'bookmark-group-m',
     get name() {
         return translate('bookmark-plugin.groupWidgetSizeMName')

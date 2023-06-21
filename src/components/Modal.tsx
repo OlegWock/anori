@@ -4,8 +4,9 @@ import { ReactNode } from 'react';
 import { Icon } from './Icon';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
-import useMeasure from 'react-use-measure';
+import useMeasure from 'react-use-motion-measure';
 import { useHotkeys } from '@utils/hooks';
+import { useMotionTransition } from '@utils/animations';
 
 export type ModalProps = {
     title: string;
@@ -30,6 +31,8 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
     console.log('Modal bounds', bounds);
     console.log('Is present', isPresent);
 
+    const animatedHeight = useMotionTransition(bounds.height, {type: 'tween', duration: 0.15, ignoreInitial: true});
+
     return createPortal(
         (<motion.div
             className="Modal-backdrop"
@@ -45,12 +48,11 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
                 exit={{ y: '-100%', }}
                 animate={{
                     y: 0,
-                    height: isPresent ? bounds.height : undefined
+                }}
+                style={{
+                    height: isPresent ? animatedHeight : undefined
                 }}
                 transition={{
-                    height: {
-                        duration: 0.15,
-                    },
                     y: {
                         duration: 0.2,
                     }

@@ -75,7 +75,7 @@
         "react-i18next": "^12.3.1",
         "react-markdown": "^8.0.7",
         "react-merge-refs": "^2.0.1",
-        "react-use-measure": "^2.1.1",
+        "react-use-motion-measure": "^3.0.0",
         "react-window": "^1.8.8",
         "remark-gfm": "^3.0.1",
         "rss-parser": "^3.13.0",

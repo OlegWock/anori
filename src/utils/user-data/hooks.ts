@@ -93,7 +93,7 @@ const getFolderDetailsAtom = (id: ID) => {
 };
 
 export const useFolderWidgets = (folder: Folder) => {
-    const addWidget = <T extends {}>({ plugin, widget, config, position }: { plugin: AnoriPlugin, widget: WidgetDescriptor<T>, config: T, position: Position }) => {
+    const addWidget = <T extends {}>({ plugin, widget, config, position }: { widget: WidgetDescriptor<T>, plugin: AnoriPlugin<any, T>, config: T, position: Position }) => {
         const instanceId = guid();
 
         const data: WidgetInFolder<T> = {

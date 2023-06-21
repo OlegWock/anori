@@ -4892,10 +4892,10 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
-react-use-measure@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-use-measure/-/react-use-measure-2.1.1.tgz#5824537f4ee01c9469c45d5f7a8446177c6cc4ba"
-  integrity sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==
+react-use-motion-measure@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-use-motion-measure/-/react-use-motion-measure-3.0.0.tgz#fea1d2c046657f59fb263391c7d70083332961ce"
+  integrity sha512-zOC1DWbBDmER+CmBvTk8pNQFY7qIUPVR6Wsj10RITSHRAskDYZgcNms1Lyp5gcbx2sarb4wtHtSAs43OS/ncKA==
   dependencies:
     debounce "^1.2.1"
 

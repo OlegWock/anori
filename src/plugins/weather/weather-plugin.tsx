@@ -374,7 +374,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
 };
 
 
-const widgetDescriptorCurrent = {
+export const weatherWidgetDescriptorCurrent = {
     id: 'weather-current',
     get name() {
         return translate('weather-plugin.currentWeather');
@@ -391,7 +391,7 @@ const widgetDescriptorCurrent = {
     }
 } as const;
 
-const widgetDescriptorForecast = {
+export const weatherWidgetDescriptorForecast = {
     id: 'weather-forecast',
     get name() {
         return translate('weather-plugin.weatherForecast');
@@ -414,8 +414,8 @@ export const weatherPlugin = {
         return translate('weather-plugin.name');
     },
     widgets: [
-        widgetDescriptorCurrent,
-        widgetDescriptorForecast,
+        weatherWidgetDescriptorCurrent,
+        weatherWidgetDescriptorForecast,
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

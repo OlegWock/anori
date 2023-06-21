@@ -71,7 +71,8 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
             urls: [
                 'https://blog.pragmaticengineer.com/rss/',
                 'https://unicornclub.dev/feed/',
-                'https://indepth.dev/rss'
+                'https://indepth.dev/rss',
+                'https://api.devblogs.co/feed.xml'
             ],
         }, {
             name: t('rss-plugin.presetForDesigners'),
@@ -91,7 +92,6 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
                 'https://nesslabs.com/feed',
                 'https://ciechanow.ski/atom.xml',
                 'https://maggieappleton.com/rss.xml',
-                'https://www.youtube.com/feeds/videos.xml?channel_id=UCpeSv0N9tbe2V5fLMVrlodA',
                 'https://www.youtube.com/feeds/videos.xml?channel_id=UCj1VqrHhDte54oLgPG4xpuQ',
             ],
         }
@@ -339,7 +339,7 @@ const { handlers, sendMessage } = createOnMessageHandlers<RssMessageHandlers>('r
     'getFeedText': async (args, senderTabId) => fetchFeed(args.url),
 });
 
-const rssFeedDescriptor = {
+export const rssFeedDescriptor = {
     id: 'rss-feed',
     get name() {
         return translate('rss-plugin.widgetFeedName');
@@ -356,7 +356,7 @@ const rssFeedDescriptor = {
     }
 } as const;
 
-const rssLastestPostDescriptor = {
+export const rssLastestPostDescriptor = {
     id: 'rss-latest-post',
     get name() {
         return translate('rss-plugin.widgetLatestPostName');

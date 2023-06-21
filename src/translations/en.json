@@ -34,6 +34,8 @@
         "editWidget": "Edit widget",
         "configureWidget": "Configure widget",
         "addWidget": "Add widget",
+        "next": "Next",
+        "back": "Back",
 
         "settings": {
             "title": "Settings",
@@ -103,12 +105,43 @@
         },
 
         "onboarding": {
-            "title": "Fresh start, huh?",
-            "p1": "Hello! I'm onboarding card, and my mission here is to help you set up your perfect new tab.",
-            "p2": "Click on pencil in top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
-            "p3": "If you click on the gear icon in the bottom left corner, you'll open settings. There you can manage your folders (which you find on the sidebar to the left) and change theme.",
-            "p4": "Oh, and we also have a command menu for quick access. Just hit <0 /> (explore more shortcuts by pressing <1 />).",
-            "p5": "This card will disappear once you add your first widget."
+            "start": {
+                "title": "Welcome to Anori!",
+                "p1": "Glad to see you! This introduction is available in {{languages}}.",
+                "p2": "You're on your way to setup your ideal new tab. Anori start page consist of widgets, like notes, bookmarks, todo lists, etc. You choose what to add and how to organize them.",
+                "p3": "You can add your first widget by clicking on pencil button in top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
+                "p4": "To add a new widget click on plus button, or click on checkmark button to exit from editing mode. Once you add your first widget, this onboarding will disappear. You can add widget right now and explore the extension on your own or if you'd like to know a bit more about features Anori has to offer, click on the 'Next' button."
+            },
+            "folders": {
+                "title": "Folders",
+                "p1": "By default all your widgets are being added to home folder. However, you can also organize your widgets in different folders. For example, you could have different folders for work and personal widgets. Or you could have separate folder for each project on your work or in life.",
+                "p2": "To manage folders, click on gears icon in bottom left corner. This will open settings where you can customize Anori to your liking. Click on 'Folders' button there to open folders manager."
+            },
+            "shortcuts": {
+                "title": "Shortcuts",
+                "p1": "A lot of actions in Anori can be done using keyboard shortcuts.",
+                "p2": "A bunch of widgets allows you to interact with them using command menu. To open command menu press {{metaKey}}+K. Once you add your first couple of widgets you'll be able to utilize its full power to open bookmarks, search or mark tasks as completed using just your keyboard.",
+                "p3": "By default, when you open a new tab, browser's search bar will be active. Anori doesn't get any events when you type there, so to use shortcuts you'll need to move focus to Anori page first and then press shortcut keys. To move focus you can press Tab or click anywhere on the page.",
+                "p4": "If you would like to see full list of shortcuts you can find cheatsheet in Help section of settings."
+            },
+            "customization": {
+                "title": "Customization",
+                "p1": "While Anori let's you compose your own start page from widgets, it can be customized even more.",
+                "p2": "You can change title of new tab, change color scheme and background image and upload your custom icons to use in widgets (in addition to 10,000+ built-in icons).",
+                "p3": "And this isn't even a half of options. You might want to check out settings to see them all."
+            },
+            "analytics": {
+                "title": "Analytics",
+                "p1": "We almost finished. But there is one final thing. By-default Anori doesn't collect any tracking data and doesn't send anything to remote servers. But I use analytics voluntarily sent by users to see what features are used the most and what needs a bit of polish.",
+                "p2": "Therefore I ask you to enable sending analytics. Anori doesn't send any private data (like your notes or URLs of your bookmarks), just the metrics on how you use the extension (e.g. how many folders you have and how often you use shortcuts). But this is completely up to you, Anori will work as usual even if you don't enable analytics."
+            },
+            "presets": {
+                "title": "New start",
+                "p1": "That's all. Now you have an express bachelor's degree in Anori and prepared to create your own start page. Add your first widget and start building ultimate setup.",
+                "p2": "Tired of choices? It's okay. You don't need to nail down your perfect page from first try. You don't even need to start from blank canvas. We have a productive setup prepared for you.",
+                "p3": "It might be not tailored for all your needs, but you can use as a base to make your own setup you'll love.",
+                "cta": "🚀 Just give me a productive setup"
+            }
         },
 
         "commandMenu": {
@@ -158,7 +191,7 @@
             "widgetSizeMName": "Notes - size M",
             "widgetSizeLName": "Notes - size L",
             "noteTitle": "Note title",
-            "noteText": "Text of note...",
+            "noteText": "Text of note (markdown supported)",
             "exampleTitle": "Shopping list",
             "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
         },

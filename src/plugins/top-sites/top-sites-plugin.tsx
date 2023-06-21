@@ -111,7 +111,7 @@ const Mock = ({ type }: { type: 'horizontal' | 'vertical' }) => {
     </div>);
 }
 
-const widgetDescriptorHorizontal = {
+export const topSitesWidgetDescriptorHorizontal = {
     id: 'top-sites-horizontal',
     get name() {
         return translate('top-sites-plugin.widgetHorizontal');
@@ -127,7 +127,7 @@ const widgetDescriptorHorizontal = {
     }
 } as const;
 
-const widgetDescriptorVertical = {
+export const topSitesWidgetDescriptorVertical = {
     id: 'top-sites-vertical',
     get name() {
         return translate('top-sites-plugin.widgetVertical');
@@ -149,8 +149,8 @@ export const topSitesPlugin = {
         return translate('top-sites-plugin.name');
     },
     widgets: [
-        widgetDescriptorHorizontal,
-        widgetDescriptorVertical,
+        topSitesWidgetDescriptorHorizontal,
+        topSitesWidgetDescriptorVertical,
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

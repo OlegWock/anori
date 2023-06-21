@@ -13,6 +13,7 @@ export type StorageContent = {
     analyticsLastSend: number,
 
     hasUnreadReleaseNotes: boolean,
+    finishedOnboarding: boolean,
 
     compactMode: boolean,
     automaticCompactMode: boolean,

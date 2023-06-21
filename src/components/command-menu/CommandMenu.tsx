@@ -55,15 +55,14 @@ export const CommandMenu = () => {
 
     useHotkeys('meta+k', () => setOpen((open) => !open), []);
 
+    const itemsToRender = actions.map(({ items }) => items).flat();
+    console.log('itemsToRender', itemsToRender);
     return (
         <Command.Dialog open={open} onOpenChange={setOpen} label={t('commandMenu.name')} shouldFilter={false}>
             <Command.Input value={query} onValueChange={updateQuery} className='Input' placeholder={t('commandMenu.placeholder')} />
             <Command.List>
                 <ScrollArea className='cmdk-scrollarea'>
                     <div className="cmdk-scrollarea-content">
-                        {!!query && <Command.Empty>{t('noResults')}</Command.Empty>}
-                        {!query && <Command.Empty>{t('commandMenu.noWidgets')}</Command.Empty>}
-
                         {actions.filter(({ items }) => items.length !== 0).map(({ plugin, items }) => {
                             return (<Command.Group heading={plugin.name} key={plugin.id}>
                                 {items.map(({ icon, text, hint, key, onSelected, image }) => {
@@ -83,6 +82,11 @@ export const CommandMenu = () => {
                                 })}
                             </Command.Group>);
                         })}
+
+                        {itemsToRender.length === 0 && <>
+                            {!!query && <div cmdk-empty="">{t('noResults')}</div>}
+                            {!query && <div cmdk-empty="">{t('commandMenu.noWidgets')}</div>}
+                        </>}
                     </div>
                 </ScrollArea>
             </Command.List>
