@@ -33,8 +33,8 @@
         "editWidget": "Редагувати віджет",
         "configureWidget": "Налаштувати віджет",
         "addWidget": "Додати віджет",
-        "next": "Next",
-        "back": "Back",
+        "next": "Далі",
+        "back": "Назад",
         "settings": {
             "title": "Налаштування",
             "general": {
@@ -102,41 +102,41 @@
         },
         "onboarding": {
             "start": {
-                "title": "Welcome to Anori!",
-                "p1": "Glad to see you! This introduction is available in {{languages}}.",
-                "p2": "You're on your way to setup your ideal new tab. Anori start page consist of widgets, like notes, bookmarks, todo lists, etc. You choose what to add and how to organize them.",
-                "p3": "You can add your first widget by clicking on pencil button in top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
-                "p4": "To add a new widget click on plus button, or click on checkmark button to exit from editing mode. Once you add your first widget, this onboarding will disappear. You can add widget right now and explore the extension on your own or if you'd like to know a bit more about features Anori has to offer, click on the 'Next' button."
+                "title": "Ласкаво просимо до Anori!",
+                "p1": "Радий вас бачити тут! Цей вступ також доступний цими мовами: {{languages}}.",
+                "p2": "Ви вже на шляху до кращої нової вкладки. Стартова сторінка Anori складається з віджетів, наприклад, нотатки, закладки, список справ тощо. Ви самі обираєте що додати і як це організувати на сторінці.",
+                "p3": "Ви можете додати ваш перший віджет клікнувши по кнопці з олівцем в правому верхньому куті. Це перемкне сторінку в режим редагування. В ньому ви можете додати нові віджети й видалити чи пересунути існуючі.",
+                "p4": "Щоб додати новий віджет клікніть на кнопку з плюсом. Або клікніть по кнопці з галочкою щоб вийти з режиму редагування. Як тільки ви додасте свій перший віджет ця картка зникне. Ви можете додати віджет прямо зараз і ознайомитись з розширенням самостійно, або якщо ви хочете дізнатися трохи більше про круті фішки, які є в Anori, натисніть кнопку «Далі»."
             },
             "folders": {
-                "title": "Folders",
-                "p1": "By default all your widgets are being added to home folder. However, you can also organize your widgets in different folders. For example, you could have different folders for work and personal widgets. Or you could have separate folder for each project on your work or in life.",
-                "p2": "To manage folders, click on gears icon in bottom left corner. This will open settings where you can customize Anori to your liking. Click on 'Folders' button there to open folders manager."
+                "title": "Папки",
+                "p1": "За замовчуванням всі віджети будуть додані в домашню папку. Але ви також можете і організувати їх в різні папки. Наприклад, в вас можуть бути окремі папки для робочий віджетів і персональних. Або по окремій папці на кожен проєкт на роботі чи в житті.",
+                "p2": "Для управління папками клікніть по іконці з шестернею в лівому нижньому куті. Це відкриє налаштування де ви можете кастомізувати Anori до вашого смаку. Зокрема, клікнувши на кнопку «Папки» ви потрапите до екрану управління папками."
             },
             "shortcuts": {
-                "title": "Shortcuts",
-                "p1": "A lot of actions in Anori can be done using keyboard shortcuts.",
-                "p2": "A bunch of widgets allows you to interact with them using command menu. To open command menu press {{metaKey}}+K. Once you add your first couple of widgets you'll be able to utilize its full power to open bookmarks, search or mark tasks as completed using just your keyboard.",
-                "p3": "By default, when you open a new tab, browser's search bar will be active. Anori doesn't get any events when you type there, so to use shortcuts you'll need to move focus to Anori page first and then press shortcut keys. To move focus you can press Tab or click anywhere on the page.",
-                "p4": "If you would like to see full list of shortcuts you can find cheatsheet in Help section of settings."
+                "title": "Комбінації клавіш",
+                "p1": "В Anori купу всього можна зробити за допомогою комбінацій клавіш.",
+                "p2": "Більшість віджетів дозволяють вам взаємодіяти з ними через командне меню. Щоб відкрити його натисніть {{metaKey}}+K. Після того як ви додасте декілька віджетів, в меню зʼявиться можливість взаємодіяти з цими віджетами. Наприклад, ви можете відкрити збережену закладку чи відмітити завдання як виконане за допомогою цього меню.",
+                "p3": "За замовчуванням, коли ви відкриваєте нову вкладку, ваш браузер зробить рядок пошуку активним. Anori не отримує ніяких сповіщень що ви натискаєте поки курсор в цьому рядку, тому для використання комбінацій клавіш вам потрібно спочатку перемістити фокус на сторінку. Це можна зробити натиснувши Tab або клікнувши по сторінці.",
+                "p4": "Список всіх доступних комбінацій ви можете знайти в налаштуваннях, в секції «Допомога»."
             },
             "customization": {
-                "title": "Customization",
-                "p1": "While Anori let's you compose your own start page from widgets, it can be customized even more.",
-                "p2": "You can change title of new tab, change color scheme and background image and upload your custom icons to use in widgets (in addition to 10,000+ built-in icons).",
-                "p3": "And this isn't even a half of options. You might want to check out settings to see them all."
+                "title": "Персоналізація",
+                "p1": "На додачу до створення власної сторінки з віджетів, ви можете персоналізувати і інші частини розширення.",
+                "p2": "Ви можете змінити заголовок нової вкладки, перемкнути кольорову схему і фонове зображення та завантажити власні іконки (на додачу до 10,000 вже доступних в розширенні).",
+                "p3": "І це навіть не половина опцій. Завітайте в налаштування щоб побачити їх всі."
             },
             "analytics": {
-                "title": "Analytics",
-                "p1": "We almost finished. But there is one final thing. By-default Anori doesn't collect any tracking data and doesn't send anything to remote servers. But I use analytics voluntarily sent by users to see what features are used the most and what needs a bit of polish.",
-                "p2": "Therefore I ask you to enable sending analytics. Anori doesn't send any private data (like your notes or URLs of your bookmarks), just the metrics on how you use the extension (e.g. how many folders you have and how often you use shortcuts). But this is completely up to you, Anori will work as usual even if you don't enable analytics."
+                "title": "Аналітика",
+                "p1": "Фух, ми майже закінчили, але лишилась одна річ. За замовчуванням Anori не відслідковує вашу поведінку і не надсилає ніяких даних на інші сервери. Але я використовую дані, добровільно надані користувачами для розробки цього розширення: щоб краще розуміти котрі функції користуються популярності, а котрі треба ще трохи пошліфувати.",
+                "p2": "Тому я прошу вас ввімкнути збір аналітики. Anori не надсилає ніяких приватних даних (накшталт вмісту ваших нотаток), лише метрики як саме ви використовуєте розширення (наприклад, скільки в вас папок чи як часто ви використовуєте комбінації клавіш). Чи вмикати аналітику вирішувати виключно вам, це ніяк не впливає на роботу Anori."
             },
             "presets": {
-                "title": "New start",
-                "p1": "That's all. Now you have an express bachelor's degree in Anori and prepared to create your own start page. Add your first widget and start building ultimate setup.",
-                "p2": "Tired of choices? It's okay. You don't need to nail down your perfect page from first try. You don't even need to start from blank canvas. We have a productive setup prepared for you.",
-                "p3": "It might be not tailored for all your needs, but you can use as a base to make your own setup you'll love.",
-                "cta": "🚀 Just give me a productive setup"
+                "title": "Новий початок",
+                "p1": "Це все. Тепер у вас як мінімум ступінь бакалавра в Anori (але без диплому, вибачте), саме час приступити до створення вашої власної нової вкладки. Додайте ваш перший віджет і почніть будувати ваш мега-сетап.",
+                "p2": "Втомились від вибору? Буває. Вам не потрібно створювати ідеальну сторінку з першої спроби. Вам навіть не потрібно починати з чистого листа. Я підготував невеличкий шаблон для вас.",
+                "p3": "Він може не відповідати вашим потребам на всі сто, але я сподіваюсь він стане гарною відправною точкою до вашого ідеального сетапу.",
+                "cta": "🚀 Встановити шаблон"
             }
         },
         "commandMenu": {
