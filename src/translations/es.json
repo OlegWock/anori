@@ -63,7 +63,7 @@
                 "noIcons": "You don't have any custom icons yet.",
                 "invalidNames": "Some of the icons have an invalid name, please fix the names before saving.",
                 "saveIcons": "Save icons",
-                "supportedFormats": "We support .png, .jpg, .gif and .svg and recommend using square images between 128 and 256 pixels wide (not applicable to .svg).",
+                "supportedFormats": "Anori supports .png, .jpg, .gif and .svg. It's best to use square images between 128 and 256 pixels wide (not applicable to .svg).",
                 "importIcons": "Import icons"
             },
             "folders": {
@@ -120,7 +120,7 @@
             "shortcuts": {
                 "title": "Shortcuts",
                 "p1": "A lot of actions in Anori can be done using keyboard shortcuts.",
-                "p2": "A bunch of widgets allow you to interact with them using the command menu. To open the menu, press {{metaKey}}+K. Once you add your first couple of widgets you'll be able to utilize its full power to open bookmarks, search, or mark tasks as completed using just your keyboard.",
+                "p2": "A bunch of widgets allow you to interact with them using a command menu. To open the menu, press {{metaKey}}+K. Once you add your first couple of widgets you'll be able to utilize its full power to open bookmarks, search, or mark tasks as completed using just your keyboard.",
                 "p3": "By default, when you open a new tab, the browser's search bar will be active. Anori doesn't get any events when you type there, so to use shortcuts you'll need to move the focus to Anori page first and then press the shortcut keys. To move focus, you can press Tab or click anywhere on the page.",
                 "p4": "If you would like to see the full list of shortcuts, you can find a cheatsheet in the 'Help' section of settings."
             },
