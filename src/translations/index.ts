@@ -10,12 +10,13 @@ import zhCnTranslation from './zh-cn.json';
 import zhTwanslation from './zh-tw.json';
 import { storage } from '@utils/storage';
 import moment from 'moment';
-import 'moment/locale/es';
-import 'moment/locale/de';
 import 'moment/locale/uk';
-import 'moment/locale/fr';
-import 'moment/locale/zh-cn';
-import 'moment/locale/zh-tw';
+// When uncommenting any of moment locales, don't forget to update webpack config to actually include them in build
+// import 'moment/locale/es';
+// import 'moment/locale/de';
+// import 'moment/locale/fr';
+// import 'moment/locale/zh-cn';
+// import 'moment/locale/zh-tw';
 moment.locale('en');
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;

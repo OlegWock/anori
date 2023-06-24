@@ -2,21 +2,11 @@ import { getAllCustomIconNames } from "./custom-icons";
 import { guid, wait } from "./misc";
 import { atomWithBrowserStorageStatic, storage } from "./storage";
 import { FolderDetailsInStorage } from "./user-data/types";
-import mixpanel from 'mixpanel-browser';
 
 export const analyticsEnabledAtom = atomWithBrowserStorageStatic('analyticsEnabled', false);
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
 const MIXPANEL_TOKEN = '102076bf45f59f216724374916b45d48';
-
-mixpanel.init(MIXPANEL_TOKEN, {
-    autotrack: false,
-    cross_subdomain_cookie: false,
-    disable_persistence: true,
-    opt_out_persistence_by_default: true,
-    batch_requests: false,
-    // @ts-ignore Not sure this prop exist
-    track_pageview: false,
-});
+const MIXPANEL_BASE_URL = 'https://api-eu.mixpanel.com';
 
 export const getUserId = async () => {
     let userId = await storage.getOne('userId');
@@ -79,11 +69,25 @@ export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
     const data = await gatherDailyUsageData();
     const userId = await getUserId();
     console.log('Before mixpanel call');
-    mixpanel.identify(userId);
-    const promise = new Promise<void>((resolve) => {
-        mixpanel.track('Daily stats', data, { send_immediately: true }, () => resolve());
+
+    const payload = {
+        "event": "Daily stats",
+        "properties": {
+            "distinct_id": userId,
+            "token": MIXPANEL_TOKEN,
+            "time": Date.now(),
+            "$insert_id": guid(),
+            ...data,
+        }
+    };
+
+    await fetch(`${MIXPANEL_BASE_URL}/track?ip=1`, {
+        method: 'POST',
+        headers: { accept: 'text/plain', 'content-type': 'application/json' },
+        mode: 'no-cors',
+        credentials: 'omit',
+        body: `data=${encodeURIComponent(JSON.stringify(payload))}`,
     });
-    await promise;
     await storage.setOne('analyticsLastSend', Date.now());
 };
 
@@ -91,9 +95,24 @@ export const trackEvent = async (eventName: string, props: Record<string, any> =
     const enabled = await storage.getOne('analyticsEnabled');
     if (!enabled) return;
     const userId = await getUserId();
-    mixpanel.identify(userId);
-    const promise = new Promise<void>((resolve) => {
-        mixpanel.track(eventName, props, () => resolve());
+
+    const payload = {
+        "event": eventName,
+        "properties": {
+            "distinct_id": userId,
+            "token": MIXPANEL_TOKEN,
+            "time": Date.now(),
+            "$insert_id": guid(),
+            ...props,
+        }
+    };
+
+    const promise = fetch(`${MIXPANEL_BASE_URL}/track?ip=1`, {
+        method: 'POST',
+        headers: { accept: 'text/plain', 'content-type': 'application/json' },
+        mode: 'no-cors',
+        credentials: 'omit',
+        body: `data=${encodeURIComponent(JSON.stringify(payload))}`,
     });
 
     return Promise.race([

@@ -1743,11 +1743,6 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
-"@types/mixpanel-browser@^2.38.1":
-  version "2.38.1"
-  resolved "https://registry.yarnpkg.com/@types/mixpanel-browser/-/mixpanel-browser-2.38.1.tgz#914cc726194cc0358129b6d84657f078e47f7697"
-  integrity sha512-XzQbwgiOPsFXUQnjz3vSwcwrvJDbQ35bCiwa/1VXGrHvU1ti9+eqO1GY91DShzkEzKkkEEkxfNshS5dbBZqd7w==
-
 "@types/ms@*":
   version "0.7.31"
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"
@@ -4359,9 +4354,12 @@ minimist@^1.2.0:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
-mixpanel-browser@juanfer0002/mixpanel-js-mv3#cc7d3a9e4c37e3f9d7de1789a38794e861c3e40a:
-  version "2.45.0"
-  resolved "https://codeload.github.com/juanfer0002/mixpanel-js-mv3/tar.gz/cc7d3a9e4c37e3f9d7de1789a38794e861c3e40a"
+moment-locales-webpack-plugin@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/moment-locales-webpack-plugin/-/moment-locales-webpack-plugin-1.2.0.tgz#9af83876a44053706b868ceece5119584d10d7aa"
+  integrity sha512-QAi5v0OlPUP7GXviKMtxnpBAo8WmTHrUNN7iciAhNOEAd9evCOvuN0g1N7ThIg3q11GLCkjY1zQ2saRcf/43nQ==
+  dependencies:
+    lodash.difference "^4.5.0"
 
 moment-timezone-data-webpack-plugin@^1.5.1:
   version "1.5.1"
