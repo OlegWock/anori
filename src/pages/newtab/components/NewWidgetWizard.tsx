@@ -3,7 +3,7 @@ import './NewWidgetWizard.scss';
 import { availablePluginsWithWidgets } from '@plugins/all';
 import { WidgetCard } from '@components/WidgetCard';
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Modal } from '@components/Modal';
 import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
@@ -52,7 +52,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
         >
             <ScrollArea className='NewWidgetWizard-scrollarea'>
                 <AnimatePresence initial={false} mode="wait">
-                    {(inConfigurationStage && !!selectedWidget.configurationScreen) && <motion.div
+                    {(inConfigurationStage && !!selectedWidget.configurationScreen) && <m.div
                         key='configuration'
                         className='NewWidgetWizard'
                         transition={{ duration: 0.18 }}
@@ -61,7 +61,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: Ne
                         exit={{ translateX: '-50%', opacity: 0 }}
                     >
                         <selectedWidget.configurationScreen widgetId={selectedWidget.id} saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config)} />
-                    </motion.div>}
+                    </m.div>}
 
 
                     {!inConfigurationStage && <MotionScrollArea

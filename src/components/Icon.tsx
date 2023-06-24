@@ -10,7 +10,7 @@ import './Icon.scss';
 import clsx from 'clsx';
 import { useAtomValue } from 'jotai';
 import { availablePermissionsAtom } from '@utils/permissions';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 
 const isFamilyLoaded = (family: string) => {
@@ -61,7 +61,7 @@ type BaseIconProps = {
     width?: number | string,
     height?: number | string,
     className?: string,
-} & ComponentPropsWithoutRef<typeof motion.div>
+} & ComponentPropsWithoutRef<typeof m.div>
 
 export type IconProps = {
     icon: string,
@@ -82,10 +82,10 @@ const CustomIcon = forwardRef<RefAttributes<HTMLElement>, IconProps>(({ icon, cl
     }
 
     // @ts-ignore incorrect ref types?
-    return (<motion.img className={clsx('CustomIcon', className)} ref={ref} src={iconInfo.urlObject} {...props} />);
+    return (<m.img className={clsx('CustomIcon', className)} ref={ref} src={iconInfo.urlObject} {...props} />);
 });
 
-const MotionOfflineIcon = motion(OfflineIcon);
+const MotionOfflineIcon = m(OfflineIcon);
 
 export const Icon = forwardRef<RefAttributes<SVGSVGElement>, IconProps>((props, ref) => {
     const [family, iconName] = props.icon.split(':');
@@ -111,7 +111,7 @@ export const Icon = forwardRef<RefAttributes<SVGSVGElement>, IconProps>((props, 
 
     // @ts-ignore incorrect ref typing
     return (<MotionOfflineIcon {...props} ref={ref}>
-        <motion.div style={{
+        <m.div style={{
             background: '#ffffff',
             borderRadius: 8,
             opacity: 0.35,

@@ -19,7 +19,7 @@ import {
     size
 } from "@floating-ui/react";
 import { mergeRefs } from "react-merge-refs";
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import "./Popover.scss";
 import classNames from "clsx";
 
@@ -117,7 +117,7 @@ export const Popover = <D = undefined>({
                 <AnimatePresence>
                     {open && (
                         <FloatingFocusManager initialFocus={initialFocus} context={context} key="popover">
-                            <motion.div
+                            <m.div
                                 ref={floating}
                                 className={classNames(["Popover", className])}
                                 style={{
@@ -144,7 +144,7 @@ export const Popover = <D = undefined>({
                                         if (onStateChange) onStateChange(false);
                                     }}
                                 />
-                            </motion.div>
+                            </m.div>
                         </FloatingFocusManager>
                     )}
                 </AnimatePresence>

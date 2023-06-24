@@ -1,7 +1,7 @@
 import * as RadixTabs from '@radix-ui/react-tabs';
 import './Tabs.scss';
 import { Children, ReactElement, ReactNode, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import clsx from 'clsx';
 import { usePrevious } from '@utils/hooks';
 import { slidingScreensAnimation } from './animations';
@@ -11,7 +11,7 @@ export type TabsProps = {
     defaultTab: string,
 };
 
-const TabContent = motion(RadixTabs.Content);
+const TabContent = m(RadixTabs.Content);
 
 export const Tabs = ({ children, defaultTab }: TabsProps) => {
     const tabs = Children.map(children, (el) => {

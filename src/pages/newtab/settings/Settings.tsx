@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import { useFolders } from '@utils/user-data/hooks';
 import './Settings.scss';
-import { AnimatePresence, LayoutGroup, Reorder, motion } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, Reorder, m } from 'framer-motion';
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, homeFolder } from '@utils/user-data/types';
@@ -80,12 +80,12 @@ const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonPro
     </Button>);
 };
 
-const MainScreen = (props: ComponentProps<typeof motion.div>) => {
+const MainScreen = (props: ComponentProps<typeof m.div>) => {
     const [screen, setScreen] = useAtom(currentScreenAtom);
     const { t } = useTranslation();
     const hasPluginsWithSettings = availablePlugins.filter(p => p.configurationScreen !== null).length !== 0;
 
-    return (<motion.div {...props} className='MainSettingsScreen'>
+    return (<m.div {...props} className='MainSettingsScreen'>
         <ScreenButton onClick={() => setScreen('general')} icon='ion:settings-sharp' name={t('settings.general.title')} />
         {CUSTOM_ICONS_AVAILABLE && <ScreenButton onClick={() => setScreen('custom-icons')} icon='ion:file-tray-full' name={t('settings.customIcons.title')} />}
         <ScreenButton onClick={() => setScreen('folders')} icon='ion:folder-open-sharp' name={t('settings.folders.title')} />
@@ -93,10 +93,10 @@ const MainScreen = (props: ComponentProps<typeof motion.div>) => {
         <ScreenButton onClick={() => setScreen('theme')} icon='ion:color-palette' name={t('settings.theme.title')} />
         <ScreenButton onClick={() => setScreen('import-export')} icon='ion:archive-sharp' name={t('settings.importExport.title')} />
         <ScreenButton onClick={() => setScreen('about-help')} icon='ion:help-buoy-sharp' name={t('settings.aboutHelp.title')} />
-    </motion.div>)
+    </m.div>)
 };
 
-const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
+const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
     const [language, setLanguage] = useBrowserStorageValue('language', 'en');
     const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
@@ -119,7 +119,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
         setPageTitle(newTabTitle);
     }, [newTabTitle]);
 
-    return (<motion.div {...props} className='GeneralSettingsScreen'>
+    return (<m.div {...props} className='GeneralSettingsScreen'>
         {SHOW_LANGUAGE_SELECT_IN_SETTINGS && <div className='input-wrapper'>
             <label>{t("settings.general.language")}:</label>
             <Select<Language>
@@ -176,10 +176,10 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
             {t("settings.general.hideEditButton")}
             <Hint content={t("settings.general.hideEditButtonHint")} />
         </Checkbox>
-    </motion.div>);
+    </m.div>);
 };
 
-const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
+const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
     const importCustomIcons = async () => {
         const files = await showOpenFilePicker(true, '.jpg,.jpeg,.png,.gif,.svg');
         let hasErrors = false;
@@ -221,16 +221,16 @@ const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
     const [draftCustomIcons, setDraftCustomIcons] = useState<DraftCustomIcon[]>([]);
     const hasDraftIconsWithInvalidName = draftCustomIcons.some(i => !isValidCustomIconName(i.name));
 
-    return (<motion.div {...props} className='CustomIconsScreen'>
+    return (<m.div {...props} className='CustomIconsScreen'>
         {customIcons.length === 0 && <div className='no-custom-icons-alert'>
             {t("settings.customIcons.noIcons")}
         </div>}
 
-        <motion.div className='custom-icons-grid' layout>
+        <m.div className='custom-icons-grid' layout>
             <LayoutGroup>
                 <AnimatePresence initial={false} mode="sync">
                     {customIcons.map(icon => {
-                        return (<motion.div
+                        return (<m.div
                             key={icon.name}
                             layout
                             layoutId={icon.name}
@@ -242,16 +242,16 @@ const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
                             <img alt={icon.name} src={icon.urlObject} height={38} width={38} />
                             <div className='custom-icon-name'>{icon.name}</div>
                             <Button onClick={() => removeCustomIcon(icon.name)}><Icon icon='ion:close' height={22} /></Button>
-                        </motion.div>)
+                        </m.div>)
                     })}
                 </AnimatePresence>
             </LayoutGroup>
-        </motion.div>
+        </m.div>
 
-        {draftCustomIcons.length !== 0 && <motion.div className='draft-icons-list' layout layoutRoot>
+        {draftCustomIcons.length !== 0 && <m.div className='draft-icons-list' layout layoutRoot>
             {draftCustomIcons.map((draftCustomIcon) => {
                 const validName = isValidCustomIconName(draftCustomIcon.name) || draftCustomIcon.name.length === 0;
-                return (<motion.div
+                return (<m.div
                     layout="position"
                     layoutId={draftCustomIcon.id}
                     className='draft-icon-section'
@@ -265,27 +265,27 @@ const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
                         {!validName && <div className='draft-icon-name-error'>{t('settings.customIcons.nameContainsInvalidChars')}</div>}
                     </div>
                     <Button onClick={() => { setDraftCustomIcons(p => p.filter(i => i.id !== draftCustomIcon.id)); URL.revokeObjectURL(draftCustomIcon.preview) }}><Icon icon='ion:close' height={22} /></Button>
-                </motion.div>);
+                </m.div>);
             })}
 
             {hasDraftIconsWithInvalidName && <Tooltip placement='top' label={t("settings.customIcons.invalidNames")}>
                 <Button visuallyDisabled>{t("settings.customIcons.saveIcons")}</Button>
             </Tooltip>}
             {!hasDraftIconsWithInvalidName && <Button onClick={saveDraftCustomIcons}>{t("settings.customIcons.saveIcons")}</Button>}
-        </motion.div>}
+        </m.div>}
 
         {draftCustomIcons.length === 0 && <Tooltip label={t("settings.customIcons.supportedFormats")} maxWidth={500} placement='top'>
             <Button onClick={importCustomIcons}>{t("settings.customIcons.importIcons")}</Button>
         </Tooltip>}
-    </motion.div>)
+    </m.div>)
 };
 
-const FoldersScreen = (props: ComponentProps<typeof motion.div>) => {
+const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
     const { folders, setFolders, createFolder, updateFolder, removeFolder } = useFolders();
     const { t } = useTranslation();
 
-    return (<motion.div {...props} className='FoldersScreen'>
-        <motion.div>
+    return (<m.div {...props} className='FoldersScreen'>
+        <m.div>
             <FolderItem folder={homeFolder} />
             <Reorder.Group axis="y" values={folders} onReorder={setFolders} as="div">
                 {folders.map((f, index) => {
@@ -300,26 +300,26 @@ const FoldersScreen = (props: ComponentProps<typeof motion.div>) => {
                         />)
                 })}
             </Reorder.Group>
-        </motion.div>
+        </m.div>
 
         <Button className='add-folder-btn' onClick={() => createFolder()}>
             <Icon icon='ion:add' height={24} /> {t('settings.folders.createNew')}
         </Button>
-    </motion.div>)
+    </m.div>)
 };
 
-const PluginsScreen = (props: ComponentProps<typeof motion.div>) => {
-    return (<motion.div {...props} className='PluginsScreen'>
+const PluginsScreen = (props: ComponentProps<typeof m.div>) => {
+    return (<m.div {...props} className='PluginsScreen'>
         {availablePlugins.filter(p => p.configurationScreen !== null).map(p => {
             return (<PluginConfigurationSection plugin={p} key={p.id} />);
         })}
-    </motion.div>);
+    </m.div>);
 };
 
-const ThemesScreen = (props: ComponentProps<typeof motion.div>) => {
+const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
     const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
 
-    return (<motion.div {...props} className='ThemesScreen'>
+    return (<m.div {...props} className='ThemesScreen'>
         {themes.map((theme) => {
             return (<ThemePlate
                 theme={theme}
@@ -331,10 +331,10 @@ const ThemesScreen = (props: ComponentProps<typeof motion.div>) => {
                 key={theme.name}
             />)
         })}
-    </motion.div>)
+    </m.div>)
 };
 
-const ImportExportScreen = (props: ComponentProps<typeof motion.div>) => {
+const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const exportSettings = async () => {
         const zip = new JSZip();
         const storage = await browser.storage.local.get(null);
@@ -374,18 +374,18 @@ const ImportExportScreen = (props: ComponentProps<typeof motion.div>) => {
 
     const { addNewCustomIcon } = useCustomIcons();
 
-    return (<motion.div {...props} className='ImportExportScreen'>
+    return (<m.div {...props} className='ImportExportScreen'>
         <div>{t('settings.importExport.info')}</div>
         <div className="import-export-button">
             <Button onClick={importSettings}>{t('settings.importExport.import')}</Button>
             <Button onClick={exportSettings}>{t('settings.importExport.export')}</Button>
         </div>
-    </motion.div>)
+    </m.div>)
 };
 
-const HelpAboutScreen = (props: ComponentProps<typeof motion.div>) => {
+const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
     const { t, i18n } = useTranslation();
-    return (<motion.div {...props} className='HelpAboutScreen'>
+    return (<m.div {...props} className='HelpAboutScreen'>
         <p>
             <Trans t={t} i18nKey="settings.aboutHelp.p1">
                 <a href="https://github.com/OlegWock/anori"></a>
@@ -412,7 +412,7 @@ const HelpAboutScreen = (props: ComponentProps<typeof motion.div>) => {
             <h2>{t('shortcuts.title')}</h2>
             <ShortcutsHelp />
         </section>
-    </motion.div>)
+    </m.div>)
 };
 
 export const SettingsModal = ({ onClose }: { onClose: () => void }) => {

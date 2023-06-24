@@ -7,7 +7,7 @@ import { Icon } from '@components/Icon';
 import { RequirePermissions } from '@components/RequirePermissions';
 import { useEffect } from 'react';
 import moment from 'moment-timezone';
-import { motion, useAnimationControls } from 'framer-motion';
+import { m, useAnimationControls } from 'framer-motion';
 import { wait } from '@utils/misc';
 import { ScrollArea } from '@components/ScrollArea';
 import { translate } from '@translations/index';
@@ -33,7 +33,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
         return moment(session.lastModified);
     }, [session.lastModified, i18n.language]);
 
-    return (<motion.div
+    return (<m.div
         className='Session'
         animate={controls}
         onClick={restore}
@@ -57,7 +57,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
             <RelativeTime m={lastModified} withoutSuffix />
         </div>
 
-    </motion.div>)
+    </m.div>)
 };
 
 const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {

@@ -15,7 +15,7 @@ import { useSizeSettings } from "@utils/compact";
 import { RequirePermissions } from "@components/RequirePermissions";
 import browser from 'webextension-polyfill';
 import { ScrollArea } from "@components/ScrollArea";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
 import { Checkbox } from "@components/Checkbox";
@@ -98,7 +98,7 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
         <Input value={searchQuery} onValueChange={setSearchQuery} placeholder={t('bookmark-plugin.searchBookmarks')} />
         <ScrollArea>
             {filteredBookmarks.map(bk => {
-                return (<motion.div
+                return (<m.div
                     key={bk.id}
                     className='bookmark'
                     onClick={() => {
@@ -110,7 +110,7 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
                     <div className="title">
                         {bk.title || bk.url}
                     </div>
-                </motion.div>);
+                </m.div>);
             })}
             {filteredBookmarks.length === 0 && <div className="no-results">
                 {t('noResults')}
@@ -144,7 +144,7 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
     const { t } = useTranslation();
 
     return (
-        <motion.div className="BookmarkWidget-config">
+        <m.div className="BookmarkWidget-config">
             <div className="field">
                 <label>{t('icon')}:</label>
                 <Popover
@@ -167,7 +167,7 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
                 <div className="urls">
                     <AnimatePresence initial={false}>
                         {urls.map(({ id, url }, ind) => {
-                            return (<motion.div
+                            return (<m.div
                                 className="url-import-wrapper"
                                 layout
                                 key={id}
@@ -194,16 +194,16 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
                                     <Button>{t('import')}</Button>
                                 </Popover>
                                 <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
-                            </motion.div>);
+                            </m.div>);
                         })}
                     </AnimatePresence>
                 </div>
             </div>
 
-            <motion.div layout className="add-button-wrapper">
+            <m.div layout className="add-button-wrapper">
                 <Button className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: '' }])}>{t('add')}</Button>
-            </motion.div>
-            {X_BROWSER === 'chrome' && <motion.div className="field" layout="position">
+            </m.div>
+            {X_BROWSER === 'chrome' && <m.div className="field" layout="position">
                 {currentPermissions?.permissions.includes('tabGroups') && <Checkbox checked={openInTabGroup} onChange={setOpenInTabGroup}>
                     {t('bookmark-plugin.openInGroup')}
                 </Checkbox>}
@@ -212,12 +212,12 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
                         {t('bookmark-plugin.openInGroup')}
                     </Checkbox>
                 </Popover>}
-            </motion.div>}
+            </m.div>}
 
-            <motion.div layout className="save-config">
+            <m.div layout className="save-config">
                 <Button onClick={onConfirm}>{t('save')}</Button>
-            </motion.div>
-        </motion.div>
+            </m.div>
+        </m.div>
     );
 };
 

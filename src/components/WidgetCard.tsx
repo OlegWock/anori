@@ -1,6 +1,6 @@
 import { Component, ComponentProps } from 'react';
 import './WidgetCard.scss';
-import { motion, useDragControls } from 'framer-motion';
+import { m, useDragControls } from 'framer-motion';
 import clsx from 'clsx';
 import { useParentFolder } from '@utils/FolderContentContext';
 import { Button } from './Button';
@@ -42,14 +42,14 @@ type WidgetCardProps = {
     onRemove?: () => void,
     onEdit?: () => void,
     children?: ReactNode,
-} & Omit<ComponentProps<typeof motion.div>, 'children'>;
+} & Omit<ComponentProps<typeof m.div>, 'children'>;
 
 export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, ...props }: WidgetCardProps) => {
     const { isEditing, boxSize } = useParentFolder();
     const dragControls = useDragControls();
     const { gapSize, rem } = useSizeSettings();
 
-    return (<motion.div
+    return (<m.div
         className={clsx(className, 'WidgetCard')}
         transition={{ ease: 'easeInOut', duration: 0.15 }}
         exit={isEditing ? { scale: 0 } : undefined}
@@ -83,5 +83,5 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
                 {children}
             </div>
         </ErrorBoundary>
-    </motion.div>)
+    </m.div>)
 };

@@ -1,4 +1,4 @@
-import { LayoutGroup, motion, useIsPresent } from 'framer-motion';
+import { LayoutGroup, m, useIsPresent } from 'framer-motion';
 import './Modal.scss';
 import { ReactNode } from 'react';
 import { Icon } from './Icon';
@@ -34,7 +34,7 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
     const animatedHeight = useMotionTransition(bounds.height, {type: 'tween', duration: 0.15, ignoreInitial: true});
 
     return createPortal(
-        (<motion.div
+        (<m.div
             className="Modal-backdrop"
             onClick={() => closable && closeOnClickOutside && onClose && onClose()}
             initial={{ opacity: 0 }}
@@ -42,7 +42,7 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
             animate={{ opacity: 1, }}
             transition={{ duration: 0.1 }}
         >
-            <motion.div
+            <m.div
                 className='Modal-wrapper'
                 initial={{ y: '-100%', }}
                 exit={{ y: '-100%', }}
@@ -58,7 +58,7 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
                     }
                 }}
             >
-                <motion.div
+                <m.div
                     className={clsx("Modal", className)}
                     onClick={(e) => e.stopPropagation()}
                     layoutId={layoutId}
@@ -67,7 +67,7 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
                     <div className="modal-header">
                         {headerButton}
                         <h1>{title}</h1>
-                        {closable && <motion.button
+                        {closable && <m.button
                             className='close-button'
                             onClick={() => onClose && onClose()}
                             whileHover={{
@@ -76,14 +76,14 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
                             }}
                         >
                             <Icon icon='ion:close' width={24} height={24} />
-                        </motion.button>}
+                        </m.button>}
                     </div>
                     <LayoutGroup>
                         {children}
                     </LayoutGroup>
-                </motion.div>
-            </motion.div>
-        </motion.div>),
+                </m.div>
+            </m.div>
+        </m.div>),
         document.body,
     );
 }

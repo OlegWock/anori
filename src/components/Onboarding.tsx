@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import './Onboarding.scss';
 import { ComponentProps, forwardRef, useEffect, useState } from 'react';
-import { AnimatePresence, LayoutGroup, motion, useTransform } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, m, useTransform } from 'framer-motion';
 import useMeasure from 'react-use-motion-measure';
 import { useHotkeys, usePrevious } from '@utils/hooks';
 import { Button } from './Button';
@@ -28,8 +28,8 @@ import { weatherPlugin, weatherWidgetDescriptorCurrent } from '@plugins/weather/
 
 const screens = ['start', 'folders', 'shortcuts', 'customization', 'analytics', 'presets'] as const;
 
-const Section = forwardRef<HTMLDivElement, ComponentProps<typeof motion.section>>(({ ...props }, ref) => {
-    return (<motion.section
+const Section = forwardRef<HTMLDivElement, ComponentProps<typeof m.section>>(({ ...props }, ref) => {
+    return (<m.section
         variants={slidingScreensAnimation}
         ref={ref}
         initial="initial"
@@ -247,13 +247,13 @@ export const Onboarding = () => {
 
     return (<div className='Onboarding'>
         <LayoutGroup>
-            <motion.div
+            <m.div
                 className="content-wrapper"
                 style={{
                     height: animatedHeightCorrected
                 }}
             >
-                <motion.div className="content" ref={ref}>
+                <m.div className="content" ref={ref}>
                     <AnimatePresence initial={false} mode="wait" custom={direction}>
                         {screenName === 'start' && <Section custom={direction} key='start'>
                             <h1>{t('onboarding.start.title')}</h1>
@@ -311,9 +311,9 @@ export const Onboarding = () => {
                             <Button className='preset' onClick={() => applyPreset()}>{t('onboarding.presets.cta')}</Button>
                         </Section>}
                     </AnimatePresence>
-                </motion.div>
-            </motion.div>
-            <motion.div className='navigation-buttons' layout>
+                </m.div>
+            </m.div>
+            <m.div className='navigation-buttons' layout>
                 <AnimatePresence initial={false}>
                     {screenIndex !== 0 && <Button
                         variants={navigationButtonVariants}
@@ -339,7 +339,7 @@ export const Onboarding = () => {
                         {t('next')} <Icon icon='ion:chevron-forward' width={24} height={24} />
                     </Button>}
                 </AnimatePresence>
-            </motion.div>
+            </m.div>
         </LayoutGroup>
     </div>);
 };

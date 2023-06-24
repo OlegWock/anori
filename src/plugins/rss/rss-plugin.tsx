@@ -14,7 +14,7 @@ import { useSizeSettings } from "@utils/compact";
 import moment from "moment-timezone";
 import { RelativeTime } from "@components/RelativeTime";
 import { ClampTextToFit } from "@components/ClampTextToFit";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { listItemAnimation } from "@components/animations";
 import { ScrollArea } from "@components/ScrollArea";
 import { Tooltip } from "@components/Tooltip";
@@ -97,7 +97,7 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
         }
     ];
 
-    return (<motion.div className="RssFeed-config">
+    return (<m.div className="RssFeed-config">
         <div className="field">
             <label>{t('title')}:</label>
             <Input value={title} placeholder={t('title')} onChange={(e) => setTitle(e.target.value)} />
@@ -129,7 +129,7 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
             <div className="urls">
                 <AnimatePresence initial={false}>
                     {urls.map(({ id, url }, ind) => {
-                        return (<motion.div
+                        return (<m.div
                             className="url-wrapper"
                             layout
                             key={id}
@@ -141,20 +141,20 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
                                 return copy;
                             })} />
                             <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
-                        </motion.div>);
+                        </m.div>);
                     })}
                 </AnimatePresence>
             </div>
         </div>
 
-        <motion.div layout className="button-wrapper">
+        <m.div layout className="button-wrapper">
             <Button className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: '' }])}>{t('add')}</Button>
-        </motion.div>
+        </m.div>
 
-        <motion.div layout className="button-wrapper">
+        <m.div layout className="button-wrapper">
             <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
-        </motion.div>
-    </motion.div>);
+        </m.div>
+    </m.div>);
 };
 
 const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) => {

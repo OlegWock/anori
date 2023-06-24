@@ -1,4 +1,4 @@
-import { AnimatePresence, PanInfo, motion } from 'framer-motion';
+import { AnimatePresence, PanInfo, m } from 'framer-motion';
 import './FolderContent.scss';
 import { Folder, WidgetInFolderWithMeta } from '@utils/user-data/types';
 import { Icon } from '@components/Icon';
@@ -146,7 +146,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                 isEditing,
                 boxSize: grisDimenstions.boxSize,
             }}>
-                <motion.div
+                <m.div
                     key={`FolderContent-${folder.id}`}
                     className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
                     transition={{
@@ -169,7 +169,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
 
                         <div className="action-buttons-wrapper">
                             <AnimatePresence initial={false} mode="wait">
-                                {isEditing && <motion.div className='action-buttons' key='editing-buttons' {...actionButtonAnimations}>
+                                {isEditing && <m.div className='action-buttons' key='editing-buttons' {...actionButtonAnimations}>
                                     <Button
                                         onClick={() => setNewWidgetWizardVisible(true)}
                                     >
@@ -181,9 +181,9 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     >
                                         <Icon icon='ion:checkmark' height={24} />
                                     </Button>
-                                </motion.div>}
+                                </m.div>}
 
-                                {!isEditing && !hideEditFolderButton && <motion.div className='action-buttons' key='viewing-buttons' {...actionButtonAnimations}>
+                                {!isEditing && !hideEditFolderButton && <m.div className='action-buttons' key='viewing-buttons' {...actionButtonAnimations}>
                                     <Button
                                         onClick={() => setIsEditing(true)}
                                         key='start-editing'
@@ -191,18 +191,18 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     >
                                         <Icon icon='ion:pencil' height={24} />
                                     </Button>
-                                </motion.div>}
+                                </m.div>}
                             </AnimatePresence>
                         </div>
 
                     </header>
-                    <motion.main layout layoutRoot ref={mainRef}>
+                    <m.main layout layoutRoot ref={mainRef}>
                         <AnimatePresence>
                             {isEditing && new Array(grisDimenstions.colums * grisDimenstions.rows).fill(null).map((_, i) => {
                                 const x = i % grisDimenstions.colums;
                                 const y = Math.floor(i / grisDimenstions.colums);
                                 const position = positionToPixelPosition({ grid: grisDimenstions, positon: { x, y } });
-                                return (<motion.div
+                                return (<m.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
@@ -255,9 +255,9 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                             })}
                         </AnimatePresence>
                         {shouldShowOnboarding && <Onboarding />}
-                    </motion.main>
+                    </m.main>
 
-                </motion.div>
+                </m.div>
 
                 <AnimatePresence>
                     {newWidgetWizardVisible && <NewWidgetWizard
@@ -277,12 +277,12 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         closable
                     >
                         <ScrollArea className='edit-widget-scrollarea'>
-                            <motion.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{opacity: 1, translateX: '0%'}}>
+                            <m.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{opacity: 1, translateX: '0%'}}>
                                 <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
                                     updateWidgetConfig(editingWidget.instanceId, config);
                                     setEditingWidget(null);
                                 }} />
-                            </motion.div>
+                            </m.div>
                         </ScrollArea>
                     </Modal>}
                 </AnimatePresence>

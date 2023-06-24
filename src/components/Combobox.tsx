@@ -1,6 +1,6 @@
 import { useState, forwardRef, useRef } from 'react'
 import './Combobox.scss';
-import { HTMLMotionProps, motion } from 'framer-motion';
+import { HTMLMotionProps, m } from 'framer-motion';
 import clsx from 'clsx';
 
 import "./Combobox.scss";
@@ -60,11 +60,11 @@ const Item = forwardRef<
                 ...rest.style
             }}
         >
-            {active && <motion.div className='highlight' layoutId='combobox-highlight' transition={{duration: 0.075}} />}
-            <motion.div className='content'>
+            {active && <m.div className='highlight' layoutId='combobox-highlight' transition={{duration: 0.075}} />}
+            <m.div className='content'>
                 <Icon className='check-icon' icon='ion:checkmark' height={16} />
                 {children}
-            </motion.div>
+            </m.div>
         </div>
     );
 });
@@ -183,7 +183,7 @@ export const Combobox = <T,>({ options, getOptionKey, getOptionLabel, shouldDisp
                         initialFocus={-1}
                         visuallyHiddenDismiss
                     >
-                        <motion.div
+                        <m.div
                             {...getFloatingProps({
                                 ref: refs.setFloating,
                                 className: 'Combobox-options',
@@ -221,7 +221,7 @@ export const Combobox = <T,>({ options, getOptionKey, getOptionLabel, shouldDisp
                             {items.length === 0 && <div className='Combobox-no-results'>
                                 No results    
                             </div>}
-                        </motion.div>
+                        </m.div>
                     </FloatingFocusManager>
                 )}
             </FloatingPortal>

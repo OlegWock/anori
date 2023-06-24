@@ -1,11 +1,11 @@
 import classNames from "clsx";
 import React from "react";
 import './Button.scss';
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 type ButtonSize = "normal" | "compact";
 
-export interface ButtonProps extends Omit<React.ComponentProps<typeof motion.button>, "type"> {
+export interface ButtonProps extends Omit<React.ComponentProps<typeof m.button>, "type"> {
     size?: ButtonSize,
     block?: boolean,
     withoutBorder?: boolean,
@@ -14,7 +14,7 @@ export interface ButtonProps extends Omit<React.ComponentProps<typeof motion.but
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ size = "normal", disabled, visuallyDisabled, withoutBorder = false, active, block = false, onClick, ...props }, ref) => {
-    return <motion.button
+    return <m.button
         {...props}
         ref={ref}
         disabled={visuallyDisabled ? undefined : disabled}

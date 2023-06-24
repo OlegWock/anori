@@ -7,7 +7,7 @@ import { FloatingDelayGroup } from '@floating-ui/react';
 import { useState } from 'react';
 import { Modal } from '@components/Modal';
 import { SettingsModal } from './settings/Settings';
-import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
+import { AnimatePresence, LazyMotion, MotionConfig, domMax, m } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { homeFolder } from '@utils/user-data/types';
@@ -76,7 +76,7 @@ const Start = () => {
     return (
         <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
             <AnimatePresence>
-                <motion.div
+                <m.div
                     className={clsx("StartPage", { 'compact': isCompact })}
                     key='start-page'
                 >
@@ -112,7 +112,7 @@ const Start = () => {
                             <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
                         </AnimatePresence>
                     </div>
-                </motion.div>
+                </m.div>
 
                 <CommandMenu key='command-menu' />
 
@@ -163,7 +163,9 @@ requestIconsFamily('fluent');
 getAllCustomIcons();
 initTranslation().then(() => {
     mountPage(<CompactModeProvider>
-        <Start />
+        <LazyMotion features={domMax} strict>
+            <Start />
+        </LazyMotion>
     </CompactModeProvider>);
 });
 

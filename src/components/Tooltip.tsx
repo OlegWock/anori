@@ -16,7 +16,7 @@ import {
     FloatingPortal,
     Strategy
 } from "@floating-ui/react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import './Tooltip.scss';
 import { mergeRefs } from "react-merge-refs";
 
@@ -85,7 +85,7 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
             <FloatingPortal root={document.body}>
                 <AnimatePresence>
                     {open && (
-                        <motion.div
+                        <m.div
                             initial={{ opacity: 0, ...translate }}
                             animate={{ opacity: 1, translateX: 0, translateY: 0 }}
                             exit={{ opacity: 0, ...translate }}
@@ -108,7 +108,7 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
                             })}
                         >
                             {label}
-                        </motion.div>
+                        </m.div>
                     )}
                 </AnimatePresence>
             </FloatingPortal>

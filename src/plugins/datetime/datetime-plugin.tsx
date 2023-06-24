@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { Combobox } from '@components/Combobox';
 import { translate } from '@translations/index';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { capitalize } from '@utils/strings';
 
 
@@ -141,13 +141,13 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
 
     return (<div className={clsx('DateTimeWidget', `DateTimeWidget-size-${size}`)}>
         {size === 'm' && <div className='analog-clock'>
-            <motion.div
+            <m.div
                 className="hand hour-hand"
                 style={{
                     rotate: `${((hours / 12) * 360) + ((minutes / 60) * 30) + 90}deg`
                 }}
             />
-            <motion.div
+            <m.div
                 className="hand min-hand"
                 style={{
                     rotate: `${((minutes / 60) * 360) + ((seconds / 60) * 6) + 90}deg`

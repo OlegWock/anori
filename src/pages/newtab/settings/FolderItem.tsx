@@ -3,7 +3,7 @@ import { Icon } from "@components/Icon";
 import { IconPicker } from "@components/IconPicker";
 import { Popover } from "@components/Popover";
 import { Folder } from "@utils/user-data/types";
-import { Reorder, motion, useDragControls } from "framer-motion";
+import { Reorder, m, useDragControls } from "framer-motion";
 import { useRef } from "react";
 import './FolderItem.scss';
 
@@ -51,9 +51,9 @@ export const FolderItem = ({ folder, editable = false, onRemove, onNameChange, o
         </Reorder.Item>)
     }
 
-    return (<motion.div className='FolderItem'>
+    return (<m.div className='FolderItem'>
         <span style={{ width: ICON_SIZE }} />
         <button className='folder-icon static'><Icon icon={folder.icon} width={ICON_SIZE} /></button>
         <span className='folder-name'>{folder.name}</span>
-    </motion.div>)
+    </m.div>)
 };

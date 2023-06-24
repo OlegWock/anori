@@ -8,7 +8,7 @@ import clsx from "clsx";
 import moment from "moment-timezone";
 import { useEffect } from "react";
 import { ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { usePrevious } from "@utils/hooks";
 import { Select } from "@components/Select";
 import { useTranslation } from "react-i18next";
@@ -124,7 +124,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
                 row.push(<div className={clsx("calendar-cell", { 'current-month': inCurrentMonth, 'today': isToday })} key={`${currentDate.month()}_${currentDate.date()}`}>{currentDate.date()}</div>);
                 currentDate.add(1, 'day');
             }
-            res.push(<motion.div
+            res.push(<m.div
                 custom={direction}
                 transition={{ duration: 0.12 }}
                 variants={variants}
@@ -135,7 +135,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
                 key={`row-${monthNumber}-${week}`}
             >
                 {row}
-            </motion.div>);
+            </m.div>);
         }
 
         return res;
@@ -158,7 +158,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
                 <Icon icon="ion:chevron-forward" />
             </Button>
         </h3>
-        <motion.div className="calendar-grid">
+        <m.div className="calendar-grid">
             <div className="calendar-row weekdays" key='weekdays'>
                 {headerDays.map(weekday => {
                     return (<div className="calendar-cell" key={weekday}>{weekday[0]}</div>);
@@ -167,7 +167,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
             <AnimatePresence mode="wait" custom={direction} initial={false}>
                 {rows}
             </AnimatePresence>
-        </motion.div>
+        </m.div>
 
     </div>);
 };

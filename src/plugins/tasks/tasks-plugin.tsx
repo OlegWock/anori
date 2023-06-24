@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import './styles.scss';
 import { Icon } from "@components/Icon";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
-import { AnimatePresence, LayoutGroup, Reorder, motion, useDragControls } from "framer-motion";
+import { AnimatePresence, LayoutGroup, Reorder, m, useDragControls } from "framer-motion";
 import { Checkbox } from "@components/Checkbox";
 import { guid } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
@@ -120,9 +120,9 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
                 </Reorder.Group>
             </LayoutGroup>
         </ScrollArea>}
-        {tasks.length === 0 && <motion.div key='no-tasks' className="no-tasks">
+        {tasks.length === 0 && <m.div key='no-tasks' className="no-tasks">
             {t('tasks-plugin.noTasks')}
-        </motion.div>}
+        </m.div>}
 
     </div>);
 };
@@ -143,10 +143,10 @@ const Mock = () => {
         </div>
         <ScrollArea darker>
             <LayoutGroup>
-                <motion.div className="tasks-list" layout>
+                <m.div className="tasks-list" layout>
                     <AnimatePresence initial={false}>
                         {tasks.map(t => {
-                            return <motion.div
+                            return <m.div
                                 key={t.id}
                                 layout
                                 className="task"
@@ -154,10 +154,10 @@ const Mock = () => {
                             >
                                 <Checkbox checked={false} />
                                 <Input value={t.text} />
-                            </motion.div>
+                            </m.div>
                         })}
                     </AnimatePresence>
-                </motion.div>
+                </m.div>
             </LayoutGroup>
         </ScrollArea>
     </div>);
