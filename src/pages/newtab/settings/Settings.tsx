@@ -135,7 +135,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof motion.div>) => {
             />
         </div>}
         <div className='input-wrapper'>
-            <label>{t("settings.general.newTabTitle")}: <Hint content={t("settings.general.newTabTitleHint")} /></label>
+            <label>{t("settings.general.newTabTitle")}: </label>
             <Input value={newTabTitle} onValueChange={setNewTabTitle} />
         </div>
 

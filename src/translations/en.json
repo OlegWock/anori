@@ -43,7 +43,6 @@
                 "title": "General",
                 "language": "Language",
                 "newTabTitle": "New tab title",
-                "newTabTitleHint": "We can't set icon for new page, but you can try using emoji here 😉",
                 "enableAnalytics": "Enable sending analytics",
                 "analyticsHintP1": "Analytics help me to better understand how users interact with Anori and which features are used the most. It doesn't share any private information, such as the content of notes or bookmark URLs.",
                 "analyticsHintP2": "This helps me to develop a better product so I ask you to enable sending analytics.",
