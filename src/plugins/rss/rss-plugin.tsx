@@ -152,7 +152,7 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
         </motion.div>
 
         <motion.div layout className="button-wrapper">
-            <Button className="save-config" onClick={onConfirm}>Save</Button>
+            <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
         </motion.div>
     </motion.div>);
 };

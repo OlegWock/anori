@@ -200,7 +200,8 @@
         "search-plugin": {
             "name": "Internet search",
             "widgetName": "Search",
-            "searchProviderForQ": "Search {{provider}} for «{{query}}»"
+            "searchProviderForQ": "Search {{provider}} for «{{query}}»",
+            "defaultProvider": "Default provider"
         },
         "system-status-plugin": {
             "name": "System status",

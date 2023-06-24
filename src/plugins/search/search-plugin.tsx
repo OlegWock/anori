@@ -57,7 +57,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
     return (<div className='SearchWidget-config'>
         <div>
-            <label>Default provider</label>
+            <label>{t('search-plugin.defaultProvider')}</label>
             <Select<Provider>
                 options={providers}
                 value={defaultProvider}

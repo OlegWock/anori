@@ -200,7 +200,8 @@
         "search-plugin": {
             "name": "Пошук в мережі",
             "widgetName": "Пошук",
-            "searchProviderForQ": "Шукати «{{query}}» в {{provider}}"
+            "searchProviderForQ": "Шукати «{{query}}» в {{provider}}",
+            "defaultProvider": "Пошуковик за замовчуванням"
         },
         "system-status-plugin": {
             "name": "Статус системи",

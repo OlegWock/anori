@@ -36,7 +36,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
     const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
 
-    return (<div className='SearchWidget-config'>
+    return (<div className='CalendarWidget-config'>
         <div>
             <label>{t('calendar-plugin.firstDayOfWeek')}:</label>
             <Select<number>
