@@ -29,14 +29,12 @@
         "home": "Home",
         "availableOnlyInEnglish": "Available only in English",
         "px": "px",
-
         "whatsNew": "What's new",
         "editWidget": "Edit widget",
         "configureWidget": "Configure widget",
         "addWidget": "Add widget",
         "next": "Next",
         "back": "Back",
-
         "settings": {
             "title": "Settings",
             "general": {
@@ -64,7 +62,9 @@
                 "invalidNames": "Some of the icons have an invalid name, please fix the names before saving.",
                 "saveIcons": "Save icons",
                 "supportedFormats": "Anori supports .png, .jpg, .gif and .svg. It's best to use square images between 128 and 256 pixels wide (not applicable to .svg).",
-                "importIcons": "Import icons"
+                "importIcons": "Import icons",
+                "nameContainsInvalidChars": "Name contains invalid characters, only letters, digits, - and _ are accepted.",
+                "iconName": "Icon name"
             },
             "folders": {
                 "title": "Folders",
@@ -90,7 +90,6 @@
                 "p3": "Follow the author on <0>Twitter</0> and <1>support Ukraine</1>."
             }
         },
-
         "shortcuts": {
             "title": "Shortcuts",
             "showCheatsheet": "Show/hide shortcuts cheatsheet",
@@ -103,7 +102,6 @@
             "editCurrentFolder": "Edit current folder",
             "addNewWidget": "Add new widget to current folder"
         },
-
         "onboarding": {
             "start": {
                 "title": "Welcome to Anori!",
@@ -143,13 +141,11 @@
                 "cta": "🚀 Just give me a productive setup"
             }
         },
-
         "commandMenu": {
             "name": "Global Command Menu",
             "placeholder": "Enter a command",
             "noWidgets": "Nothing here yet. Try adding some widgets to a folder."
         },
-
         "requirePermissions": {
             "eh": "Eh?",
             "modalTitle": "Additional permissions required",
@@ -159,7 +155,6 @@
             "hostPermissions": "Host permissions",
             "grant": "Grant permissions"
         },
-
         "bookmark-plugin": {
             "name": "Bookmarks",
             "widgetSizeSName": "Bookmark - size S",
@@ -184,7 +179,6 @@
             "dateFormat": "Date format",
             "24hours": "24 hours"
         },
-
         "notes-plugin": {
             "name": "Notes",
             "widgetSizeSName": "Notes - size S",
@@ -195,7 +189,6 @@
             "exampleTitle": "Shopping list",
             "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
         },
-        
         "recently-closed-plugin": {
             "name": "Recently closed tabs",
             "widgetSizeSName": "Recently closed tabs - size S",
@@ -204,13 +197,11 @@
             "tab": "Tab",
             "window": "Window"
         },
-
         "search-plugin": {
             "name": "Internet search",
             "widgetName": "Search",
             "searchProviderForQ": "Search {{provider}} for «{{query}}»"
         },
-
         "system-status-plugin": {
             "name": "System status",
             "ramLoad": "RAM load",
@@ -228,14 +219,12 @@
             "exampleTask1": "Lay on the couch",
             "exampleTask2": "Lay on the floor",
             "exampleTask3": "Try not to cry"
-        }, 
-
+        },
         "top-sites-plugin": {
             "name": "Top sites",
             "widgetHorizontal": "Top sites - horizontal",
             "widgetVertical": "Top sites - vertical"
         },
-
         "weather-plugin": {
             "name": "Weather",
             "weatherForecast": "Weather forecast",
@@ -260,7 +249,6 @@
             "speedUnit": "Wind speed unit",
             "weatherCode": "weather code {{code}}"
         },
-
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "RSS feed",

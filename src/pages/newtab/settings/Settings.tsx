@@ -261,8 +261,8 @@ const CustomIconsScreen = (props: ComponentProps<typeof motion.div>) => {
                 >
                     <img height={64} width={64} className='draft-icon-preview' src={draftCustomIcon.preview} alt={draftCustomIcon.name} />
                     <div className='draft-icon-name-wrapper'>
-                        <Input className='draft-icon-name' value={draftCustomIcon.name} onValueChange={name => setDraftCustomIcons(p => p.map(i => i.id === draftCustomIcon.id ? { ...i, name } : i))} />
-                        {!validName && <div className='draft-icon-name-error'>Name contains invalid characters, only letters, digits, - and _ are accepted.</div>}
+                        <Input className='draft-icon-name' placeholder={t('settings.customIcons.iconName')} value={draftCustomIcon.name} onValueChange={name => setDraftCustomIcons(p => p.map(i => i.id === draftCustomIcon.id ? { ...i, name } : i))} />
+                        {!validName && <div className='draft-icon-name-error'>{t('settings.customIcons.nameContainsInvalidChars')}</div>}
                     </div>
                     <Button onClick={() => { setDraftCustomIcons(p => p.filter(i => i.id !== draftCustomIcon.id)); URL.revokeObjectURL(draftCustomIcon.preview) }}><Icon icon='ion:close' height={22} /></Button>
                 </motion.div>);

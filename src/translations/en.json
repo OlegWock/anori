@@ -61,7 +61,9 @@
                 "title": "Custom icons",
                 "incorrectFormat": "Please provide valid file(s). Anori supports .png, .jpg, .gif, .jpeg and .svg",
                 "noIcons": "You don't have any custom icons yet.",
+                "iconName": "Icon name",
                 "invalidNames": "Some of the icons have an invalid name, please fix the names before saving.",
+                "nameContainsInvalidChars": "Name contains invalid characters, only letters, digits, - and _ are accepted.",
                 "saveIcons": "Save icons",
                 "supportedFormats": "Anori supports .png, .jpg, .gif and .svg. It's best to use square images between 128 and 256 pixels wide (not applicable to .svg).",
                 "importIcons": "Import icons"
