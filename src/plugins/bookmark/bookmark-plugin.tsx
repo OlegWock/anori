@@ -22,6 +22,7 @@ import { Checkbox } from "@components/Checkbox";
 import { useAtomValue } from "jotai";
 import { availablePermissionsAtom } from "@utils/permissions";
 import { listItemAnimation } from "@components/animations";
+import { isChromeLike } from "@utils/browser";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -468,12 +469,11 @@ const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandle
             });
         }));
         if (senderTabId !== undefined) browser.tabs.remove(senderTabId);
-        if (args.openInTabGroup) {
+        if (args.openInTabGroup && isChromeLike(browser)) {
             const groupId = await browser.tabs.group({
                 tabIds: tabs.map(t => t.id!),
             });
 
-            // @ts-expect-error tabGroups isn't in typing yet (see declaration.d.ts)
             await browser.tabGroups.update(groupId, { collapsed: false, title: args.title });
         }
     },
