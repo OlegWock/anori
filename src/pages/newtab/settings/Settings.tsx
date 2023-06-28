@@ -159,7 +159,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
             {t("settings.general.automaticCompact")}
         </Checkbox>
         {isAutomaticCompact && <div>
-            <label>{t('settings.general.automaticCompactModeThreshold', { screenWidth: screenWidth })}</label>
+            <label>{t('settings.general.automaticCompactModeThreshold')}</label>
             <Select<number>
                 options={screenSizeBreakpoints}
                 getOptionKey={o => o.toString()}
@@ -167,6 +167,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
                 value={automaticCompactModeThreshold}
                 onChange={setAutomaticCompactModeThreshold}
             />
+            <div className='screen-size-hint'>{t('settings.general.automaticCompactModeThresholdHint', { screenWidth: screenWidth })}</div>
         </div>}
         <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
             {t("settings.general.showAnimationOnOpen")}

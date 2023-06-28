@@ -52,7 +52,8 @@
                 "showAnimationOnOpenHint": "Коли ця опція ввімкнена, розширення покаже анімацію при відкритті нової вкладки, що приховає можливе мигання при завантаженні сторінки.",
                 "hideEditButton": "Сховати кнопку \"Редагувати папку\"",
                 "hideEditButtonHint": "Дуже мінімалістично.",
-                "automaticCompactModeThreshold": "Перемикатись в компактний режим якщо ширина екрану менше ніж (ширина поточного екрану {{screenWidth}} пікс.)"
+                "automaticCompactModeThreshold": "Перемикатись в компактний режим якщо ширина екрану менше ніж",
+                "automaticCompactModeThresholdHint": "Ширина поточного екрану {{screenWidth}} пікс."
             },
             "customIcons": {
                 "title": "Користувацькі іконки",
