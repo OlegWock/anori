@@ -1,7 +1,7 @@
 {
     "name": "Anori",
     "description": "Customizable new tab: compose your own page from widgets",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "repository": "git@github.com:OlegWock/anori.git",
     "author": "OlegWock <olegwock@gmail.com>",
     "license": "AGPL-3.0",

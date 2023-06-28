@@ -114,6 +114,7 @@ const main = async () => {
             rmSync(join(TRANSLATIONS_FOLDER, mergeFilename));
         });
     } else if (args[0] === 'generate-locales') {
+        const FINISHED_TRANSLATIONS = ['en', 'uk'];
         console.log('Generating locales');
         const localesKeysToTranslationKeys = [
             ['appName.message', 'translation.appName'],
@@ -121,7 +122,7 @@ const main = async () => {
             ['appActionTitle.message', 'translation.appActionTitle'],
         ];
 
-        translations.forEach(lang => {
+        FINISHED_TRANSLATIONS.forEach(lang => {
             const filename = join(TRANSLATIONS_FOLDER, `${lang}.json`);
             const original = loadJsonFile(filename);
             if (!existsSync(join(__dirname, `src/_locales/${lang}`))) {
@@ -131,7 +132,7 @@ const main = async () => {
                 return set(obj, lk, get(original, tk));
             }, {});
             saveJsonFile(join(__dirname, `src/_locales/${lang}/messages.json`), data)
-        })
+        });
     } else {
         console.error('Unknown command', args[0]);
     }
