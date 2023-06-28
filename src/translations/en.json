@@ -70,7 +70,8 @@
             },
             "folders": {
                 "title": "Folders",
-                "createNew": "Create new folder"
+                "createNew": "Create new folder",
+                "defaultName": "New folder"
             },
             "pluginSettings": {
                 "title": "Plugin settings"

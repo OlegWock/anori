@@ -84,7 +84,7 @@ const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
         <ScrollArea className="sessions-list" darker type="hover">
             {sessions.filter(s => {
                 const url = s.tab ? s.tab.url : '';
-                if (url && (url.includes('pages/newtab/start.html?focused') || url.includes('chrome://newtab/'))) return false;
+                if (url && (url.includes('pages/newtab/start.html?focused') || url.includes('chrome://newtab/') || url.includes('edge://newtab/'))) return false;
                 return true;
             }).map(s => {
                 const id = s.tab ? s.tab.sessionId : s.window!.sessionId;

@@ -7,14 +7,15 @@ import { availablePluginsWithWidgets } from "@plugins/all";
 import { Position } from "@utils/grid";
 import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
+import { useTranslation } from "react-i18next";
 
 const foldersAtom = atomWithBrowserStorageStatic('folders', []);
 const activeFolderAtom = atom<ID>('home');
 export const useFolders = (includeHome = false) => {
-    const createFolder = (name = 'New folder', icon = 'ion:folder-open-sharp') => {
+    const createFolder = (name = '', icon = 'ion:folder-open-sharp') => {
         const newFolder = {
             id: guid(),
-            name,
+            name: name || t('settings.folders.defaultName'),
             icon,
         };
         setFolders(p => [...p, newFolder]);
@@ -61,6 +62,7 @@ export const useFolders = (includeHome = false) => {
 
     const [activeId, setActiveId] = useAtom(activeFolderAtom);
     const [folders, setFolders] = useAtomWithStorage(foldersAtom);
+    const { t } = useTranslation();
     const foldersFinal = [...folders];
     if (includeHome) {
         foldersFinal.unshift(homeFolder);

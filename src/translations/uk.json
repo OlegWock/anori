@@ -68,7 +68,8 @@
             },
             "folders": {
                 "title": "Папки",
-                "createNew": "Створити нову папку"
+                "createNew": "Створити нову папку",
+                "defaultName": "Нова папка"
             },
             "pluginSettings": {
                 "title": "Налаштування плагінів"

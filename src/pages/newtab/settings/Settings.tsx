@@ -147,7 +147,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
                 <div style={{ marginTop: '0.5rem' }}>{t("settings.general.analyticsHintP2")}</div>
             </>} />
         </Checkbox>
-        {/* Focus stealer works only in Chrome and Safari */}
+        {/* Focus stealer works only in Chrome, Edge and Safari */}
         {X_BROWSER !== 'firefox' && <Checkbox checked={stealFocus} onChange={setStealFocus}>
             {t("settings.general.stealFocus")}
             <Hint content={t("settings.general.stealFocusHint")} />

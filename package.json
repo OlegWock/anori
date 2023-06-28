@@ -4,7 +4,7 @@
     "version": "1.7.0",
     "repository": "git@github.com:OlegWock/anori.git",
     "author": "OlegWock <olegwock@gmail.com>",
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "scripts": {
         "dev": "webpack build --config webpack.config.ts --env mode=development",
         "production": "webpack build --config webpack.config.ts --env mode=production",

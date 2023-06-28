@@ -163,7 +163,8 @@ requestIconsFamily('fluent');
 getAllCustomIcons();
 initTranslation().then(() => {
     mountPage(<CompactModeProvider>
-        <LazyMotion features={domMax} strict>
+        {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
+        <LazyMotion features={domMax}>
             <Start />
         </LazyMotion>
     </CompactModeProvider>);

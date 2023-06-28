@@ -45,14 +45,14 @@ export const storage = {
         });
         return browser.storage.local.set(changes);
     },
-    setOne: <K extends StorageKey>(key: K, val: StorageContent[K]) => {
-        if (storageAtoms[key]) {
+    setOne: <K extends StorageKey>(key: K, val: StorageContent[K], onlyInStorage = false) => {
+        if (storageAtoms[key] && !onlyInStorage) {
             setAtomWithStorageValue(storageAtoms[key], val);
         }
         return browser.storage.local.set({ [key]: val });
     },
-    setOneDynamic: async <V>(key: string, val: V) => {
-        if (storageAtoms[key]) {
+    setOneDynamic: async <V>(key: string, val: V, onlyInStorage = false) => {
+        if (storageAtoms[key] && !onlyInStorage) {
             setAtomWithStorageValue(storageAtoms[key], val);
         }
         return browser.storage.local.set({ [key]: val });
@@ -160,7 +160,7 @@ export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceL
                 currentValue: nextValue,
             }
             set(baseAtom, nextValueMeta);
-            storage.setOneDynamic<V>(key, nextValue);
+            storage.setOneDynamic<V>(key, nextValue, true);
         }
     );
 
