@@ -34,8 +34,8 @@ export const availableTranslationsPrettyNames = {
     // 'de': 'Deutsch',
     // 'fr': 'Français',
     'uk': 'Українська',
-    // 'zh-cn': 'Chinese',
-    // 'zh-tw': 'Chinese (Taiwan)',
+    // 'zh-cn': '中文 (简体)',
+    // 'zh-tw': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
 const resources = {
