@@ -38,6 +38,10 @@
     gap: 12px;
     align-items: stretch;
 
+    .Input {
+        width: 100%;
+    }
+
     .field {
         display: flex;
         flex-direction: column;
