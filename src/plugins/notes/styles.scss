@@ -6,6 +6,7 @@
     align-items: stretch;
     text-decoration: none;
     flex-grow: 1;
+    overflow: hidden;
 
     .Input {
         margin: 2px;
@@ -31,15 +32,23 @@
     .note-body-rendered {
         flex-grow: 1;
         flex-shrink: 1;
-        overflow: auto;
+        overflow: hidden;
         font-family: inherit;
         font-size: inherit;
         line-height: inherit;
         margin: 0 0.75rem;
         cursor: text;
 
+        .ScrollAreaRoot {
+            max-height: 100%;
+        }
+
         p:not(:first-child) {
             margin-top: 0.25rem;
+        }
+
+        ul, ol {
+            list-style-position: inside;
         }
 
         .notes-body-placeholder {

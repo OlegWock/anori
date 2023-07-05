@@ -9,6 +9,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useRunAfterNextRender } from "@utils/hooks";
 import { ReactMarkdownProps } from "react-markdown/lib/complex-types";
+import remarkBreaks from "remark-breaks";
+import { sequentialNewlinesPlugin } from "./utils";
+import { ScrollArea } from "@components/ScrollArea";
 
 type PluginWidgetConfigType = {
 
@@ -24,7 +27,7 @@ const Mock = () => {
 
 
 const Link = (props: ComponentProps<"a"> & ReactMarkdownProps) => {
-    return (<a onClick={e => e.stopPropagation()} onFocus={e => e.stopPropagation()} {...props}/>);
+    return (<a onClick={e => e.stopPropagation()} onFocus={e => e.stopPropagation()} {...props} />);
 }
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
@@ -37,7 +40,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
         setIsEditing(newIsEditing);
     };
 
-    const storage = useWidgetStorage<{title: string, body: string}>();
+    const storage = useWidgetStorage<{ title: string, body: string }>();
     const [title, setTitle] = storage.useValue('title', '');
     const [body, setBody] = storage.useValue('body', '');
     const [isEditing, setIsEditing] = useState(false);
@@ -70,7 +73,13 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
             onFocus={() => switchEditing(true)}
             onClick={() => switchEditing(true)}
         >
-            {!!body && <ReactMarkdown components={{a: Link}} remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>}
+            <ScrollArea type="hover" darker>
+                {!!body && <ReactMarkdown
+                    components={{ a: Link }}
+                    remarkPlugins={[sequentialNewlinesPlugin, remarkBreaks, remarkGfm]}
+                    children={body}
+                />}
+            </ScrollArea>
             {!body && <span className="notes-body-placeholder">{t('notes-plugin.noteText')}</span>}
         </div>}
     </div>);

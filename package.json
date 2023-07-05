@@ -77,6 +77,7 @@
         "react-merge-refs": "^2.0.1",
         "react-use-motion-measure": "^3.0.0",
         "react-window": "^1.8.8",
+        "remark-breaks": "^3.0.3",
         "remark-gfm": "^3.0.1",
         "rss-parser": "^3.13.0",
         "sass": "^1.53.0",
