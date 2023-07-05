@@ -1082,13 +1082,13 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@iconify/json@^2.2.15":
-  version "2.2.15"
-  resolved "https://registry.yarnpkg.com/@iconify/json/-/json-2.2.15.tgz#e7bbe99dd5700cbc3c30d4793646aa893c033632"
-  integrity sha512-+BVLIjTJpBiEOGD3xhCY7/ajH+7QTl/jzF59gf9Hf5y/HyU8D+HUmOsXEGLIsCZErEQB66wZ36AziOlYf3wuPA==
+"@iconify/json@^2.2.86":
+  version "2.2.86"
+  resolved "https://registry.yarnpkg.com/@iconify/json/-/json-2.2.86.tgz#b57f52fbb52c9adae4ee5def620e0ea45073b568"
+  integrity sha512-cWnPLZiNjdA2bd89/utvZ69NfgcR3Coqcxbg+BipPGI0P4IkdwuRgWJ7OhNML9rEhZlveee6xjOYUSVR66+ytQ==
   dependencies:
     "@iconify/types" "*"
-    pathe "^1.0.0"
+    pathe "^1.1.0"
 
 "@iconify/react@^4.1.0":
   version "4.1.0"
@@ -4620,10 +4620,10 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-pathe@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.1.0.tgz#e2e13f6c62b31a3289af4ba19886c230f295ec03"
-  integrity sha512-ODbEPR0KKHqECXW1GoxdDb+AZvULmXjVPy4rt+pGo2+TnjJTIPJQSVS6N63n8T2Ip+syHhbn52OewKicV0373w==
+pathe@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.1.1.tgz#1dd31d382b974ba69809adc9a7a347e65d84829a"
+  integrity sha512-d+RQGp0MAYTIaDBIMmOfMwz3E+LOZnxx1HZd5R18mmCZY0QBlK0LDZfPc8FW8Ed2DlvsuE6PRjroDY+wg4+j/Q==
 
 picocolors@^1.0.0:
   version "1.0.0"
