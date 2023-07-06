@@ -28,17 +28,19 @@
         "lastUpdatedAt": "Zuletzt aktualisiert am/um {{datetime}}",
         "home": "Home",
         "availableOnlyInEnglish": "Nur auf Englisch verfügbar",
+        "px": "px",
         "whatsNew": "Was ist neu",
         "editWidget": "Widget editieren",
         "configureWidget": "Widget konfigurieren",
         "addWidget": "Widget hinzufügen",
+        "next": "Next",
+        "back": "Back",
         "settings": {
             "title": "Einstellungen",
             "general": {
                 "title": "Allgemein",
                 "language": "Sprache",
                 "newTabTitle": "Titel des neuen Tabs",
-                "newTabTitleHint": "Wir können das Symbol für eine neue Seite nicht ändern, aber du kannst ein Emoji versuchen 😉",
                 "enableAnalytics": "Analysedaten versenden aktivieren",
                 "analyticsHintP1": "Analysedaten helfen uns, besser zu verstehen wie die Benutzer mit Anori interagieren, und welche Funktionen am häufigsten benutzt werden. Es werden keine persönlichen Informationen wie z.B. Notizen-Inhalte oder Lesezeichen-URLs geteilt.",
                 "analyticsHintP2": "Das hilft uns, ein besseres Produkt zu entwickeln, also bitte aktiviere das Senden der Analysedaten.",
@@ -49,7 +51,9 @@
                 "showAnimationOnOpen": "Animation beim Öffnen anzeigen",
                 "showAnimationOnOpenHint": "Wenn diese Option aktiviert ist, zeigt die Erweiterung eine Schnellladeanimation, die das anfängliche Flackern beim Laden der Daten ausblendet und für eine bessere Optik sorgt..",
                 "hideEditButton": "\"Editieren\" Button verstecken",
-                "hideEditButtonHint": "Extra minimalistisch, yeah."
+                "hideEditButtonHint": "Extra minimalistisch, yeah.",
+                "automaticCompactModeThreshold": "Switch to compact mode if screen size is smaller than",
+                "automaticCompactModeThresholdHint": "Your current screen width is {{screenWidth}}px"
             },
             "customIcons": {
                 "title": "Benutzerdefinierte Symbole",
@@ -58,11 +62,14 @@
                 "invalidNames": "Einige der Symbole haben ungültige Namen, bitte korrigiere diese vor dem Speichern.",
                 "saveIcons": "Symbole speichern",
                 "supportedFormats": "Wir unterstützen PNG, JPG, GIF und SVG und empfehlen, quadratische Bilder mit einer Größe zwischen 128 und 256 Pixeln zu verwenden (gilt nicht für SVG).",
-                "importIcons": "Symbole importieren"
+                "importIcons": "Symbole importieren",
+                "iconName": "Icon name",
+                "nameContainsInvalidChars": "Name contains invalid characters, only letters, digits, - and _ are accepted."
             },
             "folders": {
                 "title": "Ordner",
-                "createNew": "Neuen Ordner erstellen"
+                "createNew": "Neuen Ordner erstellen",
+                "defaultName": "New folder"
             },
             "pluginSettings": {
                 "title": "Plugin Einstellungen"
@@ -97,12 +104,43 @@
             "addNewWidget": "Neues Widget zum aktuellen Ordner hinzufügen"
         },
         "onboarding": {
-            "title": "Ein Neuanfang, oder?",
-            "p1": "Hallo! Das ist die Onboarding Card, und meine Aufgabe ist es, dir bei der Einrichtung Ihrer perfekten neuen Registerkarte zu helfen.",
-            "p2": "Klicken Sie auf den Bleistift in der oberen rechten Ecke. Dadurch wird die Seite in den Bearbeitungsmodus geschaltet. Hier können Sie neue Widgets hinzufügen und vorhandene Widgets neu positionieren oder entfernen.",
-            "p3": "Wenn Sie auf das Zahnradsymbol in der linken unteren Ecke klicken, öffnen Sie die Einstellungen. Dort können Sie Ihre Ordner verwalten (die Sie in der Seitenleiste links finden) und das Thema ändern.",
-            "p4": "Oh, und wir haben auch ein Befehlsmenü für den schnellen Zugriff. Drücken Sie einfach <0 /> (weitere Tastenkombinationen erkunden, indem Sie auf <1 /> drücken).",
-            "p5": "Diese Karte wird verschwinden, sobald Sie Ihr erstes Widget hinzufügen."
+            "start": {
+                "title": "Welcome to Anori!",
+                "p1": "Glad to see you! This introduction is available in {{languages}}.",
+                "p2": "You're on your way to setup your ideal new tab. Anori start page consists of different widgets, like notes, bookmarks, todo lists, etc. You choose what to add and how to organize them.",
+                "p3": "You can add your first widget by clicking on the pencil in the top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
+                "p4": "To add a new widget, click on the plus button, or click on the checkmark to exit editing mode. Once you add your first widget, this onboarding will disappear. You can add a widget right now and explore the extension on your own, or, if you'd like to know a bit more about the features Anori has to offer, click 'Next'."
+            },
+            "folders": {
+                "title": "Folders",
+                "p1": "By default all your widgets are being added to the 'Home' folder. However, you can also organize your widgets in different folders. For example, you could have different folders for work and personal widgets. Or you could have a separate folder for each individual project.",
+                "p2": "To manage folders, click on a gears icon in the bottom left corner. This will open settings, where you can customize Anori to your liking. Click on 'Folders' there to open folders manager."
+            },
+            "shortcuts": {
+                "title": "Shortcuts",
+                "p1": "A lot of actions in Anori can be done using keyboard shortcuts.",
+                "p2": "A bunch of widgets allow you to interact with them using a command menu. To open the menu, press {{metaKey}}+K. Once you add your first couple of widgets you'll be able to utilize its full power to open bookmarks, search, or mark tasks as completed using just your keyboard.",
+                "p3": "By default, when you open a new tab, the browser's search bar will be active. Anori doesn't get any events when you type there, so to use shortcuts you'll need to move the focus to Anori page first and then press the shortcut keys. To move focus, you can press Tab or click anywhere on the page.",
+                "p4": "If you would like to see the full list of shortcuts, you can find a cheatsheet in the 'Help' section of settings."
+            },
+            "customization": {
+                "title": "Customization",
+                "p1": "While Anori lets you compose your own start page from widgets, it can be customized even more.",
+                "p2": "You can change the title of a new tab, change the color scheme along with background image and upload your custom icons to use in widgets (in addition to 10,000+ built-in icons).",
+                "p3": "And this isn't even half of the options. You might want to check out settings to see them all."
+            },
+            "analytics": {
+                "title": "Analytics",
+                "p1": "We're almost finished. But there is one final thing. By-default Anori doesn't collect any tracking data and doesn't send anything to remote servers. But I use analytics voluntarily sent by users to see what features are used the most and what needs a bit of polishing.",
+                "p2": "Therefore I ask you to enable sending analytics. Anori doesn't send any private data (like your notes or URLs of your bookmarks), just the metrics on how you use the extension (e.g. how many folders you have and how often you use shortcuts). But this is completely up to you, Anori will work as usual even if you don't enable analytics."
+            },
+            "presets": {
+                "title": "New start",
+                "p1": "That's all. Now you have an express bachelor's degree in Anori and are prepared to create your own start page. Add your first widget and start building the ultimate setup.",
+                "p2": "Tired of choices? It's okay. You don't need to nail down your perfect page on the first try. You don't even need to start from a blank canvas. We have a productive setup prepared for you.",
+                "p3": "It might not be tailored for all your needs, but you can use it as a base to make your own setup you'll love.",
+                "cta": "🚀 Just give me a productive setup"
+            }
         },
         "commandMenu": {
             "name": "Globales Befehlsmenü",
@@ -163,7 +201,8 @@
         "search-plugin": {
             "name": "Internetsuche",
             "widgetName": "Suche",
-            "searchProviderForQ": "Durchsuche {{provider}} nach «{{query}}»"
+            "searchProviderForQ": "Durchsuche {{provider}} nach «{{query}}»",
+            "defaultProvider": "Default provider"
         },
         "system-status-plugin": {
             "name": "Systemstatus",
