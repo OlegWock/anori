@@ -7,13 +7,13 @@ import deTranslation from './de.json';
 import frTranslation from './fr.json';
 import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
-import zhTwanslation from './zh-tw.json';
+import zhTwTranslation from './zh-tw.json';
 import { storage } from '@utils/storage';
 import moment from 'moment';
 import 'moment/locale/uk';
+import 'moment/locale/de';
 // When uncommenting any of moment locales, don't forget to update webpack config to actually include them in build
 // import 'moment/locale/es';
-// import 'moment/locale/de';
 // import 'moment/locale/fr';
 // import 'moment/locale/zh-cn';
 // import 'moment/locale/zh-tw';
@@ -24,26 +24,28 @@ export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 // Not all translations are finished yet
 // export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
 
-export const availableTranslations = ['en', 'uk'] as const;
+export const availableTranslations = ['en', 'de', 'uk'] as const;
 
 export type Language = typeof availableTranslations[number];
 
 export const availableTranslationsPrettyNames = {
     'en': 'English',
-    // 'es': 'Español',
-    // 'de': 'Deutsch',
-    // 'fr': 'Français',
+    'de': 'Deutsch',
     'uk': 'Українська',
+
+    // 'es': 'Español',
+    // 'fr': 'Français',
     // 'zh-cn': '中文 (简体)',
     // 'zh-tw': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
 const resources = {
     en: enTranslation,
-    // es: esTranslation,
-    // de: deTranslation,
-    // fr: frTranslation,
+    de: deTranslation,
     uk: ukTranslation,
+
+    // es: esTranslation,
+    // fr: frTranslation,
     // 'zh-cn': zhCnTranslation,
     // 'zh-tw': zhTwanslation,
 } satisfies Record<Language, any>;

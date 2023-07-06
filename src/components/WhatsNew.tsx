@@ -15,9 +15,17 @@ export const WhatsNew = () => {
                 {i18n.language !== 'en' && <section>
                     {t('availableOnlyInEnglish')}
                 </section>}
+
+                <section>
+                    <h2>1.8.0</h2>
+                    <ul>
+                        <li>Anori is now available in German. This was contribution from @berndviehboeck. Thanks!</li>
+                        <li>Fixed a couple of bugs with notes widget.</li>
+                    </ul>
+                </section>
+
                 <section>
                     <h2>1.7.0</h2>
-
                     <ul>
                         <li>New RSS plguin. It includes two widgets: one to display latest post from RSS feed and one to show posts from multiple feeds in one timeline.</li>
                         <li>Added Ecosia as search provider to Internet search widget. Contribution from @Radeox. Thanks!</li>
