@@ -113,5 +113,6 @@ export const applyTheme = (themeName: Theme["name"]) => {
     root.style.setProperty('--text', toCss(theme.colors.text));
     root.style.setProperty('--text-subtle-1', toCss(transparentize(theme.colors.text, 0.15)));
     root.style.setProperty('--text-subtle-2', toCss(transparentize(theme.colors.text, 0.35)));
+    root.style.setProperty('--text-border', toCss(transparentize(theme.colors.text, 0.75)));
     root.style.setProperty('--text-disabled', toCss(darken(theme.colors.text, 0.45)));
 };

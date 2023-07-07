@@ -83,6 +83,7 @@ $text: #ffffff;
     --text: #{$text};
     --text-subtle-1: #{color.scale($text, $alpha: -15%)};
     --text-subtle-2: #{color.scale($text, $alpha: -35%)};
+    --text-border: #{color.scale($text, $alpha: -75%)};
     --text-disabled: #{color.scale($text, $blackness: +45%)};
 }
 

@@ -74,11 +74,13 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
             onClick={() => switchEditing(true)}
         >
             <ScrollArea type="hover" darker>
-                {!!body && <ReactMarkdown
-                    components={{ a: Link }}
-                    remarkPlugins={[sequentialNewlinesPlugin, remarkBreaks, remarkGfm]}
-                    children={body}
-                />}
+                {!!body && <div className="note-body-rendered-content">
+                    <ReactMarkdown
+                        components={{ a: Link }}
+                        remarkPlugins={[sequentialNewlinesPlugin, remarkBreaks, remarkGfm]}
+                        children={body}
+                    />
+                </div>}
             </ScrollArea>
             {!body && <span className="notes-body-placeholder">{t('notes-plugin.noteText')}</span>}
         </div>}

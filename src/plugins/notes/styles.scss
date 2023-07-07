@@ -27,6 +27,9 @@
         font-family: inherit;
         font-size: inherit;
         line-height: inherit;
+        letter-spacing: inherit;
+        padding-top: 0px;
+        color: inherit;
     }
 
     .note-body-rendered {
@@ -36,19 +39,78 @@
         font-family: inherit;
         font-size: inherit;
         line-height: inherit;
-        margin: 0 0.75rem;
+        margin: 0.125rem 0.625rem;
         cursor: text;
 
         .ScrollAreaRoot {
             max-height: 100%;
+            border-radius: 0;
         }
 
-        p:not(:first-child) {
-            margin-top: 0.25rem;
-        }
+        .note-body-rendered-content {
+            p:not(:first-child) {
+                margin-top: 0.25rem;
+            }
 
-        ul, ol {
-            list-style-position: inside;
+            ul,
+            ol {
+                list-style-position: inside;
+            }
+
+            blockquote {
+                padding-left: 0.75rem;
+                border-left: 0.15rem solid var(--text-subtle-2);
+            }
+
+            hr {
+                width: 100%;
+                border-bottom: 1px solid var(--text-border);
+            }
+
+            &>* ul,
+            &>* ol {
+                margin-left: 1.5rem;
+            }
+
+            li>p {
+                display: contents;
+            }
+
+            code {
+                background: var(--background);
+                padding: 0.1rem 0.5rem;
+                border-radius: 0.25rem;
+            }
+
+            pre {
+                padding: 0.5rem;
+                background: var(--background);
+                border-radius: 0.5rem;
+
+                code {
+                    background: inherit;
+                    padding: 0;
+                    border-radius: 0;
+                }
+            }
+
+            table,
+            th,
+            td {
+                border: 1px solid var(--text-border);
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            td {
+                padding: 0.25rem 0.75rem;
+            }
+
+            img {
+                max-width: 100%;
+            }
         }
 
         .notes-body-placeholder {
