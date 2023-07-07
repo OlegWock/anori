@@ -1,3 +1,5 @@
+@import "@components/base.scss";
+
 .DateTimeWidget {
     display: flex;
     flex-direction: column;
@@ -9,7 +11,11 @@
             line-height: 1.2;
 
             &.smaller-time {
-                font-size: 1.45rem;
+                font-size: calc(1rem + var(--widget-box-percent) * 0.45rem);
+
+                @include compact {
+                    font-size: calc(1rem + var(--widget-box-percent) * 0.35rem);
+                }
             }
         }
 
@@ -58,6 +64,14 @@
         .time {
             font-size: 3.75rem;
             line-height: 1.2;
+
+            &.smaller-time {
+                font-size: calc(3rem + var(--widget-box-percent) * 0.75rem);
+
+                @include compact {
+                    font-size: calc(2.5rem + var(--widget-box-percent) * 0.75rem);
+                }
+            }
         }
 
         .date {

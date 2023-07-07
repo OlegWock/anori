@@ -126,7 +126,7 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
         }
         return date;
     }, [currentMoment]);
-    const smallerTime = (config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss')) && size === 's';
+    const smallerTime = (config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss'));
     const seconds = currentMoment.seconds();
     const minutes = currentMoment.minutes();
     const hours = currentMoment.hours();

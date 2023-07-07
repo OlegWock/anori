@@ -2,7 +2,7 @@ import { AnimatePresence, PanInfo, m } from 'framer-motion';
 import './FolderContent.scss';
 import { Folder, WidgetInFolderWithMeta } from '@utils/user-data/types';
 import { Icon } from '@components/Icon';
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { Button } from '@components/Button';
 import { NewWidgetWizard } from './NewWidgetWizard';
 import { useFolderWidgets } from '@utils/user-data/hooks';
@@ -111,10 +111,10 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
 
-    const { blockSize, gapSize } = useSizeSettings();
+    const { blockSize, minBlockSize, gapSize, isCompact } = useSizeSettings();
     const { t } = useTranslation();
     const mainRef = useRef<HTMLDivElement>(null);
-    const grisDimenstions = useGrid(mainRef, blockSize);
+    const grisDimenstions = useGrid(mainRef, blockSize, minBlockSize);
 
     const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
 
@@ -148,7 +148,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
             }}>
                 <m.div
                     key={`FolderContent-${folder.id}`}
-                    className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
+                    className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible", isCompact && "compact-mode-active")}
                     transition={{
                         duration: 0.2,
                         type: 'spring',
@@ -158,6 +158,11 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                     animate="visible"
                     exit="exit"
                     custom={animationDirection}
+                    style={{
+                        '--widget-box-size': grisDimenstions.boxSize,
+                        '--widget-box-size-px': grisDimenstions.boxSize + 'px',
+                        '--widget-box-percent': (grisDimenstions.boxSize - minBlockSize) / (blockSize - minBlockSize),
+                    } as CSSProperties}
                 >
                     <header
                         style={{

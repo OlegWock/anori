@@ -26,17 +26,16 @@ export type Layout<T extends {} = {}> = LayoutItem<T>[];
 
 type Grid2DArray = boolean[][];
 
-export const calculateColumnWidth = (containerWidth: number, desiredSize: number) => {
-    const minBoxSize = desiredSize * 0.85;
+export const calculateColumnWidth = (containerWidth: number, desiredSize: number, minBoxSize: number) => {
     const columns = Math.round(containerWidth / desiredSize);
-    const colWidth = Math.max(Math.floor(containerWidth / columns), minBoxSize);
+    const colWidth = Math.min(Math.max(Math.floor(containerWidth / columns), minBoxSize), desiredSize);
     return Number.isNaN(colWidth) ? desiredSize : colWidth;
 };
 
-export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number) => {
+export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSize: number) => {
     const calculateDimensions = () => {
         const box = ref.current!.getBoundingClientRect();
-        const boxSize = calculateColumnWidth(box.width, desiredSize);
+        const boxSize = calculateColumnWidth(box.width, desiredSize, minSize);
         const colums = Math.floor(box.width / boxSize);
         const rows = Math.floor(box.height / boxSize);
 

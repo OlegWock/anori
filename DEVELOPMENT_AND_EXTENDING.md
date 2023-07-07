@@ -123,3 +123,13 @@ This is very useful component to let user choose from all available icons. Recom
     <Button><Icon icon="ion:pencil" width={48} /></Button>
 </Popover>
 ```
+
+> `--widget-box-size`
+> `--widget-box-size-px`
+> `--widget-box-percent`
+
+Those CSS variables set on folder's root element and thus are available for use in widget styles. `--widget-box-size` exposes current box size as number (without unit), `--widget-box-size-px` holds same value, but with `px`, and  `--widget-box-percent` contains value between 0 and 1 (inclusive), where 0 means current box size is smallest possible and 1 is biggest possible.
+
+> `.compact-mode-active`
+
+This class will be added to folder's root element and can be used to apply specific widget styles in compact mode. To make life a bit easier, there is `compact` mixin defined in `base.scss` which makes applying compact styles easier, see example in [datetime widget styles](https://github.com/OlegWock/anori/blob/master/src/plugins/datetime/styles.scss).

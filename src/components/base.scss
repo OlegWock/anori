@@ -1,4 +1,5 @@
 @use 'sass:color';
+@use 'sass:selector';
 
 
 $accent: #2eb46a;
@@ -62,6 +63,13 @@ $text: #ffffff;
 
     & {
         scrollbar-color: var(--background) transparent;
+    }
+}
+
+
+@mixin compact {
+    @at-root #{selector.nest(".compact-mode-active", &)} {
+        @content;
     }
 }
 

@@ -52,6 +52,7 @@ export const useSizeSettings = () => {
     return {
         isCompact,
         blockSize: isCompact ? 140 : 180,
+        minBlockSize: (isCompact ? 140 : 180) * 0.85,
         gapSize: isCompact ? 8 : 16,
         fontSize: fontSize,
         rem,
