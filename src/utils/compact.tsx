@@ -20,7 +20,7 @@ export const useScreenWidth = () => {
             if (window.screen.width !== screenWidthRef.current) {
                 setScreenWidth(window.screen.width);
             }
-        }, 50);
+        }, 500);
 
         return () => clearInterval(tid);
     }, []);
