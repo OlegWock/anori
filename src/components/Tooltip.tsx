@@ -14,11 +14,13 @@ import {
     useDelayGroupContext,
     useDelayGroup,
     FloatingPortal,
-    Strategy
+    Strategy,
+    safePolygon
 } from "@floating-ui/react";
 import { AnimatePresence, m } from "framer-motion";
 import './Tooltip.scss';
 import { mergeRefs } from "react-merge-refs";
+import clsx from "clsx";
 
 interface Props {
     label: ReactNode;
@@ -29,9 +31,10 @@ interface Props {
     maxWidth?: number;
     children: JSX.Element;
     targetRef?: Ref<HTMLElement>
+    hasClickableContent?: boolean,
 }
 
-export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100, targetRef }: Props) => {
+export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100, targetRef, hasClickableContent = false }: Props) => {
     const { delay = showDelay, setCurrentId } = useDelayGroupContext();
     const [open, setOpen] = useState(false);
     const id = useId();
@@ -53,6 +56,7 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
 
     const { getReferenceProps, getFloatingProps } = useInteractions([
         useHover(context, {
+            handleClose: hasClickableContent ? safePolygon() : undefined,
             delay: typeof delay === 'object' ? delay : {
                 open: showDelay,
                 close: resetDelay,
@@ -97,7 +101,7 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
                             }
                             {...getFloatingProps({
                                 ref: floating,
-                                className: "Tooltip",
+                                className: clsx("Tooltip", hasClickableContent && "has-clickable-content"),
                                 style: {
                                     position: localStrategy,
                                     maxWidth: maxWidth || undefined,

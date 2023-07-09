@@ -141,10 +141,14 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
         <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
             {t("settings.general.enableAnalytics")}
-            <Hint content={<>
-                {t("settings.general.analyticsHintP1")}
+            <Hint hasClickableContent content={<>
+                <div>{t("settings.general.analyticsHintP1")}</div>
 
-                <div style={{ marginTop: '0.5rem' }}>{t("settings.general.analyticsHintP2")}</div>
+                <div style={{ marginTop: '0.5rem' }}>
+                    <Trans t={t} i18nKey="settings.general.analyticsHintP2">
+                        <a href="https://anori.app/privacy#analytics" target="_blank"></a>
+                    </Trans>
+                </div>
             </>} />
         </Checkbox>
         {/* Focus stealer works only in Chrome, Edge and Safari */}
