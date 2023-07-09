@@ -6,7 +6,7 @@ import { Language, availableTranslations } from './translations';
 
 console.log('Background init');
 
-const VERSIONS_WITH_CHANGES = ['1.1.0', '1.2.0', '1.5.0', '1.6.0', '1.8.0'];
+const VERSIONS_WITH_CHANGES = ['1.1.0', '1.2.0', '1.5.0', '1.6.0', '1.8.0', '1.9.0'];
 
 const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
     // v1 is newer than v2 => -1
