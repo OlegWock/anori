@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "Anori: ความสะดวกในหน้าใหม่"
+    },
+    "appDescription": {
+        "message": "หน้าใหม่ที่ปรับแต่งได้: สร้างหน้าของคุณด้วย widget"
+    },
+    "appActionTitle": {
+        "message": "เปิด Anori ในหน้าใหม่"
+    }
+}

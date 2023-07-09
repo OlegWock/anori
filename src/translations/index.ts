@@ -8,6 +8,7 @@ import frTranslation from './fr.json';
 import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
 import zhTwTranslation from './zh-tw.json';
+import thTranslation from './th.json';
 import { storage } from '@utils/storage';
 import moment from 'moment';
 import 'moment/locale/uk';
@@ -24,7 +25,7 @@ export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 // Not all translations are finished yet
 // export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
 
-export const availableTranslations = ['en', 'de', 'uk'] as const;
+export const availableTranslations = ['en', 'de', 'uk', 'th'] as const;
 
 export type Language = typeof availableTranslations[number];
 
@@ -32,6 +33,7 @@ export const availableTranslationsPrettyNames = {
     'en': 'English',
     'de': 'Deutsch',
     'uk': 'Українська',
+    'th': 'ไทย',
 
     // 'es': 'Español',
     // 'fr': 'Français',
@@ -43,6 +45,7 @@ const resources = {
     en: enTranslation,
     de: deTranslation,
     uk: ukTranslation,
+    th: thTranslation,
 
     // es: esTranslation,
     // fr: frTranslation,
