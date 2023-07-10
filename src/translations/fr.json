@@ -43,7 +43,7 @@
                 "newTabTitle": "New tab title",
                 "enableAnalytics": "Enable sending analytics",
                 "analyticsHintP1": "Analytics help me to better understand how users interact with Anori and which features are used the most. It doesn't share any private information, such as the content of notes or bookmark URLs.",
-                "analyticsHintP2": "This helps me to develop a better product so I ask you to enable sending analytics.",
+                "analyticsHintP2": "This helps me to develop a better product so I ask you to enable sending analytics. <0>Learn more.</0>",
                 "stealFocus": "Steal focus from the addressbar",
                 "stealFocusHint": "If enabled, this will force the browser to move focus from the address bar to this page when opening a new tab. You will be able to use the command menu (Cmd+K) without needing to move focus to the page manually (by clicking or pressing Tab).",
                 "automaticCompact": "Automatically switch to compact mode based on screen size",

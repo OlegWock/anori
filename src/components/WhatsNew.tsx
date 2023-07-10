@@ -17,6 +17,17 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.9.0</h2>
+                    <ul>
+                        <li>Anori is now available in Thai. This was contribution from @kiznick. Thanks!</li>
+                        <li>
+                            Added a <a href="https://anori.app/privacy" target="_blank">Privacy practices</a> page where
+                            you can read in details which data Anori collects and other related info.
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>1.8.0</h2>
                     <ul>
                         <li>Anori is now available in German. This was contribution from @berndviehboeck. Thanks!</li>
@@ -35,7 +46,7 @@ export const WhatsNew = () => {
                             change page title.
                         </li>
                         <li>
-                            I changed font used in the extension (Quicksand → Nunito). Old font doesn't support 
+                            I changed font used in the extension (Quicksand → Nunito). Old font doesn't support
                             Cyrillic and I plan to double down on translating the extension into other languages, so
                             it was a deal-breaker. I also tweaked styles a bit so text should be more readable now.
                             I hope you'll like new font!
