@@ -54,7 +54,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
             active: true,
         });
         const acceptedLanguages = await browser.i18n.getAcceptLanguages();
-        const userLocale = browser.i18n.getUILanguage();
+        const userLocale = browser.i18n.getUILanguage().replace('_', '-');
         const possibleLanguages = [userLocale, ...acceptedLanguages].map(l => l.toLowerCase());
         let bestCandidate = 'en';
         for (const lang of possibleLanguages) {
