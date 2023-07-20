@@ -77,6 +77,12 @@ export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultVal
     return useAtomWithStorage(atom);
 };
 
+export const preloadBrowserStorageAtom = <K extends StorageKey>(name: K, defaultValue: StorageContent[K], onLoad?: (v: StorageContent[K]) => void) => {
+    if (!storageAtoms[name]) {
+        storageAtoms[name] = atomWithBrowserStorageStatic(name, defaultValue, { forceLoad: true, onLoad });
+    }
+};
+
 
 type AtomWithBrowserStorageOptions<T> = {
     forceLoad?: boolean, // Otherwise content will be loaded when atom first used in provider
