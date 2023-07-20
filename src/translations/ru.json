@@ -1,292 +1,292 @@
 {
     "translation": {
-        "appName": "Anori: productivity new tab",
-        "appDescription": "Customizable new tab: compose your own page from widgets",
-        "appActionTitle": "Open Anori new tab",
-        "icon": "Icon",
-        "title": "Title",
-        "url": "URL",
-        "urls": "URLs",
-        "save": "Save",
-        "import": "Import",
-        "add": "Add",
-        "noResults": "No results",
-        "example": "Example",
-        "weekday0": "Monday",
-        "weekday1": "Tuesday",
-        "weekday2": "Wednesday",
-        "weekday3": "Thursday",
-        "weekday4": "Friday",
-        "weekday5": "Saturday",
-        "weekday6": "Sunday",
-        "timezone": "Timezone",
-        "refreshing": "Refreshing...",
-        "refresh": "Refresh",
-        "startTypingToSearch": "Start typing to search...",
-        "search": "Search...",
-        "loading": "Loading...",
-        "lastUpdatedAt": "Last updated at {{datetime}}",
-        "home": "Home",
-        "availableOnlyInEnglish": "Available only in English",
+        "appName": "Anori: новая вкладка продуктивности",
+        "appDescription": "Настраиваемая новая вкладка: создайте собственную страницу из виджетов",
+        "appActionTitle": "Открыть новую вкладку Anori",
+        "icon": "Иконка",
+        "title": "Заголовок",
+        "url": "URL-адрес",
+        "urls": "URL-адреса",
+        "save": "Сохранить",
+        "import": "Импортировать",
+        "add": "Добавить",
+        "noResults": "Нет результатов",
+        "example": "Пример",
+        "weekday0": "Понедельник",
+        "weekday1": "Вторник",
+        "weekday2": "Среда",
+        "weekday3": "Четверг",
+        "weekday4": "Пятница",
+        "weekday5": "Суббота",
+        "weekday6": "Воскресенье",
+        "timezone": "Часовой пояс",
+        "refreshing": "Перезагрузка...",
+        "refresh": "Перезагрузить",
+        "startTypingToSearch": "Начните печатать для поиска...",
+        "search": "Поиск...",
+        "loading": "Загрузка...",
+        "lastUpdatedAt": "Последнее обновление в {{datetime}}",
+        "home": "Главная",
+        "availableOnlyInEnglish": "Доступно только на английском языке",
         "px": "px",
 
-        "whatsNew": "What's new",
-        "editWidget": "Edit widget",
-        "configureWidget": "Configure widget",
-        "addWidget": "Add widget",
-        "next": "Next",
-        "back": "Back",
+        "whatsNew": "Что нового",
+        "editWidget": "Редактировать виджет",
+        "configureWidget": "Настроить виджет",
+        "addWidget": "Добавить виджет",
+        "next": "Дальше",
+        "back": "Назад",
 
         "settings": {
-            "title": "Settings",
+            "title": "Настройки",
             "general": {
-                "title": "General",
-                "language": "Language",
-                "newTabTitle": "New tab title",
-                "enableAnalytics": "Enable sending analytics",
-                "analyticsHintP1": "Analytics help me to better understand how users interact with Anori and which features are used the most. It doesn't share any private information, such as the content of notes or bookmark URLs.",
-                "analyticsHintP2": "This helps me to develop a better product so I ask you to enable sending analytics. <0>Learn more.</0>",
-                "stealFocus": "Steal focus from the addressbar",
-                "stealFocusHint": "If enabled, this will force the browser to move focus from the address bar to this page when opening a new tab. You will be able to use the command menu (Cmd+K) without needing to move focus to the page manually (by clicking or pressing Tab).",
-                "automaticCompact": "Automatically switch to compact mode based on screen size",
-                "automaticCompactModeThreshold": "Switch to compact mode if screen size is smaller than",
-                "automaticCompactModeThresholdHint": "Your current screen width is {{screenWidth}}px",
-                "useCompact": "Always use compact mode",
-                "showAnimationOnOpen": "Show animation on open",
-                "showAnimationOnOpenHint": "If enabled, the extension will show a quick-loading animation which will hide the initial flicker of loading data and provide a better look.",
-                "hideEditButton": "Hide 'Edit folder' button",
-                "hideEditButtonHint": "Extra minimalistic, yeah."
+                "title": "Общие",
+                "language": "Язык",
+                "newTabTitle": "Новый заголовок вкладки",
+                "enableAnalytics": "Включить отправку аналитики",
+                "analyticsHintP1": "Аналитика помогает мне лучше понять, как пользователи взаимодействуют с Anori и какие функции используются чаще всего. Он не передает какую-либо личную информацию, такую как содержимое заметок или URL-адреса закладок.",
+                "analyticsHintP2": "Это помогает мне разрабатывать лучший продукт, поэтому я прошу вас включить отправку аналитики. <0>Подробнее.</0>",
+                "stealFocus": "Забрать фокус с адресной строки",
+                "stealFocusHint": "Если включено, это заставит браузер перемещать фокус с адресной строки на эту страницу при открытии новой вкладки. Вы сможете использовать командное меню (Cmd+K) без необходимости перемещать фокус на страницу вручную (щелкая или нажимая Tab).",
+                "automaticCompact": "Автоматически переключаться в компактный режим в зависимости от размера экрана",
+                "automaticCompactModeThreshold": "Переключиться в компактный режим, если размер экрана меньше",
+                "automaticCompactModeThresholdHint": "Ваша текущая ширина экрана составляет {{screenWidth}}px",
+                "useCompact": "Всегда использовать компактный режим",
+                "showAnimationOnOpen": "Показывать анимацию при открытии",
+                "showAnimationOnOpenHint": "Если включено, расширение покажет быструю анимацию загрузки, которая скроет начальное мерцание загрузки данных и обеспечит лучший вид.",
+                "hideEditButton": "Скрыть кнопку 'Редактировать папку'",
+                "hideEditButtonHint": "Очень минималистично."
             },
             "customIcons": {
-                "title": "Custom icons",
-                "incorrectFormat": "Please provide valid file(s). Anori supports .png, .jpg, .gif, .jpeg and .svg",
-                "noIcons": "You don't have any custom icons yet.",
-                "iconName": "Icon name",
-                "invalidNames": "Some of the icons have an invalid name, please fix the names before saving.",
-                "nameContainsInvalidChars": "Name contains invalid characters, only letters, digits, - and _ are accepted.",
-                "saveIcons": "Save icons",
-                "supportedFormats": "Anori supports .png, .jpg, .gif and .svg. It's best to use square images between 128 and 256 pixels wide (not applicable to .svg).",
-                "importIcons": "Import icons"
+                "title": "Пользовательские иконки",
+                "incorrectFormat": "Пожалуйста, укажите действительные файлы. Anori поддерживает .png, .jpg, .gif, .jpeg и .svg",
+                "noIcons": "У вас пока нет пользовательских иконок.",
+                "iconName": "Имя иконки",
+                "invalidNames": "Некоторые иконки имеют недопустимое имя. Исправьте имена перед сохранением.",
+                "nameContainsInvalidChars": "Имя содержит недопустимые символы, допустимы только буквы, цифры, - и _.",
+                "saveIcons": "Сохранить иконки",
+                "supportedFormats": "Anori поддерживает форматы .png, .jpg, .gif и .svg. Лучше всего использовать квадратные изображения шириной от 128 до 256 пикселей (не относится к .svg).",
+                "importIcons": "Импортировать иконки"
             },
             "folders": {
-                "title": "Folders",
-                "createNew": "Create new folder",
-                "defaultName": "New folder"
+                "title": "Папки",
+                "createNew": "Создать новую папку",
+                "defaultName": "Новая папка"
             },
             "pluginSettings": {
-                "title": "Plugin settings"
+                "title": "Настройка плагинов"
             },
             "theme": {
-                "title": "Theme"
+                "title": "Тема"
             },
             "importExport": {
-                "title": "Import & export",
-                "info": "Here you can backup your settings or restore older backup.",
-                "import": "Import",
-                "export": "Export"
+                "title": "Импорт и экспорт",
+                "info": "Здесь вы можете сделать резервную копию ваших настроек или восстановить старую резервную копию.",
+                "import": "Импортировать",
+                "export": "Экспортировать"
             },
             "aboutHelp": {
-                "title": "Help & about the extension",
-                "onlyEnglishPlease": "I (author of the project) don't speak a lot of languages, so please file your issues in English. Thanks!",
-                "p1": "Anori is a free and open source extension. Source code can be found on <0>GitHub</0>. If you would like to suggest a feature or report a bug, please create <1>new issue</1> in repository. If you just want to say thanks you can star that repo :).",
-                "p2": "If you would like to modify this extension, add your own plugin or widget, please refer to <0>readme</0> for more info.",
-                "p3": "Follow the author on <0>Twitter</0> and <1>support Ukraine</1>."
+                "title": "Помощь и информация о расширении",
+                "onlyEnglishPlease": "Я (автор проекта) не владею многими языками, поэтому, пожалуйста, присылайте свои вопросы на английском языке. Спасибо!",
+                "p1": "Anori — это бесплатное расширение с открытым исходным кодом. Исходный код можно найти на <0>GitHub</0>. Если вы хотите предложить функцию или сообщить об ошибке, создайте <1>новую проблему</1> в репозитории. Если вы просто хотите сказать спасибо, вы можете поставить звездочку этому репо :).",
+                "p2": "Если вы хотите изменить это расширение, добавить ваш собственный плагин или виджет, обратитесь к <0>readme</0> для получения дополнительной информации.",
+                "p3": "Подпишитесь на автора в <0>Твиттере</0> и <1>поддержите Украину</1>."
             }
         },
 
         "shortcuts": {
-            "title": "Shortcuts",
-            "showCheatsheet": "Show/hide shortcuts cheatsheet",
-            "toggleSettings": "Show/hide settings",
-            "displayCommandMenu": "Display command menu",
-            "closeMenuOrModal": "Close command menu or modal window",
-            "switchToFolderAbove": "Switch to folder above",
-            "switchToFolderBelow": "Switch to folder below",
-            "switchToNFolder": "Switch to 1st folder (works with other numbers too!)",
-            "editCurrentFolder": "Edit current folder",
-            "addNewWidget": "Add new widget to current folder"
+            "title": "Сочетания клавиш",
+            "showCheatsheet": "Показать/скрыть шпаргалку по сочетаниям клавиш",
+            "toggleSettings": "Показать/скрыть настройки",
+            "displayCommandMenu": "Показать меню команд",
+            "closeMenuOrModal": "Закрыть меню команд или всплывающее окно",
+            "switchToFolderAbove": "Переключиться на папку выше",
+            "switchToFolderBelow": "Переключиться на папку ниже",
+            "switchToNFolder": "Переключитесь на первую папку (работает и с другими номерами!)",
+            "editCurrentFolder": "Изменить текущую папку",
+            "addNewWidget": "Добавить новый виджет в текущую папку"
         },
 
         "onboarding": {
             "start": {
-                "title": "Welcome to Anori!",
-                "p1": "Glad to see you! This introduction is available in {{languages}}.",
-                "p2": "You're on your way to setup your ideal new tab. Anori start page consists of different widgets, like notes, bookmarks, todo lists, etc. You choose what to add and how to organize them.",
-                "p3": "You can add your first widget by clicking on the pencil in the top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
-                "p4": "To add a new widget, click on the plus button, or click on the checkmark to exit editing mode. Once you add your first widget, this onboarding will disappear. You can add a widget right now and explore the extension on your own, or, if you'd like to know a bit more about the features Anori has to offer, click 'Next'."
+                "title": "Добро пожаловать в Anori!",
+                "p1": "Рад видеть тебя! Это введение доступно на {{languages}}.",
+                "p2": "Вы находитесь на пути к настройке своей идеальной новой вкладки. Стартовая страница Anori состоит из различных виджетов, таких как заметки, закладки, списки задач и т.д. Вы сами выбираете, что добавить и как их организовать.",
+                "p3": "Вы можете добавить свой первый виджет, нажав на карандаш в правом верхнем углу. Это переключит страницу в режим редактирования. Здесь вы можете добавлять новые виджеты, а также перемещать или удалять существующие.",
+                "p4": "Чтобы добавить новый виджет, нажмите кнопку с плюсом или нажмите на галочку, чтобы выйти из режима редактирования. Как только вы добавите свой первый виджет, это введение исчезнет. Вы можете добавить виджет прямо сейчас и изучить расширение самостоятельно, или, если вы хотите узнать немного больше о функциях, которые может предложить Anori, нажмите 'Далее'."
             },
             "folders": {
-                "title": "Folders",
-                "p1": "By default all your widgets are being added to the 'Home' folder. However, you can also organize your widgets in different folders. For example, you could have different folders for work and personal widgets. Or you could have a separate folder for each individual project.",
-                "p2": "To manage folders, click on a gears icon in the bottom left corner. This will open settings, where you can customize Anori to your liking. Click on 'Folders' there to open folders manager."
+                "title": "Папки",
+                "p1": "По умолчанию все ваши виджеты добавляются в папку 'Главная'. Однако вы также можете организовать свои виджеты в разных папках. Например, у вас могут быть разные папки для рабочих и личных виджетов. Или у вас может быть отдельная папка для каждого отдельного проекта.",
+                "p2": "Для управления папками нажмите на значок шестеренки в левом нижнем углу. Откроются настройки, где вы сможете настроить Anori по своему вкусу. Нажмите «Папки», чтобы открыть управление папками."
             },
             "shortcuts": {
-                "title": "Shortcuts",
-                "p1": "A lot of actions in Anori can be done using keyboard shortcuts.",
-                "p2": "A bunch of widgets allow you to interact with them using a command menu. To open the menu, press {{metaKey}}+K. Once you add your first couple of widgets you'll be able to utilize its full power to open bookmarks, search, or mark tasks as completed using just your keyboard.",
-                "p3": "By default, when you open a new tab, the browser's search bar will be active. Anori doesn't get any events when you type there, so to use shortcuts you'll need to move the focus to Anori page first and then press the shortcut keys. To move focus, you can press Tab or click anywhere on the page.",
-                "p4": "If you would like to see the full list of shortcuts, you can find a cheatsheet in the 'Help' section of settings."
+                "title": "Сочетания клавиш",
+                "p1": "Многие действия в Anori можно выполнять с помощью сочетаний клавиш.",
+                "p2": "Куча виджетов позволяет вам взаимодействовать с ними с помощью командного меню. Чтобы открыть меню, нажмите {{metaKey}}+K. Как только вы добавите пару первых виджетов, вы сможете использовать все его возможности, чтобы открывать закладки, искать или отмечать задачи как выполненные, используя только клавиатуру.",
+                "p3": "По умолчанию, когда вы открываете новую вкладку, панель поиска браузера будет активной. Anori не получает никаких событий, когда вы печатаете там, поэтому, чтобы использовать сочетания клавиш, вам нужно сначала переместить фокус на страницу Anori, а затем нажимать сочетания клавиш. Чтобы переместить фокус, вы можете нажать клавишу Tab или щелкнуть в любом месте страницы.",
+                "p4": "Если вы хотите увидеть полный список сочетаний клавиш, вы можете найти шпаргалку в разделе 'Помощь' в настройках."
             },
             "customization": {
-                "title": "Customization",
-                "p1": "While Anori lets you compose your own start page from widgets, it can be customized even more.",
-                "p2": "You can change the title of a new tab, change the color scheme along with background image and upload your custom icons to use in widgets (in addition to 10,000+ built-in icons).",
-                "p3": "And this isn't even half of the options. You might want to check out settings to see them all."
+                "title": "Кастомизация",
+                "p1": "Пока Anori позволяет создавать собственную стартовую страницу из виджетов, ее можно кастомизировать еще больше.",
+                "p2": "Вы можете изменить заголовок новой вкладки, изменить цветовую схему вместе с фоновым изображением и загрузить собственные иконки для использования в виджетах (в дополнение к более чем 10 000 встроенных иконок).",
+                "p3": "И это даже не половина возможностей. Возможно, вы захотите проверить настройки, чтобы увидеть их все."
             },
             "analytics": {
-                "title": "Analytics",
-                "p1": "We're almost finished. But there is one final thing. By-default Anori doesn't collect any tracking data and doesn't send anything to remote servers. But I use analytics voluntarily sent by users to see what features are used the most and what needs a bit of polishing.",
-                "p2": "Therefore I ask you to enable sending analytics. Anori doesn't send any private data (like your notes or URLs of your bookmarks), just the metrics on how you use the extension (e.g. how many folders you have and how often you use shortcuts). But this is completely up to you, Anori will work as usual even if you don't enable analytics."
+                "title": "Аналитика",
+                "p1": "Мы почти закончили. Но есть одна последняя вещь. По умолчанию Anori не собирает данные отслеживания и ничего не отправляет на удаленные серверы. Но я использую аналитику, которую добровольно присылают пользователи, чтобы увидеть, какие функции используются чаще всего, а какие нуждаются в доработке.",
+                "p2": "Поэтому я прошу вас включить отправку аналитики. Anori не отправляет никаких личных данных (таких как ваши заметки или URL-адреса ваших закладок), только показатели того, как вы используете расширение (например, сколько у вас папок и как часто вы используете сочетания клавиш). Но это полностью зависит от вас, Anori будет работать как обычно, даже если вы не включите аналитику."
             },
             "presets": {
-                "title": "New start",
-                "p1": "That's all. Now you have an express bachelor's degree in Anori and are prepared to create your own start page. Add your first widget and start building the ultimate setup.",
-                "p2": "Tired of choices? It's okay. You don't need to nail down your perfect page on the first try. You don't even need to start from a blank canvas. We have a productive setup prepared for you.",
-                "p3": "It might not be tailored for all your needs, but you can use it as a base to make your own setup you'll love.",
-                "cta": "🚀 Just give me a productive setup"
+                "title": "Новое начало",
+                "p1": "Вот и все. Теперь у вас есть экспресс-степень бакалавра в Anori, и вы готовы создать свою собственную стартовую страницу. Добавьте свой первый виджет и начните создавать лучший сетап.",
+                "p2": "Устали от выбора? Все нормально. Вам не нужно создавать идеальную страницу с первой попытки. Вам даже не нужно начинать с чистого листа. Мы подготовили для вас продуктивный сетап.",
+                "p3": "Возможно, он не будет адаптирован для всех ваших потребностей, но вы можете использовать его в качестве основы для создания собственного сетапа, который вам понравится.",
+                "cta": "🚀 Просто дайте мне продуктивный сетап"
             }
         },
 
         "commandMenu": {
-            "name": "Global Command Menu",
-            "placeholder": "Enter a command",
-            "noWidgets": "Nothing here yet. Try adding some widgets to a folder."
+            "name": "Глобальное меню команд",
+            "placeholder": "Введите команду",
+            "noWidgets": "Здесь пока ничего. Попробуйте добавить несколько виджетов в папку."
         },
 
         "requirePermissions": {
-            "eh": "Eh?",
-            "modalTitle": "Additional permissions required",
-            "compactText": "Additional permissions required. Click to see details.",
-            "text": "This widget requires additional permissions:",
-            "apiPermissions": "API permissions",
-            "hostPermissions": "Host permissions",
-            "grant": "Grant permissions"
+            "eh": "А?",
+            "modalTitle": "Требуются дополнительные разрешения",
+            "compactText": "Требуются дополнительные разрешения. Нажмите, чтобы увидеть подробности.",
+            "text": "Этот виджет требует дополнительных разрешений:",
+            "apiPermissions": "Разрешения API",
+            "hostPermissions": "Доступ к сайтам",
+            "grant": "Предоставить разрешения"
         },
 
         "bookmark-plugin": {
-            "name": "Bookmarks",
-            "widgetSizeSName": "Bookmark - size S",
-            "widgetSizeMName": "Bookmark - size M",
-            "groupWidgetSizeSName": "Bookmark group - size S",
-            "groupWidgetSizeMName": "Bookmark group - size M",
-            "openInGroup": "Open in a tab group",
-            "group": "Group",
-            "searchBookmarks": "Search bookmarks"
+            "name": "Закладки",
+            "widgetSizeSName": "Закладка - размер S",
+            "widgetSizeMName": "Закладка - размер М",
+            "groupWidgetSizeSName": "Группа закладок - размер S",
+            "groupWidgetSizeMName": "Группа закладок - размер M",
+            "openInGroup": "Открыть в группе вкладок",
+            "group": "Группа",
+            "searchBookmarks": "Поиск закладок"
         },
         "calendar-plugin": {
-            "name": "Calendar",
-            "widgetName": "Calendar",
-            "firstDayOfWeek": "First day of the week"
+            "name": "Календарь",
+            "widgetName": "Календарь",
+            "firstDayOfWeek": "Первый день недели"
         },
         "datetime-plugin": {
-            "name": "Date and time",
-            "widgetNameS": "Date and time - size S",
-            "widgetNameM": "Date and time - size M",
-            "withoutDate": "Without date",
-            "timeFormat": "Time format",
-            "dateFormat": "Date format",
-            "24hours": "24 hours"
+            "name": "Дата и время",
+            "widgetNameS": "Дата и время - размер S",
+            "widgetNameM": "Дата и время - размер M",
+            "withoutDate": "Без даты",
+            "timeFormat": "Формат времени",
+            "dateFormat": "Формат даты",
+            "24hours": "24 часа"
         },
 
         "notes-plugin": {
-            "name": "Notes",
-            "widgetSizeSName": "Notes - size S",
-            "widgetSizeMName": "Notes - size M",
-            "widgetSizeLName": "Notes - size L",
-            "noteTitle": "Note title",
-            "noteText": "Note text (markdown supported)",
-            "exampleTitle": "Shopping list",
-            "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
+            "name": "Заметки",
+            "widgetSizeSName": "Заметки - размер S",
+            "widgetSizeMName": "Заметки - размер M",
+            "widgetSizeLName": "Заметки - размер L",
+            "noteTitle": "Название заметки",
+            "noteText": "Текст заметки (поддерживается markdown)",
+            "exampleTitle": "Список покупок",
+            "exampleText": "Овощи, кетчуп, сыр, мука, оливковое масло"
         },
         
         "recently-closed-plugin": {
-            "name": "Recently closed tabs",
-            "widgetSizeSName": "Recently closed tabs - size S",
-            "widgetSizeMName": "Recently closed tabs - size M",
-            "widgetTitle": "Recently closed",
-            "tab": "Tab",
-            "window": "Window"
+            "name": "Недавно закрытые вкладки",
+            "widgetSizeSName": "Недавно закрытые вкладки - размер S",
+            "widgetSizeMName": "Недавно закрытые вкладки - размер M",
+            "widgetTitle": "Недавно закрыто",
+            "tab": "Вкладка",
+            "window": "Окно"
         },
 
         "search-plugin": {
-            "name": "Internet search",
-            "widgetName": "Search",
-            "defaultProvider": "Default provider",
-            "searchProviderForQ": "Search {{provider}} for «{{query}}»"
+            "name": "Поиск в Интернете",
+            "widgetName": "Поиск",
+            "defaultProvider": "Провайдер по умолчанию",
+            "searchProviderForQ": "Поиск «{{query}}» в {{provider}}"
         },
 
         "system-status-plugin": {
-            "name": "System status",
-            "ramLoad": "RAM load",
-            "cpuLoad": "CPU load"
+            "name": "Состояние системы",
+            "ramLoad": "Нагрузка RAM",
+            "cpuLoad": "Нагрузка CPU"
         },
         "tasks-plugin": {
-            "name": "Tasks",
-            "widgetSizeMName": "Tasks - size M",
-            "widgetSizeLName": "Tasks - size L",
-            "todo": "ToDo",
-            "completeTask": "Complete «{{task}}»",
-            "taskDescription": "Task description...",
-            "noTasks": "No tasks here yet",
-            "exampleTask0": "Stupid walk for stupid mental health",
-            "exampleTask1": "Lay on the couch",
-            "exampleTask2": "Lay on the floor",
-            "exampleTask3": "Try not to cry"
+            "name": "Задачи",
+            "widgetSizeMName": "Задачи - размер М",
+            "widgetSizeLName": "Задачи - размер L",
+            "todo": "Список задач",
+            "completeTask": "Выполнить «{{task}}»",
+            "taskDescription": "Описание задачи...",
+            "noTasks": "Здесь пока нет задач",
+            "exampleTask0": "Прогуляться",
+            "exampleTask1": "Полежать на диване",
+            "exampleTask2": "Полежать на полу",
+            "exampleTask3": "Попытаться не плакать"
         }, 
 
         "top-sites-plugin": {
-            "name": "Top sites",
-            "widgetHorizontal": "Top sites - horizontal",
-            "widgetVertical": "Top sites - vertical"
+            "name": "Самые посещаемые сайты",
+            "widgetHorizontal": "Самые посещаемые сайты - горизонтальный",
+            "widgetVertical": "Самые посещаемые сайты - вертикальный"
         },
 
         "weather-plugin": {
-            "name": "Weather",
-            "weatherForecast": "Weather forecast",
-            "forecast": "Forecast",
-            "currentWeather": "Current weather",
-            "kmh": "km/h",
-            "ms": "m/s",
-            "mph": "mph",
-            "clearSky": "Clear sky",
-            "partlyCloudy": "Partly cloudy",
-            "fog": "Fog",
-            "drizzle": "Drizzle",
-            "freezingDrizzle": "Freezing drizzle",
-            "rain": "Rain",
-            "freezingRain": "Freezing rain",
-            "snow": "Snow",
-            "rainShower": "Rain shower",
-            "thunderstorm": "Thunderstorm",
-            "unknownCode": "Unknown weather code",
-            "selectCity": "Select city",
-            "temperatureUnit": "Temperature unit",
-            "speedUnit": "Wind speed unit",
-            "weatherCode": "weather code {{code}}"
+            "name": "Погода",
+            "weatherForecast": "Прогноз погоды",
+            "forecast": "Прогноз",
+            "currentWeather": "Текущая погода",
+            "kmh": "км/ч",
+            "ms": "м/с",
+            "mph": "миля/ч",
+            "clearSky": "Чистое небо",
+            "partlyCloudy": "Переменная облачность",
+            "fog": "Туман",
+            "drizzle": "Мелкий дождь",
+            "freezingDrizzle": "Гололёд",
+            "rain": "Дождь",
+            "freezingRain": "Ледяной дождь",
+            "snow": "Снег",
+            "rainShower": "Ливень",
+            "thunderstorm": "Гроза",
+            "unknownCode": "Неизвестный код погоды",
+            "selectCity": "Выберите город",
+            "temperatureUnit": "Единица измерения температуры",
+            "speedUnit": "Единица измерения скорости ветра",
+            "weatherCode": "код погоды {{code}}"
         },
 
         "rss-plugin": {
             "name": "RSS",
-            "widgetFeedName": "RSS feed",
-            "widgetLatestPostName": "Latest post from RSS feed",
-            "feedUrl": "RSS feed URL",
-            "feedUrls": "RSS feed URLs",
-            "noPosts": "No posts in this feed yet",
-            "presetsTitle": "Put your favorite feeds here or select from one of the presets:",
-            "presetForDevelopers": "For developers",
-            "presetForDesigners": "For designers",
-            "presetInteresting": "Just interesting stuff",
+            "widgetFeedName": "Лента RSS",
+            "widgetLatestPostName": "Последний пост из ленты RSS",
+            "feedUrl": "URL-адрес RSS ленты",
+            "feedUrls": "URL-адреса лент RSS",
+            "noPosts": "В этой ленте пока нет публикаций",
+            "presetsTitle": "Вставьте сюда свои любимые каналы или выберите один из пресетов:",
+            "presetForDevelopers": "Для разработчиков",
+            "presetForDesigners": "Для дизайнеров",
+            "presetInteresting": "Просто интересный материал",
             "presetForDevelopersTitle": "Dev",
-            "presetForDesignersTitle": "Design",
-            "presetInterestingTitle": "Interesting stuff",
-            "examplePostTitle1": "How to organize your Anori new tab like a pro!",
-            "examplePostDescription1": "You just start with a good old bookmark and then let your heart lead you. Sometimes all you need is a bit of order...",
-            "exampleFeedTitle1": "Anori blog",
-            "examplePostTitle2": "8 most useful browser extensions",
-            "examplePostDescription2": "Today I'll show you how to turn your browser into a productivity station with those must have extensions. Featuring the star of the show - Anori.",
-            "exampleFeedTitle2": "Productivity 101",
-            "examplePostTitle3": "An extension which lets you compose your own new tab from widgets!",
-            "examplePostDescription3": "You can compose your own new tab from provided widgets (tasks, notes, bookmarks, etc) and organize them into folders.",
+            "presetForDesignersTitle": "Дизайн",
+            "presetInterestingTitle": "Интересный материал",
+            "examplePostTitle1": "Как организовать новую вкладку Anori как про!",
+            "examplePostDescription1": "Вы просто начинаете со старой доброй закладки, а затем позволяете своему сердцу вести вас. Иногда все, что вам нужно, это немного порядка...",
+            "exampleFeedTitle1": "Блог Anori",
+            "examplePostTitle2": "8 самых полезных расширений для браузера",
+            "examplePostDescription2": "Сегодня я покажу вам, как превратить ваш браузер в рабочую станцию с помощью необходимых расширений. В главной роли звезда шоу - Anori.",
+            "exampleFeedTitle2": "Продуктивность 101",
+            "examplePostTitle3": "Расширение, позволяющее создавать собственную новую вкладку из виджетов!",
+            "examplePostDescription3": "Вы можете создать свою собственную новую вкладку из предоставленных виджетов (задач, заметок, закладок и т.д.) и организовать их в папки.",
             "exampleFeedTitle3": "Reddit"
         }
     }
