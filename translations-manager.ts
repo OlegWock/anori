@@ -123,7 +123,7 @@ const main = async () => {
             rmSync(join(TRANSLATIONS_FOLDER, mergeFilename));
         });
     } else if (args[0] === 'generate-locales') {
-        const FINISHED_TRANSLATIONS = ['en', 'uk', 'de', 'th', 'zh-cn'];
+        const FINISHED_TRANSLATIONS = ['en', 'uk', 'de', 'th', 'zh-cn', 'ru'];
         console.log('Generating locales for', FINISHED_TRANSLATIONS.join(', '));
         const localesKeysToTranslationKeys = [
             ['appName.message', 'translation.appName'],

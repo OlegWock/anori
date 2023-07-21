@@ -17,6 +17,13 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.10.0</h2>
+                    <ul>
+                        <li>Anori is now available in Russian. This was contribution from @MLGRussianXP. Thanks!</li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>1.9.0</h2>
                     <ul>
                         <li>Anori is now available in Thai. This was contribution from @kiznick. Thanks!</li>
