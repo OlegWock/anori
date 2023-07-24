@@ -4,9 +4,9 @@ import { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "re
 import { trackEvent } from "./analytics";
 
 export const useForceRerender = () => {
-    const [state, setState] = useState({});
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
-    return () => setState({});
+    return forceUpdate;
 };
 
 export function usePrevious<T>(value: T): T | undefined;
@@ -114,7 +114,7 @@ export const useRunAfterNextRender = () => {
 
 
 export const useIntervalRender = (interval: number) => {
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const forceUpdate = useForceRerender();
 
     useEffect(() => {
         const tid = setInterval(() => forceUpdate(), interval);
@@ -123,7 +123,7 @@ export const useIntervalRender = (interval: number) => {
 };
 
 export const useScheduledRender = () => {
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const forceUpdate = useForceRerender();
     const tid = useRef<null | NodeJS.Timeout>(null);
 
     useEffect(() => {

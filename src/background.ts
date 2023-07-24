@@ -50,11 +50,11 @@ browser.runtime.onInstalled.addListener(async (details) => {
 
     if (details.reason === 'install') {
         browser.tabs.create({
-            url: 'https://anori.sinja.io/welcome',
+            url: 'https://anori.app/welcome',
             active: true,
         });
         const acceptedLanguages = await browser.i18n.getAcceptLanguages();
-        const userLocale = browser.i18n.getUILanguage();
+        const userLocale = browser.i18n.getUILanguage().replace('_', '-');
         const possibleLanguages = [userLocale, ...acceptedLanguages].map(l => l.toLowerCase());
         let bestCandidate = 'en';
         for (const lang of possibleLanguages) {

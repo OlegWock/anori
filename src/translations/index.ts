@@ -9,14 +9,16 @@ import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
 import zhTwTranslation from './zh-tw.json';
 import thTranslation from './th.json';
+import ruTranslation from './ru.json';
 import { storage } from '@utils/storage';
 import moment from 'moment';
 import 'moment/locale/uk';
 import 'moment/locale/de';
+import 'moment/locale/ru';
+import 'moment/locale/zh-cn';
 // When uncommenting any of moment locales, don't forget to update webpack config to actually include them in build
 // import 'moment/locale/es';
 // import 'moment/locale/fr';
-// import 'moment/locale/zh-cn';
 // import 'moment/locale/zh-tw';
 moment.locale('en');
 
@@ -25,7 +27,7 @@ export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 // Not all translations are finished yet
 // export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
 
-export const availableTranslations = ['en', 'de', 'uk', 'th'] as const;
+export const availableTranslations = ['en', 'de', 'uk', 'th', 'zh-CN', 'ru'] as const;
 
 export type Language = typeof availableTranslations[number];
 
@@ -34,10 +36,11 @@ export const availableTranslationsPrettyNames = {
     'de': 'Deutsch',
     'uk': 'Українська',
     'th': 'ไทย',
+    'zh-CN': '中文 (简体)',
+    'ru': 'Русский',
 
     // 'es': 'Español',
     // 'fr': 'Français',
-    // 'zh-cn': '中文 (简体)',
     // 'zh-tw': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
@@ -46,10 +49,11 @@ const resources = {
     de: deTranslation,
     uk: ukTranslation,
     th: thTranslation,
+    'zh-CN': zhCnTranslation,
+    ru: ruTranslation,
 
     // es: esTranslation,
     // fr: frTranslation,
-    // 'zh-cn': zhCnTranslation,
     // 'zh-tw': zhTwanslation,
 } satisfies Record<Language, any>;
 
@@ -70,7 +74,7 @@ export const initTranslation = async () => {
 
 export const switchTranslationLanguage = (lang: Language) => {
     i18n.changeLanguage(lang);
-    moment.locale(lang);
+    moment.locale(lang.toLowerCase()); // Moment uses lowecase locales (e.g. zh-cn), but i18next requires them to be like zh-CN
 };
 
 export const translate = i18n.t;

@@ -496,7 +496,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 endYear: currentYear + 5,
             }),
             new MomentLocalesPlugin({
-                localesToKeep: ['uk', 'de', 'th'],
+                localesToKeep: ['uk', 'de', 'th', 'zh-cn', 'ru'],
             }),
             ...zipPlugin,
         ],

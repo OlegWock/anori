@@ -12,7 +12,7 @@ import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { homeFolder } from '@utils/user-data/types';
 import { useHotkeys, usePrevious } from '@utils/hooks';
-import { storage, useBrowserStorageValue } from '@utils/storage';
+import { preloadBrowserStorageAtom, storage, useBrowserStorageValue } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 import { CommandMenu } from '@components/command-menu/CommandMenu';
 import { watchForPermissionChanges } from '@utils/permissions';
@@ -157,10 +157,16 @@ storage.getOne('showLoadAnimation').then(showLoadAnimation => {
     div.classList.add('active');
 });
 
+preloadBrowserStorageAtom('compactMode', false);
+preloadBrowserStorageAtom('automaticCompactMode', false);
+preloadBrowserStorageAtom('automaticCompactModeThreshold', 1500);
+preloadBrowserStorageAtom('hideEditFolderButton', false);
+
 // Fequently used in UI, preload to avoid flashes later
 requestIconsFamily('ion');
 requestIconsFamily('fluent');
 getAllCustomIcons();
+
 initTranslation().then(() => {
     mountPage(<CompactModeProvider>
         {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}

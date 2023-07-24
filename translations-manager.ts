@@ -20,6 +20,15 @@ const saveJsonFile = (fname: string, obj: object) => {
     writeFileSync(fname, JSON.stringify(obj, null, 4));
 };
 
+const transformLocaleNameForChrome = (lang: string) => {
+    if (lang.includes('-')) {
+        const tokens = lang.split('-');
+        tokens[1] = tokens[1].toUpperCase();
+        return tokens.join('_');
+    }
+    return lang;
+}
+
 const main = async () => {
     const args = process.argv.slice(2);
     const translationFiles = readdirSync(TRANSLATIONS_FOLDER).filter(fn => fn.endsWith('.json'));
@@ -114,7 +123,7 @@ const main = async () => {
             rmSync(join(TRANSLATIONS_FOLDER, mergeFilename));
         });
     } else if (args[0] === 'generate-locales') {
-        const FINISHED_TRANSLATIONS = ['en', 'uk', 'de', 'th'];
+        const FINISHED_TRANSLATIONS = ['en', 'uk', 'de', 'th', 'zh-cn', 'ru'];
         console.log('Generating locales for', FINISHED_TRANSLATIONS.join(', '));
         const localesKeysToTranslationKeys = [
             ['appName.message', 'translation.appName'],
@@ -123,15 +132,16 @@ const main = async () => {
         ];
 
         FINISHED_TRANSLATIONS.forEach(lang => {
+            const correctedLang = transformLocaleNameForChrome(lang);
             const filename = join(TRANSLATIONS_FOLDER, `${lang}.json`);
             const original = loadJsonFile(filename);
-            if (!existsSync(join(__dirname, `src/_locales/${lang}`))) {
-                mkdirSync(join(__dirname, `src/_locales/${lang}`));
+            if (!existsSync(join(__dirname, `src/_locales/${correctedLang}`))) {
+                mkdirSync(join(__dirname, `src/_locales/${correctedLang}`));
             }
             const data = localesKeysToTranslationKeys.reduce((obj, [lk, tk]) => {
                 return set(obj, lk, get(original, tk));
             }, {});
-            saveJsonFile(join(__dirname, `src/_locales/${lang}/messages.json`), data)
+            saveJsonFile(join(__dirname, `src/_locales/${correctedLang}/messages.json`), data)
         });
     } else {
         console.error('Unknown command', args[0]);
