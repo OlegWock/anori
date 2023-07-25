@@ -20,6 +20,7 @@ export const WhatsNew = () => {
                     <h2>1.10.0</h2>
                     <ul>
                         <li>Anori is now available in Russian. This was contribution from @MLGRussianXP. Thanks!</li>
+                        <li>Minor fixes for Thai translation (contribution from @kiznick, thanks!)</li>
                     </ul>
                 </section>
 
