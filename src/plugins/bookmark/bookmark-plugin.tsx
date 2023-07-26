@@ -23,6 +23,7 @@ import { useAtomValue } from "jotai";
 import { availablePermissionsAtom } from "@utils/permissions";
 import { listItemAnimation } from "@components/animations";
 import { isChromeLike } from "@utils/browser";
+import { isMacLike } from "@utils/shortcuts";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -54,9 +55,18 @@ type BookmarksMessageHandlers = {
             urls: string[],
             openInTabGroup: boolean,
             title: string,
+            closeCurrentTab: boolean,
         },
         result: void,
     },
+};
+
+const normalizeUrl = (url: string) => {
+    if (!url.includes('://')) {
+        return 'https://' + url;
+    }
+
+    return url;
 };
 
 const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickBookmarkProps>) => {
@@ -225,9 +235,11 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
 const BookmarkGroupWidget = ({ config, isMock, size }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
     const openGroup: MouseEventHandler<HTMLAnchorElement> = (e) => {
         onLinkClick(e);
+        const shouldKeepCurrentTab = e.ctrlKey || (isMacLike && e.metaKey)
         sendMessage('openGroup', {
-            urls: config.urls,
+            urls: config.urls.map(u => normalizeUrl(u)),
             openInTabGroup: config.openInTabGroup,
+            closeCurrentTab: !shouldKeepCurrentTab,
             title: config.title,
         });
     };
@@ -303,11 +315,12 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
 };
 
 const BookmarkWidget = ({ config, isMock, size }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
-    const host = useMemo(() => parseHost(config.url), [config.url]);
+    const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
+    const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
     const { rem } = useSizeSettings();
     const { onLinkClick, isNavigating } = useLinkNavigationState();
 
-    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : config.url} onClick={onLinkClick} >
+    return (<a className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : normalizedUrl} onClick={onLinkClick} >
         <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
@@ -354,6 +367,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
                         urls,
                         title,
                         openInTabGroup,
+                        closeCurrentTab: true,
                     });
                 }
             };
@@ -468,7 +482,7 @@ const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandle
                 active: i === 0,
             });
         }));
-        if (senderTabId !== undefined) browser.tabs.remove(senderTabId);
+        if (senderTabId !== undefined && args.closeCurrentTab) browser.tabs.remove(senderTabId);
         if (args.openInTabGroup && isChromeLike(browser)) {
             const groupId = await browser.tabs.group({
                 tabIds: tabs.map(t => t.id!),

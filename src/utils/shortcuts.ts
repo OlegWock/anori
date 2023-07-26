@@ -1,4 +1,4 @@
-const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+export const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
 
 export const localizeShortcut = (shortcut: string) => {
     let pretty = shortcut.toUpperCase()
