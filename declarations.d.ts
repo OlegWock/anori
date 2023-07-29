@@ -38,8 +38,15 @@ declare global {
         entries(): FileSystemDirectoryEntriesIterator,
     }
 
+    interface FileSystemSyncAccessHandle {
+        write(buf: ArrayBuffer | ArrayBufferView, opt?: {at: number}): number, // MDN says it's actually Promise, but that seem to be typo
+        flush(): void,
+        close(): void,
+    }
+
     interface FileSystemFileHandle {
         createWritable(): Promise<FileSystemWritableFileStream>,
+        createSyncAccessHandle(): Promise<FileSystemSyncAccessHandle>,
     }
 
     type TabGroupColor = "grey" | "blue" | "red" | "yellow" | "green" | "pink" | "purple" | "cyan" | "orange";

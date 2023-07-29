@@ -1,4 +1,4 @@
-import { CSSProperties, Ref, useMemo, useState } from 'react';
+import { CSSProperties, KeyboardEvent, MutableRefObject, Ref, createContext, useContext, useMemo, useRef, useState } from 'react';
 import './IconPicker.scss';
 import browser from 'webextension-polyfill';
 import { PopoverRenderProps } from './Popover';
@@ -17,17 +17,46 @@ type IconPickerProps = PopoverRenderProps<{
     inputRef?: Ref<HTMLInputElement>
 }>;
 
+type IconPickerContextType = {
+    rowRefs: MutableRefObject<Record<string, HTMLButtonElement | undefined>>,
+    moveFocus: (direction: 'up' | 'down' | 'left' | 'right', currentX: number, currentY: number) => void,
+};
+
+const IconPickerContext = createContext<IconPickerContextType>({
+    rowRefs: { current: {} },
+    moveFocus: (direction, curX, curY) => { },
+});
+
 const COLUMNS = 8;
 const ICON_SIZE = 32;
 const PADDING = 10;
 
-const IconCell = ({ icon, onClick }: { icon: string, onClick?: () => void }) => {
+const IconCell = ({ icon, onClick, x, y }: { icon: string, onClick?: () => void, x: number, y: number }) => {
+    const registerRef = (el: HTMLButtonElement | null) => {
+        if (el) {
+            rowRefs.current[key] = el;
+        } else {
+            rowRefs.current[key] = undefined;
+        }
+    };
+
+    const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+        if (e.key === 'ArrowRight') moveFocus('right', x, y);
+        if (e.key === 'ArrowLeft') moveFocus('left', x, y);
+        if (e.key === 'ArrowUp') moveFocus('up', x, y);
+        if (e.key === 'ArrowDown') moveFocus('down', x, y);
+    };
+
+    const key = `${x}_${y}`;
+    const { moveFocus, rowRefs } = useContext(IconPickerContext);
+
     return (
-        <Tooltip label={icon} placement='bottom' showDelay={2000} resetDelay={0}>
-            <div style={{ padding: PADDING }} className='IconCell' data-icon={icon} onClick={onClick}>
+        <Tooltip label={icon} placement='bottom' showDelay={2000} resetDelay={0} targetRef={registerRef} ignoreFocus>
+            <button style={{ padding: PADDING }} className='IconCell' data-icon={icon} onClick={onClick} onKeyDown={onKeyDown}>
                 <Icon icon={icon} width={ICON_SIZE} height={ICON_SIZE} />
-            </div>
-        </Tooltip>);
+            </button>
+        </Tooltip>
+    );
 };
 
 const IconRow = ({ index, data, style }: { index: number, style: CSSProperties, data: GridItemData }) => {
@@ -35,8 +64,14 @@ const IconRow = ({ index, data, style }: { index: number, style: CSSProperties, 
     const indexEnd = Math.min(indexStart + COLUMNS, data.iconsList.length);
 
     return (<div className='IconRow' style={style}>
-        {data.iconsList.slice(indexStart, indexEnd).map((icon) => {
-            return (<IconCell key={icon} icon={icon} onClick={() => data.onSelected(icon)} />)
+        {data.iconsList.slice(indexStart, indexEnd).map((icon, currentX) => {
+            return (<IconCell
+                key={icon}
+                icon={icon}
+                onClick={() => data.onSelected(icon)}
+                x={currentX}
+                y={index}
+            />)
         })}
     </div>)
 }
@@ -50,6 +85,48 @@ const iconsBySetAtom = atom<Record<string, string[]> | null>(null);
 const ALL_SETS = '##ALL_SETS##';
 
 export const IconPicker = ({ data, close }: IconPickerProps) => {
+    const moveFocus = (direction: 'up' | 'down' | 'left' | 'right', currentX: number, currentY: number) => {
+        let target: HTMLButtonElement | undefined = undefined;
+        if (direction === 'up') {
+            target = rowRefs.current[`${currentX}_${currentY - 1}`];
+        }
+        if (direction === 'left') {
+            if (currentX === 0) {
+                for (let i = COLUMNS - 1; i > 0; i--) {
+                    target = rowRefs.current[`${i}_${currentY}`];
+                    if (target) break;
+                }
+            } else {
+                target = rowRefs.current[`${currentX - 1}_${currentY}`];
+            }
+        }
+        if (direction === 'right') {
+            target = rowRefs.current[`${currentX + 1}_${currentY}`];
+            if (!target) {
+                target = rowRefs.current[`0_${currentY}`];
+            }
+        }
+        if (direction === 'down') {
+            target = rowRefs.current[`${currentX}_${currentY + 1}`];
+            if (!target) {
+                for (let i = COLUMNS - 1; i > 0; i--) {
+                    target = rowRefs.current[`${i}_${currentY + 1}`];
+                    if (target) break;
+                }
+            }
+        }
+
+        console.log('Move focus', direction, `from ${currentX}_${currentY}`, 'new target', target);
+        if (target) target.focus();
+    };
+
+    const onInputKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'ArrowDown' && rowRefs.current['0_0']) {
+            rowRefs.current['0_0'].focus();
+        }
+    };
+
+    const rowRefs = useRef<IconPickerContextType["rowRefs"]["current"]>({});
     const [selectedFamily, setSelectedFamily] = useState(ALL_SETS);
     const [query, setQuery] = useState('');
     const [iconsBySet, setIconsBySet] = useAtom(iconsBySetAtom);
@@ -85,41 +162,50 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
         }
     }, []);
 
-    return (<div className='IconPicker'>
-        <section>
-            <label>Icons family:</label>
-            <Select<string>
-                options={[ALL_SETS, ...allSets]}
-                value={selectedFamily}
-                onChange={setSelectedFamily}
-                getOptionKey={o => o}
-                getOptionLabel={o => o === ALL_SETS ? 'All icons' : iconSetPrettyNames[o]}
-            />
-        </section>
+    return (<IconPickerContext.Provider value={{ rowRefs, moveFocus }} >
+        <div className='IconPicker'>
+            <section>
+                <label>Icons family:</label>
+                <Select<string>
+                    options={[ALL_SETS, ...allSets]}
+                    value={selectedFamily}
+                    onChange={setSelectedFamily}
+                    getOptionKey={o => o}
+                    getOptionLabel={o => o === ALL_SETS ? 'All icons' : iconSetPrettyNames[o]}
+                />
+            </section>
 
-        <section>
-            <label>Icons: </label>
-            <Input ref={data.inputRef} value={query} onChange={e => setQuery(e.target.value)} placeholder='Search' className='icons-search' />
-            {(selectedFamily === 'custom' && iconsList.length === 0) ? <div className='no-custom-icons-alert'>
-                <p>Custom icons are icons which you upload for later use in Anori. </p>
-                <p>Currently, you don't have any custom icons. To upload your first custom icon please head to settings.</p>
-            </div> : <FixedSizeList<GridItemData>
-                className="icons-grid"
-                height={350}
-                itemCount={ROWS}
-                itemSize={ICON_SIZE + PADDING * 2}
-                width={COLUMNS * (ICON_SIZE + PADDING * 2) + 8} // 8px is for scrollbar
-                itemData={{
-                    iconsList,
-                    onSelected: (icon) => {
-                        close();
-                        data.onSelected(icon);
-                    },
-                }}
-            >
-                {IconRow}
-            </FixedSizeList>}
-        </section>
+            <section>
+                <label>Icons: </label>
+                <Input
+                    ref={data.inputRef}
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    placeholder='Search'
+                    className='icons-search'
+                    onKeyUp={onInputKeydown}
+                />
+                {(selectedFamily === 'custom' && iconsList.length === 0) ? <div className='no-custom-icons-alert'>
+                    <p>Custom icons are icons which you upload for later use in Anori. </p>
+                    <p>Currently, you don't have any custom icons. To upload your first custom icon please head to settings.</p>
+                </div> : <FixedSizeList<GridItemData>
+                    className="icons-grid"
+                    height={350}
+                    itemCount={ROWS}
+                    itemSize={ICON_SIZE + PADDING * 2}
+                    width={COLUMNS * (ICON_SIZE + PADDING * 2) + 8} // 8px is for scrollbar
+                    itemData={{
+                        iconsList,
+                        onSelected: (icon) => {
+                            close();
+                            data.onSelected(icon);
+                        },
+                    }}
+                >
+                    {IconRow}
+                </FixedSizeList>}
+            </section>
 
-    </div>)
+        </div>
+    </IconPickerContext.Provider >);
 };

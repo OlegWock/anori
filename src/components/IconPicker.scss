@@ -42,13 +42,15 @@
 
 .IconCell {
     padding: 4px;
-    transition: 0.1s ease-in-out;
+    transition: 0.05s ease-in-out;
     contain: paint;
+    outline: none;
 
-    &:not(.inactive):hover {
+    &:not(.inactive):hover, &:not(.inactive):focus-visible {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 6px;
         cursor: pointer;
+        outline: none;
     }
 
     &.inactive {

@@ -19,11 +19,18 @@ export const downloadTextFile = (name: string, content: string) => {
 };
 
 export const downloadBlob = (name: string, blob: Blob) => {
+    // TODO: doesn't work is Safari
+    // https://bugs.webkit.org/show_bug.cgi?id=226440
     const aElement = document.createElement('a');
     aElement.setAttribute('download', name);
     const href = URL.createObjectURL(blob);
-    aElement.href = href;
+    aElement.setAttribute('href', href);
     aElement.setAttribute('target', '_blank');
-    aElement.click();
-    URL.revokeObjectURL(href);
+
+    setTimeout(() => {
+        aElement.dispatchEvent(new MouseEvent('click'))
+    }, 0);
+    setTimeout(() => {
+        URL.revokeObjectURL(href);
+    }, 1000 * 40);
 };

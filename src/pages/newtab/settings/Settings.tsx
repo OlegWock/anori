@@ -32,6 +32,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Select } from '@components/Select';
 import { Language, SHOW_LANGUAGE_SELECT_IN_SETTINGS, availableTranslations, availableTranslationsPrettyNames, switchTranslationLanguage } from '@translations/index';
 import { useScreenWidth } from '@utils/compact';
+import { Alert } from '@components/Alert';
 
 type DraftCustomIcon = {
     id: string,
@@ -151,8 +152,8 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
                 </div>
             </>} />
         </Checkbox>
-        {/* Focus stealer works only in Chrome, Edge and Safari */}
-        {X_BROWSER !== 'firefox' && <Checkbox checked={stealFocus} onChange={setStealFocus}>
+        {/* Focus stealer works only in Chrome and Edge */}
+        {X_BROWSER === 'chrome' && <Checkbox checked={stealFocus} onChange={setStealFocus}>
             {t("settings.general.stealFocus")}
             <Hint content={t("settings.general.stealFocusHint")} />
         </Checkbox>}
@@ -345,8 +346,10 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
         const storage = await browser.storage.local.get(null);
         zip.file('storage.json', JSON.stringify(storage, null, 4), { compression: 'DEFLATE' });
 
-        const customIconFiles = await getAllCustomIconFiles();
-        customIconFiles.forEach(handle => zip.file(`opfs/${handle.name}`, handle.getFile(), { compression: 'DEFLATE' }))
+        if (CUSTOM_ICONS_AVAILABLE) {
+            const customIconFiles = await getAllCustomIconFiles();
+            customIconFiles.forEach(handle => zip.file(`opfs/${handle.name}`, handle.getFile(), { compression: 'DEFLATE' }))
+        }
         const blob = await zip.generateAsync({ type: "blob" });
         const datetime = moment().format('DD-MM-yyyy_HH-mm');
         downloadBlob(`anori-backup-${datetime}.zip`, blob);
@@ -360,18 +363,20 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
         const parsedStorage = JSON.parse(storageJson);
         await browser.storage.local.set(parsedStorage);
 
-        await removeAllCustomIcons();
-        const promises: Promise<void>[] = [];
-        zip.folder('opfs')!.forEach((path, file) => {
-            console.log('Importing', { file, path })
-            promises.push(
-                file.async('arraybuffer').then(ab => {
-                    return addNewCustomIcon(path, ab);
-                })
-            );
-        });
+        if (CUSTOM_ICONS_AVAILABLE) {
+            await removeAllCustomIcons();
+            const promises: Promise<void>[] = [];
+            zip.folder('opfs')?.forEach((path, file) => {
+                console.log('Importing', { file, path })
+                promises.push(
+                    file.async('arraybuffer').then(ab => {
+                        return addNewCustomIcon(path, ab);
+                    })
+                );
+            });
 
-        await Promise.all(promises);
+            await Promise.all(promises);
+        }
         window.location.reload();
     };
 
@@ -380,10 +385,14 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const { addNewCustomIcon } = useCustomIcons();
 
     return (<m.div {...props} className='ImportExportScreen'>
+        {X_BROWSER === 'safari' && <Alert>
+            {/* Bug in question: https://bugs.webkit.org/show_bug.cgi?id=226440 */}
+            {t('settings.importExport.safariBugAlert')}
+        </Alert>}
         <div>{t('settings.importExport.info')}</div>
         <div className="import-export-button">
-            <Button onClick={importSettings}>{t('settings.importExport.import')}</Button>
-            <Button onClick={exportSettings}>{t('settings.importExport.export')}</Button>
+            <Button disabled={X_BROWSER === 'safari'} onClick={importSettings}>{t('settings.importExport.import')}</Button>
+            <Button disabled={X_BROWSER === 'safari'} onClick={exportSettings}>{t('settings.importExport.export')}</Button>
         </div>
     </m.div>)
 };

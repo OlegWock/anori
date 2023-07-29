@@ -189,7 +189,8 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
                                     copy[ind].url = newUrl;
                                     return copy;
                                 })} />
-                                <Popover
+                                {/* Bookmarks API not supported in Safari at all */}
+                                {X_BROWSER !== 'safari' && <Popover
                                     component={PickBookmark}
                                     additionalData={{
                                         onSelected: (title, url) => {
@@ -203,7 +204,7 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
                                     }}
                                 >
                                     <Button>{t('import')}</Button>
-                                </Popover>
+                                </Popover>}
                                 <Button onClick={() => setUrls(p => p.filter((u, i) => i !== ind))}><Icon icon='ion:close' height={22} /></Button>
                             </m.div>);
                         })}
@@ -234,6 +235,7 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
 
 const BookmarkGroupWidget = ({ config, isMock, size }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean, size: 's' | 'm' }) => {
     const openGroup: MouseEventHandler<HTMLAnchorElement> = (e) => {
+        e.preventDefault();
         onLinkClick(e);
         const shouldKeepCurrentTab = e.ctrlKey || (isMacLike && e.metaKey)
         sendMessage('openGroup', {
@@ -294,7 +296,8 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
             <label>{t('url')}:</label>
             <div className="url-import-wrapper">
                 <Input value={url} onChange={(e) => setUrl(e.target.value)} />
-                <Popover
+                {/* Bookmarks API not supported in Safari at all */}
+                {X_BROWSER !== 'safari' && <Popover
                     component={PickBookmark}
                     additionalData={{
                         onSelected: (title, url) => {
@@ -305,7 +308,7 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
                     }}
                 >
                     <Button>{t('import')}</Button>
-                </Popover>
+                </Popover>}
             </div>
         </div>
 

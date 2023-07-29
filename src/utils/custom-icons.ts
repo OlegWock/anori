@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { asyncIterableToArray } from "./misc";
 import { atom, getDefaultStore, useAtom } from "jotai";
+import { createSafariFsWorker } from "./workers";
 
 const CUSTOM_ICONS_FOLDER_NAME = 'custom-icons';
 
@@ -14,6 +15,9 @@ export const CUSTOM_ICONS_AVAILABLE = (() => {
     if (navigator.userAgent.includes('Firefox/')) {
         const version = parseInt(navigator.userAgent.split('Firefox/')[1].split('.')[0]);
         return version >= 111;
+    } else if (navigator.userAgent.includes('Safari/') && navigator.userAgent.includes('Version/')) {
+        const version = parseFloat(navigator.userAgent.split('Version/')[1].split(' ')[0].split('.').slice(0, 2).join('.'));
+        return version >= 15.2;
     } else {
         return true;
     }
@@ -30,7 +34,7 @@ const getMimeFromFile = (f: FileSystemFileHandle) => {
     return '';
 };
 
-const getIconsDirHandle = async () => {
+export const getIconsDirHandle = async () => {
     const opfsRoot = await navigator.storage.getDirectory();
     const iconsDir = await opfsRoot.getDirectoryHandle(CUSTOM_ICONS_FOLDER_NAME, { create: true });
     return iconsDir;
@@ -113,15 +117,38 @@ export const useCustomIcon = (name: string) => {
 
 export const useCustomIcons = () => {
     const addNewCustomIcon = async (filename: string, content: ArrayBuffer, urlObj?: string) => {
-        const iconsDir = await getIconsDirHandle();
-        const fileHandle = await iconsDir.getFileHandle(filename, { create: true });
-        const writeHandle = await fileHandle.createWritable();
-        await writeHandle.write(content);
-        await writeHandle.close();
+        if (X_BROWSER === 'safari') {
+            return new Promise<void>((resolve, reject) => {
+                const worker = createSafariFsWorker();
+                worker.addEventListener('message', (message) => {
+                    if (message.data.success) {
+                        const urlObjFinal = urlObj || URL.createObjectURL(new Blob([message.data.content]));
+                        iconsCache[filename] = urlObjFinal;
+                        setIcons(p => [...p.filter(i => i.name !== filename), { name: filename, urlObject: urlObjFinal }].sort((a, b) => a.name.localeCompare(b.name)));
+                        worker.terminate();
+                        resolve();
+                    } else {
+                        worker.terminate();
+                        reject(message.data.err || 'Unknown error');
+                    }
+                });
+                worker.postMessage({
+                    type: 'addCustomIcon',
+                    content,
+                    filename,
+                }, [content]);
+            });
+        } else {
+            const iconsDir = await getIconsDirHandle();
+            const fileHandle = await iconsDir.getFileHandle(filename, { create: true });
+            const writeHandle = await fileHandle.createWritable();
+            await writeHandle.write(content);
+            await writeHandle.close();
 
-        const urlObjFinal = urlObj || URL.createObjectURL(new Blob([content]));
-        iconsCache[filename] = urlObjFinal;
-        setIcons(p => [...p.filter(i => i.name !== filename), { name: filename, urlObject: urlObjFinal }].sort((a, b) => a.name.localeCompare(b.name)));
+            const urlObjFinal = urlObj || URL.createObjectURL(new Blob([content]));
+            iconsCache[filename] = urlObjFinal;
+            setIcons(p => [...p.filter(i => i.name !== filename), { name: filename, urlObject: urlObjFinal }].sort((a, b) => a.name.localeCompare(b.name)));
+        }
     };
 
     const removeCustomIcon = async (filename: string) => {

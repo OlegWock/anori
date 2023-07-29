@@ -56,15 +56,22 @@ export const Onboarding = () => {
         console.log('Applying preset');
         const ipInfo = await getIpInfo();
         console.log('Ip info', ipInfo);
-        addWidget({
-            plugin: topSitesPlugin,
-            widget: topSitesWidgetDescriptorVertical,
-            config: {},
-            position: {
-                x: 0,
-                y: 0,
-            }
-        });
+
+        // Top sites widget isn't available in safari
+        const compensationIfSafari = X_BROWSER === 'safari' ? -1 : 0;
+
+        if (X_BROWSER !== 'safari') {
+            addWidget({
+                plugin: topSitesPlugin,
+                widget: topSitesWidgetDescriptorVertical,
+                config: {},
+                position: {
+                    x: 0,
+                    y: 0,
+                }
+            });
+        }
+
         addWidget({
             plugin: searchPlugin,
             widget: searchWidgetDescriptor,
@@ -72,7 +79,7 @@ export const Onboarding = () => {
                 defaultProvider: 'google'
             },
             position: {
-                x: 1,
+                x: 1 + compensationIfSafari,
                 y: 0,
             }
         });
@@ -83,7 +90,7 @@ export const Onboarding = () => {
                 title: t('tasks-plugin.todo')
             },
             position: {
-                x: 1,
+                x: 1 + compensationIfSafari,
                 y: 1,
             }
         });
@@ -96,7 +103,7 @@ export const Onboarding = () => {
                 icon: 'logos:reddit-icon',
             },
             position: {
-                x: 1,
+                x: 1 + compensationIfSafari,
                 y: 3,
             }
         });
@@ -109,7 +116,7 @@ export const Onboarding = () => {
                 icon: 'logos:twitter',
             },
             position: {
-                x: 3,
+                x: 3 + compensationIfSafari,
                 y: 1,
             }
         });
@@ -122,7 +129,7 @@ export const Onboarding = () => {
                 icon: 'skill-icons:instagram',
             },
             position: {
-                x: 4,
+                x: 4 + compensationIfSafari,
                 y: 1,
             }
         });
@@ -132,7 +139,7 @@ export const Onboarding = () => {
             widget: notesWidgetDescriptorM,
             config: {},
             position: {
-                x: 3,
+                x: 3 + compensationIfSafari,
                 y: 2,
             }
         });
@@ -151,7 +158,7 @@ export const Onboarding = () => {
                 ]
             },
             position: {
-                x: 5,
+                x: 5 + compensationIfSafari,
                 y: 0,
             }
         });
@@ -166,7 +173,7 @@ export const Onboarding = () => {
                 dateFormat: 'Do MMM Y',
             },
             position: {
-                x: 5,
+                x: 5 + compensationIfSafari,
                 y: 3
             }
         });
@@ -187,7 +194,7 @@ export const Onboarding = () => {
                     speedUnit: 'km/h',
                 },
                 position: {
-                    x: 6,
+                    x: 6 + compensationIfSafari,
                     y: 3
                 }
             });
@@ -203,8 +210,6 @@ export const Onboarding = () => {
     const prevScreen = usePrevious(screenIndex) || 0;
     const shouldAnimateScreenChange = Math.abs(prevScreen - screenIndex) <= 1;
     const direction = !shouldAnimateScreenChange ? 'none' : prevScreen <= screenIndex ? 'right' : 'left';
-    console.log('Prev index', prevScreen, 'current index', screenIndex);
-    console.log('Direction', direction);
 
     const screenName = screens[screenIndex];
 

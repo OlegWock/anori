@@ -29,16 +29,22 @@
 		D1727167299F865000CB085F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D172711D299F865000CB085F /* Assets.xcassets */; };
 		D1727168299F865000CB085F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172711F299F865000CB085F /* SafariWebExtensionHandler.swift */; };
 		D1727169299F865000CB085F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172711F299F865000CB085F /* SafariWebExtensionHandler.swift */; };
-		D172718E299F896600CB085F /* background-wrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = D172718A299F896600CB085F /* background-wrapper.js */; };
-		D172718F299F896600CB085F /* background-wrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = D172718A299F896600CB085F /* background-wrapper.js */; };
-		D1727190299F896600CB085F /* libs in Resources */ = {isa = PBXBuildFile; fileRef = D172718B299F896600CB085F /* libs */; };
-		D1727191299F896600CB085F /* libs in Resources */ = {isa = PBXBuildFile; fileRef = D172718B299F896600CB085F /* libs */; };
-		D1727192299F896600CB085F /* pages in Resources */ = {isa = PBXBuildFile; fileRef = D172718C299F896600CB085F /* pages */; };
-		D1727193299F896600CB085F /* pages in Resources */ = {isa = PBXBuildFile; fileRef = D172718C299F896600CB085F /* pages */; };
-		D1727194299F896600CB085F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D172718D299F896600CB085F /* assets */; };
-		D1727195299F896600CB085F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D172718D299F896600CB085F /* assets */; };
 		D1727197299F89BB00CB085F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = D1727196299F89BB00CB085F /* manifest.json */; };
 		D1727198299F89BB00CB085F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = D1727196299F89BB00CB085F /* manifest.json */; };
+		D1F6EB9F2A7443CC00FFAEEA /* libs in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB992A7443CC00FFAEEA /* libs */; };
+		D1F6EBA02A7443CC00FFAEEA /* libs in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB992A7443CC00FFAEEA /* libs */; };
+		D1F6EBA12A7443CC00FFAEEA /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9A2A7443CC00FFAEEA /* _locales */; };
+		D1F6EBA22A7443CC00FFAEEA /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9A2A7443CC00FFAEEA /* _locales */; };
+		D1F6EBA32A7443CC00FFAEEA /* pages in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9B2A7443CC00FFAEEA /* pages */; };
+		D1F6EBA42A7443CC00FFAEEA /* pages in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9B2A7443CC00FFAEEA /* pages */; };
+		D1F6EBA52A7443CC00FFAEEA /* background-wrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9C2A7443CC00FFAEEA /* background-wrapper.js */; };
+		D1F6EBA62A7443CC00FFAEEA /* background-wrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9C2A7443CC00FFAEEA /* background-wrapper.js */; };
+		D1F6EBA72A7443CC00FFAEEA /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9D2A7443CC00FFAEEA /* background.js */; };
+		D1F6EBA82A7443CC00FFAEEA /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9D2A7443CC00FFAEEA /* background.js */; };
+		D1F6EBA92A7443CC00FFAEEA /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9E2A7443CC00FFAEEA /* assets */; };
+		D1F6EBAA2A7443CC00FFAEEA /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9E2A7443CC00FFAEEA /* assets */; };
+		D1F6EBAC2A75616300FFAEEA /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EBAB2A75616300FFAEEA /* scripts */; };
+		D1F6EBAD2A75616300FFAEEA /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EBAB2A75616300FFAEEA /* scripts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,11 +112,14 @@
 		D1727155299F865000CB085F /* anori Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "anori Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D172715A299F865000CB085F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D172715B299F865000CB085F /* anori.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = anori.entitlements; sourceTree = "<group>"; };
-		D172718A299F896600CB085F /* background-wrapper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "background-wrapper.js"; sourceTree = "<group>"; };
-		D172718B299F896600CB085F /* libs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = libs; sourceTree = "<group>"; };
-		D172718C299F896600CB085F /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pages; sourceTree = "<group>"; };
-		D172718D299F896600CB085F /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		D1727196299F89BB00CB085F /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		D1F6EB992A7443CC00FFAEEA /* libs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = libs; sourceTree = "<group>"; };
+		D1F6EB9A2A7443CC00FFAEEA /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
+		D1F6EB9B2A7443CC00FFAEEA /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pages; sourceTree = "<group>"; };
+		D1F6EB9C2A7443CC00FFAEEA /* background-wrapper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "background-wrapper.js"; sourceTree = "<group>"; };
+		D1F6EB9D2A7443CC00FFAEEA /* background.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
+		D1F6EB9E2A7443CC00FFAEEA /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		D1F6EBAB2A75616300FFAEEA /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,11 +200,14 @@
 		D1727120299F865000CB085F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D1F6EBAB2A75616300FFAEEA /* scripts */,
+				D1F6EB9A2A7443CC00FFAEEA /* _locales */,
+				D1F6EB9E2A7443CC00FFAEEA /* assets */,
+				D1F6EB9C2A7443CC00FFAEEA /* background-wrapper.js */,
+				D1F6EB9D2A7443CC00FFAEEA /* background.js */,
+				D1F6EB992A7443CC00FFAEEA /* libs */,
+				D1F6EB9B2A7443CC00FFAEEA /* pages */,
 				D1727196299F89BB00CB085F /* manifest.json */,
-				D172718D299F896600CB085F /* assets */,
-				D172718A299F896600CB085F /* background-wrapper.js */,
-				D172718B299F896600CB085F /* libs */,
-				D172718C299F896600CB085F /* pages */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -402,11 +414,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1727192299F896600CB085F /* pages in Resources */,
-				D1727194299F896600CB085F /* assets in Resources */,
+				D1F6EBA12A7443CC00FFAEEA /* _locales in Resources */,
+				D1F6EBA32A7443CC00FFAEEA /* pages in Resources */,
+				D1F6EBA92A7443CC00FFAEEA /* assets in Resources */,
+				D1F6EBA52A7443CC00FFAEEA /* background-wrapper.js in Resources */,
+				D1F6EB9F2A7443CC00FFAEEA /* libs in Resources */,
+				D1F6EBA72A7443CC00FFAEEA /* background.js in Resources */,
 				D1727197299F89BB00CB085F /* manifest.json in Resources */,
-				D1727190299F896600CB085F /* libs in Resources */,
-				D172718E299F896600CB085F /* background-wrapper.js in Resources */,
+				D1F6EBAC2A75616300FFAEEA /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,11 +429,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1727193299F896600CB085F /* pages in Resources */,
-				D1727195299F896600CB085F /* assets in Resources */,
+				D1F6EBA22A7443CC00FFAEEA /* _locales in Resources */,
+				D1F6EBA42A7443CC00FFAEEA /* pages in Resources */,
+				D1F6EBAA2A7443CC00FFAEEA /* assets in Resources */,
+				D1F6EBA62A7443CC00FFAEEA /* background-wrapper.js in Resources */,
+				D1F6EBA02A7443CC00FFAEEA /* libs in Resources */,
+				D1F6EBA82A7443CC00FFAEEA /* background.js in Resources */,
 				D1727198299F89BB00CB085F /* manifest.json in Resources */,
-				D1727191299F896600CB085F /* libs in Resources */,
-				D172718F299F896600CB085F /* background-wrapper.js in Resources */,
+				D1F6EBAD2A75616300FFAEEA /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,13 +712,13 @@
 				DEVELOPMENT_TEAM = 6W97JP88X4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = anori;
+				INFOPLIST_KEY_CFBundleDisplayName = Anori;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -735,13 +753,13 @@
 				DEVELOPMENT_TEAM = 6W97JP88X4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = anori;
+				INFOPLIST_KEY_CFBundleDisplayName = Anori;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -60,6 +60,7 @@ export const createPathsObject = (baseSrc: string, baseDist: string) => {
             base: baseSrc,
             background: joinPath(baseSrc, 'background.ts'),
             contentscripts: joinPath(baseSrc, 'contentscripts'),
+            scripts: joinPath(baseSrc, 'scripts'),
             pages: joinPath(baseSrc, 'pages'),
             pageHtmlTemplate: './build_helpers/page_template.html',
 
@@ -74,6 +75,7 @@ export const createPathsObject = (baseSrc: string, baseDist: string) => {
             base: baseDist,
             background: 'background.js',
             contentscripts: 'contentscripts',
+            scripts: 'scripts',
             pages: 'pages',
             libs: 'libs',
             assets: 'assets',
@@ -101,7 +103,8 @@ export const generateBackgroundWorkerWrapper = (scripts: string[]) => {
     return `try { importScripts(${scripts.map((sc) => `"${sc}"`).join(', ')}); } catch (e) {console.log(e);}\n`;
 };
 
-export const isUiRelated = (name: string) => {
+export const isUiRelated = (_name: string) => {
+    const name = _name.toLowerCase();
     return name.includes('react') || name.includes('jquery') || name.includes('framer')
         || name.includes('polished') || name.includes('floating-ui') || name.includes('/components/') 
         || name.includes('markdown') || name.includes('decode-named-character-reference');

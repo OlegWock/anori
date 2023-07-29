@@ -32,9 +32,10 @@ interface Props {
     children: JSX.Element;
     targetRef?: Ref<HTMLElement>
     hasClickableContent?: boolean,
+    ignoreFocus?: boolean,
 }
 
-export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100, targetRef, hasClickableContent = false }: Props) => {
+export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100, targetRef, hasClickableContent = false, ignoreFocus = false }: Props) => {
     const { delay = showDelay, setCurrentId } = useDelayGroupContext();
     const [open, setOpen] = useState(false);
     const id = useId();
@@ -62,7 +63,9 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
                 close: resetDelay,
             },
         }),
-        useFocus(context),
+        useFocus(context, {
+            enabled: !ignoreFocus,
+        }),
         useRole(context, { role: "tooltip" }),
         useDismiss(context),
         useDelayGroup(context, { id })

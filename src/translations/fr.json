@@ -81,7 +81,8 @@
                 "title": "Import & export",
                 "info": "Here you can backup your settings or restore older backup.",
                 "import": "Import",
-                "export": "Export"
+                "export": "Export",
+                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
             },
             "aboutHelp": {
                 "title": "Help & about the extension",

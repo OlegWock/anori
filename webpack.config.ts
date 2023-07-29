@@ -4,6 +4,8 @@ import * as walkSync from 'walk-sync';
 import * as webpack from 'webpack';
 import * as TerserPlugin from 'terser-webpack-plugin';
 // @ts-ignore No declarations for this module!
+import * as WrapperPlugin from 'wrapper-webpack-plugin';
+// @ts-ignore No declarations for this module!
 import * as GenerateFiles from 'generate-file-webpack-plugin';
 import * as CopyPlugin from 'copy-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -185,7 +187,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 const name = module.nameForCondition();
                 if (!name) return false;
                 const absBase = path.resolve(__dirname);
-                const relativePath = name.replace(absBase, '.').toLowerCase();
+                const relativePath = name.replace(absBase, '.');
                 if (shouldNotBeInCommonChunk(relativePath, entries)) return false;
                 return isUiRelated(relativePath);
             },
@@ -195,7 +197,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 const name = module.nameForCondition();
                 if (!name) return false;
                 const absBase = path.resolve(__dirname);
-                const relativePath = name.replace(absBase, '.').toLowerCase();
+                const relativePath = name.replace(absBase, '.');
                 if (shouldNotBeInCommonChunk(relativePath, entries)) return false;
                 return !isUiRelated(relativePath);
             },
@@ -264,6 +266,17 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         const cleanName = scriptName(cs);
         entries[cleanName] = joinPath(paths.src.contentscripts, cs);
         outputs[cleanName] = joinPath(paths.dist.contentscripts, cleanName + '.js');
+    });
+
+    const scripts = walkSync(paths.src.scripts, {
+        globs: scriptExtensions.map((ext) => '**/*' + ext),
+        directories: false,
+    });
+    console.log('Scripts:', scripts);
+    scripts.forEach((cs) => {
+        const cleanName = scriptName(cs);
+        entries[cleanName] = joinPath(paths.src.scripts, cs);
+        outputs[cleanName] = joinPath(paths.dist.scripts, cleanName + '.js');
     });
 
     const cacheGroups: { [name: string]: CacheGroup } = {};
@@ -497,6 +510,13 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             }),
             new MomentLocalesPlugin({
                 localesToKeep: ['uk', 'de', 'th', 'zh-cn', 'ru'],
+            }),
+            // This gives warnings on compilation, but it should be resolved once this PR gets merged 
+            // https://github.com/levp/wrapper-webpack-plugin/pull/22
+            new WrapperPlugin({
+                test: /\.worker\./i,
+                header: 'importScripts("/libs/ui.js", "/libs/other.js");\n\n',
+                afterOptimizations: true,
             }),
             ...zipPlugin,
         ],
