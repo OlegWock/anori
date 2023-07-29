@@ -1,3 +1,5 @@
+@import "@components/base.scss";
+
 .SearchWidget {
     display: flex;
     flex-direction: column;
@@ -6,9 +8,13 @@
 
     .providers {
         display: flex;
-        gap: 24px;
+        gap: 1.5rem;
         align-items: center;
         justify-content: center;
+
+        @include compact { 
+            gap: 1.2rem;
+        }
 
         .provider-button {
 

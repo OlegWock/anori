@@ -79,7 +79,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
 
     const [activeProvider, setProvider] = useState(config.defaultProvider);
     const [query, setQuery] = useState('');
-    const { rem } = useSizeSettings();
+    const { rem, isCompact } = useSizeSettings();
     const { t } = useTranslation();
 
 
@@ -93,7 +93,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
                             onClick={() => setProvider(p)}
                             active={p === activeProvider}
                         >
-                            <Icon icon={providersIcons[p]} height={rem(1.5)} width={rem(1.5)} />
+                            <Icon icon={providersIcons[p]} height={isCompact ? rem(1.25) : rem(1.5)} width={isCompact ? rem(1.25) : rem(1.5)} />
                         </Button>
                     </Tooltip>)
                 })}

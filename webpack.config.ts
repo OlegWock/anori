@@ -501,6 +501,13 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                             return path.join(paths.dist.locales, absoluteFilename!.replace(assetAbsolutePath, ''));
                         },
+                        // Only for Safari we rename extension to just 'Anori', to make it easier to deeplink extension settings from app
+                        transform: targetBrowser === 'safari' ? (content, absoluteFrom) => {
+                            if (absoluteFrom.endsWith('messages.json')) {
+                                return content.toString().replace(/(?<="appName":\s?{\s*"message":\s?")[^"]+/i, 'Anori');
+                            }
+                            return content;
+                        } : undefined,
                     },
                 ],
             }),
