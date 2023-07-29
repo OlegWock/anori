@@ -3,6 +3,10 @@
     border-radius: 12px;
     background-color: var(--accent-subtle);
 
+    &-info-darker {
+        background-color: var(--background);
+    }
+
     &-info {
         background-color: var(--background-lighter);
     }

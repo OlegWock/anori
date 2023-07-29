@@ -134,6 +134,12 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
                 getOptionKey={o => o}
                 getOptionLabel={o => availableTranslationsPrettyNames[o]}
             />
+
+            <Alert level="info" className='translation-alert'>
+                <Trans t={t} i18nKey="settings.general.translationInfo">
+                    <a href="https://github.com/OlegWock/anori/issues/104"></a>
+                </Trans>
+            </Alert>
         </div>}
         <div className='input-wrapper'>
             <label>{t("settings.general.newTabTitle")}: </label>

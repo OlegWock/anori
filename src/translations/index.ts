@@ -2,30 +2,22 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import enTranslation from './en.json';
-import esTranslation from './es.json';
 import deTranslation from './de.json';
-import frTranslation from './fr.json';
 import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
-import zhTwTranslation from './zh-tw.json';
 import thTranslation from './th.json';
 import ruTranslation from './ru.json';
 import { storage } from '@utils/storage';
 import moment from 'moment';
+// When uncommenting any of moment locales, don't forget to update webpack config to actually include them in build
 import 'moment/locale/uk';
 import 'moment/locale/de';
 import 'moment/locale/ru';
 import 'moment/locale/zh-cn';
-// When uncommenting any of moment locales, don't forget to update webpack config to actually include them in build
-// import 'moment/locale/es';
-// import 'moment/locale/fr';
-// import 'moment/locale/zh-tw';
+
 moment.locale('en');
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
-
-// Not all translations are finished yet
-// export const availableTranslations = ['en', 'es', 'de', 'fr', 'uk', 'zh-tw', 'zh-cn'] as const;
 
 export const availableTranslations = ['en', 'de', 'uk', 'th', 'zh-CN', 'ru'] as const;
 
@@ -41,7 +33,7 @@ export const availableTranslationsPrettyNames = {
 
     // 'es': 'Español',
     // 'fr': 'Français',
-    // 'zh-tw': '中文 (繁體)',
+    // 'zh-TW': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
 const resources = {
@@ -51,10 +43,6 @@ const resources = {
     th: thTranslation,
     'zh-CN': zhCnTranslation,
     ru: ruTranslation,
-
-    // es: esTranslation,
-    // fr: frTranslation,
-    // 'zh-tw': zhTwanslation,
 } satisfies Record<Language, any>;
 
 export const initTranslation = async () => {

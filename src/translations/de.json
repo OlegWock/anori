@@ -81,8 +81,7 @@
                 "title": "Import & Export",
                 "info": "Hier können Sie Ihre Einstellungen sichern oder ältere Sicherungen wiederherstellen.",
                 "import": "Import",
-                "export": "Export",
-                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+                "export": "Export"
             },
             "aboutHelp": {
                 "title": "Hilfe & über Anori",

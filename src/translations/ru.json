@@ -81,8 +81,7 @@
                 "title": "Импорт и экспорт",
                 "info": "Здесь вы можете сделать резервную копию ваших настроек или восстановить старую резервную копию.",
                 "import": "Импортировать",
-                "export": "Экспортировать",
-                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+                "export": "Экспортировать"
             },
             "aboutHelp": {
                 "title": "Помощь и о расширении",

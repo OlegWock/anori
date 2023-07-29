@@ -32,85 +32,72 @@ const transformLocaleNameForChrome = (lang: string) => {
 const main = async () => {
     const args = process.argv.slice(2);
     const translationFiles = readdirSync(TRANSLATIONS_FOLDER).filter(fn => fn.endsWith('.json'));
-    const translations = translationFiles.map(fn => fn.replace('.json', '')).filter(fn => !fn.endsWith('-extracted'));
+    const translations = translationFiles.map(fn => fn.replace('.json', '')).filter(fn => !fn.endsWith('-missing'));
     console.log('Found translation files', translations.join(', '));
 
     const defaultTranslation = loadJsonFile(join(TRANSLATIONS_FOLDER, `${DEFAULT_LANGUAGE}.json`));
     const defaultKeys = objectDeepKeys(defaultTranslation).filter(k => k !== 'translation');
 
-    const results: Record<string, { missing: string[], untranslated: string[], excessive: string[] }> = {};
+    const results: Record<string, { missing: string[] }> = {};
     translations.filter(t => t !== DEFAULT_LANGUAGE).forEach(lang => {
         const data = loadJsonFile(join(TRANSLATIONS_FOLDER, `${lang}.json`));
         const keys = objectDeepKeys(data).filter(k => k !== 'translation');
         const missingKeys = defaultKeys.filter(k => !keys.includes(k));
-        const excessiveKeys = keys.filter(k => !defaultKeys.includes(k));
-        const presentKeys = keys.filter(k => defaultKeys.includes(k));
-        const untranslatedKeys = presentKeys.filter(k => {
-            return get(defaultTranslation, k) === get(data, k);
-        });
 
         results[lang] = {
             missing: missingKeys,
-            excessive: excessiveKeys,
-            untranslated: untranslatedKeys,
         }
     });
 
     if (args[0] === 'check-missing') {
-        console.log('Checking for missing or untranslated strings.');
+        console.log('Checking for keys missing in lang-missing.json files.');
 
         let exitWithError = false;
         Object.entries(results).forEach(([lang, result]) => {
-            if (result.missing.length === 0 && result.excessive.length === 0) {
+            if (result.missing.length === 0) {
                 console.log(`✅ Language ${lang} all good!`);
             } else {
-                console.log(`❌ Language ${lang} has ${result.missing.length} missing keys and ${result.excessive.length} excessive keys`);
-                exitWithError = true;
+                if (!existsSync(join(TRANSLATIONS_FOLDER, `${lang}-missing.json`))) {
+                    console.log(`❌ Language ${lang} has missing keys, but doesn't have ${lang}-missing.json file`);
+                    exitWithError = true;
+                    return;
+                }
+                const missingFile = loadJsonFile(join(TRANSLATIONS_FOLDER, `${lang}-missing.json`));
+                const notAllMissingKeysInFile = result.missing.some(k => get(missingFile, k) === undefined);
+                if (notAllMissingKeysInFile) {
+                    console.log(`❌ Language ${lang} has missing keys which aren't found in ${lang}-missing.json file`);
+                    exitWithError = true;
+                } else {
+                    console.log(`✅ Language ${lang} all good!`);
+                }
             }
         });
         if (exitWithError) {
+            console.log('🚨 Problems with files were detected, run `yarn translations:extract` to fix them.')
             process.exit(1);
         }
-    } else if (args[0] === 'check-untranslated') {
-        console.log('Checking for untranslated strings.');
-
-        console.log('------------------------------')
-        Object.entries(results).forEach(([lang, result]) => {
-            if (result.untranslated.length === 0) {
-                console.log(`✅ Language ${lang} all good!`);
-            } else {
-                console.log(`❌ Language ${lang} has ${result.untranslated.length} untranslated keys`);
-            }
-        });
-    } else if (args[0] === 'add-missing') {
-        Object.entries(results).filter(([lang, { missing }]) => missing.length !== 0).forEach(([lang, { untranslated, excessive }]) => {
-            console.log('Adding missing strings to', lang);
-            const fname = join(TRANSLATIONS_FOLDER, `${lang}.json`);
-            const data = loadJsonFile(fname);
-            const newData = {};
-
-            [...defaultKeys, ...excessive].forEach(key => {
-                const defaultValue = get(data, key) || get(defaultTranslation, key);
-                set(newData, key, defaultValue);
-            });
-            saveJsonFile(fname, newData);
-        });
     } else if (args[0] === 'extract-untranslated') {
-        Object.entries(results).filter(([lang, { untranslated }]) => untranslated.length !== 0).forEach(([lang, { untranslated }]) => {
-            console.log('Extracting untranslated strings from', lang);
+        Object.entries(results).filter(([lang, { missing }]) => missing.length !== 0).forEach(([lang, { missing }]) => {
+            console.log('Extracting missing strings from', lang);
             const newData = {};
 
-            untranslated.forEach(key => {
+            missing.forEach(key => {
                 const defaultValue = get(defaultTranslation, key);
                 set(newData, key, defaultValue);
             });
-            saveJsonFile(join(TRANSLATIONS_FOLDER, `${lang}-extracted.json`), newData);
+            saveJsonFile(join(TRANSLATIONS_FOLDER, `${lang}-missing.json`), newData);
         });
     } else if (args[0] === 'merge-back') {
-        const filesToMerge = translationFiles.filter(fn => fn.endsWith('-extracted.json'));
+        const langToMerge = args[1];
+        if (!langToMerge) {
+            console.log('❌ Specify which language file to merge: yarn translations:merge <lang>');
+            process.exit(1);
+            return;
+        }
+        const filesToMerge = translationFiles.filter(fn => fn === `${langToMerge}-missing.json`);
         console.log('Going to merge', filesToMerge.join(', '));
         filesToMerge.forEach(mergeFilename => {
-            const lang = mergeFilename.replace('-extracted.json', '');
+            const lang = mergeFilename.replace('-missing.json', '');
             const filename = join(TRANSLATIONS_FOLDER, `${lang}.json`);
             const original = loadJsonFile(filename);
             const toMerge = loadJsonFile(join(TRANSLATIONS_FOLDER, mergeFilename));
@@ -123,7 +110,6 @@ const main = async () => {
             rmSync(join(TRANSLATIONS_FOLDER, mergeFilename));
         });
     } else if (args[0] === 'generate-locales') {
-        const FINISHED_TRANSLATIONS = ['en', 'uk', 'de', 'th', 'zh-cn', 'ru'];
         console.log('Generating locales for', FINISHED_TRANSLATIONS.join(', '));
         const localesKeysToTranslationKeys = [
             ['appName.message', 'translation.appName'],
@@ -150,5 +136,6 @@ const main = async () => {
 
 const DEFAULT_LANGUAGE = 'en';
 const TRANSLATIONS_FOLDER = join(__dirname, 'src/translations');
+const FINISHED_TRANSLATIONS = ['en', 'uk', 'de', 'th', 'zh-cn', 'ru'];
 
 main();

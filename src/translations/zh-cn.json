@@ -81,8 +81,7 @@
                 "title": "导入 & 导出",
                 "info": "你可以在这里备份或恢复你的设置。",
                 "import": "导入",
-                "export": "导出",
-                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+                "export": "导出"
             },
             "aboutHelp": {
                 "title": "关于此扩展 & 帮助",

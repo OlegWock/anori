@@ -42,6 +42,7 @@
             "general": {
                 "title": "General",
                 "language": "Language",
+                "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
                 "newTabTitle": "New tab title",
                 "enableAnalytics": "Enable sending analytics",
                 "analyticsHintP1": "Analytics help me to better understand how users interact with Anori and which features are used the most. It doesn't share any private information, such as the content of notes or bookmark URLs.",

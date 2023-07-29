@@ -81,8 +81,7 @@
                 "title": "นำเข้า และ ส่งออก",
                 "info": "คุณสามารถส่งออกการตั่งค่าและนำเข้าอันเก่าได้",
                 "import": "นำเข้า",
-                "export": "ส่งออก",
-                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+                "export": "ส่งออก"
             },
             "aboutHelp": {
                 "title": "ความช่วยเหลือ และ เกี่ยวกับส่วนเสริมนี้",
