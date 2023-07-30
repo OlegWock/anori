@@ -1,20 +1,30 @@
-function show(platform, enabled, useSettingsInsteadOfPreferences) {
+async function show(platform, locale) {
     document.body.classList.add(`platform-${platform}`);
+    initI18n(locale);
+}
 
-    if (useSettingsInsteadOfPreferences) {
-        document.getElementsByClassName('platform-mac state-on')[0].innerText = "anori’s extension is currently on. You can turn it off in the Extensions section of Safari Settings.";
-        document.getElementsByClassName('platform-mac state-off')[0].innerText = "anori’s extension is currently off. You can turn it on in the Extensions section of Safari Settings.";
-        document.getElementsByClassName('platform-mac state-unknown')[0].innerText = "You can turn on anori’s extension in the Extensions section of Safari Settings.";
-        document.getElementsByClassName('platform-mac open-preferences')[0].innerText = "Quit and Open Safari Settings…";
-    }
+async function initI18n(locale) {
+    console.log('Init i18n for', locale);
+    let translation = {};
+    try {
+        const resp = await fetch(`locales/${locale}.json`);
+        translation = await resp.json();
+    } catch (err) {
 
-    if (typeof enabled === "boolean") {
-        document.body.classList.toggle(`state-on`, enabled);
-        document.body.classList.toggle(`state-off`, !enabled);
-    } else {
-        document.body.classList.remove(`state-on`);
-        document.body.classList.remove(`state-off`);
     }
+    const respEn = await fetch(`locales/en.json`);
+    const enTranslation = await respEn.json();
+    const elements = document.querySelectorAll('[data-t-key]');
+    elements.forEach(el => {
+        const key = el.getAttribute('data-t-key');
+        let translatedStr = _.get(translation, key);
+        if (!translatedStr) {
+            console.log(`${locale} translation for key ${key} is missing`);
+            translatedStr = _.get(enTranslation, key);
+        }
+        if (!translatedStr) return;
+        el.textContent = translatedStr;
+    });
 }
 
 function openPreferences() {

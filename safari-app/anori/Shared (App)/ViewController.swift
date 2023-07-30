@@ -19,13 +19,16 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
         super.viewDidLoad()
 
         self.webView.navigationDelegate = self
+        if #available(macOS 13.3, iOS 16.4, *) {
+            self.webView.isInspectable = true
+        }
 
         #if os(iOS)
             self.webView.scrollView.isScrollEnabled = false
         #endif
 
         self.webView.configuration.userContentController.add(self, name: "controller")
-
+        self.webView.configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         self.webView.loadFileURL(
             Bundle.main.url(forResource: "Main", withExtension: "html")!,
             allowingReadAccessTo: Bundle.main.resourceURL!)
@@ -33,27 +36,12 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         NSLog("Web view loaded")
+        let langCode = NSLocalizedString("translationLangCode", comment: "")
+        NSLog("Land code %@", langCode)
         #if os(iOS)
-            webView.evaluateJavaScript("show('ios')")
+            webView.evaluateJavaScript("show('ios', '\(langCode)')")
         #elseif os(macOS)
-            webView.evaluateJavaScript("show('mac')")
-
-            SFSafariExtensionManager.getStateOfSafariExtension(
-                withIdentifier: extensionBundleIdentifier
-            ) { (state, error) in
-                guard let state = state, error == nil else {
-                    // Insert code to inform the user that something went wrong.
-                    return
-                }
-
-                DispatchQueue.main.async {
-                    if #available(macOS 13, *) {
-                        webView.evaluateJavaScript("show('mac', \(state.isEnabled), true)")
-                    } else {
-                        webView.evaluateJavaScript("show('mac', \(state.isEnabled), false)")
-                    }
-                }
-            }
+            webView.evaluateJavaScript("show('mac', '\(langCode)')")
         #endif
     }
 

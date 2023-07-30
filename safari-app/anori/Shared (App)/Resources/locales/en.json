@@ -1,0 +1,18 @@
+{
+    "translation": {
+        "onboarding": {
+            "start": {
+                "title": "Welcome to Anori!"
+            }
+        },
+        "safari": {
+            "onboarding": {
+                "iosMacP1": "To start using Anori you'll need to enable it in Safari's settings.",
+                "macButton": "Quit and Open Safari Extensions Preferences…",
+                "iosP2": "Process is a bit tedious, we know, but bear with us.",
+                "iosP3": "Firstly, you'll need to enable the extension (1) and then switch your new tab page to Anori (2). Here is picture, so you won't get lost in woods of Safari settings :)",
+                "iosButton": "Open Safari Extensions Settings"
+            }
+        }
+    }
+}

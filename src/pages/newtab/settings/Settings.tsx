@@ -33,6 +33,7 @@ import { Select } from '@components/Select';
 import { Language, SHOW_LANGUAGE_SELECT_IN_SETTINGS, availableTranslations, availableTranslationsPrettyNames, switchTranslationLanguage } from '@translations/index';
 import { useScreenWidth } from '@utils/compact';
 import { Alert } from '@components/Alert';
+import { IS_TOUCH_DEVICE } from '@utils/device';
 
 type DraftCustomIcon = {
     id: string,
@@ -100,9 +101,9 @@ const MainScreen = (props: ComponentProps<typeof m.div>) => {
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
     const [language, setLanguage] = useBrowserStorageValue('language', 'en');
-    const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
+    const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', !IS_TOUCH_DEVICE);
     const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue('automaticCompactModeThreshold', 1500);
-    const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', false);
+    const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', IS_TOUCH_DEVICE);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
     const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');

@@ -185,8 +185,8 @@ storage.getOne('showLoadAnimation').then(showLoadAnimation => {
     div.classList.add('active');
 });
 
-preloadBrowserStorageAtom('compactMode', false);
-preloadBrowserStorageAtom('automaticCompactMode', false);
+preloadBrowserStorageAtom('compactMode', IS_TOUCH_DEVICE);
+preloadBrowserStorageAtom('automaticCompactMode', !IS_TOUCH_DEVICE);
 preloadBrowserStorageAtom('automaticCompactModeThreshold', 1500);
 preloadBrowserStorageAtom('hideEditFolderButton', false);
 preloadBrowserStorageAtom('sidebarOrientation', 'auto');

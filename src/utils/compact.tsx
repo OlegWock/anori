@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { useBrowserStorageValue } from "./storage";
 import { useMirrorStateToRef } from "./hooks";
+import { IS_TOUCH_DEVICE } from "./device";
 
 const CompactModeContext = createContext(false);
 
@@ -31,8 +32,8 @@ export const useScreenWidth = () => {
 };
 
 export const CompactModeProvider = ({ children }: { children: ReactNode }) => {
-    const [isAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
-    const [isManualCompact] = useBrowserStorageValue('compactMode', false);
+    const [isAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', !IS_TOUCH_DEVICE);
+    const [isManualCompact] = useBrowserStorageValue('compactMode', IS_TOUCH_DEVICE);
     const screenWidth = useScreenWidth();
     const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue('automaticCompactModeThreshold', 1500);
     const isCompact = isAutomaticCompact ? screenWidth < automaticCompactModeThreshold : isManualCompact;

@@ -31,6 +31,14 @@
 		D19375172A75D515003D287E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D19375112A75D515003D287E /* Icon.png */; };
 		D19375192A75D64F003D287E /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = D19375182A75D64F003D287E /* Main.html */; };
 		D193751A2A75D64F003D287E /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = D19375182A75D64F003D287E /* Main.html */; };
+		D193751C2A76B897003D287E /* ios-onboarding.png in Resources */ = {isa = PBXBuildFile; fileRef = D193751B2A76B897003D287E /* ios-onboarding.png */; };
+		D193751D2A76B897003D287E /* ios-onboarding.png in Resources */ = {isa = PBXBuildFile; fileRef = D193751B2A76B897003D287E /* ios-onboarding.png */; };
+		D19375222A76CC9F003D287E /* lodash.min.js in Resources */ = {isa = PBXBuildFile; fileRef = D19375202A76CC9F003D287E /* lodash.min.js */; };
+		D19375232A76CC9F003D287E /* lodash.min.js in Resources */ = {isa = PBXBuildFile; fileRef = D19375202A76CC9F003D287E /* lodash.min.js */; };
+		D19375242A76CC9F003D287E /* locales in Resources */ = {isa = PBXBuildFile; fileRef = D19375212A76CC9F003D287E /* locales */; };
+		D19375252A76CC9F003D287E /* locales in Resources */ = {isa = PBXBuildFile; fileRef = D19375212A76CC9F003D287E /* locales */; };
+		D19375352A76D7DF003D287E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D19375382A76D7DF003D287E /* Localizable.strings */; };
+		D19375362A76D7DF003D287E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D19375382A76D7DF003D287E /* Localizable.strings */; };
 		D1F6EB9F2A7443CC00FFAEEA /* libs in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB992A7443CC00FFAEEA /* libs */; };
 		D1F6EBA02A7443CC00FFAEEA /* libs in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB992A7443CC00FFAEEA /* libs */; };
 		D1F6EBA12A7443CC00FFAEEA /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = D1F6EB9A2A7443CC00FFAEEA /* _locales */; };
@@ -113,6 +121,11 @@
 		D19375102A75D515003D287E /* Style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
 		D19375112A75D515003D287E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D19375182A75D64F003D287E /* Main.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Main.html; sourceTree = "<group>"; };
+		D193751B2A76B897003D287E /* ios-onboarding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-onboarding.png"; sourceTree = "<group>"; };
+		D19375202A76CC9F003D287E /* lodash.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lodash.min.js; sourceTree = "<group>"; };
+		D19375212A76CC9F003D287E /* locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locales; sourceTree = "<group>"; };
+		D19375372A76D7DF003D287E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D19375392A76D7E1003D287E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D1F6EB992A7443CC00FFAEEA /* libs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = libs; sourceTree = "<group>"; };
 		D1F6EB9A2A7443CC00FFAEEA /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
 		D1F6EB9B2A7443CC00FFAEEA /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pages; sourceTree = "<group>"; };
@@ -180,10 +193,14 @@
 		D1727116299F864F00CB085F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D19375212A76CC9F003D287E /* locales */,
+				D19375202A76CC9F003D287E /* lodash.min.js */,
+				D193751B2A76B897003D287E /* ios-onboarding.png */,
 				D19375182A75D64F003D287E /* Main.html */,
 				D19375112A75D515003D287E /* Icon.png */,
 				D193750F2A75D515003D287E /* Script.js */,
 				D19375102A75D515003D287E /* Style.css */,
+				D19375382A76D7DF003D287E /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -265,9 +282,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D172712C299F865000CB085F /* anori (iOS) */ = {
+		D172712C299F865000CB085F /* Anori (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D1727180299F865000CB085F /* Build configuration list for PBXNativeTarget "anori (iOS)" */;
+			buildConfigurationList = D1727180299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori (iOS)" */;
 			buildPhases = (
 				D1727129299F865000CB085F /* Sources */,
 				D172712A299F865000CB085F /* Frameworks */,
@@ -279,14 +296,14 @@
 			dependencies = (
 				D172714E299F865000CB085F /* PBXTargetDependency */,
 			);
-			name = "anori (iOS)";
+			name = "Anori (iOS)";
 			productName = "anori (iOS)";
 			productReference = D172712D299F865000CB085F /* anori.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D172713E299F865000CB085F /* anori (macOS) */ = {
+		D172713E299F865000CB085F /* Anori (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D1727187299F865000CB085F /* Build configuration list for PBXNativeTarget "anori (macOS)" */;
+			buildConfigurationList = D1727187299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori (macOS)" */;
 			buildPhases = (
 				D172713B299F865000CB085F /* Sources */,
 				D172713C299F865000CB085F /* Frameworks */,
@@ -298,14 +315,14 @@
 			dependencies = (
 				D1727158299F865000CB085F /* PBXTargetDependency */,
 			);
-			name = "anori (macOS)";
+			name = "Anori (macOS)";
 			productName = "anori (macOS)";
 			productReference = D172713F299F865000CB085F /* anori.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D172714A299F865000CB085F /* anori Extension (iOS) */ = {
+		D172714A299F865000CB085F /* Anori Extension (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D172717C299F865000CB085F /* Build configuration list for PBXNativeTarget "anori Extension (iOS)" */;
+			buildConfigurationList = D172717C299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori Extension (iOS)" */;
 			buildPhases = (
 				D1727147299F865000CB085F /* Sources */,
 				D1727148299F865000CB085F /* Frameworks */,
@@ -315,14 +332,14 @@
 			);
 			dependencies = (
 			);
-			name = "anori Extension (iOS)";
+			name = "Anori Extension (iOS)";
 			productName = "anori Extension (iOS)";
 			productReference = D172714B299F865000CB085F /* anori Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		D1727154299F865000CB085F /* anori Extension (macOS) */ = {
+		D1727154299F865000CB085F /* Anori Extension (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D1727183299F865000CB085F /* Build configuration list for PBXNativeTarget "anori Extension (macOS)" */;
+			buildConfigurationList = D1727183299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori Extension (macOS)" */;
 			buildPhases = (
 				D1727151299F865000CB085F /* Sources */,
 				D1727152299F865000CB085F /* Frameworks */,
@@ -332,7 +349,7 @@
 			);
 			dependencies = (
 			);
-			name = "anori Extension (macOS)";
+			name = "Anori Extension (macOS)";
 			productName = "anori Extension (macOS)";
 			productReference = D1727155299F865000CB085F /* anori Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -368,16 +385,17 @@
 			knownRegions = (
 				en,
 				Base,
+				uk,
 			);
 			mainGroup = D1727110299F864E00CB085F;
 			productRefGroup = D172712E299F865000CB085F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D172712C299F865000CB085F /* anori (iOS) */,
-				D172713E299F865000CB085F /* anori (macOS) */,
-				D172714A299F865000CB085F /* anori Extension (iOS) */,
-				D1727154299F865000CB085F /* anori Extension (macOS) */,
+				D172712C299F865000CB085F /* Anori (iOS) */,
+				D172713E299F865000CB085F /* Anori (macOS) */,
+				D172714A299F865000CB085F /* Anori Extension (iOS) */,
+				D1727154299F865000CB085F /* Anori Extension (macOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -387,8 +405,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D19375222A76CC9F003D287E /* lodash.min.js in Resources */,
 				D19375122A75D515003D287E /* Script.js in Resources */,
+				D19375352A76D7DF003D287E /* Localizable.strings in Resources */,
+				D19375242A76CC9F003D287E /* locales in Resources */,
 				D19375162A75D515003D287E /* Icon.png in Resources */,
+				D193751C2A76B897003D287E /* ios-onboarding.png in Resources */,
 				D1727136299F865000CB085F /* LaunchScreen.storyboard in Resources */,
 				D1727166299F865000CB085F /* Assets.xcassets in Resources */,
 				D1727139299F865000CB085F /* Main.storyboard in Resources */,
@@ -404,8 +426,12 @@
 				D19375172A75D515003D287E /* Icon.png in Resources */,
 				D193751A2A75D64F003D287E /* Main.html in Resources */,
 				D19375152A75D515003D287E /* Style.css in Resources */,
+				D19375252A76CC9F003D287E /* locales in Resources */,
 				D1727145299F865000CB085F /* Main.storyboard in Resources */,
+				D19375362A76D7DF003D287E /* Localizable.strings in Resources */,
 				D1727167299F865000CB085F /* Assets.xcassets in Resources */,
+				D19375232A76CC9F003D287E /* lodash.min.js in Resources */,
+				D193751D2A76B897003D287E /* ios-onboarding.png in Resources */,
 				D19375132A75D515003D287E /* Script.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,12 +509,12 @@
 /* Begin PBXTargetDependency section */
 		D172714E299F865000CB085F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D172714A299F865000CB085F /* anori Extension (iOS) */;
+			target = D172714A299F865000CB085F /* Anori Extension (iOS) */;
 			targetProxy = D172714D299F865000CB085F /* PBXContainerItemProxy */;
 		};
 		D1727158299F865000CB085F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D1727154299F865000CB085F /* anori Extension (macOS) */;
+			target = D1727154299F865000CB085F /* Anori Extension (macOS) */;
 			targetProxy = D1727157299F865000CB085F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -516,6 +542,15 @@
 				D1727144299F865000CB085F /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D19375382A76D7DF003D287E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D19375372A76D7DF003D287E /* en */,
+				D19375392A76D7E1003D287E /* uk */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -640,7 +675,7 @@
 				DEVELOPMENT_TEAM = 6W97JP88X4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Anori Extension";
+				INFOPLIST_KEY_CFBundleDisplayName = Anori;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -671,7 +706,7 @@
 				DEVELOPMENT_TEAM = 6W97JP88X4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Anori Extension";
+				INFOPLIST_KEY_CFBundleDisplayName = Anori;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -701,6 +736,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6W97JP88X4;
@@ -924,7 +960,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D172717C299F865000CB085F /* Build configuration list for PBXNativeTarget "anori Extension (iOS)" */ = {
+		D172717C299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori Extension (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D172717D299F865000CB085F /* Debug */,
@@ -933,7 +969,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D1727180299F865000CB085F /* Build configuration list for PBXNativeTarget "anori (iOS)" */ = {
+		D1727180299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D1727181299F865000CB085F /* Debug */,
@@ -942,7 +978,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D1727183299F865000CB085F /* Build configuration list for PBXNativeTarget "anori Extension (macOS)" */ = {
+		D1727183299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori Extension (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D1727184299F865000CB085F /* Debug */,
@@ -951,7 +987,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D1727187299F865000CB085F /* Build configuration list for PBXNativeTarget "anori (macOS)" */ = {
+		D1727187299F865000CB085F /* Build configuration list for PBXNativeTarget "Anori (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D1727188299F865000CB085F /* Debug */,

@@ -1,0 +1,12 @@
+{
+    "translation": {
+        "onboarding": {
+            "start": {
+                "title": "欢迎来到 Anori!"
+            }
+        },
+        "safari": {
+            "onboarding": {}
+        }
+    }
+}

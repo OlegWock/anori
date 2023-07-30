@@ -25,37 +25,37 @@ body {
     height: 100%;
 
     font: -apple-system-short-body;
+}
+
+body.platform-ios .show-on-mac  {
+    display: none !important;
+}
+
+body.platform-mac .show-on-ios {
+    display: none !important;
+}
+
+main {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+main.show-on-mac {
     text-align: center;
 }
 
-body:not(.platform-mac, .platform-ios) :is(.platform-mac, .platform-ios) {
-    display: none;
-}
-
-body.platform-ios .platform-mac {
-    display: none;
-}
-
-body.platform-mac .platform-ios {
-    display: none;
-}
-
-body.platform-ios .platform-mac {
-    display: none;
-}
-
-body:not(.state-on, .state-off) :is(.state-on, .state-off) {
-    display: none;
-}
-
-body.state-on :is(.state-off, .state-unknown) {
-    display: none;
-}
-
-body.state-off :is(.state-on, .state-unknown) {
-    display: none;
+img.onboarding {
+    border-radius: 12px;
 }
 
 button {
-    font-size: 1em;
+    font-size: inherit;
+}
+
+p {
+    margin: 0;
+    align-self: stretch;
 }
