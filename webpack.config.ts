@@ -126,6 +126,10 @@ const generateManifest = (
 
         const additionalPermissions: string[] = [];
 
+        if (targetBrowser === 'safari') {
+            additionalPermissions.push('nativeMessaging'); // Might want to talk with native companion app
+        }
+
         manifest.manifest_version = 2;
 
         manifest.browser_action = manifest.action;
