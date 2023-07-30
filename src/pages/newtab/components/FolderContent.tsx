@@ -23,12 +23,13 @@ import clsx from 'clsx';
 
 type FolderContentProps = {
     folder: Folder,
-    animationDirection: 'up' | 'down',
+    animationDirection: 'up' | 'down' | 'left' | 'right',
 };
 
 const variants = {
     visible: {
         translateY: '0%',
+        translateX: '0%',
         opacity: 1,
     },
     initial: (custom: 'up' | 'down') => {
@@ -37,9 +38,19 @@ const variants = {
                 translateY: '-35%',
                 opacity: 0,
             };
-        } else {
+        } else if (custom === 'down') {
             return {
                 translateY: '35%',
+                opacity: 0,
+            };
+        } else if (custom === 'left') {
+            return {
+                translateX: '-35%',
+                opacity: 0,
+            };
+        } else {
+            return {
+                translateX: '35%',
                 opacity: 0,
             };
         }
@@ -50,9 +61,19 @@ const variants = {
                 translateY: '35%',
                 opacity: 0,
             };
-        } else {
+        } else if (custom === 'down') {
             return {
                 translateY: '-35%',
+                opacity: 0,
+            };
+        } else if (custom === 'left') {
+            return {
+                translateX: '35%',
+                opacity: 0,
+            };
+        } else {
+            return {
+                translateX: '-35%',
                 opacity: 0,
             };
         }
@@ -148,7 +169,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
             }}>
                 <m.div
                     key={`FolderContent-${folder.id}`}
-                    className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible", isCompact && "compact-mode-active")}
+                    className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
                     transition={{
                         duration: 0.2,
                         type: 'spring',
@@ -282,7 +303,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         closable
                     >
                         <ScrollArea className='edit-widget-scrollarea'>
-                            <m.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{opacity: 1, translateX: '0%'}}>
+                            <m.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{ opacity: 1, translateX: '0%' }}>
                                 <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
                                     updateWidgetConfig(editingWidget.instanceId, config);
                                     setEditingWidget(null);

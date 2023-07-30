@@ -4,14 +4,14 @@ import './styles.scss';
 import { requestIconsFamily } from '@components/Icon';
 import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from '@components/Modal';
 import { SettingsModal } from './settings/Settings';
 import { AnimatePresence, LazyMotion, MotionConfig, domMax, m } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { homeFolder } from '@utils/user-data/types';
-import { useHotkeys, usePrevious } from '@utils/hooks';
+import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { preloadBrowserStorageAtom, storage, useBrowserStorageValue } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 import { CommandMenu } from '@components/command-menu/CommandMenu';
@@ -19,11 +19,36 @@ import { watchForPermissionChanges } from '@utils/permissions';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import { WhatsNew } from '@components/WhatsNew';
 import clsx from 'clsx';
-import { CompactModeProvider, useSizeSettings } from '@utils/compact';
+import { CompactModeProvider } from '@utils/compact';
 import { getAllCustomIcons } from '@utils/custom-icons';
 import { initTranslation } from '@translations/index';
 import { useTranslation } from 'react-i18next';
+import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
 
+
+const useSidebarOrientation = () => {
+    const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
+    const [winOrientation, setWinOrientation] = useState<'landscape' | 'portrait'>(() => window.innerWidth >= window.innerHeight ? 'landscape' : 'portrait');
+    const winOrientationRef = useMirrorStateToRef(winOrientation);
+    const computedSidebarOrientation = sidebarOrientation === 'auto' ? winOrientation === 'landscape' ? 'vertical' : 'horizontal' : sidebarOrientation;
+
+    useEffect(() => {
+        if (sidebarOrientation === 'auto') {
+            const handler = () => {
+                const newOrientation = window.innerWidth >= window.innerHeight ? 'landscape' : 'portrait';
+                if (newOrientation !== winOrientationRef.current) {
+                    setWinOrientation(newOrientation);
+                }
+            };
+
+            window.addEventListener('resize', handler);
+            handler();
+            return () => window.removeEventListener('resize', handler);
+        }
+    }, [sidebarOrientation]);
+
+    return computedSidebarOrientation;
+};
 
 const Start = () => {
     const switchToFolderByIndex = (ind: number) => {
@@ -39,14 +64,15 @@ const Start = () => {
         setActiveFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
     };
 
+    const sidebarOrientation = useSidebarOrientation();
     const { folders, activeFolder, setActiveFolder } = useFolders(true);
     const activeFolderIndex = folders.findIndex(f => f.id === activeFolder.id)!;
     const previousActiveFolderIndex = usePrevious(activeFolderIndex);
     const animationDirection = previousActiveFolderIndex === undefined
-        ? 'down'
+        ? (sidebarOrientation === 'vertical' ? 'down' : 'right')
         : activeFolderIndex > previousActiveFolderIndex
-            ? 'down'
-            : 'up';
+            ? (sidebarOrientation === 'vertical' ? 'down' : 'right')
+            : (sidebarOrientation === 'vertical' ? 'up' : 'left');
 
 
     const [settingsVisible, setSettingsVisible] = useState(false);
@@ -56,7 +82,9 @@ const Start = () => {
     const { t } = useTranslation();
 
     useHotkeys('meta+up, alt+up', () => swithFolderUp());
+    useHotkeys('meta+left, alt+left', () => swithFolderUp());
     useHotkeys('meta+down, alt+down', () => swithFolderDown());
+    useHotkeys('meta+right, alt+right', () => swithFolderDown());
 
     useHotkeys('alt+h', () => setShortcutsHelpVisible(v => !v));
     useHotkeys('alt+s', () => setSettingsVisible(v => !v));
@@ -71,22 +99,21 @@ const Start = () => {
     useHotkeys('alt+8', () => switchToFolderByIndex(7));
     useHotkeys('alt+9', () => switchToFolderByIndex(8));
 
-    const { isCompact } = useSizeSettings();
-
     return (
         <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
             <AnimatePresence>
                 <m.div
-                    className={clsx("StartPage", { 'compact': isCompact })}
+                    className={clsx("StartPage", `${sidebarOrientation}-sidebar`)}
                     key='start-page'
                 >
                     <div className="sidebar">
                         <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
                             {folders.map(f => {
-                                return (<FolderButton key={f.id} icon={f.icon} name={f.name} active={activeFolder === f} onClick={() => setActiveFolder(f)} />);
+                                return (<FolderButton sidebarOrientation={sidebarOrientation} key={f.id} icon={f.icon} name={f.name} active={activeFolder === f} onClick={() => setActiveFolder(f)} />);
                             })}
                             <div className="spacer" />
                             <FolderButton
+                                sidebarOrientation={sidebarOrientation}
                                 layoutId='whats-new'
                                 icon="ion:newspaper-outline"
                                 name={t('whatsNew')}
@@ -97,6 +124,7 @@ const Start = () => {
                                 }}
                             />
                             <FolderButton
+                                sidebarOrientation={sidebarOrientation}
                                 layoutId='settings'
                                 icon="ion:settings-sharp"
                                 name={t('settings.title')}
@@ -161,6 +189,7 @@ preloadBrowserStorageAtom('compactMode', false);
 preloadBrowserStorageAtom('automaticCompactMode', false);
 preloadBrowserStorageAtom('automaticCompactModeThreshold', 1500);
 preloadBrowserStorageAtom('hideEditFolderButton', false);
+preloadBrowserStorageAtom('sidebarOrientation', 'auto');
 
 // Fequently used in UI, preload to avoid flashes later
 requestIconsFamily('ion');
@@ -175,5 +204,10 @@ initTranslation().then(() => {
         </LazyMotion>
     </CompactModeProvider>);
 });
+
+
+if (IS_TOUCH_DEVICE) document.body.classList.add('is-touch-device');
+if (IS_IPAD) document.body.classList.add('is-ipad');
+if (IS_ANDROID) document.body.classList.add('is-android');
 
 

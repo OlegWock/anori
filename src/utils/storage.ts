@@ -73,7 +73,7 @@ export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultVal
     if (!storageAtoms[name]) {
         storageAtoms[name] = atomWithBrowserStorageStatic(name, defaultValue, { forceLoad: true });
     }
-    const atom = storageAtoms[name];
+    const atom = storageAtoms[name] as AtomWithBrowserStorage<StorageContent[K]>;
     return useAtomWithStorage(atom);
 };
 

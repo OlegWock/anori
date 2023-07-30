@@ -106,6 +106,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
     const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');
+    const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
     const screenWidth = useScreenWidth();
     const { t } = useTranslation();
@@ -141,6 +142,16 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
                 </Trans>
             </Alert>
         </div>}
+        <div className='input-wrapper'>
+            <label>{t("settings.general.sidebarOrientation")}:</label>
+            <Select<typeof sidebarOrientation>
+                value={sidebarOrientation}
+                onChange={setSidebarOrientation}
+                options={['auto', 'vertical', 'horizontal']}
+                getOptionKey={o => o}
+                getOptionLabel={o => t(`settings.general.sidebarOrientationOption-${o}`)}
+            />
+        </div>
         <div className='input-wrapper'>
             <label>{t("settings.general.newTabTitle")}: </label>
             <Input value={newTabTitle} onValueChange={setNewTabTitle} />

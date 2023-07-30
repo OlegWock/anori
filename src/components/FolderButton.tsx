@@ -11,12 +11,13 @@ export type FolderButtonProps = {
     icon: string,
     active?: boolean,
     withRedDot?: boolean,
+    sidebarOrientation: 'vertical' | 'horizontal'
 } & ComponentProps<typeof m.button>;
 
 
 
-export const FolderButton = ({ name, active, icon, className, withRedDot, ...props }: FolderButtonProps) => {
-    return (<Tooltip label={name} placement="right">
+export const FolderButton = ({ name, active, icon, className, withRedDot, sidebarOrientation, ...props }: FolderButtonProps) => {
+    return (<Tooltip label={name} placement={sidebarOrientation === "vertical" ? "right" : "top"}>
         <m.button className={clsx("FolderButton", className, {
             "active": active,
         })} {...props}>

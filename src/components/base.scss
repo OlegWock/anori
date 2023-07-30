@@ -73,6 +73,24 @@ $text: #ffffff;
     }
 }
 
+@mixin touch {
+    @at-root #{selector.nest(".is-touch-device", &)} {
+        @content;
+    }
+}
+
+@mixin ipad {
+    @at-root #{selector.nest(".is-ipad", &)} {
+        @content;
+    }
+}
+
+@mixin android {
+    @at-root #{selector.nest(".is-android", &)} {
+        @content;
+    }
+}
+
 :root {
     font-size: 16px;
     --background-image: url("/assets/images/backgrounds/greenery.jpg");

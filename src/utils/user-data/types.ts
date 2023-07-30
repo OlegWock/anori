@@ -8,6 +8,7 @@ export type StorageContent = {
     theme: Theme["name"],
     stealFocus: boolean,
     userId: string,
+    sidebarOrientation: "vertical" | "horizontal" | "auto",
 
     analyticsEnabled: boolean,
     analyticsLastSend: number,

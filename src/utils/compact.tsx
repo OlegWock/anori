@@ -8,6 +8,8 @@ export const applyCompactMode = (isCompact: boolean) => {
     const root = document.documentElement;
     const size = isCompact ? 14 : 16;
     root.style.setProperty('font-size', size + 'px');
+    if (isCompact) document.body.classList.add('compact-mode-active');
+    else document.body.classList.remove('compact-mode-active');
 };
 
 export const useScreenWidth = () => {
@@ -28,7 +30,7 @@ export const useScreenWidth = () => {
     return screenWidth;
 };
 
-export const CompactModeProvider = ({children}: {children: ReactNode}) => {
+export const CompactModeProvider = ({ children }: { children: ReactNode }) => {
     const [isAutomaticCompact] = useBrowserStorageValue('automaticCompactMode', true);
     const [isManualCompact] = useBrowserStorageValue('compactMode', false);
     const screenWidth = useScreenWidth();

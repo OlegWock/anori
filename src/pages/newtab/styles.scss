@@ -1,4 +1,4 @@
-@use '../../components/base.scss';
+@import '../../components/base.scss';
 
 @font-face {
     font-family: 'Nunito';
@@ -57,10 +57,24 @@ body {
     width: 100vw;
     display: flex;
 
+    &.horizontal-sidebar {
+        flex-direction: column-reverse;
+
+        .sidebar {
+            flex-direction: row;
+            padding: 2rem;
+        }
+
+        .widgets-area {
+            margin: 2rem;
+            margin-bottom: 0;
+        }
+    }
+
     .sidebar {
         flex-grow: 0;
         flex-shrink: 0;
-        padding: 38px 24px;
+        padding: 2.375rem 2rem;
         z-index: 1;
 
         display: flex;
@@ -72,7 +86,7 @@ body {
         }
     }
 
-    &.compact {
+    @include compact {
         .sidebar {
             gap: 1.5rem;
         }
@@ -80,8 +94,8 @@ body {
 
     .widgets-area {
         position: relative;
-        margin: 32px;
-        margin-left: 0px;
+        margin: 2rem;
+        margin-left: 0;
         flex: 1;
         border-radius: 36px;
         background: rgba(255, 255, 255, 0.04);

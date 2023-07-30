@@ -198,6 +198,4 @@ iOSInjectionProject/
 .DS_Store
 safari-app/anori/Shared (Extension)/Resources/
 
-
-# Extracted untranslated strings
-*-extracted.json
+.vscode
