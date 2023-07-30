@@ -1,0 +1,90 @@
+@use 'sass:selector';
+
+$accent: #2eb46a;
+$background: #124737;
+$text: #ffffff;
+
+@mixin scroll-mixin {
+    &::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar:vertical {
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+        height: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        border: 2px solid var(--background-lighter);
+        /* should match background, can't be transparent */
+        background-color: var(--background-lighter);
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--background);
+        border-radius: 8px;
+    }
+
+    & {
+        scrollbar-color: var(--background-lighter) transparent;
+    }
+}
+
+@mixin scroll-mixin-darker {
+    &::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar:vertical {
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+        height: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        border: 2px solid var(--background);
+        /* should match background, can't be transparent */
+        background-color: var(--background);
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--background-lighter);
+        border-radius: 8px;
+    }
+
+    & {
+        scrollbar-color: var(--background) transparent;
+    }
+}
+
+
+@mixin compact {
+    @at-root #{selector.nest(".compact-mode-active", &)} {
+        @content;
+    }
+}
+
+@mixin touch {
+    @at-root #{selector.nest(".is-touch-device", &)} {
+        @content;
+    }
+}
+
+@mixin ipad {
+    @at-root #{selector.nest(".is-ipad", &)} {
+        @content;
+    }
+}
+
+@mixin android {
+    @at-root #{selector.nest(".is-android", &)} {
+        @content;
+    }
+}

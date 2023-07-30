@@ -1,4 +1,4 @@
-@import "./base.scss";
+@use "@components/utils.scss" as utils;
 
 .WidgetCard {
     padding: 1rem;
@@ -47,7 +47,7 @@
         touch-action: none;
     }
 
-    @include compact {
+    @include utils.compact {
         .remove-widget-btn {
             top: -8px;
             right: -4px;

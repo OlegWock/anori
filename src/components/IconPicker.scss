@@ -1,4 +1,4 @@
-@use "./base.scss" as *;
+@use "@components/utils.scss" as utils;
 
 .IconPicker {
     width: 410px;
@@ -29,7 +29,7 @@
 
     .icons-grid {
         // TODO: will be good to migrate to <ScrollArea> component instead of this mixin, but we don't own underlaying grid component...
-        @include scroll-mixin();
+        @include utils.scroll-mixin();
 
         align-self: center;
         overflow-x: hidden !important;

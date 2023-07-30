@@ -1,4 +1,4 @@
-@import "@components/base.scss";
+@use "@components/utils.scss" as utils;
 
 .SearchWidget {
     display: flex;
@@ -12,7 +12,7 @@
         align-items: center;
         justify-content: center;
 
-        @include compact { 
+        @include utils.compact { 
             gap: 1.2rem;
         }
 

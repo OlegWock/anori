@@ -1,4 +1,4 @@
-@import "../../components/base.scss";
+@use "@components/utils.scss" as utils;
 
 .NotesWidget {
     display: flex;
@@ -14,7 +14,7 @@
         padding: 4px 8px;
         height: auto;
 
-        @include scroll-mixin-darker();
+        @include utils.scroll-mixin-darker();
     }
 
     .note-title {

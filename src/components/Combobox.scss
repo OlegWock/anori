@@ -1,4 +1,4 @@
-@import "./base.scss";
+@use "@components/utils.scss" as utils;
 
 .Combobox-input {}
 
@@ -10,7 +10,7 @@
     z-index: 9999;
     border: 2px solid var(--accent);
     padding: 5px;
-    @include scroll-mixin();
+    @include utils.scroll-mixin();
 
     .Combobox-option {
         font-size: 0.875rem;

@@ -1,108 +1,18 @@
 @use 'sass:color';
-@use 'sass:selector';
-
-
-$accent: #2eb46a;
-$background: #124737;
-$text: #ffffff;
-
-@mixin scroll-mixin {
-    &::-webkit-scrollbar {
-        -webkit-appearance: none;
-    }
-
-    &::-webkit-scrollbar:vertical {
-        width: 7px;
-    }
-
-    &::-webkit-scrollbar:horizontal {
-        height: 7px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: 8px;
-        border: 2px solid var(--background-lighter);
-        /* should match background, can't be transparent */
-        background-color: var(--background-lighter);
-    }
-
-    &::-webkit-scrollbar-track {
-        background-color: var(--background);
-        border-radius: 8px;
-    }
-
-    & {
-        scrollbar-color: var(--background-lighter) transparent;
-    }
-}
-
-@mixin scroll-mixin-darker {
-    &::-webkit-scrollbar {
-        -webkit-appearance: none;
-    }
-
-    &::-webkit-scrollbar:vertical {
-        width: 7px;
-    }
-
-    &::-webkit-scrollbar:horizontal {
-        height: 7px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: 8px;
-        border: 2px solid var(--background);
-        /* should match background, can't be transparent */
-        background-color: var(--background);
-    }
-
-    &::-webkit-scrollbar-track {
-        background-color: var(--background-lighter);
-        border-radius: 8px;
-    }
-
-    & {
-        scrollbar-color: var(--background) transparent;
-    }
-}
-
-
-@mixin compact {
-    @at-root #{selector.nest(".compact-mode-active", &)} {
-        @content;
-    }
-}
-
-@mixin touch {
-    @at-root #{selector.nest(".is-touch-device", &)} {
-        @content;
-    }
-}
-
-@mixin ipad {
-    @at-root #{selector.nest(".is-ipad", &)} {
-        @content;
-    }
-}
-
-@mixin android {
-    @at-root #{selector.nest(".is-android", &)} {
-        @content;
-    }
-}
+@use './utils.scss' as utils;
 
 :root {
     font-size: 16px;
     --background-image: url("/assets/images/backgrounds/greenery.jpg");
-    --accent: #{$accent};
-    --accent-subtle: #{color.scale($accent, $alpha: -50%)};
-    --background: #{$background};
-    --background-lighter: #{color.scale($background, $lightness: +5%)};
-    --text: #{$text};
-    --text-subtle-1: #{color.scale($text, $alpha: -15%)};
-    --text-subtle-2: #{color.scale($text, $alpha: -35%)};
-    --text-border: #{color.scale($text, $alpha: -75%)};
-    --text-disabled: #{color.scale($text, $blackness: +45%)};
+    --accent: #{utils.$accent};
+    --accent-subtle: #{color.scale(utils.$accent, $alpha: -50%)};
+    --background: #{utils.$background};
+    --background-lighter: #{color.scale(utils.$background, $lightness: +5%)};
+    --text: #{utils.$text};
+    --text-subtle-1: #{color.scale(utils.$text, $alpha: -15%)};
+    --text-subtle-2: #{color.scale(utils.$text, $alpha: -35%)};
+    --text-border: #{color.scale(utils.$text, $alpha: -75%)};
+    --text-disabled: #{color.scale(utils.$text, $blackness: +45%)};
 }
 
 * {

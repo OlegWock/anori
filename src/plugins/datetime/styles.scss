@@ -1,4 +1,4 @@
-@import "@components/base.scss";
+@use "@components/utils.scss" as utils;
 
 .DateTimeWidget {
     display: flex;
@@ -13,7 +13,7 @@
             &.smaller-time {
                 font-size: calc(1rem + var(--widget-box-percent) * 0.45rem);
 
-                @include compact {
+                @include utils.compact {
                     font-size: calc(1rem + var(--widget-box-percent) * 0.35rem);
                 }
             }
@@ -68,7 +68,7 @@
             &.smaller-time {
                 font-size: calc(3rem + var(--widget-box-percent) * 0.75rem);
 
-                @include compact {
+                @include utils.compact {
                     font-size: calc(2.5rem + var(--widget-box-percent) * 0.75rem);
                 }
             }
