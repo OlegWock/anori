@@ -1,5 +1,12 @@
 
+//////////////////////////////////////////////////////////////////
+//////// THIS FILE IS GENERATED AUTOMATICALLY DO NOT EDIT ////////
+////// TO MODIFY THIS FILE HEAD TO generate-icons-assets.ts //////
+//////////////////////////////////////////////////////////////////
+
 import { CUSTOM_ICONS_AVAILABLE } from '@utils/custom-icons';
+import { translate } from '@translations/index';
+
 export const allSets = [
     "ion", // https://icon-sets.iconify.design/ion/
     "fluent", // https://icon-sets.iconify.design/fluent/
@@ -35,5 +42,7 @@ export const iconSetPrettyNames: Record<string, string> = {
 if (CUSTOM_ICONS_AVAILABLE) {
     // Icons uploaded by user
     allSets.push('custom');
-    iconSetPrettyNames['custom'] = 'Custom icons';
+    Object.defineProperty(iconSetPrettyNames, 'custom', {
+        get: () => translate('customIcons')
+    });
 }

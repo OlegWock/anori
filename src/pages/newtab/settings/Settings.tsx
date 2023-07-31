@@ -292,13 +292,13 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                 </m.div>);
             })}
 
-            {hasDraftIconsWithInvalidName && <Tooltip placement='top' label={t("settings.customIcons.invalidNames")}>
+            {hasDraftIconsWithInvalidName && <Tooltip placement='top' label={t("settings.customIcons.invalidNames")} enableOnTouch>
                 <Button visuallyDisabled>{t("settings.customIcons.saveIcons")}</Button>
             </Tooltip>}
             {!hasDraftIconsWithInvalidName && <Button onClick={saveDraftCustomIcons}>{t("settings.customIcons.saveIcons")}</Button>}
         </m.div>}
 
-        {draftCustomIcons.length === 0 && <Tooltip label={t("settings.customIcons.supportedFormats")} maxWidth={500} placement='top'>
+        {draftCustomIcons.length === 0 && <Tooltip label={t("settings.customIcons.supportedFormats")} maxWidth={500} placement='top' enableOnTouch>
             <Button onClick={importCustomIcons}>{t("settings.customIcons.importIcons")}</Button>
         </Tooltip>}
     </m.div>)

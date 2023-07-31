@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .FolderButton {
     padding: 8px;
     background: none;
@@ -12,8 +14,10 @@
     align-items: center;
     transition: 0.1s ease-in-out;
     position: relative;
+    user-select: none;
+    -webkit-user-select: none;
 
-    &:hover {
+    @include utils.hover {
         transform: scale(1.15);
         color: var(--accent);
     }

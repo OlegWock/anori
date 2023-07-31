@@ -13,8 +13,14 @@
         align-items: stretch;
     }
 
-    .icons-search {
-        margin-bottom: 8px;
+    .icons-search-wrapper {
+        margin-bottom: 0.75rem;
+        display: flex;
+        gap: 0.5rem;
+
+        .Input {
+            flex-grow: 1;
+        }
     }
 
     .no-custom-icons-alert {
@@ -46,11 +52,21 @@
     contain: paint;
     outline: none;
 
-    &:not(.inactive):hover, &:not(.inactive):focus-visible {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 6px;
-        cursor: pointer;
-        outline: none;
+    &:not(.inactive){
+        @include utils.hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        &:focus-visible  {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+        }
+
     }
 
     &.inactive {

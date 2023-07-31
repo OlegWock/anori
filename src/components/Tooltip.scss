@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .Tooltip {
     background: rgba(0, 0, 0, 0.85);
     color: white;
@@ -7,6 +9,10 @@
     z-index: 999;
     max-width: 400px;
     pointer-events: none;
+
+    @include utils.compact {
+        font-size: 1rem;
+    }
 
     &.has-clickable-content {
         pointer-events: initial;

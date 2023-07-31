@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .Tabs {
     display: flex;
     flex-direction: column;
@@ -43,8 +45,10 @@
         border-right-width: 2px;
     }
 
-    &:hover:not(:disabled):not([aria-disabled="true"]) {
-        background: rgba(255, 255, 255, 0.1);
+    @include utils.hover {
+        &:not(:disabled):not([aria-disabled="true"]) {
+            background: rgba(255, 255, 255, 0.1);
+        }
     }
 
     &[data-state='active'] {

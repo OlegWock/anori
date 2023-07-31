@@ -8,21 +8,21 @@ import { Modal } from '@components/Modal';
 import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { useFolderWidgets } from '@utils/user-data/hooks';
-import { GridDimensions, Layout, canFitItemInGrid } from '@utils/grid';
+import { GridDimensions, Layout, findPositionForItemInGrid } from '@utils/grid';
 import { MotionScrollArea, ScrollArea } from '@components/ScrollArea';
 import { useTranslation } from 'react-i18next';
 
 
 export type NewWidgetWizardProps = {
     folder: Folder,
-    gridDimenstions: GridDimensions,
+    gridDimensions: GridDimensions,
     layout: Layout,
     onClose: () => void,
 };
 
-export const NewWidgetWizard = ({ onClose, folder, gridDimenstions, layout }: NewWidgetWizardProps) => {
+export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
     const tryAddWidget = (plugin: AnoriPlugin, widget: WidgetDescriptor<any>, config: any) => {
-        const position = canFitItemInGrid({ grid: gridDimenstions, layout, item: widget.size });
+        const position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.size });
         if (!position) {
             // TODO: replace with toast
             alert("Can't fit element in grid, sorry");

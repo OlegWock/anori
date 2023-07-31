@@ -71,6 +71,14 @@ $text: #ffffff;
     }
 }
 
+@mixin hover {
+    @media (any-hover: hover) {
+        &:hover {
+            @content
+        }
+    }
+}
+
 @mixin touch {
     @at-root #{selector.nest(".is-touch-device", &)} {
         @content;

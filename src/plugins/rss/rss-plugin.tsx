@@ -363,7 +363,7 @@ export const rssLastestPostDescriptor = {
     },
     configurationScreen: RssLatestPostConfigScreen,
     withAnimation: true,
-    mainScreen: (props: WidgetRenderProps<RssLatestPostConfigType>) => (<RequirePermissions compact hosts={[parseHost(props.config.feedUrl)]}>
+    mainScreen: (props: WidgetRenderProps<RssLatestPostConfigType>) => (<RequirePermissions compact hosts={[parseHost(props.config.feedUrl)]} permissions={["tabs"]}>
         <RssLatestPost {...props} />
     </RequirePermissions>),
     mock: RssLatestPostMock,

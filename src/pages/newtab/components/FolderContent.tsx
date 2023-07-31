@@ -109,11 +109,11 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
             x: info.point.x - mainBox.x,
             y: info.point.y - mainBox.y,
         };
-        const possibleSnapPoints = snapToSector({ grid: grisDimenstions, position: relativePoint });
+        const possibleSnapPoints = snapToSector({ grid: gridDimensions, position: relativePoint });
         console.log('Possible snap points:', possibleSnapPoints);
         const snapPoint = possibleSnapPoints.find(p => !willItemOverlay({
             arr: layoutTo2DArray({
-                grid: grisDimenstions,
+                grid: gridDimensions,
                 layout: widgets.filter(w => w.instanceId !== widget.instanceId),
             }),
             item: {
@@ -135,16 +135,16 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const { blockSize, minBlockSize, gapSize, isCompact } = useSizeSettings();
     const { t } = useTranslation();
     const mainRef = useRef<HTMLDivElement>(null);
-    const grisDimenstions = useGrid(mainRef, blockSize, minBlockSize);
+    const gridDimensions = useGrid(mainRef, blockSize, minBlockSize);
 
     const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
 
     // We need this to workaround framer motion auto-repozition of drag elements on window resize
     const isResizingWindow = useWindowIsResizing();
 
-    const adjustedLayout = fixHorizontalOverflows({ grid: grisDimenstions, layout: widgets });
+    const adjustedLayout = fixHorizontalOverflows({ grid: gridDimensions, layout: widgets });
 
-    console.log('Render folder content', { grisDimenstions, adjusterdLayout: adjustedLayout });
+    console.log('Render folder content', { gridDimensions, adjustedLayout });
 
     useEffect(() => {
         setIsEditing(false);
@@ -165,7 +165,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
             <FolderContentContext.Provider value={{
                 activeFolder: folder,
                 isEditing,
-                boxSize: grisDimenstions.boxSize,
+                boxSize: gridDimensions.boxSize,
             }}>
                 <m.div
                     key={`FolderContent-${folder.id}`}
@@ -180,9 +180,9 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                     exit="exit"
                     custom={animationDirection}
                     style={{
-                        '--widget-box-size': grisDimenstions.boxSize,
-                        '--widget-box-size-px': grisDimenstions.boxSize + 'px',
-                        '--widget-box-percent': (grisDimenstions.boxSize - minBlockSize) / (blockSize - minBlockSize),
+                        '--widget-box-size': gridDimensions.boxSize,
+                        '--widget-box-size-px': gridDimensions.boxSize + 'px',
+                        '--widget-box-percent': (gridDimensions.boxSize - minBlockSize) / (blockSize - minBlockSize),
                     } as CSSProperties}
                 >
                     <header
@@ -224,10 +224,10 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                     </header>
                     <m.main layout layoutRoot ref={mainRef}>
                         <AnimatePresence>
-                            {isEditing && new Array(grisDimenstions.colums * grisDimenstions.rows).fill(null).map((_, i) => {
-                                const x = i % grisDimenstions.colums;
-                                const y = Math.floor(i / grisDimenstions.colums);
-                                const position = positionToPixelPosition({ grid: grisDimenstions, positon: { x, y } });
+                            {isEditing && new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {
+                                const x = i % gridDimensions.columns;
+                                const y = Math.floor(i / gridDimensions.columns);
+                                const position = positionToPixelPosition({ grid: gridDimensions, positon: { x, y } });
                                 return (<m.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
@@ -239,17 +239,19 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                         top: position.y,
                                         left: position.x,
                                         margin: gapSize,
-                                        width: grisDimenstions.boxSize - gapSize * 2,
-                                        height: grisDimenstions.boxSize - gapSize * 2,
+                                        width: gridDimensions.boxSize - gapSize * 2,
+                                        height: gridDimensions.boxSize - gapSize * 2,
                                         background: 'rgba(255, 255, 255, 0.15)',
                                         borderRadius: 12,
+                                        userSelect: 'none',
+                                        WebkitUserSelect: 'none',
                                     }}
                                 />);
                             })}
                         </AnimatePresence>
                         <AnimatePresence initial={false}>
                             {adjustedLayout.map((w, i) => {
-                                const position = positionToPixelPosition({ grid: grisDimenstions, positon: w });
+                                const position = positionToPixelPosition({ grid: gridDimensions, positon: w });
                                 return (<WidgetMetadataContext.Provider key={w.instanceId} value={{
                                     pluginId: w.pluginId,
                                     instanceId: w.instanceId,
@@ -280,7 +282,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                 </WidgetMetadataContext.Provider>);
                             })}
                         </AnimatePresence>
-                        {shouldShowOnboarding && <Onboarding />}
+                        {shouldShowOnboarding && <Onboarding gridDimensions={gridDimensions} />}
                     </m.main>
 
                 </m.div>
@@ -290,7 +292,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         folder={folder}
                         key='new-widget-wizard'
                         onClose={() => setNewWidgetWizardVisible(false)}
-                        gridDimenstions={grisDimenstions}
+                        gridDimensions={gridDimensions}
                         layout={widgets}
                     />}
 

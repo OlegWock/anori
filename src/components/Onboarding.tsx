@@ -24,6 +24,8 @@ import { notesPlugin, notesWidgetDescriptorM } from '@plugins/notes/notes-plugin
 import { rssFeedDescriptor, rssPlugin } from '@plugins/rss/rss-plugin';
 import { datetimePlugin, datetimeWidgetDescriptorS } from '@plugins/datetime/datetime-plugin';
 import { weatherPlugin, weatherWidgetDescriptorCurrent } from '@plugins/weather/weather-plugin';
+import { GridDimensions, Position, canPlaceItemInGrid } from '@utils/grid';
+import { AnoriPlugin, WidgetDescriptor } from '@utils/user-data/types';
 
 
 const screens = ['start', 'folders', 'shortcuts', 'customization', 'analytics', 'presets'] as const;
@@ -51,16 +53,38 @@ const navigationButtonVariants = {
     },
 };
 
-export const Onboarding = () => {
+export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions }) => {
     const applyPreset = async () => {
+        const addIfPossible = <T extends {}>({ plugin, widget, config, position }: { widget: WidgetDescriptor<T>, plugin: AnoriPlugin<any, T>, config: T, position: Position }) => {
+            if (canPlaceItemInGrid({
+                grid: gridDimensions,
+                layout: [],
+                item: widget.size,
+                position,
+            })) {
+                addWidget({
+                    plugin,
+                    widget,
+                    config,
+                    position,
+                });
+            }
+        };
+
         console.log('Applying preset');
         const ipInfo = await getIpInfo();
         console.log('Ip info', ipInfo);
 
+        const shouldAddTopSites = X_BROWSER !== 'safari' && canPlaceItemInGrid({
+            grid: gridDimensions,
+            layout: [],
+            item: topSitesWidgetDescriptorVertical.size,
+            position: { x: 0, y: 0 },
+        });
         // Top sites widget isn't available in safari
-        const compensationIfSafari = X_BROWSER === 'safari' ? -1 : 0;
+        const compensationForTopSites = shouldAddTopSites ? 0 : -1;
 
-        if (X_BROWSER !== 'safari') {
+        if (shouldAddTopSites) {
             addWidget({
                 plugin: topSitesPlugin,
                 widget: topSitesWidgetDescriptorVertical,
@@ -72,29 +96,30 @@ export const Onboarding = () => {
             });
         }
 
-        addWidget({
+
+        addIfPossible({
             plugin: searchPlugin,
             widget: searchWidgetDescriptor,
             config: {
                 defaultProvider: 'google'
             },
             position: {
-                x: 1 + compensationIfSafari,
+                x: 1 + compensationForTopSites,
                 y: 0,
             }
         });
-        addWidget({
+        addIfPossible({
             plugin: tasksPlugin,
             widget: tasksWidgetDescriptorM,
             config: {
                 title: t('tasks-plugin.todo')
             },
             position: {
-                x: 1 + compensationIfSafari,
+                x: 1 + compensationForTopSites,
                 y: 1,
             }
         });
-        addWidget({
+        addIfPossible({
             plugin: bookmarkPlugin,
             widget: bookmarkWidgetSizeMDescriptor,
             config: {
@@ -103,11 +128,11 @@ export const Onboarding = () => {
                 icon: 'logos:reddit-icon',
             },
             position: {
-                x: 1 + compensationIfSafari,
+                x: 1 + compensationForTopSites,
                 y: 3,
             }
         });
-        addWidget({
+        addIfPossible({
             plugin: bookmarkPlugin,
             widget: bookmarkWidgetSizeSDescriptor,
             config: {
@@ -116,11 +141,11 @@ export const Onboarding = () => {
                 icon: 'logos:twitter',
             },
             position: {
-                x: 3 + compensationIfSafari,
+                x: 3 + compensationForTopSites,
                 y: 1,
             }
         });
-        addWidget({
+        addIfPossible({
             plugin: bookmarkPlugin,
             widget: bookmarkWidgetSizeSDescriptor,
             config: {
@@ -129,22 +154,22 @@ export const Onboarding = () => {
                 icon: 'skill-icons:instagram',
             },
             position: {
-                x: 4 + compensationIfSafari,
+                x: 4 + compensationForTopSites,
                 y: 1,
             }
         });
 
-        addWidget({
+        addIfPossible({
             plugin: notesPlugin,
             widget: notesWidgetDescriptorM,
             config: {},
             position: {
-                x: 3 + compensationIfSafari,
+                x: 3 + compensationForTopSites,
                 y: 2,
             }
         });
 
-        addWidget({
+        addIfPossible({
             // @ts-ignore Need to figure out better typing to allow plugins with multiple widets with different config types
             plugin: rssPlugin,
             widget: rssFeedDescriptor,
@@ -158,12 +183,12 @@ export const Onboarding = () => {
                 ]
             },
             position: {
-                x: 5 + compensationIfSafari,
+                x: 5 + compensationForTopSites,
                 y: 0,
             }
         });
 
-        addWidget({
+        addIfPossible({
             plugin: datetimePlugin,
             widget: datetimeWidgetDescriptorS,
             config: {
@@ -173,13 +198,13 @@ export const Onboarding = () => {
                 dateFormat: 'Do MMM Y',
             },
             position: {
-                x: 5 + compensationIfSafari,
+                x: 5 + compensationForTopSites,
                 y: 3
             }
         });
 
         if (ipInfo.lat !== undefined && ipInfo.long !== undefined) {
-            addWidget({
+            addIfPossible({
                 plugin: weatherPlugin,
                 widget: weatherWidgetDescriptorCurrent,
                 config: {
@@ -194,7 +219,7 @@ export const Onboarding = () => {
                     speedUnit: 'km/h',
                 },
                 position: {
-                    x: 6 + compensationIfSafari,
+                    x: 6 + compensationForTopSites,
                     y: 3
                 }
             });

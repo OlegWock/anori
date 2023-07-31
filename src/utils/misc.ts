@@ -28,3 +28,5 @@ export const asyncIterableToArray = async <T>(iter: AsyncIterable<T>): Promise<T
     }
     return res;
 };
+
+export const choose = <T>(items: T[]) => items[Math.floor(Math.random()*items.length)];

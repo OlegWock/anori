@@ -35,6 +35,7 @@
         "addWidget": "เพิ่มวิดเจ็ต",
         "next": "ถัดไป",
         "back": "กลับ",
+        "customIcons": "ไอคอนที่กำหนดเอง",
         "settings": {
             "title": "ตั่งค่า",
             "general": {

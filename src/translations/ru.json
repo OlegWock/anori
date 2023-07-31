@@ -35,6 +35,7 @@
         "addWidget": "Добавить виджет",
         "next": "Дальше",
         "back": "Назад",
+        "customIcons": "Пользовательские иконки",
         "settings": {
             "title": "Настройки",
             "general": {

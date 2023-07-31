@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .SettingsModal {
     padding: 0px !important;
 
@@ -193,7 +195,7 @@
     cursor: pointer;
     transition: 0.2s ease-in-out;
 
-    &:hover {
+    @include utils.hover {
         background: var(--accent-subtle);
     }
 

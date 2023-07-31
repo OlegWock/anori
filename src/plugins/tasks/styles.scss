@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .TasksWidget {
     display: flex;
     flex-direction: column;
@@ -30,7 +32,13 @@
         gap: 2px;
         position: relative;
 
-        &:hover {
+        @include utils.touch {
+            .drag-control {
+                visibility: visible;
+            }
+        }
+
+        @include utils.hover {
             .drag-control {
                 visibility: visible;
             }

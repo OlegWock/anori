@@ -3,7 +3,7 @@
     "description": "Customizable new tab: compose your own page from widgets",
     "version": "1.9.1",
     "repository": "git@github.com:OlegWock/anori.git",
-    "author": "OlegWock <olegwock@gmail.com>",
+    "author": "OlegWock",
     "license": "AGPL-3.0",
     "scripts": {
         "dev": "webpack build --config webpack.config.ts --env mode=development",

@@ -51,7 +51,14 @@ sets.forEach((set, i, arr) => {
 
 
 const allSetsTs = `
+//////////////////////////////////////////////////////////////////
+//////// THIS FILE IS GENERATED AUTOMATICALLY DO NOT EDIT ////////
+////// TO MODIFY THIS FILE HEAD TO generate-icons-assets.ts //////
+//////////////////////////////////////////////////////////////////
+
 import { CUSTOM_ICONS_AVAILABLE } from '@utils/custom-icons';
+import { translate } from '@translations/index';
+
 export const allSets = [\n${sets.map(s => `    ${JSON.stringify(s.name)}, // https://icon-sets.iconify.design/${s.name}/`).join('\n')},\n];
 
 export const iconSetPrettyNames: Record<string, string> = {
@@ -61,7 +68,9 @@ ${sets.map(s => `    '${s.name}': ${JSON.stringify(s.data.info.name)},`).join('\
 if (CUSTOM_ICONS_AVAILABLE) {
     // Icons uploaded by user
     allSets.push('custom');
-    iconSetPrettyNames['custom'] = 'Custom icons';
+    Object.defineProperty(iconSetPrettyNames, 'custom', {
+        get: () => translate('customIcons')
+    });
 }
 `
 

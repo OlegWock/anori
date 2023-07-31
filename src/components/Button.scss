@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .Button {
     background: transparent;
     border: none;
@@ -13,14 +15,17 @@
     align-items: center;
     gap: 6px;
     user-select: none;
+    -webkit-user-select: none;
 
     &.with-border {
         border: 2px solid rgba(255, 255, 255, 0.1);
         padding: 6px 18px;
         border-radius: 24px;
 
-        &:hover:not(:disabled):not([aria-disabled="true"]) {
-            background: rgba(255, 255, 255, 0.1);
+        @include utils.hover {
+            &:not(:disabled):not([aria-disabled="true"]) {
+                background: rgba(255, 255, 255, 0.1);
+            }
         }
 
         &.active {

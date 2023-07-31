@@ -2,7 +2,7 @@ import { RefObject, useLayoutEffect, useState } from "react";
 
 export type GridDimensions = {
     boxSize: number,
-    colums: number,
+    columns: number,
     rows: number,
 };
 
@@ -36,12 +36,12 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
     const calculateDimensions = () => {
         const box = ref.current!.getBoundingClientRect();
         const boxSize = calculateColumnWidth(box.width, desiredSize, minSize);
-        const colums = Math.floor(box.width / boxSize);
+        const columns = Math.floor(box.width / boxSize);
         const rows = Math.floor(box.height / boxSize);
 
         return {
             boxSize,
-            colums,
+            columns,
             rows,
             position: {
                 x: box.left,
@@ -56,7 +56,7 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
 
     const [dimensions, setDimensions] = useState<GridDimensions & { position: PixelPosition, pixelSize: LayoutItemSize }>({
         boxSize: desiredSize,
-        colums: 0,
+        columns: 0,
         rows: 0,
         position: {
             x: 0,
@@ -84,7 +84,7 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
     return dimensions;
 };
 
-export const layoutItemToSectors = (item: LayoutItem) => {
+const layoutItemToSectors = (item: LayoutItem) => {
     const arr: Position[] = [];
     for (let i = item.x; i < item.x + item.width; i++) {
         for (let j = item.y; j < item.y + item.height; j++) {
@@ -100,13 +100,13 @@ export const layoutItemToSectors = (item: LayoutItem) => {
 
 export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: GridDimensions, layout: Layout<any>, allowOverlay?: boolean }): Grid2DArray => {
     const arr = [...Array(grid.rows)].map(() => {
-        return [...Array(grid.colums)].map(() => false);
+        return [...Array(grid.columns)].map(() => false);
     });
 
     for (const item of layout) {
         const itemSectors = layoutItemToSectors(item);
         itemSectors.forEach(s => {
-            if (s.x >= grid.colums || s.y >= grid.rows) return;
+            if (s.x >= grid.columns || s.y >= grid.rows) return;
             if (arr[s.y][s.x] && !allowOverlay) throw new Error('elements in layout have overlay');
             arr[s.y][s.x] = true;
         })
@@ -124,7 +124,17 @@ export const willItemOverlay = ({ arr, item }: { arr: Grid2DArray, item: LayoutI
     return false;
 };
 
-export const canFitItemInGrid = ({ grid, layout, item }: { grid: GridDimensions, layout: Layout, item: LayoutItemSize }): false | Position => {
+export const canPlaceItemInGrid = ({ grid, layout, item, position }: { grid: GridDimensions, layout: Layout, item: LayoutItemSize, position: Position }): boolean => {
+    const outOfBounds = (position.x + item.width > grid.columns) || (position.y + item.height > grid.rows);
+    if (outOfBounds) return false;
+
+    const arr = layoutTo2DArray({ grid, layout });
+    if (willItemOverlay({arr, item: {...item, ...position}})) return false;
+
+    return true;
+};
+
+export const findPositionForItemInGrid = ({ grid, layout, item }: { grid: GridDimensions, layout: Layout, item: LayoutItemSize }): false | Position => {
     const arr = layoutTo2DArray({ grid, layout });
 
     for (let i = 0; i < arr.length; i++) {
@@ -133,7 +143,7 @@ export const canFitItemInGrid = ({ grid, layout, item }: { grid: GridDimensions,
             const cell = row[j];
             if (cell) continue;
             const overlay = willItemOverlay({ arr, item: { ...item, x: j, y: i } });
-            const overflow = (j + item.width > grid.colums) || (i + item.height > grid.rows);
+            const overflow = (j + item.width > grid.columns) || (i + item.height > grid.rows);
             if (overlay || overflow) continue;
 
             return { x: j, y: i };
@@ -143,13 +153,13 @@ export const canFitItemInGrid = ({ grid, layout, item }: { grid: GridDimensions,
     return false;
 };
 
-export const distanceBetweenPoints = (p1: PixelPosition, p2: PixelPosition) => {
+const distanceBetweenPoints = (p1: PixelPosition, p2: PixelPosition) => {
     return Math.hypot(p2.x - p1.x, p2.y - p1.y);
 };
 
 export const snapToSector = ({ grid, position }: { grid: GridDimensions, position: PixelPosition }) => {
     const possibleSnapPoints = [...Array(grid.rows)].flatMap((_, row) => {
-        return [...Array(grid.colums)].map((__, column) => {
+        return [...Array(grid.columns)].map((__, column) => {
             return {
                 pixelPosition: {
                     x: column * grid.boxSize,
@@ -178,10 +188,10 @@ export const positionToPixelPosition = ({ grid, positon }: { grid: GridDimension
 export const fixHorizontalOverflows = <T extends {}>({ grid, layout }: { grid: GridDimensions, layout: Layout<T> }): Layout<T> => {
     let newLayout = [...layout];
     for (const item of layout) {
-        const overflow = (item.x + item.width > grid.colums) || (item.y + item.height > grid.rows);
+        const overflow = (item.x + item.width > grid.columns) || (item.y + item.height > grid.rows);
         if (!overflow) continue;
         newLayout = newLayout.filter(i => i !== item);
-        const position = canFitItemInGrid({ grid, layout: newLayout, item });
+        const position = findPositionForItemInGrid({ grid, layout: newLayout, item });
         if (position) {
             newLayout.push({
                 ...item,

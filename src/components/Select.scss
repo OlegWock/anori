@@ -12,10 +12,6 @@
     border: 0px solid transparent;
     color: var(--text-subtle-1);
     background: var(--background-lighter);
-}
-
-
-.SelectTrigger:hover {
     cursor: pointer;
 }
 
@@ -56,6 +52,7 @@
     padding: 0 35px 0 25px;
     position: relative;
     user-select: none;
+    -webkit-user-select: none;
 }
 
 .SelectItem[data-disabled] {

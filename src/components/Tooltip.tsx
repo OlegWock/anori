@@ -15,12 +15,14 @@ import {
     useDelayGroup,
     FloatingPortal,
     Strategy,
-    safePolygon
+    safePolygon,
+    useClick,
 } from "@floating-ui/react";
 import { AnimatePresence, m } from "framer-motion";
 import './Tooltip.scss';
 import { mergeRefs } from "react-merge-refs";
 import clsx from "clsx";
+import { IS_TOUCH_DEVICE } from "@utils/device";
 
 interface Props {
     label: ReactNode;
@@ -33,9 +35,13 @@ interface Props {
     targetRef?: Ref<HTMLElement>
     hasClickableContent?: boolean,
     ignoreFocus?: boolean,
+    enableOnTouch?: boolean,
 }
 
-export const Tooltip = ({ children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100, targetRef, hasClickableContent = false, ignoreFocus = false }: Props) => {
+export const Tooltip = ({
+    children, label, placement = "bottom", strategy = 'absolute', maxWidth = 0, showDelay = 200, resetDelay = 100, 
+    targetRef, hasClickableContent = false, ignoreFocus = false, enableOnTouch = false, 
+}: Props) => {
     const { delay = showDelay, setCurrentId } = useDelayGroupContext();
     const [open, setOpen] = useState(false);
     const id = useId();
@@ -58,10 +64,16 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
     const { getReferenceProps, getFloatingProps } = useInteractions([
         useHover(context, {
             handleClose: hasClickableContent ? safePolygon() : undefined,
+            mouseOnly: true,
             delay: typeof delay === 'object' ? delay : {
                 open: showDelay,
                 close: resetDelay,
             },
+        }),
+        useClick(context, {
+            enabled: IS_TOUCH_DEVICE && enableOnTouch,
+            ignoreMouse: true,
+            toggle: false,
         }),
         useFocus(context, {
             enabled: !ignoreFocus,
@@ -84,7 +96,6 @@ export const Tooltip = ({ children, label, placement = "bottom", strategy = 'abs
 
     return (
         <>
-        {}
             {cloneElement(
                 children,
                 getReferenceProps({ ref: mergedRef, ...children.props })

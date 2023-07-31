@@ -6,6 +6,7 @@ import { Folder } from "@utils/user-data/types";
 import { Reorder, m, useDragControls } from "framer-motion";
 import { useRef } from "react";
 import './FolderItem.scss';
+import { IS_TOUCH_DEVICE } from "@utils/device";
 
 export const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
     folder: Folder,
@@ -33,7 +34,7 @@ export const FolderItem = ({ folder, editable = false, onRemove, onNameChange, o
             }} />
             <Popover
                 component={IconPicker}
-                initialFocus={iconSearchRef}
+                initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
                 additionalData={{
                     onSelected: (icon: string) => onIconChange && onIconChange(icon),
                     inputRef: iconSearchRef,

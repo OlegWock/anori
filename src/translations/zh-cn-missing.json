@@ -1,5 +1,6 @@
 {
     "translation": {
+        "icons": "Icons",
         "safari": {
             "onboarding": {
                 "iosMacP1": "To start using Anori you'll need to enable it in Safari's settings.",
@@ -8,6 +9,12 @@
                 "iosP3": "Firstly, you'll need to enable the extension (1) and then switch your new tab page to Anori (2). Here is picture, so you won't get lost in woods of Safari settings :)",
                 "iosButton": "Open Safari Extensions Settings"
             }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "Custom icons are icons which you upload for later use in Anori.",
+            "customIconsAbsent": "Currently, you don't have any custom icons. To upload your first custom icon please head to settings.",
+            "iconFamily": "Icons family",
+            "allIcons": "All icons"
         },
         "settings": {
             "general": {

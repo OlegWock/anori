@@ -24,6 +24,7 @@ import { availablePermissionsAtom } from "@utils/permissions";
 import { listItemAnimation } from "@components/animations";
 import { isChromeLike } from "@utils/browser";
 import { isMacLike } from "@utils/shortcuts";
+import { IS_TOUCH_DEVICE } from "@utils/device";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -160,7 +161,7 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
                 <label>{t('icon')}:</label>
                 <Popover
                     component={IconPicker}
-                    initialFocus={iconSearchRef}
+                    initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
                     additionalData={{
                         onSelected: setIcon,
                         inputRef: iconSearchRef,
@@ -279,7 +280,7 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
             <label>{t('icon')}:</label>
             <Popover
                 component={IconPicker}
-                initialFocus={iconSearchRef}
+                initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
                 additionalData={{
                     onSelected: setIcon,
                     inputRef: iconSearchRef,

@@ -30,6 +30,10 @@ export const gatherDailyUsageData = async (): Promise<any> => {
     const compactMode = automaticCompactMode ? 'auto' : (compactModeStorage ? 'enabled' : 'disabled');
 
     const usedTheme = await storage.getOne('theme') || 'Greenery';
+    // TODO: include language
+    // const language = await storage.getOne('language') || 'en';
+    // TODO: include operating system and browser name
+    // TODO: update privacy guidelines on site
 
     const homeFolderDetails = ((await storage.getOneDynamic('Folder.home')) || { widgets: [] }) as FolderDetailsInStorage;
     const folderDetails = await Promise.all(folders.map(f => storage.getOneDynamic(`Folder.${f.id}`))) as FolderDetailsInStorage[];

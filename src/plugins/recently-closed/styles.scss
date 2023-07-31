@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .RecentlyClosedWidget {
     display: flex;
     flex-direction: column;
@@ -20,7 +22,7 @@
         transition: 0.15s ease-in-out;
         border-radius: 8px;
 
-        &:hover {
+        @include utils.hover {
             background: rgba(255, 255, 255, 0.1);
         }
 

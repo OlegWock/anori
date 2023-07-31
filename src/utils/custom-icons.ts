@@ -16,8 +16,12 @@ export const CUSTOM_ICONS_AVAILABLE = (() => {
         const version = parseInt(navigator.userAgent.split('Firefox/')[1].split('.')[0]);
         return version >= 111;
     } else if (navigator.userAgent.includes('Safari/') && navigator.userAgent.includes('Version/')) {
-        const version = parseFloat(navigator.userAgent.split('Version/')[1].split(' ')[0].split('.').slice(0, 2).join('.'));
-        return version >= 15.2;
+        // This should be supported in Safari 15.2+. However, due to bug in Safari, data is not persisted across browser runs
+        // https://bugs.webkit.org/show_bug.cgi?id=259637
+        return false;
+        
+        // const version = parseFloat(navigator.userAgent.split('Version/')[1].split(' ')[0].split('.').slice(0, 2).join('.'));
+        // return version >= 15.2;
     } else {
         return true;
     }

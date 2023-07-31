@@ -35,6 +35,7 @@
         "addWidget": "Widget hinzufügen",
         "next": "Weiter",
         "back": "Zurück",
+        "customIcons": "Benutzerdefinierte Symbole",
         "settings": {
             "title": "Einstellungen",
             "general": {

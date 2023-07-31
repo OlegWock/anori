@@ -11,6 +11,10 @@ import { Tooltip } from './Tooltip';
 import { atom, useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { useCustomIcons } from '@utils/custom-icons';
+import { useTranslation } from 'react-i18next';
+import { Button } from './Button';
+import { useSizeSettings } from '@utils/compact';
+import { choose } from '@utils/misc';
 
 type IconPickerProps = PopoverRenderProps<{
     onSelected: (icon: string) => void,
@@ -126,11 +130,18 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
         }
     };
 
+    const pickRandom = () => {
+        const icon = choose(iconsList);
+        data.onSelected(icon);
+    };
+
     const rowRefs = useRef<IconPickerContextType["rowRefs"]["current"]>({});
     const [selectedFamily, setSelectedFamily] = useState(ALL_SETS);
     const [query, setQuery] = useState('');
     const [iconsBySet, setIconsBySet] = useAtom(iconsBySetAtom);
     const { customIcons } = useCustomIcons();
+    const { t } = useTranslation();
+    const { rem } = useSizeSettings();
 
     const iconsList = useMemo(() => {
         if (iconsBySet === null) return [];
@@ -165,29 +176,34 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
     return (<IconPickerContext.Provider value={{ rowRefs, moveFocus }} >
         <div className='IconPicker'>
             <section>
-                <label>Icons family:</label>
+                <label>{t('iconsPicker.iconFamily')}:</label>
                 <Select<string>
                     options={[ALL_SETS, ...allSets]}
                     value={selectedFamily}
                     onChange={setSelectedFamily}
                     getOptionKey={o => o}
-                    getOptionLabel={o => o === ALL_SETS ? 'All icons' : iconSetPrettyNames[o]}
+                    getOptionLabel={o => o === ALL_SETS ? t('iconsPicker.allIcons') : iconSetPrettyNames[o]}
                 />
             </section>
 
             <section>
-                <label>Icons: </label>
-                <Input
-                    ref={data.inputRef}
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                    placeholder='Search'
-                    className='icons-search'
-                    onKeyUp={onInputKeydown}
-                />
+                <label>{t('icons')}: </label>
+
+                <div className='icons-search-wrapper'>
+                    <Input
+                        ref={data.inputRef}
+                        value={query}
+                        onChange={e => setQuery(e.target.value)}
+                        placeholder={t('search')}
+                        className='icons-search'
+                        onKeyUp={onInputKeydown}
+                    />
+                    <Button onClick={pickRandom}><Icon icon='ion:ios-shuffle' height={rem(1.5)} width={rem(1.5)} /></Button>
+                </div>
+
                 {(selectedFamily === 'custom' && iconsList.length === 0) ? <div className='no-custom-icons-alert'>
-                    <p>Custom icons are icons which you upload for later use in Anori. </p>
-                    <p>Currently, you don't have any custom icons. To upload your first custom icon please head to settings.</p>
+                    <p>{t('iconsPicker.customIconsInfo')}</p>
+                    <p>{t('iconsPicker.customIconsAbsent')}</p>
                 </div> : <FixedSizeList<GridItemData>
                     className="icons-grid"
                     height={350}
