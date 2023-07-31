@@ -16,7 +16,7 @@
         "allowSyntheticDefaultImports": true,
         "strictNullChecks": true,
         "module": "esnext",
-        "target": "es6",
+        "target": "esnext",
         "jsx": "preserve", // Will be compiled with Babel anyway
         "allowJs": true,
         "moduleResolution": "node",

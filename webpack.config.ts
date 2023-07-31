@@ -318,7 +318,13 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
 
     const babelOptions = {
         presets: [
-            ['@babel/preset-env', {}],
+            ['@babel/preset-env', {
+                targets: {
+                    chrome: 104,
+                    firefox: 99,
+                    safari: 14,
+                }
+            }],
             [
                 '@babel/preset-react',
                 {
