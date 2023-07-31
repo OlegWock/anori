@@ -25,6 +25,7 @@
 * Weather
 * Notes
 * Tasks
+* RSS reader
 * Internet search
 * Calendar
 * Recently closed tabs (only Chrome & Firefox)
