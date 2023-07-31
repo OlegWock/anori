@@ -2,6 +2,7 @@ import { getAllCustomIconNames } from "./custom-icons";
 import { guid, wait } from "./misc";
 import { atomWithBrowserStorageStatic, storage } from "./storage";
 import { FolderDetailsInStorage } from "./user-data/types";
+import browser from 'webextension-polyfill';
 
 export const analyticsEnabledAtom = atomWithBrowserStorageStatic('analyticsEnabled', false);
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
@@ -18,6 +19,32 @@ export const getUserId = async () => {
     return userId;
 };
 
+const detectBrowser = (): string => {
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes('firefox')) {
+        return 'Firefox';
+    }
+    if (ua.includes(' opr/')) {
+        return 'Opera';
+    }
+    if (ua.includes(' edg/')) {
+        return 'Edge';
+    }
+    // @ts-ignore non-standart property
+    if (self.navigator.brave) {
+        return 'Brave';
+    }
+    if (ua.includes('chrome/')) {
+        return 'Chrome';
+    }
+
+    if (ua.includes('safari/') && ua.includes('version/')) {
+        return 'Safari';
+    }
+
+    return 'Unknown';
+};
+
 export const gatherDailyUsageData = async (): Promise<any> => {
     const folders = await storage.getOne('folders') || [];
     const numberOfCustomFolders = folders.length;
@@ -30,10 +57,9 @@ export const gatherDailyUsageData = async (): Promise<any> => {
     const compactMode = automaticCompactMode ? 'auto' : (compactModeStorage ? 'enabled' : 'disabled');
 
     const usedTheme = await storage.getOne('theme') || 'Greenery';
-    // TODO: include language
-    // const language = await storage.getOne('language') || 'en';
+    const language = await storage.getOne('language') || 'en';
+    const {os} = await browser.runtime.getPlatformInfo();
     // TODO: include operating system and browser name
-    // TODO: update privacy guidelines on site
 
     const homeFolderDetails = ((await storage.getOneDynamic('Folder.home')) || { widgets: [] }) as FolderDetailsInStorage;
     const folderDetails = await Promise.all(folders.map(f => storage.getOneDynamic(`Folder.${f.id}`))) as FolderDetailsInStorage[];
@@ -59,6 +85,9 @@ export const gatherDailyUsageData = async (): Promise<any> => {
         numberOfCustomIcons,
         compactMode,
         usedTheme,
+        language,
+        os,
+        browser: detectBrowser(),
         ...widgetsUsage
     };
 };

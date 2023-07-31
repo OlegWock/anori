@@ -1,5 +1,5 @@
 import { availablePlugins } from '@plugins/all';
-import { sendAnalyticsIfEnabled } from '@utils/analytics';
+import { gatherDailyUsageData, sendAnalyticsIfEnabled } from '@utils/analytics';
 import { storage } from '@utils/storage';
 import browser from 'webextension-polyfill';
 import { Language, availableTranslations } from './translations';
@@ -136,6 +136,8 @@ browser.alarms.onAlarm.addListener((alarm) => {
 self.sendAnalyticsIfEnabled = sendAnalyticsIfEnabled;
 // @ts-ignore Add this into global scope for debug
 self.runScheduledCallbacks = runScheduledCallbacks;
+// @ts-ignore Add this into global scope for debug
+self.gatherDailyUsageData = gatherDailyUsageData;
 
 browser.alarms.create('scheduledCallbacks', {
     periodInMinutes: 5,
