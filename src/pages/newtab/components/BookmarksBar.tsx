@@ -110,7 +110,7 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shif
         </Menubar.SubTrigger>
         <Menubar.Portal>
             <div className='radix-popover-zindex-fix'>
-                <Menubar.SubContent className="BookmarksMenubarContent" alignOffset={-5} sideOffset={shiftSubmenu ? rem(0.75) + 12 : rem(0.75)}>
+                <Menubar.SubContent className="BookmarksMenubarContent" alignOffset={rem(-0.5)} sideOffset={shiftSubmenu ? rem(0.75) + 12 : rem(0.75)}>
                     <ScrollArea color='translucent' onVerticalOverflowStatusChange={setScrollAreaOverflows} size='thin'>
                         {bookmark.items.map(bm => <MenuBookmark shiftSubmenu={scrollAreaOverflows} bookmark={bm} key={bm.id} />)}
                     </ScrollArea>
