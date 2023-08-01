@@ -186,7 +186,7 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
                 </Button>
             </Tooltip>
         </div>
-        <ScrollArea type="hover" darker>
+        <ScrollArea type="hover" color="dark">
             <div className="posts">
                 {trimmedFeed.map((post, i) => {
                     if (i === 0) return (<Post post={post} key={post.url} />);
@@ -251,7 +251,7 @@ const RssFeedMock = () => {
                 />
             </Button>
         </div>
-        <ScrollArea type="hover" darker>
+        <ScrollArea type="hover" color="dark">
             <div className="posts">
                 {feed.map((post, i) => {
                     if (i === 0) return (<Post post={post} key={i.toString()} />);

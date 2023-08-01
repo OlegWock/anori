@@ -1,10 +1,9 @@
-import { useAtom } from "jotai";
 import browser from 'webextension-polyfill';
 import { useState } from "react";
 import { ReactNode } from "react";
 import { Button } from "@components/Button";
 import './RequirePermissions.scss';
-import { CorrectPermission, availablePermissionsAtom, containsHostPermission, normalizeHost, updateAvailablePermissions } from "@utils/permissions";
+import { CorrectPermission, containsHostPermission, normalizeHost, permissionUnavailableOnFirefox, updateAvailablePermissions, useAvailablePermissions } from "@utils/permissions";
 import { Modal } from "./Modal";
 import { AnimatePresence } from "framer-motion";
 import clsx from "clsx";
@@ -22,8 +21,6 @@ export type RequirePermissionsProps = {
 };
 
 
-const permissionUnavailableOnFirefox = ['favicon']
-
 export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, isMock, onGrant }: RequirePermissionsProps) => {
     const grantPermissions = async () => {
         const granted = await browser.permissions.request({
@@ -38,7 +35,7 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
         if (onGrant) onGrant();
     };
 
-    const [currentPermissions, setPermissions] = useAtom(availablePermissionsAtom);
+    const currentPermissions = useAvailablePermissions();
     const [modalVisible, setModalVisible] = useState(false);
     const { t } = useTranslation();
 

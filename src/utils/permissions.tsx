@@ -1,4 +1,4 @@
-import { atom, getDefaultStore } from "jotai";
+import { atom, getDefaultStore, useAtomValue } from "jotai";
 import browser, { Manifest } from 'webextension-polyfill';
 
 export type CorrectPermission = Manifest.OptionalPermission | 'tabGroups' | 'favicon';
@@ -20,7 +20,7 @@ export const updateAvailablePermissions = async () => {
     const current = await browser.permissions.getAll();
     const atomStore = getDefaultStore();
     atomStore.set(availablePermissionsAtom, {
-        permissions: current.permissions as CorrectPermission[]  || [],
+        permissions: current.permissions as CorrectPermission[] || [],
         hosts: current.origins || [],
     });
 };
@@ -29,7 +29,7 @@ export const watchForPermissionChanges = async () => {
     const current = await browser.permissions.getAll();
     const atomStore = getDefaultStore();
     atomStore.set(availablePermissionsAtom, {
-        permissions: current.permissions as CorrectPermission[]  || [],
+        permissions: current.permissions as CorrectPermission[] || [],
         hosts: current.origins || [],
     });
 
@@ -51,4 +51,20 @@ export const watchForPermissionChanges = async () => {
         };
         atomStore.set(availablePermissionsAtom, newPermissions);
     });
+};
+
+export const permissionUnavailableOnFirefox = ['favicon'];
+
+export const useAvailablePermissions = () => {
+    const currentPermissions = useAtomValue(availablePermissionsAtom);
+    return currentPermissions || { hosts: [], permissions: [] };
+};
+
+export const usePermissionsQuery = ({ hosts, permissions }: { hosts?: string[], permissions?: CorrectPermission[], }) => {
+    const availablePermissions = useAvailablePermissions();
+    const isFirefox = navigator.userAgent.includes('Firefox/');
+    const missingPermissions = permissions ? permissions.filter(p => !availablePermissions.permissions.includes(p)).filter(p => isFirefox ? !permissionUnavailableOnFirefox.includes(p) : true) : [];
+    const missingHostPermissions = hosts ? hosts.filter(h => !containsHostPermission(availablePermissions.hosts, h)) : [];
+
+    return missingPermissions.length === 0 && missingHostPermissions.length === 0;
 };

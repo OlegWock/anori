@@ -18,13 +18,12 @@ import { ScrollArea } from "@components/ScrollArea";
 import { AnimatePresence, m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
-import { Checkbox } from "@components/Checkbox";
-import { useAtomValue } from "jotai";
-import { availablePermissionsAtom } from "@utils/permissions";
+import { usePermissionsQuery } from "@utils/permissions";
 import { listItemAnimation } from "@components/animations";
 import { isChromeLike } from "@utils/browser";
 import { isMacLike } from "@utils/shortcuts";
 import { IS_TOUCH_DEVICE } from "@utils/device";
+import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -144,13 +143,14 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
 
         saveConfiguration({ title, icon, urls: cleanedUrls, openInTabGroup });
     };
-    const currentPermissions = useAtomValue(availablePermissionsAtom);
+
+    const hasTabGroupsPermission = usePermissionsQuery({ permissions: ["tabGroups"] });
     const [title, setTitle] = useState(currentConfig?.title ?? '');
     const [urls, setUrls] = useState<{ id: string, url: string }[]>(() => {
         return currentConfig?.urls ? currentConfig.urls.map(url => ({ id: guid(), url })) : [{ id: guid(), url: '' }];
     });
     const [icon, setIcon] = useState(currentConfig?.icon ?? 'ion:dice');
-    const [openInTabGroup, setOpenInTabGroup] = useState<boolean>(currentConfig?.openInTabGroup ?? (X_BROWSER === 'chrome' && !!currentPermissions?.permissions.includes('tabGroups')));
+    const [openInTabGroup, setOpenInTabGroup] = useState<boolean>(currentConfig?.openInTabGroup ?? (X_BROWSER === 'chrome' && hasTabGroupsPermission));
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
@@ -217,14 +217,9 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
                 <Button className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: '' }])}>{t('add')}</Button>
             </m.div>
             {X_BROWSER === 'chrome' && <m.div className="field" layout="position">
-                {currentPermissions?.permissions.includes('tabGroups') && <Checkbox checked={openInTabGroup} onChange={setOpenInTabGroup}>
+                <CheckboxWithPermission permissions={["tabGroups"]} checked={openInTabGroup} onChange={setOpenInTabGroup}>
                     {t('bookmark-plugin.openInGroup')}
-                </Checkbox>}
-                {!currentPermissions?.permissions.includes('tabGroups') && <Popover trigger="hover" component={({ close }) => <RequirePermissions permissions={["tabGroups"]} onGrant={() => close()} />}>
-                    <Checkbox disabled checked={openInTabGroup} onChange={setOpenInTabGroup}>
-                        {t('bookmark-plugin.openInGroup')}
-                    </Checkbox>
-                </Popover>}
+                </CheckboxWithPermission>
             </m.div>}
 
             <m.div layout className="save-config">

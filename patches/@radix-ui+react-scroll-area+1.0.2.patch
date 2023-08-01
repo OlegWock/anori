@@ -1,0 +1,38 @@
+diff --git a/node_modules/@radix-ui/react-scroll-area/.DS_Store b/node_modules/@radix-ui/react-scroll-area/.DS_Store
+new file mode 100644
+index 0000000..ee92869
+Binary files /dev/null and b/node_modules/@radix-ui/react-scroll-area/.DS_Store differ
+diff --git a/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts b/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts
+index e0bf3ab..b0c8ac1 100644
+--- a/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts
++++ b/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts
+@@ -117,5 +117,6 @@ export const Viewport: React.ForwardRefExoticComponent<ScrollAreaViewportProps &
+ export const Scrollbar: React.ForwardRefExoticComponent<ScrollAreaScrollbarProps & React.RefAttributes<HTMLDivElement>>;
+ export const Thumb: React.ForwardRefExoticComponent<ScrollAreaThumbProps & React.RefAttributes<HTMLDivElement>>;
+ export const Corner: React.ForwardRefExoticComponent<ScrollAreaCornerProps & React.RefAttributes<HTMLDivElement>>;
++export const useScrollAreaContext: () => ScrollAreaContextValue;
+ 
+ //# sourceMappingURL=index.d.ts.map
+diff --git a/node_modules/@radix-ui/react-scroll-area/dist/index.js b/node_modules/@radix-ui/react-scroll-area/dist/index.js
+index 2f9d01a..06fed2f 100644
+--- a/node_modules/@radix-ui/react-scroll-area/dist/index.js
++++ b/node_modules/@radix-ui/react-scroll-area/dist/index.js
+@@ -28,6 +28,7 @@ $parcel$export(module.exports, "Viewport", () => $f8fcbf76d19b7361$export$d5c6c0
+ $parcel$export(module.exports, "Scrollbar", () => $f8fcbf76d19b7361$export$9a4e88b92edfce6b);
+ $parcel$export(module.exports, "Thumb", () => $f8fcbf76d19b7361$export$6521433ed15a34db);
+ $parcel$export(module.exports, "Corner", () => $f8fcbf76d19b7361$export$ac61190d9fc311a9);
++$parcel$export(module.exports, "useScrollAreaContext", () => $f8fcbf76d19b7361$var$useScrollAreaContext);
+ 
+ 
+ 
+diff --git a/node_modules/@radix-ui/react-scroll-area/dist/index.module.js b/node_modules/@radix-ui/react-scroll-area/dist/index.module.js
+index 34607e5..65ed40f 100644
+--- a/node_modules/@radix-ui/react-scroll-area/dist/index.module.js
++++ b/node_modules/@radix-ui/react-scroll-area/dist/index.module.js
+@@ -797,5 +797,5 @@ const $57acba87d6e25586$export$ac61190d9fc311a9 = $57acba87d6e25586$export$56969
+ 
+ 
+ 
+-export {$57acba87d6e25586$export$488468afe3a6f2b1 as createScrollAreaScope, $57acba87d6e25586$export$ccf8d8d7bbf3c2cc as ScrollArea, $57acba87d6e25586$export$a21cbf9f11fca853 as ScrollAreaViewport, $57acba87d6e25586$export$2fabd85d0eba3c57 as ScrollAreaScrollbar, $57acba87d6e25586$export$9fba1154677d7cd2 as ScrollAreaThumb, $57acba87d6e25586$export$56969d565df7cc4b as ScrollAreaCorner, $57acba87d6e25586$export$be92b6f5f03c0fe9 as Root, $57acba87d6e25586$export$d5c6c08dc2d3ca7 as Viewport, $57acba87d6e25586$export$9a4e88b92edfce6b as Scrollbar, $57acba87d6e25586$export$6521433ed15a34db as Thumb, $57acba87d6e25586$export$ac61190d9fc311a9 as Corner};
++export {$57acba87d6e25586$export$488468afe3a6f2b1 as createScrollAreaScope, $57acba87d6e25586$export$ccf8d8d7bbf3c2cc as ScrollArea, $57acba87d6e25586$export$a21cbf9f11fca853 as ScrollAreaViewport, $57acba87d6e25586$export$2fabd85d0eba3c57 as ScrollAreaScrollbar, $57acba87d6e25586$export$9fba1154677d7cd2 as ScrollAreaThumb, $57acba87d6e25586$export$56969d565df7cc4b as ScrollAreaCorner, $57acba87d6e25586$export$be92b6f5f03c0fe9 as Root, $57acba87d6e25586$export$d5c6c08dc2d3ca7 as Viewport, $57acba87d6e25586$export$9a4e88b92edfce6b as Scrollbar, $57acba87d6e25586$export$6521433ed15a34db as Thumb, $57acba87d6e25586$export$ac61190d9fc311a9 as Corner, $57acba87d6e25586$var$useScrollAreaContext as useScrollAreaContext};
+ //# sourceMappingURL=index.module.js.map

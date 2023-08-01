@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 import clsx from 'clsx';
 
 
-type CheckboxProps = {
+export type CheckboxProps = {
     children?: ReactNode,
     defaultChecked?: boolean,
     disabled?: boolean,

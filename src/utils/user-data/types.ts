@@ -9,6 +9,7 @@ export type StorageContent = {
     stealFocus: boolean,
     userId: string,
     sidebarOrientation: "vertical" | "horizontal" | "auto",
+    showBookmarksBar: boolean,
 
     analyticsEnabled: boolean,
     analyticsLastSend: number,

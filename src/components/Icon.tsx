@@ -128,14 +128,14 @@ type FaviconProps = {
     useFaviconApiIfPossible?: boolean,
 } & BaseIconProps;
 
-export const Favicon = forwardRef<HTMLElement, FaviconProps>((props, ref) => {
+export const Favicon = forwardRef<HTMLElement, FaviconProps>(({ useFaviconApiIfPossible, ...props }, ref) => {
     const permissions = useAtomValue(availablePermissionsAtom);
     const hasPermission = permissions?.permissions.includes('favicon');
     const [imageError, setImageError] = useState(false);
 
     const iconUrl = useMemo(() => {
         const size = (props.width || props.height || 64).toString();
-        if (hasPermission && props.useFaviconApiIfPossible) {
+        if (hasPermission && useFaviconApiIfPossible) {
             const resUrl = new URL(browser.runtime.getURL("/_favicon/"));
             resUrl.searchParams.set("pageUrl", props.url);
             resUrl.searchParams.set("size", size);

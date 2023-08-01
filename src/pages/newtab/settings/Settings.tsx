@@ -34,6 +34,7 @@ import { Language, SHOW_LANGUAGE_SELECT_IN_SETTINGS, availableTranslations, avai
 import { useScreenWidth } from '@utils/compact';
 import { Alert } from '@components/Alert';
 import { IS_TOUCH_DEVICE } from '@utils/device';
+import { CheckboxWithPermission } from '@components/CheckboxWithPermission';
 
 type DraftCustomIcon = {
     id: string,
@@ -106,6 +107,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
     const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', IS_TOUCH_DEVICE);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
+    const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
     const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');
     const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
@@ -170,6 +172,13 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
                 </div>
             </>} />
         </Checkbox>
+
+        {/* Bookmarks API absent in Safari */}
+        {/* In Firefox, we can't get favicon https://bugzilla.mozilla.org/show_bug.cgi?id=1315616 */}
+        {X_BROWSER === 'chrome' && <CheckboxWithPermission permissions={["bookmarks", "favicon"]} onChange={setShowBookmarksBar} checked={showBookmarksBar}>
+            {t('settings.general.showBookmarksBar')}
+        </CheckboxWithPermission>}
+
         {/* Focus stealer works only in Chrome and Edge */}
         {X_BROWSER === 'chrome' && <Checkbox checked={stealFocus} onChange={setStealFocus}>
             {t("settings.general.stealFocus")}

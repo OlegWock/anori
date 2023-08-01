@@ -1,0 +1,160 @@
+@use "@components/utils.scss" as utils;
+
+.BookmarksBar {
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1;
+    overflow: hidden;
+    margin: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+
+    &.transparent {
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .bookmarks {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-grow: 1;
+        overflow: hidden;
+
+        .bookmarks-bar-wrapper {
+            flex: 1;
+            overflow: hidden;
+            padding-bottom: 0.55rem;
+        }
+
+        .bookmarks-bar {
+            display: flex;
+            gap: 0.75rem;
+
+        }
+
+        .bookmarks-placeholder {
+            height: 2.08rem;
+        }
+    }
+
+    .Bookmark {
+        padding: 0.5rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        max-width: 9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        text-decoration: none;
+        transition: 0.1s ease-in-out;
+        line-height: 1.2;
+        font-size: 0.9rem;
+        user-select: none;
+        flex-shrink: 0;
+
+        &.full-width {
+            max-width: unset;
+        }
+
+        .folder-icon {
+            color: rgba(255, 255, 255, 0.733);
+        }
+
+        span {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        @include utils.hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+
+.BookmarksMenubarContent {
+    min-width: 10rem;
+    max-width: 25rem;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+    display: flex;
+    flex-direction: column;
+
+    a {
+        text-decoration: none;
+    }
+
+    .ScrollAreaRoot {
+        padding-right: 0.75rem;
+
+        &:has(.ScrollAreaScrollbar[data-state="hidden"]),
+        &:not(:has(.ScrollAreaScrollbar)) {
+            padding-right: 0;
+        }
+    }
+}
+
+.MenuBookmark {
+    padding: 0.5rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: 0.1s ease-in-out;
+    line-height: 1.2;
+    font-size: 0.9rem;
+    user-select: none;
+
+    .content {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        overflow: hidden;
+
+        span {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+    }
+
+    @include utils.hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:focus-visible {
+        outline: none;
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.radix-popover-zindex-fix>[data-radix-popper-content-wrapper] {
+    z-index: 2 !important;
+}

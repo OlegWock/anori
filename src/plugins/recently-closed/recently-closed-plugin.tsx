@@ -81,7 +81,7 @@ const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
 
     return (<div className='RecentlyClosedWidget'>
         <h2>{t('recently-closed-plugin.widgetTitle')}</h2>
-        <ScrollArea className="sessions-list" darker type="hover">
+        <ScrollArea className="sessions-list" color="dark" type="hover">
             {sessions.filter(s => {
                 const url = s.tab ? s.tab.url : '';
                 if (url && (url.includes('pages/newtab/start.html?focused') || url.includes('chrome://newtab/') || url.includes('edge://newtab/'))) return false;

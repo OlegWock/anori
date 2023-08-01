@@ -109,7 +109,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
             <h2>{config.title}</h2>
             <Button onClick={addTask}><Icon icon='ion:add' height={16} /></Button>
         </div>
-        {tasks.length !== 0 && <ScrollArea darker>
+        {tasks.length !== 0 && <ScrollArea color="dark">
             <LayoutGroup>
                 <Reorder.Group axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layout layoutScroll>
                     <AnimatePresence initial={false}>
@@ -141,7 +141,7 @@ const Mock = () => {
             <h2>{t('tasks-plugin.todo')}</h2>
             <Button><Icon icon='ion:add' height={16} /></Button>
         </div>
-        <ScrollArea darker>
+        <ScrollArea color="dark">
             <LayoutGroup>
                 <m.div className="tasks-list" layout>
                     <AnimatePresence initial={false}>

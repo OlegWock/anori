@@ -19,9 +19,10 @@ export const WhatsNew = () => {
                 <section>
                     <h2>1.10.0</h2>
                     <ul>
+                        <li>Added option to display bookmarks bar, you can find it in Settings &gt; General. Currently, available on for Chrome & Edge</li>
                         <li>Anori is now available in Russian. This was contribution from @MLGRussianXP. Thanks!</li>
                         <li>Minor fixes for Thai translation (contribution from @kiznick, thanks!)</li>
-                        <li>Now sidebar adapts to window size and becomes horizontal on vertical screens. You can switch it back to always vertical in Settings &gt; General</li>
+                        <li>Sidebar now adapts to window size and becomes horizontal on vertical screens. You can switch it back to always vertical in Settings &gt; General</li>
                     </ul>
                 </section>
 

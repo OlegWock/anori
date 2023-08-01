@@ -57,9 +57,18 @@ body {
     height: 100dvh;
     width: 100vw;
     display: flex;
+    flex-direction: column;
+
+    .start-page-content {
+        display: flex;
+        flex-grow: 1;
+    }
 
     &.horizontal-sidebar {
-        flex-direction: column-reverse;
+
+        .start-page-content {
+            flex-direction: column-reverse;
+        }
 
         .sidebar {
             flex-direction: row;
@@ -69,6 +78,18 @@ body {
         .widgets-area {
             margin: 2rem;
             margin-bottom: 0;
+        }
+    }
+
+    &.with-bookmarks-bar {
+        .widgets-area {
+            margin-top: 0.25rem;
+        }
+
+        &:not(.horizontal-sidebar) {
+            .sidebar {
+                padding-top: 1rem;
+            }
         }
     }
 

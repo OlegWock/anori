@@ -73,7 +73,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
             onFocus={() => switchEditing(true)}
             onClick={() => switchEditing(true)}
         >
-            <ScrollArea type="hover" darker>
+            <ScrollArea type="hover" color="dark">
                 {!!body && <div className="note-body-rendered-content">
                     <ReactMarkdown
                         components={{ a: Link }}

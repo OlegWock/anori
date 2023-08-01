@@ -24,6 +24,7 @@ import { getAllCustomIcons } from '@utils/custom-icons';
 import { initTranslation } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
+import { BookmarksBar } from './components/BookmarksBar';
 
 
 const useSidebarOrientation = () => {
@@ -79,6 +80,7 @@ const Start = () => {
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
+    const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
     const { t } = useTranslation();
 
     useHotkeys('meta+up, alt+up', () => swithFolderUp());
@@ -103,42 +105,45 @@ const Start = () => {
         <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
             <AnimatePresence>
                 <m.div
-                    className={clsx("StartPage", `${sidebarOrientation}-sidebar`)}
+                    className={clsx("StartPage", `${sidebarOrientation}-sidebar`, showBookmarksBar && 'with-bookmarks-bar')}
                     key='start-page'
                 >
-                    <div className="sidebar">
-                        <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
-                            {folders.map(f => {
-                                return (<FolderButton sidebarOrientation={sidebarOrientation} key={f.id} icon={f.icon} name={f.name} active={activeFolder === f} onClick={() => setActiveFolder(f)} />);
-                            })}
-                            <div className="spacer" />
-                            <FolderButton
-                                sidebarOrientation={sidebarOrientation}
-                                layoutId='whats-new'
-                                icon="ion:newspaper-outline"
-                                name={t('whatsNew')}
-                                withRedDot={hasUnreadReleaseNotes}
-                                onClick={() => {
-                                    setWhatsNewVisible(true);
-                                    setHasUnreadReleaseNotes(false);
-                                }}
-                            />
-                            <FolderButton
-                                sidebarOrientation={sidebarOrientation}
-                                layoutId='settings'
-                                icon="ion:settings-sharp"
-                                name={t('settings.title')}
-                                onClick={() => setSettingsVisible(true)}
-                                whileHover={{ rotate: 180 }}
-                                transition={{ type: 'spring', duration: 0.1 }}
-                            />
-                        </FloatingDelayGroup>
-                    </div>
+                    {showBookmarksBar && <BookmarksBar />}
+                    <div className={clsx("start-page-content")}>
+                        <div className="sidebar">
+                            <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
+                                {folders.map(f => {
+                                    return (<FolderButton sidebarOrientation={sidebarOrientation} key={f.id} icon={f.icon} name={f.name} active={activeFolder === f} onClick={() => setActiveFolder(f)} />);
+                                })}
+                                <div className="spacer" />
+                                <FolderButton
+                                    sidebarOrientation={sidebarOrientation}
+                                    layoutId='whats-new'
+                                    icon="ion:newspaper-outline"
+                                    name={t('whatsNew')}
+                                    withRedDot={hasUnreadReleaseNotes}
+                                    onClick={() => {
+                                        setWhatsNewVisible(true);
+                                        setHasUnreadReleaseNotes(false);
+                                    }}
+                                />
+                                <FolderButton
+                                    sidebarOrientation={sidebarOrientation}
+                                    layoutId='settings'
+                                    icon="ion:settings-sharp"
+                                    name={t('settings.title')}
+                                    onClick={() => setSettingsVisible(true)}
+                                    whileHover={{ rotate: 180 }}
+                                    transition={{ type: 'spring', duration: 0.1 }}
+                                />
+                            </FloatingDelayGroup>
+                        </div>
 
-                    <div className="widgets-area">
-                        <AnimatePresence initial={false} mode='wait' custom={animationDirection}>
-                            <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
-                        </AnimatePresence>
+                        <div className="widgets-area">
+                            <AnimatePresence initial={false} mode='wait' custom={animationDirection}>
+                                <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
+                            </AnimatePresence>
+                        </div>
                     </div>
                 </m.div>
 
@@ -190,6 +195,7 @@ preloadBrowserStorageAtom('automaticCompactMode', !IS_TOUCH_DEVICE);
 preloadBrowserStorageAtom('automaticCompactModeThreshold', 1500);
 preloadBrowserStorageAtom('hideEditFolderButton', false);
 preloadBrowserStorageAtom('sidebarOrientation', 'auto');
+preloadBrowserStorageAtom('showBookmarksBar', false);
 
 // Fequently used in UI, preload to avoid flashes later
 requestIconsFamily('ion');

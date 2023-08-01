@@ -58,8 +58,8 @@ export const gatherDailyUsageData = async (): Promise<any> => {
 
     const usedTheme = await storage.getOne('theme') || 'Greenery';
     const language = await storage.getOne('language') || 'en';
-    const {os} = await browser.runtime.getPlatformInfo();
-    // TODO: include operating system and browser name
+    const showBookmarksBar = await storage.getOne('showBookmarksBar') || false;
+    const { os } = await browser.runtime.getPlatformInfo();
 
     const homeFolderDetails = ((await storage.getOneDynamic('Folder.home')) || { widgets: [] }) as FolderDetailsInStorage;
     const folderDetails = await Promise.all(folders.map(f => storage.getOneDynamic(`Folder.${f.id}`))) as FolderDetailsInStorage[];
@@ -85,6 +85,7 @@ export const gatherDailyUsageData = async (): Promise<any> => {
         numberOfCustomIcons,
         compactMode,
         usedTheme,
+        showBookmarksBar,
         language,
         os,
         browser: detectBrowser(),

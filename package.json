@@ -6,6 +6,7 @@
     "author": "OlegWock",
     "license": "AGPL-3.0",
     "scripts": {
+        "postinstall": "patch-package",
         "dev": "webpack build --config webpack.config.ts --env mode=development",
         "production": "webpack build --config webpack.config.ts --env mode=production",
         "production:all-permissions": "webpack build --config webpack.config.ts --env mode=production --env targetBrowser=chrome-all-permissions",
@@ -37,6 +38,7 @@
         "@iconify/react": "^4.1.0",
         "@popmotion/popcorn": "^0.4.4",
         "@radix-ui/react-checkbox": "^1.0.1",
+        "@radix-ui/react-menubar": "^1.0.3",
         "@radix-ui/react-scroll-area": "^1.0.2",
         "@radix-ui/react-select": "^1.2.0",
         "@radix-ui/react-tabs": "^1.0.3",
