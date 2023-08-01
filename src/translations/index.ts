@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 
 import enTranslation from './en.json';
 import deTranslation from './de.json';
+import itTranslation from './it.json';
 import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
 import thTranslation from './th.json';
@@ -19,13 +20,14 @@ moment.locale('en');
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
-export const availableTranslations = ['en', 'de', 'uk', 'th', 'zh-CN', 'ru'] as const;
+export const availableTranslations = ['en', 'de', 'it', 'uk', 'th', 'zh-CN', 'ru'] as const;
 
 export type Language = typeof availableTranslations[number];
 
 export const availableTranslationsPrettyNames = {
     'en': 'English',
     'de': 'Deutsch',
+    'it': 'Italiano',
     'uk': 'Українська',
     'th': 'ไทย',
     'zh-CN': '中文 (简体)',
@@ -39,6 +41,7 @@ export const availableTranslationsPrettyNames = {
 const resources = {
     en: enTranslation,
     de: deTranslation,
+    it: itTranslation,
     uk: ukTranslation,
     th: thTranslation,
     'zh-CN': zhCnTranslation,
