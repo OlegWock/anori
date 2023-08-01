@@ -19,7 +19,7 @@ export const WhatsNew = () => {
                 <section>
                     <h2>1.10.0</h2>
                     <ul>
-                        <li>Added option to display bookmarks bar, you can find it in Settings &gt; General. Currently, available on for Chrome & Edge</li>
+                        <li>Added option to display bookmarks bar, you can find it in Settings &gt; General. Currently, available only for Chrome and Edge</li>
                         <li>Anori is now available in Russian. This was contribution from @MLGRussianXP. Thanks!</li>
                         <li>And also Anori has an Italian translation now too. This was contribution from @Radeox. Thanks!</li>
                         <li>Minor fixes for Thai translation (contribution from @kiznick, thanks!)</li>
