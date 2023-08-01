@@ -1,0 +1,18 @@
+{
+    "translation": {
+        "onboarding": {
+            "start": {
+                "title": "Benvenuto in Anori!"
+            }
+        },
+        "safari": {
+            "onboarding": {
+                "iosMacP1": "Per iniziare ad usare Anori, devi abilitarlo nelle impostazioni di Safari.",
+                "macButton": "Esci e apri Preferenze Estensioni di Safari...",
+                "iosP2": "Il processo è un po' tedioso, lo sappiamo, ma resisti.",
+                "iosP3": "Innanzitutto, devi abilitare l'estensione (1) e poi cambiare la pagina della nuova scheda con Anori (2). Ecco un'immagine per non perdersi nella foresta delle impostazioni di Safari :)",
+                "iosButton": "Apri Impostazioni Estensioni di Safari"
+            }
+        }
+    }
+}

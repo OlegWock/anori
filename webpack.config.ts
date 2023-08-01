@@ -526,7 +526,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 endYear: currentYear + 5,
             }),
             new MomentLocalesPlugin({
-                localesToKeep: ['uk', 'de', 'th', 'zh-cn', 'ru'],
+                localesToKeep: ['uk', 'de', 'it', 'th', 'zh-cn', 'ru'],
             }),
             // This gives warnings on compilation, but it should be resolved once this PR gets merged 
             // https://github.com/levp/wrapper-webpack-plugin/pull/22

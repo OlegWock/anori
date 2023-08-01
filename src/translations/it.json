@@ -1,319 +1,303 @@
 {
-  "translation": {
-    "appName": "Anori: la tua scheda per la produttività",
-    "appDescription": "Nuova scheda personalizzabile: componi la tua pagina con i widget",
-    "appActionTitle": "Apri scheda Anori",
-    "icon": "Icona",
-    "title": "Titolo",
-    "url": "URL",
-    "urls": "URL",
-    "save": "Salva",
-    "import": "Importa",
-    "add": "Aggiungi",
-    "noResults": "Nessun risultato",
-    "example": "Esempio",
-    "weekday0": "Lunedì",
-    "weekday1": "Martedì",
-    "weekday2": "Mercoledì",
-    "weekday3": "Giovedì",
-    "weekday4": "Venerdì",
-    "weekday5": "Sabato",
-    "weekday6": "Domenica",
-    "timezone": "Fuso orario",
-    "refreshing": "Aggiornamento in corso...",
-    "refresh": "Aggiorna",
-    "startTypingToSearch": "Inizia a digitare per cercare...",
-    "search": "Cerca...",
-    "loading": "Caricamento...",
-    "lastUpdatedAt": "Ultimo aggiornamento alle {{datetime}}",
-    "home": "Home",
-    "availableOnlyInEnglish": "Disponibile solo in inglese",
-    "px": "px",
-
-    "whatsNew": "Novità",
-    "editWidget": "Modifica widget",
-    "configureWidget": "Configura widget",
-    "addWidget": "Aggiungi widget",
-    "next": "Avanti",
-    "back": "Indietro",
-    "icons": "Icone",
-    "customIcons": "Icone personalizzate",
-
-    "safari": {
-      "onboarding": {
-        "iosMacP1": "Per iniziare ad usare Anori, devi abilitarlo nelle impostazioni di Safari.",
-        "macButton": "Esci e apri Preferenze Estensioni di Safari...",
-        "iosP2": "Il processo è un po' tedioso, lo sappiamo, ma resisti.",
-        "iosP3": "Innanzitutto, devi abilitare l'estensione (1) e poi cambiare la pagina della nuova scheda con Anori (2). Ecco un'immagine per non perdersi nella foresta delle impostazioni di Safari :)",
-        "iosButton": "Apri Impostazioni Estensioni di Safari"
-      }
-    },
-
-    "iconsPicker": {
-      "customIconsInfo": "Le icone personalizzate sono icone che carichi in Anori per un uso futuro.",
-      "customIconsAbsent": "Attualmente, non hai nessuna icona personalizzata. Per caricare la tua prima icona vai alle impostazioni.",
-      "iconFamily": "Famiglia di icone",
-      "allIcons": "Tutte le icone"
-    },
-
-    "settings": {
-      "title": "Impostazioni",
-      "general": {
-        "title": "Generali",
-        "language": "Lingua",
-        "translationInfo": "Le traduzioni in lingue diverse dall'inglese o dall'ucraino sono fornite dalla comunità. Se noti errori o stringhe non tradotte, aiutaci a correggerli! <0>Ecco</0> istruzioni su come puoi partecipare.",
-        "sidebarOrientation": "Orientamento della barra laterale",
-        "sidebarOrientationOption-auto": "Basato sull'orientamento della finestra",
-        "sidebarOrientationOption-vertical": "Sempre verticale",
-        "sidebarOrientationOption-horizontal": "Sempre orizzontale",
-        "newTabTitle": "Titolo della nuova scheda",
-        "enableAnalytics": "Abilita l'invio dei dati di analisi",
-        "analyticsHintP1": "L'analisi dei dati ci aiuta a capire meglio come gli utenti interagiscono con Anori e quali funzionalità vengono utilizzate di più. Non vengono condivise le informazioni private, come il contenuto delle note o gli URL dei segnalibri.",
-        "analyticsHintP2": "Questo ci aiuta a sviluppare un prodotto migliore, quindi ti chiediamo di abilitare l'invio dei dati di analisi. <0>Scopri di più.</0>",
-        "stealFocus": "Ruba il focus dalla barra degli indirizzi",
-        "stealFocusHint": "Se abilitato, questo forzerà il browser a spostare il focus dalla barra degli indirizzi a questa pagina quando si apre una nuova scheda. Sarai in grado di utilizzare il menu dei comandi (Cmd+K) senza dover spostare manualmente il focus sulla pagina (cliccando o premendo Tab).",
-        "automaticCompact": "Passa automaticamente alla modalità compatta in base alla dimensione dello schermo",
-        "automaticCompactModeThreshold": "Passa alla modalità compatta se la dimensione dello schermo è inferiore a",
-        "automaticCompactModeThresholdHint": "La larghezza dello schermo attuale è di {{screenWidth}}px",
-        "useCompact": "Usa sempre la modalità compatta",
-        "showAnimationOnOpen": "Mostra animazione all'apertura",
-        "showAnimationOnOpenHint": "Se abilitata, l'estensione mostrerà un'animazione di caricamento veloce che nasconderà l'iniziale sfarfallio durante il caricamento dei dati e fornirà un esperienza migliore.",
-        "hideEditButton": "Nascondi il pulsante 'Modifica cartella'",
-        "hideEditButtonHint": "Extra minimalista, sì."
-      },
-      "customIcons": {
-        "title": "Icone personalizzate",
-        "incorrectFormat": "Fornisci file validi. Anori supporta .png, .jpg, .gif, .jpeg e .svg",
-        "noIcons": "Non hai ancora nessuna icona personalizzata.",
-        "iconName": "Nome icona",
-        "invalidNames": "Alcune delle icone hanno un nome non valido, correggili prima di salvare.",
-        "nameContainsInvalidChars": "Il nome contiene caratteri non validi, sono accettate solo lettere, cifre, - e _.",
-        "saveIcons": "Salva icone",
-        "supportedFormats": "Anori supporta .png, .jpg, .gif e .svg. È meglio utilizzare immagini quadrate tra i 128 e 256 pixel di larghezza (non si applica ai file svg).",
-        "importIcons": "Importa icone"
-      },
-      "folders": {
-        "title": "Cartelle",
-        "createNew": "Crea nuova cartella",
-        "defaultName": "Nuova cartella"
-      },
-      "pluginSettings": {
-        "title": "Impostazioni del plugin"
-      },
-      "theme": {
-        "title": "Tema"
-      },
-      "importExport": {
-        "title": "Importa ed esporta",
-        "info": "Qui puoi eseguire il backup delle tue impostazioni o ripristinare un backup precedente.",
+    "translation": {
+        "appName": "Anori: la tua scheda per la produttività",
+        "appDescription": "Nuova scheda personalizzabile: componi la tua pagina con i widget",
+        "appActionTitle": "Apri scheda Anori",
+        "icon": "Icona",
+        "title": "Titolo",
+        "url": "URL",
+        "urls": "URL",
+        "save": "Salva",
         "import": "Importa",
-        "export": "Esporta",
-        "safariBugAlert": "A causa di un bug in Safari, non possiamo salvare file dall'estensione, il che rende impossibile scaricare il backup. Ci scusiamo molto, ma non possiamo fare nulla a riguardo :("
-      },
-      "aboutHelp": {
-        "title": "Aiuto e informazioni sull'estensione",
-        "onlyEnglishPlease": "Io (autore del progetto) non parlo molte lingue, quindi per favore invia i tuoi problemi in inglese. Grazie!",
-        "p1": "Anori è un'estensione gratuita e open source. Il codice sorgente si trova su <0>GitHub</0>. Se vuoi suggerire una funzionalità o segnalare un bug, crea <1>un nuovo problema</1> nel repository. Se vuoi semplicemente dire grazie, puoi mettere una stella al repository :).",
-        "p2": "Se desideri modificare questa estensione, aggiungere il tuo plugin o widget, consulta il <0>readme</0> per ulteriori informazioni.",
-        "p3": "Segui l'autore su <0>Twitter</0> e <1>supporta l'Ucraina</1>."
-      }
-    },
-
-    "shortcuts": {
-      "title": "Scorciatoie",
-      "showCheatsheet": "Mostra/nascondi la cheatsheet delle scorciatoie",
-      "toggleSettings": "Mostra/nascondi le impostazioni",
-      "displayCommandMenu": "Visualizza il menu dei comandi",
-      "closeMenuOrModal": "Chiudi menu dei comandi o finestra modale",
-      "switchToFolderAbove": "Passa alla cartella sopra",
-      "switchToFolderBelow": "Passa alla cartella sotto",
-      "switchToNFolder": "Passa alla prima cartella (funziona anche con altri numeri!)",
-      "editCurrentFolder": "Modifica la cartella corrente",
-      "addNewWidget": "Aggiungi un nuovo widget alla cartella corrente"
-    },
-
-    "onboarding": {
-      "start": {
-        "title": "Benvenuto in Anori!",
-        "p1": "Felice di vederti! Questa introduzione è disponibile in {{languages}}.",
-        "p2": "Stai per configurare la tua nuova scheda ideale. La pagina d'avvio di Anori è composta da diversi widget, come note, segnalibri, elenchi di task, ecc. Tu scegli cosa aggiungere e come organizzarli.",
-        "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita nell'angolo in alto a destra. Questo passerà alla modalità di modifica. Qui puoi aggiungere, riposizionare o rimuovere i vari widget.",
-        "p4": "Per aggiungere un nuovo widget, clicca sul pulsante più. Clicca sulla spunta per uscire dalla modalità di modifica. Una volta aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget ora ed esplorare da solo, altrimenti, se desideri conoscere un po' meglio le funzionalità che Anori offre, clicca su 'Avanti'."
-      },
-      "folders": {
-        "title": "Cartelle",
-        "p1": "Per impostazione predefinita, tutti i tuoi widget vengono aggiunti alla cartella 'Home'. Tuttavia, puoi anche organizzare i tuoi widget in diverse cartelle. Ad esempio, potresti avere una cartella per il lavoro e una personala. Oppure potresti avere una cartella separata per ogni progetto.",
-        "p2": "Per gestire le cartelle, clicca sull'icona dell'ingranaggio nell'angolo in basso a sinistra. Questo aprirà le impostazioni, dove puoi personalizzare Anori a tuo piacimento. Clicca su 'Cartelle' per aprire il gestore delle cartelle."
-      },
-      "shortcuts": {
-        "title": "Scorciatoie",
-        "p1": "Molte azioni in Anori possono essere eseguite utilizzando le scorciatoie da tastiera.",
-        "p2": "Un gruppo di widget ti consente di interagire con essi utilizzando un menu dei comandi. Per aprire il menu, premi {{metaKey}}+K. Una volta aggiunti i tuoi primi widget, sarai in grado di utilizzare pienamente la sua potenza per aprire i segnalibri, cercare o contrassegnare le attività come completate utilizzando solo la tastiera.",
-        "p3": "Per impostazione predefinita, quando apri una nuova scheda, la barra di ricerca del browser sarà attiva. Anori non riceve eventi quando digiti lì, quindi per utilizzare le scorciatoie è necessario spostare il focus sulla pagina di Anori prima e quindi premere i tasti di scelta rapida. Per spostare il focus, puoi premere Tab o fare clic ovunque sulla pagina.",
-        "p4": "Se vuoi vedere l'elenco completo delle scorciatoie, puoi trovare un cheatsheet nella sezione 'Aiuto' delle impostazioni."
-      },
-      "customization": {
-        "title": "Personalizzazione",
-        "p1": "Anori ti consente di comporre la tua pagina di avvio con i widget, ma può essere personalizzato ulteriormente.",
-        "p2": "Puoi cambiare il titolo delle schede, modificare la combinazione di colori insieme all'immagine di sfondo o caricare icone personalizzate da utilizzare nei widget (oltre 10.000 icone integrate).",
-        "p3": "E questo non è nemmeno la metà delle opzioni. Controlla le impostazioni per scoprirle tutte."
-      },
-      "analytics": {
-        "title": "Analisi",
-        "p1": "Abbiamo quasi finito. Ma c'è un altra cosa. Per impostazione predefinita, Anori non raccoglie alcun dato di tracciamento e non invia nulla a server remoti. Ma usiamo volentieri i dati d'analisi inviati dagli utenti per vedere quali funzionalità vengono utilizzate maggiormente e cosa ha bisogno di essere migliorato.",
-        "p2": "Pertanto, ti chiedo di abilitare l'invio dei dati d'analisi. Anori non invia dati privati (come le tue note o gli URL dei segnalibri), solo le metriche su come usi l'estensione (ad esempio quante cartelle hai e quanto spesso usi le scorciatoie). Ma questa è una scelta completamente tua, Anori funzionerà normalmente anche se non abiliti l'analisi dei dati."
-      },
-      "presets": {
-        "title": "Un nuovo inizio",
-        "p1": "Questo è tutto. Ora hai una laurea magistrale in Anori, sei pronto a creare la tua pagina di avvio personalizzata. Aggiungi il tuo primo widget e inizia a costruire la configurazione definitiva.",
-        "p2": "Stufo dalle scelte? Va bene. Non devi creare la tua pagina perfetta al primo tentativo. Non devi nemmeno partire da una tela bianca. Abbiamo una configurazione produttiva preparata per te.",
-        "p3": "Potrebbe non essere adatta a tutte le tue esigenze, ma puoi usarla come base per creare la configurazione che amerai.",
-        "cta": "🚀 Dammi una configurazione produttiva"
-      }
-    },
-
-    "commandMenu": {
-      "name": "Menu globale dei comandi",
-      "placeholder": "Inserisci un comando",
-      "noWidgets": "Ancora niente qui. Prova ad aggiungere alcuni widget a una cartella."
-    },
-
-    "requirePermissions": {
-      "eh": "Eh?",
-      "modalTitle": "Autorizzazioni aggiuntive richieste",
-      "compactText": "Autorizzazioni aggiuntive richieste. Fai clic per vedere i dettagli.",
-      "text": "Questo widget richiede autorizzazioni aggiuntive:",
-      "apiPermissions": "Autorizzazioni API",
-      "hostPermissions": "Autorizzazioni host",
-      "grant": "Concedi autorizzazioni"
-    },
-
-    "bookmark-plugin": {
-      "name": "Segnalibri",
-      "widgetSizeSName": "Segnalibro - dimensione S",
-      "widgetSizeMName": "Segnalibro - dimensione M",
-      "groupWidgetSizeSName": "Gruppo segnalibri - dimensione S",
-      "groupWidgetSizeMName": "Gruppo segnalibri - dimensione M",
-      "openInGroup": "Apri in un gruppo di schede",
-      "group": "Gruppo",
-      "searchBookmarks": "Cerca segnalibri"
-    },
-    "calendar-plugin": {
-      "name": "Calendario",
-      "widgetName": "Calendario",
-      "firstDayOfWeek": "Primo giorno della settimana"
-    },
-    "datetime-plugin": {
-      "name": "Data e ora",
-      "widgetNameS": "Data e ora - dimensione S",
-      "widgetNameM": "Data e ora - dimensione M",
-      "withoutDate": "Senza data",
-      "timeFormat": "Formato ora",
-      "dateFormat": "Formato data",
-      "24hours": "24 ore"
-    },
-
-    "notes-plugin": {
-      "name": "Note",
-      "widgetSizeSName": "Note - dimensione S",
-      "widgetSizeMName": "Note - dimensione M",
-      "widgetSizeLName": "Note - dimensione L",
-      "noteTitle": "Titolo nota",
-      "noteText": "Testo nota (supporta markdown)",
-      "exampleTitle": "Lista della spesa",
-      "exampleText": "Verdure, pomodoro, formaggio, farina, olio d'oliva"
-    },
-
-    "recently-closed-plugin": {
-      "name": "Schede chiuse recentemente",
-      "widgetSizeSName": "Schede recentemente chiuse - dimensione S",
-      "widgetSizeMName": "Schede recentemente chiuse - dimensione M",
-      "widgetTitle": "Recentemente chiuse",
-      "tab": "Scheda",
-      "window": "Finestra"
-    },
-
-    "search-plugin": {
-      "name": "Ricerca su Internet",
-      "widgetName": "Ricerca",
-      "defaultProvider": "Provider predefinito",
-      "searchProviderForQ": "Cerca «{{query}}» su {{provider}}"
-    },
-
-    "system-status-plugin": {
-      "name": "System status",
-      "ramLoad": "RAM load",
-      "cpuLoad": "CPU load"
-    },
-
-    "tasks-plugin": {
-      "name": "Attività",
-      "widgetSizeMName": "Attività - size M",
-      "widgetSizeLName": "Attività - size L",
-      "todo": "ToDo",
-      "completeTask": "Completa «{{task}}»",
-      "taskDescription": "Descrizione attività...",
-      "noTasks": "Nessuna attività",
-      "exampleTask0": "Stupida passeggiata per la mia stupida salute mentale",
-      "exampleTask1": "Sdraiati sul divano",
-      "exampleTask2": "Sdraiati sul pavimento",
-      "exampleTask3": "Cerca di non piangere"
-    },
-
-    "top-sites-plugin": {
-      "name": "Siti più visitati",
-      "widgetHorizontal": "Siti più visitati - orizzontale",
-      "widgetVertical": "Siti più visitati - verticale"
-    },
-
-    "weather-plugin": {
-      "name": "Meteo",
-      "weatherForecast": "Previsioni meteo",
-      "forecast": "Previsioni",
-      "currentWeather": "Meteo attuale",
-      "kmh": "km/h",
-      "ms": "m/s",
-      "mph": "mph",
-      "clearSky": "Cielo sereno",
-      "partlyCloudy": "Parzialmente nuvoloso",
-      "fog": "Nebbioso",
-      "drizzle": "Pioggerella",
-      "freezingDrizzle": "Pioggerella ghiacciata",
-      "rain": "Pioggia",
-      "freezingRain": "Pioggia ghiacciata",
-      "snow": "Neve",
-      "rainShower": "Pioggia a rovesci",
-      "thunderstorm": "Temporale",
-      "unknownCode": "Codice meteo sconosciuto",
-      "selectCity": "Seleziona città",
-      "temperatureUnit": "Unità di temperatura",
-      "speedUnit": "Unità di velocità del vento",
-      "weatherCode": "codice meteo {{code}}"
-    },
-
-    "rss-plugin": {
-      "name": "RSS",
-      "widgetFeedName": "Feed RSS",
-      "widgetLatestPostName": "Ultimi post dal feed RSS",
-      "feedUrl": "URL del feed RSS",
-      "feedUrls": "URL dei feed RSS",
-      "noPosts": "Nessun post in questo feed",
-      "presetsTitle": "Inserisci i tuoi feed RSS preferiti qui o seleziona uno dei predefiniti:",
-      "presetForDevelopers": "Per sviluppatori",
-      "presetForDesigners": "Per designer",
-      "presetInteresting": "Cose interessanti",
-      "presetForDevelopersTitle": "Dev",
-      "presetForDesignersTitle": "Design",
-      "presetInterestingTitle": "Cose interessanti",
-      "examplePostTitle1": "Come organizzare Anori al meglio!",
-      "examplePostDescription1": "Comincia con il giusto segnalibro e poi lascia che il tuo cuore ti guidi. A volte tutto ciò di cui hai bisogno è un po' di ordine...",
-      "exampleFeedTitle1": "Blog di Anori",
-      "examplePostTitle2": "Le 8 estensioni del browser più utili",
-      "examplePostDescription2": "Oggi ti mostrerò come trasformare il tuo browser in una macchina per la produttività. La star dello spettacolo - Anori.",
-      "exampleFeedTitle2": "produttività 101",
-      "examplePostTitle3": "Un estensione che ti permette di comporre la tua nuova scheda con i widget!",
-      "examplePostDescription3": "Puoi comporre la tua nuova scheda con i widget e organizzarli in cartelle.",
-      "exampleFeedTitle3": "Reddit"
+        "add": "Aggiungi",
+        "noResults": "Nessun risultato",
+        "example": "Esempio",
+        "weekday0": "Lunedì",
+        "weekday1": "Martedì",
+        "weekday2": "Mercoledì",
+        "weekday3": "Giovedì",
+        "weekday4": "Venerdì",
+        "weekday5": "Sabato",
+        "weekday6": "Domenica",
+        "timezone": "Fuso orario",
+        "refreshing": "Aggiornamento in corso...",
+        "refresh": "Aggiorna",
+        "startTypingToSearch": "Inizia a digitare per cercare...",
+        "search": "Cerca...",
+        "loading": "Caricamento...",
+        "lastUpdatedAt": "Ultimo aggiornamento alle {{datetime}}",
+        "home": "Home",
+        "availableOnlyInEnglish": "Disponibile solo in inglese",
+        "px": "px",
+        "whatsNew": "Novità",
+        "editWidget": "Modifica widget",
+        "configureWidget": "Configura widget",
+        "addWidget": "Aggiungi widget",
+        "next": "Avanti",
+        "back": "Indietro",
+        "icons": "Icone",
+        "customIcons": "Icone personalizzate",
+        "safari": {
+            "onboarding": {
+                "iosMacP1": "Per iniziare ad usare Anori, devi abilitarlo nelle impostazioni di Safari.",
+                "macButton": "Esci e apri Preferenze Estensioni di Safari...",
+                "iosP2": "Il processo è un po' tedioso, lo sappiamo, ma resisti.",
+                "iosP3": "Innanzitutto, devi abilitare l'estensione (1) e poi cambiare la pagina della nuova scheda con Anori (2). Ecco un'immagine per non perdersi nella foresta delle impostazioni di Safari :)",
+                "iosButton": "Apri Impostazioni Estensioni di Safari"
+            }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "Le icone personalizzate sono icone che carichi in Anori per un uso futuro.",
+            "customIconsAbsent": "Attualmente, non hai nessuna icona personalizzata. Per caricare la tua prima icona vai alle impostazioni.",
+            "iconFamily": "Famiglia di icone",
+            "allIcons": "Tutte le icone"
+        },
+        "settings": {
+            "title": "Impostazioni",
+            "general": {
+                "title": "Generali",
+                "language": "Lingua",
+                "translationInfo": "Le traduzioni in lingue diverse dall'inglese o dall'ucraino sono fornite dalla comunità. Se noti errori o stringhe non tradotte, aiutaci a correggerli! <0>Ecco</0> istruzioni su come puoi partecipare.",
+                "sidebarOrientation": "Orientamento della barra laterale",
+                "sidebarOrientationOption-auto": "Basato sull'orientamento della finestra",
+                "sidebarOrientationOption-vertical": "Sempre verticale",
+                "sidebarOrientationOption-horizontal": "Sempre orizzontale",
+                "newTabTitle": "Titolo della nuova scheda",
+                "enableAnalytics": "Abilita l'invio dei dati di analisi",
+                "analyticsHintP1": "L'analisi dei dati ci aiuta a capire meglio come gli utenti interagiscono con Anori e quali funzionalità vengono utilizzate di più. Non vengono condivise le informazioni private, come il contenuto delle note o gli URL dei segnalibri.",
+                "analyticsHintP2": "Questo ci aiuta a sviluppare un prodotto migliore, quindi ti chiediamo di abilitare l'invio dei dati di analisi. <0>Scopri di più.</0>",
+                "stealFocus": "Ruba il focus dalla barra degli indirizzi",
+                "stealFocusHint": "Se abilitato, questo forzerà il browser a spostare il focus dalla barra degli indirizzi a questa pagina quando si apre una nuova scheda. Sarai in grado di utilizzare il menu dei comandi (Cmd+K) senza dover spostare manualmente il focus sulla pagina (cliccando o premendo Tab).",
+                "automaticCompact": "Passa automaticamente alla modalità compatta in base alla dimensione dello schermo",
+                "automaticCompactModeThreshold": "Passa alla modalità compatta se la dimensione dello schermo è inferiore a",
+                "automaticCompactModeThresholdHint": "La larghezza dello schermo attuale è di {{screenWidth}}px",
+                "useCompact": "Usa sempre la modalità compatta",
+                "showAnimationOnOpen": "Mostra animazione all'apertura",
+                "showAnimationOnOpenHint": "Se abilitata, l'estensione mostrerà un'animazione di caricamento veloce che nasconderà l'iniziale sfarfallio durante il caricamento dei dati e fornirà un esperienza migliore.",
+                "hideEditButton": "Nascondi il pulsante 'Modifica cartella'",
+                "hideEditButtonHint": "Extra minimalista, sì.",
+                "showBookmarksBar": "Mostra barra segnalibri"
+            },
+            "customIcons": {
+                "title": "Icone personalizzate",
+                "incorrectFormat": "Fornisci file validi. Anori supporta .png, .jpg, .gif, .jpeg e .svg",
+                "noIcons": "Non hai ancora nessuna icona personalizzata.",
+                "iconName": "Nome icona",
+                "invalidNames": "Alcune delle icone hanno un nome non valido, correggili prima di salvare.",
+                "nameContainsInvalidChars": "Il nome contiene caratteri non validi, sono accettate solo lettere, cifre, - e _.",
+                "saveIcons": "Salva icone",
+                "supportedFormats": "Anori supporta .png, .jpg, .gif e .svg. È meglio utilizzare immagini quadrate tra i 128 e 256 pixel di larghezza (non si applica ai file svg).",
+                "importIcons": "Importa icone"
+            },
+            "folders": {
+                "title": "Cartelle",
+                "createNew": "Crea nuova cartella",
+                "defaultName": "Nuova cartella"
+            },
+            "pluginSettings": {
+                "title": "Impostazioni del plugin"
+            },
+            "theme": {
+                "title": "Tema"
+            },
+            "importExport": {
+                "title": "Importa ed esporta",
+                "info": "Qui puoi eseguire il backup delle tue impostazioni o ripristinare un backup precedente.",
+                "import": "Importa",
+                "export": "Esporta",
+                "safariBugAlert": "A causa di un bug in Safari, non possiamo salvare file dall'estensione, il che rende impossibile scaricare il backup. Ci scusiamo molto, ma non possiamo fare nulla a riguardo :("
+            },
+            "aboutHelp": {
+                "title": "Aiuto e informazioni sull'estensione",
+                "onlyEnglishPlease": "Io (autore del progetto) non parlo molte lingue, quindi per favore invia i tuoi problemi in inglese. Grazie!",
+                "p1": "Anori è un'estensione gratuita e open source. Il codice sorgente si trova su <0>GitHub</0>. Se vuoi suggerire una funzionalità o segnalare un bug, crea <1>un nuovo problema</1> nel repository. Se vuoi semplicemente dire grazie, puoi mettere una stella al repository :).",
+                "p2": "Se desideri modificare questa estensione, aggiungere il tuo plugin o widget, consulta il <0>readme</0> per ulteriori informazioni.",
+                "p3": "Segui l'autore su <0>Twitter</0> e <1>supporta l'Ucraina</1>."
+            }
+        },
+        "shortcuts": {
+            "title": "Scorciatoie",
+            "showCheatsheet": "Mostra/nascondi la cheatsheet delle scorciatoie",
+            "toggleSettings": "Mostra/nascondi le impostazioni",
+            "displayCommandMenu": "Visualizza il menu dei comandi",
+            "closeMenuOrModal": "Chiudi menu dei comandi o finestra modale",
+            "switchToFolderAbove": "Passa alla cartella sopra",
+            "switchToFolderBelow": "Passa alla cartella sotto",
+            "switchToNFolder": "Passa alla prima cartella (funziona anche con altri numeri!)",
+            "editCurrentFolder": "Modifica la cartella corrente",
+            "addNewWidget": "Aggiungi un nuovo widget alla cartella corrente"
+        },
+        "onboarding": {
+            "start": {
+                "title": "Benvenuto in Anori!",
+                "p1": "Felice di vederti! Questa introduzione è disponibile in {{languages}}.",
+                "p2": "Stai per configurare la tua nuova scheda ideale. La pagina d'avvio di Anori è composta da diversi widget, come note, segnalibri, elenchi di task, ecc. Tu scegli cosa aggiungere e come organizzarli.",
+                "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita nell'angolo in alto a destra. Questo passerà alla modalità di modifica. Qui puoi aggiungere, riposizionare o rimuovere i vari widget.",
+                "p4": "Per aggiungere un nuovo widget, clicca sul pulsante più. Clicca sulla spunta per uscire dalla modalità di modifica. Una volta aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget ora ed esplorare da solo, altrimenti, se desideri conoscere un po' meglio le funzionalità che Anori offre, clicca su 'Avanti'."
+            },
+            "folders": {
+                "title": "Cartelle",
+                "p1": "Per impostazione predefinita, tutti i tuoi widget vengono aggiunti alla cartella 'Home'. Tuttavia, puoi anche organizzare i tuoi widget in diverse cartelle. Ad esempio, potresti avere una cartella per il lavoro e una personala. Oppure potresti avere una cartella separata per ogni progetto.",
+                "p2": "Per gestire le cartelle, clicca sull'icona dell'ingranaggio nell'angolo in basso a sinistra. Questo aprirà le impostazioni, dove puoi personalizzare Anori a tuo piacimento. Clicca su 'Cartelle' per aprire il gestore delle cartelle."
+            },
+            "shortcuts": {
+                "title": "Scorciatoie",
+                "p1": "Molte azioni in Anori possono essere eseguite utilizzando le scorciatoie da tastiera.",
+                "p2": "Un gruppo di widget ti consente di interagire con essi utilizzando un menu dei comandi. Per aprire il menu, premi {{metaKey}}+K. Una volta aggiunti i tuoi primi widget, sarai in grado di utilizzare pienamente la sua potenza per aprire i segnalibri, cercare o contrassegnare le attività come completate utilizzando solo la tastiera.",
+                "p3": "Per impostazione predefinita, quando apri una nuova scheda, la barra di ricerca del browser sarà attiva. Anori non riceve eventi quando digiti lì, quindi per utilizzare le scorciatoie è necessario spostare il focus sulla pagina di Anori prima e quindi premere i tasti di scelta rapida. Per spostare il focus, puoi premere Tab o fare clic ovunque sulla pagina.",
+                "p4": "Se vuoi vedere l'elenco completo delle scorciatoie, puoi trovare un cheatsheet nella sezione 'Aiuto' delle impostazioni."
+            },
+            "customization": {
+                "title": "Personalizzazione",
+                "p1": "Anori ti consente di comporre la tua pagina di avvio con i widget, ma può essere personalizzato ulteriormente.",
+                "p2": "Puoi cambiare il titolo delle schede, modificare la combinazione di colori insieme all'immagine di sfondo o caricare icone personalizzate da utilizzare nei widget (oltre 10.000 icone integrate).",
+                "p3": "E questo non è nemmeno la metà delle opzioni. Controlla le impostazioni per scoprirle tutte."
+            },
+            "analytics": {
+                "title": "Analisi",
+                "p1": "Abbiamo quasi finito. Ma c'è un altra cosa. Per impostazione predefinita, Anori non raccoglie alcun dato di tracciamento e non invia nulla a server remoti. Ma usiamo volentieri i dati d'analisi inviati dagli utenti per vedere quali funzionalità vengono utilizzate maggiormente e cosa ha bisogno di essere migliorato.",
+                "p2": "Pertanto, ti chiedo di abilitare l'invio dei dati d'analisi. Anori non invia dati privati (come le tue note o gli URL dei segnalibri), solo le metriche su come usi l'estensione (ad esempio quante cartelle hai e quanto spesso usi le scorciatoie). Ma questa è una scelta completamente tua, Anori funzionerà normalmente anche se non abiliti l'analisi dei dati."
+            },
+            "presets": {
+                "title": "Un nuovo inizio",
+                "p1": "Questo è tutto. Ora hai una laurea magistrale in Anori, sei pronto a creare la tua pagina di avvio personalizzata. Aggiungi il tuo primo widget e inizia a costruire la configurazione definitiva.",
+                "p2": "Stufo dalle scelte? Va bene. Non devi creare la tua pagina perfetta al primo tentativo. Non devi nemmeno partire da una tela bianca. Abbiamo una configurazione produttiva preparata per te.",
+                "p3": "Potrebbe non essere adatta a tutte le tue esigenze, ma puoi usarla come base per creare la configurazione che amerai.",
+                "cta": "🚀 Dammi una configurazione produttiva"
+            }
+        },
+        "commandMenu": {
+            "name": "Menu globale dei comandi",
+            "placeholder": "Inserisci un comando",
+            "noWidgets": "Ancora niente qui. Prova ad aggiungere alcuni widget a una cartella."
+        },
+        "requirePermissions": {
+            "eh": "Eh?",
+            "modalTitle": "Autorizzazioni aggiuntive richieste",
+            "compactText": "Autorizzazioni aggiuntive richieste. Fai clic per vedere i dettagli.",
+            "text": "Questo widget richiede autorizzazioni aggiuntive:",
+            "apiPermissions": "Autorizzazioni API",
+            "hostPermissions": "Autorizzazioni host",
+            "grant": "Concedi autorizzazioni"
+        },
+        "bookmark-plugin": {
+            "name": "Segnalibri",
+            "widgetSizeSName": "Segnalibro - dimensione S",
+            "widgetSizeMName": "Segnalibro - dimensione M",
+            "groupWidgetSizeSName": "Gruppo segnalibri - dimensione S",
+            "groupWidgetSizeMName": "Gruppo segnalibri - dimensione M",
+            "openInGroup": "Apri in un gruppo di schede",
+            "group": "Gruppo",
+            "searchBookmarks": "Cerca segnalibri"
+        },
+        "calendar-plugin": {
+            "name": "Calendario",
+            "widgetName": "Calendario",
+            "firstDayOfWeek": "Primo giorno della settimana"
+        },
+        "datetime-plugin": {
+            "name": "Data e ora",
+            "widgetNameS": "Data e ora - dimensione S",
+            "widgetNameM": "Data e ora - dimensione M",
+            "withoutDate": "Senza data",
+            "timeFormat": "Formato ora",
+            "dateFormat": "Formato data",
+            "24hours": "24 ore"
+        },
+        "notes-plugin": {
+            "name": "Note",
+            "widgetSizeSName": "Note - dimensione S",
+            "widgetSizeMName": "Note - dimensione M",
+            "widgetSizeLName": "Note - dimensione L",
+            "noteTitle": "Titolo nota",
+            "noteText": "Testo nota (supporta markdown)",
+            "exampleTitle": "Lista della spesa",
+            "exampleText": "Verdure, pomodoro, formaggio, farina, olio d'oliva"
+        },
+        "recently-closed-plugin": {
+            "name": "Schede chiuse recentemente",
+            "widgetSizeSName": "Schede recentemente chiuse - dimensione S",
+            "widgetSizeMName": "Schede recentemente chiuse - dimensione M",
+            "widgetTitle": "Recentemente chiuse",
+            "tab": "Scheda",
+            "window": "Finestra"
+        },
+        "search-plugin": {
+            "name": "Ricerca su Internet",
+            "widgetName": "Ricerca",
+            "defaultProvider": "Provider predefinito",
+            "searchProviderForQ": "Cerca «{{query}}» su {{provider}}"
+        },
+        "system-status-plugin": {
+            "name": "System status",
+            "ramLoad": "RAM load",
+            "cpuLoad": "CPU load"
+        },
+        "tasks-plugin": {
+            "name": "Attività",
+            "widgetSizeMName": "Attività - size M",
+            "widgetSizeLName": "Attività - size L",
+            "todo": "ToDo",
+            "completeTask": "Completa «{{task}}»",
+            "taskDescription": "Descrizione attività...",
+            "noTasks": "Nessuna attività",
+            "exampleTask0": "Stupida passeggiata per la mia stupida salute mentale",
+            "exampleTask1": "Sdraiati sul divano",
+            "exampleTask2": "Sdraiati sul pavimento",
+            "exampleTask3": "Cerca di non piangere"
+        },
+        "top-sites-plugin": {
+            "name": "Siti più visitati",
+            "widgetHorizontal": "Siti più visitati - orizzontale",
+            "widgetVertical": "Siti più visitati - verticale"
+        },
+        "weather-plugin": {
+            "name": "Meteo",
+            "weatherForecast": "Previsioni meteo",
+            "forecast": "Previsioni",
+            "currentWeather": "Meteo attuale",
+            "kmh": "km/h",
+            "ms": "m/s",
+            "mph": "mph",
+            "clearSky": "Cielo sereno",
+            "partlyCloudy": "Parzialmente nuvoloso",
+            "fog": "Nebbioso",
+            "drizzle": "Pioggerella",
+            "freezingDrizzle": "Pioggerella ghiacciata",
+            "rain": "Pioggia",
+            "freezingRain": "Pioggia ghiacciata",
+            "snow": "Neve",
+            "rainShower": "Pioggia a rovesci",
+            "thunderstorm": "Temporale",
+            "unknownCode": "Codice meteo sconosciuto",
+            "selectCity": "Seleziona città",
+            "temperatureUnit": "Unità di temperatura",
+            "speedUnit": "Unità di velocità del vento",
+            "weatherCode": "codice meteo {{code}}"
+        },
+        "rss-plugin": {
+            "name": "RSS",
+            "widgetFeedName": "Feed RSS",
+            "widgetLatestPostName": "Ultimi post dal feed RSS",
+            "feedUrl": "URL del feed RSS",
+            "feedUrls": "URL dei feed RSS",
+            "noPosts": "Nessun post in questo feed",
+            "presetsTitle": "Inserisci i tuoi feed RSS preferiti qui o seleziona uno dei predefiniti:",
+            "presetForDevelopers": "Per sviluppatori",
+            "presetForDesigners": "Per designer",
+            "presetInteresting": "Cose interessanti",
+            "presetForDevelopersTitle": "Dev",
+            "presetForDesignersTitle": "Design",
+            "presetInterestingTitle": "Cose interessanti",
+            "examplePostTitle1": "Come organizzare Anori al meglio!",
+            "examplePostDescription1": "Comincia con il giusto segnalibro e poi lascia che il tuo cuore ti guidi. A volte tutto ciò di cui hai bisogno è un po' di ordine...",
+            "exampleFeedTitle1": "Blog di Anori",
+            "examplePostTitle2": "Le 8 estensioni del browser più utili",
+            "examplePostDescription2": "Oggi ti mostrerò come trasformare il tuo browser in una macchina per la produttività. La star dello spettacolo - Anori.",
+            "exampleFeedTitle2": "produttività 101",
+            "examplePostTitle3": "Un estensione che ti permette di comporre la tua nuova scheda con i widget!",
+            "examplePostDescription3": "Puoi comporre la tua nuova scheda con i widget e organizzarli in cartelle.",
+            "exampleFeedTitle3": "Reddit"
+        }
     }
-  }
 }

@@ -14,6 +14,7 @@ import moment from 'moment';
 import 'moment/locale/uk';
 import 'moment/locale/de';
 import 'moment/locale/ru';
+import 'moment/locale/it';
 import 'moment/locale/zh-cn';
 
 moment.locale('en');
