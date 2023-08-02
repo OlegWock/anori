@@ -140,7 +140,7 @@ const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?:
         <Menubar.Menu>
             <Menubar.Trigger className={clsx("Bookmark", fullWidth && 'full-width')}>{content}</Menubar.Trigger>
             <Menubar.Portal>
-                <div className='radix-popover-zindex-fix'>
+                <div className='radix-popover-zindex-fix' onWheel={e => e.stopPropagation()}>
                     <Menubar.Content className="BookmarksMenubarContent" align="start" sideOffset={5} alignOffset={-3}>
                         <ScrollArea color='translucent' onVerticalOverflowStatusChange={setScrollAreaOverflows} size='thin'>
                             {bookmark.items.map(bm => <MenuBookmark shiftSubmenu={scrollAreaOverflows} bookmark={bm} key={bm.id} />)}
