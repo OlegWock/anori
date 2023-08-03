@@ -113,6 +113,10 @@ type UseAtomWithStorageResult<T> = [
 export type AtomWithBrowserStorage<V> = { __doNotUseThisWithJotaisUseAtom: 1, v: V };
 
 export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceLoad, onLoad }: AtomWithBrowserStorageOptions<V> = {}) => {
+    if (storageAtoms[key]) {
+        return storageAtoms[key] as AtomWithBrowserStorage<V>;   
+    }
+
     let isLoaded = false;
     const baseAtom = atom<AtomWithBrowserStorageMeta<V>>({
         defaultValue,
@@ -169,6 +173,8 @@ export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceL
             storage.setOneDynamic<V>(key, nextValue, true);
         }
     );
+
+    storageAtoms[key] = derivedAtom as unknown as AtomWithBrowserStorage<V>;
 
     // This approach in incompatible with custom Jotai providers
     if (forceLoad) {

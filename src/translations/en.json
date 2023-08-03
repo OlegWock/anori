@@ -38,6 +38,7 @@
         "back": "Back",
         "icons": "Icons",
         "customIcons": "Custom icons",
+        "cantFitInGrid": "Can't fit element in grid",
 
         "safari": {
             "onboarding": {

@@ -1,10 +1,10 @@
-import { AtomWithBrowserStorage, atomWithBrowserStorage, atomWithBrowserStorageStatic, setAtomWithStorageValue, useAtomWithStorage } from "@utils/storage";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, atomWithBrowserStorageStatic, setAtomWithStorageValue, storage, useAtomWithStorage } from "@utils/storage";
 import { atom, useAtom } from "jotai";
 import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, WidgetInFolder, WidgetInFolderWithMeta, homeFolder } from "./types";
 import { guid } from "@utils/misc";
 import { useMemo } from "react";
 import { availablePluginsWithWidgets } from "@plugins/all";
-import { Position } from "@utils/grid";
+import { GridDimensions, Position, findPositionForItemInGrid, fixHorizontalOverflows } from "@utils/grid";
 import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
 import { useTranslation } from "react-i18next";
@@ -93,6 +93,15 @@ const getFolderDetailsAtom = (id: ID) => {
 
     return folderDetailsAtoms[id];
 };
+
+const getFolderDetails = async (id: ID) => {
+    return await storage.getOneDynamic<FolderDetailsInStorage>(`Folder.${id}`) || { widgets: [] };
+};
+
+const setFolderDetails = async (id: ID, details: FolderDetailsInStorage) => {
+    return await storage.setOneDynamic<FolderDetailsInStorage>(`Folder.${id}`, details);
+};
+
 
 export const useFolderWidgets = (folder: Folder) => {
     const addWidget = <T extends {}>({ plugin, widget, config, position }: { widget: WidgetDescriptor<T>, plugin: AnoriPlugin<any, T>, config: T, position: Position }) => {
@@ -196,4 +205,29 @@ export const useFolderWidgets = (folder: Folder) => {
         updateWidgetConfig,
         folderDataLoaded: meta.status !== 'notLoaded',
     };
+};
+
+export const tryMoveWidgetToFolder = async (folderIdFrom: Folder["id"], folderIdTo: Folder["id"], widgetInstanceId: WidgetInFolderWithMeta<any, any, any>["instanceId"], currentGrid: GridDimensions) => {
+    const fromFolderDetails = await getFolderDetails(folderIdFrom);
+    const toFolderDetails = await getFolderDetails(folderIdTo);
+    const widgetInfo = fromFolderDetails.widgets.find(w => w.instanceId === widgetInstanceId);
+    if (!widgetInfo) return false;
+
+    const toFolderLayout = fixHorizontalOverflows({ grid: currentGrid, layout: toFolderDetails.widgets });
+    const newPosition = findPositionForItemInGrid({grid: currentGrid, layout: toFolderLayout, item: widgetInfo});
+    if (!newPosition) return false;
+
+    fromFolderDetails.widgets = fromFolderDetails.widgets.filter(w => w.instanceId !== widgetInstanceId);
+    toFolderDetails.widgets = [
+        ...toFolderDetails.widgets,
+        {
+            ...widgetInfo,
+            ...newPosition,
+        }
+    ];
+
+    await setFolderDetails(folderIdTo, toFolderDetails);
+    await setFolderDetails(folderIdFrom, fromFolderDetails);
+
+    return true;
 };

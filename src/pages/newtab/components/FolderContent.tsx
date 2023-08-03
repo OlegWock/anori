@@ -5,7 +5,7 @@ import { Icon } from '@components/Icon';
 import { CSSProperties, useEffect, useState } from 'react';
 import { Button } from '@components/Button';
 import { NewWidgetWizard } from './NewWidgetWizard';
-import { useFolderWidgets } from '@utils/user-data/hooks';
+import { tryMoveWidgetToFolder, useFolderWidgets } from '@utils/user-data/hooks';
 import { WidgetCard } from '@components/WidgetCard';
 import { FolderContentContext } from '@utils/FolderContentContext';
 import { useRef } from 'react';
@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollArea } from '@components/ScrollArea';
 import { Onboarding } from '@components/Onboarding';
 import clsx from 'clsx';
+import { DndItemMeta } from '@utils/drag-and-drop';
 
 
 type FolderContentProps = {
@@ -101,7 +102,16 @@ const actionButtonAnimations = {
 
 
 export const FolderContent = ({ folder, animationDirection }: FolderContentProps) => {
-    const tryRepositionWidget = (widget: WidgetInFolderWithMeta<any, any, any>, event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const onWidgetDragEnd = async (widget: WidgetInFolderWithMeta<any, any, any>, dest: DndItemMeta | null, event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        if (dest && dest.type === 'folder' && dest.id !== folder.id) {
+            const result = await tryMoveWidgetToFolder(folder.id, dest.id, widget.instanceId, gridDimensions);
+            if (!result) {
+                // TODO: replace with alert
+                alert(t('cantFitInGrid'));
+            }
+            return;
+        }
+
         if (!mainRef.current) return;
         console.log('tryRepositionWidget', { widget, event, info });
         const mainBox = mainRef.current.getBoundingClientRect();
@@ -260,13 +270,10 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                 }}>
                                     <WidgetCard
                                         drag
-                                        dragConstraints={isResizingWindow ? { top: 0, left: 0, right: 0, bottom: 0 } : mainRef}
-                                        dragSnapToOrigin
-                                        dragElastic={0}
-                                        onDragEnd={(e, info) => tryRepositionWidget(w, e, info)}
+                                        onDragEnd={(dest, e, info) => onWidgetDragEnd(w, dest, e, info)}
                                         withAnimation={w.widget.withAnimation}
-                                        whileDrag={{ zIndex: 9, boxShadow: '0px 4px 4px 3px rgba(0,0,0,0.4)' }}
                                         key={w.instanceId}
+                                        instanceId={w.instanceId}
                                         onRemove={() => removeWidget(w)}
                                         onEdit={w.widget.configurationScreen ? () => setEditingWidget(w) : undefined}
                                         width={w.width}

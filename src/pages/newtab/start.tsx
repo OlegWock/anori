@@ -113,7 +113,15 @@ const Start = () => {
                         <div className="sidebar">
                             <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
                                 {folders.map(f => {
-                                    return (<FolderButton sidebarOrientation={sidebarOrientation} key={f.id} icon={f.icon} name={f.name} active={activeFolder === f} onClick={() => setActiveFolder(f)} />);
+                                    return (<FolderButton 
+                                        dropDestination={{id: f.id}}
+                                        sidebarOrientation={sidebarOrientation} 
+                                        key={f.id} 
+                                        icon={f.icon} 
+                                        name={f.name} 
+                                        active={activeFolder === f} 
+                                        onClick={() => setActiveFolder(f)} 
+                                    />);
                                 })}
                                 <div className="spacer" />
                                 <FolderButton

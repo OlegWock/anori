@@ -17,6 +17,11 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.11.0</h2>
+                    <ul>
+                        <li>Now you can move widgets to another folder. Just drag them over folder you'd like to move them to and release mouse button. Poof!</li>
+                    </ul>
+
                     <h2>1.10.0</h2>
                     <ul>
                         <li>Added option to display bookmarks bar, you can find it in Settings &gt; General. Currently, available only for Chrome and Edge</li>

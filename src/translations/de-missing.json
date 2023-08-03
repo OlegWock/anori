@@ -1,6 +1,7 @@
 {
     "translation": {
         "icons": "Icons",
+        "cantFitInGrid": "Can't fit element in grid",
         "safari": {
             "onboarding": {
                 "iosMacP1": "To start using Anori you'll need to enable it in Safari's settings.",

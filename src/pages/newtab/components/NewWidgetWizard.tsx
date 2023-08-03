@@ -25,7 +25,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         const position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.size });
         if (!position) {
             // TODO: replace with toast
-            alert("Can't fit element in grid, sorry");
+            alert(t('cantFitInGrid'));
             return;
         }
         addWidget({ plugin, widget, config, position });

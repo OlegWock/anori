@@ -6,7 +6,7 @@
     cursor: pointer;
     border-radius: 8px;
     border-color: transparent;
-    border-width: 2px;
+    border-width: 3px;
     border-style: solid;
     color: rgba(255, 255, 255, 0.733);
     display: flex;
@@ -20,6 +20,14 @@
     @include utils.hover {
         transform: scale(1.15);
         color: var(--accent);
+    }
+
+    &.drop-destination {
+        border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    &.highlight-drop {
+        background: rgba(255, 255, 255, 0.25);
     }
 
     .background-glow {
