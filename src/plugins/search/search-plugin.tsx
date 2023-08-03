@@ -136,13 +136,15 @@ export const searchWidgetDescriptor = {
     get name() {
         return translate('search-plugin.widgetName');
     },
-    size: {
-        width: 4,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 4,
+            height: 1,
+        },
     },
     configurationScreen: ConfigScreen,
     mainScreen: WidgetScreen,
-    withAnimation: false,
     mock: () => (<WidgetScreen config={{
         defaultProvider: 'google',
     }} instanceId='mock' />),

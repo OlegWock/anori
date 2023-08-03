@@ -205,9 +205,12 @@ export const tasksWidgetDescriptorM = {
     withAnimation: false,
     mainScreen: MainScreen,
     mock: Mock,
-    size: {
-        width: 2,
-        height: 2,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 2,
+        }
     }
 } as const;
 
@@ -220,9 +223,12 @@ export const tasksWidgetDescriptorL = {
     withAnimation: false,
     mainScreen: MainScreen,
     mock: Mock,
-    size: {
-        width: 3,
-        height: 4,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 3,
+            height: 4,
+        }
     }
 } as const;
 

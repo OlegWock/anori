@@ -380,7 +380,6 @@ export const bookmarkWidgetSizeSDescriptor = {
         return translate('bookmark-plugin.widgetSizeSName')
     },
     configurationScreen: BookmarkWidgetConfigScreen,
-    withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
         return <BookmarkWidget instanceId={instanceId} config={config} isMock={false} size="s" />
     },
@@ -392,9 +391,13 @@ export const bookmarkWidgetSizeSDescriptor = {
             icon: 'ion:dice',
         }} />)
     },
-    size: {
-        width: 1,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 1,
+            height: 1,
+        },
+        withHoverAnimation: true,
     }
 } as const;
 
@@ -404,7 +407,6 @@ export const bookmarkWidgetSizeMDescriptor = {
         return translate('bookmark-plugin.widgetSizeMName')
     },
     configurationScreen: BookmarkWidgetConfigScreen,
-    withAnimation: true,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
         return <BookmarkWidget instanceId={instanceId} config={config} isMock={false} size="m" />
     },
@@ -416,9 +418,13 @@ export const bookmarkWidgetSizeMDescriptor = {
             icon: 'ion:chatbox-ellipses',
         }} />)
     },
-    size: {
-        width: 2,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 1,
+        },
+        withHoverAnimation: true,
     }
 } as const;
 
@@ -442,9 +448,13 @@ export const bookmarkGroupWidgetSizeSDescriptor = {
             icon: 'ion:cloud',
         }} />)
     },
-    size: {
-        width: 1,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 1,
+            height: 1,
+        },
+        withHoverAnimation: true,
     }
 } as const;
 
@@ -467,9 +477,13 @@ export const bookmarkGroupWidgetSizeMDescriptor = {
             icon: 'ion:image',
         }} />)
     },
-    size: {
-        width: 2,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 1,
+        },
+        withHoverAnimation: true,
     }
 } as const;
 

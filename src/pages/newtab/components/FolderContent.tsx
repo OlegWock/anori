@@ -271,7 +271,8 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                                     <WidgetCard
                                         drag
                                         onDragEnd={(dest, e, info) => onWidgetDragEnd(w, dest, e, info)}
-                                        withAnimation={w.widget.withAnimation}
+                                        withAnimation={!!w.widget.appearance.withHoverAnimation}
+                                        withPadding={!w.widget.appearance.withoutPadding}
                                         key={w.instanceId}
                                         instanceId={w.instanceId}
                                         onRemove={() => removeWidget(w)}

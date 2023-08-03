@@ -167,13 +167,15 @@ export const datetimeWidgetDescriptorS = {
     get name() {
         return translate('datetime-plugin.widgetNameS');
     },
-    size: {
-        width: 1,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 1,
+            height: 1,
+        },
     },
     configurationScreen: (props: WidgetConfigurationScreenProps<WidgetConfig>) => (<ConfigScreen size='s' {...props} />),
     mainScreen: (props: WidgetRenderProps<WidgetConfig>) => (<WidgetScreen size="s" {...props} />),
-    withAnimation: false,
     mock: () => (<WidgetScreen config={{
         title: 'Bratislava',
         tz: 'Europe/Bratislava',
@@ -187,13 +189,15 @@ export const datetimeWidgetDescriptorM = {
     get name() {
         return translate('datetime-plugin.widgetNameM');
     },
-    size: {
-        width: 2,
-        height: 2,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 2,
+        },
     },
     configurationScreen: (props: WidgetConfigurationScreenProps<WidgetConfig>) => (<ConfigScreen size='m' {...props} />),
     mainScreen: (props: WidgetRenderProps<WidgetConfig>) => (<WidgetScreen size="m" {...props} />),
-    withAnimation: false,
     mock: () => (<WidgetScreen config={{
         title: 'Bratislava',
         tz: 'Europe/Bratislava',

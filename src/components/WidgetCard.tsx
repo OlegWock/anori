@@ -40,6 +40,7 @@ type WidgetCardProps = {
     width: number,
     height: number,
     withAnimation: boolean,
+    withPadding: boolean,
     drag?: boolean,
     instanceId?: string,
     onRemove?: () => void,
@@ -48,7 +49,7 @@ type WidgetCardProps = {
     onDragEnd?: (foundDestination: DndItemMeta | null, e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => void,
 } & Omit<ComponentProps<typeof m.div>, 'children' | 'onDragEnd'>;
 
-export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, drag, instanceId, ...props }: WidgetCardProps) => {
+export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, drag, instanceId, withPadding, ...props }: WidgetCardProps) => {
     const { isEditing, boxSize } = useParentFolder();
     const { dragControls, elementProps, dragHandleProps } = useDraggable({
         type: 'widget',
@@ -78,7 +79,7 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
             width: width * boxSize - gapSize * 2,
             height: height * boxSize - gapSize * 2,
             margin: gapSize,
-
+            padding: withPadding ? '1rem' : '0',
             ...style,
         }}
         {...dragProps}

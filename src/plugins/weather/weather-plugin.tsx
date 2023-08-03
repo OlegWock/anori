@@ -265,10 +265,10 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
     const { rem } = useSizeSettings();
     const { t } = useTranslation();
 
-    return (<Tooltip label={!weather ? t('loading') : t('lastUpdatedAt', {datetime: moment(weather.lastUpdated).format('HH:mm')})} placement="top">
+    return (<Tooltip label={!weather ? t('loading') : t('lastUpdatedAt', { datetime: moment(weather.lastUpdated).format('HH:mm') })} placement="top">
         <div className="WeatherWidget current">
             {!!weather && <>
-                <Tooltip label={`${weatherCodeDescription(weather.weatherCode)} (${t('weather-plugin.weatherCode', {code: weather.weatherCode})})`}>
+                <Tooltip label={`${weatherCodeDescription(weather.weatherCode)} (${t('weather-plugin.weatherCode', { code: weather.weatherCode })})`}>
                     <Icon icon={weatherCodeToIcon(weather.weatherCode)} width={rem(6)} height={rem(6)} />
                 </Tooltip>
                 <div>
@@ -338,7 +338,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
     const { rem } = useSizeSettings();
     const { t } = useTranslation();
 
-    return (<Tooltip label={!lastUpdated ? t('loading') : t('lastUpdatedAt', {datetime: moment(lastUpdated).format('HH:mm')})} placement="top">
+    return (<Tooltip label={!lastUpdated ? t('loading') : t('lastUpdatedAt', { datetime: moment(lastUpdated).format('HH:mm') })} placement="top">
         <div className="WeatherWidget forecast">
             <div>
                 <h2>{t('weather-plugin.forecast')}</h2>
@@ -350,7 +350,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
             {!!forecast && <FloatingDelayGroup delay={500}>
                 {forecast.map(f => {
                     return (<div key={f.date.toISOString()} className="day-row">
-                        <Tooltip label={`${weatherCodeDescription(f.weatherCode)} (${t('weather-plugin.weatherCode', {code: f.weatherCode})})`}>
+                        <Tooltip label={`${weatherCodeDescription(f.weatherCode)} (${t('weather-plugin.weatherCode', { code: f.weatherCode })})`}>
                             <Icon icon={weatherCodeToIcon(f.weatherCode)} width={rem(6)} height={rem(6)} />
                         </Tooltip>
                         <div>
@@ -385,9 +385,12 @@ export const weatherWidgetDescriptorCurrent = {
     mock: () => {
         return (<MainScreenCurrent instanceId="mock" config={{ location: mockCity, temperatureUnit: 'c', speedUnit: 'km/h' }} />)
     },
-    size: {
-        width: 2,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 1,
+        }
     }
 } as const;
 
@@ -402,9 +405,12 @@ export const weatherWidgetDescriptorForecast = {
     mock: () => {
         return (<MainScreenForecast instanceId="mock" config={{ location: mockCity, temperatureUnit: 'c', speedUnit: 'km/h' }} />)
     },
-    size: {
-        width: 2,
-        height: 4,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 4,
+        }
     }
 } as const;
 

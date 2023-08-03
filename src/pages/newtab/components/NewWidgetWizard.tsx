@@ -22,7 +22,7 @@ export type NewWidgetWizardProps = {
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
     const tryAddWidget = (plugin: AnoriPlugin, widget: WidgetDescriptor<any>, config: any) => {
-        const position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.size });
+        const position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
         if (!position) {
             // TODO: replace with toast
             alert(t('cantFitInGrid'));
@@ -85,9 +85,10 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                                             return (<div key={widget.id}>
                                                                 <WidgetCard
                                                                     withAnimation={false}
+                                                                    withPadding={!widget.appearance.withoutPadding}
                                                                     style={{ margin: 0 }}
-                                                                    width={widget.size.width}
-                                                                    height={widget.size.height}
+                                                                    width={widget.appearance.size.width}
+                                                                    height={widget.appearance.size.height}
                                                                     onClick={() => {
                                                                         if (widget.configurationScreen) {
                                                                             setSelectedPlugin(plugin);
@@ -109,9 +110,10 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                                     <div key={widgetOrGroup.id}>
                                                         <WidgetCard
                                                             withAnimation={false}
+                                                            withPadding={!widgetOrGroup.appearance.withoutPadding}
                                                             style={{ margin: 0 }}
-                                                            width={widgetOrGroup.size.width}
-                                                            height={widgetOrGroup.size.height}
+                                                            width={widgetOrGroup.appearance.size.width}
+                                                            height={widgetOrGroup.appearance.size.height}
                                                             onClick={() => {
                                                                 if (widgetOrGroup.configurationScreen) {
                                                                     setSelectedPlugin(plugin);

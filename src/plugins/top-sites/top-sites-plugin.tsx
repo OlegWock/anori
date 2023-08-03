@@ -97,7 +97,7 @@ const Mock = ({ type }: { type: 'horizontal' | 'vertical' }) => {
             <div className="site-title">Jira</div>
         </a>
         <a href="#">
-        <Icon icon="logos:github-icon" height={rem(2)} width={rem(2)} />
+            <Icon icon="logos:github-icon" height={rem(2)} width={rem(2)} />
             <div className="site-title">GitHub</div>
         </a>
         <a href="#">
@@ -121,9 +121,12 @@ export const topSitesWidgetDescriptorHorizontal = {
     // @ts-expect-error favicon is not present in webextension-polyfill typings yet
     mainScreen: (props) => <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}><MainScreen type="horizontal" {...props} /></RequirePermissions>,
     mock: () => <Mock type="horizontal" />,
-    size: {
-        width: 4,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 4,
+            height: 1,
+        }
     }
 } as const;
 
@@ -137,9 +140,12 @@ export const topSitesWidgetDescriptorVertical = {
     // @ts-expect-error favicon is not present in webextension-polyfill typings yet
     mainScreen: (props) => <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}><MainScreen type="vertical" {...props} /></RequirePermissions>,
     mock: () => <Mock type="vertical" />,
-    size: {
-        width: 1,
-        height: 4,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 1,
+            height: 4,
+        }
     }
 } as const;
 

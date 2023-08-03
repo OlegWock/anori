@@ -59,7 +59,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
             if (canPlaceItemInGrid({
                 grid: gridDimensions,
                 layout: [],
-                item: widget.size,
+                item: widget.appearance.size,
                 position,
             })) {
                 addWidget({
@@ -78,7 +78,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
         const shouldAddTopSites = X_BROWSER !== 'safari' && canPlaceItemInGrid({
             grid: gridDimensions,
             layout: [],
-            item: topSitesWidgetDescriptorVertical.size,
+            item: topSitesWidgetDescriptorVertical.appearance.size,
             position: { x: 0, y: 0 },
         });
         // Top sites widget isn't available in safari

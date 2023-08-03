@@ -87,13 +87,15 @@ const cpuWidgetDescriptor = {
     get name() {
         return translate('system-status-plugin.cpuLoad');
     },
-    size: {
-        width: 1,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 1,
+            height: 1,
+        },
     },
     configurationScreen: null,
     mainScreen: CpuWidgetScreen,
-    withAnimation: false,
     mock: () => (<CpuWidgetScreen config={{}} instanceId='mock' />),
 } satisfies WidgetDescriptor<{}>;
 
@@ -102,13 +104,15 @@ const ramWidgetDescriptor = {
     get name() {
         return translate('system-status-plugin.ramLoad');
     },
-    size: {
-        width: 1,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 1,
+            height: 1,
+        },
     },
     configurationScreen: null,
     mainScreen: MemoryWidgetScreen,
-    withAnimation: false,
     mock: () => (<MemoryWidgetScreen config={{}} instanceId='mock' />),
 } satisfies WidgetDescriptor<{}>;
 

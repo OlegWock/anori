@@ -96,9 +96,12 @@ export const notesWidgetDescriptorS = {
     withAnimation: false,
     mainScreen: MainScreen,
     mock: Mock,
-    size: {
-        width: 2,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 1,
+        }
     }
 } as const;
 
@@ -111,9 +114,12 @@ export const notesWidgetDescriptorM = {
     withAnimation: false,
     mainScreen: MainScreen,
     mock: Mock,
-    size: {
-        width: 2,
-        height: 2,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 2,
+        }
     }
 } as const;
 
@@ -126,9 +132,12 @@ export const notesWidgetDescriptorL = {
     withAnimation: false,
     mainScreen: MainScreen,
     mock: Mock,
-    size: {
-        width: 3,
-        height: 2,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 3,
+            height: 2,
+        }
     }
 } as const;
 

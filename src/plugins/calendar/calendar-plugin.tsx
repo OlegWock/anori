@@ -184,9 +184,12 @@ const widgetDescriptor = {
     mock: () => {
         return (<MainScreen instanceId="mock" config={{}} />)
     },
-    size: {
-        width: 2,
-        height: 2,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 2,
+        }
     }
 } as const;
 

@@ -350,9 +350,12 @@ export const rssFeedDescriptor = {
         <RssFeed {...props} />
     </RequirePermissions>),
     mock: RssFeedMock,
-    size: {
-        width: 3,
-        height: 3,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 3,
+            height: 3,
+        }
     }
 } as const;
 
@@ -367,9 +370,12 @@ export const rssLastestPostDescriptor = {
         <RssLatestPost {...props} />
     </RequirePermissions>),
     mock: RssLatestPostMock,
-    size: {
-        width: 2,
-        height: 1,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 1,
+        }
     }
 } as const;
 

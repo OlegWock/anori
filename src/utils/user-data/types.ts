@@ -95,8 +95,16 @@ export type WidgetDescriptor<T extends {} = {}> = {
     id: ID,
     name: string,
     mock: ComponentType<{}>,
-    size: LayoutItemSize,
-    withAnimation: boolean,
+    appearance: {
+        withHoverAnimation?: boolean,
+        withoutPadding?: boolean,
+        size: LayoutItemSize,
+        // Resizable is noop for now
+        resizable: boolean | {
+            min?: LayoutItemSize,
+            max?: LayoutItemSize,
+        },
+    }
 } & ({
     configurationScreen: ComponentType<WidgetConfigurationScreenProps<T>>,
     mainScreen: ComponentType<WidgetRenderProps<T>>,

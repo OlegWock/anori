@@ -112,7 +112,7 @@ export const useFolderWidgets = (folder: Folder) => {
             widgetId: widget.id,
             instanceId,
             configutation: config,
-            ...widget.size,
+            ...widget.appearance.size,
             ...position,
         };
 

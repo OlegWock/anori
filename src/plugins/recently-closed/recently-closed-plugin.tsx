@@ -133,13 +133,15 @@ const widgetDescriptor = {
     get name() {
         return translate('recently-closed-plugin.widgetSizeMName');
     },
-    size: {
-        width: 3,
-        height: 3,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 3,
+            height: 3,
+        },
     },
     configurationScreen: null,
     mainScreen: (props) => (<RequirePermissions permissions={['sessions', 'tabs']}><WidgetScreen {...props} /></RequirePermissions>),
-    withAnimation: false,
     mock: () => (<WidgetScreen config={{}} instanceId='mock' />),
 } satisfies WidgetDescriptor<{}>;
 
@@ -148,13 +150,15 @@ const widgetDescriptorS = {
     get name() {
         return translate('recently-closed-plugin.widgetSizeSName');
     },
-    size: {
-        width: 2,
-        height: 2,
+    appearance: {
+        resizable: false,
+        size: {
+            width: 2,
+            height: 2,
+        },
     },
     configurationScreen: null,
     mainScreen: (props) => (<RequirePermissions permissions={['sessions', 'tabs']}><WidgetScreen {...props} /></RequirePermissions>),
-    withAnimation: false,
     mock: () => (<WidgetScreen config={{}} instanceId='mock' />),
 } satisfies WidgetDescriptor<{}>;
 
