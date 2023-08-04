@@ -1,4 +1,4 @@
-import { Component, ComponentProps } from 'react';
+import { Component, ComponentProps, createContext, createRef, useContext, useRef } from 'react';
 import './WidgetCard.scss';
 import { PanInfo, m } from 'framer-motion';
 import clsx from 'clsx';
@@ -36,6 +36,10 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
     }
 }
 
+const WidgetCardContext = createContext({
+    cardRef: createRef<HTMLDivElement>(),
+});
+
 type WidgetCardProps = {
     width: number,
     height: number,
@@ -59,6 +63,7 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
         whileDrag: { zIndex: 9, boxShadow: '0px 4px 4px 3px rgba(0,0,0,0.4)' }
     });
     const { gapSize, rem } = useSizeSettings();
+    const ref = useRef<HTMLDivElement>(null);
 
     const dragProps = drag ? {
         drag,
@@ -67,37 +72,43 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
         ...elementProps,
     } : {};
 
-    return (<m.div
-        className={clsx(className, 'WidgetCard')}
-        transition={{ ease: 'easeInOut', duration: 0.15 }}
-        exit={isEditing ? { scale: 0 } : undefined}
-        whileHover={withAnimation ? {
-            scale: isEditing ? undefined : 1.05,
-        } : undefined}
-        whileTap={withAnimation ? { scale: 0.95 } : undefined}
-        style={{
-            width: width * boxSize - gapSize * 2,
-            height: height * boxSize - gapSize * 2,
-            margin: gapSize,
-            padding: withPadding ? '1rem' : '0',
-            ...style,
-        }}
-        {...dragProps}
-        {...props}
-    >
-        {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove} withoutBorder>
-            <Icon icon='ion:close' width={rem(1.25)} height={rem(1.25)} />
-        </Button>}
-        {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit} withoutBorder>
-            <Icon icon='ion:pencil' width={rem(1.25)} height={rem(1.25)} />
-        </Button>}
-        {(isEditing && !!onDragEnd) && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder {...dragHandleProps}>
-            <Icon icon='ic:baseline-drag-indicator' width={rem(1.25)} height={rem(1.25)} />
-        </Button>}
-        <ErrorBoundary>
-            <div className='overflow-protection'>
-                {children}
-            </div>
-        </ErrorBoundary>
-    </m.div>)
+    return (<WidgetCardContext.Provider value={{ cardRef: ref }}>
+        <m.div
+            ref={ref}
+            className={clsx(className, 'WidgetCard', withPadding && 'with-padding')}
+            transition={{ ease: 'easeInOut', duration: 0.15 }}
+            exit={isEditing ? { scale: 0 } : undefined}
+            whileHover={withAnimation ? {
+                scale: isEditing ? undefined : 1.05,
+            } : undefined}
+            whileTap={withAnimation ? { scale: 0.95 } : undefined}
+            style={{
+                width: width * boxSize - gapSize * 2,
+                height: height * boxSize - gapSize * 2,
+                margin: gapSize,
+                ...style,
+            }}
+            {...dragProps}
+            {...props}
+        >
+            {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove} withoutBorder>
+                <Icon icon='ion:close' width={rem(1.25)} height={rem(1.25)} />
+            </Button>}
+            {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit} withoutBorder>
+                <Icon icon='ion:pencil' width={rem(1.25)} height={rem(1.25)} />
+            </Button>}
+            {(isEditing && !!onDragEnd) && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder {...dragHandleProps}>
+                <Icon icon='ic:baseline-drag-indicator' width={rem(1.25)} height={rem(1.25)} />
+            </Button>}
+            <ErrorBoundary>
+                <div className='overflow-protection'>
+                    {children}
+                </div>
+            </ErrorBoundary>
+        </m.div>
+    </WidgetCardContext.Provider>);
+};
+
+export const useParentWidgetCardRef = () => {
+    return useContext(WidgetCardContext).cardRef;
 };

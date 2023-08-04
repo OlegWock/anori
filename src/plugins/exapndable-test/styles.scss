@@ -1,0 +1,18 @@
+.ExpandableTestWidget {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-grow: 1;
+    align-self: stretch;
+    // background: var(--accent);
+    cursor: pointer;
+}
+
+.exapnd {
+    min-width: 70vw !important;
+    min-height: 70vh !important;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}

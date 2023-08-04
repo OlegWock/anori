@@ -1,0 +1,37 @@
+.WidgetExpandArea-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    z-index: 99;
+}
+
+.WidgetExpandArea {
+    width: min-content;
+    max-width: 85vw;
+    max-height: 85vh;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    background: var(--background-lighter);
+    // background: green;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+
+    &-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: min(80vw, 500px);
+        min-height: min(80vh, 300px);
+    }
+}

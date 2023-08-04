@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
+import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
 import './styles.scss';
 import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { translate } from "@translations/index";
@@ -47,7 +47,6 @@ const widgetDescriptor = {
         return translate('blueprint-plugin.widgetName');
     },
     configurationScreen: WidgetConfigScreen,
-    withAnimation: false,
     mainScreen: MainScreen,
     mock: () => {
         return (<MainScreen instanceId="mock" config={{}} />)
@@ -59,7 +58,7 @@ const widgetDescriptor = {
         },
         resizable: false,
     }
-} as const;
+} as const satisfies WidgetDescriptor<any>;
 
 export const pluginnamePlugin = {
     id: 'pluginname-plugin',

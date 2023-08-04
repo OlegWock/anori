@@ -7,6 +7,15 @@
     flex-direction: column;
     color: var(--text);
     position: relative;
+    padding: 0;
+
+    &.with-padding {
+        padding: 1rem;
+
+        .overflow-protection {
+            border-radius: 0;
+        }
+    }
 
     .interaction-blocker {
         position: absolute;
@@ -73,5 +82,7 @@
         flex-direction: column;
         flex-grow: 1;
         text-overflow: ellipsis;
+        border-radius: inherit;
+        position: relative;
     }
 }
