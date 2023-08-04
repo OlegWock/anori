@@ -84,6 +84,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                                         {widgetOrGroup.map(widget => {
                                                             return (<div key={widget.id}>
                                                                 <WidgetCard
+                                                                    resizable={false}
                                                                     withAnimation={false}
                                                                     withPadding={!widget.appearance.withoutPadding}
                                                                     style={{ margin: 0 }}
@@ -109,6 +110,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                                 return (
                                                     <div key={widgetOrGroup.id}>
                                                         <WidgetCard
+                                                            resizable={false}
                                                             withAnimation={false}
                                                             withPadding={!widgetOrGroup.appearance.withoutPadding}
                                                             style={{ margin: 0 }}

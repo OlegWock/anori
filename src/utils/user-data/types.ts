@@ -91,6 +91,11 @@ export type WidgetRenderProps<T extends {}> = {
     instanceId: string,
 };
 
+export type WidgetResizable = boolean | {
+    min?: LayoutItemSize,
+    max?: LayoutItemSize,
+};
+
 export type WidgetDescriptor<T extends {} = {}> = {
     id: ID,
     name: string,
@@ -99,11 +104,7 @@ export type WidgetDescriptor<T extends {} = {}> = {
         withHoverAnimation?: boolean,
         withoutPadding?: boolean,
         size: LayoutItemSize,
-        // Resizable is noop for now
-        resizable: boolean | {
-            min?: LayoutItemSize,
-            max?: LayoutItemSize,
-        },
+        resizable: WidgetResizable,
     }
 } & ({
     configurationScreen: ComponentType<WidgetConfigurationScreenProps<T>>,

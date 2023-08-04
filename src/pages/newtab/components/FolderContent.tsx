@@ -1,4 +1,4 @@
-import { AnimatePresence, PanInfo, m } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import './FolderContent.scss';
 import { Folder, WidgetInFolderWithMeta } from '@utils/user-data/types';
 import { Icon } from '@components/Icon';
@@ -6,20 +6,17 @@ import { CSSProperties, useEffect, useState } from 'react';
 import { Button } from '@components/Button';
 import { NewWidgetWizard } from './NewWidgetWizard';
 import { tryMoveWidgetToFolder, useFolderWidgets } from '@utils/user-data/hooks';
-import { WidgetCard } from '@components/WidgetCard';
 import { FolderContentContext } from '@utils/FolderContentContext';
 import { useRef } from 'react';
-import { fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, useGrid, willItemOverlay } from '@utils/grid';
+import { fixHorizontalOverflows, useGrid } from '@utils/grid';
 import { useHotkeys, useWindowIsResizing } from '@utils/hooks';
 import { Modal } from '@components/Modal';
-import { WidgetMetadataContext } from '@utils/plugin';
 import { useSizeSettings } from '@utils/compact';
 import { useBrowserStorageValue } from '@utils/storage';
 import { useTranslation } from 'react-i18next';
 import { ScrollArea } from '@components/ScrollArea';
-import { Onboarding } from '@components/Onboarding';
 import clsx from 'clsx';
-import { DndItemMeta } from '@utils/drag-and-drop';
+import { LayoutChange, WidgetsGrid } from './WidgetsGrid';
 
 
 type FolderContentProps = {
@@ -102,47 +99,31 @@ const actionButtonAnimations = {
 
 
 export const FolderContent = ({ folder, animationDirection }: FolderContentProps) => {
-    const onWidgetDragEnd = async (widget: WidgetInFolderWithMeta<any, any, any>, dest: DndItemMeta | null, event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-        if (dest && dest.type === 'folder' && dest.id !== folder.id) {
-            const result = await tryMoveWidgetToFolder(folder.id, dest.id, widget.instanceId, gridDimensions);
-            if (!result) {
-                // TODO: replace with alert
-                alert(t('cantFitInGrid'));
+    const onLayoutUpdate = (changes: LayoutChange[]) => {
+        changes.forEach(async (ch) => {
+            if (ch.type === 'remove') {
+                removeWidget(ch.instanceId);
+            } else if (ch.type === 'change-position') {
+                moveWidget(ch.instanceId, ch.newPosition);
+            } else if (ch.type === 'move-to-folder') {
+                const result = await tryMoveWidgetToFolder(folder.id, ch.folderId, ch.instanceId, gridDimensions);
+                if (!result) {
+                    // TODO: replace with alert
+                    alert(t('cantFitInGrid'));
+                }
+            } else if (ch.type === 'resize') {
+                resizeWidget(ch.instanceId, { width: ch.width, height: ch.height });
             }
-            return;
-        }
-
-        if (!mainRef.current) return;
-        console.log('tryRepositionWidget', { widget, event, info });
-        const mainBox = mainRef.current.getBoundingClientRect();
-        const relativePoint = {
-            x: info.point.x - mainBox.x,
-            y: info.point.y - mainBox.y,
-        };
-        const possibleSnapPoints = snapToSector({ grid: gridDimensions, position: relativePoint });
-        console.log('Possible snap points:', possibleSnapPoints);
-        const snapPoint = possibleSnapPoints.find(p => !willItemOverlay({
-            arr: layoutTo2DArray({
-                grid: gridDimensions,
-                layout: widgets.filter(w => w.instanceId !== widget.instanceId),
-            }),
-            item: {
-                ...widget,
-                ...p.position,
-            }
-        }));
-        console.log('Span point selected', snapPoint);
-        if (!snapPoint) return;
-        moveWidget(widget, snapPoint.position);
+        })
     };
 
-    const { widgets, removeWidget, moveWidget, updateWidgetConfig, folderDataLoaded } = useFolderWidgets(folder);
+    const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig, folderDataLoaded } = useFolderWidgets(folder);
     const [isEditing, setIsEditing] = useState(false);
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
     const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
 
-    const { blockSize, minBlockSize, gapSize, isCompact } = useSizeSettings();
+    const { blockSize, minBlockSize, gapSize } = useSizeSettings();
     const { t } = useTranslation();
     const mainRef = useRef<HTMLDivElement>(null);
     const gridDimensions = useGrid(mainRef, blockSize, minBlockSize);
@@ -232,66 +213,16 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         </div>
 
                     </header>
-                    <m.main layout layoutRoot ref={mainRef}>
-                        <AnimatePresence>
-                            {isEditing && new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {
-                                const x = i % gridDimensions.columns;
-                                const y = Math.floor(i / gridDimensions.columns);
-                                const position = positionToPixelPosition({ grid: gridDimensions, positon: { x, y } });
-                                return (<m.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.18 }}
-                                    key={`${x}_${y}`}
-                                    style={{
-                                        position: 'absolute',
-                                        top: position.y,
-                                        left: position.x,
-                                        margin: gapSize,
-                                        width: gridDimensions.boxSize - gapSize * 2,
-                                        height: gridDimensions.boxSize - gapSize * 2,
-                                        background: 'rgba(255, 255, 255, 0.15)',
-                                        borderRadius: 12,
-                                        userSelect: 'none',
-                                        WebkitUserSelect: 'none',
-                                    }}
-                                />);
-                            })}
-                        </AnimatePresence>
-                        <AnimatePresence initial={false}>
-                            {adjustedLayout.map((w, i) => {
-                                const position = positionToPixelPosition({ grid: gridDimensions, positon: w });
-                                return (<WidgetMetadataContext.Provider key={w.instanceId} value={{
-                                    pluginId: w.pluginId,
-                                    instanceId: w.instanceId,
-                                    config: w.configutation,
-                                    updateConfig: (config) => updateWidgetConfig(w.instanceId, config),
-                                }}>
-                                    <WidgetCard
-                                        drag
-                                        onDragEnd={(dest, e, info) => onWidgetDragEnd(w, dest, e, info)}
-                                        withAnimation={!!w.widget.appearance.withHoverAnimation}
-                                        withPadding={!w.widget.appearance.withoutPadding}
-                                        key={w.instanceId}
-                                        instanceId={w.instanceId}
-                                        onRemove={() => removeWidget(w)}
-                                        onEdit={w.widget.configurationScreen ? () => setEditingWidget(w) : undefined}
-                                        width={w.width}
-                                        height={w.height}
-                                        style={{
-                                            position: 'absolute',
-                                            top: position.y,
-                                            left: position.x,
-                                        }}
-                                    >
-                                        <w.widget.mainScreen instanceId={w.instanceId} config={w.configutation} />
-                                    </WidgetCard>
-                                </WidgetMetadataContext.Provider>);
-                            })}
-                        </AnimatePresence>
-                        {shouldShowOnboarding && <Onboarding gridDimensions={gridDimensions} />}
-                    </m.main>
+                    <WidgetsGrid
+                        ref={mainRef}
+                        isEditing={isEditing}
+                        gapSize={gapSize}
+                        layout={adjustedLayout}
+                        gridDimensions={gridDimensions}
+                        onEditWidget={setEditingWidget}
+                        onUpdateWidgetConfig={updateWidgetConfig}
+                        onLayoutUpdate={onLayoutUpdate}
+                    />
 
                 </m.div>
 

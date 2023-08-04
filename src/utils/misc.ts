@@ -30,3 +30,7 @@ export const asyncIterableToArray = async <T>(iter: AsyncIterable<T>): Promise<T
 };
 
 export const choose = <T>(items: T[]) => items[Math.floor(Math.random()*items.length)];
+
+export const minmax = (num: number, min: number, max: number) => {
+    return Math.min(Math.max(num, min), max);
+}

@@ -26,7 +26,7 @@
     }
 
     
-    .remove-widget-btn, .drag-widget-btn, .edit-widget-btn {
+    .remove-widget-btn, .drag-widget-btn, .edit-widget-btn, .resize-handle {
         position: absolute;
         padding: 6px;
         border-radius: 18px;
@@ -51,8 +51,15 @@
     .drag-widget-btn {
         top: -14px;
         left: -14px;
-
+        cursor: grab;
         touch-action: none;
+    }
+
+    .resize-handle {
+        bottom: -14px;
+        right: -14px;
+        touch-action: none;
+        cursor: grab;
     }
 
     @include utils.compact {
@@ -69,6 +76,11 @@
         .drag-widget-btn {
             top: -8px;
             left: -4px;
+        }
+
+        .resize-handle {
+            bottom: -8px;
+            right: -4px;
         }
     }
 

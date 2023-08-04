@@ -10,7 +10,7 @@ import { tasksPlugin } from "./tasks/tasks-plugin";
 import { topSitesPlugin } from "./top-sites/top-sites-plugin";
 import { weatherPlugin } from "./weather/weather-plugin";
 import { rssPlugin } from "./rss/rss-plugin";
-import { expandableTestPlugin } from "./exapndable-test/expandable-test-plugin";
+import { testPlugin } from "./test/test-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
@@ -47,7 +47,7 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
 });
 
 if (X_MODE === 'development') {
-    availablePlugins.unshift(expandableTestPlugin);
+    availablePlugins.unshift(testPlugin);
 }
 
 export const availablePluginsWithWidgets = availablePlugins.filter(p => p.widgets.length > 0);

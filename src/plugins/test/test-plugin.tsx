@@ -1,7 +1,6 @@
 import { Button } from "@components/Button";
 import { AnoriPlugin, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
 import './styles.scss';
-import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
@@ -38,10 +37,19 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
     </div>);
 };
 
+const MainScreen2 = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
+    const { t } = useTranslation();
+    const { rem } = useSizeSettings();
+
+    return (<div className="ExpandableTestWidget">
+        <Icon icon='logos:visual-studio-code' height={rem(4)} width={rem(4)} />
+    </div>);
+};
+
 const widgetDescriptor = {
     id: 'widget',
     get name() {
-        return translate('blueprint-plugin.widgetName');
+        return 'Expandable widget';
     },
     configurationScreen: null,
     mainScreen: MainScreen,
@@ -59,13 +67,44 @@ const widgetDescriptor = {
     }
 } as const satisfies WidgetDescriptor<any>;
 
-export const expandableTestPlugin = {
-    id: 'expandable-plugin',
+const widgetDescriptor2 = {
+    id: 'widget-2',
     get name() {
-        return translate('blueprint-plugin.name');
+        return 'Resizable widget';
+    },
+    configurationScreen: null,
+    mainScreen: MainScreen2,
+    mock: () => {
+        return (<MainScreen2 instanceId="mock" config={{}} />)
+    },
+    appearance: {
+        size: {
+            width: 1,
+            height: 1,
+        },
+        resizable: {
+            min: {
+                width: 1,
+                height: 1,
+            },
+            max: {
+                width: 2,
+                height: 4,
+            }
+        },
+        withHoverAnimation: true,
+        withoutPadding: true,
+    }
+} as const satisfies WidgetDescriptor<any>;
+
+export const testPlugin = {
+    id: 'test-plugin',
+    get name() {
+        return 'Test plugin';
     },
     widgets: [
         widgetDescriptor,
+        widgetDescriptor2
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

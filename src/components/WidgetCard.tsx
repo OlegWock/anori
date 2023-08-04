@@ -1,6 +1,6 @@
-import { Component, ComponentProps, createContext, createRef, useContext, useRef } from 'react';
+import { Component, ComponentProps, createContext, createRef, useContext, useLayoutEffect, useRef } from 'react';
 import './WidgetCard.scss';
-import { PanInfo, m } from 'framer-motion';
+import { PanInfo, m, useMotionValue, useTransform } from 'framer-motion';
 import clsx from 'clsx';
 import { useParentFolder } from '@utils/FolderContentContext';
 import { Button } from './Button';
@@ -8,6 +8,7 @@ import { Icon } from './Icon';
 import { ReactNode } from 'react';
 import { useSizeSettings } from '@utils/compact';
 import { DndItemMeta, useDraggable } from '@utils/drag-and-drop';
+import { minmax } from '@utils/misc';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
     constructor(props: { children: ReactNode }) {
@@ -45,15 +46,46 @@ type WidgetCardProps = {
     height: number,
     withAnimation: boolean,
     withPadding: boolean,
+    resizable?: false | {
+        min: { width: number, height: number },
+        max: { width: number, height: number },
+    },
     drag?: boolean,
     instanceId?: string,
     onRemove?: () => void,
     onEdit?: () => void,
+    onResize?: (newWidth: number, newHeight: number) => boolean | undefined,
     children?: ReactNode,
     onDragEnd?: (foundDestination: DndItemMeta | null, e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => void,
-} & Omit<ComponentProps<typeof m.div>, 'children' | 'onDragEnd'>;
+} & Omit<ComponentProps<typeof m.div>, 'children' | 'onDragEnd' | 'onResize'>;
 
-export const WidgetCard = ({ className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, drag, instanceId, withPadding, ...props }: WidgetCardProps) => {
+export const WidgetCard = ({
+    className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, drag, instanceId,
+    withPadding, resizable = false, onResize, ...props
+}: WidgetCardProps) => {
+    const updateResize = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        if (!resizable) return;
+        const newWidth = minmax((width * boxSize - gapSize * 2) + info.offset.x, resizable.min.width, resizable.max.width);
+        const newHeight = minmax((height * boxSize - gapSize * 2) + info.offset.y, resizable.min.height, resizable.max.height);
+        resizeWidth.set(newWidth);
+        resizeHeight.set(newHeight);
+    };
+
+    const finishResize = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        isResizing.set(false);
+        let shouldReset = true;
+        if (onResize) {
+            shouldReset = !onResize(
+                resizeWidth.get(),
+                resizeHeight.get()
+            );
+        }
+        if (shouldReset) {
+            resizeWidth.set(width * boxSize - gapSize * 2);
+            resizeHeight.set(height * boxSize - gapSize * 2);
+        }
+    };
+
     const { isEditing, boxSize } = useParentFolder();
     const { dragControls, elementProps, dragHandleProps } = useDraggable({
         type: 'widget',
@@ -72,6 +104,19 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
         ...elementProps,
     } : {};
 
+    const resizeWidth = useMotionValue(width * boxSize - gapSize * 2);
+    const resizeHeight = useMotionValue(height * boxSize - gapSize * 2);
+    const isResizing = useMotionValue(false);
+
+    const boxShadowMotion = useTransform(isResizing, (r) => r ? '0px 4px 4px 3px rgba(0,0,0,0.4)' : '');
+    const zIndexMotion = useTransform(isResizing, (r) => r ? 9 : 0);
+
+    useLayoutEffect(() => {
+        resizeWidth.set(width * boxSize - gapSize * 2);
+        resizeHeight.set(height * boxSize - gapSize * 2);
+        isResizing.set(false);
+    }, [width, height]);
+
     return (<WidgetCardContext.Provider value={{ cardRef: ref }}>
         <m.div
             ref={ref}
@@ -81,11 +126,15 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
             whileHover={withAnimation ? {
                 scale: isEditing ? undefined : 1.05,
             } : undefined}
-            whileTap={withAnimation ? { scale: 0.95 } : undefined}
+            whileTap={withAnimation ? {
+                scale: isEditing ? undefined : 0.95
+            } : undefined}
             style={{
-                width: width * boxSize - gapSize * 2,
-                height: height * boxSize - gapSize * 2,
+                width: resizeWidth,
+                height: resizeHeight,
                 margin: gapSize,
+                boxShadow: boxShadowMotion,
+                zIndex: zIndexMotion,
                 ...style,
             }}
             {...dragProps}
@@ -100,6 +149,14 @@ export const WidgetCard = ({ className, children, onRemove, onEdit, style, width
             {(isEditing && !!onDragEnd) && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder {...dragHandleProps}>
                 <Icon icon='ic:baseline-drag-indicator' width={rem(1.25)} height={rem(1.25)} />
             </Button>}
+            {(isEditing && !!resizable) && <m.div
+                className='resize-handle'
+                onPanStart={() => isResizing.set(true)}
+                onPan={updateResize}
+                onPanEnd={finishResize}
+            >
+                <Icon icon='ion:resize' width={rem(1.25)} height={rem(1.25)} style={{ rotate: 90 }} />
+            </m.div>}
             <ErrorBoundary>
                 <div className='overflow-protection'>
                     {children}

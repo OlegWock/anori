@@ -4,7 +4,7 @@ import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, Widg
 import { guid } from "@utils/misc";
 import { useMemo } from "react";
 import { availablePluginsWithWidgets } from "@plugins/all";
-import { GridDimensions, Position, findPositionForItemInGrid, fixHorizontalOverflows } from "@utils/grid";
+import { GridDimensions, LayoutItemSize, Position, findPositionForItemInGrid, fixHorizontalOverflows } from "@utils/grid";
 import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
 import { useTranslation } from "react-i18next";
@@ -158,6 +158,25 @@ export const useFolderWidgets = (folder: Folder) => {
         });
     };
 
+    const resizeWidget = (widgetOrId: WidgetInFolder<any> | ID, size: LayoutItemSize) => {
+        const id = typeof widgetOrId === 'string' ? widgetOrId : widgetOrId.instanceId;
+        setDetails(p => {
+            return {
+                ...p,
+                widgets: p.widgets.map(w => {
+                    if (w.instanceId === id) {
+                        return {
+                            ...w,
+                            width: size.width,
+                            height: size.height,
+                        }
+                    }
+                    return w;
+                }),
+            };
+        });
+    };
+
     const updateWidgetConfig = <T extends {}>(widgetOrId: WidgetInFolder<T> | ID, newConfig: T) => {
         const id = typeof widgetOrId === 'string' ? widgetOrId : widgetOrId.instanceId;
         setDetails(p => {
@@ -202,6 +221,7 @@ export const useFolderWidgets = (folder: Folder) => {
         addWidget,
         removeWidget,
         moveWidget,
+        resizeWidget,
         updateWidgetConfig,
         folderDataLoaded: meta.status !== 'notLoaded',
     };
