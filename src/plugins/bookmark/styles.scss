@@ -92,57 +92,6 @@
     }
 }
 
-.PickBookmark {
-    max-height: max(40vh, 600px);
-    display: flex;
-    flex-direction: column;
-    width: 600px;
-
-    .Input {
-        margin-bottom: 0.5rem;
-    }
-
-    .bookmark {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.4rem;
-        cursor: pointer;
-        transition: 0.15s ease-in-out;
-        border-radius: 8px;
-
-        @include utils.hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        svg {
-            min-width: 18px;
-            max-width: 18px;
-        }
-
-        .fav-icon {
-            width: 18px;
-            border-radius: 9px;
-        }
-
-        .title {
-            flex-grow: 1;
-            flex-shrink: 1;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            font-size: 0.85rem;
-        }
-    }
-
-    .no-results {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 4rem;
-    }
-}
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);

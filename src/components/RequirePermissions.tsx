@@ -16,12 +16,12 @@ export type RequirePermissionsProps = {
     children?: ReactNode,
     compact?: boolean,
     onGrant?: () => void,
-
+    className?: string,
     isMock?: boolean,
 };
 
 
-export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, isMock, onGrant }: RequirePermissionsProps) => {
+export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, isMock, onGrant, className }: RequirePermissionsProps) => {
     const grantPermissions = async () => {
         const granted = await browser.permissions.request({
             // @ts-ignore I know what I'm doing
@@ -49,7 +49,7 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
     } else {
         return (
             <>
-                <div className={clsx("RequirePermissions", compact && "compact")} onClick={() => compact ? setModalVisible(true) : null}>
+                <div className={clsx("RequirePermissions", compact && "compact", className)} onClick={() => compact ? setModalVisible(true) : null}>
                     <h3>{t('requirePermissions.eh')}</h3>
                     {compact && <div className="text">{t('requirePermissions.compactText')}</div>}
                     {!compact && <>

@@ -1,20 +1,18 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps } from "@utils/user-data/types";
-import { MouseEventHandler, useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useRef, useState } from "react";
 import './styles.scss';
-import { Popover, PopoverRenderProps } from "@components/Popover";
+import { Popover } from "@components/Popover";
 import { IconPicker } from "@components/IconPicker";
-import { Favicon, Icon } from "@components/Icon";
+import { Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
 import { createOnMessageHandlers, getAllWidgetsByPlugin } from "@utils/plugin";
-import { guid, parseHost } from "@utils/misc";
+import { guid, normalizeUrl, parseHost } from "@utils/misc";
 import { useLinkNavigationState } from "@utils/hooks";
 import { useSizeSettings } from "@utils/compact";
-import { RequirePermissions } from "@components/RequirePermissions";
 import browser from 'webextension-polyfill';
-import { ScrollArea } from "@components/ScrollArea";
 import { AnimatePresence, m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
@@ -24,6 +22,7 @@ import { isChromeLike } from "@utils/browser";
 import { isMacLike } from "@utils/shortcuts";
 import { IS_TOUCH_DEVICE } from "@utils/device";
 import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
+import { PickBookmark } from "@components/PickBookmark";
 
 type BookmarkWidgetConfigType = {
     url: string,
@@ -38,17 +37,6 @@ type BookmarkGroupWidgetConfigType = {
     urls: string[],
 };
 
-type PickBookmarkProps = {
-    onSelected: (title: string, url: string) => void,
-};
-
-type BrowserBookmark = {
-    id: string,
-    title: string,
-    url: string,
-    dateAdded: number,
-};
-
 type BookmarksMessageHandlers = {
     'openGroup': {
         args: {
@@ -59,81 +47,6 @@ type BookmarksMessageHandlers = {
         },
         result: void,
     },
-};
-
-const normalizeUrl = (url: string) => {
-    if (!url.includes('://')) {
-        return 'https://' + url;
-    }
-
-    return url;
-};
-
-const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickBookmarkProps>) => {
-    const [bookmarks, setBookmarks] = useState<BrowserBookmark[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const { t } = useTranslation();
-
-    useEffect(() => {
-        const walkNode = (node: browser.Bookmarks.BookmarkTreeNode): BrowserBookmark[] => {
-            if (node.children) {
-                const res = node.children.map(n => walkNode(n));
-                return res.flat();
-            } else {
-                return [{
-                    id: node.id,
-                    title: node.title,
-                    url: node.url!,
-                    dateAdded: node.dateAdded || 0,
-                }];
-            }
-        };
-
-        const main = async () => {
-            const nodes = await browser.bookmarks.getTree();
-            const bookmarks = nodes.flatMap(n => walkNode(n));
-            setBookmarks(bookmarks);
-        }
-
-        main();
-    }, []);
-
-    const { rem } = useSizeSettings();
-
-    const filteredBookmarks = bookmarks.filter(({ title, url }) => {
-        const q = searchQuery.toLowerCase();
-        return title.toLowerCase().includes(q) || url.toLowerCase().includes(q);
-    });
-
-    return (<div className="PickBookmark">
-        <Input value={searchQuery} onValueChange={setSearchQuery} placeholder={t('bookmark-plugin.searchBookmarks')} />
-        <ScrollArea>
-            {filteredBookmarks.map(bk => {
-                return (<m.div
-                    key={bk.id}
-                    className='bookmark'
-                    onClick={() => {
-                        onSelected(bk.title, bk.url)
-                        close();
-                    }}
-                >
-                    <Favicon url={bk.url} height={rem(1)} />
-                    <div className="title">
-                        {bk.title || bk.url}
-                    </div>
-                </m.div>);
-            })}
-            {filteredBookmarks.length === 0 && <div className="no-results">
-                {t('noResults')}
-            </div>}
-        </ScrollArea>
-    </div>);
-};
-
-const PickBookmark = (props: PopoverRenderProps<PickBookmarkProps>) => {
-    return (<RequirePermissions permissions={["bookmarks", "favicon"]} >
-        <_PickBookmark {...props} />
-    </RequirePermissions >);
 };
 
 const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkGroupWidgetConfigType>) => {

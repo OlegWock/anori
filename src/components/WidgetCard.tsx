@@ -112,7 +112,7 @@ export const WidgetCard = ({
     const resizeHeight = useMotionValue(height * boxSize - gapSize * 2);
     const isResizing = useMotionValue(false);
 
-    const boxShadowMotion = useTransform(isResizing, (r) => r ? '0px 4px 4px 3px rgba(0,0,0,0.4)' : '');
+    const boxShadowMotion = useTransform(isResizing, (r) => r ? '0px 4px 4px 3px rgba(0,0,0,0.4)' : '0px 0px 0px 0px rgba(0,0,0,0.0)');
     const zIndexMotion = useTransform(isResizing, (r) => r ? 9 : 0);
 
     useLayoutEffect(() => {

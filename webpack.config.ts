@@ -79,6 +79,7 @@ const generateManifest = (
             'topSites',
             'bookmarks',
             'tabGroups',
+            'declarativeNetRequestWithHostAccess',
         ],
         optional_host_permissions: [
             "*://*/*"

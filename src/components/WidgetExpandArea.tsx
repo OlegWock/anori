@@ -9,6 +9,7 @@ import { Icon } from "./Icon";
 
 export type WidgetExpandAreaProps = {
     children: ReactNode,
+    size?: 'auto' | 'max',
     className?: string,
     closable?: boolean,
     onClose?: () => void,
@@ -22,20 +23,7 @@ const transition: Transition = {
     ease: 'easeInOut',
 };
 
-export const WidgetExpandArea = ({ children, onClose, className, closable = true }: WidgetExpandAreaProps) => {
-    const getDuration = (xScale: number, yScale: number) => {
-        console.log('xScale', xScale, 'yScale', yScale);
-        const num = (xScale + yScale) / 2;
-        if (num <= 0.1) {
-            return 0.3;
-        } else if (num >= 0.5) {
-            return 0.1;
-        } else {
-            const m = (0.1 - 0.3) / (0.5 - 0.1);
-            const c = 0.3 - m * 0.1;
-            return m * num + c;
-        }
-    }
+export const WidgetExpandArea = ({ children, onClose, className, closable = true, size = 'auto' }: WidgetExpandAreaProps) => {
     const playUnmount = () => {
         if (!areaRef.current) {
             console.warn('WidgetExpandArea ref is missing on unmount');
@@ -51,7 +39,7 @@ export const WidgetExpandArea = ({ children, onClose, className, closable = true
         const realAreaBox = areaRef.current.getBoundingClientRect();
         const xScale = cardBox.width / realAreaBox.width;
         const yScale = cardBox.height / realAreaBox.height;
-        const duration = getDuration(xScale, yScale);
+        const duration = 0.15;
         console.log('Duration', duration);
         const topEdgeScale = cardBox.top - realAreaBox.top;
         const bottomEdgeScale = (realAreaBox.top + realAreaBox.height) - cardBox.bottom;
@@ -138,7 +126,7 @@ export const WidgetExpandArea = ({ children, onClose, className, closable = true
 
         const xScale = cardBox.width / realAreaBox.width;
         const yScale = cardBox.height / realAreaBox.height;
-        const duration = getDuration(xScale, yScale);
+        const duration = 0.2;
         scaleX.jump(xScale);
         scaleY.jump(yScale);
 
@@ -179,7 +167,7 @@ export const WidgetExpandArea = ({ children, onClose, className, closable = true
             }}
         >
             <m.div
-                className="WidgetExpandArea"
+                className={clsx("WidgetExpandArea", `size-${size}`)}
                 ref={areaRef}
                 style={{
                     transformOrigin: transformOriginStr,

@@ -1,0 +1,76 @@
+.IframeWidget {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-decoration: none;
+    flex-grow: 1;
+
+
+    iframe {
+        flex-grow: 1;
+        align-self: stretch;
+        border-radius: 6px;
+    }
+}
+
+.ExpandableIframeWidget {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    cursor: pointer;
+    line-height: inherit;
+
+    .text {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex: 1;
+    }
+
+    .host {
+        font-size: 0.75rem;
+        color: var(--text-subtle-2);
+    }
+}
+
+.IframeWidget-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    min-width: 500px;
+
+    .icon-picker-trigger {
+        align-self: center;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .url-import-wrapper {
+        display: flex;
+        gap: 0.5rem;
+
+        .Input {
+            flex-grow: 1;
+        }
+    }
+
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+}
+
+.ExpandableIframeWidget-expand-area {
+
+    iframe {
+        flex-grow: 1;
+        align-self: stretch;
+        border-radius: 12px;
+    }
+}

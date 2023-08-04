@@ -11,8 +11,10 @@ import { topSitesPlugin } from "./top-sites/top-sites-plugin";
 import { weatherPlugin } from "./weather/weather-plugin";
 import { rssPlugin } from "./rss/rss-plugin";
 import { testPlugin } from "./test/test-plugin";
+import { iframePlugin } from "./iframe/iframe-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
+    iframePlugin, // Blocked by https://bugzilla.mozilla.org/show_bug.cgi?id=1827855
     systemStatusPlugin,
 ];
 
@@ -20,10 +22,12 @@ const unavailableInSafari: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
     recentlyClosedPlugin,
     topSitesPlugin,
+    iframePlugin,
 ];
 
 export const availablePlugins: AnoriPlugin<any, any>[] = [
     bookmarkPlugin,
+    iframePlugin,
     datetimePlugin,
     rssPlugin,
     notesPlugin,

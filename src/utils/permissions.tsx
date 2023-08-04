@@ -1,7 +1,7 @@
 import { atom, getDefaultStore, useAtomValue } from "jotai";
 import browser, { Manifest } from 'webextension-polyfill';
 
-export type CorrectPermission = Manifest.OptionalPermission | 'tabGroups' | 'favicon';
+export type CorrectPermission = Manifest.OptionalPermission | 'tabGroups' | 'favicon' | 'declarativeNetRequestWithHostAccess';
 
 export const availablePermissionsAtom = atom<null | { hosts: string[], permissions: CorrectPermission[], }>(null);
 

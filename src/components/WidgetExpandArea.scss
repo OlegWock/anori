@@ -26,6 +26,11 @@
     align-items: stretch;
     position: relative;
 
+    &.size-max {
+        min-width: 85vw;
+        min-height: 85vh;
+    }
+
     &-content {
         position: relative;
         flex-grow: 1;

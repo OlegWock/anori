@@ -21,6 +21,14 @@ export const parseHost = (url: string) => {
     }
 };
 
+export const normalizeUrl = (url: string) => {
+    if (!url.includes('://')) {
+        return 'https://' + url;
+    }
+
+    return url;
+};
+
 export const asyncIterableToArray = async <T>(iter: AsyncIterable<T>): Promise<T[]> => {
     const res: T[] = [];
     for await (const val of iter) {

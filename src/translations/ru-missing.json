@@ -2,6 +2,7 @@
     "translation": {
         "icons": "Icons",
         "cantFitInGrid": "Can't fit element in grid",
+        "canBeEmpty": "can be empty",
         "safari": {
             "onboarding": {
                 "iosMacP1": "To start using Anori you'll need to enable it in Safari's settings.",
@@ -16,6 +17,10 @@
             "customIconsAbsent": "Currently, you don't have any custom icons. To upload your first custom icon please head to settings.",
             "iconFamily": "Icons family",
             "allIcons": "All icons"
+        },
+        "iframe-plugin": {
+            "name": "Embed webpage",
+            "expandWidgetName": "Embed webpage — expandable"
         },
         "settings": {
             "general": {

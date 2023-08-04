@@ -1,5 +1,10 @@
 {
     "translation": {
-        "cantFitInGrid": "Can't fit element in grid"
+        "cantFitInGrid": "Can't fit element in grid",
+        "canBeEmpty": "can be empty",
+        "iframe-plugin": {
+            "name": "Embed webpage",
+            "expandWidgetName": "Embed webpage — expandable"
+        }
     }
 }
