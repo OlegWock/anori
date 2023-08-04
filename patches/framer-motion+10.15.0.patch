@@ -1,0 +1,19 @@
+diff --git a/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs b/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+index c41ff90..c192583 100644
+--- a/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
++++ b/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+@@ -150,7 +150,13 @@ class VisualElementDragControls {
+         this.startAnimation(velocity);
+         const { onDragEnd } = this.getProps();
+         if (onDragEnd) {
+-            frame.update(() => onDragEnd(event, info));
++            // Our widgets grid relies on onDragEnd event to fire ASAP (instead of next frame)
++            // If called only on next frame, there is a flicker, since framer-motion returns element
++            // to original position (because of dragSnapToOrigin) in current frame, but
++            // runs onDragEnd (where we change widget position and invoke rerender) only on next frame.
++            // Postponing event listeners to next frame is introduced in framer-motion@10.1.0 
++            onDragEnd(event, info);
++            // frame.update(() => onDragEnd(event, info));
+         }
+     }
+     cancel() {
