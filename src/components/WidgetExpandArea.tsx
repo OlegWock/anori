@@ -5,10 +5,12 @@ import { createPortal } from "react-dom";
 import { useParentWidgetCardRef } from "./WidgetCard";
 import { usePrevious } from "@utils/hooks";
 import clsx from "clsx";
+import { Icon } from "./Icon";
 
 export type WidgetExpandAreaProps = {
     children: ReactNode,
     className?: string,
+    closable?: boolean,
     onClose?: () => void,
 };
 
@@ -20,7 +22,7 @@ const transition: Transition = {
     ease: 'easeInOut',
 };
 
-export const WidgetExpandArea = ({ children, onClose, className }: WidgetExpandAreaProps) => {
+export const WidgetExpandArea = ({ children, onClose, className, closable = true }: WidgetExpandAreaProps) => {
     const getDuration = (xScale: number, yScale: number) => {
         console.log('xScale', xScale, 'yScale', yScale);
         const num = (xScale + yScale) / 2;
@@ -194,6 +196,16 @@ export const WidgetExpandArea = ({ children, onClose, className }: WidgetExpandA
                         opacity: contentOpacity
                     }}
                 >
+                    {closable && <m.button
+                        className='close-button'
+                        onClick={() => onClose && onClose()}
+                        whileHover={{
+                            rotate: 180,
+                            transition: { duration: 0.2 },
+                        }}
+                    >
+                        <Icon icon='ion:close' width={24} height={24} />
+                    </m.button>}
                     {children}
                 </m.div>
             </m.div>

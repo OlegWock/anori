@@ -19,7 +19,7 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
     background: var(--background-lighter);
-    // background: green;
+    overflow: hidden;
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -27,11 +27,28 @@
     position: relative;
 
     &-content {
+        position: relative;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         min-width: min(80vw, 500px);
         min-height: min(80vh, 300px);
+
+        .close-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: none;
+            background: none;
+            padding: 0;
+            cursor: pointer;
+            opacity: 0.65;
+            display: flex;
+
+            svg {
+                color: var(--text);
+            }
+        }
     }
 }

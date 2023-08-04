@@ -24,7 +24,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
 
 
         <AnimatePresence>
-            {showExpandableArea && <WidgetExpandArea onClose={() => setShowExpandableArea(false)} className="exapnd">
+            {showExpandableArea && <WidgetExpandArea onClose={() => setShowExpandableArea(false)} className="exapnd" closable>
                 <h2>Hello here!</h2>
                 <Button onClick={() => setShowExpandableArea(false)}>Hide</Button>
 
