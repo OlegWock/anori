@@ -183,9 +183,6 @@
         },
         "notes-plugin": {
             "name": "บันทึกย่อ",
-            "widgetSizeSName": "บันทึกย่อ - ขนาดเล็ก",
-            "widgetSizeMName": "บันทึกย่อ - ขนาดกลาง",
-            "widgetSizeLName": "บันทึกย่อ - ขนาดใหญ่",
             "noteTitle": "ชื่อบันทึกย่อ",
             "noteText": "ข้อความบันทึกย่อ (รองรับ markdown)",
             "exampleTitle": "รายการที่ต้องซื้อ",
@@ -193,8 +190,6 @@
         },
         "recently-closed-plugin": {
             "name": "แท็บที่พึ่งปิด",
-            "widgetSizeSName": "แท็บที่พึ่งปิด - ขนาดเล็ก",
-            "widgetSizeMName": "แท็บที่พึ่งปิด - ขนาดกลาง",
             "widgetTitle": "พึ่งปิด",
             "tab": "แท็บ",
             "window": "หน้าต่าง"
@@ -212,8 +207,6 @@
         },
         "tasks-plugin": {
             "name": "งาน",
-            "widgetSizeMName": "งาน - ขนาดกลาง",
-            "widgetSizeLName": "งาน - ขนาดใหญ่",
             "todo": "งานที่จะทำ",
             "completeTask": "สำเร็จ «{{task}}»",
             "taskDescription": "รายละเอียดงาน...",

@@ -88,11 +88,11 @@ const widgetDescriptor2 = {
                 height: 1,
             },
             max: {
-                width: 2,
+                width: 5,
                 height: 4,
             }
         },
-        withHoverAnimation: true,
+        withHoverAnimation: false,
         withoutPadding: true,
     }
 } as const satisfies WidgetDescriptor<any>;

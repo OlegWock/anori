@@ -131,27 +131,13 @@ const onCommandInput: OnCommandInputCallback = async (query: string) => {
 const widgetDescriptor = {
     id: 'recently-closed-widget',
     get name() {
-        return translate('recently-closed-plugin.widgetSizeMName');
+        return translate('recently-closed-plugin.name');
     },
     appearance: {
-        resizable: false,
-        size: {
-            width: 3,
-            height: 3,
+        resizable: {
+            min: { width: 2, height: 2 },
+            max: { width: 5, height: 4 }
         },
-    },
-    configurationScreen: null,
-    mainScreen: (props) => (<RequirePermissions permissions={['sessions', 'tabs']}><WidgetScreen {...props} /></RequirePermissions>),
-    mock: () => (<WidgetScreen config={{}} instanceId='mock' />),
-} satisfies WidgetDescriptor<{}>;
-
-const widgetDescriptorS = {
-    id: 'recently-closed-widget-s',
-    get name() {
-        return translate('recently-closed-plugin.widgetSizeSName');
-    },
-    appearance: {
-        resizable: false,
         size: {
             width: 2,
             height: 2,
@@ -162,6 +148,7 @@ const widgetDescriptorS = {
     mock: () => (<WidgetScreen config={{}} instanceId='mock' />),
 } satisfies WidgetDescriptor<{}>;
 
+
 export const recentlyClosedPlugin = {
     id: 'recently-closed-plugin',
     get name() {
@@ -169,7 +156,6 @@ export const recentlyClosedPlugin = {
     },
     widgets: [
         widgetDescriptor,
-        widgetDescriptorS,
     ],
     configurationScreen: null,
     onCommandInput,

@@ -190,9 +190,6 @@
         },
         "notes-plugin": {
             "name": "Нотатки",
-            "widgetSizeSName": "Нотатки - розмір S",
-            "widgetSizeMName": "Нотатки - розмір M",
-            "widgetSizeLName": "Нотатки - розмір L",
             "noteTitle": "Заголовок",
             "noteText": "Текст нотатки...",
             "exampleTitle": "Список покупок",
@@ -200,8 +197,6 @@
         },
         "recently-closed-plugin": {
             "name": "Нещодавно закриті вкладки",
-            "widgetSizeSName": "Нещодавно закриті вкладки - розмір S",
-            "widgetSizeMName": "Нещодавно закриті вкладки - розмір M",
             "widgetTitle": "Нещодавно закриті",
             "tab": "Вкладка",
             "window": "Вікно"
@@ -219,8 +214,6 @@
         },
         "tasks-plugin": {
             "name": "Завдання",
-            "widgetSizeMName": "Завдання - розмір M",
-            "widgetSizeLName": "Завдання - розмір L",
             "todo": "Список справ",
             "completeTask": "Помітити «{{task}}» як виконане",
             "taskDescription": "Опис завдання...",

@@ -138,15 +138,19 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
 
     const tryResizeWidget = (widget: WidgetInFolderWithMeta<any, any, any>, width: number, height: number) => {
         console.log('Trying to resize widget', widget, `to ${width}x${height}`);
-        // width * boxSize - gapSize * 2
         const widthInBoxesRaw = (width + (gapSize * 2)) / gridDimensions.boxSize;
         const heightInBoxesRaw = (height + (gapSize * 2)) / gridDimensions.boxSize;
-        const widthInBoxesRounded = Math.round(widthInBoxesRaw);
-        const heightInBoxesRounded = Math.round(heightInBoxesRaw);
-        const widthInBoxesFloored = Math.floor(widthInBoxesRaw);
-        const heightInBoxesFloored = Math.floor(heightInBoxesRaw);
+        let widthInBoxesRounded = Math.round(widthInBoxesRaw);
+        let heightInBoxesRounded = Math.round(heightInBoxesRaw);
+        let widthInBoxesFloored = Math.floor(widthInBoxesRaw);
+        let heightInBoxesFloored = Math.floor(heightInBoxesRaw);
 
         console.log(`In boxes ${widthInBoxesRounded}x${heightInBoxesRounded}`);
+
+        if (widget.x + widthInBoxesRounded > gridDimensions.columns) widthInBoxesRounded = gridDimensions.columns - widget.x;
+        if (widget.y + heightInBoxesRounded > gridDimensions.rows) heightInBoxesRounded = gridDimensions.rows - widget.y;
+        if (widget.x + widthInBoxesFloored > gridDimensions.columns) widthInBoxesFloored = gridDimensions.columns - widget.x;
+        if (widget.y + heightInBoxesFloored > gridDimensions.rows) heightInBoxesFloored = gridDimensions.rows - widget.y;
 
         const isOverlaysRounded = willItemOverlay({
             arr: layoutTo2DArray({
@@ -162,12 +166,16 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
         });
 
         if (!isOverlaysRounded) {
+            if (widget.width === widthInBoxesRounded && widget.height === heightInBoxesRounded) {
+                return false;
+            }
             onLayoutUpdate([{
                 type: 'resize',
                 instanceId: widget.instanceId,
                 width: widthInBoxesRounded,
                 height: heightInBoxesRounded,
             }]);
+            console.log('Resized');
             return true;
         }
 
@@ -184,14 +192,20 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
             }
         });
         if (!isOverlaysFloored) {
+            if (widget.width === widthInBoxesFloored && widget.height === heightInBoxesFloored) {
+                return false;
+            }
             onLayoutUpdate([{
                 type: 'resize',
                 instanceId: widget.instanceId,
                 width: widthInBoxesFloored,
                 height: heightInBoxesFloored,
             }]);
+            console.log('Resized floored');
             return true;
         }
+
+        console.log('Not resized');
     };
 
     const prevLayout = usePrevious(layout);

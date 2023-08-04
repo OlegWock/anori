@@ -222,6 +222,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         onEditWidget={setEditingWidget}
                         onUpdateWidgetConfig={updateWidgetConfig}
                         onLayoutUpdate={onLayoutUpdate}
+                        showOnboarding={shouldShowOnboarding}
                     />
 
                 </m.div>

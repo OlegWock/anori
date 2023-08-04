@@ -19,9 +19,12 @@ export const WhatsNew = () => {
                 <section>
                     <h2>1.11.0</h2>
                     <ul>
+                        <li>Tasks, notes, RSS feed and recently closed tabs widgets now can be resized.</li>
                         <li>Now you can move widgets to another folder. Just drag them over folder you'd like to move them to and release mouse button. Poof!</li>
                     </ul>
+                </section>
 
+                <section>
                     <h2>1.10.0</h2>
                     <ul>
                         <li>Added option to display bookmarks bar, you can find it in Settings &gt; General. Currently, available only for Chrome and Edge</li>

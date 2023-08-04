@@ -82,10 +82,10 @@ export const useDraggable = (info: DndItemMeta, options?: UseDraggableOptions) =
     }
 };
 
-export const useCurrentlyDragging = (filter?: { type: string | string[]}) => {
+export const useCurrentlyDragging = (filter?: { type: string | string[] }) => {
     const store = useStore();
     const [dragging, setDragging] = useState(false);
-    
+
     useEffect(() => {
         return store.sub(currentDraggableAtom, () => {
             const curValue = store.get(currentDraggableAtom);

@@ -196,38 +196,22 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
     });
 };
 
-export const tasksWidgetDescriptorM = {
-    id: 'tasks-m',
+export const tasksWidgetDescriptor = {
+    id: 'tasks-widget',
     get name() {
-        return translate('tasks-plugin.widgetSizeMName');
+        return translate('tasks-plugin.name');
     },
     configurationScreen: WidgetConfigScreen,
     withAnimation: false,
     mainScreen: MainScreen,
     mock: Mock,
     appearance: {
-        resizable: false,
+        resizable: {
+            min: { width: 2, height: 2 },
+        },
         size: {
             width: 2,
             height: 2,
-        }
-    }
-} as const;
-
-export const tasksWidgetDescriptorL = {
-    id: 'tasks-l',
-    get name() {
-        return translate('tasks-plugin.widgetSizeLName');
-    },
-    configurationScreen: WidgetConfigScreen,
-    withAnimation: false,
-    mainScreen: MainScreen,
-    mock: Mock,
-    appearance: {
-        resizable: false,
-        size: {
-            width: 3,
-            height: 4,
         }
     }
 } as const;
@@ -238,8 +222,7 @@ export const tasksPlugin = {
         return translate('tasks-plugin.name');
     },
     widgets: [
-        tasksWidgetDescriptorM,
-        tasksWidgetDescriptorL,
+        tasksWidgetDescriptor,
     ],
     configurationScreen: null,
     onCommandInput,

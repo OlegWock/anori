@@ -206,9 +206,6 @@
         },
         "notes-plugin": {
             "name": "Note",
-            "widgetSizeSName": "Note - dimensione S",
-            "widgetSizeMName": "Note - dimensione M",
-            "widgetSizeLName": "Note - dimensione L",
             "noteTitle": "Titolo nota",
             "noteText": "Testo nota (supporta markdown)",
             "exampleTitle": "Lista della spesa",
@@ -216,8 +213,6 @@
         },
         "recently-closed-plugin": {
             "name": "Schede chiuse recentemente",
-            "widgetSizeSName": "Schede recentemente chiuse - dimensione S",
-            "widgetSizeMName": "Schede recentemente chiuse - dimensione M",
             "widgetTitle": "Recentemente chiuse",
             "tab": "Scheda",
             "window": "Finestra"
@@ -235,8 +230,6 @@
         },
         "tasks-plugin": {
             "name": "Attività",
-            "widgetSizeMName": "Attività - size M",
-            "widgetSizeLName": "Attività - size L",
             "todo": "ToDo",
             "completeTask": "Completa «{{task}}»",
             "taskDescription": "Descrizione attività...",

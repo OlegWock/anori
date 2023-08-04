@@ -183,9 +183,6 @@
         },
         "notes-plugin": {
             "name": "Notizen",
-            "widgetSizeSName": "Notizen - Größe S",
-            "widgetSizeMName": "Notizen - Größe M",
-            "widgetSizeLName": "Notizen - Größe L",
             "noteTitle": "Notizentitel",
             "noteText": "Text der Notiz...",
             "exampleTitle": "Einkaufsliste",
@@ -193,8 +190,6 @@
         },
         "recently-closed-plugin": {
             "name": "Zuletzt geschlossene Tabs",
-            "widgetSizeSName": "Zuletzt geschlossene Tabs - Größe S",
-            "widgetSizeMName": "Zuletzt geschlossene Tabs - Größe M",
             "widgetTitle": "Zuletzt geschlossen",
             "tab": "Tab",
             "window": "Fenster"
@@ -212,8 +207,6 @@
         },
         "tasks-plugin": {
             "name": "ToDos",
-            "widgetSizeMName": "ToDos - Größe M",
-            "widgetSizeLName": "ToDos - Größe L",
             "todo": "ToDo",
             "completeTask": "Schließe «{{task}}» ab",
             "taskDescription": "ToDos Beschreibung...",

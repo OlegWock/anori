@@ -56,13 +56,17 @@ type WidgetCardProps = {
     onEdit?: () => void,
     onResize?: (newWidth: number, newHeight: number) => boolean | undefined,
     children?: ReactNode,
-    onDragEnd?: (foundDestination: DndItemMeta | null, e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => void,
+    onDragEnd?: (foundDestination: DndItemMeta | null, e: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => void,
 } & Omit<ComponentProps<typeof m.div>, 'children' | 'onDragEnd' | 'onResize'>;
 
 export const WidgetCard = ({
     className, children, onRemove, onEdit, style, width, height, withAnimation, onDragEnd, drag, instanceId,
     withPadding, resizable = false, onResize, ...props
 }: WidgetCardProps) => {
+    const startResize = () => {
+        isResizing.set(true);
+    };
+
     const updateResize = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         if (!resizable) return;
         const newWidth = minmax((width * boxSize - gapSize * 2) + info.offset.x, resizable.min.width, resizable.max.width);
@@ -115,7 +119,7 @@ export const WidgetCard = ({
         resizeWidth.set(width * boxSize - gapSize * 2);
         resizeHeight.set(height * boxSize - gapSize * 2);
         isResizing.set(false);
-    }, [width, height]);
+    }, [width, height, boxSize, gapSize]);
 
     return (<WidgetCardContext.Provider value={{ cardRef: ref }}>
         <m.div
@@ -151,7 +155,8 @@ export const WidgetCard = ({
             </Button>}
             {(isEditing && !!resizable) && <m.div
                 className='resize-handle'
-                onPanStart={() => isResizing.set(true)}
+                onPointerDown={e => e.preventDefault()}
+                onPanStart={startResize}
                 onPan={updateResize}
                 onPanEnd={finishResize}
             >

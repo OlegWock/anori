@@ -19,12 +19,12 @@ import { Checkbox } from './Checkbox';
 import { getIpInfo } from '@utils/network';
 import { topSitesPlugin, topSitesWidgetDescriptorVertical } from '@plugins/top-sites/top-sites-plugin';
 import { searchPlugin, searchWidgetDescriptor } from '@plugins/search/search-plugin';
-import { tasksPlugin, tasksWidgetDescriptorM } from '@plugins/tasks/tasks-plugin';
-import { notesPlugin, notesWidgetDescriptorM } from '@plugins/notes/notes-plugin';
+import { tasksPlugin, tasksWidgetDescriptor } from '@plugins/tasks/tasks-plugin';
+import { notesPlugin, notesWidgetDescriptor } from '@plugins/notes/notes-plugin';
 import { rssFeedDescriptor, rssPlugin } from '@plugins/rss/rss-plugin';
 import { datetimePlugin, datetimeWidgetDescriptorS } from '@plugins/datetime/datetime-plugin';
 import { weatherPlugin, weatherWidgetDescriptorCurrent } from '@plugins/weather/weather-plugin';
-import { GridDimensions, Position, canPlaceItemInGrid } from '@utils/grid';
+import { GridDimensions, LayoutItemSize, Position, canPlaceItemInGrid } from '@utils/grid';
 import { AnoriPlugin, WidgetDescriptor } from '@utils/user-data/types';
 
 
@@ -55,7 +55,7 @@ const navigationButtonVariants = {
 
 export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions }) => {
     const applyPreset = async () => {
-        const addIfPossible = <T extends {}>({ plugin, widget, config, position }: { widget: WidgetDescriptor<T>, plugin: AnoriPlugin<any, T>, config: T, position: Position }) => {
+        const addIfPossible = <T extends {}>({ plugin, widget, config, position, size }: { widget: WidgetDescriptor<T>, plugin: AnoriPlugin<any, T>, config: T, position: Position, size?: LayoutItemSize }) => {
             if (canPlaceItemInGrid({
                 grid: gridDimensions,
                 layout: [],
@@ -67,6 +67,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                     widget,
                     config,
                     position,
+                    size,
                 });
             }
         };
@@ -110,7 +111,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
         });
         addIfPossible({
             plugin: tasksPlugin,
-            widget: tasksWidgetDescriptorM,
+            widget: tasksWidgetDescriptor,
             config: {
                 title: t('tasks-plugin.todo')
             },
@@ -161,11 +162,15 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
 
         addIfPossible({
             plugin: notesPlugin,
-            widget: notesWidgetDescriptorM,
+            widget: notesWidgetDescriptor,
             config: {},
             position: {
                 x: 3 + compensationForTopSites,
                 y: 2,
+            },
+            size: {
+                width: 2,
+                height: 2,
             }
         });
 

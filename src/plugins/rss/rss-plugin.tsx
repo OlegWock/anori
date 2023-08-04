@@ -351,7 +351,9 @@ export const rssFeedDescriptor = {
     </RequirePermissions>),
     mock: RssFeedMock,
     appearance: {
-        resizable: false,
+        resizable: {
+            min: { width: 2, height: 2 },
+        },
         size: {
             width: 3,
             height: 3,

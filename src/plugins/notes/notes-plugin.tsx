@@ -87,60 +87,25 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
     </div>);
 };
 
-export const notesWidgetDescriptorS = {
-    id: 'notes-s',
+export const notesWidgetDescriptor = {
+    id: 'notes-widget',
     get name() {
-        return translate('notes-plugin.widgetSizeSName');
+        return translate('notes-plugin.name');
     },
     configurationScreen: null,
     withAnimation: false,
     mainScreen: MainScreen,
     mock: Mock,
     appearance: {
-        resizable: false,
+        resizable: {
+            min: { width: 2, height: 1 },
+        },
         size: {
             width: 2,
             height: 1,
         }
     }
 } as const;
-
-export const notesWidgetDescriptorM = {
-    id: 'notes-m',
-    get name() {
-        return translate('notes-plugin.widgetSizeMName');
-    },
-    configurationScreen: null,
-    withAnimation: false,
-    mainScreen: MainScreen,
-    mock: Mock,
-    appearance: {
-        resizable: false,
-        size: {
-            width: 2,
-            height: 2,
-        }
-    }
-} as const;
-
-export const notesWidgetDescriptorL = {
-    id: 'notes-l',
-    get name() {
-        return translate('notes-plugin.widgetSizeLName');
-    },
-    configurationScreen: null,
-    withAnimation: false,
-    mainScreen: MainScreen,
-    mock: Mock,
-    appearance: {
-        resizable: false,
-        size: {
-            width: 3,
-            height: 2,
-        }
-    }
-} as const;
-
 
 
 export const notesPlugin = {
@@ -149,9 +114,7 @@ export const notesPlugin = {
         return translate('notes-plugin.name');
     },
     widgets: [
-        notesWidgetDescriptorS,
-        notesWidgetDescriptorM,
-        notesWidgetDescriptorL,
+        notesWidgetDescriptor,
     ],
     configurationScreen: null,
 } satisfies AnoriPlugin;

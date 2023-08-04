@@ -94,17 +94,17 @@ const getFolderDetailsAtom = (id: ID) => {
     return folderDetailsAtoms[id];
 };
 
-const getFolderDetails = async (id: ID) => {
+export const getFolderDetails = async (id: ID) => {
     return await storage.getOneDynamic<FolderDetailsInStorage>(`Folder.${id}`) || { widgets: [] };
 };
 
-const setFolderDetails = async (id: ID, details: FolderDetailsInStorage) => {
+export const setFolderDetails = async (id: ID, details: FolderDetailsInStorage) => {
     return await storage.setOneDynamic<FolderDetailsInStorage>(`Folder.${id}`, details);
 };
 
 
 export const useFolderWidgets = (folder: Folder) => {
-    const addWidget = <T extends {}>({ plugin, widget, config, position }: { widget: WidgetDescriptor<T>, plugin: AnoriPlugin<any, T>, config: T, position: Position }) => {
+    const addWidget = <T extends {}>({ plugin, widget, config, position, size }: { widget: WidgetDescriptor<T>, plugin: AnoriPlugin<any, T>, config: T, position: Position, size?: LayoutItemSize }) => {
         const instanceId = guid();
 
         const data: WidgetInFolder<T> = {
@@ -112,7 +112,7 @@ export const useFolderWidgets = (folder: Folder) => {
             widgetId: widget.id,
             instanceId,
             configutation: config,
-            ...widget.appearance.size,
+            ...(size ? size : widget.appearance.size),
             ...position,
         };
 

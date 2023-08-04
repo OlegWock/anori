@@ -38,14 +38,16 @@ const main = async () => {
     const defaultTranslation = loadJsonFile(join(TRANSLATIONS_FOLDER, `${DEFAULT_LANGUAGE}.json`));
     const defaultKeys = objectDeepKeys(defaultTranslation).filter(k => k !== 'translation');
 
-    const results: Record<string, { missing: string[] }> = {};
+    const results: Record<string, { missing: string[], excessive: string[] }> = {};
     translations.filter(t => t !== DEFAULT_LANGUAGE).forEach(lang => {
         const data = loadJsonFile(join(TRANSLATIONS_FOLDER, `${lang}.json`));
         const keys = objectDeepKeys(data).filter(k => k !== 'translation');
         const missingKeys = defaultKeys.filter(k => !keys.includes(k));
+        const excessiveKeys = keys.filter(k => !defaultKeys.includes(k));
 
         results[lang] = {
             missing: missingKeys,
+            excessive: excessiveKeys,
         }
     });
 
@@ -54,6 +56,10 @@ const main = async () => {
 
         let exitWithError = false;
         Object.entries(results).forEach(([lang, result]) => {
+            if (result.excessive.length !== 0) {
+                console.log(`❌ Language ${lang} has excessive keys (${result.excessive.slice(0, 3).join(', ')}...)`);
+                return;
+            }
             if (result.missing.length === 0) {
                 console.log(`✅ Language ${lang} all good!`);
             } else {
@@ -76,6 +82,14 @@ const main = async () => {
             console.log('🚨 Problems with files were detected, run `yarn translations:extract` to fix them.')
             process.exit(1);
         }
+    } else if (args[0] === 'remove-excessive') {
+        Object.entries(results).filter(([lang, { excessive }]) => excessive.length !== 0).forEach(([lang, { excessive }]) => {
+            console.log('Removing excessive strings from', lang);
+            const filename = join(TRANSLATIONS_FOLDER, `${lang}.json`);
+            const original = loadJsonFile(filename);
+            excessive.forEach(k => set(original, k, undefined));
+            saveJsonFile(filename, original);
+        });
     } else if (args[0] === 'extract-untranslated') {
         Object.entries(results).filter(([lang, { missing }]) => missing.length !== 0).forEach(([lang, { missing }]) => {
             console.log('Extracting missing strings from', lang);
@@ -92,7 +106,7 @@ const main = async () => {
         if (!langToMerge) {
             console.log('❌ Specify which language file to merge: yarn translations:merge <lang>');
             process.exit(1);
-            return;
+            
         }
         const filesToMerge = translationFiles.filter(fn => fn === `${langToMerge}-missing.json`);
         console.log('Going to merge', filesToMerge.join(', '));

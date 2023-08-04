@@ -183,9 +183,6 @@
         },
         "notes-plugin": {
             "name": "笔记",
-            "widgetSizeSName": "笔记 - 小",
-            "widgetSizeMName": "笔记 - 中",
-            "widgetSizeLName": "笔记 - 大",
             "noteTitle": "笔记标题",
             "noteText": "笔记内容 (支持 Markdown 语法)",
             "exampleTitle": "购物清单",
@@ -193,8 +190,6 @@
         },
         "recently-closed-plugin": {
             "name": "最近关闭的标签页",
-            "widgetSizeSName": "最近关闭的标签页 - 小",
-            "widgetSizeMName": "最近关闭的标签页 - 中",
             "widgetTitle": "最近标签页",
             "tab": "标签页",
             "window": "窗口"
@@ -212,8 +207,6 @@
         },
         "tasks-plugin": {
             "name": "待办事项",
-            "widgetSizeMName": "待办事项 - 中",
-            "widgetSizeLName": "待办事项 - 大",
             "todo": "要做的",
             "completeTask": "完成 «{{task}}»",
             "taskDescription": "任务描述...",
