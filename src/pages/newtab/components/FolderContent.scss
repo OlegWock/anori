@@ -1,3 +1,5 @@
+@use "@components/utils.scss" as utils;
+
 .FolderContent {
     display: flex;
     flex-direction: column;
@@ -16,8 +18,6 @@
         align-self: stretch;
 
         &>.action-buttons-wrapper {
-            // overflow: hidden;
-
             .action-buttons {
                 display: flex;
                 gap: 12px;
@@ -29,19 +29,30 @@
         }
     }
 
-    &>main {
+    .WidgetsGrid {
         flex-grow: 1;
         align-self: stretch;
         position: relative;
+        display: flex;
 
-        .widgets-column {
+        .WidgetsGrid-viewport {
             display: flex;
-            flex-direction: column;
+            flex-grow: 1;
+
+            &>div[style] {
+                display: flex !important;
+                flex-grow: 1;
+                align-items: stretch;
+            }
+        }
+
+        .widgets-relative-wrapper {
+            position: relative;
             flex-grow: 1;
         }
     }
 
-    &.onboarding-visible > main {
+    &.onboarding-visible .widgets-relative-wrapper {
         display: flex;
         justify-content: center;
         align-items: center;

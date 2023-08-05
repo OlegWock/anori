@@ -10,8 +10,7 @@ export const useMotionTransition = <T>(source: MotionValue<T>, { ignoreInitial, 
     const animation = useRef<undefined | ReturnType<typeof animate<T>>>(undefined);
 
     useEffect(() => {
-        return source.onChange((newValue: T) => {
-            console.log('Prev value is', prevValue, 'new value is', newValue);
+        return source.on('change', (newValue: T) => {
             if (prevValue.current === undefined && ignoreInitial) {
                 prevValue.current = newValue;
                 animatedMotionValue.jump(newValue);

@@ -144,14 +144,14 @@ export const WidgetCard = ({
             {...dragProps}
             {...props}
         >
+            {(isEditing && !!onDragEnd) && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder {...dragHandleProps}>
+                <Icon icon='ic:baseline-drag-indicator' width={rem(1.25)} height={rem(1.25)} />
+            </Button>}
             {(isEditing && !!onRemove) && <Button className='remove-widget-btn' onClick={onRemove} withoutBorder>
                 <Icon icon='ion:close' width={rem(1.25)} height={rem(1.25)} />
             </Button>}
             {(isEditing && !!onEdit) && <Button className='edit-widget-btn' onClick={onEdit} withoutBorder>
                 <Icon icon='ion:pencil' width={rem(1.25)} height={rem(1.25)} />
-            </Button>}
-            {(isEditing && !!onDragEnd) && <Button className='drag-widget-btn' onPointerDown={e => dragControls.start(e)} withoutBorder {...dragHandleProps}>
-                <Icon icon='ic:baseline-drag-indicator' width={rem(1.25)} height={rem(1.25)} />
             </Button>}
             {(isEditing && !!resizable) && <m.div
                 className='resize-handle'

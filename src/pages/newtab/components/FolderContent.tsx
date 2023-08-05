@@ -8,8 +8,8 @@ import { NewWidgetWizard } from './NewWidgetWizard';
 import { tryMoveWidgetToFolder, useFolderWidgets } from '@utils/user-data/hooks';
 import { FolderContentContext } from '@utils/FolderContentContext';
 import { useRef } from 'react';
-import { fixHorizontalOverflows, useGrid } from '@utils/grid';
-import { useHotkeys, useWindowIsResizing } from '@utils/hooks';
+import { useGrid } from '@utils/grid';
+import { useHotkeys } from '@utils/hooks';
 import { Modal } from '@components/Modal';
 import { useSizeSettings } from '@utils/compact';
 import { useBrowserStorageValue } from '@utils/storage';
@@ -126,16 +126,11 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const { blockSize, minBlockSize, gapSize } = useSizeSettings();
     const { t } = useTranslation();
     const mainRef = useRef<HTMLDivElement>(null);
-    const gridDimensions = useGrid(mainRef, blockSize, minBlockSize);
+    const gridDimensions = useGrid(mainRef, blockSize, minBlockSize, widgets);
 
     const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
 
-    // We need this to workaround framer motion auto-repozition of drag elements on window resize
-    const isResizingWindow = useWindowIsResizing();
-
-    const adjustedLayout = fixHorizontalOverflows({ grid: gridDimensions, layout: widgets });
-
-    console.log('Render folder content', { gridDimensions, adjustedLayout });
+    console.log('Render folder content', { gridDimensions, layout: widgets });
 
     useEffect(() => {
         setIsEditing(false);
@@ -217,7 +212,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         ref={mainRef}
                         isEditing={isEditing}
                         gapSize={gapSize}
-                        layout={adjustedLayout}
+                        layout={widgets}
                         gridDimensions={gridDimensions}
                         onEditWidget={setEditingWidget}
                         onUpdateWidgetConfig={updateWidgetConfig}

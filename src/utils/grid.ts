@@ -4,6 +4,8 @@ export type GridDimensions = {
     boxSize: number,
     columns: number,
     rows: number,
+    minColumns: number,
+    minRows: number,
 };
 
 export type LayoutItemSize = {
@@ -32,24 +34,36 @@ export const calculateColumnWidth = (containerWidth: number, desiredSize: number
     return Number.isNaN(colWidth) ? desiredSize : colWidth;
 };
 
-export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSize: number) => {
-    const calculateDimensions = () => {
-        const box = ref.current!.getBoundingClientRect();
+export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSize: number, layout: Layout) => {
+    const calculateDimensions = (el: HTMLElement) => {
+        const box = el.getBoundingClientRect();
+        const scrollWidth = el.scrollWidth;
+        const scrollHeight = el.scrollHeight;
         const boxSize = calculateColumnWidth(box.width, desiredSize, minSize);
-        const columns = Math.floor(box.width / boxSize);
-        const rows = Math.floor(box.height / boxSize);
+        const minColumns = Math.floor(box.width / boxSize);
+        const minRows = Math.floor(box.height / boxSize);
+
+        const maxColOccupied = Math.max(...layout.map(i => i.x + i.width));
+        const maxRowOccupied = Math.max(...layout.map(i => i.y + i.height));
+
+        const columns = Math.max(minColumns, maxColOccupied);
+        const rows = Math.max(minRows, maxRowOccupied);
+
+        console.log('Grid element measured', { box, scrollHeight, scrollWidth });
 
         return {
             boxSize,
             columns,
             rows,
+            minColumns,
+            minRows,
             position: {
                 x: box.left,
                 y: box.top,
             },
             pixelSize: {
-                width: box.width,
-                height: box.height,
+                width: scrollWidth,
+                height: scrollHeight,
             },
         };
     };
@@ -58,6 +72,8 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
         boxSize: desiredSize,
         columns: 0,
         rows: 0,
+        minColumns: 0,
+        minRows: 0,
         position: {
             x: 0,
             y: 0,
@@ -70,16 +86,18 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
 
     useLayoutEffect(() => {
         if (ref.current) {
+            setDimensions(calculateDimensions(ref.current));
+
             const resizeObserver = new ResizeObserver((entries) => {
                 if (!ref.current) return;
-                const dimensions = calculateDimensions();
+                const dimensions = calculateDimensions(ref.current);
                 setDimensions(dimensions);
             });
 
             resizeObserver.observe(ref.current);
             return () => resizeObserver.disconnect();
         }
-    }, [ref.current, desiredSize]);
+    }, [ref.current, desiredSize, layout, minSize]);
 
     return dimensions;
 };
@@ -129,7 +147,7 @@ export const canPlaceItemInGrid = ({ grid, layout, item, position }: { grid: Gri
     if (outOfBounds) return false;
 
     const arr = layoutTo2DArray({ grid, layout });
-    if (willItemOverlay({arr, item: {...item, ...position}})) return false;
+    if (willItemOverlay({ arr, item: { ...item, ...position } })) return false;
 
     return true;
 };

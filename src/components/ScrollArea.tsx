@@ -50,7 +50,6 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
 
         horizontalOverflowRef.current = newHorizontalOverflow;
         verticalOverflowRef.current = newVerticalOverflow;
-
     };
 
     const viewportRef = useRef<HTMLDivElement>(null);

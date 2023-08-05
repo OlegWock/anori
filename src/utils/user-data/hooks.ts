@@ -201,7 +201,7 @@ export const useFolderWidgets = (folder: Folder) => {
     const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
     const [details, setDetails, meta] = useAtomWithStorage(atom);
 
-    const widgets: WidgetInFolderWithMeta<any, any, any>[] = details.widgets.filter(w => {
+    const widgets: WidgetInFolderWithMeta<any, any, any>[] = useMemo(() => details.widgets.filter(w => {
         const plugin = availablePluginsWithWidgets.find(p => p.id === w.pluginId);
         if (!plugin) return false;
         return !!plugin.widgets.flat().find(d => d.id === w.widgetId);
@@ -214,7 +214,7 @@ export const useFolderWidgets = (folder: Folder) => {
             widget,
             plugin,
         }
-    });
+    }), [details.widgets]);
 
     return {
         widgets,
@@ -234,7 +234,7 @@ export const tryMoveWidgetToFolder = async (folderIdFrom: Folder["id"], folderId
     if (!widgetInfo) return false;
 
     const toFolderLayout = fixHorizontalOverflows({ grid: currentGrid, layout: toFolderDetails.widgets });
-    const newPosition = findPositionForItemInGrid({grid: currentGrid, layout: toFolderLayout, item: widgetInfo});
+    const newPosition = findPositionForItemInGrid({ grid: currentGrid, layout: toFolderLayout, item: widgetInfo });
     if (!newPosition) return false;
 
     fromFolderDetails.widgets = fromFolderDetails.widgets.filter(w => w.instanceId !== widgetInstanceId);

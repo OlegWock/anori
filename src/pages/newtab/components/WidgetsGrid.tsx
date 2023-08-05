@@ -1,12 +1,12 @@
 import { Onboarding } from "@components/Onboarding";
+import { MotionScrollArea } from "@components/ScrollArea";
 import { WidgetCard } from "@components/WidgetCard";
 import { DndItemMeta } from "@utils/drag-and-drop";
-import { GridDimensions, Layout, LayoutItem, Position, fixHorizontalOverflows, layoutTo2DArray, positionToPixelPosition, snapToSector, willItemOverlay } from "@utils/grid";
-import { usePrevious } from "@utils/hooks";
+import { GridDimensions, Layout, LayoutItem, Position, canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, snapToSector, willItemOverlay } from "@utils/grid";
 import { WidgetMetadataContext } from "@utils/plugin";
 import { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta, WidgetResizable } from "@utils/user-data/types";
 import { AnimatePresence, PanInfo, m } from "framer-motion";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useRef } from "react";
 import { mergeRefs } from "react-merge-refs";
 
 
@@ -47,29 +47,6 @@ export type WidgetsGridProps = {
     onUpdateWidgetConfig: (instaceId: string, config: Partial<{}>) => void,
     onLayoutUpdate?: (changes: LayoutChange[]) => void,
     showOnboarding?: boolean,
-};
-
-const isLayoutsEqual = (l1: Layout<{ instanceId: string }>, l2: Layout<{ instanceId: string }>) => {
-    if (l1 === l2) return true;
-    if (l1.length !== l2.length) {
-        return false;
-    }
-    const seenIds: string[] = [];
-    for (const i1 of l1) {
-        const i2 = l2.find(i => i.instanceId === i1.instanceId);
-        if (!i2) return false;
-        seenIds.push(i1.instanceId);
-        if (
-            (i1.width !== i2.width)
-            || (i1.height !== i2.height)
-            || (i1.x !== i2.x)
-            || (i1.y !== i2.y)
-        ) {
-            return false;
-        }
-    }
-
-    return l2.every(i => seenIds.includes(i.instanceId));
 };
 
 const resizableToPixelSize = (res: WidgetResizable, boxSize: number, gap: number) => {
@@ -119,17 +96,14 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
             };
             const possibleSnapPoints = snapToSector({ grid: gridDimensions, position: relativePoint });
             console.log('Possible snap points:', possibleSnapPoints);
-            const snapPoint = possibleSnapPoints.find(p => !willItemOverlay({
-                arr: layoutTo2DArray({
-                    grid: gridDimensions,
-                    // TODO: should we use adjusted layout here?
-                    layout: layout.filter(w => w.instanceId !== widget.instanceId),
-                }),
-                item: {
-                    ...widget,
-                    ...p.position,
-                }
-            }));
+            const snapPoint = possibleSnapPoints.find(p => {
+                return canPlaceItemInGrid({ 
+                    grid: gridDimensions, 
+                    item: widget, 
+                    layout: layout.filter(w => w.instanceId !== widget.instanceId), 
+                    position: p.position 
+                });
+            });
             console.log('Span point selected', snapPoint);
             if (!snapPoint) return;
             onLayoutUpdate([{ type: 'change-position', instanceId: widget.instanceId, newPosition: snapPoint.position }])
@@ -208,82 +182,86 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
         console.log('Not resized');
     };
 
-    const prevLayout = usePrevious(layout);
-    const [draftLayout, setDraftLayout] = useState(layout);
     const localRef = useRef<HTMLDivElement>(null);
-
     const combinedRef = mergeRefs([localRef, ref]);
 
-    if (prevLayout && !isLayoutsEqual(prevLayout, layout) && !isLayoutsEqual(draftLayout, layout)) {
-        setDraftLayout(layout);
-    }
-
-    const adjustedLayout = fixHorizontalOverflows({ grid: gridDimensions, layout: draftLayout });
-
-    return (<m.main layout layoutRoot ref={combinedRef}>
-        <AnimatePresence>
-            {isEditing && new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {
-                const x = i % gridDimensions.columns;
-                const y = Math.floor(i / gridDimensions.columns);
-                const position = positionToPixelPosition({ grid: gridDimensions, positon: { x, y } });
-                return (<m.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                    key={`${x}_${y}`}
-                    style={{
-                        position: 'absolute',
-                        top: position.y,
-                        left: position.x,
-                        margin: gapSize,
-                        width: gridDimensions.boxSize - gapSize * 2,
-                        height: gridDimensions.boxSize - gapSize * 2,
-                        background: 'rgba(255, 255, 255, 0.15)',
-                        borderRadius: 12,
-                        userSelect: 'none',
-                        WebkitUserSelect: 'none',
-                    }}
-                />);
-            })}
-        </AnimatePresence>
-
-        <AnimatePresence initial={false}>
-            {adjustedLayout.map((w, i) => {
-                const position = positionToPixelPosition({ grid: gridDimensions, positon: w });
-                const resizable = resizableToPixelSize(w.widget.appearance.resizable, gridDimensions.boxSize, gapSize);
-
-
-                return (<WidgetMetadataContext.Provider key={w.instanceId} value={{
-                    pluginId: w.pluginId,
-                    instanceId: w.instanceId,
-                    config: w.configutation,
-                    updateConfig: (config) => onUpdateWidgetConfig(w.instanceId, config),
-                }}>
-                    <WidgetCard
-                        instanceId={w.instanceId}
-                        key={w.instanceId}
-                        drag
-                        onDragEnd={(dest, e, info) => onWidgetDragEnd(w, dest, e, info)}
-                        withAnimation={!!w.widget.appearance.withHoverAnimation}
-                        withPadding={!w.widget.appearance.withoutPadding}
-                        resizable={resizable}
-                        onResize={(width, height) => tryResizeWidget(w, width, height)}
-                        width={w.width}
-                        height={w.height}
+    return (<MotionScrollArea
+        className="WidgetsGrid"
+        contentClassName="WidgetsGrid-viewport"
+        layout
+        layoutRoot
+        direction="both"
+        type="hover"
+        color="translucent"
+    >
+        <div className="widgets-relative-wrapper" ref={combinedRef}>
+            <AnimatePresence>
+                {isEditing && new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {
+                    const x = i % gridDimensions.columns;
+                    const y = Math.floor(i / gridDimensions.columns);
+                    const position = positionToPixelPosition({ grid: gridDimensions, positon: { x, y } });
+                    return (<m.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.18 }}
+                        key={`${x}_${y}`}
                         style={{
                             position: 'absolute',
-                            top: position.y,
-                            left: position.x,
+                            top: 0,
+                            left: 0,
+                            y: position.y,
+                            x: position.x,
+                            margin: gapSize,
+                            width: gridDimensions.boxSize - gapSize * 2,
+                            height: gridDimensions.boxSize - gapSize * 2,
+                            background: 'rgba(255, 255, 255, 0.15)',
+                            borderRadius: 12,
+                            userSelect: 'none',
+                            WebkitUserSelect: 'none',
+                            pointerEvents: 'none',
                         }}
-                        onRemove={() => onLayoutUpdate([{ type: 'remove', instanceId: w.instanceId }])}
-                        onEdit={w.widget.configurationScreen ? () => onEditWidget(w) : undefined}
-                    >
-                        <w.widget.mainScreen instanceId={w.instanceId} config={w.configutation} />
-                    </WidgetCard>
-                </WidgetMetadataContext.Provider>);
-            })}
-        </AnimatePresence>
-        {showOnboarding && <Onboarding gridDimensions={gridDimensions} />}
-    </m.main>);
+                    />);
+                })}
+            </AnimatePresence>
+
+            <AnimatePresence initial={false}>
+                {layout.map((w, i) => {
+                    const position = positionToPixelPosition({ grid: gridDimensions, positon: w });
+                    const resizable = resizableToPixelSize(w.widget.appearance.resizable, gridDimensions.boxSize, gapSize);
+
+
+                    return (<WidgetMetadataContext.Provider key={w.instanceId} value={{
+                        pluginId: w.pluginId,
+                        instanceId: w.instanceId,
+                        config: w.configutation,
+                        updateConfig: (config) => onUpdateWidgetConfig(w.instanceId, config),
+                    }}>
+                        <WidgetCard
+                            instanceId={w.instanceId}
+                            key={w.instanceId}
+                            drag
+                            onDragEnd={(dest, e, info) => onWidgetDragEnd(w, dest, e, info)}
+                            withAnimation={!!w.widget.appearance.withHoverAnimation}
+                            withPadding={!w.widget.appearance.withoutPadding}
+                            resizable={resizable}
+                            onResize={(width, height) => tryResizeWidget(w, width, height)}
+                            width={w.width}
+                            height={w.height}
+                            style={{
+                                position: 'absolute',
+                                top: position.y,
+                                left: position.x,
+                            }}
+                            onRemove={() => onLayoutUpdate([{ type: 'remove', instanceId: w.instanceId }])}
+                            onEdit={w.widget.configurationScreen ? () => onEditWidget(w) : undefined}
+                        >
+                            <w.widget.mainScreen instanceId={w.instanceId} config={w.configutation} />
+                        </WidgetCard>
+                    </WidgetMetadataContext.Provider>);
+                })}
+            </AnimatePresence>
+            {showOnboarding && <Onboarding gridDimensions={gridDimensions} />}
+        </div>
+    </MotionScrollArea>);
 });
