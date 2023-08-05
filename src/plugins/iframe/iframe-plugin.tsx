@@ -66,28 +66,39 @@ const ensureDnrRule = async (url: string, tabId: number) => {
             }
         ],
     } as browser.DeclarativeNetRequest.RuleActionType;
-    const maxId = Math.max(...currentRules.map(r => r.id));
-    await browser.declarativeNetRequest.updateSessionRules({
-        addRules: [{
-            id: Math.max(maxId + 1, 1),
-            condition: {
-                requestDomains: [host],
-                resourceTypes: ['sub_frame'],
-                tabIds: tabId ? [tabId] : undefined,
-            },
-            action,
-        }, {
-            id: Math.max(maxId + 2, 2),
-            condition: {
-                initiatorDomains: [host],
-                resourceTypes: ['sub_frame'],
-                tabIds: tabId ? [tabId] : undefined,
-            },
-            action,
-        }],
-        removeRuleIds: rulesToRemove,
-    });
-    console.log('Rule registered');
+
+
+    const baseId = parseInt(Date.now().toString().slice(3, -3) + '00') + Math.floor(Math.random() * 100);
+    console.log('Will be using baseId', baseId);
+
+    if (currentRules.find(r => r.id === baseId) && !rulesToRemove.includes(baseId)) rulesToRemove.push(baseId);
+    if (currentRules.find(r => r.id === baseId + 1) && !rulesToRemove.includes(baseId + 1)) rulesToRemove.push(baseId + 1);
+
+    try {
+        await browser.declarativeNetRequest.updateSessionRules({
+            addRules: [{
+                id: baseId,
+                condition: {
+                    requestDomains: [host],
+                    resourceTypes: ['sub_frame'],
+                    tabIds: tabId ? [tabId] : undefined,
+                },
+                action,
+            }, {
+                id: baseId + 1,
+                condition: {
+                    initiatorDomains: [host],
+                    resourceTypes: ['sub_frame'],
+                    tabIds: tabId ? [tabId] : undefined,
+                },
+                action,
+            }],
+            removeRuleIds: rulesToRemove,
+        });
+        console.log('Rule registered');
+    } catch (err) {
+        console.log('Err while registering rule', err);
+    }
 };
 
 const MainWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<IframePluginWidgetConfigType>) => {

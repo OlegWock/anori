@@ -79,7 +79,6 @@ browser.runtime.onInstalled.addListener(async (details) => {
             // TODO: reload all tabs?
 
         }
-        
     }
 
     if (details.reason === 'install') {
@@ -119,7 +118,11 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             return;
         }
 
-        return plugin.onMessage[message.command](message.args, sender?.tab?.id);
+        try {
+            return await plugin.onMessage[message.command](message.args, sender?.tab?.id);
+        } catch (err) {
+            console.error('Error while handling message', err);
+        }
     }
 
     return true;
@@ -195,3 +198,5 @@ if (X_BROWSER === 'chrome' && X_MODE === 'development') {
     // @ts-ignore unknwon onRuleMatchedDebug event
     browser.declarativeNetRequest.onRuleMatchedDebug.addListener((info) => console.log('Matched DNR rule', info));
 }
+
+console.log('Background installed all handlers');
