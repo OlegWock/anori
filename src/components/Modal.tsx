@@ -28,9 +28,6 @@ export const Modal = ({ className, children, title, layoutId, closable, onClose,
     const [ref, bounds] = useMeasure();
     const isPresent = useIsPresent();
 
-    console.log('Modal bounds', bounds);
-    console.log('Is present', isPresent);
-
     const animatedHeight = useMotionTransition(bounds.height, {type: 'tween', duration: 0.15, ignoreInitial: true});
 
     return createPortal(

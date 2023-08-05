@@ -14,9 +14,11 @@
 
         .text {
 
-            h3 {
+            h2 {
                 margin-top: 12px;
                 margin-bottom: 4px;
+                line-height: 1;
+                white-space: nowrap;
             }
         }
 
@@ -29,10 +31,10 @@
         justify-content: space-between;
         align-self: stretch;
 
-        h3 {
+        h2 {
+            margin-top: 4px;
             margin-bottom: 16px;
-            font-weight: 400;
-            line-height: 1;
+            line-height: 1.25;
         }
 
         .host {

@@ -3,6 +3,12 @@ import 'webextension-polyfill';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 declare module 'webextension-polyfill' {
+    namespace DeclarativeNetRequest {
+        interface Static {
+            MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES: number;
+        }
+    }
+
     namespace Storage {
         interface Static {
             session: StorageArea;
@@ -39,7 +45,7 @@ declare global {
     }
 
     interface FileSystemSyncAccessHandle {
-        write(buf: ArrayBuffer | ArrayBufferView, opt?: {at: number}): number, // MDN says it's actually Promise, but that seem to be typo
+        write(buf: ArrayBuffer | ArrayBufferView, opt?: { at: number }): number, // MDN says it's actually Promise, but that seem to be typo
         flush(): void,
         close(): void,
     }

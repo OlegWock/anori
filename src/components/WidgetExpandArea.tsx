@@ -169,6 +169,7 @@ export const WidgetExpandArea = ({ children, onClose, className, closable = true
             <m.div
                 className={clsx("WidgetExpandArea", `size-${size}`)}
                 ref={areaRef}
+                onClick={e => e.stopPropagation()}
                 style={{
                     transformOrigin: transformOriginStr,
                     scaleX: scaleX,

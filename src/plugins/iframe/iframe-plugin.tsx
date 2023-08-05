@@ -30,40 +30,64 @@ type IframePluginExpandableWidgetConfigType = {
     url: string,
 };
 
-const ensureDnrRule = async (url: string) => {
+const ensureDnrRule = async (url: string, tabId: number) => {
     if (!browser.declarativeNetRequest) {
         console.log('declarativeNetRequest API not available')
         return;
     }
-    const currentRules = await browser.declarativeNetRequest.getDynamicRules();
+    const currentRules = await browser.declarativeNetRequest.getSessionRules();
+    const currentRulesSorted = currentRules.sort((a, b) => a.id - b.id);
+    let rulesToRemove: number[] = [];
+
+    if (currentRules.length > browser.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES * 0.9) {
+        rulesToRemove = currentRulesSorted.slice(0, Math.floor(currentRules.length * 0.9)).map(r => r.id);
+    }
     const host = parseHost(url);
 
-    const alreadyRegistered = currentRules.find(r => r.condition.requestDomains?.includes(host));
-    if (alreadyRegistered) return;
+    console.log('Checking DNR rules for', host, 'in tab', tabId);
+    const alreadyRegistered = currentRules.find(r => r.condition.requestDomains?.includes(host) && r.condition.tabIds?.includes(tabId));
+    if (alreadyRegistered) {
+        console.log('Rule already registered');
+        return;
+    }
 
+
+    console.log("Rule isn't registered yet");
+    const action = {
+        type: 'modifyHeaders',
+        responseHeaders: [
+            {
+                "header": "X-Frame-Options",
+                "operation": "remove"
+            },
+            {
+                "header": "Content-Security-Policy",
+                "operation": "remove"
+            }
+        ],
+    } as browser.DeclarativeNetRequest.RuleActionType;
     const maxId = Math.max(...currentRules.map(r => r.id));
-    await browser.declarativeNetRequest.updateDynamicRules({
+    await browser.declarativeNetRequest.updateSessionRules({
         addRules: [{
             id: Math.max(maxId + 1, 1),
             condition: {
                 requestDomains: [host],
                 resourceTypes: ['sub_frame'],
+                tabIds: tabId ? [tabId] : undefined,
             },
-            action: {
-                type: 'modifyHeaders',
-                responseHeaders: [
-                    {
-                        "header": "X-Frame-Options",
-                        "operation": "remove"
-                    },
-                    {
-                        "header": "Content-Security-Policy",
-                        "operation": "remove"
-                    }
-                ],
-            }
-        }]
+            action,
+        }, {
+            id: Math.max(maxId + 2, 2),
+            condition: {
+                initiatorDomains: [host],
+                resourceTypes: ['sub_frame'],
+                tabIds: tabId ? [tabId] : undefined,
+            },
+            action,
+        }],
+        removeRuleIds: rulesToRemove,
     });
+    console.log('Rule registered');
 };
 
 const MainWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<IframePluginWidgetConfigType>) => {
@@ -106,6 +130,9 @@ const MainWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConf
 
 const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidgetConfigType>) => {
     const [canRenderIframe, setCanRenderIframe] = useState(false);
+    const { rem } = useSizeSettings();
+
+    console.log('Render iframe widget', config);
 
     useEffect(() => {
         const main = async () => {
@@ -120,7 +147,15 @@ const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidget
     }, [config.url]);
 
     return (<div className="IframeWidget">
-        {!!config.title && <h2>{config.title}</h2>}
+        {!!config.title && <div className="header">
+            <h2>{config.title}</h2>
+            <div className="open-url-btn-wrapper">
+                <a className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></a>
+            </div>
+        </div>}
+        {!config.title && <div className="open-url-btn-wrapper absolute">
+            <a className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></a>
+        </div>}
         {canRenderIframe && <iframe src={config.url} />}
     </div>);
 };
@@ -205,6 +240,9 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
                 className="ExpandableIframeWidget-expand-area"
             >
                 <iframe src={config.url} />
+                <div className="open-url-btn-wrapper absolute">
+                    <a className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></a>
+                </div>
             </WidgetExpandArea>}
         </AnimatePresence>
     </>);
@@ -213,7 +251,7 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
 const { handlers, sendMessage } = createOnMessageHandlers<{
     ensureDnrRule: { args: { url: string }, result: void },
 }>('iframe-plugin', {
-    'ensureDnrRule': async (args, senderTabId) => ensureDnrRule(args.url),
+    'ensureDnrRule': async (args, senderTabId) => ensureDnrRule(args.url, senderTabId!),
 });
 
 

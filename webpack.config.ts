@@ -102,6 +102,10 @@ const generateManifest = (
         ],
     };
 
+    if (mode === 'development') {
+        manifest.permissions?.push('declarativeNetRequestFeedback');
+    }
+
     if (targetBrowser === 'chrome-all-permissions') {
         manifest.permissions = [
             ...manifest.permissions!,
