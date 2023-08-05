@@ -246,7 +246,6 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
         <AnimatePresence>
             {open && <WidgetExpandArea
                 size="max"
-                closable={false}
                 onClose={() => setOpen(false)}
                 className="ExpandableIframeWidget-expand-area"
             >

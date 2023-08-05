@@ -235,6 +235,10 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
                         pluginId: w.pluginId,
                         instanceId: w.instanceId,
                         config: w.configutation,
+                        size: {
+                            width: w.width,
+                            height: w.height,
+                        },
                         updateConfig: (config) => onUpdateWidgetConfig(w.instanceId, config),
                     }}>
                         <WidgetCard

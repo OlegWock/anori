@@ -314,6 +314,12 @@
         "iframe-plugin": {
             "name": "Embed webpage",
             "expandWidgetName": "Embed webpage — expandable"
+        },
+
+        "calculator-plugin": {
+            "name": "Calculator",
+            "expandWidgetName": "Calculator — expandable",
+            "cantCalc": "Can't calculate that"
         }
     }
 }

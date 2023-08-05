@@ -22,6 +22,11 @@
             "name": "Embed webpage",
             "expandWidgetName": "Embed webpage — expandable"
         },
+        "calculator-plugin": {
+            "name": "Calculator",
+            "expandWidgetName": "Calculator — expandable",
+            "cantCalc": "Can't calculate that"
+        },
         "settings": {
             "general": {
                 "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",

@@ -1,0 +1,103 @@
+.CalculatorWidget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    flex-grow: 1;
+
+}
+
+.CalculatorWidgetExpandable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+
+    svg {
+        color: rgba(255, 255, 255, 0.4);
+    }
+}
+
+.CalculatorWidgetExpandArea {
+    width: 500px;
+    height: 700px;
+}
+
+.Calculator {
+    flex-grow: 1;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+
+    .history-wrapper {
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+
+        .ScrollAreaRoot {
+            flex: 1 1 0;
+        }
+
+        .history {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .history-record {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.5rem;
+
+            .expression-shaded {
+                opacity: 0.6;
+            }
+        }
+    }
+
+    .Input {
+        border: 2px solid rgba(255, 255, 255, 0.1);
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .result {
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    .calc-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 2rem);
+        gap: 0.5rem;
+
+        &.with-additional-buttons {
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        .Button {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            padding: 0.25rem;
+            gap: 0;
+
+            sup {
+                font-size: 0.65rem;
+            }
+        }
+    }
+}

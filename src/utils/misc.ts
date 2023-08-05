@@ -1,3 +1,6 @@
+import { LegacyRef, MutableRefObject } from "react";
+import { mergeRefs } from "react-merge-refs";
+
 export const guid = () => {
     // guid()
     // => "563befe9-405e-0e52-6779-9fad2f181678"
@@ -42,3 +45,7 @@ export const choose = <T>(items: T[]) => items[Math.floor(Math.random() * items.
 export const minmax = (num: number, min: number, max: number) => {
     return Math.min(Math.max(num, min), max);
 }
+
+export const combineRefs = (...args: (MutableRefObject<any> | LegacyRef<any> | undefined)[]) => {
+    return mergeRefs(args.filter(a => !!a) as (MutableRefObject<any> | LegacyRef<any>)[]);
+};

@@ -1,9 +1,10 @@
 import * as RadixScrollArea from '@radix-ui/react-scroll-area';
 import './ScrollArea.scss';
-import { ComponentProps, ReactNode, WheelEvent, useEffect, useRef } from 'react';
+import { ComponentProps, ReactNode, Ref, WheelEvent, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { m } from 'framer-motion';
 import { forwardRef } from 'react';
+import { combineRefs } from '@utils/misc';
 
 type ScrollAreaProps = {
     children?: ReactNode,
@@ -16,6 +17,7 @@ type ScrollAreaProps = {
     size?: 'normal' | 'thin',
     onVerticalOverflowStatusChange?: (overflows: boolean) => void,
     onHorizontalOverflowStatusChange?: (overflows: boolean) => void,
+    viewportRef?: Ref<HTMLDivElement>,
 } & ComponentProps<typeof m.div>;
 
 const checkVerticalOverflow = (el: Element) => el.clientHeight < el.scrollHeight;
@@ -24,7 +26,7 @@ const checkHorizontalOverflow = (el: Element) => el.clientWidth < el.scrollWidth
 export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({ 
     children, className, contentClassName, type = "auto", color = 'light', 
     direction = 'vertical', onHorizontalOverflowStatusChange, onVerticalOverflowStatusChange, 
-    size = 'normal', mirrorVerticalScrollToHorizontal = false, ...props 
+    size = 'normal', mirrorVerticalScrollToHorizontal = false, viewportRef, ...props 
 }, ref) => {
     const mirrorScroll = (e: WheelEvent<HTMLDivElement>) => {
         e.stopPropagation();
@@ -36,9 +38,9 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
     };
 
     const onContentResize = () => {
-        if (!viewportRef.current) return;
-        const newHorizontalOverflow = checkHorizontalOverflow(viewportRef.current);
-        const newVerticalOverflow = checkVerticalOverflow(viewportRef.current);
+        if (!localViewportRef.current) return;
+        const newHorizontalOverflow = checkHorizontalOverflow(localViewportRef.current);
+        const newVerticalOverflow = checkVerticalOverflow(localViewportRef.current);
 
         if (newHorizontalOverflow !== horizontalOverflowRef.current && onHorizontalOverflowStatusChange) {
             onHorizontalOverflowStatusChange(newHorizontalOverflow);
@@ -52,7 +54,8 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
         verticalOverflowRef.current = newVerticalOverflow;
     };
 
-    const viewportRef = useRef<HTMLDivElement>(null);
+    const localViewportRef = useRef<HTMLDivElement>(null);
+    const mergedRef = combineRefs(localViewportRef, viewportRef);
     const horizontalOverflowRef = useRef(false);
     const verticalOverflowRef = useRef(false);
 
@@ -61,7 +64,7 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
             <ResizeObserverComponent onResize={onContentResize} />
             <RadixScrollArea.Viewport 
             className={clsx("ScrollAreaViewport", contentClassName)} 
-            ref={viewportRef} 
+            ref={mergedRef} 
             onWheel={(direction === 'horizontal' && mirrorVerticalScrollToHorizontal) ? mirrorScroll : undefined}
             >
                 {children}

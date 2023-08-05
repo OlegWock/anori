@@ -18,9 +18,10 @@ export const WhatsNew = () => {
 
                 <section>
                     <h2>1.11.0</h2>
-                    <p>There is a lot of changes it this release, so if you find any bugs please let me know by creating <a href="https://github.com/OlegWock/anori/issues">issue</a>!</p>
+                    <p>There are a lot of changes in this release, so if you find any bugs please let me know by creating <a href="https://github.com/OlegWock/anori/issues">issue</a>!</p>
                     <ul>
                         <li>Added new 'Embedded webpage' plugin. Now you can add your Notion Dashboard or your favorite Google Doc to Anori. Or even have C̶̺͍̜̾͌͗͂͠h̸̨̛͌́̂a̷̢̝̔̈́͑͂̅͂̕t̸̡̛̫̖͔̘̺́ͅG̷̲͐́͌̍P̵̗̮̹̭͇̽̅̀͑͠T̵̖̗͓̼̖͍͑̅ (sorry!) here. Not available on Firefox (yet).</li>
+                        <li>Also added new 'Calculator' plugin.</li>
                         <li>Tasks, notes, RSS feed and recently closed tabs widgets now can be resized.</li>
                         <li>Now you can move widgets to another folder. Just drag them over folder you'd like to move them to and release mouse button. Poof!</li>
                         <li>

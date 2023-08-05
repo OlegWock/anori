@@ -3,6 +3,7 @@ import { AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithSto
 import { AnoriPlugin, FolderDetailsInStorage, ID, OnMessageDescriptor, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
 import { SetStateAction, createContext, useContext, useMemo } from 'react';
 import { NamespacedStorage } from './namespaced-storage';
+import { LayoutItemSize } from './grid';
 
 
 export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin: AnoriPlugin<PT, WT>) => {
@@ -36,6 +37,7 @@ export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin
 export type WidgetMetadataContextType<WidgetConfigT extends {}> = {
     pluginId: string,
     instanceId: string,
+    size: LayoutItemSize,
     config: WidgetConfigT,
     updateConfig: (update: Partial<WidgetConfigT>) => void,
 };

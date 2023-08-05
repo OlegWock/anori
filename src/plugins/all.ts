@@ -12,6 +12,7 @@ import { weatherPlugin } from "./weather/weather-plugin";
 import { rssPlugin } from "./rss/rss-plugin";
 import { testPlugin } from "./test/test-plugin";
 import { iframePlugin } from "./iframe/iframe-plugin";
+import { calculatorPlugin } from "./calculator/calculator-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
     iframePlugin, // Blocked by https://bugzilla.mozilla.org/show_bug.cgi?id=1827855
@@ -32,6 +33,7 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
     rssPlugin,
     notesPlugin,
     tasksPlugin,
+    calculatorPlugin,
     searchPlugin,
     weatherPlugin,
     calendarPlugin,

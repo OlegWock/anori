@@ -23,7 +23,7 @@ const transition: Transition = {
     ease: 'easeInOut',
 };
 
-export const WidgetExpandArea = ({ children, onClose, className, closable = true, size = 'auto' }: WidgetExpandAreaProps) => {
+export const WidgetExpandArea = ({ children, onClose, className, closable = false, size = 'auto' }: WidgetExpandAreaProps) => {
     const playUnmount = () => {
         if (!areaRef.current) {
             console.warn('WidgetExpandArea ref is missing on unmount');

@@ -4169,6 +4169,11 @@ matcher-collection@^2.0.1:
     "@types/minimatch" "^3.0.3"
     minimatch "^3.0.2"
 
+math-expression-evaluator@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-2.0.3.tgz#c7c2e66b7ef5b462846a137ca124aca21f3b4a62"
+  integrity sha512-sAuxMtmCVjVnp70mT1kDHdVpiVSQtpLP4crI67wvJfoOfSSB2CBpQ9MtYtEhZL87lVnFviKK2d/sSfgOCKQ+mg==
+
 mdast-util-definitions@^5.0.0:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/mdast-util-definitions/-/mdast-util-definitions-5.1.2.tgz#9910abb60ac5d7115d6819b57ae0bcef07a3f7a7"
