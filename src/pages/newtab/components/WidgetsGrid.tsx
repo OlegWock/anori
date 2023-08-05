@@ -235,6 +235,8 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
                         pluginId: w.pluginId,
                         instanceId: w.instanceId,
                         config: w.configutation,
+                        // TODO: would be nice to update this in realtime while user pans widget
+                        // So any UI dependencies will rerendered right away
                         size: {
                             width: w.width,
                             height: w.height,
