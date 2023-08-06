@@ -9,7 +9,6 @@ import { Popover } from "@components/Popover";
 import { PickBookmark } from "@components/PickBookmark";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { normalizeUrl, parseHost } from "@utils/misc";
-import browser from 'webextension-polyfill';
 import { createOnMessageHandlers } from "@utils/plugin";
 import { IS_TOUCH_DEVICE } from "@utils/device";
 import { IconPicker } from "@components/IconPicker";
@@ -17,101 +16,40 @@ import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
 import { AnimatePresence } from "framer-motion";
 import { WidgetExpandArea } from "@components/WidgetExpandArea";
+import { Checkbox } from "@components/Checkbox";
+import { Link } from "@components/Link";
+import { ensureDnrRule } from "@plugins/shared/dnr";
+import { Alert } from "@components/Alert";
 
 
 type IframePluginWidgetConfigType = {
     title: string,
     url: string,
+    showLinkToPage: boolean,
 };
 
 type IframePluginExpandableWidgetConfigType = {
     title: string,
     icon: string,
     url: string,
-};
-
-const ensureDnrRule = async (url: string, tabId: number) => {
-    if (!browser.declarativeNetRequest) {
-        console.log('declarativeNetRequest API not available')
-        return;
-    }
-    const currentRules = await browser.declarativeNetRequest.getSessionRules();
-    const currentRulesSorted = currentRules.sort((a, b) => a.id - b.id);
-    let rulesToRemove: number[] = [];
-
-    if (currentRules.length > browser.declarativeNetRequest.MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES * 0.9) {
-        rulesToRemove = currentRulesSorted.slice(0, Math.floor(currentRules.length * 0.9)).map(r => r.id);
-    }
-    const host = parseHost(url);
-
-    console.log('Checking DNR rules for', host, 'in tab', tabId);
-    const alreadyRegistered = currentRules.find(r => r.condition.requestDomains?.includes(host) && r.condition.tabIds?.includes(tabId));
-    if (alreadyRegistered) {
-        console.log('Rule already registered');
-        return;
-    }
-
-
-    console.log("Rule isn't registered yet");
-    const action = {
-        type: 'modifyHeaders',
-        responseHeaders: [
-            {
-                "header": "X-Frame-Options",
-                "operation": "remove"
-            },
-            {
-                "header": "Content-Security-Policy",
-                "operation": "remove"
-            }
-        ],
-    } as browser.DeclarativeNetRequest.RuleActionType;
-
-
-    const baseId = parseInt(Date.now().toString().slice(3, -3) + '00') + Math.floor(Math.random() * 100);
-    console.log('Will be using baseId', baseId);
-
-    if (currentRules.find(r => r.id === baseId) && !rulesToRemove.includes(baseId)) rulesToRemove.push(baseId);
-    if (currentRules.find(r => r.id === baseId + 1) && !rulesToRemove.includes(baseId + 1)) rulesToRemove.push(baseId + 1);
-
-    try {
-        await browser.declarativeNetRequest.updateSessionRules({
-            addRules: [{
-                id: baseId,
-                condition: {
-                    requestDomains: [host],
-                    resourceTypes: ['sub_frame'],
-                    tabIds: tabId ? [tabId] : undefined,
-                },
-                action,
-            }, {
-                id: baseId + 1,
-                condition: {
-                    initiatorDomains: [host],
-                    resourceTypes: ['sub_frame'],
-                    tabIds: tabId ? [tabId] : undefined,
-                },
-                action,
-            }],
-            removeRuleIds: rulesToRemove,
-        });
-        console.log('Rule registered');
-    } catch (err) {
-        console.log('Err while registering rule', err);
-    }
+    showLinkToPage: boolean,
 };
 
 const MainWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<IframePluginWidgetConfigType>) => {
     const onConfirm = () => {
 
-        saveConfiguration({ url, title });
+        saveConfiguration({ url, title, showLinkToPage });
     };
 
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [url, setUrl] = useState(currentConfig?.url || '');
+    const [showLinkToPage, setShowLinkToPage] = useState(currentConfig?.showLinkToPage ?? true);
     const { t } = useTranslation();
 
     return (<div className="IframeWidget-config">
+        <Alert>
+            {t('iframe-plugin.limitations')}
+        </Alert>
         <div className="field">
             <label>{t('title')} ({t('canBeEmpty')})</label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -133,6 +71,9 @@ const MainWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConf
                     <Button>{t('import')}</Button>
                 </Popover>}
             </div>
+        </div>
+        <div className="field">
+            <Checkbox checked={showLinkToPage} onChange={setShowLinkToPage}>{t('iframe-plugin.showLink')}</Checkbox>
         </div>
 
         <Button className="save-config" onClick={onConfirm}>Save</Button>
@@ -160,12 +101,12 @@ const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidget
     return (<div className="IframeWidget">
         {!!config.title && <div className="header">
             <h2>{config.title}</h2>
-            <div className="open-url-btn-wrapper">
-                <a className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></a>
-            </div>
+            {config.showLinkToPage && <div className="open-url-btn-wrapper">
+                <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></Link>
+            </div>}
         </div>}
-        {!config.title && <div className="open-url-btn-wrapper absolute">
-            <a className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></a>
+        {(!config.title && config.showLinkToPage) && <div className="open-url-btn-wrapper absolute">
+            <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></Link>
         </div>}
         {canRenderIframe && <iframe src={config.url} />}
     </div>);
@@ -174,17 +115,22 @@ const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidget
 const ExpandableWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<IframePluginExpandableWidgetConfigType>) => {
     const onConfirm = () => {
 
-        saveConfiguration({ url, title, icon });
+        saveConfiguration({ url, title, icon, showLinkToPage });
     };
 
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:compass');
     const [url, setUrl] = useState(currentConfig?.url || '');
+    const [showLinkToPage, setShowLinkToPage] = useState(currentConfig?.showLinkToPage ?? true);
     const { t } = useTranslation();
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
 
     return (<div className="IframeWidget-config">
+        <Alert>
+            {t('iframe-plugin.limitations')}
+        </Alert>
+
         <div className="field">
             <label>{t('icon')}:</label>
             <Popover
@@ -221,6 +167,10 @@ const ExpandableWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widg
             </div>
         </div>
 
+        <div className="field">
+            <Checkbox checked={showLinkToPage} onChange={setShowLinkToPage}>{t('iframe-plugin.showLink')}</Checkbox>
+        </div>
+
         <Button className="save-config" onClick={onConfirm}>Save</Button>
     </div>);
 };
@@ -237,10 +187,12 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
 
     return (<>
         <button className="ExpandableIframeWidget" onClick={() => setOpen(true)}>
-            <Icon icon={config.icon} width={rem(2.25)} height={rem(2.25)} />
-            <div className="text">
-                <h2>{config.title}</h2>
-                <div className="host">{host}</div>
+            <div className="iframe-widget-content">
+                <Icon icon={config.icon} width={rem(2.25)} height={rem(2.25)} />
+                <div className="text">
+                    <h2>{config.title}</h2>
+                    <div className="host">{host}</div>
+                </div>
             </div>
         </button>
         <AnimatePresence>
@@ -250,9 +202,9 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
                 className="ExpandableIframeWidget-expand-area"
             >
                 <iframe src={config.url} />
-                <div className="open-url-btn-wrapper absolute">
-                    <a className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></a>
-                </div>
+                {config.showLinkToPage && <div className="open-url-btn-wrapper absolute">
+                    <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></Link>
+                </div>}
             </WidgetExpandArea>}
         </AnimatePresence>
     </>);
@@ -274,13 +226,13 @@ const widgetDescriptor = {
     mainScreen: (props: WidgetRenderProps<IframePluginWidgetConfigType>) => {
         return (<RequirePermissions
             hosts={[parseHost(props.config.url)]}
-            permissions={["declarativeNetRequestWithHostAccess"]}
+            permissions={["declarativeNetRequestWithHostAccess", "browsingData"]}
         >
             <MainWidget {...props} />
         </RequirePermissions>);
     },
     mock: () => {
-        return (<MainWidget instanceId="mock" config={{ url: 'http://example.com/', title: '' }} />)
+        return (<MainWidget instanceId="mock" config={{ url: 'http://example.com/', title: '', showLinkToPage: true }} />)
     },
     appearance: {
         size: {
@@ -303,14 +255,15 @@ const widgetDescriptorExpandable = {
         return (<RequirePermissions
             compact
             hosts={[parseHost(props.config.url)]}
-            permissions={["declarativeNetRequestWithHostAccess"]}
+            className="rp-paddings"
+            permissions={["declarativeNetRequestWithHostAccess", "browsingData"]}
         >
             <ExpandableWidget {...props} />
         </RequirePermissions>);
     },
     mock: () => {
         const { t } = useTranslation();
-        return (<ExpandableWidget instanceId="mock" config={{ url: 'http://example.com/', title: t('example'), icon: 'ion:compass' }} />)
+        return (<ExpandableWidget instanceId="mock" config={{ url: 'http://example.com/', title: t('example'), icon: 'ion:compass', showLinkToPage: true }} />)
     },
     appearance: {
         size: {
@@ -318,6 +271,7 @@ const widgetDescriptorExpandable = {
             height: 1,
         },
         withHoverAnimation: true,
+        withoutPadding: true,
         resizable: false,
     }
 } as const satisfies WidgetDescriptor<any>;

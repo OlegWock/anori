@@ -80,6 +80,7 @@ const generateManifest = (
             'bookmarks',
             'tabGroups',
             'declarativeNetRequestWithHostAccess',
+            'browsingData',
         ],
         optional_host_permissions: [
             "*://*/*"

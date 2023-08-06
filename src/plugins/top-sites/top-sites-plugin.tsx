@@ -12,6 +12,7 @@ import { useWidgetStorage } from "@utils/plugin";
 import { useParentFolder } from "@utils/FolderContentContext";
 import { translate } from "@translations/index";
 import { useSizeSettings } from "@utils/compact";
+import { Link } from "@components/Link";
 
 type PluginWidgetConfigType = {
 
@@ -27,7 +28,7 @@ const LinkPlate = ({ href, favicon, title, onRemove }: { href: string, favicon: 
     const { onLinkClick, isNavigating } = useLinkNavigationState();
     const { isEditing } = useParentFolder();
 
-    return (<a href={href} onClick={onLinkClick}>
+    return (<Link href={href} onClick={onLinkClick}>
         {isNavigating && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={32} height={32} />}
         {!isNavigating && <img src={favicon} />}
         <div className="site-title">{title}</div>
@@ -36,7 +37,7 @@ const LinkPlate = ({ href, favicon, title, onRemove }: { href: string, favicon: 
             e.stopPropagation();
             onRemove();
         }}><Icon icon='ion:close' width={16} height={16} /></Button>}
-    </a>);
+    </Link>);
 };
 
 const MainScreen = ({ config, instanceId, type }: WidgetRenderProps<PluginWidgetConfigType> & { type: 'horizontal' | 'vertical' }) => {

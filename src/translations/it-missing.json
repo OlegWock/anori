@@ -4,7 +4,9 @@
         "canBeEmpty": "can be empty",
         "iframe-plugin": {
             "name": "Embed webpage",
-            "expandWidgetName": "Embed webpage — expandable"
+            "expandWidgetName": "Embed webpage — expandable",
+            "showLink": "Show link to original page",
+            "limitations": "Embedding doesn't work with all pages. Some sites actively resist being displayed as an embedded page, and unfortunately, Anori can't do much about it. This might result in pages not loading (as is the case with Gmail) or working poorly."
         },
         "calculator-plugin": {
             "name": "Calculator",

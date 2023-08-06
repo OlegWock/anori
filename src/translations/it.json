@@ -182,10 +182,8 @@
         },
         "bookmark-plugin": {
             "name": "Segnalibri",
-            "widgetSizeSName": "Segnalibro - dimensione S",
-            "widgetSizeMName": "Segnalibro - dimensione M",
-            "groupWidgetSizeSName": "Gruppo segnalibri - dimensione S",
-            "groupWidgetSizeMName": "Gruppo segnalibri - dimensione M",
+            "widgetName": "Segnalibro",
+            "groupWidgetName": "Gruppo segnalibri",
             "openInGroup": "Apri in un gruppo di schede",
             "group": "Gruppo",
             "searchBookmarks": "Cerca segnalibri"

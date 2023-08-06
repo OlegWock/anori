@@ -19,7 +19,7 @@ export const downloadTextFile = (name: string, content: string) => {
 };
 
 export const downloadBlob = (name: string, blob: Blob) => {
-    // TODO: doesn't work is Safari
+    // Doesn't work is Safari
     // https://bugs.webkit.org/show_bug.cgi?id=226440
     const aElement = document.createElement('a');
     aElement.setAttribute('download', name);

@@ -13,6 +13,7 @@
     --text-subtle-2: #{color.scale(utils.$text, $alpha: -35%)};
     --text-border: #{color.scale(utils.$text, $alpha: -75%)};
     --text-disabled: #{color.scale(utils.$text, $blackness: +45%)};
+    --icon-color: rgba(255, 255, 255, 0.4);
 }
 
 * {

@@ -27,7 +27,7 @@ const Mock = () => {
 
 
 const Link = (props: ComponentProps<"a"> & ReactMarkdownProps) => {
-    return (<a onClick={e => e.stopPropagation()} onFocus={e => e.stopPropagation()} {...props} />);
+    return (<Link onClick={e => e.stopPropagation()} onFocus={e => e.stopPropagation()} {...props} />);
 }
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {

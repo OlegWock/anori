@@ -159,10 +159,8 @@
         },
         "bookmark-plugin": {
             "name": "Lesezeichen",
-            "widgetSizeSName": "Lesezeichen - Größe S",
-            "widgetSizeMName": "Lesezeichen - Größe M",
-            "groupWidgetSizeSName": "Lesezeichengruppe - Größe S",
-            "groupWidgetSizeMName": "Lesezeichengruppe - Größe M",
+            "widgetName": "Lesezeichen",
+            "groupWidgetName": "Lesezeichengruppe",
             "openInGroup": "In Tabgruppe öffnen",
             "group": "Gruppe",
             "searchBookmarks": "Lesezeichen durchsuchen"

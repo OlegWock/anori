@@ -159,10 +159,8 @@
         },
         "bookmark-plugin": {
             "name": "Url ที่บันทึกไว้",
-            "widgetSizeSName": "Url ที่บันทึกไว้ - ขนาดเล็ก",
-            "widgetSizeMName": "Url ที่บันทึกไว้ - ขนาดกลาง",
-            "groupWidgetSizeSName": "กลุ่ม Url ที่บันทึกไว้ - ขนาดเล็ก",
-            "groupWidgetSizeMName": "กลุ่ม Url ที่บันทึกไว้ - ขนาดกลาง",
+            "widgetName": "Url ที่บันทึกไว้",
+            "groupWidgetName": "กลุ่ม Url ที่บันทึกไว้",
             "openInGroup": "เปิดในกลุ่ม",
             "group": "Group",
             "searchBookmarks": "ค้นหา Url ที่บันทึกไว้"

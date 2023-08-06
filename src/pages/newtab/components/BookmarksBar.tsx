@@ -8,6 +8,7 @@ import { usePermissionsQuery } from '@utils/permissions';
 import clsx from 'clsx';
 import * as Menubar from '@radix-ui/react-menubar';
 import { ScrollArea } from '@components/ScrollArea';
+import { Link } from '@components/Link';
 
 type BookmarkItem = {
     id: string,
@@ -91,12 +92,12 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shif
 
     if (bookmark.type === 'bookmark') {
         return (<Menubar.Item asChild>
-            <a className="MenuBookmark" href={bookmark.url}>
+            <Link className="MenuBookmark" href={bookmark.url}>
                 <div className="content">
                     <Favicon url={bookmark.url} useFaviconApiIfPossible height={rem(1)} />
                     {!!bookmark.title && <span className="title">{bookmark.title}</span>}
                 </div>
-            </a>
+            </Link>
         </Menubar.Item>);
     }
     return (<Menubar.Sub>
@@ -131,9 +132,9 @@ const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?:
     </>);
 
     if (bookmark.type === 'bookmark') {
-        return (<a className='Bookmark' href={bookmark.url}>
+        return (<Link className='Bookmark' href={bookmark.url}>
             {content}
-        </a>);
+        </Link>);
     }
 
     return (

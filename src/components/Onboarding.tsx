@@ -9,7 +9,7 @@ import { useMotionTransition } from '@utils/animations';
 import { slidingScreensAnimation } from './animations';
 import { storage, useAtomWithStorage, useBrowserStorageValue } from '@utils/storage';
 import { useFolderWidgets, useFolders } from '@utils/user-data/hooks';
-import { bookmarkPlugin, bookmarkWidgetSizeMDescriptor, bookmarkWidgetSizeSDescriptor } from '@plugins/bookmark/bookmark-plugin';
+import { bookmarkPlugin, bookmarkWidgetDescriptor } from '@plugins/bookmark/bookmark-plugin';
 import { Icon } from './Icon';
 import { Language, availableTranslations, availableTranslationsPrettyNames, switchTranslationLanguage } from '@translations/index';
 import { Select } from './Select';
@@ -122,11 +122,15 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
         });
         addIfPossible({
             plugin: bookmarkPlugin,
-            widget: bookmarkWidgetSizeMDescriptor,
+            widget: bookmarkWidgetDescriptor,
             config: {
                 url: 'https://www.reddit.com/',
                 title: 'Reddit',
                 icon: 'logos:reddit-icon',
+            },
+            size: {
+                width: 2,
+                height: 1,
             },
             position: {
                 x: 1 + compensationForTopSites,
@@ -135,7 +139,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
         });
         addIfPossible({
             plugin: bookmarkPlugin,
-            widget: bookmarkWidgetSizeSDescriptor,
+            widget: bookmarkWidgetDescriptor,
             config: {
                 url: 'https://twitter.com/',
                 title: 'Twitter',
@@ -148,7 +152,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
         });
         addIfPossible({
             plugin: bookmarkPlugin,
-            widget: bookmarkWidgetSizeSDescriptor,
+            widget: bookmarkWidgetDescriptor,
             config: {
                 url: 'https://www.instagram.com/',
                 title: 'Instagram',

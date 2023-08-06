@@ -70,13 +70,16 @@ browser.runtime.onInstalled.addListener(async (details) => {
                         w.widgetId = 'recently-closed-widget';
                     }
 
+                    if (w.pluginId === 'bookmark-plugin') {
+                        w.widgetId = w.widgetId.startsWith('bookmark-group') ? 'bookmark-group' : 'bookmark';
+                    }
+
                     return w;
                 });
                 await setFolderDetails(folder.id, details);
             });
             await Promise.all(promises);
             console.log('Migrated storage to resizable plugins');
-            // TODO: reload all tabs?
 
         }
     }
@@ -122,6 +125,19 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
             return await plugin.onMessage[message.command](message.args, sender?.tab?.id);
         } catch (err) {
             console.error('Error while handling message', err);
+        }
+    } else if (message.type === 'open-url') {
+        if (!sender.tab) return;
+        if (message.inNewTab) {
+            return browser.tabs.create({
+                url: message.url,
+                active: false,
+                index: sender.tab.index + 1,
+            })
+        } else {
+            return browser.tabs.update(sender.tab.id, {
+                url: message.url,
+            });
         }
     }
 

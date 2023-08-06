@@ -2,54 +2,106 @@
 
 .BookmarkWidget {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     text-decoration: none;
     flex-grow: 1;
     max-height: 100%;
+    padding: 1rem;
+    position: relative;
 
-    &.size-s {
-        flex-direction: column;
-        align-items: flex-start;
-        flex-flow: column-reverse;
+    .bookmark-content {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        flex-grow: 1;
+        overflow: hidden;
 
         .text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-self: stretch;
 
             h2 {
-                margin-top: 12px;
-                margin-bottom: 4px;
-                line-height: 1;
-                white-space: nowrap;
+                margin-top: 4px;
+                margin-bottom: 16px;
+                line-height: 1.25;
+            }
+
+            .host {
+                font-size: 0.75rem;
+                color: var(--text-subtle-2);
             }
         }
 
-    }
-
-    .text {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-self: stretch;
-
-        h2 {
-            margin-top: 4px;
-            margin-bottom: 16px;
-            line-height: 1.25;
+        svg {
+            color: var(--icon-color)
         }
 
-        .host {
-            font-size: 0.75rem;
-            color: var(--text-subtle-2);
+        .loading {
+            animation: spin 1.5s ease-in-out infinite;
         }
     }
 
-    svg {
-        color: rgba(255, 255, 255, 0.4);
+    &.size-s {
+        .bookmark-content {
+            flex-direction: column;
+            align-items: flex-start;
+            flex-flow: column-reverse;
+
+            .text {
+
+                h2 {
+                    margin-top: 12px;
+                    margin-bottom: 4px;
+                    line-height: 1;
+                    white-space: nowrap;
+                }
+            }
+        }
     }
 
-    .loading {
-        animation: spin 1.5s ease-in-out infinite;
+    .open-in-iframe {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        line-height: 1;
+        display: none;
+        user-select: none;
+        -webkit-user-select: none;
+        background: var(--background);
+        white-space: nowrap;
+        color: var(--text);
+        border-radius: 24px;
+        overflow: hidden;
+
+        cursor: pointer;
+
+        &>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+
+            padding: 6px 18px;
+            background: transparent;
+            transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
+        }
+
+        @include utils.hover {
+            &>div {
+                background: rgba(255, 255, 255, 0.05);
+            }
+        }
     }
+
+    &:hover {
+        .open-in-iframe {
+            display: flex;
+        }
+    }
+
 }
 
 .BookmarkWidget-config {
@@ -91,6 +143,17 @@
     .add-button-wrapper {
         display: flex;
         justify-content: center;
+    }
+}
+
+.BookmarkWidget-expand {
+    justify-content: center;
+    align-items: center !important;
+
+    iframe {
+        flex-grow: 1;
+        align-self: stretch;
+        border-radius: 12px;
     }
 }
 

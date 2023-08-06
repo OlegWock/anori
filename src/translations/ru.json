@@ -159,10 +159,8 @@
         },
         "bookmark-plugin": {
             "name": "Закладки",
-            "widgetSizeSName": "Закладка - размер S",
-            "widgetSizeMName": "Закладка - размер М",
-            "groupWidgetSizeSName": "Группа закладок - размер S",
-            "groupWidgetSizeMName": "Группа закладок - размер M",
+            "widgetName": "Закладка",
+            "groupWidgetName": "Группа закладок",
             "openInGroup": "Открыть в группе вкладок",
             "group": "Группа",
             "searchBookmarks": "Поиск закладок"

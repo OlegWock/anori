@@ -15,7 +15,7 @@
     cursor: pointer;
 
     svg {
-        color: rgba(255, 255, 255, 0.4);
+        color: var(--icon-color)
     }
 }
 
@@ -84,6 +84,11 @@
 
         &.with-additional-buttons {
             grid-template-columns: repeat(7, 1fr);
+        }
+
+        &.all-height {
+            flex: 1;
+            grid-template-rows: repeat(5, 1fr);
         }
 
         .Button {

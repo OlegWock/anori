@@ -25,7 +25,7 @@ export const parseHost = (url: string) => {
 };
 
 export const normalizeUrl = (url: string) => {
-    if (!url.includes('://')) {
+    if (!url.includes('://') && !url.startsWith('#')) {
         return 'https://' + url;
     }
 

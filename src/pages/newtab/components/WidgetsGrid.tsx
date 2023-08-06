@@ -129,7 +129,6 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
         const isOverlaysRounded = willItemOverlay({
             arr: layoutTo2DArray({
                 grid: gridDimensions,
-                // TODO: should we use adjusted layout here?
                 layout: layout.filter(w => w.instanceId !== widget.instanceId),
             }),
             item: {
@@ -156,7 +155,6 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
         const isOverlaysFloored = willItemOverlay({
             arr: layoutTo2DArray({
                 grid: gridDimensions,
-                // TODO: should we use adjusted layout here?
                 layout: layout.filter(w => w.instanceId !== widget.instanceId),
             }),
             item: {

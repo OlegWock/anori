@@ -89,7 +89,7 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
             }
         }} />
 
-        <div className={clsx("calc-buttons", showAdditionalButtons && "with-additional-buttons")}>
+        <div className={clsx("calc-buttons", showAdditionalButtons && "with-additional-buttons", !showHistory && "all-height")}>
             {showAdditionalButtons && <>
                 <Button onClick={addToExp('sin(')}>sin</Button>
                 <Button onClick={addToExp('cos(')}>cos</Button>

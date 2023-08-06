@@ -159,10 +159,8 @@
         },
         "bookmark-plugin": {
             "name": "书签",
-            "widgetSizeSName": "书签 - 小",
-            "widgetSizeMName": "书签 - 中",
-            "groupWidgetSizeSName": "书签组 - 小",
-            "groupWidgetSizeMName": "书签组 - 中",
+            "widgetName": "书签",
+            "groupWidgetName": "书签组",
             "openInGroup": "在标签页组中打开",
             "group": "组",
             "searchBookmarks": "搜索书签"

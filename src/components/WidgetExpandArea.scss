@@ -14,8 +14,8 @@
 
 .WidgetExpandArea {
     width: min-content;
-    max-width: 85vw;
-    max-height: 85vh;
+    max-width: 90vw;
+    max-height: 90vh;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
     background: var(--background-lighter);
@@ -27,8 +27,8 @@
     position: relative;
 
     &.size-max {
-        min-width: 85vw;
-        min-height: 85vh;
+        min-width: 90vw;
+        min-height: 90vh;
     }
 
     &-content {
