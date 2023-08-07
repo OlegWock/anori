@@ -29,6 +29,7 @@
     flex: 1;
     line-height: inherit;
     padding: 1rem;
+    cursor: pointer;
 
     .iframe-widget-content {
         display: flex;
@@ -54,6 +55,10 @@
         .host {
             font-size: 0.75rem;
             color: var(--text-subtle-2);
+        }
+
+        svg {
+            color: var(--icon-color);
         }
     }
 }

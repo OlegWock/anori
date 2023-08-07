@@ -185,6 +185,9 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
 
     // TODO: Because we use ScrollArea here (which hides overflow) our current Drag-and-drop implementation looks ugly
     // Because dragged element can't overflow parent. Ideally, we should pop it from layout when we start dragging it
+    // Probably, correct solution will be to give all data to WidgetCard and let it calcualte (and thus control) its
+    // pixel position in grid. This will allow us to pop it from layout (render in portal) when drag starts
+    // This also allows us to adjust widget size (provided in context) dynamically
 
     return (<MotionScrollArea
         className="WidgetsGrid"

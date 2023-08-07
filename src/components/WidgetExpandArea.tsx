@@ -3,7 +3,7 @@ import './WidgetExpandArea.scss';
 import { ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useParentWidgetCardRef } from "./WidgetCard";
-import { usePrevious } from "@utils/hooks";
+import { useHotkeys, usePrevious } from "@utils/hooks";
 import clsx from "clsx";
 import { Icon } from "./Icon";
 
@@ -81,6 +81,8 @@ export const WidgetExpandArea = ({ children, onClose, className, closable = fals
     const [scope, animate] = useAnimate();
     const [isPresent, safeToRemove] = usePresence();
     const prevIsPresent = usePrevious(isPresent, true);
+
+    useHotkeys('esc', () => onClose && onClose());
 
 
     useLayoutEffect(() => {

@@ -210,7 +210,8 @@ browser.runtime.setUninstallURL(`https://anori.app/goodbye`);
     })
 });
 
-if (X_BROWSER === 'chrome' && X_MODE === 'development') {
+    // @ts-ignore unknwon onRuleMatchedDebug event
+if (X_BROWSER === 'chrome' && X_MODE === 'development' && browser.declarativeNetRequest?.onRuleMatchedDebug) {
     // @ts-ignore unknwon onRuleMatchedDebug event
     browser.declarativeNetRequest.onRuleMatchedDebug.addListener((info) => console.log('Matched DNR rule', info));
 }

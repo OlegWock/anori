@@ -23,6 +23,7 @@ export type CurrentWeather = {
 
 export type WeatherForecast = {
     date: Moment,
+    dateRaw: string,
     windSpeed: number,
     windDirection: number,
     weatherCode: number,
@@ -82,6 +83,7 @@ export const getForecast = async (city: City): Promise<WeatherForecast[]> => {
 
         return {
             date,
+            dateRaw,
             temperatureMin: json.daily.temperature_2m_min[i],
             temperatureMax: json.daily.temperature_2m_max[i],
             windSpeed: json.daily.windspeed_10m_max[i],

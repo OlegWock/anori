@@ -68,7 +68,7 @@ const weatherCodeDescription = (code: number) => {
     return translate('weather-plugin.unknownCode');
 };
 
-const CACHE_TIME = 1000 * 60 * 10;
+const CACHE_TIME = 1000 * 60 * 20;
 
 const mockCity = {
     "id": 3060972,
@@ -168,7 +168,9 @@ const useCurrentWeather = (config: PluginWidgetConfigType) => {
 
     useEffect(() => {
         const load = async () => {
+            await store.waitForLoad();
             const fromStorage = store.get('weather');
+            console.log('Current weather from storage', fromStorage);
             if (fromStorage) {
                 setWeather(fromStorage);
                 if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
@@ -181,6 +183,8 @@ const useCurrentWeather = (config: PluginWidgetConfigType) => {
             }
             try {
                 const weather = await gerCurrentWeather(config.location);
+                console.log('Setting weather to storage');
+                store.set('weather', { lastUpdated: Date.now(), ...weather });
                 setWeather({
                     ...weather,
                     lastUpdated: Date.now(),
@@ -214,8 +218,10 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
 
     useEffect(() => {
         const load = async () => {
+            await store.waitForLoad();
             const fromStorage = store.get('weather');
             if (fromStorage) {
+                fromStorage.forecast.forEach(r => r.date = moment(r.dateRaw))
                 setForecast(fromStorage.forecast);
                 setLastUpdated(fromStorage.lastUpdated);
                 if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
@@ -228,6 +234,7 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
             }
             try {
                 const weather = await getForecast(config.location);
+                store.set('weather', { forecast: weather.map(({date, ...rest}) => rest as WeatherForecast), lastUpdated: Date.now() });
                 setForecast(weather);
                 setLastUpdated(Date.now());
             } catch (err) {
