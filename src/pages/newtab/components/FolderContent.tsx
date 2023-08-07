@@ -2,9 +2,8 @@ import { AnimatePresence, m } from 'framer-motion';
 import './FolderContent.scss';
 import { Folder, WidgetInFolderWithMeta } from '@utils/user-data/types';
 import { Icon } from '@components/Icon';
-import { CSSProperties, useEffect, useState } from 'react';
+import { CSSProperties, Suspense, lazy, useEffect, useState } from 'react';
 import { Button } from '@components/Button';
-import { NewWidgetWizard } from './NewWidgetWizard';
 import { tryMoveWidgetToFolder, useFolderWidgets } from '@utils/user-data/hooks';
 import { FolderContentContext } from '@utils/FolderContentContext';
 import { useRef } from 'react';
@@ -18,6 +17,8 @@ import { ScrollArea } from '@components/ScrollArea';
 import clsx from 'clsx';
 import { LayoutChange, WidgetsGrid } from './WidgetsGrid';
 
+
+const NewWidgetWizard = lazy(() => import('./NewWidgetWizard').then(m => ({default: m.NewWidgetWizard})));
 
 type FolderContentProps = {
     folder: Folder,
@@ -222,33 +223,35 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
 
                 </m.div>
 
-                <AnimatePresence>
-                    {newWidgetWizardVisible && <NewWidgetWizard
-                        folder={folder}
-                        key='new-widget-wizard'
-                        onClose={() => setNewWidgetWizardVisible(false)}
-                        gridDimensions={gridDimensions}
-                        layout={widgets}
-                    />}
+                <Suspense>
+                    <AnimatePresence>
+                        {newWidgetWizardVisible && <NewWidgetWizard
+                            folder={folder}
+                            key='new-widget-wizard'
+                            onClose={() => setNewWidgetWizardVisible(false)}
+                            gridDimensions={gridDimensions}
+                            layout={widgets}
+                        />}
 
 
-                    {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
-                        title={t("editWidget")}
-                        key='edit-widget-modal'
-                        className='edit-widget-modal'
-                        onClose={() => setEditingWidget(null)}
-                        closable
-                    >
-                        <ScrollArea className='edit-widget-scrollarea'>
-                            <m.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{ opacity: 1, translateX: '0%' }}>
-                                <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
-                                    updateWidgetConfig(editingWidget.instanceId, config);
-                                    setEditingWidget(null);
-                                }} />
-                            </m.div>
-                        </ScrollArea>
-                    </Modal>}
-                </AnimatePresence>
+                        {(!!editingWidget && editingWidget.widget.configurationScreen) && <Modal
+                            title={t("editWidget")}
+                            key='edit-widget-modal'
+                            className='edit-widget-modal'
+                            onClose={() => setEditingWidget(null)}
+                            closable
+                        >
+                            <ScrollArea className='edit-widget-scrollarea'>
+                                <m.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{ opacity: 1, translateX: '0%' }}>
+                                    <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                                        updateWidgetConfig(editingWidget.instanceId, config);
+                                        setEditingWidget(null);
+                                    }} />
+                                </m.div>
+                            </ScrollArea>
+                        </Modal>}
+                    </AnimatePresence>
+                </Suspense>
             </FolderContentContext.Provider >
         </>);
 }

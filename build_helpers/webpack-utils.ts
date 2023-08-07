@@ -1,31 +1,4 @@
 import * as path from 'path';
-import * as webpack from 'webpack';
-
-// Webpack doesn't export this type, so let's extract it ourselfs!
-type CacheGroups = Exclude<
-    Exclude<Exclude<webpack.Configuration['optimization'], undefined>['splitChunks'], undefined | false>['cacheGroups'],
-    undefined
->;
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type CacheGroup = Exclude<CacheGroups[keyof CacheGroups], string | false | Function | RegExp>;
-
-type BetterCacheGroupTest =
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    | Exclude<CacheGroup['test'], Function>
-    | ((
-        module: webpack.Module,
-        {
-            chunkGraph,
-            moduleGraph,
-        }: {
-            chunkGraph: webpack.ChunkGraph;
-            moduleGraph: webpack.ModuleGraph;
-        }
-    ) => boolean);
-
-export interface Chunk {
-    test: BetterCacheGroupTest;
-}
 
 export const scriptExtensions = ['.tsx', '.jsx', '.ts', '.js'];
 
@@ -40,18 +13,6 @@ export const joinPath = (...args: string[]) => {
     const res = path.join(...args);
     if (hasDot) return './' + res;
     return res;
-};
-
-export const pathRelatedToExtRoot = <T extends keyof ReturnType<typeof createPathsObject>['dist']>(
-    paths: ReturnType<typeof createPathsObject>,
-    prop: T
-): string => {
-    return (
-        `/` +
-        (paths.dist[prop].startsWith(paths.dist.base)
-            ? paths.dist[prop].substring(paths.dist.base.length + 1)
-            : paths.dist[prop])
-    );
 };
 
 export const createPathsObject = (baseSrc: string, baseDist: string) => {
@@ -77,9 +38,9 @@ export const createPathsObject = (baseSrc: string, baseDist: string) => {
             contentscripts: 'contentscripts',
             scripts: 'scripts',
             pages: 'pages',
-            libs: 'libs',
             assets: 'assets',
             locales: '_locales',
+            chunks: 'chunks',
 
             manifest: 'manifest.json',
         },
@@ -93,19 +54,4 @@ export const generatePageContentForScript = (pageTemplate: string, substitutions
         result = result.replace(`[[${key}]]`, value);
     }
     return result;
-};
-
-export const shouldNotBeInCommonChunk = (relativePath: string, entires: { [id: string]: string }) => {
-    return Object.values(entires).includes(relativePath);
-};
-
-export const generateBackgroundWorkerWrapper = (scripts: string[]) => {
-    return `try { importScripts(${scripts.map((sc) => `"${sc}"`).join(', ')}); } catch (e) {console.log(e);}\n`;
-};
-
-export const isUiRelated = (_name: string) => {
-    const name = _name.toLowerCase();
-    return name.includes('react') || name.includes('jquery') || name.includes('framer')
-        || name.includes('polished') || name.includes('floating-ui') || name.includes('/components/') 
-        || name.includes('markdown') || name.includes('decode-named-character-reference');
 };

@@ -3,10 +3,12 @@ import { Icon } from "@components/Icon";
 import { IconPicker } from "@components/IconPicker";
 import { Popover } from "@components/Popover";
 import { Folder } from "@utils/user-data/types";
-import { Reorder, m, useDragControls } from "framer-motion";
-import { useRef } from "react";
+import { m, useDragControls } from "framer-motion";
+import { lazy, useRef } from "react";
 import './FolderItem.scss';
 import { IS_TOUCH_DEVICE } from "@utils/device";
+
+export const ReorderItem = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
 
 export const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
     folder: Folder,
@@ -21,7 +23,7 @@ export const FolderItem = ({ folder, editable = false, onRemove, onNameChange, o
     const ICON_SIZE = 22;
 
     if (editable) {
-        return (<Reorder.Item
+        return (<ReorderItem
             value={folder}
             dragListener={false}
             dragControls={controls}
@@ -49,7 +51,7 @@ export const FolderItem = ({ folder, editable = false, onRemove, onNameChange, o
                 type="text"
             />
             <Button onClick={() => onRemove && onRemove()}><Icon icon='ion:close' height={ICON_SIZE} /></Button>
-        </Reorder.Item>)
+        </ReorderItem>)
     }
 
     return (<m.div className='FolderItem'>

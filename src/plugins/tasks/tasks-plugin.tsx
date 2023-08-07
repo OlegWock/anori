@@ -1,11 +1,11 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, ID } from "@utils/user-data/types";
-import { useRef, useState } from "react";
+import { Suspense, lazy, useRef, useState } from "react";
 import './styles.scss';
 import { Icon } from "@components/Icon";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
-import { AnimatePresence, LayoutGroup, Reorder, m, useDragControls } from "framer-motion";
+import { AnimatePresence, LayoutGroup, m, useDragControls } from "framer-motion";
 import { Checkbox } from "@components/Checkbox";
 import { guid } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
@@ -13,6 +13,9 @@ import { useSizeSettings } from "@utils/compact";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { listItemAnimation } from "@components/animations";
+
+export const ReorderGroup = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
+export const ReorderItem = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
 
 type TaskWidgetConfigType = {
     title: string,
@@ -53,26 +56,28 @@ const Task = ({ task, autoFocus, onEdit, onComplete }: {
     const { rem } = useSizeSettings();
     const { t } = useTranslation();
 
-    return (<Reorder.Item
-        key={task.id}
-        value={task}
-        layout
-        className="task"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ opacity: 0 }}
-        dragListener={false}
-        dragControls={controls}
-    >
-        <div className='drag-control'>
-            <Icon icon='ic:baseline-drag-indicator' width={rem(1)} onPointerDown={(e) => {
-                e.preventDefault();
-                controls.start(e);
-            }} />
-        </div>
-        <Checkbox checked={false} onChange={() => onComplete()} />
-        <Input autoFocus={autoFocus} value={task.text} onValueChange={v => onEdit(v)} placeholder={t('tasks-plugin.taskDescription')} />
-    </Reorder.Item>);
+    return (<Suspense>
+        <ReorderItem
+            key={task.id}
+            value={task}
+            layout
+            className="task"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            dragListener={false}
+            dragControls={controls}
+        >
+            <div className='drag-control'>
+                <Icon icon='ic:baseline-drag-indicator' width={rem(1)} onPointerDown={(e) => {
+                    e.preventDefault();
+                    controls.start(e);
+                }} />
+            </div>
+            <Checkbox checked={false} onChange={() => onComplete()} />
+            <Input autoFocus={autoFocus} value={task.text} onValueChange={v => onEdit(v)} placeholder={t('tasks-plugin.taskDescription')} />
+        </ReorderItem>
+    </Suspense>);
 };
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigType>) => {
@@ -104,27 +109,29 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
     const lastAddedTaskRef = useRef('');
     const { t } = useTranslation();
 
-    return (<div className="TasksWidget">
+    return (<m.div className="TasksWidget" layoutRoot>
         <div className="tasks-header">
             <h2>{config.title}</h2>
             <Button onClick={addTask}><Icon icon='ion:add' height={16} /></Button>
         </div>
         {tasks.length !== 0 && <ScrollArea color="dark">
             <LayoutGroup>
-                <Reorder.Group axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layout layoutScroll>
-                    <AnimatePresence initial={false}>
-                        {tasks.map(t => {
-                            return (<Task task={t} key={t.id} onComplete={() => completeTask(t.id)} onEdit={v => editTask(t.id, v)} />);
-                        })}
-                    </AnimatePresence>
-                </Reorder.Group>
+                <Suspense>
+                    <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layout layoutScroll>
+                        <AnimatePresence initial={false}>
+                            {tasks.map(t => {
+                                return (<Task task={t} key={t.id} onComplete={() => completeTask(t.id)} onEdit={v => editTask(t.id, v)} />);
+                            })}
+                        </AnimatePresence>
+                    </ReorderGroup>
+                </Suspense>
             </LayoutGroup>
         </ScrollArea>}
         {tasks.length === 0 && <m.div key='no-tasks' className="no-tasks">
             {t('tasks-plugin.noTasks')}
         </m.div>}
 
-    </div>);
+    </m.div>);
 };
 
 const Mock = () => {

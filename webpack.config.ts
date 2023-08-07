@@ -16,18 +16,14 @@ import * as MomentLocalesPlugin from 'moment-locales-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import * as FileManagerPlugin from 'filemanager-webpack-plugin';
 import {
-    Chunk,
     createPathsObject,
     joinPath,
     scriptName,
-    shouldNotBeInCommonChunk,
-    pathRelatedToExtRoot,
     generatePageContentForScript,
-    generateBackgroundWorkerWrapper,
-    isUiRelated,
-    CacheGroup,
     scriptExtensions,
 } from './build_helpers/webpack-utils';
+import WebExtensionChuckLoaderRuntimePlugin from './build_helpers/dynamic_import_plugin/ChunkLoader';
+import ServiceWorkerEntryPlugin from './build_helpers/dynamic_import_plugin/ServiceWorkerPlugin';
 import type { Manifest } from 'webextension-polyfill';
 import { version, name, author } from './package.json';
 const currentYear = new Date().getFullYear();
@@ -43,8 +39,7 @@ interface WebpackEnvs {
 const generateManifest = (
     mode: Exclude<WebpackEnvs['mode'], undefined>,
     targetBrowser: Exclude<WebpackEnvs['targetBrowser'], undefined>,
-    libsRoot: string,
-    commonChunks: { [name: string]: Chunk }
+    paths: ReturnType<typeof createPathsObject>,
 ): Manifest.WebExtensionManifest => {
     const manifest: Manifest.WebExtensionManifest = {
         name: '__MSG_appName__',
@@ -58,7 +53,7 @@ const generateManifest = (
         },
         minimum_chrome_version: "104",
         background: {
-            service_worker: 'background-wrapper.js',
+            service_worker: 'background.js',
         },
         icons: {
             '48': 'assets/images/icon48.png',
@@ -91,15 +86,15 @@ const generateManifest = (
         },
         web_accessible_resources: [
             {
-                resources: ['/assets/*'],
+                resources: [`/${paths.dist.assets}/*`],
                 matches: ['<all_urls>'],
                 use_dynamic_url: true,
             },
             {
-                resources: ["_favicon/*"],
-                matches: ["<all_urls>"],
+                resources: [`/${paths.dist.chunks}/*`],
+                matches: ['<all_urls>'],
                 use_dynamic_url: true,
-            }
+            },
         ],
     };
 
@@ -128,6 +123,7 @@ const generateManifest = (
             'system.memory',
             'favicon',
             'tabGroups',
+            'declarativeNetRequestWithHostAccess',
         ];
 
         const additionalPermissions: string[] = [];
@@ -160,8 +156,6 @@ const generateManifest = (
         manifest.background = {
             "persistent": false,
             "scripts": [
-                `${libsRoot}/other.js`,
-                `${libsRoot}/ui.js`,
                 "background.js"
             ]
         };
@@ -191,29 +185,6 @@ const baseSrc = './src';
 const baseDist = './dist';
 
 const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
-    const commonChunks: { [name: string]: Chunk } = {
-        ui: {
-            test: (module, context) => {
-                const name = module.nameForCondition();
-                if (!name) return false;
-                const absBase = path.resolve(__dirname);
-                const relativePath = name.replace(absBase, '.');
-                if (shouldNotBeInCommonChunk(relativePath, entries)) return false;
-                return isUiRelated(relativePath);
-            },
-        },
-        other: {
-            test: (module, context) => {
-                const name = module.nameForCondition();
-                if (!name) return false;
-                const absBase = path.resolve(__dirname);
-                const relativePath = name.replace(absBase, '.');
-                if (shouldNotBeInCommonChunk(relativePath, entries)) return false;
-                return !isUiRelated(relativePath);
-            },
-        },
-    } as const;
-
     const { mode = 'development', targetBrowser = 'chrome', WEBPACK_WATCH } = env;
 
     const paths = createPathsObject(
@@ -232,8 +203,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         backgroundScript: paths.dist.background,
     };
 
-    const libsRoot = pathRelatedToExtRoot(paths, 'libs');
-
     const generateFileInvocations: GenerateFiles[] = [];
 
     const pages = walkSync(paths.src.pages, {
@@ -248,7 +217,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         outputs[cleanName] = joinPath(paths.dist.pages, cleanName + '.js');
 
         const scriptsToInject = [
-            ...Object.keys(commonChunks).map((name) => `${libsRoot}/${name}.js`),
             `/${paths.dist.pages}/${cleanName}.js`,
         ];
 
@@ -287,19 +255,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         const cleanName = scriptName(cs);
         entries[cleanName] = joinPath(paths.src.scripts, cs);
         outputs[cleanName] = joinPath(paths.dist.scripts, cleanName + '.js');
-    });
-
-    const cacheGroups: { [name: string]: CacheGroup } = {};
-    Object.entries(commonChunks).forEach(([name, entry]) => {
-        cacheGroups[name] = {
-            ...entry,
-            name: name,
-            priority: 10,
-            filename: joinPath(paths.dist.libs, `${name}.js`),
-            chunks: 'all',
-            reuseExistingChunk: false,
-            enforce: true,
-        };
     });
 
     // @ts-expect-error There is some issue with types provided with FileManagerPlugin and CJS/ESM imports
@@ -373,17 +328,25 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
 
         entry: entries,
         output: {
-            filename: (pathData) => {
-                if (!pathData.chunk?.name) {
-                    throw new Error(
-                        'Unexpected chunk. Please make sure that all source files belong to ' +
-                        'one of predefined chunks or are entrypoints'
-                    );
+            filename: (pathData, assetInfo) => {
+                if (!pathData.chunk) {
+                    throw new Error('pathData.chunk not defined for some reason');
                 }
-                return outputs[pathData.chunk.name];
+
+                const predefinedName = outputs[pathData.chunk.name || ''];
+                if (predefinedName) return predefinedName;
+                const filename = (pathData.chunk.name || pathData.chunk.id) + '.js';
+                return path.join(paths.dist.chunks, filename);
             },
             path: path.resolve(__dirname, paths.dist.base),
             publicPath: '/',
+            chunkFilename: `${paths.dist.chunks}/[id].js`,
+            chunkFormat: 'array-push',
+            chunkLoadTimeout: 5000,
+            chunkLoading: 'jsonp',
+            environment: {
+                dynamicImport: true,
+            }
         },
 
         module: {
@@ -444,17 +407,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                         },
                     ],
                 },
-                // More info: https://github.com/webextension-toolbox/webextension-toolbox/blob/master/src/webpack-config.js#L128
-                // Using 'self' instead of 'window' so it will work in Service Worker context
-                // {
-                // test: /webextension-polyfill[\\/]+dist[\\/]+browser-polyfill\.js$/,
-                // loader: require.resolve('string-replace-loader'),
-                // options: {
-                // search: 'typeof browser === "undefined"',
-                // replace:
-                // 'typeof self.browser === "undefined" || Object.getPrototypeOf(self.browser) !== Object.prototype',
-                // },
-                // },
                 {
                     include: path.resolve(__dirname, paths.src.assets),
                     loader: 'file-loader',
@@ -474,7 +426,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         },
 
         plugins: [
-            // new BundleAnalyzerPlugin(),
+            new BundleAnalyzerPlugin(),
 
             // output.clean option deletes assets generated by plugins (e.g. manifest file or .html files), so using
             // CleanWebpackPlugin directly to work around this
@@ -485,16 +437,13 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 X_MODE: JSON.stringify(mode),
                 X_BROWSER: JSON.stringify(targetBrowser),
             }),
+            new WebExtensionChuckLoaderRuntimePlugin({backgroundWorkerEntry: targetBrowser === 'chrome' ? 'backgroundScript' : undefined}),
+            ...(targetBrowser === 'chrome' ? [new ServiceWorkerEntryPlugin({}, 'backgroundScript')] : []),
             ...generateFileInvocations,
 
-            // We use wrapper to load common chunks before main script
-            new GenerateFiles({
-                file: 'background-wrapper.js',
-                content: generateBackgroundWorkerWrapper([`${libsRoot}/ui.js`, `${libsRoot}/other.js`, `background.js`]),
-            }),
             new GenerateFiles({
                 file: paths.dist.manifest,
-                content: JSON.stringify(generateManifest(mode, targetBrowser, libsRoot, commonChunks), null, 4),
+                content: JSON.stringify(generateManifest(mode, targetBrowser, paths), null, 4),
             }),
             // Part of files will be already copied by browser-runtime-geturl-loader, but not all (if you don't
             // import asset in code, it's not copied), so we need to do this with addiitonal plugin
@@ -534,8 +483,8 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             new MomentLocalesPlugin({
                 localesToKeep: ['uk', 'de', 'it', 'th', 'zh-cn', 'ru'],
             }),
-            // This gives warnings on compilation, but it should be resolved once this PR gets merged 
-            // https://github.com/levp/wrapper-webpack-plugin/pull/22
+
+            // TODO: replace this with proper worker support
             new WrapperPlugin({
                 test: /\.worker\./i,
                 header: 'importScripts("/libs/ui.js", "/libs/other.js");\n\n',
@@ -567,7 +516,9 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
 
             splitChunks: {
                 chunks: 'all',
-                cacheGroups,
+                automaticNameDelimiter: '-',
+                minChunks: 2,
+                maxSize: 1024 * 1024 * 2,
             },
         },
     };

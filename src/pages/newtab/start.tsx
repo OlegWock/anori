@@ -4,28 +4,30 @@ import './styles.scss';
 import { requestIconsFamily } from '@components/Icon';
 import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react';
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { Modal } from '@components/Modal';
-import { SettingsModal } from './settings/Settings';
-import { AnimatePresence, LazyMotion, MotionConfig, domMax, m } from 'framer-motion';
+import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { homeFolder } from '@utils/user-data/types';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { preloadBrowserStorageAtom, storage, useBrowserStorageValue } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
-import { CommandMenu } from '@components/command-menu/CommandMenu';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
-import { WhatsNew } from '@components/WhatsNew';
 import clsx from 'clsx';
 import { CompactModeProvider } from '@utils/compact';
 import { getAllCustomIcons } from '@utils/custom-icons';
 import { initTranslation } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
-import { BookmarksBar } from './components/BookmarksBar';
 
+const SettingsModal = lazy(() => import('./settings/Settings').then(m => ({ 'default': m.SettingsModal })));
+const WhatsNew = lazy(() => import('@components/WhatsNew').then(m => ({ 'default': m.WhatsNew })));
+const CommandMenu = lazy(() => import('@components/command-menu/CommandMenu').then(m => ({ 'default': m.CommandMenu })));
+const BookmarksBar = lazy(() => import('./components/BookmarksBar').then(m => ({ 'default': m.BookmarksBar })));
+
+const loadMotionFeatures = () => import("@utils/framer-motion-features").then(res => res.default);
 
 const useSidebarOrientation = () => {
     const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
@@ -81,7 +83,14 @@ const Start = () => {
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
     const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
+    const [commandMenuOpen, setCommandMenuOpen] = useState(false);
+    const [renderCommandMenu, setRenderCommandMenu] = useState(false);
     const { t } = useTranslation();
+
+    useHotkeys('meta+k', () => {
+        setCommandMenuOpen((open) => !open);
+        setRenderCommandMenu(true);
+    }, []);
 
     useHotkeys('meta+up, alt+up', () => swithFolderUp());
     useHotkeys('meta+left, alt+left', () => swithFolderUp());
@@ -108,19 +117,19 @@ const Start = () => {
                     className={clsx("StartPage", `${sidebarOrientation}-sidebar`, showBookmarksBar && 'with-bookmarks-bar')}
                     key='start-page'
                 >
-                    {showBookmarksBar && <BookmarksBar />}
+                    {showBookmarksBar && <Suspense fallback={<div className='bookmarks-bar-placeholder'/>}><BookmarksBar /></Suspense>}
                     <div className={clsx("start-page-content")}>
                         <div className="sidebar">
                             <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
                                 {folders.map(f => {
-                                    return (<FolderButton 
-                                        dropDestination={{id: f.id}}
-                                        sidebarOrientation={sidebarOrientation} 
-                                        key={f.id} 
-                                        icon={f.icon} 
-                                        name={f.name} 
-                                        active={activeFolder === f} 
-                                        onClick={() => setActiveFolder(f)} 
+                                    return (<FolderButton
+                                        dropDestination={{ id: f.id }}
+                                        sidebarOrientation={sidebarOrientation}
+                                        key={f.id}
+                                        icon={f.icon}
+                                        name={f.name}
+                                        active={activeFolder === f}
+                                        onClick={() => setActiveFolder(f)}
                                     />);
                                 })}
                                 <div className="spacer" />
@@ -155,15 +164,23 @@ const Start = () => {
                     </div>
                 </m.div>
 
-                <CommandMenu key='command-menu' />
+                <Suspense key='command-menu' fallback={undefined}>
+                    {renderCommandMenu && <CommandMenu open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
+                </Suspense>
 
-                {settingsVisible && <SettingsModal key='settings' onClose={() => setSettingsVisible(false)} />}
+                <Suspense key='settings' fallback={undefined}>
+                    <AnimatePresence>
+                        {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
+                    </AnimatePresence>
+                </Suspense>
                 {shortcutsHelpVisible && <Modal title={t('shortcuts.title')} key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
                     <ShortcutsHelp />
                 </Modal>}
 
                 {whatsNewVisible && <Modal title={t('whatsNew')} className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
-                    <WhatsNew />
+                    <Suspense fallback={undefined}>
+                        <WhatsNew />
+                    </Suspense>
                 </Modal>}
             </AnimatePresence>
         </MotionConfig>
@@ -185,6 +202,13 @@ storage.getOne('theme').then(theme => {
 storage.getOne('newTabTitle').then(title => {
     setPageTitle(title || 'Anori new tab');
 });
+
+storage.getOne('showBookmarksBar').then(showBookmarksBar => {
+    if (showBookmarksBar) {
+        // Preload module
+        import('./components/BookmarksBar');
+    }
+})
 
 storage.getOne('showLoadAnimation').then(showLoadAnimation => {
     const div = document.querySelector('.loading-cover');
@@ -213,7 +237,7 @@ getAllCustomIcons();
 initTranslation().then(() => {
     mountPage(<CompactModeProvider>
         {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
-        <LazyMotion features={domMax}>
+        <LazyMotion features={loadMotionFeatures} strict>
             <Start />
         </LazyMotion>
     </CompactModeProvider>);

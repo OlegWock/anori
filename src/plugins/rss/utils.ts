@@ -1,11 +1,12 @@
+import { lazyAsyncVariable } from '@utils/misc';
 import { NamespacedStorage } from '@utils/namespaced-storage';
 import { useWidgetStorage } from '@utils/plugin';
 import moment from 'moment-timezone';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Parser from 'rss-parser';
+import type Parser from 'rss-parser';
 
-const parser = new Parser();
+const globalParser = lazyAsyncVariable<Parser>(() => import('rss-parser').then(m => new m.default()));
 
 export type RssFeed = {
     title: string,
@@ -58,6 +59,7 @@ export const fetchFeed = async (url: string) => {
 };
 
 const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) => Promise<string>) => {
+    const parser = await globalParser.get();
     const feedStrings = await Promise.all(feedUrls.map(async (url) => {
         return {
             url,
@@ -105,7 +107,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
         setIsRefreshing(true);
 
         try {
-            
+
             const newFeeds = await loadAndParseFeeds(feedUrls, fetchFeed);
             setFeeds(newFeeds);
             storage.set('feedUrls', feedUrls);

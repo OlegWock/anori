@@ -49,3 +49,14 @@ export const minmax = (num: number, min: number, max: number) => {
 export const combineRefs = (...args: (MutableRefObject<any> | LegacyRef<any> | undefined)[]) => {
     return mergeRefs(args.filter(a => !!a) as (MutableRefObject<any> | LegacyRef<any>)[]);
 };
+
+export const lazyAsyncVariable = <T>(init: () => Promise<T>) => {
+    let promise: Promise<T> | undefined = undefined;
+
+    return {
+        get: () => {
+            if (!promise) promise = init();
+            return promise;
+        },
+    }
+};

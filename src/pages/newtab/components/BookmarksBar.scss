@@ -14,6 +14,8 @@
     display: flex;
     align-items: center;
 
+    min-height: calc(0.9rem * 1.2 + 1.55rem);
+
     &.transparent {
         padding: 0;
         border-radius: 0;

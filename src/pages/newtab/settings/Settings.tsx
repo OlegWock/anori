@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import { useFolders } from '@utils/user-data/hooks';
 import './Settings.scss';
-import { AnimatePresence, LayoutGroup, Reorder, m } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, m } from 'framer-motion';
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, homeFolder } from '@utils/user-data/types';
@@ -15,7 +15,7 @@ import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
 import { toCss } from '@utils/color';
 import moment from 'moment-timezone';
-import { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { ComponentProps, Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { CUSTOM_ICONS_AVAILABLE, getAllCustomIconFiles, isValidCustomIconName, removeAllCustomIcons, useCustomIcons } from '@utils/custom-icons';
 import { guid } from '@utils/misc';
 import { Input } from '@components/Input';
@@ -35,6 +35,8 @@ import { useScreenWidth } from '@utils/compact';
 import { Alert } from '@components/Alert';
 import { IS_TOUCH_DEVICE } from '@utils/device';
 import { CheckboxWithPermission } from '@components/CheckboxWithPermission';
+
+export const ReorderGroup = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
 
 type DraftCustomIcon = {
     id: string,
@@ -320,7 +322,8 @@ const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
     return (<m.div {...props} className='FoldersScreen'>
         <m.div>
             <FolderItem folder={homeFolder} />
-            <Reorder.Group axis="y" values={folders} onReorder={setFolders} as="div">
+            <Suspense>
+            <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">
                 {folders.map((f, index) => {
                     return (
                         <FolderItem
@@ -332,7 +335,8 @@ const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
                             onRemove={() => removeFolder(f.id)}
                         />)
                 })}
-            </Reorder.Group>
+            </ReorderGroup>
+            </Suspense>
         </m.div>
 
         <Button className='add-folder-btn' onClick={() => createFolder()}>

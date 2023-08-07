@@ -93,6 +93,13 @@ body {
         }
     }
 
+    .bookmarks-bar-placeholder {
+        margin: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 0;
+        height: calc(0.9rem * 1.2 + 1.55rem);
+    }
+
     .sidebar {
         flex-grow: 0;
         flex-shrink: 0;

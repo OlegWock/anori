@@ -1,21 +1,22 @@
 import { Input, Textarea } from "@components/Input";
 import { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
-import { ComponentProps, useRef, useState } from "react";
+import { ComponentProps, Suspense, lazy, useEffect, useRef, useState } from "react";
 import './styles.scss';
 import { useWidgetStorage } from "@utils/plugin";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+
 import { useRunAfterNextRender } from "@utils/hooks";
-import { ReactMarkdownProps } from "react-markdown/lib/complex-types";
-import remarkBreaks from "remark-breaks";
-import { sequentialNewlinesPlugin } from "./utils";
+import type { ReactMarkdownProps } from "react-markdown/lib/complex-types";
+import type { PluggableList } from "react-markdown/lib/react-markdown";
 import { ScrollArea } from "@components/ScrollArea";
+import { sequentialNewlinesPlugin } from "./utils";
 
 type PluginWidgetConfigType = {
 
 };
+
+const ReactMarkdown = lazy(() => import("react-markdown"));
 
 const Mock = () => {
     const { t } = useTranslation();
@@ -48,6 +49,12 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
     const bodyEditorRef = useRef<HTMLTextAreaElement>(null);
     const { t } = useTranslation();
     const runAfterNextRender = useRunAfterNextRender();
+    const [remarkPlugins, setRemarkPlugins] = useState<PluggableList>([sequentialNewlinesPlugin]);
+
+    useEffect(() => {
+        import("remark-gfm").then(({ default: remarkGfm }) => setRemarkPlugins(p => [...p, remarkGfm]));
+        import("remark-breaks").then(({ default: remarkBreaks }) => setRemarkPlugins(p => [...p, remarkBreaks]));
+    }, []);
 
     return (<div className="NotesWidget">
         <Input
@@ -75,11 +82,13 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
         >
             <ScrollArea type="hover" color="dark">
                 {!!body && <div className="note-body-rendered-content">
-                    <ReactMarkdown
-                        components={{ a: Link }}
-                        remarkPlugins={[sequentialNewlinesPlugin, remarkBreaks, remarkGfm]}
-                        children={body}
-                    />
+                    <Suspense>
+                        <ReactMarkdown
+                            components={{ a: Link }}
+                            remarkPlugins={remarkPlugins}
+                            children={body}
+                        />
+                    </Suspense>
                 </div>}
             </ScrollArea>
             {!body && <span className="notes-body-placeholder">{t('notes-plugin.noteText')}</span>}

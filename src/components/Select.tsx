@@ -1,8 +1,21 @@
-import React, { ReactNode, useLayoutEffect, useState } from 'react';
-import * as RadixSelect from '@radix-ui/react-select';
+import React, { ReactNode, Suspense, lazy, useLayoutEffect, useState } from 'react';
+import type { SelectItemProps } from '@radix-ui/react-select';
 import classnames, { clsx } from 'clsx';
 import './Select.scss';
 import { Icon } from './Icon';
+
+const RadixSelectRoot = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.Root })));
+const RadixSelectTrigger = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectTrigger })));
+const RadixSelectValue = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectValue })));
+const RadixSelectIcon = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectIcon })));
+const RadixSelectContent = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectContent })));
+const RadixSelectScrollUpButton = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectScrollUpButton })));
+const RadixSelectViewport = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectViewport })));
+const RadixSelectScrollDownButton = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectScrollDownButton })));
+const RadixSelectItem = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectItem })));
+const RadixSelectItemText = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectItemText })));
+const RadixSelectItemIndicator = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectItemIndicator })));
+const RadixSelectPortal = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectPortal })));
 
 
 export type SelectProps<T> = {
@@ -31,41 +44,43 @@ export const Select = <T,>({ options, value, onChange, placeholder = 'Select...'
     }, [value]);
 
     return (
-        <RadixSelect.Root value={innerValue} onValueChange={innerOnChange}>
-            <RadixSelect.Trigger className={clsx("SelectTrigger", triggerClassname)} aria-label={placeholder}>
-                <RadixSelect.Value placeholder={placeholder} />
-                <RadixSelect.Icon className="SelectIcon">
-                    <Icon icon="ion:chevron-down" />
-                </RadixSelect.Icon>
-            </RadixSelect.Trigger>
-            <RadixSelect.Portal>
-                <RadixSelect.Content className={clsx("SelectContent", contentClassname)}>
-                    <RadixSelect.ScrollUpButton className="SelectScrollButton">
-                        <Icon icon="ion:chevron-up" />
-                    </RadixSelect.ScrollUpButton>
-                    <RadixSelect.Viewport className="SelectViewport">
-                        {options.map(o => {
-                            const key = getOptionKey(o);
-                            return (<SelectItem value={key} key={key}>{getOptionLabel(o)}</SelectItem>);
-                        })}
-                    </RadixSelect.Viewport>
-                    <RadixSelect.ScrollDownButton className="SelectScrollButton">
+        <Suspense>
+            <RadixSelectRoot value={innerValue} onValueChange={innerOnChange}>
+                <RadixSelectTrigger className={clsx("SelectTrigger", triggerClassname)} aria-label={placeholder}>
+                    <RadixSelectValue placeholder={placeholder} />
+                    <RadixSelectIcon className="SelectIcon">
                         <Icon icon="ion:chevron-down" />
-                    </RadixSelect.ScrollDownButton>
-                </RadixSelect.Content>
-            </RadixSelect.Portal>
-        </RadixSelect.Root>
+                    </RadixSelectIcon>
+                </RadixSelectTrigger>
+                <RadixSelectPortal>
+                    <RadixSelectContent className={clsx("SelectContent", contentClassname)}>
+                        <RadixSelectScrollUpButton className="SelectScrollButton">
+                            <Icon icon="ion:chevron-up" />
+                        </RadixSelectScrollUpButton>
+                        <RadixSelectViewport className="SelectViewport">
+                            {options.map(o => {
+                                const key = getOptionKey(o);
+                                return (<SelectItem value={key} key={key}>{getOptionLabel(o)}</SelectItem>);
+                            })}
+                        </RadixSelectViewport>
+                        <RadixSelectScrollDownButton className="SelectScrollButton">
+                            <Icon icon="ion:chevron-down" />
+                        </RadixSelectScrollDownButton>
+                    </RadixSelectContent>
+                </RadixSelectPortal>
+            </RadixSelectRoot>
+        </Suspense>
     );
 };
 
 
-const SelectItem = React.forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(({ children, className, ...props }, forwardedRef) => {
+const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(({ children, className, ...props }, forwardedRef) => {
     return (
-        <RadixSelect.Item className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
-            <RadixSelect.ItemText>{children}</RadixSelect.ItemText>
-            <RadixSelect.ItemIndicator className="SelectItemIndicator">
+        <RadixSelectItem className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
+            <RadixSelectItemText>{children}</RadixSelectItemText>
+            <RadixSelectItemIndicator className="SelectItemIndicator">
                 <Icon icon='ion:checkmark' />
-            </RadixSelect.ItemIndicator>
-        </RadixSelect.Item>
+            </RadixSelectItemIndicator>
+        </RadixSelectItem>
     );
 });

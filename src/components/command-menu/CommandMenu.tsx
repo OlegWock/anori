@@ -6,7 +6,6 @@ import { AnoriPlugin, CommandItem } from '@utils/user-data/types';
 import { availablePlugins } from '@plugins/all';
 import { wait } from '@utils/misc';
 import { ScrollArea } from '@components/ScrollArea';
-import { useHotkeys } from '@utils/hooks';
 import { trackEvent } from '@utils/analytics';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +16,7 @@ type ActionsWithMetadata = {
     plugin: AnoriPlugin<any, any>
 };
 
-export const CommandMenu = () => {
+export const CommandMenu = ({ open, onOpenChange }: { open: boolean, onOpenChange: (newOpen: boolean) => void, }) => {
     const updateQuery = (val: string) => {
         setQuery(val);
         loadActionsByQuery(val);
@@ -44,7 +43,6 @@ export const CommandMenu = () => {
         setActions(actions);
     };
 
-    const [open, setOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [actions, setActions] = useState<ActionsWithMetadata[]>([]);
     const { t } = useTranslation();
@@ -53,12 +51,11 @@ export const CommandMenu = () => {
         loadActionsByQuery('');
     }, []);
 
-    useHotkeys('meta+k', () => setOpen((open) => !open), []);
 
     const itemsToRender = actions.map(({ items }) => items).flat();
     console.log('itemsToRender', itemsToRender);
     return (
-        <Command.Dialog open={open} onOpenChange={setOpen} label={t('commandMenu.name')} shouldFilter={false}>
+        <Command.Dialog open={open} onOpenChange={onOpenChange} label={t('commandMenu.name')} shouldFilter={false}>
             <Command.Input value={query} onValueChange={updateQuery} className='Input' placeholder={t('commandMenu.placeholder')} />
             <Command.List>
                 <ScrollArea className='cmdk-scrollarea'>
@@ -67,7 +64,7 @@ export const CommandMenu = () => {
                             return (<Command.Group heading={plugin.name} key={plugin.id}>
                                 {items.map(({ icon, text, hint, key, onSelected, image }) => {
                                     return (<Command.Item key={key} value={key} onSelect={async (e) => {
-                                        setOpen(false);
+                                        onOpenChange(false);
                                         setQuery('');
                                         await trackEvent('Command option selected', { plugin: plugin.id });
                                         onSelected();
