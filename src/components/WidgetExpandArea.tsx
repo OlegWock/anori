@@ -40,7 +40,6 @@ export const WidgetExpandArea = ({ children, onClose, className, closable = fals
         const xScale = cardBox.width / realAreaBox.width;
         const yScale = cardBox.height / realAreaBox.height;
         const duration = 0.2;
-        console.log('Duration', duration);
         const topEdgeScale = cardBox.top - realAreaBox.top;
         const bottomEdgeScale = (realAreaBox.top + realAreaBox.height) - cardBox.bottom;
 

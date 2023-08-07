@@ -39,7 +39,7 @@ export const ensureDnrRule = async (url: string, tabId: number) => {
 
 
     console.log("Rule isn't registered yet");
-    const action = {
+    const actionModifyResponse = {
         type: 'modifyHeaders',
         responseHeaders: [
             {
@@ -53,6 +53,19 @@ export const ensureDnrRule = async (url: string, tabId: number) => {
         ],
     } as browser.DeclarativeNetRequest.RuleActionType;
 
+    const actionModifyRequest = {
+        type: 'modifyHeaders',
+        requestHeaders: [
+            {
+                "header": "Sec-Fetch-Site",
+                "operation": "remove"
+            },
+            {
+                "header": "Sec-Fetch-Dest",
+                "operation": "remove"
+            }
+        ],
+    } as browser.DeclarativeNetRequest.RuleActionType;
 
     const baseId = parseInt(Date.now().toString().slice(3, -3) + '00') + Math.floor(Math.random() * 100);
     console.log('Will be using baseId', baseId);
@@ -68,7 +81,7 @@ export const ensureDnrRule = async (url: string, tabId: number) => {
                 resourceTypes: ['sub_frame'],
                 tabIds: tabId ? [tabId] : undefined,
             },
-            action,
+            action: actionModifyResponse,
         }, {
             id: baseId + 1,
             condition: {
@@ -76,7 +89,23 @@ export const ensureDnrRule = async (url: string, tabId: number) => {
                 resourceTypes: ['sub_frame'],
                 tabIds: tabId ? [tabId] : undefined,
             },
-            action,
+            action: actionModifyResponse,
+        }, {
+            id: baseId + 2,
+            condition: {
+                requestDomains: [host],
+                resourceTypes: ['sub_frame'],
+                tabIds: tabId ? [tabId] : undefined,
+            },
+            action: actionModifyRequest,
+        }, {
+            id: baseId + 3,
+            condition: {
+                initiatorDomains: [host],
+                resourceTypes: ['sub_frame'],
+                tabIds: tabId ? [tabId] : undefined,
+            },
+            action: actionModifyRequest,
         }],
         removeRuleIds: rulesToRemove,
     }));

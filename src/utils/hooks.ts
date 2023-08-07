@@ -12,11 +12,12 @@ export const useForceRerender = () => {
 export function usePrevious<T>(value: T): T | undefined;
 export function usePrevious<T>(value: T, defaultValue: T): T;
 export function usePrevious<T>(value: T, defaultValue?: T) {
+    const prev = useRef<T>();
     const ref = useRef<T>();
-    useLayoutEffect(() => {
-        ref.current = value;
-    }, [value]);
-    return ref.current === undefined ? defaultValue : ref.current;
+
+    prev.current = ref.current;
+    ref.current = value;
+    return prev.current === undefined ? defaultValue : prev.current;
 }
 
 export const useWindowIsResizing = () => {
