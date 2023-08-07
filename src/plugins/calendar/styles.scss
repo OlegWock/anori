@@ -28,11 +28,19 @@
         align-items: stretch;
         flex-grow: 1;
 
+        .calendar-days {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
         .calendar-row {
             display: flex;
             flex-grow: 1;
 
             &.weekdays {
+                flex-grow: unset;
+                padding: 0.25rem 0;
 
                 .calendar-cell {
                     color: var(--text);

@@ -125,12 +125,6 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
                 currentDate.add(1, 'day');
             }
             res.push(<m.div
-                custom={direction}
-                transition={{ duration: 0.12 }}
-                variants={variants}
-                initial={"enter"}
-                animate={{ translateX: 0 }}
-                exit={"exit"}
                 className="calendar-row"
                 key={`row-${monthNumber}-${week}`}
             >
@@ -140,6 +134,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
 
         return res;
     }, [today, offsetMonths, i18n.language]);
+    const currentKey = useMemo(() => currentMonth.month() + '_' + currentMonth.year(), [currentMonth]);
 
     useEffect(() => {
         const tid = setInterval(() => setToday(moment()), 1000 * 60);
@@ -165,7 +160,18 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
                 })}
             </div>
             <AnimatePresence mode="wait" custom={direction} initial={false}>
-                {rows}
+                <m.div
+                    className="calendar-days"
+                    custom={direction}
+                    transition={{ duration: 0.12 }}
+                    variants={variants}
+                    initial={"enter"}
+                    animate={{ translateX: 0 }}
+                    exit={"exit"}
+                    key={currentKey}
+                >
+                    {rows}
+                </m.div>
             </AnimatePresence>
         </m.div>
 
