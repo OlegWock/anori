@@ -316,8 +316,9 @@
             "limitations": "Embedding doesn't work with all pages. Some sites actively resist being displayed as an embedded page, and unfortunately, Anori can't do much about it. This might result in pages not loading (as is the case with Gmail) or working poorly."
         },
 
-        "calculator-plugin": {
-            "name": "Calculator",
+        "math-plugin": {
+            "name": "Math",
+            "calculator": "Calculator",
             "expandWidgetName": "Calculator — expandable",
             "cantCalc": "Can't calculate that"
         }

@@ -4,40 +4,39 @@ import './styles.scss';
 import { useWidgetMetadata } from "@utils/plugin";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
-import Mexp from 'math-expression-evaluator';
 import { Ref, useRef, useState } from "react";
 import { Input } from "@components/Input";
 import clsx from "clsx";
 import { ScrollArea } from "@components/ScrollArea";
-import { guid } from "@utils/misc";
+import { guid, lazyAsyncVariable } from "@utils/misc";
 import { useRunAfterNextRender } from "@utils/hooks";
 import { AnimatePresence } from "framer-motion";
 import { WidgetExpandArea } from "@components/WidgetExpandArea";
 import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
+import type { MathJsStatic } from 'mathjs';
 
 type CalculatorWidgetConfigType = {
 
 };
 
-const mexp = new Mexp();
-const evaluate = (expression: string) => {
-    const lexed = mexp.lex(expression, [
-        { token: 'sqrt', show: 'sqrt', type: 0, value: Math.sqrt, precedence: 11 },
-        { token: 'mod', show: ' mod ', type: 2, value: mexp.math.mod, precedence: 3 },
-    ]);
-    const postfixed = mexp.toPostfix(lexed);
-    const result = mexp.postfixEval(postfixed, {});
+// @-ts-expect-error https://github.com/josdejong/mathjs/issues/2506
+// const globalMath = lazyAsyncVariable(() => import('mathjs/number').then(m => m.create(m.all, {}) as MathJsStatic));
+const globalMath = lazyAsyncVariable(() => import('mathjs').then(m => m.create(m.all, {
+    number: 'BigNumber',
+    precision: 32,
+}) as MathJsStatic));
+
+const evaluate = async (expression: string) => {
+    const math = await globalMath.get();
+    const result = math.evaluate(expression);
     return result;
 }
 
 const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAdditionalButtons: boolean, showHistory: boolean, inputRef?: Ref<HTMLInputElement> }) => {
-    const doCalc = () => {
-        // Would be cool to use mathjs once we get lazy loading working properly
-        // https://mathjs.org/
-
+    const doCalc = async () => {
         try {
-            const result = evaluate(expression);
+            const result = await evaluate(expression);
             setResult(result.toString());
             setExpression(result.toString());
             setHistory(prev => [...prev, {
@@ -53,7 +52,7 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
             })
         } catch (err) {
             console.log(err);
-            setResult(t('calculator-plugin.cantCalc'));
+            setResult(t('math-plugin.cantCalc'));
         }
 
     };
@@ -124,7 +123,7 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
             {showAdditionalButtons && <>
                 <Button onClick={addToExp('ln(')}>ln</Button>
                 <Button onClick={addToExp('log(')}>log</Button>
-                <Button onClick={addToExp('Mod')}>Mod</Button>
+                <Button onClick={addToExp('mod')}>mod</Button>
             </>}
             <Button onClick={addToExp('1')}>1</Button>
             <Button onClick={addToExp('2')}>2</Button>
@@ -147,7 +146,7 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalculatorWidgetConfigType>) => {
     const meta = useWidgetMetadata();
-    
+
     return (<div className="CalculatorWidget">
         <Calculator showAdditionalButtons={meta.size.width > 2} showHistory={meta.size.height > 2} />
     </div>);
@@ -180,7 +179,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
     const force = text.startsWith('=');
     const exp = force ? text.slice(1) : text;
     try {
-        const result = evaluate(exp);
+        const result = await evaluate(exp);
         return [{
             icon: 'ion:calculator',
             text: result.toString(),
@@ -193,9 +192,9 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
         if (force) {
             return [{
                 icon: 'ion:calculator',
-                text: translate('calculator-plugin.cantCalc'),
+                text: translate('math-plugin.cantCalc'),
                 key: 'cant-parse',
-                onSelected: () => {}
+                onSelected: () => { }
             }]
         }
         return [];
@@ -205,7 +204,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 const widgetDescriptor = {
     id: 'calc-widget',
     get name() {
-        return translate('calculator-plugin.name');
+        return translate('math-plugin.name');
     },
     configurationScreen: null,
     mainScreen: MainScreen,
@@ -223,7 +222,7 @@ const widgetDescriptor = {
                 height: 2,
             },
             max: {
-                width: 3,
+                width: 4,
                 height: 5,
             }
         },
@@ -233,7 +232,7 @@ const widgetDescriptor = {
 const expandableWidgetDescriptor = {
     id: 'calc-widget-expandable',
     get name() {
-        return translate('calculator-plugin.expandWidgetName');
+        return translate('math-plugin.expandWidgetName');
     },
     configurationScreen: null,
     mainScreen: MainScreenExpandable,
@@ -250,10 +249,10 @@ const expandableWidgetDescriptor = {
     }
 } as const satisfies WidgetDescriptor<any>;
 
-export const calculatorPlugin = {
-    id: 'calculator-plugin',
+export const mathPlugin = {
+    id: 'math-plugin',
     get name() {
-        return translate('calculator-plugin.name');
+        return translate('math-plugin.name');
     },
     widgets: [
         widgetDescriptor,

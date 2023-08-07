@@ -21,7 +21,7 @@
         &-content {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 2rem;
             padding: 0 18px;
         }
 
@@ -31,6 +31,9 @@
     
         ul {
             margin-left: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
     
         p:not(:last-child) {

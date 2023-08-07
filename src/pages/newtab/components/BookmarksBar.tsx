@@ -94,7 +94,7 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shif
         return (<Menubar.Item asChild>
             <Link className="MenuBookmark" href={bookmark.url}>
                 <div className="content">
-                    <Favicon url={bookmark.url} useFaviconApiIfPossible height={rem(1)} />
+                    <Favicon url={bookmark.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />
                     {!!bookmark.title && <span className="title">{bookmark.title}</span>}
                 </div>
             </Link>
@@ -103,7 +103,7 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shif
     return (<Menubar.Sub>
         <Menubar.SubTrigger className="MenuBookmark">
             <div className="content">
-                <Icon icon='ion:folder-open-sharp' height={rem(1)} />
+                <Icon icon='ion:folder-open-sharp' height={rem(1)} width={rem(1)} />
                 <span className="title">{bookmark.title}</span>
             </div>
 
@@ -126,8 +126,8 @@ const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?:
     const [scrollAreaOverflows, setScrollAreaOverflows] = useState(false);
 
     const content = (<>
-        {bookmark.type === 'bookmark' && <Favicon url={bookmark.url} useFaviconApiIfPossible height={rem(1)} />}
-        {bookmark.type === 'folder' && <Icon className="folder-icon" icon='ion:folder-open-sharp' height={rem(1)} />}
+        {bookmark.type === 'bookmark' && <Favicon url={bookmark.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />}
+        {bookmark.type === 'folder' && <Icon className="folder-icon" icon='ion:folder-open-sharp' height={rem(1)} width={rem(1)} />}
         {!!bookmark.title && <span className="title">{bookmark.title}</span>}
     </>);
 

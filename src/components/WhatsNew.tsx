@@ -20,13 +20,21 @@ export const WhatsNew = () => {
                     <h2>1.11.0</h2>
                     <p>There are a lot of changes in this release, so if you find any bugs please let me know by creating <a href="https://github.com/OlegWock/anori/issues">issue</a>!</p>
                     <ul>
-                        <li>Added new 'Embedded webpage' plugin. Now you can add your Notion Dashboard or your favorite Google Doc to Anori. Or even have C̶̺͍̜̾͌͗͂͠h̸̨̛͌́̂a̷̢̝̔̈́͑͂̅͂̕t̸̡̛̫̖͔̘̺́ͅG̷̲͐́͌̍P̵̗̮̹̭͇̽̅̀͑͠T̵̖̗͓̼̖͍͑̅ (sorry!) here. Not available on Firefox (yet).</li>
-                        <li>Also added new 'Calculator' plugin.</li>
+                        <li>
+                            Added new 'Embedded webpage' plugin. Now you can add your Notion Dashboard or your favorite Google Doc to Anori.
+                            Or even have C̶̺͍̜̾͌͗͂͠h̸̨̛͌́̂a̷̢̝̔̈́͑͂̅͂̕t̸̡̛̫̖͔̘̺́ͅG̷̲͐́͌̍P̵̗̮̹̭͇̽̅̀͑͠T̵̖̗͓̼̖͍͑̅ (sorry!) here. Not available on Firefox (yet).
+                        </li>
+                        <li>
+                            Also added new 'Math' plugin. There is currently only a calculator, but a powerful one! It uses math.js library under
+                            the hood, which supports a lot of <a href="https://mathjs.org/docs/reference/functions.html">functions</a>,
+                            <a href="https://mathjs.org/docs/reference/constants.html">constants</a> and <a href="https://mathjs.org/docs/datatypes/units.html#reference">units</a>.
+                            And all this also works in command menu!
+                        </li>
                         <li>Tasks, notes, RSS feed and recently closed tabs widgets now can be resized.</li>
                         <li>Now you can move widgets to another folder. Just drag them over folder you'd like to move them to and release mouse button. Poof!</li>
                         <li>
-                            I decided to change how extension behaves when you resize window (or switch to smaller screen). 
-                            Previously, extension tried to reposition widgets which didn't fit and if that was impossible just hide them. 
+                            I decided to change how extension behaves when you resize window (or switch to smaller screen).
+                            Previously, extension tried to reposition widgets which didn't fit and if that was impossible just hide them.
                             This behavior confused quite a lot of you and was also kinda prone to bugs. Now Anori just shows scrollbar in such case.
                         </li>
                     </ul>

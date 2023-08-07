@@ -237,7 +237,7 @@ getAllCustomIcons();
 initTranslation().then(() => {
     mountPage(<CompactModeProvider>
         {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
-        <LazyMotion features={loadMotionFeatures} strict>
+        <LazyMotion features={loadMotionFeatures}>
             <Start />
         </LazyMotion>
     </CompactModeProvider>);
