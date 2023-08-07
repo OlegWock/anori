@@ -23,13 +23,22 @@ export type NewWidgetWizardProps = {
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
     const tryAddWidget = (plugin: AnoriPlugin, widget: WidgetDescriptor<any>, config: any) => {
-        const position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
+        console.log({ gridDimensions, layout });
+        let position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
         if (!position) {
-            // TODO: replace with toast
-            alert(t('cantFitInGrid'));
-            return;
+            position = {
+                x: gridDimensions.columns,
+                y: 0,
+            }
         }
-        addWidget({ plugin, widget, config, position });
+        const { instanceId } = addWidget({ plugin, widget, config, position });
+        setTimeout(() => {
+            document.querySelector(`#WidgetCard-${instanceId}`)?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center',
+            });
+        }, 200);
         onClose();
     };
 

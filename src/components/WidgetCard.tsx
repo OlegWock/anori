@@ -123,6 +123,7 @@ export const WidgetCard = ({
 
     return (<WidgetCardContext.Provider value={{ cardRef: ref }}>
         <m.div
+            id={instanceId ? `WidgetCard-${instanceId}` : undefined}
             ref={ref}
             className={clsx(className, 'WidgetCard', withPadding && 'with-padding')}
             transition={{ ease: 'easeInOut', duration: 0.15 }}

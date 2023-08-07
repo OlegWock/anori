@@ -107,11 +107,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
             } else if (ch.type === 'change-position') {
                 moveWidget(ch.instanceId, ch.newPosition);
             } else if (ch.type === 'move-to-folder') {
-                const result = await tryMoveWidgetToFolder(folder.id, ch.folderId, ch.instanceId, gridDimensions);
-                if (!result) {
-                    // TODO: replace with alert
-                    alert(t('cantFitInGrid'));
-                }
+                tryMoveWidgetToFolder(folder.id, ch.folderId, ch.instanceId, gridDimensions);
             } else if (ch.type === 'resize') {
                 resizeWidget(ch.instanceId, { width: ch.width, height: ch.height });
             }

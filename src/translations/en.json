@@ -38,7 +38,6 @@
         "back": "Back",
         "icons": "Icons",
         "customIcons": "Custom icons",
-        "cantFitInGrid": "Can't fit element in grid",
         "canBeEmpty": "can be empty",
 
         "safari": {

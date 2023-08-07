@@ -4,7 +4,7 @@ import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, Widg
 import { guid } from "@utils/misc";
 import { useMemo } from "react";
 import { availablePluginsWithWidgets } from "@plugins/all";
-import { GridDimensions, LayoutItemSize, Position, findPositionForItemInGrid, fixHorizontalOverflows } from "@utils/grid";
+import { GridDimensions, LayoutItemSize, Position, findPositionForItemInGrid } from "@utils/grid";
 import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
 import { useTranslation } from "react-i18next";
@@ -233,9 +233,15 @@ export const tryMoveWidgetToFolder = async (folderIdFrom: Folder["id"], folderId
     const widgetInfo = fromFolderDetails.widgets.find(w => w.instanceId === widgetInstanceId);
     if (!widgetInfo) return false;
 
-    const toFolderLayout = fixHorizontalOverflows({ grid: currentGrid, layout: toFolderDetails.widgets });
-    const newPosition = findPositionForItemInGrid({ grid: currentGrid, layout: toFolderLayout, item: widgetInfo });
-    if (!newPosition) return false;
+    const toFolderLayout = toFolderDetails.widgets;
+    let newPosition = findPositionForItemInGrid({ grid: currentGrid, layout: toFolderLayout, item: widgetInfo });
+    if (!newPosition) {
+        const numberOfColumns = Math.max(...toFolderLayout.map(w => w.x + w.width));
+        newPosition = {
+            x: numberOfColumns,
+            y: 0,
+        }
+    }
 
     fromFolderDetails.widgets = fromFolderDetails.widgets.filter(w => w.instanceId !== widgetInstanceId);
     toFolderDetails.widgets = [

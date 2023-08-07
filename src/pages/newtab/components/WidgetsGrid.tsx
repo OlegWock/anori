@@ -183,6 +183,9 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
     const localRef = useRef<HTMLDivElement>(null);
     const combinedRef = mergeRefs([localRef, ref]);
 
+    // TODO: Because we use ScrollArea here (which hides overflow) our current Drag-and-drop implementation looks ugly
+    // Because dragged element can't overflow parent. Ideally, we should pop it from layout when we start dragging it
+
     return (<MotionScrollArea
         className="WidgetsGrid"
         contentClassName="WidgetsGrid-viewport"

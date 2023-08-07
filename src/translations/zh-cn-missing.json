@@ -1,7 +1,6 @@
 {
     "translation": {
         "icons": "Icons",
-        "cantFitInGrid": "Can't fit element in grid",
         "canBeEmpty": "can be empty",
         "safari": {
             "onboarding": {
