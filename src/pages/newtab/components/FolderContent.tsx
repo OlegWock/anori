@@ -2,7 +2,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import './FolderContent.scss';
 import { Folder, WidgetInFolderWithMeta } from '@utils/user-data/types';
 import { Icon } from '@components/Icon';
-import { CSSProperties, Suspense, lazy, useEffect, useState } from 'react';
+import { CSSProperties, Suspense, lazy, useState } from 'react';
 import { Button } from '@components/Button';
 import { tryMoveWidgetToFolder, useFolderWidgets } from '@utils/user-data/hooks';
 import { FolderContentContext } from '@utils/FolderContentContext';
@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollArea } from '@components/ScrollArea';
 import clsx from 'clsx';
 import { LayoutChange, WidgetsGrid } from './WidgetsGrid';
+import { atom, useAtom } from 'jotai';
 
 
 const NewWidgetWizard = lazy(() => import('./NewWidgetWizard').then(m => ({default: m.NewWidgetWizard})));
@@ -98,6 +99,7 @@ const actionButtonAnimations = {
     },
 };
 
+const isEditingModeActiveAtom = atom(false);
 
 export const FolderContent = ({ folder, animationDirection }: FolderContentProps) => {
     const onLayoutUpdate = (changes: LayoutChange[]) => {
@@ -115,7 +117,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     };
 
     const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig, folderDataLoaded } = useFolderWidgets(folder);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
     const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
     const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
@@ -128,10 +130,6 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
 
     console.log('Render folder content', { gridDimensions, layout: widgets });
-
-    useEffect(() => {
-        setIsEditing(false);
-    }, [folder.id]);
 
     useHotkeys('alt+e', () => {
         setIsEditing(true);
