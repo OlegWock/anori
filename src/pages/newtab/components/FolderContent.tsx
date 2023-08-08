@@ -148,7 +148,8 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
             <FolderContentContext.Provider value={{
                 activeFolder: folder,
                 isEditing,
-                boxSize: gridDimensions.boxSize,
+                grid: gridDimensions,
+                gridRef: mainRef,
             }}>
                 <m.div
                     key={`FolderContent-${folder.id}`}

@@ -199,10 +199,10 @@ export const snapToSector = ({ grid, position }: { grid: GridDimensions, positio
     });
 };
 
-export const positionToPixelPosition = ({ grid, positon }: { grid: GridDimensions, positon: Position }): PixelPosition => {
+export const positionToPixelPosition = ({ grid, position }: { grid: GridDimensions, position: Position }): PixelPosition => {
     return {
-        x: positon.x * grid.boxSize,
-        y: positon.y * grid.boxSize,
+        x: position.x * grid.boxSize,
+        y: position.y * grid.boxSize,
     };
 };
 

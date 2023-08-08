@@ -1,15 +1,20 @@
 import { PanInfo, TargetAndTransition, useDragControls } from "framer-motion";
 import { atom, getDefaultStore, useAtom, useStore } from "jotai";
 import { useEffect, useRef, useState } from "react";
+import { useMirrorStateToRef } from "./hooks";
 
-export type DndItemMeta = {
-    type: string,
+export type DndItemMeta<T extends string = string> = {
+    type: T,
     id: string,
     data?: any,
 };
 
 export type DropDestinationMeta = DndItemMeta & {
     onDrop: (info: DndItemMeta) => void,
+}
+
+export const ensureDndItemType = <T extends string>(dndItem: DndItemMeta, type: T): dndItem is DndItemMeta<T> => {
+    return dndItem.type === type;
 }
 
 const currentDraggableAtom = atom<DndItemMeta | null>(null);
@@ -24,23 +29,25 @@ type UseDraggableOptions = {
 
 export const useDraggable = (info: DndItemMeta, options?: UseDraggableOptions) => {
     const registerDrag = () => {
+        console.log('Registering drag for', info.id);
         isDragActiveRef.current = true;
         setCurrentDraggable(info);
         setCurrentDrop(null);
     };
     const endDrag = () => {
+        console.log('Inner endDrag');
         isDragActiveRef.current = false;
-        if (currentDrop) {
-            console.log('Item', info, 'dropped onto', currentDrop);
-            currentDrop.onDrop(info);
+        if (currentDropRef.current) {
+            console.log('Item', info, 'dropped onto', currentDropRef.current);
+            currentDropRef.current.onDrop(info);
         }
-
-        if (currentDraggable?.id === info.id) {
+        console.log('Current draggable id', currentDraggable?.id, 'id of item that called this hook', info.id);
+        if (currentDraggableRef.current?.id === info.id) {
             setCurrentDraggable(null);
             setCurrentDrop(null);
         }
 
-        return currentDrop;
+        return currentDropRef.current;
     };
 
     const onDragStart = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -60,7 +67,9 @@ export const useDraggable = (info: DndItemMeta, options?: UseDraggableOptions) =
     const dragControls = useDragControls();
     const isDragActiveRef = useRef(false);
     const [currentDraggable, setCurrentDraggable] = useAtom(currentDraggableAtom);
+    const currentDraggableRef = useMirrorStateToRef(currentDraggable);
     const [currentDrop, setCurrentDrop] = useAtom(currentDropDestinationAtom);
+    const currentDropRef = useMirrorStateToRef(currentDrop);
 
 
     return {

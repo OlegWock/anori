@@ -11,7 +11,6 @@ import { useFolderWidgets } from '@utils/user-data/hooks';
 import { GridDimensions, Layout, findPositionForItemInGrid } from '@utils/grid';
 import { MotionScrollArea, ScrollArea } from '@components/ScrollArea';
 import { useTranslation } from 'react-i18next';
-import { WidgetMetadataContext } from '@utils/plugin';
 
 
 export type NewWidgetWizardProps = {
@@ -93,68 +92,24 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                                     return (<div className='widgets-group' key={`group-${ind}`}>
                                                         {widgetOrGroup.map(widget => {
                                                             return (<div key={widget.id}>
-                                                                <WidgetMetadataContext.Provider value={{
-                                                                    pluginId: plugin.id,
-                                                                    instanceId: 'mock',
-                                                                    config: {},
-                                                                    size: widget.appearance.size,
-                                                                    updateConfig: (config) => { },
-                                                                }}>
-                                                                    <WidgetCard
-                                                                        resizable={false}
-                                                                        withAnimation={false}
-                                                                        withPadding={!widget.appearance.withoutPadding}
-                                                                        style={{ margin: 0 }}
-                                                                        width={widget.appearance.size.width}
-                                                                        height={widget.appearance.size.height}
-                                                                        onClick={() => {
-                                                                            if (widget.configurationScreen) {
-                                                                                setSelectedPlugin(plugin);
-                                                                                setSelectedWidget(widget);
-                                                                            } else {
-                                                                                tryAddWidget(plugin, widget, {});
-                                                                            }
-                                                                        }}
-                                                                    >
-                                                                        <widget.mock />
-                                                                        <div className="interaction-blocker"></div>
-                                                                    </WidgetCard>
-                                                                    <div className='widget-name'>{widget.name}</div>
-                                                                </WidgetMetadataContext.Provider>
+                                                                <WidgetCard
+                                                                    type='mock'
+                                                                    widget={widget}
+                                                                    plugin={plugin}
+                                                                />
+                                                                <div className='widget-name'>{widget.name}</div>
                                                             </div>);
                                                         })}
                                                     </div>);
                                                 }
                                                 return (
                                                     <div key={widgetOrGroup.id}>
-                                                        <WidgetMetadataContext.Provider value={{
-                                                            pluginId: plugin.id,
-                                                            instanceId: 'mock',
-                                                            config: {},
-                                                            size: widgetOrGroup.appearance.size,
-                                                            updateConfig: (config) => { },
-                                                        }}>
-                                                            <WidgetCard
-                                                                resizable={false}
-                                                                withAnimation={false}
-                                                                withPadding={!widgetOrGroup.appearance.withoutPadding}
-                                                                style={{ margin: 0 }}
-                                                                width={widgetOrGroup.appearance.size.width}
-                                                                height={widgetOrGroup.appearance.size.height}
-                                                                onClick={() => {
-                                                                    if (widgetOrGroup.configurationScreen) {
-                                                                        setSelectedPlugin(plugin);
-                                                                        setSelectedWidget(widgetOrGroup);
-                                                                    } else {
-                                                                        tryAddWidget(plugin, widgetOrGroup, {});
-                                                                    }
-                                                                }}
-                                                            >
-                                                                <widgetOrGroup.mock />
-                                                                <div className="interaction-blocker"></div>
-                                                            </WidgetCard>
-                                                            <div className='widget-name'>{widgetOrGroup.name}</div>
-                                                        </WidgetMetadataContext.Provider>
+                                                        <WidgetCard
+                                                            type='mock'
+                                                            widget={widgetOrGroup}
+                                                            plugin={plugin}
+                                                        />
+                                                        <div className='widget-name'>{widgetOrGroup.name}</div>
                                                     </div>
                                                 );
                                             })}
