@@ -41,6 +41,15 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         onClose();
     };
 
+    const onWidgetClick = (widget: WidgetDescriptor<any>, plugin: AnoriPlugin) => {
+        if (widget.configurationScreen) {
+            setSelectedPlugin(plugin);
+            setSelectedWidget(widget);
+        } else {
+            tryAddWidget(plugin, widget, {});
+        }
+    }
+
     const { addWidget } = useFolderWidgets(folder);
     const [selectedPlugin, setSelectedPlugin] = useState<AnoriPlugin | undefined>(undefined);
     const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor<any> | undefined>(undefined);
@@ -91,7 +100,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                                 if (Array.isArray(widgetOrGroup)) {
                                                     return (<div className='widgets-group' key={`group-${ind}`}>
                                                         {widgetOrGroup.map(widget => {
-                                                            return (<div key={widget.id}>
+                                                            return (<div key={widget.id} onClick={() => onWidgetClick(widget, plugin)}>
                                                                 <WidgetCard
                                                                     type='mock'
                                                                     widget={widget}
@@ -103,7 +112,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                                     </div>);
                                                 }
                                                 return (
-                                                    <div key={widgetOrGroup.id}>
+                                                    <div key={widgetOrGroup.id} onClick={() => onWidgetClick(widgetOrGroup, plugin)}>
                                                         <WidgetCard
                                                             type='mock'
                                                             widget={widgetOrGroup}
