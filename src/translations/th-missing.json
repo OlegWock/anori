@@ -1,5 +1,6 @@
 {
     "translation": {
+        "reload": "Reload",
         "icons": "Icons",
         "canBeEmpty": "can be empty",
         "safari": {
@@ -41,6 +42,15 @@
             "importExport": {
                 "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
             }
+        },
+        "bookmark-plugin": {
+            "checkStatus": "Check page status",
+            "checkStatusHint": "Anori will make request to page every 10-15 minutes in background to see if it's up. If server is unreachable or returns HTTP 5xx error it will be considered down. This will require additional permission. Checks won't be made while browser is closed or computer is sleeping.",
+            "checkingStatus": "Checking page status...",
+            "status": "Page is currently {{status}}, last status change was {{lastChange}}. Last checked {{lastCheck}}.",
+            "statusUp": "up",
+            "statusDown": "down",
+            "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites."
         }
     }
 }

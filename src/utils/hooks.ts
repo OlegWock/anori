@@ -1,4 +1,4 @@
-import { MouseEventHandler, MutableRefObject, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
+import { DependencyList, MouseEventHandler, MutableRefObject, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
 import { useHotkeys as useHotkeysOriginal } from 'react-hotkeys-hook';
 import { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
 import { trackEvent } from "./analytics";
@@ -149,4 +149,11 @@ export const useLazyRef = <T>(init: () => T): MutableRefObject<T> => {
     }
 
     return ref as MutableRefObject<T>;
+};
+
+export const useAsyncEffect = (func: () => any, deps?: DependencyList | undefined) => {
+    // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
+    useEffect(() => {
+        func();
+    }, deps);
 };

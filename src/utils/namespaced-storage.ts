@@ -46,9 +46,17 @@ export class NamespacedStorage<T extends {} = {}> {
 
     set<K extends keyof T>(name: K, val: T[K]) {
         const { value: currentState } = getAtomWithStorageValue(this.atom);
-        setAtomWithStorageValue(this.atom, {
+        return setAtomWithStorageValue(this.atom, {
             ...currentState,
             [name]: val,
+        });
+    }
+
+    setMany<M extends Partial<T>>(mapping: M) {
+        const { value: currentState } = getAtomWithStorageValue(this.atom);
+        return setAtomWithStorageValue(this.atom, {
+            ...currentState,
+            ...mapping,
         });
     }
 

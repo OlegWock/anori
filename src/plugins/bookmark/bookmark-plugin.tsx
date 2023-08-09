@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
-import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
+import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, WidgetDescriptor, ID, WidgetInFolderWithMeta } from "@utils/user-data/types";
 import { MouseEvent, MouseEventHandler, useRef, useState } from "react";
 import './styles.scss';
 import { Popover } from "@components/Popover";
@@ -8,9 +8,9 @@ import { IconPicker } from "@components/IconPicker";
 import { Icon } from "@components/Icon";
 import { useMemo } from "react";
 import clsx from "clsx";
-import { createOnMessageHandlers, getAllWidgetsByPlugin, useWidgetMetadata } from "@utils/plugin";
+import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage, useWidgetMetadata, useWidgetStorage } from "@utils/plugin";
 import { guid, normalizeUrl, parseHost } from "@utils/misc";
-import { useLinkNavigationState, usePrevious } from "@utils/hooks";
+import { useAsyncEffect, useLinkNavigationState, usePrevious } from "@utils/hooks";
 import { useSizeSettings } from "@utils/compact";
 import browser from 'webextension-polyfill';
 import { AnimatePresence, m } from "framer-motion";
@@ -27,11 +27,22 @@ import { Link } from "@components/Link";
 import { WidgetExpandArea } from "@components/WidgetExpandArea";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { ensureDnrRule } from "@plugins/shared/dnr";
+import { Checkbox } from "@components/Checkbox";
+import { Hint } from "@components/Hint";
+import moment from "moment-timezone";
+import { Tooltip } from "@components/Tooltip";
 
 type BookmarkWidgetConfigType = {
     url: string,
     title: string,
     icon: string,
+    checkStatus?: boolean,
+};
+
+type BookmarkWidgetStorageType = {
+    status: 'up' | 'down' | 'loading',
+    lastCheck?: number,
+    lastStatusChange?: number,
 };
 
 type BookmarkGroupWidgetConfigType = {
@@ -57,6 +68,61 @@ type BookmarksMessageHandlers = {
     },
 };
 
+const getPageStatus = async (url: string): Promise<'up' | 'down'> => {
+    try {
+        const resp = await fetch(url);
+        if (resp.status >= 500) return 'down';
+        return 'up';
+    } catch (err) {
+        console.log('Error while checking page status', url, err);
+        return 'down';
+    }
+};
+
+const updateStatusesForTrackedPages = async () => {
+    const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
+    const widgetsToCheck = widgets.filter(w => {
+        return w.widgetId === bookmarkWidgetDescriptor.id && (w.configutation as BookmarkWidgetConfigType).checkStatus;
+    }) as WidgetInFolderWithMeta<BookmarkWidgetConfigType, {}, BookmarkWidgetConfigType>[];
+
+    const promises = widgetsToCheck.map(async (w) => {
+        const store = getWidgetStorage<BookmarkWidgetStorageType>(w.instanceId);
+        await store.waitForLoad();
+        const currentStatus = store.get('status');
+        store.set('status', 'loading');
+        const newStatus = await getPageStatus(normalizeUrl(w.configutation.url));
+        const updatePayload: Partial<BookmarkWidgetStorageType> = {
+            lastCheck: Date.now(),
+            status: newStatus,
+        }
+        if (currentStatus !== newStatus) {
+            updatePayload.lastStatusChange = Date.now();
+        }
+
+        await store.setMany(updatePayload);
+    });
+
+    await Promise.all(promises);
+};
+
+const updatePageStatusForWidget = async (instaceId: ID, url: string) => {
+    const store = getWidgetStorage<BookmarkWidgetStorageType>(instaceId);
+    await store.waitForLoad();
+    const currentStatus = store.get('status');
+    store.set('status', 'loading');
+    const newStatus = await getPageStatus(normalizeUrl(url));
+    const updatePayload: Partial<BookmarkWidgetStorageType> = {
+        lastCheck: Date.now(),
+        status: newStatus,
+    }
+    if (currentStatus !== newStatus) {
+        updatePayload.lastStatusChange = Date.now();
+    }
+
+    await store.setMany(updatePayload);
+};
+
+const STATUS_CHECK_INTERVAL_MINUTES = 10;
 
 const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkGroupWidgetConfigType>) => {
     const onConfirm = () => {
@@ -187,14 +253,18 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
     const onConfirm = () => {
         if (!title || !url) return;
 
-        saveConfiguration({ title, url, icon });
+        saveConfiguration({ title, url, icon, checkStatus });
     };
+
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
+    const [checkStatus, setCheckStatus] = useState(currentConfig?.checkStatus ?? false);
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
+
+    console.log('BookmarkWidgetConfigScreen', { currentConfig });
 
     return (<div className="BookmarkWidget-config">
         <div className="field">
@@ -233,36 +303,77 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
                 </Popover>}
             </div>
         </div>
+        <div className="field">
+            <Checkbox checked={checkStatus} onChange={setCheckStatus}>{t('bookmark-plugin.checkStatus')} <Hint content={t('bookmark-plugin.checkStatusHint')} /></Checkbox>
+        </div>
 
         <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
 
     </div>);
 };
 
-const BookmarkWidget = ({ config, isMock }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean }) => {
+const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean }) => {
     const openIframe = (e: MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setShowExpandArea(true);
         if (hasDnrPermissions && !showIframe) {
             sendMessage('ensureDnrRule', { url: normalizedUrl })
-                        .then(() => setShowIframe(true))
+                .then(() => setShowIframe(true))
         }
     };
 
     const closeExpand = () => {
         setShowExpandArea(false);
-    }
+    };
 
+    const createStatusMessage = () => {
+        if (status === 'loading') return t('bookmark-plugin.checkingStatus');
+        console.log('Create status message', { lastStatusChange, lastCheck });
+        return t('bookmark-plugin.status', {
+            status: status === 'up' ? t('bookmark-plugin.statusUp') : t('bookmark-plugin.statusDown'),
+            lastChange: lastStatusChangeMoment.fromNow(),
+            lastCheck: lastCheckMoment.fromNow(),
+        });
+    };
+
+    const [showExpandArea, setShowExpandArea] = useState(false);
+    const [showIframe, setShowIframe] = useState(false);
+
+    const { rem } = useSizeSettings();
+    const store = useWidgetStorage<BookmarkWidgetStorageType>();
+    const { t, i18n } = useTranslation();
+
+    const [status] = store.useValue('status', 'loading');
+    const [lastCheck] = store.useValue('lastCheck', undefined);
+    const [lastStatusChange] = store.useValue('lastStatusChange', undefined);
+    const lastCheckMoment = useMemo(() => moment(lastCheck), [lastCheck, i18n.language]);
+    const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
+    const statusColor = ({
+        loading: 'var(--text-disabled)',
+        up: '#2eb46a',
+        down: 'var(--error-color)',
+    })[status];
 
     const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
     const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
-    const { rem } = useSizeSettings();
+
     const { size: { width } } = useWidgetMetadata();
     const size = width === 1 ? 's' : 'm';
+
     const { onLinkClick, isNavigating } = useLinkNavigationState();
-    const [showExpandArea, setShowExpandArea] = useState(false);
-    const [showIframe, setShowIframe] = useState(false);
+
+    useAsyncEffect(async () => {
+        if (!config.checkStatus) return;
+        await store.waitForLoad();
+        const lastCheck = store.get('lastCheck');
+        console.log('Last checked status for', config.url, 'at', lastCheck);
+        if (!lastCheck) {
+            updatePageStatusForWidget(instanceId, config.url);
+        }
+    }, [config.url]);
+
+
     const hasDnrPermissions = usePermissionsQuery({
         hosts: [parseHost(config.url)],
         permissions: ["declarativeNetRequestWithHostAccess", "browsingData"],
@@ -284,11 +395,16 @@ const BookmarkWidget = ({ config, isMock }: WidgetRenderProps<BookmarkWidgetConf
                     : (<Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
                 }
             </div>
-            <button onClick={openIframe} className="open-in-iframe">
-                <div>
-                    <Icon icon="ion:expand" />
-                </div>
-            </button>
+            <div className="corner-controls">
+                {config.checkStatus && <Tooltip label={createStatusMessage}>
+                    <div className="status-dot" style={{ backgroundColor: statusColor }} />
+                </Tooltip>}
+                <button onClick={openIframe} className="open-in-iframe">
+                    <div>
+                        <Icon icon="ion:expand" />
+                    </div>
+                </button>
+            </div>
         </Link>
         <AnimatePresence>
             {showExpandArea && <WidgetExpandArea onClose={closeExpand} size="max" className="BookmarkWidget-expand">
@@ -353,7 +469,10 @@ export const bookmarkWidgetDescriptor = {
     },
     configurationScreen: BookmarkWidgetConfigScreen,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
-        return <BookmarkWidget instanceId={instanceId} config={config} isMock={false} />
+        const { t } = useTranslation();
+        return (<RequirePermissions className="rp-paddings" additionalInfo={t('bookmark-plugin.permissionExplanation')} hosts={[parseHost(config.url)]} enabled={config.checkStatus === true} compact>
+            <BookmarkWidget instanceId={instanceId} config={config} isMock={false} />
+        </RequirePermissions>);
     },
     mock: () => {
         const { t } = useTranslation();
@@ -443,5 +562,9 @@ export const bookmarkPlugin: AnoriPlugin<{}, BookmarkWidgetConfigType | Bookmark
     onCommandInput,
     configurationScreen: null,
     onMessage: handlers,
+    scheduledCallback: {
+        intervalInMinutes: STATUS_CHECK_INTERVAL_MINUTES,
+        callback: updateStatusesForTrackedPages,
+    }
 };
 

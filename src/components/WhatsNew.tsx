@@ -32,6 +32,7 @@ export const WhatsNew = () => {
                         </li>
                         <li>Tasks, notes, RSS feed and recently closed tabs widgets now can be resized.</li>
                         <li>Now you can move widgets to another folder. Just drag them over folder you'd like to move them to and release mouse button. Poof!</li>
+                        <li>Added option to monitor status (up/down) of a bookmark (you can find it on the widget configuration screen). Web developers and self-hosters, this one is for you!</li>
                         <li>
                             I decided to change how extension behaves when you resize window (or switch to smaller screen).
                             Previously, extension tried to reposition widgets which didn't fit and if that was impossible just hide them.

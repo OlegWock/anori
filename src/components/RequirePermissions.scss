@@ -11,9 +11,13 @@
     &.compact {
         cursor: pointer;
     }
-    
+
     .text {
         font-weight: 300;
+    }
+
+    .additional-info {
+        margin-top: 1rem;
     }
 
     .grant-button {
@@ -24,8 +28,14 @@
 }
 
 .RequirePermissions-modal {
+    max-width: 600px;
+
     .grant-button {
         align-self: center;
         margin-top: 36px;
+    }
+
+    .additional-info {
+        margin-top: 1rem;
     }
 }

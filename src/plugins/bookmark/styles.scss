@@ -32,6 +32,7 @@
             .host {
                 font-size: 0.75rem;
                 color: var(--text-subtle-2);
+                white-space: nowrap;
             }
         }
 
@@ -62,36 +63,55 @@
         }
     }
 
-    .open-in-iframe {
+    .corner-controls {
         position: absolute;
         top: 1rem;
         right: 1rem;
-        line-height: 1;
-        display: none;
+        left: 1rem;
         user-select: none;
         -webkit-user-select: none;
-        background: var(--background);
-        white-space: nowrap;
-        color: var(--text);
-        border-radius: 24px;
-        overflow: hidden;
+        display: flex;
+        // flex-direction: column;
+        // align-items: flex-end;
 
-        cursor: pointer;
+        flex-direction: row-reverse;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.5rem;
 
-        &>div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-
-            padding: 6px 18px;
-            background: transparent;
-            transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
+        .status-dot {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.5rem;
+            border: 0.2rem solid var(--background);
         }
 
-        @include utils.hover {
+        .open-in-iframe {
+            line-height: 1;
+            display: none;
+            background: var(--background);
+            white-space: nowrap;
+            color: var(--text);
+            border-radius: 24px;
+            overflow: hidden;
+    
+            cursor: pointer;
+    
             &>div {
-                background: rgba(255, 255, 255, 0.05);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+    
+    
+                padding: 6px 18px;
+                background: transparent;
+                transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
+            }
+    
+            @include utils.hover {
+                &>div {
+                    background: rgba(255, 255, 255, 0.05);
+                }
             }
         }
     }
@@ -155,6 +175,11 @@
         align-self: stretch;
         border-radius: 12px;
     }
+}
+
+.rp-paddings {
+    padding: 1rem;
+    justify-content: unset;
 }
 
 @keyframes spin {

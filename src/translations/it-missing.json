@@ -1,5 +1,6 @@
 {
     "translation": {
+        "reload": "Reload",
         "canBeEmpty": "can be empty",
         "iframe-plugin": {
             "name": "Embed webpage",
@@ -12,6 +13,15 @@
             "calculator": "Calculator",
             "expandWidgetName": "Calculator — expandable",
             "cantCalc": "Can't calculate that"
+        },
+        "bookmark-plugin": {
+            "checkStatus": "Check page status",
+            "checkStatusHint": "Anori will make request to page every 10-15 minutes in background to see if it's up. If server is unreachable or returns HTTP 5xx error it will be considered down. This will require additional permission. Checks won't be made while browser is closed or computer is sleeping.",
+            "checkingStatus": "Checking page status...",
+            "status": "Page is currently {{status}}, last status change was {{lastChange}}. Last checked {{lastCheck}}.",
+            "statusUp": "up",
+            "statusDown": "down",
+            "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites."
         }
     }
 }

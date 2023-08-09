@@ -158,9 +158,9 @@ export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceL
         return () => browser.storage.local.onChanged.removeListener(onChange);
     };
 
-    const derivedAtom = atom<AtomWithBrowserStorageMeta<V>, [V], void>(
+    const derivedAtom = atom<AtomWithBrowserStorageMeta<V>, [V, () => void | undefined], void>(
         (get) => get(baseAtom),
-        (get, set, update) => {
+        (get, set, update, onSave) => {
             const currentAtomValueMeta = get(baseAtom);
             const shouldUseDefaultValue = currentAtomValueMeta.currentValue === SYMBOL_NOT_LOADED || currentAtomValueMeta.currentValue === SYMBOL_NO_VALUE;
             const currentValue = shouldUseDefaultValue ? currentAtomValueMeta.defaultValue : currentAtomValueMeta.currentValue;
@@ -170,7 +170,7 @@ export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceL
                 currentValue: nextValue,
             }
             set(baseAtom, nextValueMeta);
-            storage.setOneDynamic<V>(key, nextValue, true);
+            storage.setOneDynamic<V>(key, nextValue, true).then(() => onSave && onSave());
         }
     );
 
@@ -204,7 +204,7 @@ export const atomWithBrowserStorageStatic = <K extends StorageKey>(key: K, initi
 };
 
 export const focusAtomWithStorage = <T extends {}, K extends keyof T>(storageAtom: AtomWithBrowserStorage<T>, key: K, defaultValue: Required<T>[K]): AtomWithBrowserStorage<T[K]> => {
-    return atom<AtomWithBrowserStorageMeta<Required<T>[K]>, [Required<T>[K]], void>(
+    return atom<AtomWithBrowserStorageMeta<Required<T>[K]>, [Required<T>[K], () => void | undefined], void>(
         (get) => {
             const valueWithMeta = get(storageAtom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>);
             const shouldUseDefaultValue = valueWithMeta.currentValue === SYMBOL_NOT_LOADED || valueWithMeta.currentValue === SYMBOL_NO_VALUE;
@@ -221,7 +221,7 @@ export const focusAtomWithStorage = <T extends {}, K extends keyof T>(storageAto
                 currentValue,
             }
         },
-        (get, set, update) => {
+        (get, set, update, onSave) => {
             const valueWithMeta = get(storageAtom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>);
             const shouldUseDefaultValue = valueWithMeta.currentValue === SYMBOL_NOT_LOADED || valueWithMeta.currentValue === SYMBOL_NO_VALUE;
             const value = (shouldUseDefaultValue ? valueWithMeta.defaultValue : valueWithMeta.currentValue) as T;
@@ -232,7 +232,7 @@ export const focusAtomWithStorage = <T extends {}, K extends keyof T>(storageAto
             } else {
                 finalValue[key] = update;
             }
-            set(storageAtom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>, finalValue);
+            set(storageAtom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T, () => void | undefined], void>, finalValue, onSave);
         },
     ) as unknown as AtomWithBrowserStorage<T[K]>;
 };
@@ -256,11 +256,19 @@ export const getAtomWithStorageValue = <T>(atom: AtomWithBrowserStorage<T>) => {
 
 export const setAtomWithStorageValue = <T>(atom: AtomWithBrowserStorage<T>, value: T) => {
     const atomStore = getDefaultStore();
-    atomStore.set(atom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>, value);
+    return new Promise((resolve) => {
+        atomStore.set(atom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T, () => void | undefined], void>, value, resolve);
+    });
 };
 
 export const useAtomWithStorage = <T>(atom: AtomWithBrowserStorage<T>): UseAtomWithStorageResult<T> => {
-    const [valueWithMeta, setValue] = useAtom(atom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T], void>);
+    const setValue = (val: T) => {
+        return new Promise<void>((resolve) => {
+            _setValue(val, resolve);
+        })
+    };
+
+    const [valueWithMeta, _setValue] = useAtom(atom as unknown as WritableAtom<AtomWithBrowserStorageMeta<T>, [T, () => void | undefined], void>);
     const shouldUseDefaultValue = valueWithMeta.currentValue === SYMBOL_NOT_LOADED || valueWithMeta.currentValue === SYMBOL_NO_VALUE;
     const value = (shouldUseDefaultValue ? valueWithMeta.defaultValue : valueWithMeta.currentValue) as T;
     const status = (() => {

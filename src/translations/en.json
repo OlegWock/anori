@@ -10,6 +10,7 @@
         "save": "Save",
         "import": "Import",
         "add": "Add",
+        "reload": "Reload",
         "noResults": "No results",
         "example": "Example",
         "weekday0": "Monday",
@@ -196,7 +197,14 @@
             "groupWidgetName": "Bookmark group",
             "openInGroup": "Open in a tab group",
             "group": "Group",
-            "searchBookmarks": "Search bookmarks"
+            "searchBookmarks": "Search bookmarks",
+            "checkStatus": "Check page status",
+            "checkStatusHint": "Anori will make request to page every 10-15 minutes in background to see if it's up. If server is unreachable or returns HTTP 5xx error it will be considered down. This will require additional permission. Checks won't be made while browser is closed or computer is sleeping.",
+            "checkingStatus": "Checking page status...",
+            "status": "Page is currently {{status}}, last status change was {{lastChange}}. Last checked {{lastCheck}}.",
+            "statusUp": "up",
+            "statusDown": "down",
+            "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites."
         },
         "calendar-plugin": {
             "name": "Calendar",

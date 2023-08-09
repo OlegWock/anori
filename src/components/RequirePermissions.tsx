@@ -11,17 +11,18 @@ import { useTranslation } from "react-i18next";
 
 
 export type RequirePermissionsProps = {
+    additionalInfo?: string,
+    enabled?: boolean,
     hosts?: string[],
     permissions?: CorrectPermission[],
     children?: ReactNode,
     compact?: boolean,
     onGrant?: () => void,
     className?: string,
-    isMock?: boolean,
 };
 
 
-export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, isMock, onGrant, className }: RequirePermissionsProps) => {
+export const RequirePermissions = ({ hosts = [], permissions = [], children, compact, onGrant, className, enabled = true, additionalInfo }: RequirePermissionsProps) => {
     const grantPermissions = async () => {
         const granted = await browser.permissions.request({
             // @ts-ignore I know what I'm doing
@@ -39,12 +40,14 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
     const [modalVisible, setModalVisible] = useState(false);
     const { t } = useTranslation();
 
+    if (!enabled) return <>{children}</>;
+
     if (!currentPermissions) return null;
     const isFirefox = navigator.userAgent.includes('Firefox/');
     const missingPermissions = permissions.filter(p => !currentPermissions.permissions.includes(p)).filter(p => isFirefox ? !permissionUnavailableOnFirefox.includes(p) : true);
     const missingHostPermissions = hosts.filter(h => !containsHostPermission(currentPermissions.hosts, h));
 
-    if (isMock || (missingPermissions.length === 0 && missingHostPermissions.length === 0)) {
+    if ((missingPermissions.length === 0 && missingHostPermissions.length === 0)) {
         return <>{children}</>;
     } else {
         return (
@@ -56,6 +59,7 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
                         <div>{t('requirePermissions.text')}</div>
                         {missingPermissions.length !== 0 && <div>{t('requirePermissions.apiPermissions')}: <strong>{missingPermissions.join(', ')}</strong>.</div>}
                         {missingHostPermissions.length !== 0 && <div>{t('requirePermissions.hostPermissions')}: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
+                        {!!additionalInfo && <div className='additional-info'>{additionalInfo}</div>}
                         <Button className="grant-button" onClick={grantPermissions}>{t('requirePermissions.grant')}</Button>
                     </>}
                 </div>
@@ -69,6 +73,8 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
                         <div>{t('requirePermissions.text')}</div>
                         {missingPermissions.length !== 0 && <div>{t('requirePermissions.apiPermissions')}: <strong>{missingPermissions.join(', ')}</strong>.</div>}
                         {missingHostPermissions.length !== 0 && <div>{t('requirePermissions.hostPermissions')}: <strong>{missingHostPermissions.join(', ')}</strong>.</div>}
+
+                        {!!additionalInfo && <div className='additional-info'>{additionalInfo}</div>}
                         <Button className="grant-button" onClick={grantPermissions}>{t('requirePermissions.grant')}</Button>
                     </Modal>}
                 </AnimatePresence>

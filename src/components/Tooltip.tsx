@@ -25,7 +25,7 @@ import clsx from "clsx";
 import { IS_TOUCH_DEVICE } from "@utils/device";
 
 interface Props {
-    label: ReactNode;
+    label: ReactNode | (() => ReactNode);
     showDelay?: number;
     resetDelay?: number;
     placement?: Placement;
@@ -93,6 +93,7 @@ export const Tooltip = ({
     const refs: Ref<any>[] = [reference];
     if (targetRef) refs.push(targetRef);
     const mergedRef = mergeRefs(refs);
+    const content = typeof label === 'function' ? label() : label;
 
     return (
         <>
@@ -125,7 +126,7 @@ export const Tooltip = ({
                                 }
                             })}
                         >
-                            {label}
+                            {content}
                         </m.div>
                     )}
                 </AnimatePresence>
