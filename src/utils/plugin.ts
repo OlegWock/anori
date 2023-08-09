@@ -100,8 +100,7 @@ export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultCon
 }
 
 export const getPluginConfig = <T extends {}>(plugin: AnoriPlugin<T>) => {
-    // @ts-ignore It's dynamic property, but I don't want to code custom util for one usage
-    return storage.getOne(`PluginConfig.${plugin.id}`) as Promise<T | undefined>;
+    return storage.getOneDynamic<T>(`PluginConfig.${plugin.id}`);
 };
 
 

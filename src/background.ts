@@ -192,6 +192,8 @@ self.runScheduledCallbacks = runScheduledCallbacks;
 // @ts-ignore Add this into global scope for debug
 self.gatherDailyUsageData = gatherDailyUsageData;
 
+// TODO: this seem to be implemented in Safari only recently (https://bugs.webkit.org/show_bug.cgi?id=259950), might want to
+// make workaround (with setInterval?) for Safari
 browser.alarms.create('scheduledCallbacks', {
     periodInMinutes: 5,
     delayInMinutes: 5,
