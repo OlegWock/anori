@@ -23,20 +23,19 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean, onOpenChang
     };
 
     const loadActionsByQuery = async (query: string) => {
-        const promises = availablePlugins.filter(p => !!p.onCommandInput).map(p => {
-            return Promise.race([
+        const promises = availablePlugins.filter(p => !!p.onCommandInput).map(async (p) => {
+            const items = await Promise.race([
                 wait(ON_COMMAND_INPUT_TIMEOUT).then(() => [] as CommandItem[]),
                 p.onCommandInput!(query).catch((err) => {
                     console.error('Error in onCommandInput handler of', p);
                     console.error(err);
                     return [] as CommandItem[];
                 })
-            ]).then(items => {
-                return {
-                    items,
-                    plugin: p,
-                } satisfies ActionsWithMetadata;
-            });
+            ]);
+            return {
+                items,
+                plugin: p,
+            } satisfies ActionsWithMetadata;
         });
 
         const actions = await Promise.all(promises);
@@ -45,10 +44,11 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean, onOpenChang
 
     const [query, setQuery] = useState('');
     const [actions, setActions] = useState<ActionsWithMetadata[]>([]);
+    const [initialized, setInitialized] = useState(false);
     const { t } = useTranslation();
 
     useEffect(() => {
-        loadActionsByQuery('');
+        loadActionsByQuery('').then(() => setInitialized(true));
     }, []);
 
 
@@ -57,7 +57,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean, onOpenChang
     return (
         <Command.Dialog open={open} onOpenChange={onOpenChange} label={t('commandMenu.name')} shouldFilter={false}>
             <Command.Input value={query} onValueChange={updateQuery} className='Input' placeholder={t('commandMenu.placeholder')} />
-            <Command.List>
+            {initialized && <Command.List>
                 <ScrollArea className='cmdk-scrollarea'>
                     <div className="cmdk-scrollarea-content">
                         {actions.filter(({ items }) => items.length !== 0).map(({ plugin, items }) => {
@@ -86,7 +86,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean, onOpenChang
                         </>}
                     </div>
                 </ScrollArea>
-            </Command.List>
+            </Command.List>}
         </Command.Dialog>
     );
 }
