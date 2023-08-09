@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import useMeasure from 'react-use-motion-measure';
 import { useHotkeys } from '@utils/hooks';
-import { useMotionTransition } from '@utils/animations';
+import { useMotionTransition } from '@utils/motion/hooks';
 
 export type ModalProps = {
     title: string;

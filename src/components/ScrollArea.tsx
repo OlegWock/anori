@@ -23,10 +23,12 @@ type ScrollAreaProps = {
 const checkVerticalOverflow = (el: Element) => el.clientHeight < el.scrollHeight;
 const checkHorizontalOverflow = (el: Element) => el.clientWidth < el.scrollWidth;
 
-export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({ 
-    children, className, contentClassName, type = "auto", color = 'light', 
-    direction = 'vertical', onHorizontalOverflowStatusChange, onVerticalOverflowStatusChange, 
-    size = 'normal', mirrorVerticalScrollToHorizontal = false, viewportRef, ...props 
+const MotionViewport = m(RadixScrollArea.ScrollAreaViewport);
+
+export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
+    children, className, contentClassName, type = "auto", color = 'light',
+    direction = 'vertical', onHorizontalOverflowStatusChange, onVerticalOverflowStatusChange,
+    size = 'normal', mirrorVerticalScrollToHorizontal = false, viewportRef, ...props
 }, ref) => {
     const mirrorScroll = (e: WheelEvent<HTMLDivElement>) => {
         e.stopPropagation();
@@ -34,7 +36,7 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
         if (e.deltaY) {
             e.currentTarget.scrollLeft += e.deltaY;
             // e.currentTarget.scrollLeft += Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-        } 
+        }
     };
 
     const onContentResize = () => {
@@ -62,13 +64,14 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
     return (<RadixScrollArea.Root className={clsx("ScrollAreaRoot", className, `color-${color}`, `direction-${direction}`, `size-${size}`)} asChild type={type} ref={ref}>
         <m.div {...props}>
             <ResizeObserverComponent onResize={onContentResize} />
-            <RadixScrollArea.Viewport 
-            className={clsx("ScrollAreaViewport", contentClassName)} 
-            ref={mergedRef} 
-            onWheel={(direction === 'horizontal' && mirrorVerticalScrollToHorizontal) ? mirrorScroll : undefined}
+            <MotionViewport
+                className={clsx("ScrollAreaViewport", contentClassName)}
+                ref={mergedRef}
+                layoutScroll
+                onWheel={(direction === 'horizontal' && mirrorVerticalScrollToHorizontal) ? mirrorScroll : undefined}
             >
                 {children}
-            </RadixScrollArea.Viewport>
+            </MotionViewport>
             {['vertical', 'both'].includes(direction) && <RadixScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="vertical">
                 <RadixScrollArea.Thumb className="ScrollAreaThumb" />
             </RadixScrollArea.Scrollbar>}

@@ -36,7 +36,7 @@ import { Alert } from '@components/Alert';
 import { IS_TOUCH_DEVICE } from '@utils/device';
 import { CheckboxWithPermission } from '@components/CheckboxWithPermission';
 
-export const ReorderGroup = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
+export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
 
 type DraftCustomIcon = {
     id: string,
@@ -58,11 +58,11 @@ const ScreenButton = ({ icon, name, ...props }: { icon: string, name: string } &
 };
 
 const PluginConfigurationSection = <T extends {}>({ plugin }: { plugin: AnoriPlugin<T> }) => {
-    const [config, setConfig, isDefault] = usePluginConfig(plugin);
-    if (!plugin.configurationScreen || isDefault) return null;
+    const [config, setConfig, isLoaded] = usePluginConfig(plugin);
+    if (!plugin.configurationScreen || !isLoaded) return null;
 
     return (<section>
-        <h3>{plugin.name}</h3>
+        <h2>{plugin.name}</h2>
         <plugin.configurationScreen currentConfig={config} saveConfiguration={setConfig} />
     </section>);
 };

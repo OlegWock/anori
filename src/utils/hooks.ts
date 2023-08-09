@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
+import { MouseEventHandler, MutableRefObject, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
 import { useHotkeys as useHotkeysOriginal } from 'react-hotkeys-hook';
 import { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
 import { trackEvent } from "./analytics";
@@ -140,4 +140,13 @@ export const useScheduledRender = () => {
             tid.current = null;
         }, delay);
     };
+};
+
+export const useLazyRef = <T>(init: () => T): MutableRefObject<T> => {
+    const ref = useRef<T | undefined>(undefined);
+    if (ref.current === undefined) {
+        ref.current = init();
+    }
+
+    return ref as MutableRefObject<T>;
 };

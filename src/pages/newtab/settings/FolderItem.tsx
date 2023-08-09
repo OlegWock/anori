@@ -8,7 +8,7 @@ import { lazy, useRef } from "react";
 import './FolderItem.scss';
 import { IS_TOUCH_DEVICE } from "@utils/device";
 
-export const ReorderItem = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
+export const ReorderItem = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
 
 export const FolderItem = ({ folder, editable = false, onRemove, onNameChange, onIconChange }: {
     folder: Folder,

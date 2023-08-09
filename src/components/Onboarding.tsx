@@ -5,7 +5,6 @@ import { AnimatePresence, LayoutGroup, m, useTransform } from 'framer-motion';
 import useMeasure from 'react-use-motion-measure';
 import { useHotkeys, usePrevious } from '@utils/hooks';
 import { Button } from './Button';
-import { useMotionTransition } from '@utils/animations';
 import { slidingScreensAnimation } from './animations';
 import { storage, useAtomWithStorage, useBrowserStorageValue } from '@utils/storage';
 import { useFolderWidgets, useFolders } from '@utils/user-data/hooks';
@@ -26,6 +25,7 @@ import { datetimePlugin, datetimeWidgetDescriptorS } from '@plugins/datetime/dat
 import { weatherPlugin, weatherWidgetDescriptorCurrent } from '@plugins/weather/weather-plugin';
 import { GridDimensions, LayoutItemSize, Position, canPlaceItemInGrid } from '@utils/grid';
 import { AnoriPlugin, WidgetDescriptor } from '@utils/user-data/types';
+import { useMotionTransition } from '@utils/motion/hooks';
 
 
 const screens = ['start', 'folders', 'shortcuts', 'customization', 'analytics', 'presets'] as const;

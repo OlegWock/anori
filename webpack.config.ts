@@ -414,8 +414,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                     options: {
                         name: '[path][name].[ext]',
                         context: paths.src.base,
-                        postTransformPublicPath: (publicPath: string) =>
-                            `(typeof browser !== 'undefined' ? browser : chrome).runtime.getURL(${publicPath});`,
                     },
                 },
                 {

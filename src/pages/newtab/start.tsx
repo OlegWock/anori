@@ -27,7 +27,7 @@ const WhatsNew = lazy(() => import('@components/WhatsNew').then(m => ({ 'default
 const CommandMenu = lazy(() => import('@components/command-menu/CommandMenu').then(m => ({ 'default': m.CommandMenu })));
 const BookmarksBar = lazy(() => import('./components/BookmarksBar').then(m => ({ 'default': m.BookmarksBar })));
 
-const loadMotionFeatures = () => import("@utils/framer-motion-features").then(res => res.default);
+const loadMotionFeatures = () => import("@utils/motion/framer-motion-features").then(res => res.default);
 
 const useSidebarOrientation = () => {
     const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');

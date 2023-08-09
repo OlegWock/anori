@@ -86,16 +86,16 @@ const getPluginConfigAtom = <T extends {}>(plugin: AnoriPlugin<T>) => {
     return pluginConfigAtoms[plugin.id];
 };
 
-export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
-export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig: T): readonly [value: T, setValue: (val: SetStateAction<T>) => void, isDefault: boolean];
-export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig?: T): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isDefault: boolean] {
+export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isLoaded: boolean];
+export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig: T): readonly [value: T, setValue: (val: SetStateAction<T>) => void, isLoaded: boolean];
+export function usePluginConfig<T extends {}>(plugin: AnoriPlugin<T>, defaultConfig?: T): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isLoaded: boolean] {
 
     const [val, setVal, meta] = useAtomWithStorage(getPluginConfigAtom<T>(plugin));
     
     return [
         meta.usingDefaultValue ? defaultConfig : val, 
         setVal, 
-        meta.usingDefaultValue,
+        ['loaded', 'empty'].includes(meta.status),
     ] as const;
 }
 

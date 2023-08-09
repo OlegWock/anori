@@ -13,6 +13,7 @@ import { translate } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import { m } from 'framer-motion';
 import { capitalize } from '@utils/strings';
+import { useForceRerender, useLazyRef } from '@utils/hooks';
 
 
 type WidgetConfig = {
@@ -115,9 +116,11 @@ const ConfigScreen = ({ currentConfig, saveConfiguration, size }: WidgetConfigur
 };
 
 const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size: 's' | 'm' }) => {
-    const [currentMoment, setCurrentMoment] = useState(moment().tz(config.tz));
+    const currentMoment = useMemo(() => moment().tz(config.tz), [config.tz]);
+    const lastTickTimeRef = useLazyRef(() => Date.now());
+    const forceRerender = useForceRerender();
 
-    const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment]);
+    const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment.valueOf()]);
     const date = useMemo(() => {
         if (config.dateFormat === 'noDate') return '';
         let date = currentMoment.format(config.dateFormat);
@@ -125,19 +128,26 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
             date = capitalize(date);
         }
         return date;
-    }, [currentMoment]);
+    }, [currentMoment.valueOf()]);
+
     const smallerTime = (config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss'));
     const seconds = currentMoment.seconds();
     const minutes = currentMoment.minutes();
     const hours = currentMoment.hours();
 
     useEffect(() => {
+        const intervalMs = config.timeFormat.includes('ss') ? 1000 : 20 * 1000;
         const tid = window.setInterval(() => {
-            setCurrentMoment(moment().tz(config.tz));
-        }, 1000);
+            // Use diff since setInterval might be very unreliable
+            const msDiff = Date.now() - lastTickTimeRef.current;
+            lastTickTimeRef.current = Date.now();
+            // Avoid creating new moment every time
+            currentMoment.add(msDiff, 'milliseconds');
+            forceRerender();
+        }, intervalMs);
 
         return () => window.clearInterval(tid);
-    }, [config.tz]);
+    }, [config.tz, config.timeFormat, config.dateFormat]);
 
     return (<div className={clsx('DateTimeWidget', `DateTimeWidget-size-${size}`)}>
         {size === 'm' && <div className='analog-clock'>

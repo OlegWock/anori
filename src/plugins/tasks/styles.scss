@@ -18,6 +18,12 @@
         align-items: flex-start;
     }
 
+    .ScrollAreaRoot .ScrollAreaViewport {
+        & > div[style] {
+            display: flex !important;
+        }
+    }
+
     .tasks-list {
         display: flex;
         flex-direction: column;
@@ -41,6 +47,21 @@
         @include utils.hover {
             .drag-control {
                 visibility: visible;
+            }
+        }
+
+        .input-wrapper {
+            position: relative;
+
+            .strikethrough-line {
+                position: absolute;
+                left: 5%;
+                right: 5%;
+                top: 45%;
+                opacity: 0.85;
+                border-radius: 2px;
+                height: 2px;
+                background: var(--text-subtle-2);
             }
         }
 

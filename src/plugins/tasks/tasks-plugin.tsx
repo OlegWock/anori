@@ -1,21 +1,23 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { AnoriPlugin, WidgetConfigurationScreenProps, OnCommandInputCallback, WidgetRenderProps, ID } from "@utils/user-data/types";
-import { Suspense, lazy, useRef, useState } from "react";
+import { Suspense, forwardRef, lazy, useRef, useState } from "react";
 import './styles.scss';
 import { Icon } from "@components/Icon";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
-import { AnimatePresence, LayoutGroup, m, useDragControls } from "framer-motion";
+import { AnimatePresence, LayoutGroup, m, useDragControls, useMotionValue } from "framer-motion";
 import { Checkbox } from "@components/Checkbox";
-import { guid } from "@utils/misc";
+import { choose, combineRefs, guid } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
 import { useSizeSettings } from "@utils/compact";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { listItemAnimation } from "@components/animations";
+import { useCancelableAnimate } from "@utils/motion/hooks";
+import { BetterAnimationPlaybackControls } from "@utils/motion/types";
 
-export const ReorderGroup = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
-export const ReorderItem = lazy(() => import('@utils/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
+export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
+export const ReorderItem = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
 
 type TaskWidgetConfigType = {
     title: string,
@@ -27,6 +29,30 @@ type Task = {
 };
 
 type TaskWidgetStorageType = { tasks: Task[] };
+
+const devOnlyMockTasks = [
+    `Buy groceries: Eggs, milk, bread, and fruits.`,
+    `Finish report for work presentation.`,
+    `Call plumber to fix the leaky faucet.`,
+    `Read the first three chapters of "The Great Gatsby."`,
+    `Pay monthly bills: electricity, internet, and water.`,
+    `Plan weekend hiking trip: research trails and pack essentials.`,
+    `Organize closet: donate unused clothes.`,
+    `Schedule dentist appointment for a check-up.`,
+    `Write birthday card for mom.`,
+    `Complete online course module on time management.`,
+    `Update LinkedIn profile with recent achievements.`,
+    `Water indoor plants and apply fertilizer.`,
+    `Install updates for computer and phone.`,
+    `Sort out paperwork for tax filing.`,
+    `Research recipes for a dinner party menu.`,
+    `Run 5 kilometers in the park.`,
+    `Create a budget for the upcoming month.`,
+    `Call Jane to catch up and arrange a coffee date.`,
+    `Declutter garage: organize tools and donate old items.`,
+    `Start a journal: write about the day's highlights and reflections.`,
+];
+
 
 const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<TaskWidgetConfigType>) => {
     const onConfirm = () => {
@@ -46,39 +72,85 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
     </div>);
 };
 
-const Task = ({ task, autoFocus, onEdit, onComplete }: {
+type TaskProps = {
     task: Task,
     autoFocus?: boolean,
     onEdit: (newText: string) => void,
     onComplete: () => void
-}) => {
+};
+
+const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, autoFocus, onEdit, onComplete }, ref) => {
+    const onCheckboxChange = (checked: boolean) => {
+        setChecked(checked);
+        if (checked) {
+            if (animationRef.current) animationRef.current.stop();
+            animationRef.current = animate(strikeProgress, 1, { duration: 0.5, ease: 'easeInOut' });
+            animationRef.current.then(({ reason }) => {
+                console.log('Animation complete', { reason });
+                if (reason === 'finished') onComplete();
+            });
+        } else {
+            if (animationRef.current) {
+                animationRef.current.stop();
+                animationRef.current = animate(strikeProgress, 0, { duration: 0.5, ease: 'easeInOut' });
+            }
+        }
+    };
+
     const controls = useDragControls();
     const { rem } = useSizeSettings();
     const { t } = useTranslation();
+    const [checked, setChecked] = useState(false);
+    const [scope, animate] = useCancelableAnimate();
+    const mergedRef = combineRefs(ref, scope);
+    const animationRef = useRef<BetterAnimationPlaybackControls | null>(null);
+    const checkboxRef = useRef<HTMLDivElement>(null);
 
-    return (<Suspense>
-        <ReorderItem
-            key={task.id}
-            value={task}
-            layout
-            className="task"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ opacity: 0 }}
-            dragListener={false}
-            dragControls={controls}
-        >
-            <div className='drag-control'>
-                <Icon icon='ic:baseline-drag-indicator' width={rem(1)} onPointerDown={(e) => {
-                    e.preventDefault();
-                    controls.start(e);
-                }} />
-            </div>
-            <Checkbox checked={false} onChange={() => onComplete()} />
+    const strikeProgress = useMotionValue(0);
+
+    return (<ReorderItem
+        key={task.id}
+        value={task}
+        layout="position"
+        className="task"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ opacity: 0 }}
+        dragListener={false}
+        dragControls={controls}
+        ref={mergedRef}
+    >
+        <div className='drag-control'>
+            <Icon icon='ic:baseline-drag-indicator' width={rem(1)} onPointerDown={(e) => {
+                e.preventDefault();
+                controls.start(e);
+            }} />
+        </div>
+        <Checkbox
+            ref={checkboxRef}
+            checked={checked}
+            onChange={onCheckboxChange}
+            transition={{
+                duration: 0.15,
+            }}
+            variants={{
+                checked: {
+                    scale: [null, 1.3, 1],
+                }
+            }}
+        />
+        <m.div className="input-wrapper">
+            <m.div
+                className="strikethrough-line"
+                style={{
+                    transformOrigin: 'left',
+                    scaleX: strikeProgress
+                }}
+            />
             <Input autoFocus={autoFocus} value={task.text} onValueChange={v => onEdit(v)} placeholder={t('tasks-plugin.taskDescription')} />
-        </ReorderItem>
-    </Suspense>);
-};
+        </m.div>
+    </ReorderItem>);
+});
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigType>) => {
     const addTask = () => {
@@ -86,7 +158,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
         setTasks(p => {
             return [
                 ...p,
-                { id, text: '' },
+                { id, text: X_MODE === 'development' ? choose(devOnlyMockTasks) : '' },
             ]
         });
         lastAddedTaskRef.current = id;
@@ -115,17 +187,17 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
             <Button onClick={addTask}><Icon icon='ion:add' height={16} /></Button>
         </div>
         {tasks.length !== 0 && <ScrollArea color="dark">
-            <LayoutGroup>
-                <Suspense>
-                    <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layout layoutScroll>
+            <Suspense>
+                <LayoutGroup>
+                    <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layout layoutScroll layoutRoot>
                         <AnimatePresence initial={false}>
                             {tasks.map(t => {
                                 return (<Task task={t} key={t.id} onComplete={() => completeTask(t.id)} onEdit={v => editTask(t.id, v)} />);
                             })}
                         </AnimatePresence>
                     </ReorderGroup>
-                </Suspense>
-            </LayoutGroup>
+                </LayoutGroup>
+            </Suspense>
         </ScrollArea>}
         {tasks.length === 0 && <m.div key='no-tasks' className="no-tasks">
             {t('tasks-plugin.noTasks')}

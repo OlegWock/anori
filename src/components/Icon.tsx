@@ -21,7 +21,9 @@ const loadFamily = async (family: string) => {
     // Weird extension because of Firefox addon store bug, see generate-icons-assets.ts
     const url = browser.runtime.getURL(`/assets/icons/${family}.jsonx`);
     const resp = await fetch(url);
-    const json = await resp.json() as IconifyJSON;
+    const text = await resp.text();
+    console.log('Added icon family', family, 'size:', text.length);
+    const json = JSON.parse(text) as IconifyJSON;
     addCollection(json);
 };
 

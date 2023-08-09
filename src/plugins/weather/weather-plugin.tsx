@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import './styles.scss';
 import { Combobox } from "@components/Combobox";
 import { City, CurrentWeather, Speed, Temperature, WeatherForecast, gerCurrentWeather, getForecast, searchCity } from "./api";
@@ -299,7 +299,7 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
 
 
 const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
-    const mockForecast = {
+    const mockForecast = useMemo(() => ({
         forecast: [
             {
                 date: moment(),
@@ -339,7 +339,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
             },
         ],
         lastUpdated: Date.now(),
-    };
+    }), []);
 
     const { forecast, lastUpdated } = instanceId === 'mock' ? mockForecast : useForecastWeather(config);
     const { rem } = useSizeSettings();
