@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, useMemo, useRef, useState } from 'react';
 import browser from 'webextension-polyfill';
 import { useAsyncLayoutEffect } from '@utils/hooks';
-import { combineRefs, guid } from '@utils/misc';
+import { combineRefs } from '@utils/misc';
 import { forwardRef } from 'react';
 import { useCustomIcon } from '@utils/custom-icons';
 import './Icon.scss';
@@ -44,38 +44,29 @@ const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, ...p
     return (<m.img className={clsx('CustomIcon', className)} ref={ref} src={iconInfo.urlObject} {...props} />);
 });
 
-type CachedIcon = {
+type IconInfo = {
     viewbox: string,
+    aspectRatio: number,
     nodes: Node[],
 };
 
-const cache: Map<string, CachedIcon | Promise<CachedIcon>> = new Map();
-// @ts-ignore Add to global scope for debug
-self.iconsCahce = cache;
-
-export const Icon = forwardRef<SVGSVGElement, IconProps>(({children, ...props}, ref) => {
+export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, height, style = {}, ...props }, ref) => {
     const patchSvgRef = (root: SVGSVGElement | null) => {
         if (root && iconRef.current) {
-            const start = performance.now();
-            root.replaceChildren(...iconRef.current.nodes.map(n => n.cloneNode(true)));
-            console.log('Icon ref patching', performance.now() - start);
+            root.replaceChildren(...iconRef.current.nodes);
         }
     };
 
     const [family, iconName] = props.icon.split(':');
     const [loaded, setLoaded] = useState(false);
-    const iconRef = useRef<CachedIcon | null>(null);
+    const iconRef = useRef<IconInfo | null>(null);
     const rootRef = useRef<SVGSVGElement>(null);
     const mergedRef = combineRefs(patchSvgRef, ref, rootRef);
 
     useAsyncLayoutEffect(async () => {
         if (family === 'custom') return;
-        const cacheKey = props.icon;
-        const fromCache = cache.get(cacheKey);
-        let icon: CachedIcon;
-        if (fromCache === undefined) {
-            const start = performance.now();
-            const promise = fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
+
+        const icon: IconInfo = await fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
             .then(r => r.text())
             .then(svgText => {
                 // innerHTML is faster than DOMParser
@@ -86,27 +77,20 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({children, ...props}, 
                 const nodes = Array.from(svgRoot.childNodes);
                 const cachedIcon = {
                     viewbox: svgRoot.getAttribute('viewBox')!,
+                    aspectRatio: parseInt(svgRoot.getAttribute('width')!) / parseInt(svgRoot.getAttribute('height')!),
                     nodes,
                 };
-                cache.set(cacheKey, cachedIcon);
-                console.log('Icon loading took', performance.now() - start);
                 return cachedIcon;
             });
-            cache.set(cacheKey, promise);
-            icon = await promise;
-        } else if (fromCache instanceof Promise) {
-            icon = await fromCache;
-        } else {
-            icon = fromCache;
-        }
 
         iconRef.current = icon;
         if (rootRef.current) patchSvgRef(rootRef.current);
         setLoaded(true);
+
     }, [props.icon]);
 
     if (family === 'custom') {
-        return (<CustomIcon {...props} icon={iconName} />);
+        return (<CustomIcon {...props} width={width} height={height} style={style} icon={iconName} />);
     }
 
     if (!loaded) {
@@ -114,12 +98,15 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({children, ...props}, 
             background: '#ffffff',
             borderRadius: 8,
             opacity: 0.35,
-            width: props.width || props.height || 24,
-            height: props.height || props.width || 24,
+            width: width || height || 24,
+            height: height || width || 24,
         }} />);
     }
 
-    return (<m.svg {...props} viewBox={iconRef.current?.viewbox} ref={mergedRef} />);
+    const finalWidth = width || (height ? undefined : '1rem')
+    const finalHeight = height || (width ? undefined : '1rem');
+
+    return (<m.svg {...props} style={{ aspectRatio: iconRef.current?.aspectRatio.toString(), ...style }} width={finalWidth} height={finalHeight} viewBox={iconRef.current?.viewbox} ref={mergedRef} />);
 });
 
 
