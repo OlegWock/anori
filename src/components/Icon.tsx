@@ -1,9 +1,7 @@
-import { ComponentPropsWithoutRef, RefAttributes, useLayoutEffect, useMemo, useState } from 'react';
+import { ComponentPropsWithoutRef, useMemo, useRef, useState } from 'react';
 import browser from 'webextension-polyfill';
-import { allSets } from './icons/all-sets';
-import { IconifyJSON, Icon as OfflineIcon, addCollection } from '@iconify/react/dist/offline';
-import { useForceRerender } from '@utils/hooks';
-import { guid } from '@utils/misc';
+import { useAsyncLayoutEffect } from '@utils/hooks';
+import { combineRefs, guid } from '@utils/misc';
 import { forwardRef } from 'react';
 import { useCustomIcon } from '@utils/custom-icons';
 import './Icon.scss';
@@ -16,63 +14,19 @@ import { m } from 'framer-motion';
 // It makes sense to store icons as separate files since we aren't bound by HTTP delays
 // Current aproach with loading whole collection negatively impacts performance
 
-const isFamilyLoaded = (family: string) => {
-    return loadedFamilies.includes(family);
-};
-
-const loadFamily = async (family: string) => {
-    // Weird extension because of Firefox addon store bug, see generate-icons-assets.ts
-    const url = browser.runtime.getURL(`/assets/icons/${family}.jsonx`);
-    const resp = await fetch(url);
-    const text = await resp.text();
-    console.log('Added icon family', family, 'size:', text.length);
-    const json = JSON.parse(text) as IconifyJSON;
-    addCollection(json);
-};
-
-export const requestIconsFamily = async (family: string) => {
-    if (family === 'custom') return;
-    if (!allSets.includes(family)) {
-        console.error(`Unknown icons family ${family}, please make sure it's included in generate-icons script in root of project and run that script to regenerate icons.`);
-        return;
-    }
-
-    if (loadingPromises[family] || isFamilyLoaded(family)) return;
-
-    const promise = loadFamily(family);
-    loadingPromises[family] = promise;
-    await promise;
-    loadingPromises[family] = undefined;
-    loadedFamilies.push(family);
-
-    Object.values(familyLoadedCallbacks).forEach(cb => cb(family));
-};
-
-const subscribeToLoadEvents = (cb: (family: string) => void): string => {
-    const callbackId = guid();
-    familyLoadedCallbacks[callbackId] = cb;
-    return callbackId;
-};
-
-const unsubscribe = (callbackId: string) => {
-    delete familyLoadedCallbacks[callbackId];
-};
-
-const loadedFamilies: string[] = [];
-const loadingPromises: Record<string, Promise<void> | undefined> = {};
-const familyLoadedCallbacks: Record<string, (family: string) => void> = {};
 
 type BaseIconProps = {
     width?: number | string,
     height?: number | string,
     className?: string,
-} & ComponentPropsWithoutRef<typeof m.div>
+} & ComponentPropsWithoutRef<typeof m.svg>
+// } & ComponentPropsWithoutRef<typeof m.div>
 
 export type IconProps = {
     icon: string,
 } & BaseIconProps;
 
-const CustomIcon = forwardRef<RefAttributes<HTMLElement>, IconProps>(({ icon, className, ...props }, ref) => {
+const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, ...props }, ref) => {
     const iconInfo = useCustomIcon(icon);
 
     if (!iconInfo) {
@@ -90,40 +44,82 @@ const CustomIcon = forwardRef<RefAttributes<HTMLElement>, IconProps>(({ icon, cl
     return (<m.img className={clsx('CustomIcon', className)} ref={ref} src={iconInfo.urlObject} {...props} />);
 });
 
-const MotionOfflineIcon = m(OfflineIcon);
+type CachedIcon = {
+    viewbox: string,
+    nodes: Node[],
+};
 
-export const Icon = forwardRef<RefAttributes<SVGSVGElement>, IconProps>((props, ref) => {
+const cache: Map<string, CachedIcon | Promise<CachedIcon>> = new Map();
+// @ts-ignore Add to global scope for debug
+self.iconsCahce = cache;
+
+export const Icon = forwardRef<SVGSVGElement, IconProps>(({children, ...props}, ref) => {
+    const patchSvgRef = (root: SVGSVGElement | null) => {
+        if (root && iconRef.current) {
+            const start = performance.now();
+            root.replaceChildren(...iconRef.current.nodes.map(n => n.cloneNode(true)));
+            console.log('Icon ref patching', performance.now() - start);
+        }
+    };
+
     const [family, iconName] = props.icon.split(':');
-    const rerender = useForceRerender();
+    const [loaded, setLoaded] = useState(false);
+    const iconRef = useRef<CachedIcon | null>(null);
+    const rootRef = useRef<SVGSVGElement>(null);
+    const mergedRef = combineRefs(patchSvgRef, ref, rootRef);
 
-    useLayoutEffect(() => {
-        if (!family || isFamilyLoaded(family) || family === 'custom') return;
+    useAsyncLayoutEffect(async () => {
+        if (family === 'custom') return;
+        const cacheKey = props.icon;
+        const fromCache = cache.get(cacheKey);
+        let icon: CachedIcon;
+        if (fromCache === undefined) {
+            const start = performance.now();
+            const promise = fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
+            .then(r => r.text())
+            .then(svgText => {
+                // innerHTML is faster than DOMParser
+                // https://www.measurethat.net/Benchmarks/Show/26719/0/domparser-vs-innerhtml-benchmark-for-svg-parsing
+                const div = document.createElement('div');
+                div.innerHTML = svgText;
+                const svgRoot = div.firstChild as SVGSVGElement;
+                const nodes = Array.from(svgRoot.childNodes);
+                const cachedIcon = {
+                    viewbox: svgRoot.getAttribute('viewBox')!,
+                    nodes,
+                };
+                cache.set(cacheKey, cachedIcon);
+                console.log('Icon loading took', performance.now() - start);
+                return cachedIcon;
+            });
+            cache.set(cacheKey, promise);
+            icon = await promise;
+        } else if (fromCache instanceof Promise) {
+            icon = await fromCache;
+        } else {
+            icon = fromCache;
+        }
 
-        const callbackId = subscribeToLoadEvents((loadedFamily) => {
-            if (loadedFamily === family) {
-                unsubscribe(callbackId);
-                rerender();
-            }
-        });
-
-        requestIconsFamily(family);
-        return () => unsubscribe(callbackId);
+        iconRef.current = icon;
+        if (rootRef.current) patchSvgRef(rootRef.current);
+        setLoaded(true);
     }, [props.icon]);
 
     if (family === 'custom') {
         return (<CustomIcon {...props} icon={iconName} />);
     }
 
-    // @ts-ignore incorrect ref typing
-    return (<MotionOfflineIcon {...props} ref={ref}>
-        <m.div style={{
+    if (!loaded) {
+        return (<m.div style={{
             background: '#ffffff',
             borderRadius: 8,
             opacity: 0.35,
             width: props.width || props.height || 24,
             height: props.height || props.width || 24,
-        }} />
-    </MotionOfflineIcon>);
+        }} />);
+    }
+
+    return (<m.svg {...props} viewBox={iconRef.current?.viewbox} ref={mergedRef} />);
 });
 
 

@@ -1,7 +1,6 @@
 
 import { mountPage, setPageTitle } from '@utils/mount';
 import './styles.scss';
-import { requestIconsFamily } from '@components/Icon';
 import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react';
 import { Suspense, lazy, useEffect, useState } from 'react';
@@ -9,7 +8,6 @@ import { Modal } from '@components/Modal';
 import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
-import { homeFolder } from '@utils/user-data/types';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { preloadBrowserStorageAtom, storage, useBrowserStorageValue } from '@utils/storage';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
@@ -190,11 +188,6 @@ const Start = () => {
 
 watchForPermissionChanges();
 
-storage.getOne('folders').then(foldersFromStorage => {
-    const folders = [homeFolder, ...(foldersFromStorage || [])];
-    folders.forEach(f => requestIconsFamily(f.icon.split(':')[0]));
-});
-
 storage.getOne('theme').then(theme => {
     applyTheme(theme || defaultTheme);
 });
@@ -229,9 +222,6 @@ preloadBrowserStorageAtom('hideEditFolderButton', false);
 preloadBrowserStorageAtom('sidebarOrientation', 'auto');
 preloadBrowserStorageAtom('showBookmarksBar', false);
 
-// Fequently used in UI, preload to avoid flashes later
-requestIconsFamily('ion');
-requestIconsFamily('fluent');
 getAllCustomIcons();
 
 initTranslation().then(() => {

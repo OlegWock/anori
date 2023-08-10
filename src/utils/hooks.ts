@@ -157,3 +157,10 @@ export const useAsyncEffect = (func: () => any, deps?: DependencyList | undefine
         func();
     }, deps);
 };
+
+export const useAsyncLayoutEffect = (func: () => any, deps?: DependencyList | undefined) => {
+    // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
+    useLayoutEffect(() => {
+        func();
+    }, deps);
+};

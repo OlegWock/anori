@@ -49,7 +49,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
         }}
     >
         {!!favIcon && <img className="fav-icon" src={favIcon} />}
-        {!favIcon && <Icon icon={session.tab ? 'ic:baseline-tab' : 'ic:outline-window'} />}
+        {!favIcon && <Icon icon={session.tab ? 'ic:baseline-tab' : 'ic:outline-window'} width={18} />}
         <div className="title">
             {session.tab ? (session.tab.title || t('recently-closed-plugin.tab')) : (session.window?.title || t('recently-closed-plugin.window'))}
         </div>
