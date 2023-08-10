@@ -12,6 +12,9 @@ import { useAtomValue } from 'jotai';
 import { availablePermissionsAtom } from '@utils/permissions';
 import { m } from 'framer-motion';
 
+// TODO: current approach with storing icons in JSON files per collection seem to induce toll on performance
+// It makes sense to store icons as separate files since we aren't bound by HTTP delays
+// Current aproach with loading whole collection negatively impacts performance
 
 const isFamilyLoaded = (family: string) => {
     return loadedFamilies.includes(family);

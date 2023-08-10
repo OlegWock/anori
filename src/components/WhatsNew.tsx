@@ -26,8 +26,8 @@ export const WhatsNew = () => {
                         </li>
                         <li>
                             Also added new 'Math' plugin. There is currently only a calculator, but a powerful one! It uses math.js library under
-                            the hood, which supports a lot of <a href="https://mathjs.org/docs/reference/functions.html">functions</a>,
-                            <a href="https://mathjs.org/docs/reference/constants.html">constants</a> and <a href="https://mathjs.org/docs/datatypes/units.html#reference">units</a>.
+                            the hood, which supports a lot 
+                            of <a href="https://mathjs.org/docs/reference/functions.html">functions</a>, <a href="https://mathjs.org/docs/reference/constants.html">constants</a> and <a href="https://mathjs.org/docs/datatypes/units.html#reference">units</a>.
                             And all this also works in command menu!
                         </li>
                         <li>Tasks, notes, RSS feed and recently closed tabs widgets now can be resized.</li>
