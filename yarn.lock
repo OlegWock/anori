@@ -6271,9 +6271,9 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-"style-loader@git+https://github.com/OlegWock/style-loader":
+"style-loader@git+https://github.com/OlegWock/style-loader.git":
   version "3.3.1"
-  resolved "git+ssh://git@github.com/OlegWock/style-loader.git#2e8165598cf857f29d1b924e1822cf018b24e241"
+  resolved "git+https://github.com/OlegWock/style-loader.git#2e8165598cf857f29d1b924e1822cf018b24e241"
 
 style-to-object@^0.4.0:
   version "0.4.1"
