@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, useMemo, useRef, useState } from 'react';
 import browser from 'webextension-polyfill';
-import { useAsyncLayoutEffect } from '@utils/hooks';
+import { useAsyncLayoutEffect, useForceRerender } from '@utils/hooks';
 import { combineRefs } from '@utils/misc';
 import { forwardRef } from 'react';
 import { useCustomIcon } from '@utils/custom-icons';
@@ -46,15 +46,16 @@ type IconInfo = {
     nodes: Node[],
 };
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, height, style = {}, ...props }, ref) => {
+export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, height, icon, style = {}, ...props }, ref) => {
     const patchSvgRef = (root: SVGSVGElement | null) => {
         if (root && iconRef.current) {
             root.replaceChildren(...iconRef.current.nodes);
         }
     };
 
-    const [family, iconName] = props.icon.split(':');
+    const [family, iconName] = icon.split(':');
     const [loaded, setLoaded] = useState(false);
+    const forceRerender = useForceRerender();
     const iconRef = useRef<IconInfo | null>(null);
     const rootRef = useRef<SVGSVGElement>(null);
     const mergedRef = combineRefs(patchSvgRef, ref, rootRef);
@@ -82,8 +83,8 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
         iconRef.current = icon;
         if (rootRef.current) patchSvgRef(rootRef.current);
         setLoaded(true);
-
-    }, [props.icon]);
+        forceRerender();
+    }, [icon]);
 
     if (family === 'custom') {
         return (<CustomIcon {...props} width={width} height={height} style={style} icon={iconName} />);
