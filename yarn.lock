@@ -2911,7 +2911,7 @@ convert-source-map@^1.7.0:
 
 "copy-webpack-plugin@git+https://github.com/OlegWock/copy-webpack-plugin.git":
   version "11.1.0"
-  resolved "git+https://github.com/OlegWock/copy-webpack-plugin.git#c4461bead71294a63cad5b93da39918f0413b241"
+  resolved "git+https://github.com/OlegWock/copy-webpack-plugin.git#2a108a9fcd1b6bce4a85cb494ef3eb928e9cb413"
   dependencies:
     fast-glob "^3.2.12"
     glob-parent "^6.0.1"
@@ -6271,9 +6271,10 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-"style-loader@git+https://github.com/OlegWock/style-loader.git":
-  version "3.3.1"
-  resolved "git+https://github.com/OlegWock/style-loader.git#2e8165598cf857f29d1b924e1822cf018b24e241"
+style-loader@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.3.tgz#bba8daac19930169c0c9c96706749a597ae3acff"
+  integrity sha512-53BiGLXAcll9maCYtZi2RCQZKa8NQQai5C4horqKyRmHj9H7QmcUyucrH+4KW/gBQbXM2AsB0axoEcFZPlfPcw==
 
 style-to-object@^0.4.0:
   version "0.4.1"
