@@ -104,7 +104,6 @@ export const getPluginConfig = <T extends {}>(plugin: AnoriPlugin<T>) => {
 };
 
 
-// TODO: Message passing should be documented, see examples of usage in bookmarks plugin
 export const createOnMessageHandlers = <T extends {[key in string]: OnMessageDescriptor<any, any>},>(pluginId: string, handlers: {[K in keyof T]: (args: T[K]["args"], senderTab?: number) => Promise<T[K]["result"]>}) => {
     return {
         handlers,
