@@ -25,8 +25,9 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         console.log({ gridDimensions, layout });
         let position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
         if (!position) {
+            const numberOfColumns = Math.max(...layout.map(w => w.x + w.width), 0);
             position = {
-                x: gridDimensions.columns,
+                x: numberOfColumns,
                 y: 0,
             }
         }

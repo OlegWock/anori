@@ -236,7 +236,7 @@ export const tryMoveWidgetToFolder = async (folderIdFrom: Folder["id"], folderId
     const toFolderLayout = toFolderDetails.widgets;
     let newPosition = findPositionForItemInGrid({ grid: currentGrid, layout: toFolderLayout, item: widgetInfo });
     if (!newPosition) {
-        const numberOfColumns = Math.max(...toFolderLayout.map(w => w.x + w.width));
+        const numberOfColumns = Math.max(...toFolderLayout.map(w => w.x + w.width), 0);
         newPosition = {
             x: numberOfColumns,
             y: 0,
