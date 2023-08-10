@@ -59,6 +59,18 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
 
     const addToExp = (val: string) => () => {
         setExpression(p => p + val);
+        if (!mathPreloaded.current) {
+            import('mathjs');
+            mathPreloaded.current = true;
+        }
+    }
+
+    const onInputChange = (newVal: string) => {
+        setExpression(newVal);
+        if (!mathPreloaded.current) {
+            import('mathjs');
+            mathPreloaded.current = true;
+        }
     }
 
     const [expression, setExpression] = useState('');
@@ -66,6 +78,7 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
     const [history, setHistory] = useState<{ exp: string, result: string, id: string }[]>([]);
     const historyRef = useRef<HTMLDivElement>(null);
     const runAfterRender = useRunAfterNextRender();
+    const mathPreloaded = useRef(false);
     const { t } = useTranslation();
 
     return (<div className={clsx("Calculator")}>
@@ -81,7 +94,7 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
             </div>
         </ScrollArea></div>}
         <div className="result">{result}</div>
-        <Input value={expression} ref={inputRef} onValueChange={setExpression} onKeyDown={(e) => {
+        <Input value={expression} ref={inputRef} onValueChange={onInputChange} onKeyDown={(e) => {
             if (['Enter', '='].includes(e.key)) {
                 e.preventDefault();
                 doCalc();

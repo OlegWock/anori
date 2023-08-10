@@ -298,7 +298,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
 
     return {
         mode: mode,
-        devtool: mode === 'development' ? 'inline-source-map' : false,
+        devtool: false,
         resolve: {
             alias: {
                 '@utils': path.resolve(__dirname, paths.src.utils),
@@ -516,6 +516,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 chunks: 'all',
                 automaticNameDelimiter: '-',
                 minChunks: 2,
+                minSize: 1024 * 400,
                 maxSize: 1024 * 1024 * 2,
             },
         },

@@ -19,9 +19,6 @@ import 'moment/locale/it';
 import 'moment/locale/zh-cn';
 moment.locale('en');
 
-// TODO: It makes sense to load translation and moment locale dynamically and not include it in main bundle, as it starts to inflate bundle size
-
-
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
 export const availableTranslations = ['en', 'de', 'it', 'uk', 'th', 'zh-CN', 'ru'] as const;

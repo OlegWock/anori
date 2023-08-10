@@ -116,11 +116,12 @@ const ConfigScreen = ({ currentConfig, saveConfiguration, size }: WidgetConfigur
 };
 
 const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size: 's' | 'm' }) => {
-    const currentMoment = useMemo(() => moment().tz(config.tz), [config.tz]);
+    const { i18n } = useTranslation();
+    const currentMoment = useMemo(() => moment().tz(config.tz), [config.tz, i18n.language]);
     const lastTickTimeRef = useLazyRef(() => Date.now());
     const forceRerender = useForceRerender();
 
-    const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment.valueOf()]);
+    const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment.valueOf(), i18n.language]);
     const date = useMemo(() => {
         if (config.dateFormat === 'noDate') return '';
         let date = currentMoment.format(config.dateFormat);
@@ -128,7 +129,7 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
             date = capitalize(date);
         }
         return date;
-    }, [currentMoment.valueOf()]);
+    }, [currentMoment.valueOf(), i18n.language]);
 
     const smallerTime = (config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss'));
     const seconds = currentMoment.seconds();
