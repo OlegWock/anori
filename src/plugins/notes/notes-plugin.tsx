@@ -11,6 +11,7 @@ import type { ReactMarkdownProps } from "react-markdown/lib/complex-types";
 import type { PluggableList } from "react-markdown/lib/react-markdown";
 import { ScrollArea } from "@components/ScrollArea";
 import { sequentialNewlinesPlugin } from "./utils";
+import { Link } from "@components/Link";
 
 type PluginWidgetConfigType = {
 
@@ -27,7 +28,7 @@ const Mock = () => {
 };
 
 
-const Link = (props: ComponentProps<"a"> & ReactMarkdownProps) => {
+const LinkWithoutPropagation = (props: ComponentProps<typeof Link> & ReactMarkdownProps) => {
     return (<Link onClick={e => e.stopPropagation()} onFocus={e => e.stopPropagation()} {...props} />);
 }
 
@@ -84,7 +85,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
                 {!!body && <div className="note-body-rendered-content">
                     <Suspense>
                         <ReactMarkdown
-                            components={{ a: Link }}
+                            components={{ a: LinkWithoutPropagation }}
                             remarkPlugins={remarkPlugins}
                             children={body}
                         />

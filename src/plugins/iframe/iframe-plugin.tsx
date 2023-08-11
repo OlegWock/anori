@@ -21,6 +21,9 @@ import { Link } from "@components/Link";
 import { ensureDnrRule } from "@plugins/shared/dnr";
 import { Alert } from "@components/Alert";
 
+// There is some problem with cookies in Iframe. When cookie set with SameSite=Lax (default value) or SameSite=Strict
+// it's not available for JS (not sent at all?) if opened in iframe. Sites need to explicitly set SameSite=None to allow 
+// those cookies to function
 
 type IframePluginWidgetConfigType = {
     title: string,

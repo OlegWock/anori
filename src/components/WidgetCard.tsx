@@ -75,6 +75,9 @@ type WidgetCardProps<T extends {}, PT extends T> = {
     onMoveToFolder?: (folderId: string) => void,
 }) & Omit<ComponentProps<typeof m.div>, 'children' | 'onDragEnd' | 'onResize'>;
 
+
+// TODO: when dragging widget, icons on buttons (delete, resize) are flicking
+
 export const WidgetCard = <T extends {}, PT extends T>({
     className, style, widget, plugin, type, config, instanceId, size, position, onUpdateConfig, onRemove, onEdit,
     onResize, onPositionChange, onMoveToFolder, ...props

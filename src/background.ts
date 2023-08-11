@@ -165,6 +165,8 @@ const runScheduledCallbacks = async () => {
     await browser.storage.session.set({ scheduledCallbacksInfo });
 };
 
+// TODO: Listen for tabs.onChange event to know when user navigates away from Anori and revoke any DNR rules related to that tab
+
 availablePlugins.forEach(plugin => {
     if (plugin.onStart) {
         try {
