@@ -170,6 +170,7 @@ const MainScreenExpandable = ({ config, instanceId }: WidgetRenderProps<Calculat
     const { rem } = useSizeSettings();
     const runAfterRender = useRunAfterNextRender();
     const inputRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
 
     return (<>
         <div className="CalculatorWidgetExpandable" onClick={() => {
@@ -181,7 +182,7 @@ const MainScreenExpandable = ({ config, instanceId }: WidgetRenderProps<Calculat
             <Icon icon='ion:calculator' width={rem(5)} height={rem(5)} />
         </div>
         <AnimatePresence>
-            {show && <WidgetExpandArea className="CalculatorWidgetExpandArea" onClose={() => setShow(false)}>
+            {show && <WidgetExpandArea title={t('math-plugin.calculator')} className="CalculatorWidgetExpandArea" onClose={() => setShow(false)}>
                 <Calculator showAdditionalButtons showHistory inputRef={inputRef} />
             </WidgetExpandArea>}
         </AnimatePresence>
@@ -217,7 +218,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 const widgetDescriptor = {
     id: 'calc-widget',
     get name() {
-        return translate('math-plugin.name');
+        return translate('math-plugin.calculator');
     },
     configurationScreen: null,
     mainScreen: MainScreen,
@@ -258,6 +259,7 @@ const expandableWidgetDescriptor = {
             height: 1,
         },
         resizable: false,
+        withoutPadding: true,
         withHoverAnimation: true,
     }
 } as const satisfies WidgetDescriptor<any>;

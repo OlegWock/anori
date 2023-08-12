@@ -12,6 +12,7 @@
     justify-content: center;
     align-items: center;
     flex: 1;
+    align-self: stretch;
     cursor: pointer;
 
     svg {
@@ -20,8 +21,9 @@
 }
 
 .CalculatorWidgetExpandArea {
-    width: 500px;
-    height: 700px;
+    .Calculator {
+        min-height: 500px;
+    }
 }
 
 .Calculator {

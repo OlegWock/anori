@@ -19,6 +19,7 @@ import { getAllCustomIcons } from '@utils/custom-icons';
 import { initTranslation } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
+import { WidgetWindowsProvider } from '@components/WidgetExpandArea';
 
 const SettingsModal = lazy(() => import('./settings/Settings').then(m => ({ 'default': m.SettingsModal })));
 const WhatsNew = lazy(() => import('@components/WhatsNew').then(m => ({ 'default': m.WhatsNew })));
@@ -115,7 +116,7 @@ const Start = () => {
                     className={clsx("StartPage", `${sidebarOrientation}-sidebar`, showBookmarksBar && 'with-bookmarks-bar')}
                     key='start-page'
                 >
-                    {showBookmarksBar && <Suspense fallback={<div className='bookmarks-bar-placeholder'/>}><BookmarksBar /></Suspense>}
+                    {showBookmarksBar && <Suspense fallback={<div className='bookmarks-bar-placeholder' />}><BookmarksBar /></Suspense>}
                     <div className={clsx("start-page-content")}>
                         <div className="sidebar">
                             <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
@@ -228,7 +229,9 @@ initTranslation().then(() => {
     mountPage(<CompactModeProvider>
         {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
         <LazyMotion features={loadMotionFeatures}>
-            <Start />
+            <WidgetWindowsProvider>
+                <Start />
+            </WidgetWindowsProvider>
         </LazyMotion>
     </CompactModeProvider>);
 });

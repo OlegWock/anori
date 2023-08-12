@@ -407,7 +407,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
             </div>
         </Link>
         <AnimatePresence>
-            {showExpandArea && <WidgetExpandArea onClose={closeExpand} size="max" className="BookmarkWidget-expand">
+            {showExpandArea && <WidgetExpandArea title={config.title} onClose={closeExpand} size="max" className="BookmarkWidget-expand">
                 <RequirePermissions hosts={[parseHost(config.url)]} permissions={["declarativeNetRequestWithHostAccess", "browsingData"]} onGrant={() => {
                     sendMessage('ensureDnrRule', { url: config.url })
                         .then(() => setShowIframe(true))

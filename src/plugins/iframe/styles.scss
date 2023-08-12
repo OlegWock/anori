@@ -104,22 +104,7 @@
     }
 }
 
-.ExpandableIframeWidget-expand-area,
 .IframeWidget {
-    .open-url-btn-wrapper {
-        background: var(--background-lighter);
-        white-space: nowrap;
-        color: var(--text);
-        overflow: hidden;
-        border-radius: 24px;
-
-        &.absolute {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-        }
-    }
-
     .open-url-btn {
         padding: 6px 18px;
         background: transparent;

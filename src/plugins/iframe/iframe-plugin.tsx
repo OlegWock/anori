@@ -14,7 +14,7 @@ import { IS_TOUCH_DEVICE } from "@utils/device";
 import { IconPicker } from "@components/IconPicker";
 import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { WidgetExpandArea } from "@components/WidgetExpandArea";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "@components/Link";
@@ -181,6 +181,7 @@ const ExpandableWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widg
 const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginExpandableWidgetConfigType>) => {
     const [open, setOpen] = useState(false);
     const { rem } = useSizeSettings();
+    const { t } = useTranslation();
     const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
     const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
 
@@ -200,14 +201,14 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
         </button>
         <AnimatePresence>
             {open && <WidgetExpandArea
+                title={t('iframe-plugin.name')}
                 size="max"
                 onClose={() => setOpen(false)}
+                withoutScroll
                 className="ExpandableIframeWidget-expand-area"
+                extraButtons={config.showLinkToPage && <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.5)} width={rem(1.5)} /></Link>}
             >
                 <iframe src={config.url} />
-                {config.showLinkToPage && <div className="open-url-btn-wrapper absolute">
-                    <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></Link>
-                </div>}
             </WidgetExpandArea>}
         </AnimatePresence>
     </>);
