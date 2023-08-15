@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "Anori: nouvel onglet de productivité"
+    },
+    "appDescription": {
+        "message": "Nouvel onglet personnalisable : composez votre propre page à partir de widgets"
+    },
+    "appActionTitle": {
+        "message": "Ouvrir un nouvel onglet Anori"
+    }
+}

@@ -389,6 +389,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
     const importSettings = async () => {
         // TODO: also apply migrations from v1.10 to v1.11 if loading backup from older version
+        // TODO: clear storage before importing
         const files = await showOpenFilePicker(false, '.zip');
         const file = files[0];
         const zip = await JSZip.loadAsync(file);

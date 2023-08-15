@@ -17,6 +17,13 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.12.0</h2>
+                    <ul>
+                        <li>Anori is now available in French. This was contribution from @AguilaDesign. Thanks!</li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>1.11.0</h2>
                     <p>There are a lot of changes in this release, so if you find any bugs please let me know by creating <a href="https://github.com/OlegWock/anori/issues">issue</a>!</p>
                     <ul>
