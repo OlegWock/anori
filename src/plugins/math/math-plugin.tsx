@@ -73,6 +73,14 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
         }
     }
 
+    const clear = () => {
+        setExpression('');
+        setResult('0');
+        if (expression === '' && result === '0') {
+            setHistory([]);
+        }
+    }
+
     const [expression, setExpression] = useState('');
     const [result, setResult] = useState('0');
     const [history, setHistory] = useState<{ exp: string, result: string, id: string }[]>([]);
@@ -107,7 +115,7 @@ const Calculator = ({ showAdditionalButtons, showHistory, inputRef }: { showAddi
                 <Button onClick={addToExp('cos(')}>cos</Button>
                 <Button onClick={addToExp('tan(')}>tan</Button>
             </>}
-            <Button onClick={() => setExpression('')}>C</Button>
+            <Button onClick={clear}>C</Button>
             <Button onClick={addToExp('(')}>(</Button>
             <Button onClick={addToExp(')')}>)</Button>
             <Button onClick={addToExp('%')}>%</Button>

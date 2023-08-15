@@ -373,6 +373,7 @@ const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
 
 const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const exportSettings = async () => {
+        // TODO: should include meta.json file describing metadata about backup, i.e. version or time when generated
         const zip = new JSZip();
         const storage = await browser.storage.local.get(null);
         zip.file('storage.json', JSON.stringify(storage, null, 4), { compression: 'DEFLATE' });
@@ -387,6 +388,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     };
 
     const importSettings = async () => {
+        // TODO: also apply migrations from v1.10 to v1.11 if loading backup from older version
         const files = await showOpenFilePicker(false, '.zip');
         const file = files[0];
         const zip = await JSZip.loadAsync(file);
