@@ -3,6 +3,7 @@ import { gatherDailyUsageData, sendAnalyticsIfEnabled } from '@utils/analytics';
 import { storage } from '@utils/storage/api';
 import browser from 'webextension-polyfill';
 import { Language, availableTranslations } from './translations';
+import { unpackIconsIfNeeded } from '@components/Icon';
 
 console.log('Background init');
 
@@ -62,6 +63,8 @@ browser.runtime.onInstalled.addListener(async (details) => {
         }
         storage.setOne('language', bestCandidate as Language);
     }
+
+    unpackIconsIfNeeded();
 });
 
 browser.runtime.onMessage.addListener(async (message, sender) => {

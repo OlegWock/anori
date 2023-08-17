@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, useMemo, useRef, useState } from 'react';
 import browser from 'webextension-polyfill';
 import { useAsyncLayoutEffect, useForceRerender } from '@utils/hooks';
-import { combineRefs } from '@utils/misc';
+import { asyncIterableToArray, combineRefs } from '@utils/misc';
 import { forwardRef } from 'react';
 import { useCustomIcon } from '@utils/custom-icons';
 import './Icon.scss';
@@ -9,7 +9,52 @@ import clsx from 'clsx';
 import { useAtomValue } from 'jotai';
 import { availablePermissionsAtom } from '@utils/permissions';
 import { m } from 'framer-motion';
+import { allSets } from './icons/all-sets';
+import JSZip from 'jszip';
 
+const ICONS_FOLDER_NAME = 'icons';
+
+// @ts-ignore for debug
+self.removeAllIconsFromOpfs = async () => {
+    const opfsRoot = await navigator.storage.getDirectory();
+    const iconsDir = await opfsRoot.getDirectoryHandle(ICONS_FOLDER_NAME, { create: true });
+    // @ts-ignore chrome only method
+    await iconsDir.remove({ recursive: true });
+};
+
+export const unpackIconsIfNeeded = async () => {
+    const loadFamily = async (family: string) => {
+        const start = performance.now();
+        const familyFolder = await iconsDir.getDirectoryHandle(family, { create: true });
+        console.log('Loading family', family);
+        const resp = await fetch(browser.runtime.getURL(`/assets/icons/${family}.zip`));
+        const zip = await JSZip.loadAsync(resp.arrayBuffer());
+        const files = Object.values(zip.files);
+        for (const f of files) {
+            const fileHandle = await familyFolder.getFileHandle(f.name, { create: true });
+            const writeHandle = await fileHandle.createWritable();
+            const content = await f.async('arraybuffer');
+            await writeHandle.write(content);
+            await writeHandle.close();
+        }
+        console.log('Unpacking family', family, 'took', ((performance.now() - start) / 1000).toFixed(4));
+        return;
+    };
+
+    const start = performance.now();
+    const opfsRoot = await navigator.storage.getDirectory();
+    const iconsDir = await opfsRoot.getDirectoryHandle(ICONS_FOLDER_NAME, { create: true });
+    const files = await asyncIterableToArray(iconsDir.values());
+    const subfolders = files.filter(h => h.kind === 'directory').map(h => h.name);
+    const setsToCheck = allSets.filter(s => s !== 'custom');
+    const allPresent = setsToCheck.every(family => subfolders.find(n => n === family));
+    if (allPresent) return;
+
+    for (const family of setsToCheck) {
+        await loadFamily(family);
+    }
+    console.log('Unpacking all icons took', ((performance.now() - start) / 1000).toFixed(4));
+};
 
 type BaseIconProps = {
     width?: number | string,
@@ -72,24 +117,30 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
             iconInfo = await fromCache;
         } else {
             const start = performance.now();
-            const promise = fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
-                .then(r => r.text())
-                .then(svgText => {
-                    // innerHTML is faster than DOMParser
-                    // https://www.measurethat.net/Benchmarks/Show/26719/0/domparser-vs-innerhtml-benchmark-for-svg-parsing
-                    const div = document.createElement('div');
-                    div.innerHTML = svgText;
-                    const svgRoot = div.firstChild as SVGSVGElement;
-                    const nodes = Array.from(svgRoot.childNodes);
-                    const cachedIcon = {
-                        viewbox: svgRoot.getAttribute('viewBox')!,
-                        aspectRatio: parseInt(svgRoot.getAttribute('width')!) / parseInt(svgRoot.getAttribute('height')!),
-                        nodes,
-                    } satisfies IconInfo;
-                    if (cache) iconsCache.set(icon, cachedIcon);
-                    console.log('Icon loaded in', (performance.now() - start).toFixed(4));
-                    return cachedIcon;
-                });
+            const promise = (async () => {
+                const opfsRoot = await navigator.storage.getDirectory();
+                const iconsDir = await opfsRoot.getDirectoryHandle(ICONS_FOLDER_NAME, { create: true });
+                const familyHandle = await iconsDir.getDirectoryHandle(family);
+                const iconHandle = await familyHandle.getFileHandle(`${iconName}.svg`);
+                const file = await iconHandle.getFile();
+                console.log('Icon file handle', (performance.now() - start).toFixed(4), 'ms');
+                const svgText = await file.text();
+                console.log('Icon read to text in', (performance.now() - start).toFixed(4), 'ms');
+                // innerHTML is faster than DOMParser
+                // https://www.measurethat.net/Benchmarks/Show/26719/0/domparser-vs-innerhtml-benchmark-for-svg-parsing
+                const div = document.createElement('div');
+                div.innerHTML = svgText;
+                const svgRoot = div.firstChild as SVGSVGElement;
+                const nodes = Array.from(svgRoot.childNodes);
+                const cachedIcon = {
+                    viewbox: svgRoot.getAttribute('viewBox')!,
+                    aspectRatio: parseInt(svgRoot.getAttribute('width')!) / parseInt(svgRoot.getAttribute('height')!),
+                    nodes,
+                } satisfies IconInfo;
+                if (cache) iconsCache.set(icon, cachedIcon);
+                console.log('Icon loaded in', (performance.now() - start).toFixed(4));
+                return cachedIcon;
+            })();
             if (cache) iconsCache.set(icon, promise);
             iconInfo = await promise;
         }

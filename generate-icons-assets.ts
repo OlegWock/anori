@@ -1,8 +1,8 @@
 import { locate, lookupCollection } from '@iconify/json';
-import { IconSet, exportToDirectory } from '@iconify/tools';
+import { IconSet } from '@iconify/tools';
 import { join } from 'path';
-import { writeFileSync, readFileSync } from 'fs';
-
+import { writeFileSync, readFileSync, createWriteStream } from 'fs';
+import * as JSZip from 'jszip';
 type IconifyJSON = Awaited<ReturnType<typeof lookupCollection>>;
 
 const main = async () => {
@@ -42,11 +42,20 @@ const main = async () => {
 
     const promises = sets.map(async (set, i, arr) => {
         console.log('Processing set', set.name, `${i + 1}/${arr.length}`);
-        const distFolder = join(SAVE_TO, `${set.data.prefix}`);
         const iconSet = new IconSet(set.data);
-        await exportToDirectory(iconSet, {
-            target: distFolder
-        })
+        const zip = new JSZip();
+        iconSet.forEachSync((icon) => {
+            zip.file(`${icon}.svg`, iconSet.toString(icon)!, {});
+        });
+
+        return new Promise<void>((resolve) => {
+            zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true, compression: 'DEFLATE' })
+                .pipe(createWriteStream(join(SAVE_TO, `${set.data.prefix}.zip`)))
+                .on('finish', function () {
+                    console.log(`${set.data.prefix}.zip written`);
+                    resolve();
+                });
+        });
     });
 
     await Promise.all(promises);
