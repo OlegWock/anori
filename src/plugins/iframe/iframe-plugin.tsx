@@ -9,7 +9,6 @@ import { Popover } from "@components/Popover";
 import { PickBookmark } from "@components/PickBookmark";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { normalizeUrl, parseHost } from "@utils/misc";
-import { createOnMessageHandlers } from "@utils/plugin";
 import { IS_TOUCH_DEVICE } from "@utils/device";
 import { IconPicker } from "@components/IconPicker";
 import { Icon } from "@components/Icon";
@@ -18,7 +17,7 @@ import { AnimatePresence } from "framer-motion";
 import { WidgetExpandArea } from "@components/WidgetExpandArea";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "@components/Link";
-import { ensureDnrRule } from "@plugins/shared/dnr";
+import { ensureDnrRules } from "@plugins/shared/dnr";
 import { Alert } from "@components/Alert";
 
 // There is some problem with cookies in Iframe. When cookie set with SameSite=Lax (default value) or SameSite=Strict
@@ -93,7 +92,7 @@ const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidget
         const main = async () => {
             console.log('Iframe effect');
             setCanRenderIframe(false);
-            await sendMessage('ensureDnrRule', { url: config.url });
+            await ensureDnrRules(config.url);
             console.log('After message');
             setCanRenderIframe(true);
         };
@@ -185,7 +184,7 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
     const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
 
     useEffect(() => {
-        sendMessage('ensureDnrRule', { url: config.url });
+        ensureDnrRules(config.url);
     }, [config.url]);
 
     return (<>
@@ -212,12 +211,6 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
         </AnimatePresence>
     </>);
 };
-
-const { handlers, sendMessage } = createOnMessageHandlers<{
-    ensureDnrRule: { args: { url: string }, result: void },
-}>('iframe-plugin', {
-    'ensureDnrRule': async (args, senderTabId) => ensureDnrRule(args.url, senderTabId!),
-});
 
 
 const widgetDescriptor = {
@@ -284,7 +277,6 @@ export const iframePlugin = {
     get name() {
         return translate('iframe-plugin.name');
     },
-    onMessage: handlers,
     widgets: [
         widgetDescriptor,
         widgetDescriptorExpandable,

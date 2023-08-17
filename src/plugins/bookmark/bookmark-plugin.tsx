@@ -26,7 +26,7 @@ import { PickBookmark } from "@components/PickBookmark";
 import { Link } from "@components/Link";
 import { WidgetExpandArea } from "@components/WidgetExpandArea";
 import { RequirePermissions } from "@components/RequirePermissions";
-import { ensureDnrRule } from "@plugins/shared/dnr";
+import { ensureDnrRules } from "@plugins/shared/dnr";
 import { Checkbox } from "@components/Checkbox";
 import { Hint } from "@components/Hint";
 import moment from "moment-timezone";
@@ -61,10 +61,6 @@ type BookmarksMessageHandlers = {
             closeCurrentTab: boolean,
         },
         result: void,
-    },
-    ensureDnrRule: {
-        args: { url: string },
-        result: void
     },
 };
 
@@ -318,7 +314,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
         e.stopPropagation();
         setShowExpandArea(true);
         if (hasDnrPermissions && !showIframe) {
-            sendMessage('ensureDnrRule', { url: normalizedUrl })
+            ensureDnrRules(normalizedUrl)
                 .then(() => setShowIframe(true))
         }
     };
@@ -409,8 +405,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
         <AnimatePresence>
             {showExpandArea && <WidgetExpandArea onClose={closeExpand} size="max" className="BookmarkWidget-expand">
                 <RequirePermissions hosts={[parseHost(config.url)]} permissions={["declarativeNetRequestWithHostAccess", "browsingData"]} onGrant={() => {
-                    sendMessage('ensureDnrRule', { url: config.url })
-                        .then(() => setShowIframe(true))
+                    ensureDnrRules(config.url).then(() => setShowIframe(true))
                 }}>
                     {showIframe && <iframe src={config.url} />}
                 </RequirePermissions>
@@ -547,7 +542,6 @@ const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandle
             await browser.tabGroups.update(groupId, { collapsed: false, title: args.title });
         }
     },
-    'ensureDnrRule': async (args, senderTabId) => ensureDnrRule(args.url, senderTabId!),
 });
 
 export const bookmarkPlugin: AnoriPlugin<{}, BookmarkWidgetConfigType | BookmarkGroupWidgetConfigType> = {

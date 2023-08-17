@@ -121,7 +121,6 @@ const runScheduledCallbacks = async () => {
     await browser.storage.session.set({ scheduledCallbacksInfo });
 };
 
-// TODO: Listen for tabs.onChange event to know when user navigates away from Anori and revoke any DNR rules related to that tab
 
 availablePlugins.forEach(plugin => {
     if (plugin.onStart) {
@@ -172,6 +171,7 @@ browser.runtime.setUninstallURL(`https://anori.app/goodbye`);
 
     // @ts-ignore unknwon onRuleMatchedDebug event
 if (X_BROWSER === 'chrome' && X_MODE === 'development' && browser.declarativeNetRequest?.onRuleMatchedDebug) {
+    console.log('Setting on rule matched debug');
     // @ts-ignore unknwon onRuleMatchedDebug event
     browser.declarativeNetRequest.onRuleMatchedDebug.addListener((info) => console.log('Matched DNR rule', info));
 }
