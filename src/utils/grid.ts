@@ -1,4 +1,5 @@
 import { RefObject, useLayoutEffect, useState } from "react";
+import { useMirrorStateToRef } from "./hooks";
 
 export type GridDimensions = {
     boxSize: number,
@@ -49,8 +50,6 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
         const columns = Math.max(minColumns, maxColOccupied);
         const rows = Math.max(minRows, maxRowOccupied);
 
-        console.log('Grid element measured', { box, scrollHeight, scrollWidth });
-
         return {
             boxSize,
             columns,
@@ -68,7 +67,24 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
         };
     };
 
-    const [dimensions, setDimensions] = useState<GridDimensions & { position: PixelPosition, pixelSize: LayoutItemSize }>({
+    const setDimensions = (newDimensions: GridDimensions & { position: PixelPosition, pixelSize: LayoutItemSize }) => {
+        if (
+            newDimensions.boxSize !== dimensionsRef.current.boxSize
+            || newDimensions.columns !== dimensionsRef.current.columns
+            || newDimensions.rows !== dimensionsRef.current.rows
+            || newDimensions.minColumns !== dimensionsRef.current.minColumns
+            || newDimensions.minRows !== dimensionsRef.current.minRows
+            || newDimensions.position.x !== dimensionsRef.current.position.x
+            || newDimensions.position.y !== dimensionsRef.current.position.y
+            || newDimensions.pixelSize.width !== dimensionsRef.current.pixelSize.width
+            || newDimensions.pixelSize.height !== dimensionsRef.current.pixelSize.height
+        ) {
+            console.log('Updated grid dimenstions', dimensions);
+            _setDimensions(newDimensions);
+        }
+    };
+
+    const [dimensions, _setDimensions] = useState<GridDimensions & { position: PixelPosition, pixelSize: LayoutItemSize }>({
         boxSize: desiredSize,
         columns: 0,
         rows: 0,
@@ -83,6 +99,7 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
             height: 0,
         }
     });
+    const dimensionsRef = useMirrorStateToRef(dimensions);
 
     useLayoutEffect(() => {
         if (ref.current) {

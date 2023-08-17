@@ -173,7 +173,7 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
             </AnimatePresence>
 
             <AnimatePresence initial={false}>
-                {layout.map((w, i) => {
+                {gridDimensions.minColumns !== 0 && layout.map((w, i) => {
                     return (<WidgetCard
                         type="widget"
                         widget={w.widget}

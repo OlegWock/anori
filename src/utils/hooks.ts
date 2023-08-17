@@ -73,6 +73,15 @@ export const useOnChangeLayoutEffect = (fn: React.EffectCallback, deps?: React.D
     }, deps);
 };
 
+const symbolUseRunIfDepsChangedNotSet = Symbol();
+export const useRunIfDepsChanged = (fn: () => void, deps: React.DependencyList) => {
+    const prevRefs = deps.map(d => usePrevious(d, symbolUseRunIfDepsChangedNotSet));
+    const isChanged = prevRefs.some((r, ind) => r !== symbolUseRunIfDepsChangedNotSet && r !== deps[ind]);
+    if (isChanged) {
+        fn();
+    }
+};
+
 export const useLinkNavigationState = () => {
     const onLinkClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
         if (e.metaKey || e.ctrlKey) return;

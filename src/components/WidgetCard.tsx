@@ -1,4 +1,4 @@
-import { Component, ComponentProps, createContext, createRef, useContext, useLayoutEffect, useRef, useState } from 'react';
+import { Component, ComponentProps, createContext, createRef, useContext, useRef, useState } from 'react';
 import './WidgetCard.scss';
 import { PanInfo, m, useMotionValue } from 'framer-motion';
 import clsx from 'clsx';
@@ -13,7 +13,7 @@ import { AnoriPlugin, WidgetDescriptor } from '@utils/user-data/types';
 import { LayoutItemSize, Position, positionToPixelPosition, snapToSector } from '@utils/grid';
 import { WidgetMetadataContext } from '@utils/plugin';
 import { createPortal } from 'react-dom';
-import { useRunAfterNextRender } from '@utils/hooks';
+import { useOnChangeLayoutEffect, useRunAfterNextRender } from '@utils/hooks';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
     constructor(props: { children: ReactNode }) {
@@ -180,9 +180,9 @@ export const WidgetCard = <T extends {}, PT extends T>({
 
     const children = type === 'mock' ? (<widget.mock />) : (<widget.mainScreen instanceId={instanceId} config={config} />)
 
-    useLayoutEffect(() => {
-        resizeWidth.set(sizeToUse.width * grid.boxSize - gapSize * 2);
-        resizeHeight.set(sizeToUse.height * grid.boxSize - gapSize * 2);
+    useOnChangeLayoutEffect(() => {
+        resizeWidth.set(convertUnitsToPixels(sizeToUse.width));
+        resizeHeight.set(convertUnitsToPixels(sizeToUse.height));
         setResizeWidthUnits(sizeToUse.width);
         setResizeHeightUnits(sizeToUse.height);
         setIsResizing(false);
