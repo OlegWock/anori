@@ -57,7 +57,7 @@ const IconCell = ({ icon, onClick, x, y }: { icon: string, onClick?: () => void,
     return (
         <Tooltip label={icon} placement='bottom' showDelay={2000} resetDelay={0} targetRef={registerRef} ignoreFocus>
             <button style={{ padding: PADDING }} className='IconCell' data-icon={icon} onClick={onClick} onKeyDown={onKeyDown}>
-                <Icon icon={icon} width={ICON_SIZE} height={ICON_SIZE} />
+                <Icon icon={icon} cache={false} width={ICON_SIZE} height={ICON_SIZE} />
             </button>
         </Tooltip>
     );

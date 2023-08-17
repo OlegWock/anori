@@ -16,10 +16,10 @@ type BaseIconProps = {
     height?: number | string,
     className?: string,
 } & ComponentPropsWithoutRef<typeof m.svg>
-// } & ComponentPropsWithoutRef<typeof m.div>
 
 export type IconProps = {
     icon: string,
+    cache?: boolean,
 } & BaseIconProps;
 
 const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, ...props }, ref) => {
@@ -46,10 +46,13 @@ type IconInfo = {
     nodes: Node[],
 };
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, height, icon, style = {}, ...props }, ref) => {
+const iconsCache: Map<string, IconInfo | Promise<IconInfo>> = new Map();
+
+export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, height, icon, cache = true, style = {}, ...props }, ref) => {
     const patchSvgRef = (root: SVGSVGElement | null) => {
         if (root && iconRef.current) {
-            root.replaceChildren(...iconRef.current.nodes);
+            if (cache) root.replaceChildren(...iconRef.current.nodes.map(n => n.cloneNode(true)));
+            else root.replaceChildren(...iconRef.current.nodes);
         }
     };
 
@@ -63,7 +66,12 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
     useAsyncLayoutEffect(async () => {
         if (family === 'custom') return;
 
-        const icon: IconInfo = await fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
+        let iconInfo: IconInfo;
+        const fromCache = iconsCache.get(icon);
+        if (cache && fromCache) {
+            iconInfo = await fromCache;
+        } else {
+            const promise = fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
             .then(r => r.text())
             .then(svgText => {
                 // innerHTML is faster than DOMParser
@@ -76,11 +84,15 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
                     viewbox: svgRoot.getAttribute('viewBox')!,
                     aspectRatio: parseInt(svgRoot.getAttribute('width')!) / parseInt(svgRoot.getAttribute('height')!),
                     nodes,
-                };
+                } satisfies IconInfo;
+                if (cache) iconsCache.set(icon, cachedIcon);
                 return cachedIcon;
             });
+            if (cache) iconsCache.set(icon, promise);
+            iconInfo = await promise;
+        }
 
-        iconRef.current = icon;
+        iconRef.current = iconInfo;
         if (rootRef.current) patchSvgRef(rootRef.current);
         setLoaded(true);
         forceRerender();
