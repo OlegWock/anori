@@ -20,9 +20,6 @@ const main = async () => {
         'circle-flags',
         'flagpack',
         'wi',
-
-        // This one is tooooooo heavy and slow downs extension
-        // 'fluent-emoji',
     ];
 
     const SAVE_TO = join(__dirname, 'src/assets/icons');
