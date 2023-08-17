@@ -71,23 +71,25 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
         if (cache && fromCache) {
             iconInfo = await fromCache;
         } else {
+            const start = performance.now();
             const promise = fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
-            .then(r => r.text())
-            .then(svgText => {
-                // innerHTML is faster than DOMParser
-                // https://www.measurethat.net/Benchmarks/Show/26719/0/domparser-vs-innerhtml-benchmark-for-svg-parsing
-                const div = document.createElement('div');
-                div.innerHTML = svgText;
-                const svgRoot = div.firstChild as SVGSVGElement;
-                const nodes = Array.from(svgRoot.childNodes);
-                const cachedIcon = {
-                    viewbox: svgRoot.getAttribute('viewBox')!,
-                    aspectRatio: parseInt(svgRoot.getAttribute('width')!) / parseInt(svgRoot.getAttribute('height')!),
-                    nodes,
-                } satisfies IconInfo;
-                if (cache) iconsCache.set(icon, cachedIcon);
-                return cachedIcon;
-            });
+                .then(r => r.text())
+                .then(svgText => {
+                    // innerHTML is faster than DOMParser
+                    // https://www.measurethat.net/Benchmarks/Show/26719/0/domparser-vs-innerhtml-benchmark-for-svg-parsing
+                    const div = document.createElement('div');
+                    div.innerHTML = svgText;
+                    const svgRoot = div.firstChild as SVGSVGElement;
+                    const nodes = Array.from(svgRoot.childNodes);
+                    const cachedIcon = {
+                        viewbox: svgRoot.getAttribute('viewBox')!,
+                        aspectRatio: parseInt(svgRoot.getAttribute('width')!) / parseInt(svgRoot.getAttribute('height')!),
+                        nodes,
+                    } satisfies IconInfo;
+                    if (cache) iconsCache.set(icon, cachedIcon);
+                    console.log('Icon loaded in', (performance.now() - start).toFixed(4));
+                    return cachedIcon;
+                });
             if (cache) iconsCache.set(icon, promise);
             iconInfo = await promise;
         }
