@@ -19,7 +19,9 @@ import { getAllCustomIcons } from '@utils/custom-icons';
 import { initTranslation } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
+import { WidgetWindowsProvider, useWidgetWindows } from '@components/WidgetExpandArea';
 import { loadAndMigrateStorage } from '@utils/storage/migrations';
+import { Folder } from '@utils/user-data/types';
 
 const SettingsModal = lazy(() => import('./settings/Settings').then(m => ({ 'default': m.SettingsModal })));
 const WhatsNew = lazy(() => import('@components/WhatsNew').then(m => ({ 'default': m.WhatsNew })));
@@ -53,19 +55,30 @@ const useSidebarOrientation = () => {
 };
 
 const Start = () => {
+    const switchToFolder = (folder: Folder) => {
+        if (hasDetachedWindows()) {
+            // TODO: replace with nice alert
+            // TODO: Alternatively, petsist folder content (including detached windows) between folder change
+            alert(`You have detached windows, please close them before switching folders`);
+            return;
+        }
+        setActiveFolder(folder);
+    };
+
     const switchToFolderByIndex = (ind: number) => {
         if (ind >= folders.length) return;
-        setActiveFolder(folders[ind])
+        switchToFolder(folders[ind])
     };
 
     const swithFolderUp = () => {
-        setActiveFolder(folders[activeFolderIndex === 0 ? folders.length - 1 : activeFolderIndex - 1]);
+        switchToFolder(folders[activeFolderIndex === 0 ? folders.length - 1 : activeFolderIndex - 1]);
     };
 
     const swithFolderDown = () => {
-        setActiveFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
+        switchToFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
     };
 
+    const { hasDetachedWindows } = useWidgetWindows();
     const sidebarOrientation = useSidebarOrientation();
     const { folders, activeFolder, setActiveFolder } = useFolders(true);
     const activeFolderIndex = folders.findIndex(f => f.id === activeFolder.id)!;
@@ -128,7 +141,7 @@ const Start = () => {
                                         icon={f.icon}
                                         name={f.name}
                                         active={activeFolder === f}
-                                        onClick={() => setActiveFolder(f)}
+                                        onClick={() => switchToFolder(f)}
                                     />);
                                 })}
                                 <div className="spacer" />
@@ -231,7 +244,9 @@ loadAndMigrateStorage()
         mountPage(<CompactModeProvider>
             {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
             <LazyMotion features={loadMotionFeatures}>
-                <Start />
+                <WidgetWindowsProvider>
+                    <Start />
+                </WidgetWindowsProvider>
             </LazyMotion>
         </CompactModeProvider>);
     });

@@ -11,7 +11,7 @@ import { ScrollArea } from "@components/ScrollArea";
 import { guid, lazyAsyncVariable } from "@utils/misc";
 import { useRunAfterNextRender } from "@utils/hooks";
 import { AnimatePresence } from "framer-motion";
-import { WidgetExpandArea } from "@components/WidgetExpandArea";
+import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
 import type { MathJsStatic } from 'mathjs';
@@ -178,18 +178,24 @@ const MainScreenExpandable = ({ config, instanceId }: WidgetRenderProps<Calculat
     const { rem } = useSizeSettings();
     const runAfterRender = useRunAfterNextRender();
     const inputRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
+    const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
 
     return (<>
         <div className="CalculatorWidgetExpandable" onClick={() => {
-            setShow(true);
-            runAfterRender(() => {
-                inputRef.current?.focus();
-            })
+            if (show) {
+                expandAreaRef.current?.focus(true);
+            } else {
+                setShow(true);
+                runAfterRender(() => {
+                    inputRef.current?.focus();
+                });
+            }
         }}>
             <Icon icon='ion:calculator' width={rem(5)} height={rem(5)} />
         </div>
         <AnimatePresence>
-            {show && <WidgetExpandArea className="CalculatorWidgetExpandArea" onClose={() => setShow(false)}>
+            {show && <WidgetExpandArea ref={expandAreaRef} size={{ height: 600 }} title={t('math-plugin.calculator')} className="CalculatorWidgetExpandArea" onClose={() => setShow(false)}>
                 <Calculator showAdditionalButtons showHistory inputRef={inputRef} />
             </WidgetExpandArea>}
         </AnimatePresence>
@@ -225,7 +231,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
 const widgetDescriptor = {
     id: 'calc-widget',
     get name() {
-        return translate('math-plugin.name');
+        return translate('math-plugin.calculator');
     },
     configurationScreen: null,
     mainScreen: MainScreen,
@@ -266,6 +272,7 @@ const expandableWidgetDescriptor = {
             height: 1,
         },
         resizable: false,
+        withoutPadding: true,
         withHoverAnimation: true,
     }
 } as const satisfies WidgetDescriptor<any>;

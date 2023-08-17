@@ -20,6 +20,14 @@ export const WhatsNew = () => {
                     <h2>1.12.0</h2>
                     <ul>
                         <li>Anori is now available in French. This was contribution from @AguilaDesign. Thanks!</li>
+                        <li>
+                            Expandable widgets introduced in previous release (like embedded page or calculator) now 
+                            can be detached moved/resized. You can open multiple windows from different widgets (but 
+                            only one window per widget, yet).
+                        </li>
+                        <li>
+                            Previous release was a bit buggy, sorry for that (especially for disappeared widgets)! This release fixes most of reported/found errors.
+                        </li>
                     </ul>
                 </section>
 

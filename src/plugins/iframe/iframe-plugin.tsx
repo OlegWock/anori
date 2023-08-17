@@ -14,7 +14,7 @@ import { IconPicker } from "@components/IconPicker";
 import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
 import { AnimatePresence } from "framer-motion";
-import { WidgetExpandArea } from "@components/WidgetExpandArea";
+import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "@components/Link";
 import { ensureDnrRules } from "@plugins/shared/dnr";
@@ -180,15 +180,17 @@ const ExpandableWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widg
 const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginExpandableWidgetConfigType>) => {
     const [open, setOpen] = useState(false);
     const { rem } = useSizeSettings();
+    const { t } = useTranslation();
     const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
     const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
+    const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
 
     useEffect(() => {
         ensureDnrRules(config.url);
     }, [config.url]);
 
     return (<>
-        <button className="ExpandableIframeWidget" onClick={() => setOpen(true)}>
+        <button className="ExpandableIframeWidget" onClick={() => open ? expandAreaRef.current?.focus(true) : setOpen(true)}>
             <div className="iframe-widget-content">
                 <Icon icon={config.icon} width={rem(2.25)} height={rem(2.25)} />
                 <div className="text">
@@ -199,14 +201,15 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
         </button>
         <AnimatePresence>
             {open && <WidgetExpandArea
+                title={config.title}
+                ref={expandAreaRef}
                 size="max"
                 onClose={() => setOpen(false)}
+                withoutScroll
                 className="ExpandableIframeWidget-expand-area"
+                extraButtons={config.showLinkToPage && <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.5)} width={rem(1.5)} /></Link>}
             >
                 <iframe src={config.url} />
-                {config.showLinkToPage && <div className="open-url-btn-wrapper absolute">
-                    <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></Link>
-                </div>}
             </WidgetExpandArea>}
         </AnimatePresence>
     </>);

@@ -24,7 +24,7 @@ import { IS_TOUCH_DEVICE } from "@utils/device";
 import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
 import { PickBookmark } from "@components/PickBookmark";
 import { Link } from "@components/Link";
-import { WidgetExpandArea } from "@components/WidgetExpandArea";
+import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { ensureDnrRules } from "@plugins/shared/dnr";
 import { Checkbox } from "@components/Checkbox";
@@ -313,9 +313,13 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
         e.preventDefault();
         e.stopPropagation();
         setShowExpandArea(true);
-        if (hasDnrPermissions && !showIframe) {
-            ensureDnrRules(normalizedUrl)
-                .then(() => setShowIframe(true))
+        if (hasDnrPermissions) {
+            if (!showIframe) {
+                ensureDnrRules(normalizedUrl)
+                    .then(() => setShowIframe(true));
+            } else {
+                expandAreaRef.current?.focus(true);
+            }
         }
     };
 
@@ -358,6 +362,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
     const size = width === 1 ? 's' : 'm';
 
     const { onLinkClick, isNavigating } = useLinkNavigationState();
+    const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
 
     useAsyncEffect(async () => {
         if (!config.checkStatus) return;
@@ -403,7 +408,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
             </div>
         </Link>
         <AnimatePresence>
-            {showExpandArea && <WidgetExpandArea onClose={closeExpand} size="max" className="BookmarkWidget-expand">
+            {showExpandArea && <WidgetExpandArea title={config.title} onClose={closeExpand} size="max" withoutScroll className="BookmarkWidget-expand" ref={expandAreaRef}>
                 <RequirePermissions hosts={[parseHost(config.url)]} permissions={["declarativeNetRequestWithHostAccess", "browsingData"]} onGrant={() => {
                     ensureDnrRules(config.url).then(() => setShowIframe(true))
                 }}>
