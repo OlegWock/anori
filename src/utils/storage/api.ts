@@ -1,6 +1,7 @@
 import browser, { Storage } from 'webextension-polyfill';
-import { StorageContent } from "./user-data/types";
+import { StorageContent } from "../user-data/types";
 import { SetStateAction, WritableAtom, atom, getDefaultStore, useAtom } from "jotai";
+import { globalStorageCache } from './migrations';
 
 type StorageKey = keyof StorageContent;
 
@@ -28,6 +29,9 @@ async function storageGet(query: any): Promise<any> {
 export const storage = {
     get: storageGet,
     getOne: async <K extends StorageKey>(key: K) => {
+        if (globalStorageCache.loaded) {
+            return globalStorageCache.content[key] as StoageValue<K>;
+        }
         const res = await storageGet(key);
         return res[key];
     },
@@ -114,14 +118,25 @@ export type AtomWithBrowserStorage<V> = { __doNotUseThisWithJotaisUseAtom: 1, v:
 
 export const atomWithBrowserStorage = <V>(key: string, defaultValue: V, { forceLoad, onLoad }: AtomWithBrowserStorageOptions<V> = {}) => {
     if (storageAtoms[key]) {
-        return storageAtoms[key] as AtomWithBrowserStorage<V>;   
+        return storageAtoms[key] as AtomWithBrowserStorage<V>;
     }
 
     let isLoaded = false;
-    const baseAtom = atom<AtomWithBrowserStorageMeta<V>>({
+    let atomValue: AtomWithBrowserStorageMeta<V> = {
         defaultValue,
         currentValue: SYMBOL_NOT_LOADED
-    });
+    };
+
+    if (globalStorageCache.loaded) {
+        isLoaded = false;
+        atomValue = {
+            defaultValue,
+            currentValue: globalStorageCache.content[key] === undefined ? SYMBOL_NO_VALUE : globalStorageCache.content[key],
+        };
+        if (onLoad) onLoad(globalStorageCache.content[key]);
+    }
+
+    const baseAtom = atom<AtomWithBrowserStorageMeta<V>>(atomValue);
 
     baseAtom.onMount = (setValue) => {
         const onChange = (changes: Storage.StorageAreaOnChangedChangesType) => {

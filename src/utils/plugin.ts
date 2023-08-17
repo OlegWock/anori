@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithStorage } from "./storage";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithStorage } from "./storage/api";
 import { AnoriPlugin, FolderDetailsInStorage, ID, OnMessageDescriptor, WidgetInFolderWithMeta, homeFolder } from "./user-data/types";
 import { SetStateAction, createContext, useContext, useMemo } from 'react';
 import { NamespacedStorage } from './namespaced-storage';

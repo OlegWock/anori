@@ -9,7 +9,7 @@ import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
 import thTranslation from './th.json';
 import ruTranslation from './ru.json';
-import { storage } from '@utils/storage';
+import { storage } from '@utils/storage/api';
 import moment from 'moment';
 // When uncommenting any of moment locales, don't forget to update webpack config to actually include them in build
 import 'moment/locale/uk';

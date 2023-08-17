@@ -6,7 +6,7 @@ import useMeasure from 'react-use-motion-measure';
 import { useHotkeys, usePrevious } from '@utils/hooks';
 import { Button } from './Button';
 import { slidingScreensAnimation } from './animations';
-import { storage, useAtomWithStorage, useBrowserStorageValue } from '@utils/storage';
+import { storage, useAtomWithStorage, useBrowserStorageValue } from '@utils/storage/api';
 import { useFolderWidgets, useFolders } from '@utils/user-data/hooks';
 import { bookmarkPlugin, bookmarkWidgetDescriptor } from '@plugins/bookmark/bookmark-plugin';
 import { Icon } from './Icon';

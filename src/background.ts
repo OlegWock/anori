@@ -1,14 +1,12 @@
 import { availablePlugins } from '@plugins/all';
 import { gatherDailyUsageData, sendAnalyticsIfEnabled } from '@utils/analytics';
-import { storage } from '@utils/storage';
+import { storage } from '@utils/storage/api';
 import browser from 'webextension-polyfill';
 import { Language, availableTranslations } from './translations';
-import { homeFolder } from '@utils/user-data/types';
-import { getFolderDetails, setFolderDetails } from '@utils/user-data/hooks';
 
 console.log('Background init');
 
-const VERSIONS_WITH_CHANGES = ['1.1.0', '1.2.0', '1.5.0', '1.6.0', '1.8.0', '1.9.0', '1.10.0', '1.11.0'];
+const VERSIONS_WITH_CHANGES = ['1.1.0', '1.2.0', '1.5.0', '1.6.0', '1.8.0', '1.9.0', '1.10.0', '1.11.0', '1.12.0'];
 
 const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
     // v1 is newer than v2 => -1
@@ -39,48 +37,6 @@ browser.runtime.onInstalled.addListener(async (details) => {
         console.log('Has important updates:', hasImportantUpdates);
         if (hasImportantUpdates) {
             storage.setOne('hasUnreadReleaseNotes', true);
-        }
-
-        // If previous version is older than 1.2.0, migrate to new theme storage format
-        if (compareVersions(previousVersion, '1.2.0') === 1) {
-            storage.getOne('theme').then(theme => {
-                // @ts-ignore We're updating from old storage schema, thus types mismatch
-                if (theme.name) storage.setOne('theme', theme.name);
-            })
-        }
-
-        console.log('Checking for migration');
-        // If previous version is older than 1.11.0, migrate to new widgets setup
-        if (compareVersions(previousVersion, '1.11.0') === 1) {
-            console.log('Running migration for resizable widgets');
-            const customFolders = await storage.getOne('folders') || [];
-            const folders = [homeFolder, ...customFolders];
-            const promises = folders.map(async (folder) => {
-                const details = await getFolderDetails(folder.id);
-                details.widgets = details.widgets.map(w => {
-                    if (w.pluginId === 'notes-plugin') {
-                        w.widgetId = 'notes-widget';
-                    }
-
-                    if (w.pluginId === 'tasks-plugin') {
-                        w.widgetId = 'tasks-widget';
-                    }
-
-                    if (w.pluginId === 'recently-closed-plugin') {
-                        w.widgetId = 'recently-closed-widget';
-                    }
-
-                    if (w.pluginId === 'bookmark-plugin') {
-                        w.widgetId = w.widgetId.startsWith('bookmark-group') ? 'bookmark-group' : 'bookmark';
-                    }
-
-                    return w;
-                });
-                await setFolderDetails(folder.id, details);
-            });
-            await Promise.all(promises);
-            console.log('Migrated storage to resizable plugins');
-
         }
     }
 

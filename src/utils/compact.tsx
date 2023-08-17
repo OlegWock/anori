@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { useBrowserStorageValue } from "./storage";
+import { useBrowserStorageValue } from "./storage/api";
 import { useMirrorStateToRef } from "./hooks";
 import { IS_TOUCH_DEVICE } from "./device";
 

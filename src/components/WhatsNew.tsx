@@ -3,7 +3,7 @@ import { ShortcutHint } from './ShortcutHint';
 import './WhatsNew.scss';
 import { analyticsEnabledAtom } from '@utils/analytics';
 import { Checkbox } from './Checkbox';
-import { useAtomWithStorage } from '@utils/storage';
+import { useAtomWithStorage } from '@utils/storage/api';
 import { useTranslation } from 'react-i18next';
 
 export const WhatsNew = () => {

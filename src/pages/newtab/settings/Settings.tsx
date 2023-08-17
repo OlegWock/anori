@@ -5,7 +5,7 @@ import { AnimatePresence, LayoutGroup, m } from 'framer-motion';
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, homeFolder } from '@utils/user-data/types';
-import { useAtomWithStorage, useBrowserStorageValue } from '@utils/storage';
+import { useAtomWithStorage, useBrowserStorageValue } from '@utils/storage/api';
 import clsx from 'clsx';
 import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';
@@ -35,6 +35,7 @@ import { useScreenWidth } from '@utils/compact';
 import { Alert } from '@components/Alert';
 import { IS_TOUCH_DEVICE } from '@utils/device';
 import { CheckboxWithPermission } from '@components/CheckboxWithPermission';
+import { migrateStorage } from '@utils/storage/migrations';
 
 export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
 
@@ -323,19 +324,19 @@ const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
         <m.div>
             <FolderItem folder={homeFolder} />
             <Suspense>
-            <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">
-                {folders.map((f, index) => {
-                    return (
-                        <FolderItem
-                            key={f.id}
-                            folder={f}
-                            editable
-                            onNameChange={name => updateFolder(f.id, { name })}
-                            onIconChange={icon => updateFolder(f.id, { icon })}
-                            onRemove={() => removeFolder(f.id)}
-                        />)
-                })}
-            </ReorderGroup>
+                <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">
+                    {folders.map((f, index) => {
+                        return (
+                            <FolderItem
+                                key={f.id}
+                                folder={f}
+                                editable
+                                onNameChange={name => updateFolder(f.id, { name })}
+                                onIconChange={icon => updateFolder(f.id, { icon })}
+                                onRemove={() => removeFolder(f.id)}
+                            />)
+                    })}
+                </ReorderGroup>
             </Suspense>
         </m.div>
 
@@ -373,10 +374,14 @@ const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
 
 const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const exportSettings = async () => {
-        // TODO: should include meta.json file describing metadata about backup, i.e. version or time when generated
         const zip = new JSZip();
         const storage = await browser.storage.local.get(null);
         zip.file('storage.json', JSON.stringify(storage, null, 4), { compression: 'DEFLATE' });
+        zip.file('meta.json', JSON.stringify({
+            extensionVersion: browser.runtime.getManifest().version,
+            storageVersion: storage.storageVersion ?? 0,
+            date: moment().toString(),
+        }, null, 4), { compression: 'DEFLATE' });
 
         if (CUSTOM_ICONS_AVAILABLE) {
             const customIconFiles = await getAllCustomIconFiles();
@@ -388,14 +393,14 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     };
 
     const importSettings = async () => {
-        // TODO: also apply migrations from v1.10 to v1.11 if loading backup from older version
-        // TODO: clear storage before importing
         const files = await showOpenFilePicker(false, '.zip');
         const file = files[0];
         const zip = await JSZip.loadAsync(file);
         const storageJson = await zip.file('storage.json')!.async('string');
         const parsedStorage = JSON.parse(storageJson);
-        await browser.storage.local.set(parsedStorage);
+        const { storage: migratedStorage } = migrateStorage(parsedStorage);
+        await browser.storage.local.clear();
+        await browser.storage.local.set(migratedStorage);
 
         if (CUSTOM_ICONS_AVAILABLE) {
             await removeAllCustomIcons();

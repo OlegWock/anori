@@ -1,6 +1,6 @@
 import { getAllCustomIconNames } from "./custom-icons";
 import { guid, wait } from "./misc";
-import { atomWithBrowserStorageStatic, storage } from "./storage";
+import { atomWithBrowserStorageStatic, storage } from "./storage/api";
 import { FolderDetailsInStorage } from "./user-data/types";
 import browser from 'webextension-polyfill';
 

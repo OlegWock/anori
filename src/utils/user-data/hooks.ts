@@ -1,4 +1,4 @@
-import { AtomWithBrowserStorage, atomWithBrowserStorage, atomWithBrowserStorageStatic, setAtomWithStorageValue, storage, useAtomWithStorage } from "@utils/storage";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, atomWithBrowserStorageStatic, setAtomWithStorageValue, storage, useAtomWithStorage } from "@utils/storage/api";
 import { atom, useAtom } from "jotai";
 import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, WidgetInFolder, WidgetInFolderWithMeta, homeFolder } from "./types";
 import { guid } from "@utils/misc";

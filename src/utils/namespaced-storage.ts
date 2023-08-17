@@ -1,4 +1,4 @@
-import { AtomWithBrowserStorage, atomWithBrowserStorage, focusAtomWithStorage, getAtomWithStorageValue, setAtomWithStorageValue, useAtomWithStorage } from "./storage";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, focusAtomWithStorage, getAtomWithStorageValue, setAtomWithStorageValue, useAtomWithStorage } from "./storage/api";
 import { useMemo } from "react";
 import browser from 'webextension-polyfill';
 

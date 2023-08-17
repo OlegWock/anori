@@ -11,7 +11,7 @@ import { useGrid } from '@utils/grid';
 import { useHotkeys } from '@utils/hooks';
 import { Modal } from '@components/Modal';
 import { useSizeSettings } from '@utils/compact';
-import { useBrowserStorageValue } from '@utils/storage';
+import { useBrowserStorageValue } from '@utils/storage/api';
 import { useTranslation } from 'react-i18next';
 import { ScrollArea } from '@components/ScrollArea';
 import clsx from 'clsx';

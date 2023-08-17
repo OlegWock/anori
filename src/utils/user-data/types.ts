@@ -24,6 +24,7 @@ export type StorageContent = {
     hideEditFolderButton: boolean,
     newTabTitle: string,
     language: Language,
+    storageVersion: number,
 };
 
 export type ID = string;
