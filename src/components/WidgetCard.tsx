@@ -14,6 +14,7 @@ import { LayoutItemSize, Position, positionToPixelPosition, snapToSector } from 
 import { WidgetMetadataContext } from '@utils/plugin';
 import { createPortal } from 'react-dom';
 import { useOnChangeLayoutEffect, useRunAfterNextRender } from '@utils/hooks';
+import { useDerivedMotionValue } from '@utils/motion/derived-motion.value';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
     constructor(props: { children: ReactNode }) {
@@ -155,6 +156,10 @@ export const WidgetCard = <T extends {}, PT extends T>({
 
     const resizeWidth = useMotionValue(convertUnitsToPixels(sizeToUse.width));
     const resizeHeight = useMotionValue(convertUnitsToPixels(sizeToUse.height));
+    // We need a derived/readonly value to block framer motion from messing with value after initial render
+    // More info: https://github.com/OlegWock/anori/issues/115
+    const readonlyResizeWidth = useDerivedMotionValue(resizeWidth, (v) => v);
+    const readonlyResizeHeight = useDerivedMotionValue(resizeHeight, (v) => v);
     const [isResizing, setIsResizing] = useState(false);
     const [resizeWidthUnits, setResizeWidthUnits] = useState(sizeToUse.width);
     const [resizeHeightUnits, setResizeHeightUnits] = useState(sizeToUse.height);
@@ -202,8 +207,8 @@ export const WidgetCard = <T extends {}, PT extends T>({
             scale: isEditing ? undefined : 0.95
         } : undefined}
         style={{
-            width: resizeWidth,
-            height: resizeHeight,
+            width: readonlyResizeWidth,
+            height: readonlyResizeHeight,
             margin: gapSize,
             boxShadow: isResizing ? '0px 4px 4px 3px rgba(0,0,0,0.4)' : '0px 0px 0px 0px rgba(0,0,0,0.0)',
             zIndex: (isResizing || isDragging) ? 9 : 0,

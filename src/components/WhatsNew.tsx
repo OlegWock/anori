@@ -26,8 +26,9 @@ export const WhatsNew = () => {
                             only one window per widget, yet).
                         </li>
                         <li>
-                            Previous release was a bit buggy, sorry for that (especially for disappeared widgets)! This release fixes most of reported/found errors.
+                            Previous release was a bit buggy, sorry for that (especially for disappeared widgets)! This release fixes reported/found errors from previous release.
                         </li>
+                        <li>Fixed bug with incorrect widgets size/inconsistent gutter on some screen sizes.</li>
                     </ul>
                 </section>
 

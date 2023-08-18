@@ -87,7 +87,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
                         nodes,
                     } satisfies IconInfo;
                     if (cache) iconsCache.set(icon, cachedIcon);
-                    console.log('Icon loaded in', (performance.now() - start).toFixed(4));
+                    // console.log('Icon loaded in', (performance.now() - start).toFixed(4));
                     return cachedIcon;
                 });
             if (cache) iconsCache.set(icon, promise);
