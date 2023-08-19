@@ -14,6 +14,11 @@
             "expandWidgetName": "Calculator — expandable",
             "cantCalc": "Can't calculate that"
         },
+        "onboarding": {
+            "analytics": {
+                "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."
+            }
+        },
         "bookmark-plugin": {
             "checkStatus": "Check page status",
             "checkStatusHint": "Anori will make request to page every 10-15 minutes in background to see if it's up. If server is unreachable or returns HTTP 5xx error it will be considered down. This will require additional permission. Checks won't be made while browser is closed or computer is sleeping.",

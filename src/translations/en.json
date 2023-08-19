@@ -164,7 +164,8 @@
             "analytics": {
                 "title": "Analytics",
                 "p1": "We're almost finished. But there is one final thing. By-default Anori doesn't collect any tracking data and doesn't send anything to remote servers. But I use analytics voluntarily sent by users to see what features are used the most and what needs a bit of polishing.",
-                "p2": "Therefore I ask you to enable sending analytics. Anori doesn't send any private data (like your notes or URLs of your bookmarks), just the metrics on how you use the extension (e.g. how many folders you have and how often you use shortcuts). But this is completely up to you, Anori will work as usual even if you don't enable analytics."
+                "p2": "Therefore I ask you to enable sending analytics. Anori doesn't send any private data (like your notes or URLs of your bookmarks), just the metrics on how you use the extension (e.g. how many folders you have and how often you use shortcuts). But this is completely up to you, Anori will work as usual even if you don't enable analytics.",
+                "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."
             },
             "presets": {
                 "title": "New start",

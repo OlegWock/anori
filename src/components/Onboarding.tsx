@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import './Onboarding.scss';
 import { ComponentProps, forwardRef, useEffect, useState } from 'react';
 import { AnimatePresence, LayoutGroup, m, useTransform } from 'framer-motion';
@@ -338,6 +338,11 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                             <h1>{t('onboarding.analytics.title')}</h1>
                             <p>{t('onboarding.analytics.p1')}</p>
                             <p>{t('onboarding.analytics.p2')}</p>
+                            <p>
+                                <Trans t={t} i18nKey="onboarding.analytics.p3">
+                                    <a href="https://anori.app/privacy#analytics" target="_blank"></a>
+                                </Trans>
+                            </p>
 
                             <Checkbox className="analytics-checkbox" checked={analyticsEnabled} onChange={setAnalyticsEnabled}>{t("settings.general.enableAnalytics")}</Checkbox>
                         </Section>}
