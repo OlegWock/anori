@@ -110,7 +110,7 @@ const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidget
         {(!config.title && config.showLinkToPage) && <div className="open-url-btn-wrapper absolute">
             <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} /></Link>
         </div>}
-        {canRenderIframe && <iframe src={config.url} />}
+        {canRenderIframe && <iframe src={config.url} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" />}
     </div>);
 };
 
@@ -209,7 +209,7 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
                 className="ExpandableIframeWidget-expand-area"
                 extraButtons={config.showLinkToPage && <Link className="open-url-btn" href={config.url}><Icon icon="ion:open-outline" height={rem(1.5)} width={rem(1.5)} /></Link>}
             >
-                <iframe src={config.url} />
+                <iframe src={config.url} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" />
             </WidgetExpandArea>}
         </AnimatePresence>
     </>);
