@@ -111,7 +111,6 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, autoFocus, onEdit, o
     return (<ReorderItem
         key={task.id}
         value={task}
-        layout="position"
         className="task"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -189,7 +188,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigTy
         {tasks.length !== 0 && <ScrollArea color="dark">
             <Suspense>
                 <LayoutGroup>
-                    <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layout layoutScroll layoutRoot>
+                    <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layoutScroll layoutRoot>
                         <AnimatePresence initial={false}>
                             {tasks.map(t => {
                                 return (<Task task={t} key={t.id} onComplete={() => completeTask(t.id)} onEdit={v => editTask(t.id, v)} />);

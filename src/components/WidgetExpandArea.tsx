@@ -57,6 +57,7 @@ export const WidgetWindowsProvider = ({ children }: { children: ReactNode }) => 
     };
 
     const bringToFront = (id: string) => {
+        if (!stack.current.includes(id)) return;
         console.log('bringToFront', id);
         stack.current = [...stack.current.filter(e => e !== id), id];
         updateZindexForStack();

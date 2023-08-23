@@ -68,6 +68,7 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
                 className={clsx("ScrollAreaViewport", contentClassName)}
                 ref={mergedRef}
                 layoutScroll
+                layoutRoot
                 onWheel={(direction === 'horizontal' && mirrorVerticalScrollToHorizontal) ? mirrorScroll : undefined}
             >
                 {children}
