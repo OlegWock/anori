@@ -400,6 +400,8 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
                 {config.checkStatus && <Tooltip label={createStatusMessage}>
                     <div className="status-dot" style={{ backgroundColor: statusColor }} />
                 </Tooltip>}
+
+                {/* TODO: show this button only in chrome */}
                 <button onClick={openIframe} className="open-in-iframe">
                     <div>
                         <Icon icon="ion:expand" />
