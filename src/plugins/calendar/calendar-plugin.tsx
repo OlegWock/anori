@@ -22,17 +22,14 @@ type CalendarWidgetConfigType = {
     firstDay?: number,
 };
 
+const getWeekdays = (short = false) => {
+    const days = short ? moment.weekdaysMin() : moment.weekdays();
+    return [...days.slice(1), ...days.slice(0, 1)].map(s => capitalize(s).replace('.', ''));
+}
+
 const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<CalendarWidgetConfigType>) => {
-    const { t } = useTranslation();
-    const weekdays = [
-        t('weekday0'),
-        t('weekday1'),
-        t('weekday2'),
-        t('weekday3'),
-        t('weekday4'),
-        t('weekday5'),
-        t('weekday6'),
-    ];
+    const { t, i18n } = useTranslation();
+    const weekdays = useMemo(getWeekdays, [i18n.language]);
 
     const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
 
@@ -54,15 +51,6 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConfigType>) => {
     const { t, i18n } = useTranslation();
-    const weekdays = [
-        t('weekday0'),
-        t('weekday1'),
-        t('weekday2'),
-        t('weekday3'),
-        t('weekday4'),
-        t('weekday5'),
-        t('weekday6'),
-    ];
 
     console.log('Render calendar', i18n.language);
 
@@ -104,7 +92,6 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
     };
 
 
-
     const rows: ReactNode[] = useMemo(() => {
         console.log('Render rows', { direction });
         const res: ReactNode[] = [];
@@ -133,7 +120,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         }
 
         return res;
-    }, [today, offsetMonths, i18n.language]);
+    }, [today, offsetMonths, i18n.language, firstDayShift]);
     const currentKey = useMemo(() => currentMonth.month() + '_' + currentMonth.year(), [currentMonth]);
 
     useEffect(() => {
@@ -141,7 +128,13 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         return () => clearInterval(tid);
     });
 
-    const headerDays = [...weekdays.slice(firstDayShift), ...weekdays.slice(0, firstDayShift)];
+    const headerDays = useMemo(() => {
+        const weekdays = getWeekdays();
+        const long = [...weekdays.slice(firstDayShift), ...weekdays.slice(0, firstDayShift)];
+        const weekdaysShort = getWeekdays(true);
+        const short = [...weekdaysShort.slice(firstDayShift), ...weekdaysShort.slice(0, firstDayShift)];
+        return long.map((l, i) => [l, short[i]] as const);
+    }, [i18n.language, firstDayShift]);
 
     return (<div className="CalendarWidget">
         <h3 className="header">
@@ -155,8 +148,8 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
         </h3>
         <m.div className="calendar-grid">
             <div className="calendar-row weekdays" key='weekdays'>
-                {headerDays.map(weekday => {
-                    return (<div className="calendar-cell" key={weekday}>{weekday[0]}</div>);
+                {headerDays.map(([weekday, weekdayShort]) => {
+                    return (<div className="calendar-cell" key={weekday}>{weekdayShort}</div>);
                 })}
             </div>
             <AnimatePresence mode="wait" custom={direction} initial={false}>

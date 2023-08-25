@@ -13,13 +13,6 @@
         "reload": "Recharger",
         "noResults": "Pas de résultats",
         "example": "Exemple",
-        "weekday0": "Lundi",
-        "weekday1": "Mardi",
-        "weekday2": "Mercredi",
-        "weekday3": "Jeudi",
-        "weekday4": "Vendredi",
-        "weekday5": "Samedi",
-        "weekday6": "Dimanche",
         "timezone": "Fuseau horaire",
         "refreshing": "Actualisation...",
         "refresh": "Actualiser",
@@ -30,7 +23,6 @@
         "home": "Accueil",
         "availableOnlyInEnglish": "Disponible uniquement en anglais",
         "px": "px",
-
         "whatsNew": "Nouveautés",
         "editWidget": "Modifier le widget",
         "configureWidget": "Configurer le widget",
@@ -40,7 +32,6 @@
         "icons": "Icônes",
         "customIcons": "Icônes personnalisés",
         "canBeEmpty": "peut être vide",
-
         "safari": {
             "onboarding": {
                 "iosMacP1": "Pour commencer à utiliser Anori, vous devez l'activer dans les paramètres de Safari.",
@@ -50,14 +41,12 @@
                 "iosButton": "Ouvrez les paramètres d'extensions de Safari"
             }
         },
-
         "iconsPicker": {
             "customIconsInfo": "Les icônes personnalisées sont des icônes que vous téléchargez pour les utiliser ultérieurement dans Anori.",
             "customIconsAbsent": "Actuellement, vous n'avez pas d'icônes personnalisées. Pour télécharger votre première icône personnalisée, rendez-vous dans les paramètres.",
             "iconFamily": "Famille d'icônes",
             "allIcons": "Tous les icônes"
         },
-
         "settings": {
             "title": "Paramètres",
             "general": {
@@ -121,7 +110,6 @@
                 "p3": "Suivez l'auteur sur <0>Twitter</0> et <1>supportez l'Ukraine</1>."
             }
         },
-
         "shortcuts": {
             "title": "Raccourcis",
             "showCheatsheet": "Afficher/masquer la liste des raccourcis",
@@ -134,7 +122,6 @@
             "editCurrentFolder": "Modifier le dossier en cours",
             "addNewWidget": "Ajouter un nouveau widget au dossier en cours"
         },
-
         "onboarding": {
             "start": {
                 "title": "Bienvenue sur Anori !",
@@ -174,13 +161,11 @@
                 "cta": "🚀 Donnez-moi juste une configuration productive"
             }
         },
-
         "commandMenu": {
             "name": "Menu de commandes globales",
             "placeholder": "Entrer une commande",
             "noWidgets": "Il n'y a encore rien ici. Essayez d'ajouter quelques widgets à un dossier."
         },
-
         "requirePermissions": {
             "eh": "Hein ?",
             "modalTitle": "Autorisations supplémentaires requises",
@@ -190,7 +175,6 @@
             "hostPermissions": "Autorisations de l'hôte",
             "grant": "Accorder des autorisations"
         },
-
         "bookmark-plugin": {
             "name": "Favoris",
             "widgetName": "Favoris",
@@ -220,7 +204,6 @@
             "dateFormat": "Date format",
             "24hours": "24 heures"
         },
-
         "notes-plugin": {
             "name": "Notes",
             "noteTitle": "Titre de la note",
@@ -228,21 +211,18 @@
             "exampleTitle": "Liste de courses",
             "exampleText": "Légumes, ketchup, fromage, farine, huile d'olive"
         },
-        
         "recently-closed-plugin": {
             "name": "Onglets récemment fermés",
             "widgetTitle": "Récemment fermé",
             "tab": "Onglet",
             "window": "Fenêtre"
         },
-
         "search-plugin": {
             "name": "Recherche Internet",
             "widgetName": "Recherche",
             "defaultProvider": "Fournisseur par défaut",
             "searchProviderForQ": "Recherche {{provider}} pour «{{query}}»"
         },
-
         "system-status-plugin": {
             "name": "État du système",
             "ramLoad": "Chargement de la RAM",
@@ -258,14 +238,12 @@
             "exampleTask1": "S'allonger sur le canapé",
             "exampleTask2": "S'allonger sur le sol",
             "exampleTask3": "Essayer de ne pas pleurer"
-        }, 
-
+        },
         "top-sites-plugin": {
             "name": "Sites principaux",
             "widgetHorizontal": "Sites principaux - horizontal",
             "widgetVertical": "Sites principaux - vertical"
         },
-
         "weather-plugin": {
             "name": "Météo",
             "weatherForecast": "Prévisions météorologiques",
@@ -290,7 +268,6 @@
             "speedUnit": "Unité de vitesse du vent",
             "weatherCode": "code météo {{code}}"
         },
-
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "Flux RSS",
@@ -315,14 +292,12 @@
             "examplePostDescription3": "Vous pouvez composer votre propre onglet à partir des widgets fournis (tâches, notes, signets, etc.) et les organiser dans des dossiers.",
             "exampleFeedTitle3": "Reddit"
         },
-
         "iframe-plugin": {
             "name": "Intégrer une page web",
             "expandWidgetName": "Intégrer une page web — extensible",
             "showLink": "Afficher le lien vers la page d'origine",
             "limitations": "L'intégration ne fonctionne pas avec toutes les pages. Certains sites s'opposent activement à l'affichage d'une page intégrée et, malheureusement, Anori ne peut pas y faire grand-chose. Il peut en résulter des pages qui ne se chargent pas (comme c'est le cas pour Gmail) ou qui fonctionnent mal."
         },
-
         "math-plugin": {
             "name": "Math",
             "calculator": "Calculatrice",
