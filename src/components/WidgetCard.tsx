@@ -245,7 +245,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
         <ErrorBoundary>
             <div className='overflow-protection'>
                 {children}
-                {type === 'mock' && <div className="interaction-blocker"></div>}
+                {(type === 'mock' || isResizing || isDragging) && <div className="interaction-blocker"></div>}
             </div>
         </ErrorBoundary>
     </m.div>);
