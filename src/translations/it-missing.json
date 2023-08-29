@@ -14,6 +14,11 @@
             "expandWidgetName": "Calculator — expandable",
             "cantCalc": "Can't calculate that"
         },
+        "settings": {
+            "general": {
+                "rememberLastFolder": "Remember last open folder"
+            }
+        },
         "onboarding": {
             "analytics": {
                 "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."

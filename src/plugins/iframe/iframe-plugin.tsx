@@ -86,14 +86,10 @@ const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidget
     const [canRenderIframe, setCanRenderIframe] = useState(false);
     const { rem } = useSizeSettings();
 
-    console.log('Render iframe widget', config);
-
     useEffect(() => {
         const main = async () => {
-            console.log('Iframe effect');
             setCanRenderIframe(false);
             await ensureDnrRules(config.url);
-            console.log('After message');
             setCanRenderIframe(true);
         };
 

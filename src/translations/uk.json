@@ -53,7 +53,8 @@
                 "sidebarOrientation": "Орієнтація бокової панелі",
                 "sidebarOrientationOption-auto": "Залежно від орієнтації вікна",
                 "sidebarOrientationOption-vertical": "Завжди вертикальна",
-                "sidebarOrientationOption-horizontal": "Завжди горизонтальна"
+                "sidebarOrientationOption-horizontal": "Завжди горизонтальна",
+                "rememberLastFolder": "Запам'ятовувати останню відкриту папку"
             },
             "customIcons": {
                 "title": "Користувацькі іконки",

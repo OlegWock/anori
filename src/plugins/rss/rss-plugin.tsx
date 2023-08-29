@@ -168,7 +168,6 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
 
     const lastRefresh = useMemo(() => lastUpdated ? t('lastUpdatedAt', { datetime: lastUpdated.format('HH:mm') }) : t('refreshing'), [lastUpdated, i18n.language]);
     const trimmedFeed = feed.slice(0, 30);
-    console.log('Render feed', { isRefreshing, trimmedFeed });
 
     return (<div className="RssFeed">
         <div className="title-wrapper">

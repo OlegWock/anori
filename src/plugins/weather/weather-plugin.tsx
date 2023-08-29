@@ -170,7 +170,6 @@ const useCurrentWeather = (config: PluginWidgetConfigType) => {
         const load = async () => {
             await store.waitForLoad();
             const fromStorage = store.get('weather');
-            console.log('Current weather from storage', fromStorage);
             if (fromStorage) {
                 setWeather(fromStorage);
                 if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;

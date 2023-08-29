@@ -37,7 +37,8 @@
                 "sidebarOrientationOption-auto": "Based on window orientation",
                 "sidebarOrientationOption-vertical": "Always vertical",
                 "sidebarOrientationOption-horizontal": "Always horizontal",
-                "showBookmarksBar": "Show bookmarks bar"
+                "showBookmarksBar": "Show bookmarks bar",
+                "rememberLastFolder": "Remember last open folder"
             },
             "importExport": {
                 "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("

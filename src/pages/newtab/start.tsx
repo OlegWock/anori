@@ -9,7 +9,7 @@ import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
-import { preloadBrowserStorageAtom, storage, useBrowserStorageValue } from '@utils/storage/api';
+import { storage, useBrowserStorageValue } from '@utils/storage/api';
 import { applyTheme, defaultTheme } from '@utils/user-data/theme';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
@@ -80,7 +80,10 @@ const Start = () => {
 
     const { hasDetachedWindows } = useWidgetWindows();
     const sidebarOrientation = useSidebarOrientation();
-    const { folders, activeFolder, setActiveFolder } = useFolders(true);
+    const [rememberLastFolder] = useBrowserStorageValue('rememberLastFolder', false);
+    const [lastFolder, setLastFolder] = useBrowserStorageValue('lastFolder', 'home');
+    const { folders, activeFolder, setActiveFolder } = useFolders(true, rememberLastFolder ? lastFolder : undefined);
+    console.log('Render start page', { activeFolder: activeFolder.id, lastFolder, rememberLastFolder });
     const activeFolderIndex = folders.findIndex(f => f.id === activeFolder.id)!;
     const previousActiveFolderIndex = usePrevious(activeFolderIndex);
     const animationDirection = previousActiveFolderIndex === undefined
@@ -94,7 +97,7 @@ const Start = () => {
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
-    const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
+    const [showBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
     const [commandMenuOpen, setCommandMenuOpen] = useState(false);
     const [renderCommandMenu, setRenderCommandMenu] = useState(false);
     const { t } = useTranslation();
@@ -141,7 +144,10 @@ const Start = () => {
                                         icon={f.icon}
                                         name={f.name}
                                         active={activeFolder === f}
-                                        onClick={() => switchToFolder(f)}
+                                        onClick={() => {
+                                            switchToFolder(f);
+                                            if (rememberLastFolder) setLastFolder(f.id);
+                                        }}
                                     />);
                                 })}
                                 <div className="spacer" />
@@ -228,13 +234,6 @@ storage.getOne('showLoadAnimation').then(showLoadAnimation => {
     div.addEventListener("animationend", () => div.remove());
     div.classList.add('active');
 });
-
-preloadBrowserStorageAtom('compactMode', IS_TOUCH_DEVICE);
-preloadBrowserStorageAtom('automaticCompactMode', !IS_TOUCH_DEVICE);
-preloadBrowserStorageAtom('automaticCompactModeThreshold', 1500);
-preloadBrowserStorageAtom('hideEditFolderButton', false);
-preloadBrowserStorageAtom('sidebarOrientation', 'auto');
-preloadBrowserStorageAtom('showBookmarksBar', false);
 
 getAllCustomIcons();
 

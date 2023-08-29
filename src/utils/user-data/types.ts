@@ -10,6 +10,8 @@ export type StorageContent = {
     userId: string,
     sidebarOrientation: "vertical" | "horizontal" | "auto",
     showBookmarksBar: boolean,
+    rememberLastFolder: boolean,
+    lastFolder: string | undefined,
 
     analyticsEnabled: boolean,
     analyticsLastSend: number,

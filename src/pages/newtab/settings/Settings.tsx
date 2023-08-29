@@ -5,7 +5,7 @@ import { AnimatePresence, LayoutGroup, m } from 'framer-motion';
 import { Button, ButtonProps } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, homeFolder } from '@utils/user-data/types';
-import { useAtomWithStorage, useBrowserStorageValue } from '@utils/storage/api';
+import { storage, useAtomWithStorage, useBrowserStorageValue } from '@utils/storage/api';
 import clsx from 'clsx';
 import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';
@@ -110,6 +110,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
     const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue('compactMode', IS_TOUCH_DEVICE);
     const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue('showLoadAnimation', false);
     const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue('hideEditFolderButton', false);
+    const [rememberLastFolder, setRememberLastFolder] = useBrowserStorageValue('rememberLastFolder', false);
     const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
     const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');
     const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
@@ -174,6 +175,13 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
                     </Trans>
                 </div>
             </>} />
+        </Checkbox>
+
+        <Checkbox checked={rememberLastFolder} onChange={(v) => {
+            setRememberLastFolder(v);
+            if (!v) storage.setOne('lastFolder', undefined);
+        }}>
+            {t("settings.general.rememberLastFolder")}
         </Checkbox>
 
         {/* Bookmarks API absent in Safari */}

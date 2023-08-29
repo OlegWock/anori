@@ -1,4 +1,4 @@
-import { AtomWithBrowserStorage, atomWithBrowserStorage, atomWithBrowserStorageStatic, setAtomWithStorageValue, storage, useAtomWithStorage } from "@utils/storage/api";
+import { AtomWithBrowserStorage, atomWithBrowserStorage, setAtomWithStorageValue, storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
 import { atom, useAtom } from "jotai";
 import { AnoriPlugin, Folder, FolderDetailsInStorage, ID, WidgetDescriptor, WidgetInFolder, WidgetInFolderWithMeta, homeFolder } from "./types";
 import { guid } from "@utils/misc";
@@ -9,9 +9,8 @@ import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
 import { useTranslation } from "react-i18next";
 
-const foldersAtom = atomWithBrowserStorageStatic('folders', []);
-const activeFolderAtom = atom<ID>('home');
-export const useFolders = (includeHome = false) => {
+const activeFolderAtom = atom<ID | null>(null);
+export const useFolders = (includeHome = false, defaultFolderId: string = homeFolder.id) => {
     const createFolder = (name = '', icon = 'ion:folder-open-sharp') => {
         const newFolder = {
             id: guid(),
@@ -60,8 +59,13 @@ export const useFolders = (includeHome = false) => {
         setActiveId(typeof f === 'string' ? f : f.id);
     }
 
-    const [activeId, setActiveId] = useAtom(activeFolderAtom);
-    const [folders, setFolders] = useAtomWithStorage(foldersAtom);
+    const [_activeId, setActiveId] = useAtom(activeFolderAtom);
+    if (!_activeId) {
+        setActiveId(defaultFolderId);
+    }
+    const activeId = _activeId ?? defaultFolderId;
+    const [folders, setFolders] = useBrowserStorageValue('folders', []);
+    console.log('Folders', folders);
     const { t } = useTranslation();
     const foldersFinal = [...folders];
     if (includeHome) {

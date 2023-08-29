@@ -50,9 +50,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 };
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConfigType>) => {
-    const { t, i18n } = useTranslation();
-
-    console.log('Render calendar', i18n.language);
+    const { i18n } = useTranslation();
 
     const [today, setToday] = useState(() => moment());
     const [offsetMonths, setOffsetMonths] = useState(0);
@@ -93,7 +91,6 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
 
 
     const rows: ReactNode[] = useMemo(() => {
-        console.log('Render rows', { direction });
         const res: ReactNode[] = [];
         const startOfMonth = today.clone().add(offsetMonths, 'months').startOf('month');
         const monthNumber = startOfMonth.month();

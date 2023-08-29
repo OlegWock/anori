@@ -20,6 +20,7 @@ export const WhatsNew = () => {
                     <h2>1.13.0</h2>
                     <ul>
                         <li>Embedded page widgets are now available on Firefox.</li>
+                        <li>Added option to remember last open folder (Settings &gt; General).</li>
                     </ul>
                 </section>
 

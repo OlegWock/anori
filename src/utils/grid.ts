@@ -79,7 +79,6 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
             || newDimensions.pixelSize.width !== dimensionsRef.current.pixelSize.width
             || newDimensions.pixelSize.height !== dimensionsRef.current.pixelSize.height
         ) {
-            console.log('Updated grid dimenstions', dimensions);
             _setDimensions(newDimensions);
         }
     };
