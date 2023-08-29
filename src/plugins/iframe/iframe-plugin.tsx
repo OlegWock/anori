@@ -17,7 +17,7 @@ import { AnimatePresence } from "framer-motion";
 import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "@components/Link";
-import { ensureDnrRules } from "@plugins/shared/dnr";
+import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
 import { Alert } from "@components/Alert";
 
 // There is some problem with cookies in Iframe. When cookie set with SameSite=Lax (default value) or SameSite=Strict
@@ -225,7 +225,7 @@ const widgetDescriptor = {
     mainScreen: (props: WidgetRenderProps<IframePluginWidgetConfigType>) => {
         return (<RequirePermissions
             hosts={[parseHost(props.config.url)]}
-            permissions={["declarativeNetRequestWithHostAccess", "browsingData"]}
+            permissions={dnrPermissions}
         >
             <MainWidget {...props} />
         </RequirePermissions>);
@@ -255,7 +255,7 @@ const widgetDescriptorExpandable = {
             compact
             hosts={[parseHost(props.config.url)]}
             className="rp-paddings"
-            permissions={["declarativeNetRequestWithHostAccess", "browsingData"]}
+            permissions={dnrPermissions}
         >
             <ExpandableWidget {...props} />
         </RequirePermissions>);
@@ -285,4 +285,7 @@ export const iframePlugin = {
         widgetDescriptorExpandable,
     ],
     configurationScreen: null,
+    onStart: () => {
+        plantWebRequestHandler();
+    }
 } satisfies AnoriPlugin;

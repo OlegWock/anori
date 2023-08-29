@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ReactNode } from "react";
 import { Button } from "@components/Button";
 import './RequirePermissions.scss';
-import { CorrectPermission, containsHostPermission, normalizeHost, permissionUnavailableOnFirefox, updateAvailablePermissions, useAvailablePermissions } from "@utils/permissions";
+import { CorrectPermission, containsHostPermission, isPermissionSupported, normalizeHost, updateAvailablePermissions, useAvailablePermissions } from "@utils/permissions";
 import { Modal } from "./Modal";
 import { AnimatePresence } from "framer-motion";
 import clsx from "clsx";
@@ -43,8 +43,7 @@ export const RequirePermissions = ({ hosts = [], permissions = [], children, com
     if (!enabled) return <>{children}</>;
 
     if (!currentPermissions) return null;
-    const isFirefox = navigator.userAgent.includes('Firefox/');
-    const missingPermissions = permissions.filter(p => !currentPermissions.permissions.includes(p)).filter(p => isFirefox ? !permissionUnavailableOnFirefox.includes(p) : true);
+    const missingPermissions = permissions.filter(p => !currentPermissions.permissions.includes(p)).filter(p => isPermissionSupported(p));
     const missingHostPermissions = hosts.filter(h => !containsHostPermission(currentPermissions.hosts, h));
 
     if ((missingPermissions.length === 0 && missingHostPermissions.length === 0)) {

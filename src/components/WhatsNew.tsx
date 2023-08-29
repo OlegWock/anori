@@ -17,6 +17,13 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.13.0</h2>
+                    <ul>
+                        <li>Embedded page widgets are now available on Firefox.</li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>1.12.0</h2>
                     <ul>
                         <li>Anori is now available in French. This was contribution from @AguilaDesign. Thanks!</li>

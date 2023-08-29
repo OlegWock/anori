@@ -183,6 +183,10 @@ const generateManifest = (
         }
     }
 
+    if (targetBrowser === 'firefox') {
+        manifest.optional_permissions!.push('webRequest', 'webRequestBlocking');
+    }
+
     return manifest;
 };
 
@@ -441,7 +445,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 X_MODE: JSON.stringify(mode),
                 X_BROWSER: JSON.stringify(targetBrowser),
             }),
-            new WebExtensionChuckLoaderRuntimePlugin({backgroundWorkerEntry: targetBrowser === 'chrome' ? 'backgroundScript' : undefined}),
+            new WebExtensionChuckLoaderRuntimePlugin({ backgroundWorkerEntry: targetBrowser === 'chrome' ? 'backgroundScript' : undefined }),
             ...(targetBrowser === 'chrome' ? [new ServiceWorkerEntryPlugin({}, 'backgroundScript')] : []),
             ...generateFileInvocations,
 

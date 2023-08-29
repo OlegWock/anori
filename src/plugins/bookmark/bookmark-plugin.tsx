@@ -26,7 +26,7 @@ import { PickBookmark } from "@components/PickBookmark";
 import { Link } from "@components/Link";
 import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { RequirePermissions } from "@components/RequirePermissions";
-import { ensureDnrRules } from "@plugins/shared/dnr";
+import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
 import { Checkbox } from "@components/Checkbox";
 import { Hint } from "@components/Hint";
 import moment from "moment-timezone";
@@ -401,7 +401,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
                     <div className="status-dot" style={{ backgroundColor: statusColor }} />
                 </Tooltip>}
 
-                {X_BROWSER === 'chrome' && <button onClick={openIframe} className="open-in-iframe">
+                {['chrome', 'firefox'].includes(X_BROWSER) && <button onClick={openIframe} className="open-in-iframe">
                     <div>
                         <Icon icon="ion:expand" />
                     </div>
@@ -410,7 +410,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
         </Link>
         <AnimatePresence>
             {showExpandArea && <WidgetExpandArea title={config.title} onClose={closeExpand} size="max" withoutScroll className="BookmarkWidget-expand" ref={expandAreaRef}>
-                <RequirePermissions hosts={[parseHost(config.url)]} permissions={["declarativeNetRequestWithHostAccess", "browsingData"]} onGrant={() => {
+                <RequirePermissions hosts={[parseHost(config.url)]} permissions={dnrPermissions} onGrant={() => {
                     ensureDnrRules(config.url).then(() => setShowIframe(true))
                 }}>
                     {showIframe && <iframe src={config.url} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture; cross-origin-isolated" />}
@@ -565,6 +565,9 @@ export const bookmarkPlugin: AnoriPlugin<{}, BookmarkWidgetConfigType | Bookmark
     scheduledCallback: {
         intervalInMinutes: STATUS_CHECK_INTERVAL_MINUTES,
         callback: updateStatusesForTrackedPages,
+    },
+    onStart: () => {
+        plantWebRequestHandler();
     }
 };
 

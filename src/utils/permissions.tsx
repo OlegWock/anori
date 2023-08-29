@@ -53,7 +53,14 @@ export const watchForPermissionChanges = async () => {
     });
 };
 
-export const permissionUnavailableOnFirefox = ['favicon'];
+export const isPermissionSupported = (permission: string) => {
+    if (X_BROWSER === 'firefox') {
+        // declarativeNetRequestWithHostAccess is available, but Anori doesn't use it in Firefox
+        return !['favicon', 'declarativeNetRequestWithHostAccess'].includes(permission);
+    } else {
+        return !['webRequest', 'webRequestBlocking'].includes(permission);
+    }
+}
 
 export const useAvailablePermissions = () => {
     const currentPermissions = useAtomValue(availablePermissionsAtom);
@@ -62,8 +69,7 @@ export const useAvailablePermissions = () => {
 
 export const usePermissionsQuery = ({ hosts, permissions }: { hosts?: string[], permissions?: CorrectPermission[], }) => {
     const availablePermissions = useAvailablePermissions();
-    const isFirefox = navigator.userAgent.includes('Firefox/');
-    const missingPermissions = permissions ? permissions.filter(p => !availablePermissions.permissions.includes(p)).filter(p => isFirefox ? !permissionUnavailableOnFirefox.includes(p) : true) : [];
+    const missingPermissions = permissions ? permissions.filter(p => !availablePermissions.permissions.includes(p)).filter(p => isPermissionSupported(p)) : [];
     const missingHostPermissions = hosts ? hosts.filter(h => !containsHostPermission(availablePermissions.hosts, h)) : [];
 
     return missingPermissions.length === 0 && missingHostPermissions.length === 0;

@@ -15,7 +15,6 @@ import { iframePlugin } from "./iframe/iframe-plugin";
 import { mathPlugin } from "./math/math-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
-    iframePlugin, // Blocked by https://bugzilla.mozilla.org/show_bug.cgi?id=1827855
     systemStatusPlugin,
 ];
 

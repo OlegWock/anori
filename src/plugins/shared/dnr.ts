@@ -1,5 +1,8 @@
 import { globalCallOnce } from '@utils/misc';
+import { CorrectPermission } from '@utils/permissions';
 import browser from 'webextension-polyfill';
+
+export const dnrPermissions: CorrectPermission[] = ["declarativeNetRequestWithHostAccess", "webRequest", "webRequestBlocking", "browsingData"];
 
 export const addUniversalDnrRules = async () => {
     const MODIFY_REQUEST_RULE_ID = 10;
@@ -78,13 +81,51 @@ export const clearBrowsingData = async (url: string) => {
     }
 };
 
+const webResponseHandler = (details: browser.WebRequest.OnHeadersReceivedDetailsType) => {
+    if (!details.originUrl?.includes(location.host)) {
+        return;
+    }
+
+    return {
+        responseHeaders: details.responseHeaders!.filter(h => {
+            return !['x-frame-options', 'frame-options', 'content-security-policy'].includes(h.name.toLowerCase());
+        }),
+    };
+};
+
+const webRequestHandler = (details: browser.WebRequest.OnBeforeSendHeadersDetailsType) => {
+    if (!details.originUrl?.includes(location.host)) {
+        return;
+    }
+
+    return {
+        requestHeaders: details.requestHeaders!.filter(h => {
+            return !['sec-fetch-site', 'sec-fetch-dest'].includes(h.name.toLowerCase());
+        }),
+    };
+};
+
+export const plantWebRequestHandler = () => {
+    if (!browser.webRequest) {
+        console.log('webRequest API not available');
+        return;
+    }
+    browser.webRequest.onHeadersReceived.removeListener(webResponseHandler);
+    browser.webRequest.onHeadersReceived.addListener(webResponseHandler, {urls: ['<all_urls>']}, ["responseHeaders", "blocking"]);
+    browser.webRequest.onBeforeSendHeaders.removeListener(webRequestHandler);
+    browser.webRequest.onBeforeSendHeaders.addListener(webRequestHandler, {urls: ['<all_urls>']}, ['requestHeaders', "blocking"]);
+    console.log('Planted webRequest listener');
+};
+
 export const ensureDnrRules = async (url: string) => {
-    const addUniversalDnrRulesSIngleton = globalCallOnce('addUniversalDnrRules', addUniversalDnrRules);
+    const addUniversalDnrRulesSingleton = globalCallOnce('addUniversalDnrRules', addUniversalDnrRules);
+    const plantWebRequestHandlerSingleton = globalCallOnce('plantWebRequestHandler', plantWebRequestHandler);
 
     try {
         await Promise.all([
             clearBrowsingData(url),
-            addUniversalDnrRulesSIngleton.call(),
+            addUniversalDnrRulesSingleton.call(),
+            plantWebRequestHandlerSingleton.call(),
         ]);
         console.log('Iframe headers overwrite setup');
     } catch (err) {
