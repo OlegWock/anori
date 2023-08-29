@@ -401,12 +401,11 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
                     <div className="status-dot" style={{ backgroundColor: statusColor }} />
                 </Tooltip>}
 
-                {/* TODO: show this button only in chrome */}
-                <button onClick={openIframe} className="open-in-iframe">
+                {X_BROWSER === 'chrome' && <button onClick={openIframe} className="open-in-iframe">
                     <div>
                         <Icon icon="ion:expand" />
                     </div>
-                </button>
+                </button>}
             </div>
         </Link>
         <AnimatePresence>
@@ -414,7 +413,7 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
                 <RequirePermissions hosts={[parseHost(config.url)]} permissions={["declarativeNetRequestWithHostAccess", "browsingData"]} onGrant={() => {
                     ensureDnrRules(config.url).then(() => setShowIframe(true))
                 }}>
-                    {showIframe && <iframe src={config.url} />}
+                    {showIframe && <iframe src={config.url} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture; cross-origin-isolated" />}
                 </RequirePermissions>
             </WidgetExpandArea>}
         </AnimatePresence>

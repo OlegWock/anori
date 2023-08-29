@@ -23,7 +23,8 @@ import { Alert } from "@components/Alert";
 
 const Post = ({ post, compact = false }: { post: RssPost, compact?: boolean }) => {
     const { rem } = useSizeSettings();
-    const postMoment = useMemo(() => moment(post.timestamp), [post.timestamp]);
+    const { i18n } = useTranslation();
+    const postMoment = useMemo(() => moment(post.timestamp), [post.timestamp, i18n.language]);
     const subtitle = useMemo(() => {
         const parser = new DOMParser();
         const plaintext = parser.parseFromString(post.description, 'text/html').documentElement.textContent || '';

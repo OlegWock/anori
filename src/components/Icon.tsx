@@ -22,22 +22,33 @@ export type IconProps = {
     cache?: boolean,
 } & BaseIconProps;
 
-const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, ...props }, ref) => {
+const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, style = {}, ...props }, ref) => {
     const iconInfo = useCustomIcon(icon);
+    let size = props.width || props.height || 24;
+    if (typeof size === 'string') size = parseInt(size);
 
     if (!iconInfo) {
         // @ts-ignore incorrect ref types?
         return (<div ref={ref} style={{
             background: '#ffffff',
-            borderRadius: 8,
+            borderRadius: size / 5,
             opacity: 0.35,
             width: props.width || props.height || 24,
             height: props.height || props.width || 24,
         }} />);
     }
 
-    // @ts-ignore incorrect ref types?
-    return (<m.img className={clsx('CustomIcon', className)} ref={ref} src={iconInfo.urlObject} {...props} />);
+    return (<m.img
+        className={clsx('CustomIcon', className)}
+        // @ts-ignore incorrect ref types?
+        ref={ref}
+        style={{
+            borderRadius: size / 5,
+            ...style,
+        }}
+        src={iconInfo.urlObject}
+        {...props}
+    />);
 });
 
 type IconInfo = {
