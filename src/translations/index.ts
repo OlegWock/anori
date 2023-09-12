@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import enTranslation from './en.json';
 import deTranslation from './de.json';
 import frTranslation from './fr.json';
+import esTranslation from './es.json';
 import itTranslation from './it.json';
 import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
@@ -15,6 +16,7 @@ import moment from 'moment';
 import 'moment/locale/uk';
 import 'moment/locale/de';
 import 'moment/locale/fr';
+import 'moment/locale/es';
 import 'moment/locale/ru';
 import 'moment/locale/th';
 import 'moment/locale/it';
@@ -23,7 +25,7 @@ moment.locale('en');
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
-export const availableTranslations = ['en', 'de', 'fr', 'it', 'uk', 'th', 'zh-CN', 'ru'] as const;
+export const availableTranslations = ['en', 'de', 'fr', 'es', 'it', 'uk', 'th', 'zh-CN', 'ru'] as const;
 
 export type Language = typeof availableTranslations[number];
 
@@ -36,8 +38,7 @@ export const availableTranslationsPrettyNames = {
     'th': 'ไทย',
     'zh-CN': '中文 (简体)',
     'ru': 'Русский',
-
-    // 'es': 'Español',
+    'es': 'Español',
     // 'zh-TW': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
@@ -45,6 +46,7 @@ const resources = {
     en: enTranslation,
     de: deTranslation,
     fr: frTranslation,
+    es: esTranslation,
     it: itTranslation,
     uk: ukTranslation,
     th: thTranslation,
