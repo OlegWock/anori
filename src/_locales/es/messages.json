@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "Anori: nueva pestaña productiva"
+    },
+    "appDescription": {
+        "message": "Nueva pestaña personalizable: forma tu propia página a partir de widgets"
+    },
+    "appActionTitle": {
+        "message": "Abrir nueva pestaña de Anori"
+    }
+}
