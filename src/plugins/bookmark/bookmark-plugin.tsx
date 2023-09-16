@@ -37,6 +37,7 @@ type BookmarkWidgetConfigType = {
     title: string,
     icon: string,
     checkStatus?: boolean,
+    openInNewTab?: boolean,
 };
 
 type BookmarkWidgetStorageType = {
@@ -249,13 +250,14 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
     const onConfirm = () => {
         if (!title || !url) return;
 
-        saveConfiguration({ title, url, icon, checkStatus });
+        saveConfiguration({ title, url, icon, checkStatus, openInNewTab });
     };
 
     const [title, setTitle] = useState(currentConfig?.title || '');
     const [url, setUrl] = useState(currentConfig?.url || '');
     const [icon, setIcon] = useState(currentConfig?.icon || 'ion:dice');
     const [checkStatus, setCheckStatus] = useState(currentConfig?.checkStatus ?? false);
+    const [openInNewTab, setOpenInNewTab] = useState(currentConfig?.openInNewTab ?? false);
     const { rem } = useSizeSettings();
     const iconSearchRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
@@ -301,6 +303,9 @@ const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: Widget
         </div>
         <div className="field">
             <Checkbox checked={checkStatus} onChange={setCheckStatus}>{t('bookmark-plugin.checkStatus')} <Hint content={t('bookmark-plugin.checkStatusHint')} /></Checkbox>
+        </div>
+        <div className="field">
+            <Checkbox checked={openInNewTab} onChange={setOpenInNewTab}>{t('bookmark-plugin.openInNewTab')}</Checkbox>
         </div>
 
         <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
@@ -385,13 +390,18 @@ const BookmarkWidget = ({ config, isMock, instanceId }: WidgetRenderProps<Bookma
     }
 
     return (<>
-        <Link className={clsx(['BookmarkWidget', `size-${size}`])} href={isMock ? undefined : normalizedUrl} onClick={onLinkClick}>
+        <Link
+            className={clsx(['BookmarkWidget', `size-${size}`])}
+            href={isMock ? undefined : normalizedUrl}
+            onClick={onLinkClick}
+            target={config.openInNewTab ? '_blank' : undefined}
+        >
             <div className="bookmark-content">
                 <div className="text">
                     <h2>{config.title}</h2>
                     <div className="host">{host}</div>
                 </div>
-                {isNavigating
+                {(isNavigating && !config.openInNewTab)
                     ? (<Icon className="loading" icon="fluent:spinner-ios-20-regular" width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
                     : (<Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
                 }

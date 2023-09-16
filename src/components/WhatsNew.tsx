@@ -20,6 +20,7 @@ export const WhatsNew = () => {
                     <h2>1.14.0</h2>
                     <ul>
                         <li>Anori is now available in Spanish. This was contribution from @CaesaRR19. Thanks!</li>
+                        <li>Added option to open bookmarks in a new tab. Contribution from @bil0ak. Thanks!</li>
                     </ul>
                 </section>
 

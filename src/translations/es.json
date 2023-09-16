@@ -1,328 +1,311 @@
 {
-	"translation": {
-		"appName": "Anori: nueva pestaña productiva",
-		"appDescription": "Nueva pestaña personalizable: forma tu propia página a partir de widgets",
-		"appActionTitle": "Abrir nueva pestaña de Anori",
-		"icon": "Icono",
-		"title": "Titulo",
-		"url": "URL",
-		"urls": "URLs",
-		"save": "Guardar",
-		"import": "Importar",
-		"add": "Agregar",
-		"reload": "Recargar",
-		"noResults": "Sin resultados",
-		"example": "Ejemplo",
-		"timezone": "Zona horaria",
-		"refreshing": "Actualizando...",
-		"refresh": "Actualizar",
-		"startTypingToSearch": "Empieza a escribir para buscar...",
-		"search": "Buscar...",
-		"loading": "Cargando...",
-		"lastUpdatedAt": "Se actualizó por ultima vez a las {{datetime}}",
-		"home": "Inicio",
-		"availableOnlyInEnglish": "Disponible solo en Inglés",
-		"px": "px",
-
-		"whatsNew": "Novedades",
-		"editWidget": "Editar widget",
-		"configureWidget": "Configurar widget",
-		"addWidget": "Agregar widget",
-		"next": "Siguiente",
-		"back": "Atrás",
-		"icons": "Iconos",
-		"customIcons": "Iconos personalizados",
-		"canBeEmpty": "puede estar vacío",
-
-		"safari": {
-			"onboarding": {
-				"iosMacP1": "Para empezar a usar Anori necesitas habilitarla en la configuración de Safari.",
-				"macButton": "Salir y abrir las Preferencias de Extensiones de Zafari…",
-				"iosP2": "Sabemos que el proceso es un poco tedioso, pero sea paciente con nosotros.",
-				"iosP3": "Primero, necesitas habilitar la extensión (1) y luego cambiar tu nueva pestaña a Anori (2). Aquí hay una foto, así no te perderás en las configuraciones de Zafari :)",
-				"iosButton": "Abrir la Configuración de Extensiones de Safari"
-			}
-		},
-
-		"iconsPicker": {
-			"customIconsInfo": "Los iconos personalizados son iconos que puede subir para usarlos después en Anori.",
-			"customIconsAbsent": "Actualmente, usted no cuenta con iconos personalizados. Para subir su primer icono personalizado por favor vaya a configuración.",
-			"iconFamily": "Familia de iconos",
-			"allIcons": "Todos los iconos"
-		},
-
-		"settings": {
-			"title": "Configuración",
-			"general": {
-				"title": "General",
-				"language": "Idioma",
-				"translationInfo": "Las traducción a lenguajes que no sea el Inglés o el Ucraniano son proporcionados por la comunidad. Si usted encuentra algún error gramatical o un texto sin traducir, ayúdanos a arreglarlo! <0>Aquí</0> hay instrucciones de como debes participar.",
-				"sidebarOrientation": "Orientación de la barra lateral",
-				"sidebarOrientationOption-auto": "Basado en la Orientación de la ventana",
-				"sidebarOrientationOption-vertical": "Siempre vertical",
-				"sidebarOrientationOption-horizontal": "Siempre horizontal",
-				"newTabTitle": "Titulo de la nueva pestaña",
-				"enableAnalytics": "Habilitar el envío de analíticas.",
-				"analyticsHintP1": "Estas analíticas me ayudan a entender de mejor manera como los usuarios interactúan con Anori y cuales características son más usadas. No es enviada ninguna información privada, como el contenido de notas o las URLs de un marcador.",
-				"analyticsHintP2": "Esto me ayuda a desarrollar un mejor producto, por lo que te pido que habilites el envío de analíticas. <0>Más información.</0>",
-				"showBookmarksBar": "Mostrar la barra de marcadores",
-				"stealFocus": "Robar el enfoque de la barra de direcciones",
-				"stealFocusHint": "Si está habilitado, esto obligará al navegador a cambiar el enfoque desde la barra de direcciones a esta página al abrir una nueva pestaña. Podrás utilizar el menú de comandos (Cmd+K) sin necesidad de cambiar manualmente el enfoque a la página (haciendo clic o presionando Tab).",
-				"automaticCompact": "Cambiar automáticamente al modo compacto basado en el tamaño de la pantalla",
-				"automaticCompactModeThreshold": "Cambiar al modo compacto si el tamaño de la pantalla es menor que",
-				"automaticCompactModeThresholdHint": "El ancho de tu pantalla actual es de {{screenWidth}}px",
-				"useCompact": "Siempre usar el modo compacto",
-				"showAnimationOnOpen": "Mostrar animación al abrir",
-				"showAnimationOnOpenHint": "Si está habilitado, la extensión mostrará una animación rápida que ocultará el parpadeo inicial de la carga de datos y proporcionará un mejor aspecto.",
-				"hideEditButton": "Esconder 'Editar carpeta' botón",
-				"hideEditButtonHint": "Extra minimalista, sí.",
-				"rememberLastFolder": "Recordar la última carpeta abierta"
-			},
-			"customIcons": {
-				"title": "Iconos personalizables",
-				"incorrectFormat": "Por favor, proporcione archivos validos. Anori soporta .png, .jpg, .gif, .jpeg y .svg",
-				"noIcons": "Todavía no tienes ningún icono personalizable.",
-				"iconName": "Nombre del icono",
-				"invalidNames": "Alguno de los iconos tiene un nombre invalido, arregla los nombres antes de guardar.",
-				"nameContainsInvalidChars": "El nombre contiene caracteres inválidos, solo letras, dígitos, - y _ son aceptados.",
-				"saveIcons": "Guardar Iconos",
-				"supportedFormats": "Anori soporta .png, .jpg, .gif y .svg. Lo mejor es usar una imagen cuadrada de entre 128 and 256 pixels de ancho (no aplicable a .svg).",
-				"importIcons": "Importar iconos"
-			},
-			"folders": {
-				"title": "Carpetas",
-				"createNew": "Crear una nueva carpeta",
-				"defaultName": "Nueva carpeta"
-			},
-			"pluginSettings": {
-				"title": "Configuración del plugin"
-			},
-			"theme": {
-				"title": "Tema"
-			},
-			"importExport": {
-				"title": "Importar & exportar",
-				"info": "Aquí puedes hacer una copia de seguridad de tu configuración o restaurar una copia de seguridad anterior.",
-				"import": "Importar",
-				"export": "Exportar",
-				"safariBugAlert": "Debido a un error en Safari, no podemos guardar ningún archivo de la extensión, lo que vuelve imposible hacer copias de seguridad. Lo sentimos muchísimo, pero no hay nada que podamos hacer :("
-			},
-			"aboutHelp": {
-				"title": "Ayuda y sobre la extensión",
-				"onlyEnglishPlease": "Yo (el autor del proyecto) no hablo muchos lenguajes, así que por favor, los errores ponerlos en Inglés. ¡Gracias!",
-				"p1": "Anori es una extensión gratis y de código abierto. El código fuente se puede encontrar en <0>GitHub</0>. Si te gustaría sugerir una característica o reportar un error, por favor crea <1>un nuevo issue</1> en el repository. Si solo quieres decir gracias puedes darle una estrella al repositorio :).",
-				"p2": "Si te gustaría modificar la extensión, agregar tu propio plugin o widget, por favor consulta a <0>readme</0> for más información.",
-				"p3": "Sigue al autor en <0>Twitter</0> y <1>apoya a Ucrania</1>."
-			}
-		},
-
-		"shortcuts": {
-			"title": "Atajos",
-			"showCheatsheet": "Mostrar/ocultar el resumen de atajos",
-			"toggleSettings": "Mostrar/ocultar la configuración",
-			"displayCommandMenu": "Mostrar el menú de comandos",
-			"closeMenuOrModal": "Cerrar el menú de comandos o ventana modal",
-			"switchToFolderAbove": "Cambiar a la carpeta superior",
-			"switchToFolderBelow": "Cambiar a la carpeta inferior",
-			"switchToNFolder": "Cambiar a la 1era carpeta (¡Funciona con otros números también!)",
-			"editCurrentFolder": "Editar la carpeta actual",
-			"addNewWidget": "Agregar un nuevo widget a la carpeta actual"
-		},
-
-		"onboarding": {
-			"start": {
-				"title": "Bienvenido a Anori!",
-				"p1": "¡Que bueno verte! Esta introducción está disponible en {{languages}}.",
-				"p2": "Estás en camino de configurar tu nueva pestaña ideal. La pagina de inicio de Anori consiste de diferentes widgets, como notas, marcadores, listas ToDo, etc. Elige que agregar y como organizarlo.",
-				"p3": "Puede agregar su primer widget haciendo clic en el lápiz arriba a la derecha. Este cambiará la página a modo de edición. Aquí puedes agregar widgets o mover los que ya tienes.",
-				"p4": "Para agregar un nuevo widget, haga clic en el botón con el signo 'más', o haga clic en símbolo de palomita (comprobación) para salir del modo de edición. Una vez agregado tu primer widget, este borde desaparecerá. Puedes agregar un widget ahora mismo y explorar la extensión por tu cuenta or, si quieres saber un poco más sobre las características que Anori tiene para ofrecer, haz clic en 'Siguiente'."
-			},
-			"folders": {
-				"title": "Carpetas",
-				"p1": "POr defecto, todos los widgets son agregados en la Carpeta 'Inicio'. Sin embargo, También puedes organizar tus widgets en diferentes carpetas. Por ejemplo, podrías tener varias carpetas para separar widgets del trabajo y personales. O podrías tener una carpeta para cada proyecto individual.",
-				"p2": "Para gestionar carpetas, haga clic en el icono de engranaje del fondo a la izquierda. Esto abrirá la configuración, donde puedes gestionar Anori a tu gusto. Has clic en 'carpetas' para abrir el gestor de carpetas."
-			},
-			"shortcuts": {
-				"title": "Atajos",
-				"p1": "Un montón de acciones en Anori se pueden hacer usando atajos de teclado.",
-				"p2": "Una grupo de widgets te permiten interactuar con ellos usando el menú de comandos. Para abrir el menú, presiona {{metaKey}}+K. Una vez hayas agregado tu primer pareja de widgets, serás capaz de utilizar su máxima capacidad para abrir marcadores, buscar, o marcar tareas como completadas solo usando tu teclado.",
-				"p3": "Por defecto, cuando abres una nueva pestaña, la barra de búsquedas del navegador estará activo. Anori no recibe ningún evento cuando tecleas allí, por lo que para usar los atajos necesitarás mover el enfoque a la página de Anori primero y luego presionar las teclas del atajo. Para mover el enfoque, puedes presionar Tab o darle clic a cualquier parte de la página.",
-				"p4": "Si te gustaría ver la lista completa de atajos, puedes encontrar un resumen en la sección de 'ayuda' de configuración."
-			},
-			"customization": {
-				"title": "Personalización",
-				"p1": "Mientras Anori te permite componer tu propia pagina de inicio con widgets, puede ser incluso más personalizable.",
-				"p2": "Puedes cambiar el titulo de una nueva pestaña, cambiar el esquema de colores junto a la imagen de fondo y subir tus propios iconos personalizados para usarla en widgets (sumándole los más de 10,000 iconos integrados).",
-				"p3": "Y esta no es ni siquiera la mitad de las opciones. Deberías revisar configuración si quieres verlas todas."
-			},
-			"analytics": {
-				"title": "Analíticas",
-				"p1": "Casi estamos terminando. Pero queda una ultima cosa. Por defecto, Anori no recoge ningún dato de seguimiento ni envía nada a servidores remotos. Pero utilizo las analíticas enviadas voluntariamente por los usuarios para ver qué funciones se utilizan más y cuáles necesitan pulirse un poco.",
-				"p2": "Por eso te pido que habilites el envío de analíticas. Anori no envía ningún dato privado (como tus notas o las URL de tus marcadores), sólo las métricas sobre cómo usas la extensión (por ejemplo, cuántas carpetas tienes y con qué frecuencia usas accesos directos). Pero esto depende completamente de ti, Anori funcionará como siempre aunque no habilites la analítica.",
-				"p3": "Si te gustaría saber más información de como los datos son recogidos, haga clic <0>aquí</0>."
-			},
-			"presets": {
-				"title": "Nuevo Inicio",
-				"p1": "Eso es todo. Ahora tienes una licenciatura exprés en Anori y estás preparado para crear tu propia página de inicio. Añade tu primer widget y empieza a construir la configuración definitiva.",
-				"p2": "¿Cansado de elegir? No pasa nada. No hace falta que consigas la página perfecta a la primera. Ni siquiera tienes que empezar desde un lienzo en blanco. Tenemos una configuración productiva preparada para ti.",
-				"p3": "Puede que no se adapte a todas tus necesidades, pero puedes usarlo como base para hacer tu propia configuración que te encantará.",
-				"cta": "🚀 Solo dame una configuración productiva"
-			}
-		},
-
-		"commandMenu": {
-			"name": "Menú de Comando Global",
-			"placeholder": "Introduce un comando",
-			"noWidgets": "Todavía nada por aquí. Intenta añadiendo widgets a una carpeta."
-		},
-
-		"requirePermissions": {
-			"eh": "¿Cómo?",
-			"modalTitle": "Permisos adicionales requeridos",
-			"compactText": "Permisos adicionales requeridos. Clic aquí para ver los detalles.",
-			"text": "Este widget requiere permisos adicionales:",
-			"apiPermissions": "Permisos API",
-			"hostPermissions": "Permisos Host",
-			"grant": "Otorgar permisos"
-		},
-
-		"bookmark-plugin": {
-			"name": "Marcadores",
-			"widgetName": "Marcador",
-			"groupWidgetName": "Grupo de marcadores",
-			"openInGroup": "Abrir en un grupo de pestañas",
-			"group": "Grupo",
-			"searchBookmarks": "Buscar marcadores",
-			"checkStatus": "Revisar el estado de la página",
-			"checkStatusHint": "Anori hará peticiones a la página cada 10-15 minutos en segundo plano para ver si está activa. Si el servidor es inalcanzable o devuelve un error HTTP 5xx se considerará inactivo. Esto requerirá un permiso adicional. Las comprobaciones no se harán mientras el navegador esté cerrado o el ordenador esté suspendido.",
-			"checkingStatus": "Revisando el estado de la página...",
-			"status": "La página esta actualmente{{status}}, el último cambio de estado fue hace {{lastChange}}. La última vez que se revisó fue hace {{lastCheck}}.",
-			"statusUp": "activa",
-			"statusDown": "inactiva",
-			"permissionExplanation": "Anori necesita este permiso para trabajar alrededor de CORS. El texto presentado por su navegador puede ser desalentador, pero Anori no cambia ni lee ningún dato de los sitios web marcados."
-		},
-		"calendar-plugin": {
-			"name": "Calendario",
-			"widgetName": "Calendario",
-			"firstDayOfWeek": "Primer día de la semana"
-		},
-		"datetime-plugin": {
-			"name": "Fecha y hora",
-			"widgetNameS": "Fecha y hora - tamaño S",
-			"widgetNameM": "Fecha y hora - tamaño M",
-			"withoutDate": "Sin fecha",
-			"timeFormat": "Formato de hora",
-			"dateFormat": "Formato de fecha",
-			"24hours": "24 horas"
-		},
-
-		"notes-plugin": {
-			"name": "Notas",
-			"noteTitle": "Titulo de la nota",
-			"noteText": "Texto de la nota (soporta Markdown)",
-			"exampleTitle": "Lista de la compra",
-			"exampleText": "Vegetales, catsup, queso, harina, aceite de oliva"
-		},
-
-		"recently-closed-plugin": {
-			"name": "Pestañas cerradas recientemente",
-			"widgetTitle": "Cerradas recientemente",
-			"tab": "Pestaña",
-			"window": "Ventana"
-		},
-
-		"search-plugin": {
-			"name": "Búsqueda en internet",
-			"widgetName": "Buscar",
-			"defaultProvider": "Proveedor por defecto",
-			"searchProviderForQ": "Buscar {{provider}} para «{{query}}»"
-		},
-
-		"system-status-plugin": {
-			"name": "Estado del sistema",
-			"ramLoad": "Carga de RAM",
-			"cpuLoad": "Carga de CPU"
-		},
-		"tasks-plugin": {
-			"name": "Tareas",
-			"todo": "Tareas por hacer",
-			"completeTask": "Completar «{{task}}»",
-			"taskDescription": "Descripción de la tarea...",
-			"noTasks": "Todavía no hay tareas",
-			"exampleTask0": "Estúpida caminata para la estúpida salud mental",
-			"exampleTask1": "Recostarse en el sofá",
-			"exampleTask2": "Recostarse en el piso",
-			"exampleTask3": "Intentar no llorar"
-		},
-
-		"top-sites-plugin": {
-			"name": "Sitios más visitados",
-			"widgetHorizontal": "Sitios más visitados - horizontal",
-			"widgetVertical": "Sitios más visitados - vertical"
-		},
-
-		"weather-plugin": {
-			"name": "Clima",
-			"weatherForecast": "Pronóstico meteorológico",
-			"forecast": "Pronóstico",
-			"currentWeather": "Clima actual",
-			"kmh": "km/h",
-			"ms": "m/s",
-			"mph": "mph",
-			"clearSky": "Cielo despejado",
-			"partlyCloudy": "Parcialmente nublado",
-			"fog": "Neblina",
-			"drizzle": "Llovizna",
-			"freezingDrizzle": "Llovizna helada",
-			"rain": "Lluvia",
-			"freezingRain": "Lluvia helada",
-			"snow": "Nieve",
-			"rainShower": "Lluvia ligera",
-			"thunderstorm": "Tormenta eléctrica",
-			"unknownCode": "Código meteorológico desconocido",
-			"selectCity": "Selecciona una ciudad",
-			"temperatureUnit": "Unidad de temperatura",
-			"speedUnit": "Unidad de velocidad del viento",
-			"weatherCode": "Código meteorológico {{code}}"
-		},
-
-		"rss-plugin": {
-			"name": "RSS",
-			"widgetFeedName": "Canal RSS",
-			"widgetLatestPostName": "Última entrada del canal RSS",
-			"feedUrl": "URL del canal RSS",
-			"feedUrls": "URLs del canal RSS",
-			"noPosts": "Todavía no hay entradas en este canal",
-			"presetsTitle": "Ponga aquí sus canales favoritos o seleccione uno de los preajustes:",
-			"presetForDevelopers": "Para desarrolladores",
-			"presetForDesigners": "Para diseñadores",
-			"presetInteresting": "Cosas interesantes",
-			"presetForDevelopersTitle": "Desarrollo",
-			"presetForDesignersTitle": "Diseño",
-			"presetInterestingTitle": "Cosas interesantes",
-			"examplePostTitle1": "¡Como organizar tu nueva pestaña de Anori como un profesional!",
-			"examplePostDescription1": "Empieza con un buen marcador y luego déjate llevar por el corazón. A veces todo lo que necesitas es un poco de orden...",
-			"exampleFeedTitle1": "Blog Anori",
-			"examplePostTitle2": "Las 8 extensiones para el navegador más útiles",
-			"examplePostDescription2": "Hoy te mostrar cómo convertir tu navegador en una estación de productividad con esas extensiones imprescindibles. Con la estrella del espectáculo -Anori",
-			"exampleFeedTitle2": "Productividad 101",
-			"examplePostTitle3": "¡Una extensión que te permite crear tu propia pestaña nueva a partir de widgets!",
-			"examplePostDescription3": "Puedes componer tu propia pestaña nueva a partir de los widgets proporcionados (tareas, notas, favoritos, etc.) y organizarlos en carpetas.",
-			"exampleFeedTitle3": "Reddit"
-		},
-
-		"iframe-plugin": {
-			"name": "Página web incrustada",
-			"expandWidgetName": "Página web incrustada — expandible",
-			"showLink": "Mostrar enlace a la página principal",
-			"limitations": "El incrustado no funciona con todas las páginas. Algunos sitios se resisten activamente a ser mostrados como una página incrustada, y desafortunadamente, Anori no puede hacer mucho al respecto. Esto puede provocar que las páginas no se carguen (como es el caso de Gmail) o que funcionen mal."
-		},
-
-		"math-plugin": {
-			"name": "Matemáticas",
-			"calculator": "Calculadora",
-			"expandWidgetName": "Calculadora — expandible",
-			"cantCalc": "No puedo calcular eso"
-		}
-	}
+    "translation": {
+        "appName": "Anori: nueva pestaña productiva",
+        "appDescription": "Nueva pestaña personalizable: forma tu propia página a partir de widgets",
+        "appActionTitle": "Abrir nueva pestaña de Anori",
+        "icon": "Icono",
+        "title": "Titulo",
+        "url": "URL",
+        "urls": "URLs",
+        "save": "Guardar",
+        "import": "Importar",
+        "add": "Agregar",
+        "reload": "Recargar",
+        "noResults": "Sin resultados",
+        "example": "Ejemplo",
+        "timezone": "Zona horaria",
+        "refreshing": "Actualizando...",
+        "refresh": "Actualizar",
+        "startTypingToSearch": "Empieza a escribir para buscar...",
+        "search": "Buscar...",
+        "loading": "Cargando...",
+        "lastUpdatedAt": "Se actualizó por ultima vez a las {{datetime}}",
+        "home": "Inicio",
+        "availableOnlyInEnglish": "Disponible solo en Inglés",
+        "px": "px",
+        "whatsNew": "Novedades",
+        "editWidget": "Editar widget",
+        "configureWidget": "Configurar widget",
+        "addWidget": "Agregar widget",
+        "next": "Siguiente",
+        "back": "Atrás",
+        "icons": "Iconos",
+        "customIcons": "Iconos personalizados",
+        "canBeEmpty": "puede estar vacío",
+        "safari": {
+            "onboarding": {
+                "iosMacP1": "Para empezar a usar Anori necesitas habilitarla en la configuración de Safari.",
+                "macButton": "Salir y abrir las Preferencias de Extensiones de Zafari…",
+                "iosP2": "Sabemos que el proceso es un poco tedioso, pero sea paciente con nosotros.",
+                "iosP3": "Primero, necesitas habilitar la extensión (1) y luego cambiar tu nueva pestaña a Anori (2). Aquí hay una foto, así no te perderás en las configuraciones de Zafari :)",
+                "iosButton": "Abrir la Configuración de Extensiones de Safari"
+            }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "Los iconos personalizados son iconos que puede subir para usarlos después en Anori.",
+            "customIconsAbsent": "Actualmente, usted no cuenta con iconos personalizados. Para subir su primer icono personalizado por favor vaya a configuración.",
+            "iconFamily": "Familia de iconos",
+            "allIcons": "Todos los iconos"
+        },
+        "settings": {
+            "title": "Configuración",
+            "general": {
+                "title": "General",
+                "language": "Idioma",
+                "translationInfo": "Las traducción a lenguajes que no sea el Inglés o el Ucraniano son proporcionados por la comunidad. Si usted encuentra algún error gramatical o un texto sin traducir, ayúdanos a arreglarlo! <0>Aquí</0> hay instrucciones de como debes participar.",
+                "sidebarOrientation": "Orientación de la barra lateral",
+                "sidebarOrientationOption-auto": "Basado en la Orientación de la ventana",
+                "sidebarOrientationOption-vertical": "Siempre vertical",
+                "sidebarOrientationOption-horizontal": "Siempre horizontal",
+                "newTabTitle": "Titulo de la nueva pestaña",
+                "enableAnalytics": "Habilitar el envío de analíticas.",
+                "analyticsHintP1": "Estas analíticas me ayudan a entender de mejor manera como los usuarios interactúan con Anori y cuales características son más usadas. No es enviada ninguna información privada, como el contenido de notas o las URLs de un marcador.",
+                "analyticsHintP2": "Esto me ayuda a desarrollar un mejor producto, por lo que te pido que habilites el envío de analíticas. <0>Más información.</0>",
+                "showBookmarksBar": "Mostrar la barra de marcadores",
+                "stealFocus": "Robar el enfoque de la barra de direcciones",
+                "stealFocusHint": "Si está habilitado, esto obligará al navegador a cambiar el enfoque desde la barra de direcciones a esta página al abrir una nueva pestaña. Podrás utilizar el menú de comandos (Cmd+K) sin necesidad de cambiar manualmente el enfoque a la página (haciendo clic o presionando Tab).",
+                "automaticCompact": "Cambiar automáticamente al modo compacto basado en el tamaño de la pantalla",
+                "automaticCompactModeThreshold": "Cambiar al modo compacto si el tamaño de la pantalla es menor que",
+                "automaticCompactModeThresholdHint": "El ancho de tu pantalla actual es de {{screenWidth}}px",
+                "useCompact": "Siempre usar el modo compacto",
+                "showAnimationOnOpen": "Mostrar animación al abrir",
+                "showAnimationOnOpenHint": "Si está habilitado, la extensión mostrará una animación rápida que ocultará el parpadeo inicial de la carga de datos y proporcionará un mejor aspecto.",
+                "hideEditButton": "Esconder 'Editar carpeta' botón",
+                "hideEditButtonHint": "Extra minimalista, sí.",
+                "rememberLastFolder": "Recordar la última carpeta abierta"
+            },
+            "customIcons": {
+                "title": "Iconos personalizables",
+                "incorrectFormat": "Por favor, proporcione archivos validos. Anori soporta .png, .jpg, .gif, .jpeg y .svg",
+                "noIcons": "Todavía no tienes ningún icono personalizable.",
+                "iconName": "Nombre del icono",
+                "invalidNames": "Alguno de los iconos tiene un nombre invalido, arregla los nombres antes de guardar.",
+                "nameContainsInvalidChars": "El nombre contiene caracteres inválidos, solo letras, dígitos, - y _ son aceptados.",
+                "saveIcons": "Guardar Iconos",
+                "supportedFormats": "Anori soporta .png, .jpg, .gif y .svg. Lo mejor es usar una imagen cuadrada de entre 128 and 256 pixels de ancho (no aplicable a .svg).",
+                "importIcons": "Importar iconos"
+            },
+            "folders": {
+                "title": "Carpetas",
+                "createNew": "Crear una nueva carpeta",
+                "defaultName": "Nueva carpeta"
+            },
+            "pluginSettings": {
+                "title": "Configuración del plugin"
+            },
+            "theme": {
+                "title": "Tema"
+            },
+            "importExport": {
+                "title": "Importar & exportar",
+                "info": "Aquí puedes hacer una copia de seguridad de tu configuración o restaurar una copia de seguridad anterior.",
+                "import": "Importar",
+                "export": "Exportar",
+                "safariBugAlert": "Debido a un error en Safari, no podemos guardar ningún archivo de la extensión, lo que vuelve imposible hacer copias de seguridad. Lo sentimos muchísimo, pero no hay nada que podamos hacer :("
+            },
+            "aboutHelp": {
+                "title": "Ayuda y sobre la extensión",
+                "onlyEnglishPlease": "Yo (el autor del proyecto) no hablo muchos lenguajes, así que por favor, los errores ponerlos en Inglés. ¡Gracias!",
+                "p1": "Anori es una extensión gratis y de código abierto. El código fuente se puede encontrar en <0>GitHub</0>. Si te gustaría sugerir una característica o reportar un error, por favor crea <1>un nuevo issue</1> en el repository. Si solo quieres decir gracias puedes darle una estrella al repositorio :).",
+                "p2": "Si te gustaría modificar la extensión, agregar tu propio plugin o widget, por favor consulta a <0>readme</0> for más información.",
+                "p3": "Sigue al autor en <0>Twitter</0> y <1>apoya a Ucrania</1>."
+            }
+        },
+        "shortcuts": {
+            "title": "Atajos",
+            "showCheatsheet": "Mostrar/ocultar el resumen de atajos",
+            "toggleSettings": "Mostrar/ocultar la configuración",
+            "displayCommandMenu": "Mostrar el menú de comandos",
+            "closeMenuOrModal": "Cerrar el menú de comandos o ventana modal",
+            "switchToFolderAbove": "Cambiar a la carpeta superior",
+            "switchToFolderBelow": "Cambiar a la carpeta inferior",
+            "switchToNFolder": "Cambiar a la 1era carpeta (¡Funciona con otros números también!)",
+            "editCurrentFolder": "Editar la carpeta actual",
+            "addNewWidget": "Agregar un nuevo widget a la carpeta actual"
+        },
+        "onboarding": {
+            "start": {
+                "title": "Bienvenido a Anori!",
+                "p1": "¡Que bueno verte! Esta introducción está disponible en {{languages}}.",
+                "p2": "Estás en camino de configurar tu nueva pestaña ideal. La pagina de inicio de Anori consiste de diferentes widgets, como notas, marcadores, listas ToDo, etc. Elige que agregar y como organizarlo.",
+                "p3": "Puede agregar su primer widget haciendo clic en el lápiz arriba a la derecha. Este cambiará la página a modo de edición. Aquí puedes agregar widgets o mover los que ya tienes.",
+                "p4": "Para agregar un nuevo widget, haga clic en el botón con el signo 'más', o haga clic en símbolo de palomita (comprobación) para salir del modo de edición. Una vez agregado tu primer widget, este borde desaparecerá. Puedes agregar un widget ahora mismo y explorar la extensión por tu cuenta or, si quieres saber un poco más sobre las características que Anori tiene para ofrecer, haz clic en 'Siguiente'."
+            },
+            "folders": {
+                "title": "Carpetas",
+                "p1": "POr defecto, todos los widgets son agregados en la Carpeta 'Inicio'. Sin embargo, También puedes organizar tus widgets en diferentes carpetas. Por ejemplo, podrías tener varias carpetas para separar widgets del trabajo y personales. O podrías tener una carpeta para cada proyecto individual.",
+                "p2": "Para gestionar carpetas, haga clic en el icono de engranaje del fondo a la izquierda. Esto abrirá la configuración, donde puedes gestionar Anori a tu gusto. Has clic en 'carpetas' para abrir el gestor de carpetas."
+            },
+            "shortcuts": {
+                "title": "Atajos",
+                "p1": "Un montón de acciones en Anori se pueden hacer usando atajos de teclado.",
+                "p2": "Una grupo de widgets te permiten interactuar con ellos usando el menú de comandos. Para abrir el menú, presiona {{metaKey}}+K. Una vez hayas agregado tu primer pareja de widgets, serás capaz de utilizar su máxima capacidad para abrir marcadores, buscar, o marcar tareas como completadas solo usando tu teclado.",
+                "p3": "Por defecto, cuando abres una nueva pestaña, la barra de búsquedas del navegador estará activo. Anori no recibe ningún evento cuando tecleas allí, por lo que para usar los atajos necesitarás mover el enfoque a la página de Anori primero y luego presionar las teclas del atajo. Para mover el enfoque, puedes presionar Tab o darle clic a cualquier parte de la página.",
+                "p4": "Si te gustaría ver la lista completa de atajos, puedes encontrar un resumen en la sección de 'ayuda' de configuración."
+            },
+            "customization": {
+                "title": "Personalización",
+                "p1": "Mientras Anori te permite componer tu propia pagina de inicio con widgets, puede ser incluso más personalizable.",
+                "p2": "Puedes cambiar el titulo de una nueva pestaña, cambiar el esquema de colores junto a la imagen de fondo y subir tus propios iconos personalizados para usarla en widgets (sumándole los más de 10,000 iconos integrados).",
+                "p3": "Y esta no es ni siquiera la mitad de las opciones. Deberías revisar configuración si quieres verlas todas."
+            },
+            "analytics": {
+                "title": "Analíticas",
+                "p1": "Casi estamos terminando. Pero queda una ultima cosa. Por defecto, Anori no recoge ningún dato de seguimiento ni envía nada a servidores remotos. Pero utilizo las analíticas enviadas voluntariamente por los usuarios para ver qué funciones se utilizan más y cuáles necesitan pulirse un poco.",
+                "p2": "Por eso te pido que habilites el envío de analíticas. Anori no envía ningún dato privado (como tus notas o las URL de tus marcadores), sólo las métricas sobre cómo usas la extensión (por ejemplo, cuántas carpetas tienes y con qué frecuencia usas accesos directos). Pero esto depende completamente de ti, Anori funcionará como siempre aunque no habilites la analítica.",
+                "p3": "Si te gustaría saber más información de como los datos son recogidos, haga clic <0>aquí</0>."
+            },
+            "presets": {
+                "title": "Nuevo Inicio",
+                "p1": "Eso es todo. Ahora tienes una licenciatura exprés en Anori y estás preparado para crear tu propia página de inicio. Añade tu primer widget y empieza a construir la configuración definitiva.",
+                "p2": "¿Cansado de elegir? No pasa nada. No hace falta que consigas la página perfecta a la primera. Ni siquiera tienes que empezar desde un lienzo en blanco. Tenemos una configuración productiva preparada para ti.",
+                "p3": "Puede que no se adapte a todas tus necesidades, pero puedes usarlo como base para hacer tu propia configuración que te encantará.",
+                "cta": "🚀 Solo dame una configuración productiva"
+            }
+        },
+        "commandMenu": {
+            "name": "Menú de Comando Global",
+            "placeholder": "Introduce un comando",
+            "noWidgets": "Todavía nada por aquí. Intenta añadiendo widgets a una carpeta."
+        },
+        "requirePermissions": {
+            "eh": "¿Cómo?",
+            "modalTitle": "Permisos adicionales requeridos",
+            "compactText": "Permisos adicionales requeridos. Clic aquí para ver los detalles.",
+            "text": "Este widget requiere permisos adicionales:",
+            "apiPermissions": "Permisos API",
+            "hostPermissions": "Permisos Host",
+            "grant": "Otorgar permisos"
+        },
+        "bookmark-plugin": {
+            "name": "Marcadores",
+            "widgetName": "Marcador",
+            "groupWidgetName": "Grupo de marcadores",
+            "openInGroup": "Abrir en un grupo de pestañas",
+            "group": "Grupo",
+            "searchBookmarks": "Buscar marcadores",
+            "checkStatus": "Revisar el estado de la página",
+            "checkStatusHint": "Anori hará peticiones a la página cada 10-15 minutos en segundo plano para ver si está activa. Si el servidor es inalcanzable o devuelve un error HTTP 5xx se considerará inactivo. Esto requerirá un permiso adicional. Las comprobaciones no se harán mientras el navegador esté cerrado o el ordenador esté suspendido.",
+            "checkingStatus": "Revisando el estado de la página...",
+            "status": "La página esta actualmente{{status}}, el último cambio de estado fue hace {{lastChange}}. La última vez que se revisó fue hace {{lastCheck}}.",
+            "statusUp": "activa",
+            "statusDown": "inactiva",
+            "permissionExplanation": "Anori necesita este permiso para trabajar alrededor de CORS. El texto presentado por su navegador puede ser desalentador, pero Anori no cambia ni lee ningún dato de los sitios web marcados.",
+            "openInNewTab": "Abrir en una nueva pestaña"
+        },
+        "calendar-plugin": {
+            "name": "Calendario",
+            "widgetName": "Calendario",
+            "firstDayOfWeek": "Primer día de la semana"
+        },
+        "datetime-plugin": {
+            "name": "Fecha y hora",
+            "widgetNameS": "Fecha y hora - tamaño S",
+            "widgetNameM": "Fecha y hora - tamaño M",
+            "withoutDate": "Sin fecha",
+            "timeFormat": "Formato de hora",
+            "dateFormat": "Formato de fecha",
+            "24hours": "24 horas"
+        },
+        "notes-plugin": {
+            "name": "Notas",
+            "noteTitle": "Titulo de la nota",
+            "noteText": "Texto de la nota (soporta Markdown)",
+            "exampleTitle": "Lista de la compra",
+            "exampleText": "Vegetales, catsup, queso, harina, aceite de oliva"
+        },
+        "recently-closed-plugin": {
+            "name": "Pestañas cerradas recientemente",
+            "widgetTitle": "Cerradas recientemente",
+            "tab": "Pestaña",
+            "window": "Ventana"
+        },
+        "search-plugin": {
+            "name": "Búsqueda en internet",
+            "widgetName": "Buscar",
+            "defaultProvider": "Proveedor por defecto",
+            "searchProviderForQ": "Buscar {{provider}} para «{{query}}»"
+        },
+        "system-status-plugin": {
+            "name": "Estado del sistema",
+            "ramLoad": "Carga de RAM",
+            "cpuLoad": "Carga de CPU"
+        },
+        "tasks-plugin": {
+            "name": "Tareas",
+            "todo": "Tareas por hacer",
+            "completeTask": "Completar «{{task}}»",
+            "taskDescription": "Descripción de la tarea...",
+            "noTasks": "Todavía no hay tareas",
+            "exampleTask0": "Estúpida caminata para la estúpida salud mental",
+            "exampleTask1": "Recostarse en el sofá",
+            "exampleTask2": "Recostarse en el piso",
+            "exampleTask3": "Intentar no llorar"
+        },
+        "top-sites-plugin": {
+            "name": "Sitios más visitados",
+            "widgetHorizontal": "Sitios más visitados - horizontal",
+            "widgetVertical": "Sitios más visitados - vertical"
+        },
+        "weather-plugin": {
+            "name": "Clima",
+            "weatherForecast": "Pronóstico meteorológico",
+            "forecast": "Pronóstico",
+            "currentWeather": "Clima actual",
+            "kmh": "km/h",
+            "ms": "m/s",
+            "mph": "mph",
+            "clearSky": "Cielo despejado",
+            "partlyCloudy": "Parcialmente nublado",
+            "fog": "Neblina",
+            "drizzle": "Llovizna",
+            "freezingDrizzle": "Llovizna helada",
+            "rain": "Lluvia",
+            "freezingRain": "Lluvia helada",
+            "snow": "Nieve",
+            "rainShower": "Lluvia ligera",
+            "thunderstorm": "Tormenta eléctrica",
+            "unknownCode": "Código meteorológico desconocido",
+            "selectCity": "Selecciona una ciudad",
+            "temperatureUnit": "Unidad de temperatura",
+            "speedUnit": "Unidad de velocidad del viento",
+            "weatherCode": "Código meteorológico {{code}}"
+        },
+        "rss-plugin": {
+            "name": "RSS",
+            "widgetFeedName": "Canal RSS",
+            "widgetLatestPostName": "Última entrada del canal RSS",
+            "feedUrl": "URL del canal RSS",
+            "feedUrls": "URLs del canal RSS",
+            "noPosts": "Todavía no hay entradas en este canal",
+            "presetsTitle": "Ponga aquí sus canales favoritos o seleccione uno de los preajustes:",
+            "presetForDevelopers": "Para desarrolladores",
+            "presetForDesigners": "Para diseñadores",
+            "presetInteresting": "Cosas interesantes",
+            "presetForDevelopersTitle": "Desarrollo",
+            "presetForDesignersTitle": "Diseño",
+            "presetInterestingTitle": "Cosas interesantes",
+            "examplePostTitle1": "¡Como organizar tu nueva pestaña de Anori como un profesional!",
+            "examplePostDescription1": "Empieza con un buen marcador y luego déjate llevar por el corazón. A veces todo lo que necesitas es un poco de orden...",
+            "exampleFeedTitle1": "Blog Anori",
+            "examplePostTitle2": "Las 8 extensiones para el navegador más útiles",
+            "examplePostDescription2": "Hoy te mostrar cómo convertir tu navegador en una estación de productividad con esas extensiones imprescindibles. Con la estrella del espectáculo -Anori",
+            "exampleFeedTitle2": "Productividad 101",
+            "examplePostTitle3": "¡Una extensión que te permite crear tu propia pestaña nueva a partir de widgets!",
+            "examplePostDescription3": "Puedes componer tu propia pestaña nueva a partir de los widgets proporcionados (tareas, notas, favoritos, etc.) y organizarlos en carpetas.",
+            "exampleFeedTitle3": "Reddit"
+        },
+        "iframe-plugin": {
+            "name": "Página web incrustada",
+            "expandWidgetName": "Página web incrustada — expandible",
+            "showLink": "Mostrar enlace a la página principal",
+            "limitations": "El incrustado no funciona con todas las páginas. Algunos sitios se resisten activamente a ser mostrados como una página incrustada, y desafortunadamente, Anori no puede hacer mucho al respecto. Esto puede provocar que las páginas no se carguen (como es el caso de Gmail) o que funcionen mal."
+        },
+        "math-plugin": {
+            "name": "Matemáticas",
+            "calculator": "Calculadora",
+            "expandWidgetName": "Calculadora — expandible",
+            "cantCalc": "No puedo calcular eso"
+        }
+    }
 }

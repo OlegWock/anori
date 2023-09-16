@@ -9,6 +9,9 @@
             "analytics": {
                 "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."
             }
+        },
+        "bookmark-plugin": {
+            "openInNewTab": "Open in a new tab"
         }
     }
 }

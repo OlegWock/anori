@@ -56,7 +56,8 @@
             "status": "Page is currently {{status}}, last status change was {{lastChange}}. Last checked {{lastCheck}}.",
             "statusUp": "up",
             "statusDown": "down",
-            "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites."
+            "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites.",
+            "openInNewTab": "Open in a new tab"
         }
     }
 }

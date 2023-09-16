@@ -4,6 +4,9 @@
             "general": {
                 "rememberLastFolder": "Remember last open folder"
             }
+        },
+        "bookmark-plugin": {
+            "openInNewTab": "Open in a new tab"
         }
     }
 }
