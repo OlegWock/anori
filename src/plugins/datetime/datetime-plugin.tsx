@@ -121,7 +121,7 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
     const lastTickTimeRef = useLazyRef(() => Date.now());
     const forceRerender = useForceRerender();
 
-    const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment.valueOf(), i18n.language]);
+    const time = useMemo(() => currentMoment.format(config.timeFormat), [currentMoment.valueOf(), i18n.language, config.timeFormat]);
     const date = useMemo(() => {
         if (config.dateFormat === 'noDate') return '';
         let date = currentMoment.format(config.dateFormat);
@@ -129,7 +129,7 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
             date = capitalize(date);
         }
         return date;
-    }, [currentMoment.valueOf(), i18n.language]);
+    }, [currentMoment.valueOf(), i18n.language, config.dateFormat]);
 
     const smallerTime = (config.timeFormat.includes('A') || config.timeFormat.includes('a') || config.timeFormat.includes('ss'));
     const seconds = currentMoment.seconds();
