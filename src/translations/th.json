@@ -56,7 +56,8 @@
                 "sidebarOrientationOption-auto": "ขึ้นอยู่กับการวางแนวหน้าต่าง",
                 "sidebarOrientationOption-vertical": "แนวตั้งเสมอ",
                 "sidebarOrientationOption-horizontal": "แนวนอนเสมอ",
-                "showBookmarksBar": "แสดงแถบบุ๊กมาร์ก"
+                "showBookmarksBar": "แสดงแถบบุ๊กมาร์ก",
+                "rememberLastFolder": "จำโฟลเดอร์ที่เปิดล่าสุด"
             },
             "customIcons": {
                 "title": "ไอคอนที่กำหนดเอง",
@@ -174,7 +175,8 @@
             "status": "ขณะนี้สถานะเพจคือ {{status}} การเปลี่ยนแปลงสถานะครั้งล่าสุดคือ {{lastChange}} ตรวจสอบครั้งล่าสุด {{lastCheck}}",
             "statusUp": "ใช้งานได้ปกติ",
             "statusDown": "ไม่สามารถเข้าถึงได้",
-            "permissionExplanation": "Anori ต้องการการอนุญาตนี้เพื่อแก้ไข CORS ข้อความที่แสดงโดยเบราว์เซอร์ของคุณอาจดูน่ากังวล แต่ Anori จะไม่เปลี่ยนแปลงหรืออ่านข้อมูลใดๆ จากเว็บไซต์ที่บุ๊กมาร์กไว้"
+            "permissionExplanation": "Anori ต้องการการอนุญาตนี้เพื่อแก้ไข CORS ข้อความที่แสดงโดยเบราว์เซอร์ของคุณอาจดูน่ากังวล แต่ Anori จะไม่เปลี่ยนแปลงหรืออ่านข้อมูลใดๆ จากเว็บไซต์ที่บุ๊กมาร์กไว้",
+            "openInNewTab": "เปิดในแท็บใหม่"
         },
         "calendar-plugin": {
             "name": "ปฏิทิน",
