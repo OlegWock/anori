@@ -2,8 +2,6 @@ import { useState, forwardRef, useRef } from 'react'
 import './Combobox.scss';
 import { HTMLMotionProps, m } from 'framer-motion';
 import clsx from 'clsx';
-
-import "./Combobox.scss";
 import {
     autoUpdate,
     size,
