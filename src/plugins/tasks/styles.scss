@@ -71,7 +71,7 @@
             z-index: 1;
             visibility: hidden;
             position: absolute;
-            right: 0;
+            inset-inline-end: 0;
             background: var(--background);
             display: flex;
             justify-content: center;

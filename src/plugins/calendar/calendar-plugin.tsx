@@ -14,6 +14,7 @@ import { Select } from "@components/Select";
 import { useTranslation } from "react-i18next";
 import { translate } from "@translations/index";
 import { capitalize } from "@utils/strings";
+import { useDirection } from "@radix-ui/react-direction";
 
 type CalendarWidgetConfigType = {
     // 0 is monday, 6 is sunday
@@ -51,11 +52,14 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConfigType>) => {
     const { i18n } = useTranslation();
-
+    const dir = useDirection();
     const [today, setToday] = useState(() => moment());
     const [offsetMonths, setOffsetMonths] = useState(0);
     const prevOffset = usePrevious(offsetMonths, offsetMonths);
-    const direction = prevOffset > offsetMonths ? "right" : "left";
+    let direction = prevOffset > offsetMonths ? "right" : "left";
+    if (dir === 'rtl') {
+        direction = direction === 'right' ? 'left' : 'right';
+    }
     const currentMonth = useMemo(() => today.clone().add(offsetMonths, 'months'), [today, offsetMonths]);
 
     const firstDayShift = config.firstDay ?? 0;
@@ -136,11 +140,11 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
     return (<div className="CalendarWidget">
         <h3 className="header">
             <Button withoutBorder onClick={() => setOffsetMonths(p => p - 1)}>
-                <Icon icon="ion:chevron-back" />
+                <Icon icon={dir === 'ltr' ? "ion:chevron-back" : "ion:chevron-forward"} />
             </Button>
             <Button withoutBorder onClick={() => setOffsetMonths(0)} className="month-name">{monthName}</Button>
             <Button withoutBorder onClick={() => setOffsetMonths(p => p + 1)}>
-                <Icon icon="ion:chevron-forward" />
+                <Icon icon={dir === 'ltr' ? "ion:chevron-forward" : "ion:chevron-back"} />
             </Button>
         </h3>
         <m.div className="calendar-grid">

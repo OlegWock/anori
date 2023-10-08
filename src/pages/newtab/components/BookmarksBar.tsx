@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import * as Menubar from '@radix-ui/react-menubar';
 import { ScrollArea } from '@components/ScrollArea';
 import { Link } from '@components/Link';
+import { useDirection } from '@radix-ui/react-direction';
 
 type BookmarkItem = {
     id: string,
@@ -89,6 +90,7 @@ const useBookmarks = () => {
 const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shiftSubmenu?: boolean }) => {
     const { rem } = useSizeSettings();
     const [scrollAreaOverflows, setScrollAreaOverflows] = useState(false);
+    const dir = useDirection();
 
     if (bookmark.type === 'bookmark') {
         return (<Menubar.Item asChild>
@@ -107,7 +109,7 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shif
                 <span className="title">{bookmark.title}</span>
             </div>
 
-            <Icon icon='ion:chevron-forward' />
+            <Icon icon={dir === 'ltr' ? 'ion:chevron-forward' : 'ion:chevron-back'} />
         </Menubar.SubTrigger>
         <Menubar.Portal>
             <div className='radix-popover-zindex-fix'>
@@ -155,8 +157,9 @@ const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?:
 
 const BookmarksBarComponent = () => {
     const [bar, other] = useBookmarks();
+    const dir = useDirection();
 
-    return (<Menubar.Root className='bookmarks'>
+    return (<Menubar.Root className='bookmarks' dir={dir}>
         {(bar.length === 0 && !other) && <div className='bookmarks-placeholder' />}
 
         <ScrollArea

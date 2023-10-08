@@ -124,7 +124,7 @@ body {
     .widgets-area {
         position: relative;
         margin: 2rem;
-        margin-left: 0;
+        margin-inline-start: 0;
         flex: 1;
         border-radius: 36px;
         background: rgba(255, 255, 255, 0.04);
@@ -134,6 +134,7 @@ body {
 
         display: flex;
         flex-direction: column;
+        min-width: 0;
     }
 
 }

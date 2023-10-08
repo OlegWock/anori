@@ -96,3 +96,9 @@ $text: #ffffff;
         @content;
     }
 }
+
+@mixin rtl {
+    @at-root #{selector.nest('html[dir="rtl"]', &)} {
+        @content;
+    }
+}

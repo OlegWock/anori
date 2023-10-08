@@ -36,6 +36,7 @@ import { Alert } from '@components/Alert';
 import { IS_TOUCH_DEVICE } from '@utils/device';
 import { CheckboxWithPermission } from '@components/CheckboxWithPermission';
 import { migrateStorage } from '@utils/storage/migrations';
+import { useDirection } from '@radix-ui/react-direction';
 
 export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
 
@@ -491,10 +492,12 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
 
     const [screen, setScreen] = useAtom(currentScreenAtom);
 
-    const mainScreenEnter = { x: '-30%', opacity: 0 };
-    const mainScreenExit = { x: '-30%', opacity: 0 };
-    const innerScreenEnter = { x: '30%', opacity: 0 };
-    const innerScreenExit = { x: '30%', opacity: 0 };
+    const dir = useDirection();
+
+    const mainScreenEnter = { x: dir === 'ltr' ? '-30%' : '30%', opacity: 0 };
+    const mainScreenExit = { x: dir === 'ltr' ? '-30%' : '30%', opacity: 0 };
+    const innerScreenEnter = { x: dir === 'ltr' ? '30%' : '-30%', opacity: 0 };
+    const innerScreenExit = { x: dir === 'ltr' ? '30%' : '-30%', opacity: 0 };
     const transition = { duration: 0.18 };
 
 
@@ -505,7 +508,7 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
             onClose();
             setScreen('main');
         }}
-        headerButton={screen !== 'main' ? <Button withoutBorder onClick={() => setScreen('main')}><Icon icon='ion:arrow-back' width={24} height={24} /></Button> : undefined}
+        headerButton={screen !== 'main' ? <Button withoutBorder onClick={() => setScreen('main')}><Icon icon={dir === 'ltr' ? 'ion:arrow-back' : 'ion:arrow-forward'} width={24} height={24} /></Button> : undefined}
     >
         <ScrollArea className='Settings'>
             <div className="settings-content">

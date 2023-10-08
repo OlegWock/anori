@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { m } from 'framer-motion';
 import { forwardRef } from 'react';
 import { combineRefs } from '@utils/misc';
+import { useDirection } from '@radix-ui/react-direction';
 
 type ScrollAreaProps = {
     children?: ReactNode,
@@ -60,8 +61,16 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
     const mergedRef = combineRefs(localViewportRef, viewportRef);
     const horizontalOverflowRef = useRef(false);
     const verticalOverflowRef = useRef(false);
+    const dir = useDirection();
 
-    return (<RadixScrollArea.Root className={clsx("ScrollAreaRoot", className, `color-${color}`, `direction-${direction}`, `size-${size}`)} asChild type={type} ref={ref}>
+    return (<RadixScrollArea.Root
+        dir={dir}
+        className={clsx("ScrollAreaRoot", className, `color-${color}`, `direction-${direction}`, `size-${size}`)}
+        asChild
+        type={type}
+        ref={ref}
+
+    >
         <m.div {...props}>
             <ResizeObserverComponent onResize={onContentResize} />
             <MotionViewport

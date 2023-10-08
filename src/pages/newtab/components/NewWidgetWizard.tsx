@@ -11,6 +11,7 @@ import { useFolderWidgets } from '@utils/user-data/hooks';
 import { GridDimensions, Layout, findPositionForItemInGrid } from '@utils/grid';
 import { MotionScrollArea, ScrollArea } from '@components/ScrollArea';
 import { useTranslation } from 'react-i18next';
+import { useDirection } from '@radix-ui/react-direction';
 
 
 export type NewWidgetWizardProps = {
@@ -55,6 +56,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
     const [selectedPlugin, setSelectedPlugin] = useState<AnoriPlugin | undefined>(undefined);
     const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor<any> | undefined>(undefined);
     const { t } = useTranslation();
+    const dir = useDirection();
 
     console.log('Render NewWidgetWizard', { selectedPlugin, selectedWidget });
     const inConfigurationStage = !!(selectedPlugin && selectedWidget);
@@ -64,7 +66,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
             headerButton={inConfigurationStage ? <Button withoutBorder onClick={() => {
                 setSelectedPlugin(undefined);
                 setSelectedWidget(undefined);
-            }}><Icon icon='ion:arrow-back' width={24} height={24} /></Button> : undefined}
+            }}><Icon icon={dir === 'ltr' ? 'ion:arrow-back' : 'ion:arrow-forward'} width={24} height={24} /></Button> : undefined}
             closable
             onClose={onClose}
             className='NewWidgetWizard-wrapper'

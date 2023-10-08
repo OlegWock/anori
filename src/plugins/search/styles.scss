@@ -32,7 +32,7 @@
             border-radius: 24px;
             flex-grow: 1;
 
-            padding-right: 36px;
+            padding-inline-end: 36px;
             
             &:focus {
                 outline: none;
@@ -41,7 +41,7 @@
 
         .Button {
             position: absolute;
-            right: 28px;
+            inset-inline-end: 28px;
             color: var(--text-subtle-2);
         }
     }

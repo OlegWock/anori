@@ -3,6 +3,7 @@ import type { SelectItemProps } from '@radix-ui/react-select';
 import classnames, { clsx } from 'clsx';
 import './Select.scss';
 import { Icon } from './Icon';
+import { useDirection } from '@radix-ui/react-direction';
 
 const RadixSelectRoot = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.Root })));
 const RadixSelectTrigger = lazy(() => import('@radix-ui/react-select').then(m => ({ default: m.SelectTrigger })));
@@ -38,6 +39,7 @@ export const Select = <T,>({ options, value, onChange, placeholder = 'Select...'
     };
 
     const [innerValue, setInnerValue] = useState(getOptionKey(value));
+    const dir = useDirection();
 
     useLayoutEffect(() => {
         setInnerValue(getOptionKey(value));
@@ -45,7 +47,7 @@ export const Select = <T,>({ options, value, onChange, placeholder = 'Select...'
 
     return (
         <Suspense>
-            <RadixSelectRoot value={innerValue} onValueChange={innerOnChange}>
+            <RadixSelectRoot value={innerValue} onValueChange={innerOnChange} dir={dir}>
                 <RadixSelectTrigger className={clsx("SelectTrigger", triggerClassname)} aria-label={placeholder}>
                     <RadixSelectValue placeholder={placeholder} />
                     <RadixSelectIcon className="SelectIcon">

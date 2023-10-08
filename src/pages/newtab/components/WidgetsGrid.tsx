@@ -1,6 +1,8 @@
 import { Onboarding } from "@components/Onboarding";
 import { MotionScrollArea } from "@components/ScrollArea";
 import { WidgetCard } from "@components/WidgetCard";
+import { useParentFolder } from "@utils/FolderContentContext";
+import { useSizeSettings } from "@utils/compact";
 import { GridDimensions, Layout, LayoutItem, Position, canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@utils/grid";
 import { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta, WidgetResizable } from "@utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
@@ -45,37 +47,6 @@ export type WidgetsGridProps = {
     onUpdateWidgetConfig: (instaceId: string, config: Partial<{}>) => void,
     onLayoutUpdate?: (changes: LayoutChange[]) => void,
     showOnboarding?: boolean,
-};
-
-const resizableToPixelSize = (res: WidgetResizable, boxSize: number, gap: number) => {
-    const calcWithGaps = (boxes: number) => {
-        return (boxSize * boxes) - (gap * 2);
-    };
-
-    if (!res) return false;
-    if (res === true) {
-        return {
-            min: {
-                width: boxSize,
-                height: boxSize,
-            },
-            max: {
-                width: 9999,
-                height: 9999,
-            }
-        }
-    }
-    return {
-        min: {
-            width: res.min ? calcWithGaps(res.min.width) : calcWithGaps(1),
-            height: res.min ? calcWithGaps(res.min.height) : calcWithGaps(1),
-        },
-        max: {
-            width: res.max ? calcWithGaps(res.max.width) : 9999,
-            height: res.max ? calcWithGaps(res.max.height) : 9999,
-        }
-    }
-
 };
 
 export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
@@ -129,8 +100,13 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
         return false;
     };
 
+    const convertUnitsToPixels = (unit: number) => unit * gridDimensions.boxSize - gapSize * 2;
+
     const gridRef = useRef<HTMLDivElement>(null);
     const combinedRef = mergeRefs([gridRef, ref]);
+
+    const maxWidthPx = convertUnitsToPixels(Math.max(0, ...layout.map(w => w.x + w.width))) + (gapSize * 2);
+    const maxHeightPx = convertUnitsToPixels(Math.max(0, ...layout.map(w => w.y + w.height))) + (gapSize * 2);
 
     return (<MotionScrollArea
         className="WidgetsGrid"
@@ -173,6 +149,13 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
             </AnimatePresence>
 
             <AnimatePresence initial={false}>
+                <div style={{
+                    width: maxWidthPx,
+                    height: maxHeightPx,
+                    background: 'wheat',
+                    pointerEvents: 'none',
+                    opacity: 0,
+                }}></div>
                 {layout.map((w, i) => {
                     return (<WidgetCard
                         type="widget"
@@ -192,6 +175,7 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
                     />);
                 })}
             </AnimatePresence>
+
             {showOnboarding && <Onboarding gridDimensions={gridDimensions} />}
         </div>
     </MotionScrollArea>);

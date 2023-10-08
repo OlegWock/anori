@@ -3,9 +3,10 @@ import { mountPage, setPageTitle } from '@utils/mount';
 import './styles.scss';
 import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react';
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Modal } from '@components/Modal';
 import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
+import { DirectionProvider } from '@radix-ui/react-direction';
 import { useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
@@ -16,7 +17,7 @@ import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import clsx from 'clsx';
 import { CompactModeProvider } from '@utils/compact';
 import { getAllCustomIcons } from '@utils/custom-icons';
-import { initTranslation } from '@translations/index';
+import { initTranslation, languageDirections } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
 import { WidgetWindowsProvider, useWidgetWindows } from '@components/WidgetExpandArea';
@@ -82,6 +83,8 @@ const Start = () => {
     const sidebarOrientation = useSidebarOrientation();
     const [rememberLastFolder] = useBrowserStorageValue('rememberLastFolder', false);
     const [lastFolder, setLastFolder] = useBrowserStorageValue('lastFolder', 'home');
+    const [language] = useBrowserStorageValue('language', 'en');
+    const dir = useMemo(() => languageDirections[language], [language]);
     const { folders, activeFolder, setActiveFolder } = useFolders(true, rememberLastFolder ? lastFolder : undefined);
     console.log('Render start page', { activeFolder: activeFolder.id, lastFolder, rememberLastFolder });
     const activeFolderIndex = folders.findIndex(f => f.id === activeFolder.id)!;
@@ -125,83 +128,86 @@ const Start = () => {
     useHotkeys('alt+8', () => switchToFolderByIndex(7));
     useHotkeys('alt+9', () => switchToFolderByIndex(8));
 
+    console.log('Current language', {language, dir});
     return (
-        <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
-            <AnimatePresence>
-                <m.div
-                    className={clsx("StartPage", `${sidebarOrientation}-sidebar`, showBookmarksBar && 'with-bookmarks-bar')}
-                    key='start-page'
-                >
-                    {showBookmarksBar && <Suspense fallback={<div className='bookmarks-bar-placeholder' />}><BookmarksBar /></Suspense>}
-                    <div className={clsx("start-page-content")}>
-                        <div className="sidebar">
-                            <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
-                                {folders.map(f => {
-                                    return (<FolderButton
-                                        dropDestination={{ id: f.id }}
+        <DirectionProvider dir={dir}>
+            <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
+                <AnimatePresence>
+                    <m.div
+                        className={clsx("StartPage", `${sidebarOrientation}-sidebar`, showBookmarksBar && 'with-bookmarks-bar')}
+                        key='start-page'
+                    >
+                        {showBookmarksBar && <Suspense fallback={<div className='bookmarks-bar-placeholder' />}><BookmarksBar /></Suspense>}
+                        <div className={clsx("start-page-content")}>
+                            <div className="sidebar">
+                                <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
+                                    {folders.map(f => {
+                                        return (<FolderButton
+                                            dropDestination={{ id: f.id }}
+                                            sidebarOrientation={sidebarOrientation}
+                                            key={f.id}
+                                            icon={f.icon}
+                                            name={f.name}
+                                            active={activeFolder === f}
+                                            onClick={() => {
+                                                switchToFolder(f);
+                                                if (rememberLastFolder) setLastFolder(f.id);
+                                            }}
+                                        />);
+                                    })}
+                                    <div className="spacer" />
+                                    <FolderButton
                                         sidebarOrientation={sidebarOrientation}
-                                        key={f.id}
-                                        icon={f.icon}
-                                        name={f.name}
-                                        active={activeFolder === f}
+                                        layoutId='whats-new'
+                                        icon="ion:newspaper-outline"
+                                        name={t('whatsNew')}
+                                        withRedDot={hasUnreadReleaseNotes}
                                         onClick={() => {
-                                            switchToFolder(f);
-                                            if (rememberLastFolder) setLastFolder(f.id);
+                                            setWhatsNewVisible(true);
+                                            setHasUnreadReleaseNotes(false);
                                         }}
-                                    />);
-                                })}
-                                <div className="spacer" />
-                                <FolderButton
-                                    sidebarOrientation={sidebarOrientation}
-                                    layoutId='whats-new'
-                                    icon="ion:newspaper-outline"
-                                    name={t('whatsNew')}
-                                    withRedDot={hasUnreadReleaseNotes}
-                                    onClick={() => {
-                                        setWhatsNewVisible(true);
-                                        setHasUnreadReleaseNotes(false);
-                                    }}
-                                />
-                                <FolderButton
-                                    sidebarOrientation={sidebarOrientation}
-                                    layoutId='settings'
-                                    icon="ion:settings-sharp"
-                                    name={t('settings.title')}
-                                    onClick={() => setSettingsVisible(true)}
-                                    whileHover={{ rotate: 180 }}
-                                    transition={{ type: 'spring', duration: 0.1 }}
-                                />
-                            </FloatingDelayGroup>
+                                    />
+                                    <FolderButton
+                                        sidebarOrientation={sidebarOrientation}
+                                        layoutId='settings'
+                                        icon="ion:settings-sharp"
+                                        name={t('settings.title')}
+                                        onClick={() => setSettingsVisible(true)}
+                                        whileHover={{ rotate: 180 }}
+                                        transition={{ type: 'spring', duration: 0.1 }}
+                                    />
+                                </FloatingDelayGroup>
+                            </div>
+
+                            <div className="widgets-area">
+                                <AnimatePresence initial={false} mode='wait' custom={animationDirection}>
+                                    <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
+                                </AnimatePresence>
+                            </div>
                         </div>
+                    </m.div>
 
-                        <div className="widgets-area">
-                            <AnimatePresence initial={false} mode='wait' custom={animationDirection}>
-                                <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
-                            </AnimatePresence>
-                        </div>
-                    </div>
-                </m.div>
-
-                <Suspense key='command-menu' fallback={undefined}>
-                    {renderCommandMenu && <CommandMenu open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
-                </Suspense>
-
-                <Suspense key='settings' fallback={undefined}>
-                    <AnimatePresence>
-                        {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
-                    </AnimatePresence>
-                </Suspense>
-                {shortcutsHelpVisible && <Modal title={t('shortcuts.title')} key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
-                    <ShortcutsHelp />
-                </Modal>}
-
-                {whatsNewVisible && <Modal title={t('whatsNew')} className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
-                    <Suspense fallback={undefined}>
-                        <WhatsNew />
+                    <Suspense key='command-menu' fallback={undefined}>
+                        {renderCommandMenu && <CommandMenu open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
                     </Suspense>
-                </Modal>}
-            </AnimatePresence>
-        </MotionConfig>
+
+                    <Suspense key='settings' fallback={undefined}>
+                        <AnimatePresence>
+                            {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
+                        </AnimatePresence>
+                    </Suspense>
+                    {shortcutsHelpVisible && <Modal title={t('shortcuts.title')} key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
+                        <ShortcutsHelp />
+                    </Modal>}
+
+                    {whatsNewVisible && <Modal title={t('whatsNew')} className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
+                        <Suspense fallback={undefined}>
+                            <WhatsNew />
+                        </Suspense>
+                    </Modal>}
+                </AnimatePresence>
+            </MotionConfig>
+        </DirectionProvider>
     );
 };
 

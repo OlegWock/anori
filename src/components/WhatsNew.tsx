@@ -17,6 +17,16 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.15.0</h2>
+                    <p>Added Arabic translation. This was contribution from @FouratiMohamed. Thanks!</p>
+                    <p>
+                        I don't have much experience adapting interfaces for right-to-left languages,
+                        so if you spot any issues with that please <a href="https://github.com/OlegWock/anori/issues">let me know</a>!
+                    </p>
+                    <p>If you want to submit translation for your language, refer to <a href="https://github.com/OlegWock/anori/issues/104">this</a> instruction.</p>
+                </section>
+
+                <section>
                     <h2>1.14.0</h2>
                     <ul>
                         <li>Anori is now available in Spanish. This was contribution from @CaesaRR19. Thanks!</li>
@@ -37,8 +47,8 @@ export const WhatsNew = () => {
                     <ul>
                         <li>Anori is now available in French. This was contribution from @AguilaDesign. Thanks!</li>
                         <li>
-                            Expandable widgets introduced in previous release (like embedded page or calculator) now 
-                            can be detached and moved/resized. You can open multiple windows from different widgets (but 
+                            Expandable widgets introduced in previous release (like embedded page or calculator) now
+                            can be detached and moved/resized. You can open multiple windows from different widgets (but
                             only one window per widget, yet).
                         </li>
                         <li>
@@ -58,7 +68,7 @@ export const WhatsNew = () => {
                         </li>
                         <li>
                             Also added new 'Math' plugin. There is currently only a calculator, but a powerful one! It uses math.js library under
-                            the hood, which supports a lot 
+                            the hood, which supports a lot
                             of <a href="https://mathjs.org/docs/reference/functions.html">functions</a>, <a href="https://mathjs.org/docs/reference/constants.html">constants</a> and <a href="https://mathjs.org/docs/datatypes/units.html#reference">units</a>.
                             And all this also works in command menu!
                         </li>

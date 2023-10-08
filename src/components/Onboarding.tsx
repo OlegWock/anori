@@ -26,6 +26,7 @@ import { weatherPlugin, weatherWidgetDescriptorCurrent } from '@plugins/weather/
 import { GridDimensions, LayoutItemSize, Position, canPlaceItemInGrid } from '@utils/grid';
 import { AnoriPlugin, WidgetDescriptor } from '@utils/user-data/types';
 import { useMotionTransition } from '@utils/motion/hooks';
+import { useDirection } from '@radix-ui/react-direction';
 
 
 const screens = ['start', 'folders', 'shortcuts', 'customization', 'analytics', 'presets'] as const;
@@ -283,6 +284,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
 
     // Need this to avoid initial flash when animatedHeight is 0
     const animatedHeightCorrected = useTransform(animatedHeight, (val) => val === 0 ? undefined : val);
+    const dir = useDirection();
 
     return (<div className='Onboarding'>
         <LayoutGroup>
@@ -367,7 +369,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                         key='back-btn'
                         onClick={() => setScreenIndex(p => p - 1)}
                     >
-                        <Icon icon='ion:chevron-back' width={24} height={24} /> {t('back')}
+                        <Icon icon={dir === 'ltr' ? 'ion:chevron-back' : 'ion:chevron-forward'} width={24} height={24} /> {t('back')}
                     </Button>}
                     <div className="spacer"></div>
                     {(screenIndex !== screens.length - 1) && <Button
@@ -380,7 +382,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                             setScreenIndex(p => p + 1);
                         }}
                     >
-                        {t('next')} <Icon icon='ion:chevron-forward' width={24} height={24} />
+                        {t('next')} <Icon icon={dir === 'ltr' ? 'ion:chevron-forward' : 'ion:chevron-back'} width={24} height={24} />
                     </Button>}
                 </AnimatePresence>
             </m.div>

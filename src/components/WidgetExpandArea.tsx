@@ -9,6 +9,7 @@ import { Icon } from "./Icon";
 import { ScrollArea } from "./ScrollArea";
 import { useSizeSettings } from "@utils/compact";
 import { minmax } from "@utils/misc";
+import { useDirection } from "@radix-ui/react-direction";
 
 export type WidgetExpandAreaProps = {
     children: ReactNode,
@@ -241,6 +242,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
     const [scope, animate] = useAnimate();
     const [isPresent, safeToRemove] = usePresence();
     const prevIsPresent = usePrevious(isPresent, true);
+    const dir = useDirection();
 
     useHotkeys('esc', () => !detached && onClose && onClose());
 
@@ -272,10 +274,13 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
         }
 
         const cardBox = cardRef.current.getBoundingClientRect();
+        const realAreaBox = areaRef.current.getBoundingClientRect();
+
         const cardCenterX = cardBox.left + (cardBox.width / 2);
         const cardCenterY = cardBox.top + (cardBox.height / 2);
 
-        const realAreaBox = areaRef.current.getBoundingClientRect();
+        console.log('Card coordinates', { cardBox, cardCenterX, cardCenterY, realAreaBox });
+
         let areaCenterX = cardCenterX, areaCenterY = cardCenterY;
 
         if (areaCenterY - (realAreaBox.height / 2) < SCREEN_PADDING) {
@@ -347,6 +352,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
         (<m.div
             className="WidgetExpandArea-backdrop"
             key='backdrop'
+            dir='ltr'
             ref={scope}
             onClick={(e) => { e.stopPropagation(); onClose && onClose() }}
             style={{
@@ -365,6 +371,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
                     withoutScroll && "without-inner-padding",
                     minimized && "minimized"
                 )}
+                dir='ltr'
                 ref={areaRef}
                 key='area'
                 onClick={bringToFrontHandler}
@@ -374,6 +381,8 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
                     scaleY: scaleY,
                     top: positionYCorrected,
                     left: positionXCorrected,
+                    // left: dir === 'ltr' ? positionXCorrected : undefined,
+                    // right: dir === 'rtl' ? positionXCorrected : undefined,
                     borderRadius: borderRadiusStr,
                     position: detached ? 'fixed' : 'relative',
                     zIndex: zIndexMotion,
@@ -386,6 +395,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
             >
                 {enableDetach && <m.div
                     className="window-control-strip"
+                    dir={dir}
                     style={{
                         opacity: contentOpacity
                     }}
@@ -465,6 +475,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
                         display: minimized ? 'none' : undefined,
                         pointerEvents: (isResizing || isMoving) ? 'none' : 'auto',
                     }}
+                    dir={dir}
                 >
                     {(!enableDetach && closable) && <m.button
                         className='close-button'
