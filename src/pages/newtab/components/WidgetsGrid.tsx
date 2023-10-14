@@ -1,10 +1,8 @@
 import { Onboarding } from "@components/Onboarding";
 import { MotionScrollArea } from "@components/ScrollArea";
 import { WidgetCard } from "@components/WidgetCard";
-import { useParentFolder } from "@utils/FolderContentContext";
-import { useSizeSettings } from "@utils/compact";
 import { GridDimensions, Layout, LayoutItem, Position, canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@utils/grid";
-import { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta, WidgetResizable } from "@utils/user-data/types";
+import { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta } from "@utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
 import { forwardRef, useRef } from "react";
 import { mergeRefs } from "react-merge-refs";

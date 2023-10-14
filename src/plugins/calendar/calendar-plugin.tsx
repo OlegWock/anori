@@ -147,7 +147,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
                 <Icon icon={dir === 'ltr' ? "ion:chevron-forward" : "ion:chevron-back"} />
             </Button>
         </h3>
-        <m.div className="calendar-grid">
+        <m.div className="calendar-grid" dir="ltr">
             <div className="calendar-row weekdays" key='weekdays'>
                 {headerDays.map(([weekday, weekdayShort]) => {
                     return (<div className="calendar-cell" key={weekday}>{weekdayShort}</div>);
