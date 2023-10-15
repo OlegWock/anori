@@ -17,8 +17,8 @@ import { useCancelableAnimate } from "@utils/motion/hooks";
 import { BetterAnimationPlaybackControls } from "@utils/motion/types";
 import { useDirection } from "@radix-ui/react-direction";
 
-export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
-export const ReorderItem = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
+const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
+const ReorderItem = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderItem })));
 
 type TaskWidgetConfigType = {
     title: string,
