@@ -23,7 +23,6 @@ export const WhatsNew = () => {
                         I don't have much experience adapting interfaces for right-to-left languages,
                         so if you spot any issues with that please <a href="https://github.com/OlegWock/anori/issues">let me know</a>!
                     </p>
-                    <p>If you want to submit translation for your language, refer to <a href="https://github.com/OlegWock/anori/issues/104">this</a> instruction.</p>
                 </section>
 
                 <section>
