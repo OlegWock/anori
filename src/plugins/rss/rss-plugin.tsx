@@ -138,6 +138,13 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
                         >
                             <Input value={url} placeholder={t('rss-plugin.feedUrl')} onValueChange={(newUrl) => setUrls(p => {
                                 const copy = [...p];
+                                // add multiple urls if they are separated by an enter
+                                const newUrls = newUrl.split('\n');
+                                if (newUrls.length > 1) {
+                                    const newUrlsWithIds = newUrls.map(u => ({ id: guid(), url: u }));
+                                    copy.splice(ind, 1, ...newUrlsWithIds);
+                                    return copy;
+                                }
                                 copy[ind].url = newUrl;
                                 return copy;
                             })} />
