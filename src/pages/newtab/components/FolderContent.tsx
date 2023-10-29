@@ -125,7 +125,8 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
     const { blockSize, minBlockSize, gapSize } = useSizeSettings();
     const { t } = useTranslation();
     const mainRef = useRef<HTMLDivElement>(null);
-    const gridDimensions = useGrid(mainRef, blockSize, minBlockSize, widgets);
+    const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const gridDimensions = useGrid(scrollAreaRef, blockSize, minBlockSize, widgets);
 
     const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
 
@@ -205,7 +206,8 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
 
                     </header>
                     <WidgetsGrid
-                        ref={mainRef}
+                        gridRef={mainRef}
+                        scrollAreaRef={scrollAreaRef}
                         isEditing={isEditing}
                         gapSize={gapSize}
                         layout={widgets}

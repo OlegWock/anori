@@ -4,8 +4,7 @@ import { WidgetCard } from "@components/WidgetCard";
 import { GridDimensions, Layout, LayoutItem, Position, canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@utils/grid";
 import { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta } from "@utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
-import { forwardRef, useRef } from "react";
-import { mergeRefs } from "react-merge-refs";
+import { Ref } from "react";
 
 
 type LayoutArg = {
@@ -45,11 +44,13 @@ export type WidgetsGridProps = {
     onUpdateWidgetConfig: (instaceId: string, config: Partial<{}>) => void,
     onLayoutUpdate?: (changes: LayoutChange[]) => void,
     showOnboarding?: boolean,
+    gridRef?: Ref<HTMLDivElement>,
+    scrollAreaRef?: Ref<HTMLDivElement>,
 };
 
-export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
-    isEditing, gridDimensions, gapSize, layout, onUpdateWidgetConfig, onEditWidget, showOnboarding, onLayoutUpdate = () => { },
-}, ref) => {
+export const WidgetsGrid = ({
+    isEditing, gridDimensions, gapSize, layout, onUpdateWidgetConfig, onEditWidget, showOnboarding, onLayoutUpdate = () => { }, gridRef, scrollAreaRef
+}: WidgetsGridProps) => {
     const tryRepositionWidget = (widget: WidgetInFolderWithMeta<any, any, any>, position: Position) => {
         const canPlaceThere = canPlaceItemInGrid({
             grid: gridDimensions,
@@ -100,8 +101,6 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
 
     const convertUnitsToPixels = (unit: number) => unit * gridDimensions.boxSize - gapSize * 2;
 
-    const gridRef = useRef<HTMLDivElement>(null);
-    const combinedRef = mergeRefs([gridRef, ref]);
 
     const maxWidthPx = convertUnitsToPixels(Math.max(0, ...layout.map(w => w.x + w.width))) + (gapSize * 2);
     const maxHeightPx = convertUnitsToPixels(Math.max(0, ...layout.map(w => w.y + w.height))) + (gapSize * 2);
@@ -114,8 +113,9 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
         direction="both"
         type="hover"
         color="translucent"
+        ref={scrollAreaRef}
     >
-        <div className="widgets-relative-wrapper" ref={combinedRef}>
+        <div className="widgets-relative-wrapper" ref={gridRef}>
             <AnimatePresence>
                 {isEditing && new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {
                     const x = i % gridDimensions.columns;
@@ -177,4 +177,4 @@ export const WidgetsGrid = forwardRef<HTMLDivElement, WidgetsGridProps>(({
             {showOnboarding && <Onboarding gridDimensions={gridDimensions} />}
         </div>
     </MotionScrollArea>);
-});
+};
