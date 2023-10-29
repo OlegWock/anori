@@ -492,7 +492,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
                 endYear: currentYear + 5,
             }),
             new MomentLocalesPlugin({
-                localesToKeep: ['uk', 'de', 'fr', 'es', 'it', 'th', 'zh-cn', 'ru', 'ar'],
+                localesToKeep: ['uk', 'de', 'fr', 'es', 'it', 'th', 'zh-cn', 'ru', 'ar', 'pt-br'],
             }),
 
             // TODO: replace this with proper worker support

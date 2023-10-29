@@ -11,6 +11,7 @@ import zhCnTranslation from './zh-cn.json';
 import thTranslation from './th.json';
 import ruTranslation from './ru.json';
 import arTranslation from './ar.json';
+import ptBrTranslation from './pt-br.json';
 import { storage } from '@utils/storage/api';
 import moment from 'moment';
 // When adding any of moment locales, don't forget to update webpack config to actually include them in build
@@ -23,11 +24,12 @@ import 'moment/locale/th';
 import 'moment/locale/it';
 import 'moment/locale/ar';
 import 'moment/locale/zh-cn';
+import 'moment/locale/pt-br';
 moment.locale('en');
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
-export const availableTranslations = ['en', 'de', 'fr', 'es', 'it', 'uk', 'th', 'zh-CN', 'ru', 'ar'] as const;
+export const availableTranslations = ['en', 'de', 'fr', 'es', 'pt-BR', 'it', 'uk', 'th', 'zh-CN', 'ru', 'ar'] as const;
 
 export type Language = typeof availableTranslations[number];
 
@@ -42,6 +44,7 @@ export const availableTranslationsPrettyNames = {
     'ru': 'Русский',
     'es': 'Español',
     'ar': 'العربية',
+    'pt-BR': 'Português do Brasil',
     // 'zh-TW': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
@@ -56,6 +59,7 @@ const resources = {
     'zh-CN': zhCnTranslation,
     ru: ruTranslation,
     ar: arTranslation,
+    'pt-BR': ptBrTranslation,
 } satisfies Record<Language, any>;
 
 export const languageDirections = {
@@ -68,6 +72,7 @@ export const languageDirections = {
     th: 'ltr',
     'zh-CN': 'ltr',
     ru: 'ltr',
+    'pt-BR': 'ltr',
     ar: 'rtl',
 } satisfies Record<Language, 'rtl' | 'ltr'>;
 
