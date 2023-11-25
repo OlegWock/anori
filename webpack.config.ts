@@ -89,6 +89,9 @@ const generateManifest = (
         chrome_url_overrides: {
             newtab: "pages/newtab/start.html"
         },
+        chrome_settings_overrides: {
+            homepage: "pages/newtab/start.html"
+        },
         web_accessible_resources: [
             {
                 resources: [`/${paths.dist.assets}/*`],
