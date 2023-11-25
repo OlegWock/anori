@@ -18,7 +18,10 @@ export const WhatsNew = () => {
 
                 <section>
                     <h2>1.16.1</h2>
-                    <p>Fixed some bugs. Probably added some other bugs.</p>
+                    <ul>
+                        <li>Added option for compact view in RSS Feed widget.</li>
+                        <li>Fixed some bugs. Probably added some other bugs.</li>
+                    </ul>
                 </section>
 
                 <section>

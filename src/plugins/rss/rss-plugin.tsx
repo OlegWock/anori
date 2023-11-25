@@ -19,9 +19,11 @@ import { listItemAnimation } from "@components/animations";
 import { ScrollArea } from "@components/ScrollArea";
 import { Tooltip } from "@components/Tooltip";
 import { Alert } from "@components/Alert";
+import { Checkbox } from "@components/Checkbox";
+import clsx from "clsx";
 
 
-const Post = ({ post, compact = false }: { post: RssPost, compact?: boolean }) => {
+const Post = ({ post, clampTitle = false, compact = false }: { post: RssPost, clampTitle?: boolean, compact?: boolean }) => {
     const { rem } = useSizeSettings();
     const { i18n } = useTranslation();
     const postMoment = useMemo(() => moment(post.timestamp), [post.timestamp, i18n.language]);
@@ -34,34 +36,39 @@ const Post = ({ post, compact = false }: { post: RssPost, compact?: boolean }) =
         return plaintext;
     }, [post.description])
 
-    return (<a className="Post" href={post.url}>
-        {compact && <ClampTextToFit withTooltip text={post.title} as="h3" className="title" />}
-        {!compact && <>
-            <h3 className="title">{post.title}</h3>
-            <div className="description">{subtitle}</div>
+    return (<a className={clsx("Post", compact && "compact")} href={post.url}>
+        {clampTitle && <ClampTextToFit withTooltip text={post.title} as="h3" className="title" />}
+        {!clampTitle && <>
+            <h3 className="title">
+                {post.title}
+                {compact && <span className="compact-post-date">&nbsp;·&nbsp;<RelativeTime m={postMoment} /></span>}
+            </h3>
+            {!compact && <div className="description">{subtitle}</div>}
         </>}
-        <div className="details">
+        {!compact && <div className="details">
             <div className="feed-name"><Icon icon="ion:logo-rss" height={rem(1)} /> <span>{post.feed.title}</span></div>
             <div className="post-date"><Icon icon="ion:time-outline" height={rem(1)} /> <span><RelativeTime m={postMoment} /></span></div>
-        </div>
+        </div>}
     </a>);
 };
 
 type RssFeedConfigType = {
     title: string,
     feedUrls: string[],
+    compactView?: boolean,
 };
 
 const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<RssFeedConfigType>) => {
     const onConfirm = () => {
         const cleanedUrls = urls.map(u => u.url).filter(u => !!u);
         if (cleanedUrls.length) {
-            saveConfiguration({ title, feedUrls: cleanedUrls });
+            saveConfiguration({ title, feedUrls: cleanedUrls, compactView });
         }
     };
 
     const [title, setTitle] = useState(currentConfig ? currentConfig.title : '');
     const [urls, setUrls] = useState(currentConfig ? currentConfig.feedUrls.map(url => ({ url, id: guid() })) : [{ url: '', id: guid() }]);
+    const [compactView, setCompactView] = useState(currentConfig ? currentConfig.compactView : false);
     const { rem } = useSizeSettings();
     const { t } = useTranslation();
 
@@ -151,6 +158,10 @@ const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
         <m.div layout className="button-wrapper">
             <Button className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: '' }])}>{t('add')}</Button>
         </m.div>
+        
+        <m.div layout>
+            <Checkbox checked={compactView} onChange={setCompactView}>{t('rss-plugin.compactView')}</Checkbox>
+        </m.div>
 
         <m.div layout className="button-wrapper">
             <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
@@ -167,7 +178,7 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
     );
 
     const lastRefresh = useMemo(() => lastUpdated ? t('lastUpdatedAt', { datetime: lastUpdated.format('HH:mm') }) : t('refreshing'), [lastUpdated, i18n.language]);
-    const trimmedFeed = feed.slice(0, 30);
+    const trimmedFeed = feed.slice(0, 100);
 
     return (<div className="RssFeed">
         <div className="title-wrapper">
@@ -187,13 +198,13 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
             </Tooltip>
         </div>
         <ScrollArea type="hover" color="dark">
-            <div className="posts">
+            <div className={clsx("posts", config.compactView && "compact")}>
                 {trimmedFeed.map((post, i) => {
-                    if (i === 0) return (<Post post={post} key={post.url} />);
+                    if (i === 0) return (<Post post={post} key={post.url} compact={config.compactView} />);
 
                     return (<Fragment key={post.url}>
                         <div className="separator"></div>
-                        <Post post={post} />
+                        <Post post={post} compact={config.compactView} />
                     </Fragment>)
                 })}
             </div>
@@ -299,7 +310,7 @@ const RssLatestPost = ({ config, instanceId }: WidgetRenderProps<RssLatestPostCo
     const lastPost = feed[0];
 
     return (<div className="RssLatestPost">
-        {!!lastPost && <Post compact post={lastPost} key={lastPost.url} />}
+        {!!lastPost && <Post clampTitle post={lastPost} key={lastPost.url} />}
         {!lastPost && <>
             {isRefreshing && <>{t('refreshing')}</>}
             {!isRefreshing && <>{t('rss-plugin.noPosts')}</>}

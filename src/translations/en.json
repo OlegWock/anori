@@ -294,6 +294,7 @@
             "feedUrl": "RSS feed URL",
             "feedUrls": "RSS feed URLs",
             "noPosts": "No posts in this feed yet",
+            "compactView": "Compact view",
             "presetsTitle": "Put your favorite feeds here or select from one of the presets:",
             "presetForDevelopers": "For developers",
             "presetForDesigners": "For designers",

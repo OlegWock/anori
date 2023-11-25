@@ -19,6 +19,10 @@
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
+
+        &.compact {
+            gap: 0.25rem;
+        }
     }
 
     .separator {
@@ -124,10 +128,22 @@
     flex-direction: column;
     flex: 1;
 
+    &.compact {
+        .title {
+            font-size: 1.15rem;
+        }
+    }
+
     .title {
         flex: 1;
         line-height: 1.25;
         overflow: hidden;
+
+        .compact-post-date {
+            color: var(--text-subtle-1);
+            font-size: 0.85rem;
+            font-weight: 200;
+        }
     }
 
     .description {
@@ -145,7 +161,7 @@
         margin-top: 8px;
 
         svg {
-            color: var(--icon-color)
+            color: var(--icon-color);
         }
 
         .feed-name,

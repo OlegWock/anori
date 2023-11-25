@@ -275,7 +275,8 @@
             "exampleFeedTitle2": "Продуктивність 101",
             "examplePostTitle3": "Розширення що дозволяє вам створити власну нову вкладку з віджетів!",
             "examplePostDescription3": "Ви можете створити вашу власну нову вкладку з віджетів (завдання, нотатки, календар, закладки тощо) і організувати все по папкам.",
-            "exampleFeedTitle3": "Reddit"
+            "exampleFeedTitle3": "Reddit",
+            "compactView": "Компактний режим"
         },
         "safari": {
             "onboarding": {

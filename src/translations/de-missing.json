@@ -58,6 +58,9 @@
             "statusDown": "down",
             "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites.",
             "openInNewTab": "Open in a new tab"
+        },
+        "rss-plugin": {
+            "compactView": "Compact view"
         }
     }
 }

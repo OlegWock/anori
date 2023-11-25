@@ -12,6 +12,9 @@
         },
         "bookmark-plugin": {
             "openInNewTab": "Open in a new tab"
+        },
+        "rss-plugin": {
+            "compactView": "Compact view"
         }
     }
 }

@@ -77,7 +77,9 @@ const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) =>
 
     console.log('Parsed feeds', parsedFeeds);
     const newFeeds: FeedsInStorage = {};
-    parsedFeeds.filter(Boolean).forEach(({ parsed, url }: { url: string, parsed: ParsedOutput}) => {
+    const validFeeds = parsedFeeds.filter(Boolean);
+    const postsPerFeed = Math.max(Math.round(100 / validFeeds.length), 10);
+    validFeeds.forEach(({ parsed, url }: { url: string, parsed: ParsedOutput}) => {
         const feed: RssFeed = {
             title: parsed.title || '',
             url: parsed.link || '',
@@ -92,7 +94,7 @@ const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) =>
                 timestamp: moment(item.isoDate || undefined).valueOf(),
                 feed,
             }
-        }).sort((a, b) => b.timestamp - a.timestamp).slice(0, 10);
+        }).sort((a, b) => b.timestamp - a.timestamp).slice(0, postsPerFeed);
 
         newFeeds[url] = {
             feed,
