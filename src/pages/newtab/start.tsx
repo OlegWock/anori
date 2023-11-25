@@ -7,7 +7,7 @@ import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Modal } from '@components/Modal';
 import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
 import { DirectionProvider } from '@radix-ui/react-direction';
-import { useFolders } from '@utils/user-data/hooks';
+import { getFolderDetails, setFolderDetails, useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage/api';
@@ -22,7 +22,8 @@ import { useTranslation } from 'react-i18next';
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
 import { WidgetWindowsProvider, useWidgetWindows } from '@components/WidgetExpandArea';
 import { loadAndMigrateStorage } from '@utils/storage/migrations';
-import { Folder } from '@utils/user-data/types';
+import { Folder, homeFolder } from '@utils/user-data/types';
+import { findOverlapItems, findPositionForItemInGrid } from '@utils/grid';
 
 const SettingsModal = lazy(() => import('./settings/Settings').then(m => ({ 'default': m.SettingsModal })));
 const WhatsNew = lazy(() => import('@components/WhatsNew').then(m => ({ 'default': m.WhatsNew })));
@@ -128,7 +129,7 @@ const Start = () => {
     useHotkeys('alt+8', () => switchToFolderByIndex(7));
     useHotkeys('alt+9', () => switchToFolderByIndex(8));
 
-    console.log('Current language', {language, dir});
+    console.log('Current language', { language, dir });
     return (
         <DirectionProvider dir={dir}>
             <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
@@ -245,6 +246,46 @@ getAllCustomIcons();
 
 loadAndMigrateStorage()
     .then(() => initTranslation())
+    .then(async (): Promise<void> => {
+        let folders = await storage.getOne('folders');
+        if (!folders) folders = [];
+        folders.unshift(homeFolder);
+        console.log('Checking for overlay');
+        for (const folder of folders) {
+            const { widgets } = await getFolderDetails(folder.id);
+            const reversedWidgets = [...widgets].reverse();
+            const overlapItems = findOverlapItems(reversedWidgets);
+            if (overlapItems.length) {
+                console.log('Found ovelap:', overlapItems);
+                const overlapItemIds = overlapItems.map(i => i.instanceId);
+                const layoutWithoutOverlay = widgets.filter(w => {
+                    return !overlapItemIds.includes(w.instanceId);
+                });
+                overlapItems.map(item => {
+                    const columns = Math.max(...layoutWithoutOverlay.map(i => i.x + i.width), 0);
+                    const rows = Math.max(...layoutWithoutOverlay.map(i => i.y + i.height), 0);
+                    let position = findPositionForItemInGrid({
+                        grid: {rows, columns},
+                        layout: layoutWithoutOverlay,
+                        item,
+                    });
+                    if (!position) {
+                        position = {
+                            x: columns,
+                            y: 0,
+                        }
+                    }
+                    layoutWithoutOverlay.push({
+                        ...item,
+                        ...position,
+                    });
+                });
+                setFolderDetails(folder.id, {
+                    widgets: layoutWithoutOverlay,
+                });
+            }
+        }
+    })
     .then(() => {
         mountPage(<CompactModeProvider>
             {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}

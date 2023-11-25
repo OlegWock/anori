@@ -29,6 +29,13 @@ export type Layout<T extends {} = {}> = LayoutItem<T>[];
 
 type Grid2DArray = boolean[][];
 
+export class OverlapError extends Error {
+    constructor() {
+        super('Elements in the layout have overlap');
+        this.name = "ValidationError";
+    }
+}
+
 export const calculateColumnWidth = (containerWidth: number, desiredSize: number, minBoxSize: number) => {
     const columns = Math.round(containerWidth / desiredSize);
     const colWidth = Math.min(Math.max(Math.floor(containerWidth / columns), minBoxSize), desiredSize);
@@ -132,7 +139,7 @@ const layoutItemToSectors = (item: LayoutItem) => {
     return arr;
 }
 
-export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: GridDimensions, layout: Layout<any>, allowOverlay?: boolean }): Grid2DArray => {
+export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: Pick<GridDimensions, 'columns' | 'rows'>, layout: Layout<any>, allowOverlay?: boolean }): Grid2DArray => {
     const arr = [...Array(grid.rows)].map(() => {
         return [...Array(grid.columns)].map(() => false);
     });
@@ -143,13 +150,30 @@ export const layoutTo2DArray = ({ grid, layout, allowOverlay = false }: { grid: 
             if (s.x >= grid.columns || s.y >= grid.rows) return;
             if (arr[s.y][s.x] && !allowOverlay) {
                 console.log('Item:', item);
-                throw new Error('elements in layout have overlay');
+                throw new OverlapError();
             }
             arr[s.y][s.x] = true;
         })
     }
 
     return arr;
+};
+
+export const findOverlapItems = <T extends {}>(layout: Layout<T>): LayoutItem<T>[] => {
+    const overlapItems: LayoutItem<T>[] = [];
+    const arr: boolean[][] = [];
+    for (const item of layout) {
+        const itemSectors = layoutItemToSectors(item);
+        for (const s of itemSectors) {
+            if (!arr[s.y]) arr[s.y] = [];
+            if (arr[s.y][s.x]) {
+                overlapItems.push(item);
+                break;
+            }
+            arr[s.y][s.x] = true;
+        }
+    }
+    return overlapItems;
 };
 
 export const willItemOverlay = ({ arr, item }: { arr: Grid2DArray, item: LayoutItem }): boolean => {
@@ -171,7 +195,7 @@ export const canPlaceItemInGrid = ({ grid, layout, item, position }: { grid: Gri
     return true;
 };
 
-export const findPositionForItemInGrid = ({ grid, layout, item }: { grid: GridDimensions, layout: Layout, item: LayoutItemSize }): false | Position => {
+export const findPositionForItemInGrid = ({ grid, layout, item }: { grid: Pick<GridDimensions, 'columns' | 'rows'>, layout: Layout, item: LayoutItemSize }): false | Position => {
     const arr = layoutTo2DArray({ grid, layout });
 
     for (let i = 0; i < arr.length; i++) {

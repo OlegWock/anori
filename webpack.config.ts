@@ -87,10 +87,7 @@ const generateManifest = (
         ],
 
         chrome_url_overrides: {
-            newtab: "pages/newtab/start.html"
-        },
-        chrome_settings_overrides: {
-            homepage: "pages/newtab/start.html"
+            newtab: "/pages/newtab/start.html"
         },
         web_accessible_resources: [
             {
@@ -188,6 +185,11 @@ const generateManifest = (
 
     if (targetBrowser === 'firefox') {
         manifest.optional_permissions!.push('webRequest', 'webRequestBlocking');
+
+        // Despite the name this seem to work only in Firefox (for Chrome new tab page and home page are the same)
+        manifest.chrome_settings_overrides = {
+            homepage: "pages/newtab/start.html"
+        };
     }
 
     return manifest;
