@@ -11,7 +11,7 @@ import { useSizeSettings } from '@utils/compact';
 import { FloatingDelayGroup } from '@floating-ui/react';
 import { translate } from '@translations/index';
 import { useTranslation } from 'react-i18next';
-
+import browser from 'webextension-polyfill';
 
 const providersPretty = {
     'google': 'Google',
@@ -72,9 +72,9 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 };
 
 const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
-    const doSearch = () => {
+    const doSearch = (e: React.KeyboardEvent | React.MouseEvent) => {
         const url = generateSearchUrl(activeProvider, query);
-        window.location.href = url;
+        browser.runtime.sendMessage({type: 'open-url', url, inNewTab: e.ctrlKey || e.metaKey});
     };
 
     const [activeProvider, setProvider] = useState(config.defaultProvider);
@@ -102,12 +102,12 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
 
         <div className="search-input-wrapper">
             <Input
-                onKeyDown={e => e.key === 'Enter' ? doSearch() : null}
+                onKeyDown={e => e.key === 'Enter' ? doSearch(e) : null}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder={t('search')}
             />
-            <Button withoutBorder onClick={doSearch}><Icon width={rem(1)} height={rem(1)} icon="ion:search" /></Button>
+            <Button withoutBorder onClick={(e) => doSearch(e)}><Icon width={rem(1)} height={rem(1)} icon="ion:search" /></Button>
         </div>
 
     </div>)

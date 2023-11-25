@@ -90,7 +90,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
         if (message.inNewTab) {
             return browser.tabs.create({
                 url: message.url,
-                active: false,
+                active: message.active ?? false,
                 index: sender.tab.index + 1,
             })
         } else {

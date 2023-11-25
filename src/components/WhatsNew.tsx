@@ -17,7 +17,7 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
-                    <h2>1.16.1</h2>
+                    <h2>1.16.2</h2>
                     <ul>
                         <li>Added option for compact view in RSS Feed widget.</li>
                         <li>Fixed some bugs. Probably added some other bugs.</li>
