@@ -17,6 +17,11 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.16.1</h2>
+                    <p>Fixed some bugs. Probably added some other bugs.</p>
+                </section>
+
+                <section>
                     <h2>1.16.0</h2>
                     <p>Added Brzilian Portuguese translation. This was contribution from @RenanSantos7. Thanks!</p>
                 </section>

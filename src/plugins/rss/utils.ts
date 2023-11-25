@@ -60,22 +60,24 @@ export const fetchFeed = async (url: string) => {
 
 const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) => Promise<string>) => {
     const parser = await globalParser.get();
-    const feedStrings = await Promise.all(feedUrls.map(async (url) => {
-        return {
-            url,
-            text: await fetchFeed(url),
-        };
-    }));
-    const parsedFeeds = await Promise.all(feedStrings.filter(f => f.text).map(async (feed) => {
-        return {
-            url: feed.url,
-            parsed: await parser.parseString(feed.text),
-        };
+    type ParsedOutput = Awaited<ReturnType<typeof parser.parseString>>;
+    const parsedFeeds = await Promise.all(feedUrls.map(async (url) => {
+        try {
+            const text = await fetchFeed(url);
+            const parsed: ParsedOutput = await parser.parseString(text);
+            return {
+                url,
+                parsed,
+            };
+        } catch (err) {
+            console.log('Error while loading feed', url);
+            return undefined;
+        }
     }));
 
     console.log('Parsed feeds', parsedFeeds);
     const newFeeds: FeedsInStorage = {};
-    parsedFeeds.forEach(({ parsed, url }) => {
+    parsedFeeds.filter(Boolean).forEach(({ parsed, url }: { url: string, parsed: ParsedOutput}) => {
         const feed: RssFeed = {
             title: parsed.title || '',
             url: parsed.link || '',
