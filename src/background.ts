@@ -163,6 +163,8 @@ browser.alarms.create('sendAnalytics', {
     periodInMinutes: 60,
 });
 
+browser.runtime.setUninstallURL(`https://anori.app/goodbye`);
+
 (X_BROWSER === 'chrome' ? browser.action : browser.browserAction).onClicked.addListener(() => {
     browser.tabs.create({
         url: browser.runtime.getURL('/pages/newtab/start.html'),
