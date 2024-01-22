@@ -189,7 +189,7 @@
             "name": "Internetsuche",
             "widgetName": "Suche",
             "searchProviderForQ": "Durchsuche {{provider}} nach «{{query}}»",
-            "defaultProvider": "Standard-Suachmaschine"
+            "defaultProvider": "Standard-Suchmaschine"
         },
         "system-status-plugin": {
             "name": "Systemstatus",
