@@ -62,6 +62,7 @@ body {
     .start-page-content {
         display: flex;
         flex-grow: 1;
+        max-height: 100%;
     }
 
     &.horizontal-sidebar {
@@ -131,6 +132,7 @@ body {
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         z-index: 1;
+        overflow: hidden;
 
         display: flex;
         flex-direction: column;

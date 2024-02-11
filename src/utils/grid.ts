@@ -185,9 +185,9 @@ export const willItemOverlay = ({ arr, item }: { arr: Grid2DArray, item: LayoutI
     return false;
 };
 
-export const canPlaceItemInGrid = ({ grid, layout, item, position }: { grid: GridDimensions, layout: Layout, item: LayoutItemSize, position: Position }): boolean => {
+export const canPlaceItemInGrid = ({ grid, layout, item, position, allowOutOfBounds = false }: { grid: GridDimensions, layout: Layout, item: LayoutItemSize, position: Position, allowOutOfBounds?: boolean }): boolean => {
     const outOfBounds = (position.x + item.width > grid.columns) || (position.y + item.height > grid.rows);
-    if (outOfBounds) return false;
+    if (outOfBounds && !allowOutOfBounds) return false;
 
     const arr = layoutTo2DArray({ grid, layout });
     if (willItemOverlay({ arr, item: { ...item, ...position } })) return false;

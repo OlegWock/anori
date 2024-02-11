@@ -57,6 +57,7 @@ export const WidgetsGrid = ({
             item: widget,
             layout: layout.filter(w => w.instanceId !== widget.instanceId),
             position,
+            allowOutOfBounds: true,
         });
         if (canPlaceThere) {
             onLayoutUpdate([{ type: 'change-position', instanceId: widget.instanceId, newPosition: position }])
