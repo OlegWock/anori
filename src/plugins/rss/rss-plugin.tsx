@@ -395,7 +395,7 @@ export const rssLastestPostDescriptor = {
 export const rssPlugin = {
     id: 'rss-plugin',
     get name() {
-        return translate('rss-plugin.widgetLatestPostName');
+        return translate('rss-plugin.name');
     },
     widgets: [
         rssFeedDescriptor,

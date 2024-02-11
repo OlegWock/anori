@@ -1,11 +1,15 @@
 .NewWidgetWizard {
-    max-width: min(80vw, 800px);
+    width: min(80vw, 800px);
     overflow: hidden;
 
     .new-widget-content {
         display: flex;
         flex-direction: column;
         gap: 24px;
+
+        .search-input {
+            margin: 2px;
+        }
 
         section {
             display: flex;

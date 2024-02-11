@@ -12,6 +12,7 @@ import { GridDimensions, Layout, findPositionForItemInGrid } from '@utils/grid';
 import { MotionScrollArea, ScrollArea } from '@components/ScrollArea';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@radix-ui/react-direction';
+import { Input } from '@components/Input';
 
 
 export type NewWidgetWizardProps = {
@@ -53,6 +54,8 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
     }
 
     const { addWidget } = useFolderWidgets(folder);
+    const [_searchQuery, setSearchQuery] = useState('');
+    const searchQuery = _searchQuery.toLowerCase();
     const [selectedPlugin, setSelectedPlugin] = useState<AnoriPlugin | undefined>(undefined);
     const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor<any> | undefined>(undefined);
     const { t } = useTranslation();
@@ -60,6 +63,14 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
 
     console.log('Render NewWidgetWizard', { selectedPlugin, selectedWidget });
     const inConfigurationStage = !!(selectedPlugin && selectedWidget);
+
+    const pluginsList = availablePluginsWithWidgets.filter(plugin => {
+        return plugin.name.toLowerCase().includes(searchQuery) || plugin.widgets.some(widget => {
+            if (Array.isArray(widget)) return widget.some(w => w.name.toLowerCase().includes(searchQuery));
+            return widget.name.toLowerCase().includes(searchQuery);
+        });
+    });
+
     return (
         <Modal
             title={inConfigurationStage ? t('configureWidget') : t('addWidget')}
@@ -94,7 +105,8 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                         exit={{ translateX: '50%', opacity: 0 }}
                     >
                         <div className='new-widget-content'>
-                            {availablePluginsWithWidgets.map(plugin => {
+                            <Input className='search-input' value={_searchQuery} onValueChange={setSearchQuery} autoFocus />
+                            {pluginsList.map(plugin => {
                                 return (<section key={plugin.id}>
                                     <h2>{plugin.name}</h2>
                                     <div className="widgets-mock-background">
