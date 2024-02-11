@@ -49,7 +49,7 @@ type Migration = {
 const migrations: Migration[] = [
     {
         v: 1,
-        migrate: (storage) => {
+        migrate: (storage: any) => {
             const customFolders = storage.folders || [];
             const folders: Folder[] = [homeFolder, ...customFolders];
             folders.map((folder) => {
@@ -75,5 +75,22 @@ const migrations: Migration[] = [
 
             return storage;
         }
-    } satisfies Migration,
+    },
+    {
+        v: 2,
+        migrate: (storage: any) => {
+            const customFolders = storage.folders || [];
+            const folders: Folder[] = [homeFolder, ...customFolders];
+            folders.map((folder) => {
+                const details: FolderDetailsInStorage = storage[`Folder.${folder.id}`] || { widgets: [] };
+                details.widgets.forEach(w => {
+                    if (w.pluginId === 'datetime-plugin' && ['HH:mm:ss a', 'HH:mm:ss A'].includes(w.configutation.timeFormat)) {
+                        w.configutation.timeFormat = w.configutation.timeFormat.replace('HH', 'hh');
+                    }
+                });
+            });
+
+            return storage;
+        }
+    }
 ].sort((a, b) => a.v - b.v);
