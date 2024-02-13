@@ -1,7 +1,7 @@
 import { ButtonProps, Button } from "@components/Button";
 import { toCss } from "@utils/color";
 import { storage, useBrowserStorageValue } from "@utils/storage/api";
-import { CUSTOM_THEMES_FOLDER_NAME, CustomTheme, PartialCustomTheme, Theme, applyTheme, applyThemeColors, defaultTheme, deleteThemeBackgrounds, getThemeBackground, getThemeBackgroundOriginal, saveThemeBackground, themes, useCurrentTheme } from "@utils/user-data/theme";
+import { CustomTheme, PartialCustomTheme, Theme, applyTheme, applyThemeColors, defaultTheme, deleteThemeBackgrounds, getThemeBackground, getThemeBackgroundOriginal, saveThemeBackground, themes, useCurrentTheme } from "@utils/user-data/theme";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { ComponentProps, useEffect, useRef, useState } from "react";
@@ -12,13 +12,9 @@ import { useTranslation } from "react-i18next";
 import { showOpenFilePicker } from "@utils/files";
 import { Slider } from "@components/Slider";
 import { ColorPicker } from "@components/ColorPicker";
-import { useMirrorStateToRef, useRunAfterNextRender } from "@utils/hooks";
+import { useRunAfterNextRender } from "@utils/hooks";
 import { setPageBackground } from "@utils/mount";
-import { getDirectoryInRoot } from "@utils/opfs";
 import { Icon } from "@components/Icon";
-
-
-
 
 
 const ThemePlate = ({ theme, className, onEdit, onDelete, ...props }: { theme: Theme, onEdit?: VoidFunction, onDelete?: VoidFunction } & ButtonProps) => {

@@ -11,7 +11,7 @@ import { getFolderDetails, setFolderDetails, useFolders } from '@utils/user-data
 import { FolderContent } from './components/FolderContent';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage/api';
-import { CustomTheme, applyBuiltinTheme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
+import { CustomTheme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import clsx from 'clsx';
