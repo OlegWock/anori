@@ -137,7 +137,7 @@ export const WidgetsGrid = ({
                             margin: gapSize,
                             width: gridDimensions.boxSize - gapSize * 2,
                             height: gridDimensions.boxSize - gapSize * 2,
-                            background: 'rgba(255, 255, 255, 0.15)',
+                            background: 'hsla(var(--text-hsl) / 0.15)',
                             borderRadius: 12,
                             userSelect: 'none',
                             WebkitUserSelect: 'none',

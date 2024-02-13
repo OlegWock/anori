@@ -40,6 +40,10 @@
                 "showBookmarksBar": "Show bookmarks bar",
                 "rememberLastFolder": "Remember last open folder"
             },
+            "theme": {
+                "createCustom": "Create custom theme",
+                "selectBackground": "Select background"
+            },
             "importExport": {
                 "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
             }

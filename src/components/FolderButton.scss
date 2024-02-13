@@ -8,7 +8,7 @@
     border-color: transparent;
     border-width: 3px;
     border-style: solid;
-    color: rgba(255, 255, 255, 0.733);
+    color: hsla(var(--text-hsl) / 0.733);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,11 +23,11 @@
     }
 
     &.drop-destination {
-        border-color: rgba(255, 255, 255, 0.25);
+        border-color: hsla(var(--text-hsl) / 0.25);
     }
 
     &.highlight-drop {
-        background: rgba(255, 255, 255, 0.25);
+        background: hsla(var(--text-hsl) / 0.25);
     }
 
     .background-glow {

@@ -2,21 +2,18 @@ import browser from 'webextension-polyfill';
 import { useFolders } from '@utils/user-data/hooks';
 import './Settings.scss';
 import { AnimatePresence, LayoutGroup, m } from 'framer-motion';
-import { Button, ButtonProps } from '@components/Button';
+import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { AnoriPlugin, homeFolder } from '@utils/user-data/types';
 import { storage, useAtomWithStorage, useBrowserStorageValue } from '@utils/storage/api';
-import clsx from 'clsx';
-import { Theme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { availablePlugins } from '@plugins/all';
 import { usePluginConfig } from '@utils/plugin';
 import { Checkbox } from '@components/Checkbox';
 import { Hint } from '@components/Hint';
 import { ScrollArea } from '@components/ScrollArea';
-import { toCss } from '@utils/color';
 import moment from 'moment-timezone';
 import { ComponentProps, Suspense, lazy, useEffect, useMemo, useState } from 'react';
-import { CUSTOM_ICONS_AVAILABLE, getAllCustomIconFiles, isValidCustomIconName, removeAllCustomIcons, useCustomIcons } from '@utils/custom-icons';
+import { CUSTOM_ICONS_AVAILABLE, CUSTOM_ICONS_FOLDER_NAME, getAllCustomIconFiles, isValidCustomIconName, deleteAllCustomIcons, useCustomIcons } from '@utils/custom-icons';
 import { guid } from '@utils/misc';
 import { Input } from '@components/Input';
 import { downloadBlob, showOpenFilePicker } from '@utils/files';
@@ -24,7 +21,7 @@ import { Tooltip } from '@components/Tooltip';
 import JSZip from 'jszip';
 import { analyticsEnabledAtom } from '@utils/analytics';
 import { FolderItem } from './FolderItem';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useSetAtom } from 'jotai';
 import { Modal } from '@components/Modal';
 import { setPageTitle } from '@utils/mount';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
@@ -37,6 +34,9 @@ import { IS_TOUCH_DEVICE } from '@utils/device';
 import { CheckboxWithPermission } from '@components/CheckboxWithPermission';
 import { migrateStorage } from '@utils/storage/migrations';
 import { useDirection } from '@radix-ui/react-direction';
+import { ThemesScreen } from './ThemesScreen';
+import { OPFS_AVAILABLE } from '@utils/opfs';
+import { CUSTOM_THEMES_FOLDER_NAME, deleteAllThemeBackgrounds, getAllCustomThemeBackgroundFiles, saveThemeBackground } from '@utils/user-data/theme';
 
 export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
 
@@ -59,36 +59,8 @@ const ScreenButton = ({ icon, name, ...props }: { icon: string, name: string } &
     </button>);
 };
 
-const PluginConfigurationSection = <T extends {}>({ plugin }: { plugin: AnoriPlugin<T> }) => {
-    const [config, setConfig, isLoaded] = usePluginConfig(plugin);
-    if (!plugin.configurationScreen || !isLoaded) return null;
-
-    return (<section>
-        <h2>{plugin.name}</h2>
-        <plugin.configurationScreen currentConfig={config} saveConfiguration={setConfig} />
-    </section>);
-};
-
-const ThemePlate = ({ theme, className, ...props }: { theme: Theme } & ButtonProps) => {
-    const backgroundUrl = browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background}`);
-    return (<Button
-        style={{ backgroundImage: `url(${backgroundUrl})` }}
-        className={clsx('BackgroundPlate', className)}
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: 'spring', duration: 0.1 }}
-        withoutBorder
-        {...props}
-    >
-        <div className="color-cirles-wrapper">
-            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.background) }} />
-            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.text) }} />
-            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.accent) }} />
-        </div>
-    </Button>);
-};
-
 const MainScreen = (props: ComponentProps<typeof m.div>) => {
-    const [screen, setScreen] = useAtom(currentScreenAtom);
+    const setScreen = useSetAtom(currentScreenAtom);
     const { t } = useTranslation();
     const hasPluginsWithSettings = availablePlugins.filter(p => p.configurationScreen !== null).length !== 0;
 
@@ -102,6 +74,20 @@ const MainScreen = (props: ComponentProps<typeof m.div>) => {
         <ScreenButton onClick={() => setScreen('about-help')} icon='ion:help-buoy-sharp' name={t('settings.aboutHelp.title')} />
     </m.div>)
 };
+
+const PluginConfigurationSection = <T extends {}>({ plugin }: { plugin: AnoriPlugin<T> }) => {
+    const [config, setConfig, isLoaded] = usePluginConfig(plugin);
+    if (!plugin.configurationScreen || !isLoaded) return null;
+
+    return (<section>
+        <h2>{plugin.name}</h2>
+        <plugin.configurationScreen currentConfig={config} saveConfiguration={setConfig} />
+    </section>);
+};
+
+
+
+
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
     const [stealFocus, setStealFocus] = useBrowserStorageValue('stealFocus', false);
@@ -363,23 +349,7 @@ const PluginsScreen = (props: ComponentProps<typeof m.div>) => {
     </m.div>);
 };
 
-const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
-    const [currentTheme, setTheme] = useBrowserStorageValue('theme', defaultTheme);
 
-    return (<m.div {...props} className='ThemesScreen'>
-        {themes.map((theme) => {
-            return (<ThemePlate
-                theme={theme}
-                className={clsx({ 'active': theme.name === currentTheme })}
-                onClick={() => {
-                    setTheme(theme.name);
-                    applyTheme(theme.name);
-                }}
-                key={theme.name}
-            />)
-        })}
-    </m.div>)
-};
 
 const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const exportSettings = async () => {
@@ -392,9 +362,11 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
             date: moment().toString(),
         }, null, 4), { compression: 'DEFLATE' });
 
-        if (CUSTOM_ICONS_AVAILABLE) {
+        if (OPFS_AVAILABLE) {
             const customIconFiles = await getAllCustomIconFiles();
-            customIconFiles.forEach(handle => zip.file(`opfs/${handle.name}`, handle.getFile(), { compression: 'DEFLATE' }))
+            customIconFiles.forEach(handle => zip.file(`opfs/${CUSTOM_ICONS_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: 'DEFLATE' }));
+            const customThemeFiles = await getAllCustomThemeBackgroundFiles();
+            customThemeFiles.forEach(handle => zip.file(`opfs/${CUSTOM_THEMES_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: 'DEFLATE' }));
         }
         const blob = await zip.generateAsync({ type: "blob" });
         const datetime = moment().format('DD-MM-yyyy_HH-mm');
@@ -411,14 +383,23 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
         await browser.storage.local.clear();
         await browser.storage.local.set(migratedStorage);
 
-        if (CUSTOM_ICONS_AVAILABLE) {
-            await removeAllCustomIcons();
+        if (OPFS_AVAILABLE) {
+            await deleteAllCustomIcons();
+            await deleteAllThemeBackgrounds();
             const promises: Promise<void>[] = [];
-            zip.folder('opfs')?.forEach((path, file) => {
-                console.log('Importing', { file, path })
+            zip.folder(`opfs/${CUSTOM_ICONS_FOLDER_NAME}`)?.forEach((path, file) => {
+                console.log('Importing', { file, path });
                 promises.push(
                     file.async('arraybuffer').then(ab => {
                         return addNewCustomIcon(path, ab);
+                    })
+                );
+            });
+            zip.folder(`opfs/${CUSTOM_THEMES_FOLDER_NAME}`)?.forEach((path, file) => {
+                console.log('Importing', { file, path });
+                promises.push(
+                    file.async('arraybuffer').then(ab => {
+                        return saveThemeBackground(path, ab);
                     })
                 );
             });

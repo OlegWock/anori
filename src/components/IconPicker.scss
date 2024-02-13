@@ -54,14 +54,14 @@
 
     &:not(.inactive){
         @include utils.hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: hsla(var(--text-hsl) /  0.2);
             border-radius: 6px;
             cursor: pointer;
             outline: none;
         }
 
         &:focus-visible  {
-            background: rgba(255, 255, 255, 0.2);
+            background: hsla(var(--text-hsl) /  0.2);
             border-radius: 6px;
             cursor: pointer;
             outline: none;

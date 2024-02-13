@@ -145,13 +145,7 @@
     }
 }
 
-.ThemesScreen {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 24px;
-    padding-top: 4px;
-}
+
 
 .ImportExportScreen {
     display: flex;
@@ -207,38 +201,5 @@
 
     .icon {
         opacity: 0.5;
-    }
-}
-
-.BackgroundPlate {
-    width: 250px;
-    height: 140px;
-    flex-grow: 1;
-    border-radius: 12px;
-    background-size: cover;
-    background-clip: padding-box;
-    position: relative;
-    border: 4px solid transparent;
-
-    .color-cirles-wrapper {
-        position: absolute;
-        bottom: 8px;
-        left: 8px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        padding: 4px;
-
-        .color-circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 15px;
-        }
-    }
-
-
-
-    &.active {
-        border-color: var(--accent);
     }
 }

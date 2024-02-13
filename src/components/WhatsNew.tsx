@@ -17,6 +17,14 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.17.0</h2>
+                    <ul>
+                        <li>Custom themes are finally here! Now you can set custom background and select colors to your liking.</li>
+                        <li><strong>Backup format was changed in this release, if you make backups you'll need to export fresh backup, as backups from older versions won't work.</strong></li>
+                        <li>Bug fixes.</li>
+                    </ul>
+                </section>
+                <section>
                     <h2>1.16.2</h2>
                     <ul>
                         <li>Added option for compact view in RSS Feed widget.</li>

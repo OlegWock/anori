@@ -17,6 +17,10 @@
         "settings": {
             "general": {
                 "rememberLastFolder": "Remember last open folder"
+            },
+            "theme": {
+                "createCustom": "Create custom theme",
+                "selectBackground": "Select background"
             }
         },
         "onboarding": {

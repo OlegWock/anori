@@ -98,7 +98,9 @@
                 "title": "Plugin settings"
             },
             "theme": {
-                "title": "Theme"
+                "title": "Theme",
+                "createCustom": "Create custom theme",
+                "selectBackground": "Select background"
             },
             "importExport": {
                 "title": "Import & export",

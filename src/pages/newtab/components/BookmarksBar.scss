@@ -2,7 +2,7 @@
 
 .BookmarksBar {
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
+    background: hsla(var(--text-hsl) / 0.04);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 1;
@@ -51,7 +51,7 @@
     .Bookmark {
         padding: 0.5rem;
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.04);
+        background: hsla(var(--text-hsl) / 0.04);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         max-width: 9rem;
@@ -74,7 +74,7 @@
         }
 
         .folder-icon {
-            color: rgba(255, 255, 255, 0.733);
+            color: hsla(var(--text-hsl) /  0.733);
         }
 
         span {
@@ -83,7 +83,7 @@
         }
 
         @include utils.hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: hsla(var(--text-hsl) / 0.1);
         }
     }
 }
@@ -93,7 +93,7 @@
     max-width: 25rem;
     max-height: 80vh;
     overflow-y: auto;
-    background: rgba(255, 255, 255, 0.1);
+    background: hsla(var(--text-hsl) / 0.1);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-radius: 8px;
@@ -148,12 +148,12 @@
     }
 
     @include utils.hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: hsla(var(--text-hsl) / 0.1);
     }
 
     &:focus-visible {
         outline: none;
-        background: rgba(255, 255, 255, 0.1);
+        background: hsla(var(--text-hsl) / 0.1);
     }
 }
 

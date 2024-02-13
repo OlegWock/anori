@@ -35,7 +35,38 @@ export const fromHsl = (hueDeg: number, saturationPer: number, lightnessPer: num
     };
 };
 
+export const toHsl = (c: Color) => {
+    return {
+        hue: c.hue * 360,
+        saturation: c.lightness * 100,
+        lightness: c.saturation * 100,
+        alpha: c.alpha,
+    };
+};
+
+export const toCssHslValues = (c: Color) => {
+    return `${c.hue.toFixed(4)}turn ${(c.saturation * 100).toFixed(2)}% ${(c.lightness * 100).toFixed(2)}%`;
+}
+
 export const toCss = (c: Color) => {
-    // console.log('Converting color', c, 'to css', `hsl(${c.hue.toFixed(4)}turn ${(c.saturation * 100).toFixed(2)}% ${(c.lightness * 100).toFixed(2)}% / ${c.alpha})`);
-    return `hsl(${c.hue.toFixed(4)}turn ${(c.saturation * 100).toFixed(2)}% ${(c.lightness * 100).toFixed(2)}% / ${c.alpha})`;
+    return `hsl(${toCssHslValues(c)} / ${c.alpha})`;
+};
+
+export const toHex = (c: Color) => {
+    const h = c.hue * 360;
+    const l = c.lightness * 100;
+    const s = c.saturation * 100;
+
+    const hDecimal = l / 100;
+    const a = (s * Math.min(hDecimal, 1 - hDecimal)) / 100;
+    const f = (n: number) => {
+        const k = (n + h / 30) % 12;
+        const color = hDecimal - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+
+        // Convert to Hex and prefix with "0" if required
+        return Math.round(255 * color)
+            .toString(16)
+            .padStart(2, "0");
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
 };

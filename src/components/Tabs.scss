@@ -28,7 +28,7 @@
     justify-content: center;
     align-items: center;
     gap: 6px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid hsla(var(--text-hsl) / 0.1);
     border-left-width: 0;
     border-right-width: 0;
     padding: 6px 18px;
@@ -47,11 +47,11 @@
 
     @include utils.hover {
         &:not(:disabled):not([aria-disabled="true"]) {
-            background: rgba(255, 255, 255, 0.1);
+            background: hsla(var(--text-hsl) / 0.1);
         }
     }
 
     &[data-state='active'] {
-        background: rgba(255, 255, 255, 0.1);
+        background: hsla(var(--text-hsl) / 0.1);
     }
 }

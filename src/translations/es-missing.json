@@ -1,5 +1,11 @@
 {
     "translation": {
+        "settings": {
+            "theme": {
+                "createCustom": "Create custom theme",
+                "selectBackground": "Select background"
+            }
+        },
         "rss-plugin": {
             "compactView": "Compact view"
         }
