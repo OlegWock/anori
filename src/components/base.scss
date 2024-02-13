@@ -9,11 +9,12 @@
     --background: #{utils.$background};
     --background-lighter: #{color.scale(utils.$background, $lightness: +5%)};
     --text: #{utils.$text};
+    --text-hsl: #{utils.$text-hsl};
     --text-subtle-1: #{color.scale(utils.$text, $alpha: -15%)};
     --text-subtle-2: #{color.scale(utils.$text, $alpha: -35%)};
     --text-border: #{color.scale(utils.$text, $alpha: -75%)};
     --text-disabled: #{color.scale(utils.$text, $blackness: +45%)};
-    --icon-color: rgba(255, 255, 255, 0.4);
+    --icon-color: hsla(var(--text-hsl) /  0.4);
     --error-color: hsl(0, 87%, 60%);
 }
 

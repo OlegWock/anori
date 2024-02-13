@@ -110,7 +110,7 @@
     
             @include utils.hover {
                 &>div {
-                    background: rgba(255, 255, 255, 0.05);
+                    background: hsla(var(--text-hsl) / 0.05);
                 }
             }
         }

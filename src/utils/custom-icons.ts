@@ -2,47 +2,29 @@ import { useEffect } from "react";
 import { asyncIterableToArray } from "./misc";
 import { atom, getDefaultStore, useAtom } from "jotai";
 import { createSafariFsWorker } from "./workers";
+import { OPFS_AVAILABLE, getDirectoryInRoot } from "./opfs";
 
-const CUSTOM_ICONS_FOLDER_NAME = 'custom-icons';
+export const CUSTOM_ICONS_FOLDER_NAME = 'custom-icons';
 
 export type CustomIcon = {
     name: string,
     urlObject: string,
 };
 
-export const CUSTOM_ICONS_AVAILABLE = (() => {
-    if (typeof window === 'undefined') return true;
-    if (navigator.userAgent.includes('Firefox/')) {
-        const version = parseInt(navigator.userAgent.split('Firefox/')[1].split('.')[0]);
-        return version >= 111;
-    } else if (navigator.userAgent.includes('Safari/') && navigator.userAgent.includes('Version/')) {
-        // This should be supported in Safari 15.2+. However, due to bug in Safari, data is not persisted across browser runs
-        // https://bugs.webkit.org/show_bug.cgi?id=259637
-        return false;
-        
-        // const version = parseFloat(navigator.userAgent.split('Version/')[1].split(' ')[0].split('.').slice(0, 2).join('.'));
-        // return version >= 15.2;
-    } else {
-        return true;
-    }
-})();
+export const CUSTOM_ICONS_AVAILABLE = OPFS_AVAILABLE;
 
 const iconsCache: Record<string, string> = {};
 const iconsAtom = atom<CustomIcon[]>([]);
 
 const getMimeFromFile = (f: FileSystemFileHandle) => {
     const name = f.name.toLowerCase();
-    // SVG requires special treatment because of Firefox which doesn't display it unsless correct mime type set
+    // SVG requires special treatment because of Firefox which doesn't display it unsless correct mime type is set
     if (name.endsWith('.svg')) return 'image/svg+xml';
 
     return '';
 };
 
-export const getIconsDirHandle = async () => {
-    const opfsRoot = await navigator.storage.getDirectory();
-    const iconsDir = await opfsRoot.getDirectoryHandle(CUSTOM_ICONS_FOLDER_NAME, { create: true });
-    return iconsDir;
-};
+export const getIconsDirHandle = () => getDirectoryInRoot(CUSTOM_ICONS_FOLDER_NAME);
 
 export const getAllCustomIconNames = async (): Promise<string[]> => {
     const files = await getAllCustomIconFiles();
@@ -73,7 +55,7 @@ export const getAllCustomIconFiles = async () => {
     return files.filter(h => h.kind === 'file') as FileSystemFileHandle[];
 };
 
-export const removeAllCustomIcons = async () => {
+export const deleteAllCustomIcons = async () => {
     const opfsRoot = await navigator.storage.getDirectory();
     await opfsRoot.removeEntry(CUSTOM_ICONS_FOLDER_NAME, { recursive: true });
 };

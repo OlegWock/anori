@@ -27,4 +27,5 @@ export const setPageTitle = (title: string) => {
 
 export const setPageBackground = (bg: string) => {
     document.body.style.backgroundImage = `url(${bg})`;
+    document.documentElement.style.setProperty('--background-image', `url('${bg}')`);
 }

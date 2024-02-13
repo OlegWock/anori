@@ -12,7 +12,7 @@ export class DerivedMotionValue<I = any, V = any> extends MotionValue<V> {
 
     constructor(deps: MotionValue<I>[], transformer: (deps: I[]) => V) {
         const val = getCurrentDerivedValue(deps, transformer);
-        // @ts-ignore framer motion doesnt expose constructor in provide types
+        // @ts-ignore framer motion doesnt expose constructor in provided types
         super(val);
         this.deps = [...deps];
         this.depsTransformer = transformer;

@@ -40,7 +40,7 @@
         flex-direction: column;
         padding-bottom: 1rem;
         margin-bottom: 1rem;
-        border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 3px solid hsla(var(--text-hsl) / 0.1);
 
         .ScrollAreaRoot {
             flex: 1 1 0;
@@ -66,7 +66,7 @@
     }
 
     .Input {
-        border: 2px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid hsla(var(--text-hsl) / 0.1);
 
         &:focus {
             outline: none;

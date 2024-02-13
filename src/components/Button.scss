@@ -18,18 +18,18 @@
     -webkit-user-select: none;
 
     &.with-border {
-        border: 2px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid hsla(var(--text-hsl) /  0.1);
         padding: 6px 18px;
         border-radius: 24px;
 
         @include utils.hover {
             &:not(:disabled):not([aria-disabled="true"]) {
-                background: rgba(255, 255, 255, 0.1);
+                background: hsla(var(--text-hsl) /  0.1);
             }
         }
 
         &.active {
-            background: rgba(255, 255, 255, 0.1);
+            background: hsla(var(--text-hsl) /  0.1);
         }
     }
 

@@ -1,11 +1,12 @@
 import { LayoutItem, LayoutItemSize } from "@utils/grid";
 import { ComponentType } from "react";
-import { Theme } from "./theme";
+import { CustomTheme, Theme } from "./theme";
 import { Language, translate } from "@translations/index";
 
 export type StorageContent = {
     folders: Folder[],
     theme: Theme["name"],
+    customThemes: CustomTheme[],
     stealFocus: boolean,
     userId: string,
     sidebarOrientation: "vertical" | "horizontal" | "auto",

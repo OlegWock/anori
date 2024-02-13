@@ -36,14 +36,14 @@
             opacity: 0.5;
             height: 4rem;
             width: 4rem;
-            border: 2px solid #ffffff;
+            border: 2px solid var(--text);
             border-radius: 9999999px;
 
             .hand {
                 width: 50%;
                 right: 50%;
                 height: 3px;
-                background: #ffffff;
+                background: var(--text);
                 position: absolute;
                 top: 50%;
                 border-radius: 6px;

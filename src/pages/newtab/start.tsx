@@ -11,7 +11,7 @@ import { getFolderDetails, setFolderDetails, useFolders } from '@utils/user-data
 import { FolderContent } from './components/FolderContent';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage/api';
-import { applyTheme, defaultTheme } from '@utils/user-data/theme';
+import { CustomTheme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import clsx from 'clsx';
@@ -87,7 +87,7 @@ const Start = () => {
     const [language] = useBrowserStorageValue('language', 'en');
     const dir = useMemo(() => languageDirections[language], [language]);
     const { folders, activeFolder, setActiveFolder } = useFolders(true, rememberLastFolder ? lastFolder : undefined);
-    console.log('Render start page', { activeFolder: activeFolder.id, lastFolder, rememberLastFolder });
+    console.log('Render start page', { activeFolder: activeFolder.id, lastFolder, rememberLastFolder, folders });
     const activeFolderIndex = folders.findIndex(f => f.id === activeFolder.id)!;
     const previousActiveFolderIndex = usePrevious(activeFolderIndex);
     const animationDirection = previousActiveFolderIndex === undefined
@@ -215,7 +215,8 @@ const Start = () => {
 
 watchForPermissionChanges();
 
-storage.getOne('theme').then(theme => {
+storage.get({theme: defaultTheme.name, customThemes: [] as CustomTheme[]}).then(({theme: themeName, customThemes}) => {
+    const theme = [...themes, ...customThemes].find(t => t.name === themeName);
     applyTheme(theme || defaultTheme);
 });
 
@@ -247,8 +248,13 @@ getAllCustomIcons();
 loadAndMigrateStorage()
     .then(() => initTranslation())
     .then(async (): Promise<void> => {
-        let folders = await storage.getOne('folders');
-        if (!folders) folders = [];
+        let folders: Folder[] = [] 
+        const foldersFromStorage = await storage.getOne('folders');
+        if (!foldersFromStorage) {
+            folders = [];
+        } else {
+            folders = [...foldersFromStorage];
+        }
         folders.unshift(homeFolder);
         console.log('Checking for overlay');
         for (const folder of folders) {

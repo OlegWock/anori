@@ -30,7 +30,7 @@ const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, styl
     if (!iconInfo) {
         // @ts-ignore incorrect ref types?
         return (<div ref={ref} style={{
-            background: '#ffffff',
+            background: 'var(--text)',
             borderRadius: size / 5,
             opacity: 0.35,
             width: props.width || props.height || 24,
@@ -117,7 +117,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
 
     if (!loaded) {
         return (<m.div style={{
-            background: '#ffffff',
+            background: 'var(--text)',
             borderRadius: 8,
             opacity: 0.35,
             width: width || height || 24,

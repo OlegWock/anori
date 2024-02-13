@@ -35,7 +35,7 @@ body {
     width: 100vw;
     width: 100dvw;
     z-index: 0;
-    background-color: rgba(0, 0, 0, 0.35);
+    // background-color: hsla(var(--text-hsl) / 0.35);
 
     &::before {
         content: "";
@@ -47,7 +47,7 @@ body {
         height: 100dvh;
         top: 0;
         left: 0;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
+        background-image: radial-gradient(hsla(var(--text-hsl) /  0.2), hsla(var(--text-hsl) /  0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
         background-size: 30px 30px;
     }
 }
@@ -128,7 +128,7 @@ body {
         margin-inline-start: 0;
         flex: 1;
         border-radius: 36px;
-        background: rgba(255, 255, 255, 0.04);
+        background: hsla(var(--text-hsl) / 0.04);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         z-index: 1;
