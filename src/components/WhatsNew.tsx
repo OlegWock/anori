@@ -21,8 +21,13 @@ export const WhatsNew = () => {
                     <ul>
                         <li>Custom themes are finally here! Now you can set custom background and select colors to your liking.</li>
                         <li><strong>Backup format was changed in this release, if you make backups you'll need to export fresh backup, as backups from older versions won't work.</strong></li>
-                        <li>Bug fixes.</li>
+                        <li>Fixed bugs here and there.</li>
                     </ul>
+                    <div className='donation-callout'>
+                        I recently set up Buy me a coffe and crypto wallets. So if you're enjoying Anori and would like 
+                        to support its development with some coin, you can find more 
+                        details <a href="https://sinja.io/support">here</a>.
+                    </div>
                 </section>
                 <section>
                     <h2>1.16.2</h2>

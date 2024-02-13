@@ -46,6 +46,9 @@
             },
             "importExport": {
                 "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+            },
+            "aboutHelp": {
+                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
             }
         },
         "onboarding": {

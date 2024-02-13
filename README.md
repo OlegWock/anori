@@ -41,6 +41,10 @@
 * If you use Firefox -> install extension from [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/addon/anori/)
 * Anori also suports Safari, but due to bugs in webkit (namely [this](https://bugs.webkit.org/show_bug.cgi?id=226440), [this](https://bugs.webkit.org/show_bug.cgi?id=259637) and [this](https://bugs.webkit.org/show_bug.cgi?id=259656)) it's not actively supported. You can compile Safari version for yourself, but some functions won't work. 
 
+# Support development
+
+You can support development of Anori with small donation, more info [here](https://sinja.io/support). Crypto and credit card options are available.
+
 # Building from sources and extending
 
 All details about building from sources and extending app with your own widgets are in [separate document](/DEVELOPMENT_AND_EXTENDING.md). If you wan't to contribute to the project, please read [contribution guidelines](CONTRIBUTING.md) first.
