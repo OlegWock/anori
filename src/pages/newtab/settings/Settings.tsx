@@ -435,15 +435,18 @@ const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
                 <a href="https://github.com/OlegWock/anori/issues/new"></a>
             </Trans>
         </p>
+
+        {i18n.language !== 'en' && <p>
+            {t('settings.aboutHelp.onlyEnglishPlease')}
+        </p>}
+
         <p>
             <Trans t={t} i18nKey="settings.aboutHelp.p4">
                 <a href="https://sinja.io/support"></a>
             </Trans>
         </p>
         
-        {i18n.language !== 'en' && <p>
-            {t('settings.aboutHelp.onlyEnglishPlease')}
-        </p>}
+        
         <p>
             <Trans t={t} i18nKey="settings.aboutHelp.p2">
                 <a href="https://github.com/OlegWock/anori"></a>
