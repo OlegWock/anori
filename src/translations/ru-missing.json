@@ -1,73 +1,73 @@
 {
     "translation": {
-        "reload": "Reload",
-        "icons": "Icons",
-        "canBeEmpty": "can be empty",
+        "reload": "Перезагрузить",
+        "icons": "Иконки",
+        "canBeEmpty": "может быть пустым",
         "safari": {
             "onboarding": {
-                "iosMacP1": "To start using Anori you'll need to enable it in Safari's settings.",
-                "macButton": "Quit and Open Safari Extensions Preferences…",
-                "iosP2": "Process is a bit tedious, we know, but bear with us.",
-                "iosP3": "Firstly, you'll need to enable the extension (1) and then switch your new tab page to Anori (2). Here is picture, so you won't get lost in woods of Safari settings :)",
-                "iosButton": "Open Safari Extensions Settings"
+                "iosMacP1": "Чтобы начать использовать Anori нужно включить его в настройках Safari.",
+                "macButton": "Выйдите и откройте настройки расширений Safari…",
+                "iosP2": "Мы знаем, процесс немного утомительный, но потерпите.",
+                "iosP3": "Для начала нужно включить расширение (1), затем переключить страницу новой вкладки на Anori (2). Вот картинка чтобы не потеряться в настройках Safari :)",
+                "iosButton": "Откройте Safari Extensions настройки"
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Custom icons are icons which you upload for later use in Anori.",
-            "customIconsAbsent": "Currently, you don't have any custom icons. To upload your first custom icon please head to settings.",
-            "iconFamily": "Icons family",
-            "allIcons": "All icons"
+            "customIconsInfo": "Кастомные иконки, это иконки которые вы загружаете для использование в Anori после.",
+            "customIconsAbsent": "У вас пока что нету кастомных иконок. Чтобы загрузить вашу первую иконку пожалуйста перейдите в настройки.",
+            "iconFamily": "Набор иконок",
+            "allIcons": "Все иконки"
         },
         "iframe-plugin": {
-            "name": "Embed webpage",
-            "expandWidgetName": "Embed webpage — expandable",
-            "showLink": "Show link to original page",
-            "limitations": "Embedding doesn't work with all pages. Some sites actively resist being displayed as an embedded page, and unfortunately, Anori can't do much about it. This might result in pages not loading (as is the case with Gmail) or working poorly."
+            "name": "Встроенная страница",
+            "expandWidgetName": "Встроенная страница — расширяемая",
+            "showLink": "Показывать ссылку на оригинальную страницу",
+            "limitations": "Не все страницы работают в этом виджете, некоторые сайты активно противостоят встраиванию страниц. К сожалению, Anori мало что может с этим сделать. Это может выражаться в невозможности загрузить страницу (так себя ведет, например, Gmail) или других проблемах с работой страницы."
         },
         "math-plugin": {
-            "name": "Math",
-            "calculator": "Calculator",
-            "expandWidgetName": "Calculator — expandable",
-            "cantCalc": "Can't calculate that"
+            "name": "Математика",
+            "calculator": "Калькулятор",
+            "expandWidgetName": "Калькулятор — расширяемый",
+            "cantCalc": "Нету возможности посчитать это"
         },
         "settings": {
             "general": {
-                "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
-                "sidebarOrientation": "Sidebar orientation",
-                "sidebarOrientationOption-auto": "Based on window orientation",
-                "sidebarOrientationOption-vertical": "Always vertical",
-                "sidebarOrientationOption-horizontal": "Always horizontal",
-                "showBookmarksBar": "Show bookmarks bar",
-                "rememberLastFolder": "Remember last open folder"
+                "translationInfo": "Переводы Anori на другие языки (кроме английского и украинского) делаются добровольцами. Если вы нашли ошибку или непереведенную строку, помогите нам исправить этот недостаток! <0>Тут</0> вы можете почитать как присоединиться к проекту.",
+                "sidebarOrientation": "Ориентация боковой панели",
+                "sidebarOrientationOption-auto": "В зависимости от ориентации окна",
+                "sidebarOrientationOption-vertical": "Всегда вертикально",
+                "sidebarOrientationOption-horizontal": "Всегда горизонтально",
+                "showBookmarksBar": "Показать панель закладок",
+                "rememberLastFolder": "Запомнинать последнюю открытую папку"
             },
             "theme": {
-                "createCustom": "Create custom theme",
-                "selectBackground": "Select background"
+                "createCustom": "Создать кастомную тему",
+                "selectBackground": "Выберите фон"
             },
             "importExport": {
-                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+                "safariBugAlert": "Из за бага в Safari, мы не можем загружать никакие файлы с расширением, что в свою очередь делает невозможным сохранение резервной копии. Нам очень жаль, но мы не можем ничего с этим сделать :("
             },
             "aboutHelp": {
-                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
+                "p4": "Если вы хотите поддеражить разработку Anori материально, вы можете это сделать <0>тут</0>. Доступны крипто валюта и карта."
             }
         },
         "onboarding": {
             "analytics": {
-                "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."
+                "p3": "Если вы хотели бы узнать больше о том какие данные собираются, нажми <0>тут</0>."
             }
         },
         "bookmark-plugin": {
-            "checkStatus": "Check page status",
-            "checkStatusHint": "Anori will make request to page every 10-15 minutes in background to see if it's up. If server is unreachable or returns HTTP 5xx error it will be considered down. This will require additional permission. Checks won't be made while browser is closed or computer is sleeping.",
-            "checkingStatus": "Checking page status...",
-            "status": "Page is currently {{status}}, last status change was {{lastChange}}. Last checked {{lastCheck}}.",
-            "statusUp": "up",
-            "statusDown": "down",
-            "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites.",
-            "openInNewTab": "Open in a new tab"
+            "checkStatus": "Проверить статус страницы",
+            "checkStatusHint": "Anori будет отправлять request на страницу каждые 10-15 минут в фоновом режиме, чтобы проверить работает ли страница. Если страница не доустпна или возвращает HTTP 5xx ошибку страница будет считаться нерабочей. This will require additional permission. Для этого потребуется дополнительное разрешение. Проверки не будут выполняться, если браузер закрыт или компьютер находится в спящем режиме.",
+            "checkingStatus": "Проверка состояния страницы...",
+            "status": "Страница сейчас {{status}}, последний статус был {{lastChange}}. Последняя вроверка была {{lastCheck}}.",
+            "statusUp": "работает",
+            "statusDown": "не работает",
+            "permissionExplanation": "Anori нуждается в разрешении чтобы обходить CORS. Формулировка представленная вашим браузером может звучать угрожающе, но Anori не читает и не изменяет ничего на сайтах из ваших закладок.",
+            "openInNewTab": "Открыть в новой вкладке"
         },
         "rss-plugin": {
-            "compactView": "Compact view"
+            "compactView": "Компактный вид"
         }
     }
 }
