@@ -1,0 +1,29 @@
+.ExpandableTestWidget {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-grow: 1;
+    align-self: stretch;
+    // background: var(--accent);
+    cursor: pointer;
+}
+
+.label {
+    font-size: 3rem;
+}
+
+.label_span {
+    font-style: italic;
+    color: rgba(220, 220, 220, 0.75)
+}
+
+.save-config {
+    align-self: center;
+    margin-top: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
