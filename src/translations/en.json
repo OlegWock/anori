@@ -328,6 +328,11 @@
             "calculator": "Calculator",
             "expandWidgetName": "Calculator — expandable",
             "cantCalc": "Can't calculate that"
+        },
+        "label-plugin": {
+            "name": "Label",
+            "label": "Text Label",
+            "text": "Text"
         }
     }
 }

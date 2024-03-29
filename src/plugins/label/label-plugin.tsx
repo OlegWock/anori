@@ -6,6 +6,7 @@ import './styles.scss';
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { translate } from "@translations/index";
 
 type labelWidgetConfigType = {
     title: string,
@@ -36,12 +37,12 @@ const labelConfigurationScreen = ({ saveConfiguration, currentConfig }: WidgetCo
     return (
         <div className="LabelWidget-config">
             <div className="field">
-                <label>title:</label>
+                <label>{t('title')}:</label>
                 <Input value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
             <div className="field">
-                <label>description:</label>
+                <label>{t('label-plugin.text')}:</label>
                 <Textarea rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
 
@@ -55,7 +56,7 @@ const labelConfigurationScreen = ({ saveConfiguration, currentConfig }: WidgetCo
 const widgetDescriptor = {
     id: 'widget',
     get name() {
-        return 'Label Widget';
+        return translate('label-plugin.label');
     },
     configurationScreen: labelConfigurationScreen,
     mainScreen: ({ config, instanceId }: WidgetRenderProps<labelWidgetConfigType>) => {
@@ -93,7 +94,7 @@ const widgetDescriptor = {
 export const LabelPlugin = {
     id: 'label-plugin',
     get name() {
-        return 'Label Plugin';
+        return translate('label-plugin.name');
     },
     widgets: [
         widgetDescriptor,
