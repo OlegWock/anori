@@ -4,6 +4,9 @@
         "appDescription": "Anpassbarer neuer Tab: stelle deine eigene Seite mit Widgets zusammen",
         "appActionTitle": "Neuen Anori-Tab öffnen",
         "icon": "Symbol",
+        "icons": "Symbole",
+        "reload": "Neu laden",
+        "canBeEmpty": "kann leer sein",
         "title": "Titel",
         "url": "URL",
         "urls": "URLs",
@@ -40,6 +43,7 @@
                 "analyticsHintP2": "Das hilft uns, ein besseres Produkt zu entwickeln, also bitte aktiviere das Senden der Analysedaten. <0>Weitere Informationen.</0>",
                 "stealFocus": "Fokus von der Adressenleiste übertragen",
                 "stealFocusHint": "Wenn diese Option aktiviert ist, wird der Browser gezwungen, den Fokus von der Adressleiste auf diese Seite zu verschieben, wenn eine neue Registerkarte geöffnet wird. Du kannst das Befehlsmenü (Cmd+K) verwenden, ohne den Fokus manuell auf die Seite verschieben zu müssen (durch Klicken oder Drücken von Tab).",
+                "showBookmarksBar": "Lesezeichenleiste anzeigen",
                 "automaticCompact": "Automatischer Wechsel in den Kompaktmodus je nach Bildschirmgröße",
                 "useCompact": "Kompaktmodus verwenden",
                 "showAnimationOnOpen": "Animation beim Öffnen anzeigen",
@@ -47,7 +51,13 @@
                 "hideEditButton": "\"Editieren\" Button verstecken",
                 "hideEditButtonHint": "Extra minimalistisch, yeah.",
                 "automaticCompactModeThreshold": "Wechsle in den Kompaktmodus, wenn die Bildschirmgröße kleiner ist als",
-                "automaticCompactModeThresholdHint": "Deine aktuelle Bildschirmbreite beträgt {{screenWidth}}px"
+                "automaticCompactModeThresholdHint": "Deine aktuelle Bildschirmbreite beträgt {{screenWidth}}px",
+                "translationInfo": "Übersetzungen in Sprachen außer Englisch und Ukrainisch werden von der Community bereitgestellt. Wenn du einen Fehler oder etwas Nicht-Übersetztes finden solltest, wäre es sehr nett wenn du uns helfen könntest! <0>Hier</0> ist beschrieben wie du mithelfen kannst.",
+                "sidebarOrientation": "Ausrichtung der Seitenleiste",
+                "sidebarOrientationOption-auto": "Anhand der Fensterausrichtung",
+                "sidebarOrientationOption-vertical": "Immer vertikal",
+                "sidebarOrientationOption-horizontal": "Immer horizontal",
+                "rememberLastFolder": "Den zuletzt geöffneten Ordner merken"
             },
             "customIcons": {
                 "title": "Benutzerdefinierte Symbole",
@@ -69,21 +79,52 @@
                 "title": "Plugin Einstellungen"
             },
             "theme": {
-                "title": "Theme"
+                "title": "Theme",
+                "createCustom": "Eigenes Theme erstellen",
+                "selectBackground": "Hintergrund auswählen"
             },
             "importExport": {
                 "title": "Import & Export",
                 "info": "Hier können Sie Ihre Einstellungen sichern oder ältere Sicherungen wiederherstellen.",
                 "import": "Import",
-                "export": "Export"
+                "export": "Export",
+                "safariBugAlert": "Wegen einem Bug in Safari, können wir keine Dateien von der Erweiterung aus sichern, was es wiederum unmöglich macht ein Backup zu erstellen. Tut uns wirklich leid, aber leider können wir hier nichts machen :("
             },
             "aboutHelp": {
                 "title": "Hilfe & über Anori",
                 "onlyEnglishPlease": "I (author of the project) don't speak a lot of languages, so please file your issues in English. Thanks!",
                 "p1": "Anori ist eine freie und quelloffene Erweiterung. Der Quellcode liegt auf <0>GitHub</0>. Wenn Sie eine Funktion vorschlagen oder einen Fehler melden möchten, erstellen Sie bitte ein neues <1>Issue</1> im Repository. Wenn Sie sich einfach nur bedanken wollen, können Sie diesem Repository einen Stern geben :).",
                 "p2": "Wenn Sie diese Erweiterung modifizieren oder ein eigenes Plugin oder Widget hinzufügen möchten, lesen Sie bitte die <0>readme</0> für weitere Informationen.",
-                "p3": "Dem Autor auf<0>Twitter</0> folgen und die <1>Ukraine unterstützen</1>."
+                "p3": "Dem Autor auf<0>Twitter</0> folgen und die <1>Ukraine unterstützen</1>.",
+                "p4": "Wenn du willst, kannst du die Entwicklung von Anori finanziell <0>hier</0> untersützten. Crypto und Kreditkartenzahlungen sind möglich."
             }
+        },
+        "safari": {
+            "onboarding": {
+                "iosMacP1": "Um Anori nutzen zu können, musst du es erst in den Safari Einstellungen aktivieren.",
+                "macButton": "Schließen und die Safari Erweiterungs-Einstellungen öffnen",
+                "iosP2": "Der Prozess ist etwas langsam, aber bitte warten sie geduldig.",
+                "iosP3": "Zuerst musst du die Erweiterung aktivieren (1) dann deine Neue-Tab Seite zu Anori ändern (2). Hier ist ein Bild, damit sie nicht in den Safari Einstellungen verloren gehen :)",
+                "iosButton": "Safari Erweiterungs-Einstellungen öffnen"
+            }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "Custom Icons sind Symbole die für die spätere Nutzung in Anori hochgeladen werden können.",
+            "customIconsAbsent": "Aktuell hast du keine Custom Icons. Um dein erstes Icon hochzuladen, musst du in die Einstellungen gehen.",
+            "iconFamily": "Icon Family",
+            "allIcons": "Alle Icons"
+        },
+        "math-plugin": {
+            "name": "Taschenrechner",
+            "calculator": "Taschenrechner",
+            "expandWidgetName": "Taschenrechner — ausklappbar",
+            "cantCalc": "Der Ausdruck kann leider nicht berechnet werden"
+        },
+        "iframe-plugin": {
+            "name": "Eingebettete Webseite",
+            "expandWidgetName": "Eingebettete Webseite — ausklappbar",
+            "showLink": "Link zur originalen Webseite anzeigen",
+            "limitations": "Das Widget funktioniert leider nicht mit allen Webseiten. Einige Webseiten haben aktive Maßmahmen getroffen um nicht einbettbar zu sein, und unglücklicherweise kann Anori nichts in solchen Fällen tun. Was darin resukltieren kann, dass manche Webseiten nicht geladen werden können (wie z.B. Gmail) oder nicht richtig funktionieren."
         },
         "shortcuts": {
             "title": "Shortcuts",
@@ -126,7 +167,8 @@
             "analytics": {
                 "title": "Analysedaten",
                 "p1": "Wir sind fast fertig. Aber es gibt noch eine letzte Sache. Standardmäßig sammelt Anori keine Tracking-Daten und sendet nichts an entfernte Server. Aber ich verwende die von den Nutzern freiwillig gesendeten Analysedaten, um zu sehen, welche Funktionen am meisten genutzt werden und was noch ein bisschen Feinschliff braucht.",
-                "p2": "Deshalb bitte ich dich, das Senden von Analysedaten zu aktivieren. Anori sendet keine privaten Daten (wie z.B. Notizen oder URLs aus deinen Lesezeichen), nur die Metriken darüber, wie du die Erweiterung benutzt (z.B. wie viele Ordner du hast und wie oft du Verknüpfungen benutzt). Aber das ist ganz dir überlassen, Anori wird wie gewohnt funktionieren, auch wenn du die Analyse nicht aktivierst.."
+                "p2": "Deshalb bitte ich dich, das Senden von Analysedaten zu aktivieren. Anori sendet keine privaten Daten (wie z.B. Notizen oder URLs aus deinen Lesezeichen), nur die Metriken darüber, wie du die Erweiterung benutzt (z.B. wie viele Ordner du hast und wie oft du Verknüpfungen benutzt). Aber das ist ganz dir überlassen, Anori wird wie gewohnt funktionieren, auch wenn du die Analyse nicht aktivierst..",
+                "p3": "Wenn du mehr darüber erfahren willst, welche Daten gesammelt werden, dann klick <0>hier</0>."
             },
             "presets": {
                 "title": "Start",
@@ -156,7 +198,15 @@
             "groupWidgetName": "Lesezeichengruppe",
             "openInGroup": "In Tabgruppe öffnen",
             "group": "Gruppe",
-            "searchBookmarks": "Lesezeichen durchsuchen"
+            "searchBookmarks": "Lesezeichen durchsuchen",
+            "checkStatus": "Prüfe Seiten Status",
+            "checkStatusHint": "Anori sendet alle 10-15 Minuten im Hintergrund eine Anfrage an den Server. Wenn der Server nicht erreichbar ist oder eine HTTP 5xx Fehlermeldung zurückgibt, wird er als nicht erreichbar markiert. Dazu sind zusätzliche Berechtigungen nötig. Es wird nicht geprüft wenn der Computer ausgeschaltet ist oder der Browser geschlossen ist.",
+            "checkingStatus": "Rufe Seitenstatus ab...",
+            "status": "Die Seite ist aktuell {{status}}, letzter Status war {{lastChange}}. Zuletzt angefragt {{lastCheck}}.",
+            "statusUp": "erreichbar",
+            "statusDown": "nicht erreichbar",
+            "permissionExplanation": "Anori benötigt die Berechtigung CORS zu umgehen. Die Formulierung der Berechtigungen klingt etwas inversiv, aber Anori liest und ändert keine Daten von deinen Lesezeichen.",
+            "openInNewTab": "In einem neuen Tab öffnen"
         },
         "calendar-plugin": {
             "name": "Kalendar",
@@ -224,9 +274,9 @@
             "partlyCloudy": "Teilweise bewölkt",
             "fog": "Nebel",
             "drizzle": "Nieselregen",
-            "freezingDrizzle": "Gefrierender Nieselregen",
+            "freezingDrizzle": "Geforener Nieselregen",
             "rain": "Regen",
-            "freezingRain": "Gefrierender Regen",
+            "freezingRain": "Hagelschauer",
             "snow": "Schneefall",
             "rainShower": "Regenschauer",
             "thunderstorm": "Gewitter",
@@ -258,7 +308,13 @@
             "exampleFeedTitle2": "Produktivität 101",
             "examplePostTitle3": "Eine Erweiterung, mit der du deinen eigenen neuen Tab aus Widgets zusammenstellen kannst!",
             "examplePostDescription3": "Du kannst deine eigene neue Tab aus den mitgelieferten Widgets (Aufgaben, Notizen, Lesezeichen usw.) zusammenstellen und sie in Ordnern organisieren.",
-            "exampleFeedTitle3": "Reddit"
+            "exampleFeedTitle3": "Reddit",
+            "compactView": "Kompakte Ansicht"
         }
+    },
+    "label-plugin": {
+        "name": "Label",
+        "label": "Text Label",
+        "text": "Text"
     }
 }
