@@ -311,5 +311,10 @@
             "exampleFeedTitle3": "Reddit",
             "compactView": "Kompakte Ansicht"
         }
+    },
+    "label-plugin": {
+        "name": "Label",
+        "label": "Text Label",
+        "text": "Text"
     }
 }

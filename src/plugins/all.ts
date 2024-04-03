@@ -13,6 +13,7 @@ import { rssPlugin } from "./rss/rss-plugin";
 import { testPlugin } from "./test/test-plugin";
 import { iframePlugin } from "./iframe/iframe-plugin";
 import { mathPlugin } from "./math/math-plugin";
+import { labelPlugin } from "./label/label-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
@@ -39,6 +40,7 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
     recentlyClosedPlugin,
     topSitesPlugin,
     systemStatusPlugin,
+    labelPlugin,
 ].filter(plugin => {
     if (X_BROWSER === 'firefox') {
         return !unavailableInFirefox.includes(plugin);

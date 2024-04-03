@@ -22,6 +22,11 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
+        },
+        "label-plugin": {
+            "name": "Label",
+            "label": "Text Label",
+            "text": "Text"
         }
     }
 }

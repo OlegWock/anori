@@ -1,0 +1,26 @@
+.LabelScreen {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+
+
+    // background: var(--accent);
+}
+
+.label {
+    font-size: 3rem;
+}
+
+.label_span {
+    font-style: italic;
+    color: var(--text-subtle-2);
+}
+
+.save-config {
+    align-self: center;
+    margin-top: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
