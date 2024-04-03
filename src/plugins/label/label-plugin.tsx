@@ -4,20 +4,16 @@ import { Input } from "@components/Input";
 import { Textarea } from "@components/Input";
 import './styles.scss';
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
-import { WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { useState } from "react";
 import { translate } from "@translations/index";
 
-type labelWidgetConfigType = {
+type LabelWidgetConfigType = {
     title: string,
     description: string,
 };
 
-const LabelScreen = ({ config, instanceId }: WidgetRenderProps<labelWidgetConfigType>) => {
-    const [showExpandableArea, setShowExpandableArea] = useState(false);
-    const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
-
-    return (<div className="ExpandableTestWidget" onClick={() => showExpandableArea ? expandAreaRef.current?.focus(true) : setShowExpandableArea(true)}>
+const LabelScreen = ({ config, instanceId }: WidgetRenderProps<LabelWidgetConfigType>) => {
+    return (<div className="LabelScreen">
         <div className="text">
             <h1 className="label">{ config.title }</h1>
             <div className="label_span">{ config.description }</div>
@@ -25,7 +21,7 @@ const LabelScreen = ({ config, instanceId }: WidgetRenderProps<labelWidgetConfig
     </div>);
 };
 
-const labelConfigurationScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<labelWidgetConfigType>) => {
+const LabelConfigurationScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<LabelWidgetConfigType>) => {
     const onConfirm = () => {
         saveConfiguration({ title, description });
     };
@@ -58,17 +54,13 @@ const widgetDescriptor = {
     get name() {
         return translate('label-plugin.label');
     },
-    configurationScreen: labelConfigurationScreen,
-    mainScreen: ({ config, instanceId }: WidgetRenderProps<labelWidgetConfigType>) => {
-        const { t } = useTranslation();
-        return (
-            <LabelScreen instanceId={instanceId} config={config} />
-        );
-    },
+    configurationScreen: LabelConfigurationScreen,
+    mainScreen: LabelScreen,
     mock: () => {
+        const { t } = useTranslation();
         return (<LabelScreen instanceId="mock" config={{
-            title: 'Title',
-            description: 'Description',
+            title: t('title'),
+            description: t('label-plugin.text'),
         }} />)
     },
     appearance: {
@@ -91,7 +83,7 @@ const widgetDescriptor = {
     }
 } as const satisfies WidgetDescriptor<any>;
 
-export const LabelPlugin = {
+export const labelPlugin = {
     id: 'label-plugin',
     get name() {
         return translate('label-plugin.name');

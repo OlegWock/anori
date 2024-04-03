@@ -1,12 +1,9 @@
-.ExpandableTestWidget {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.LabelScreen {
     text-decoration: none;
-    flex-grow: 1;
-    align-self: stretch;
+    padding: 0.5rem 1rem;
+
+
     // background: var(--accent);
-    cursor: pointer;
 }
 
 .label {
@@ -15,7 +12,7 @@
 
 .label_span {
     font-style: italic;
-    color: rgba(220, 220, 220, 0.75)
+    color: var(--text-subtle-2);
 }
 
 .save-config {
