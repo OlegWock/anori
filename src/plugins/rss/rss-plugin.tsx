@@ -23,30 +23,35 @@ import { Checkbox } from "@components/Checkbox";
 import clsx from "clsx";
 
 
+const parser = new DOMParser();
+
+const decodeHtmlEntities = (text: string) => {
+    const plaintext = parser.parseFromString(text, 'text/html').documentElement.textContent || '';
+    if (plaintext.length > 150) {
+        return plaintext.slice(0, 150) + '…';
+    }
+    return plaintext;
+};
+
 const Post = ({ post, clampTitle = false, compact = false }: { post: RssPost, clampTitle?: boolean, compact?: boolean }) => {
     const { rem } = useSizeSettings();
     const { i18n } = useTranslation();
     const postMoment = useMemo(() => moment(post.timestamp), [post.timestamp, i18n.language]);
-    const subtitle = useMemo(() => {
-        const parser = new DOMParser();
-        const plaintext = parser.parseFromString(post.description, 'text/html').documentElement.textContent || '';
-        if (plaintext.length > 150) {
-            return plaintext.slice(0, 150) + '…';
-        }
-        return plaintext;
-    }, [post.description])
+    const feedTitle = useMemo(() => decodeHtmlEntities(post.feed.title), [post.feed.title]);
+    const title = useMemo(() => decodeHtmlEntities(post.title), [post.title]);
+    const subtitle = useMemo(() => decodeHtmlEntities(post.description), [post.description]);
 
     return (<a className={clsx("Post", compact && "compact")} href={post.url}>
-        {clampTitle && <ClampTextToFit withTooltip text={post.title} as="h3" className="title" />}
+        {clampTitle && <ClampTextToFit withTooltip text={title} as="h3" className="title" />}
         {!clampTitle && <>
             <h3 className="title">
-                {post.title}
+                {title}
                 {compact && <span className="compact-post-date">&nbsp;·&nbsp;<RelativeTime m={postMoment} /></span>}
             </h3>
             {!compact && <div className="description">{subtitle}</div>}
         </>}
         {!compact && <div className="details">
-            <div className="feed-name"><Icon icon="ion:logo-rss" height={rem(1)} /> <span>{post.feed.title}</span></div>
+            <div className="feed-name"><Icon icon="ion:logo-rss" height={rem(1)} /> <span>{feedTitle}</span></div>
             <div className="post-date"><Icon icon="ion:time-outline" height={rem(1)} /> <span><RelativeTime m={postMoment} /></span></div>
         </div>}
     </a>);
