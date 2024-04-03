@@ -54,7 +54,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session, isMoc
             {session.tab ? (session.tab.title || t('recently-closed-plugin.tab')) : (session.window?.title || t('recently-closed-plugin.window'))}
         </div>
         <div className="last-modified">
-            <RelativeTime m={lastModified} withoutSuffix />
+            {session.lastModified !== 0 && <RelativeTime m={lastModified} withoutSuffix />}
         </div>
 
     </m.div>)
