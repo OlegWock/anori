@@ -47,8 +47,9 @@ const widgetDescriptor = {
     configurationScreen: PictureConfigScreen,
     mainScreen: PicturePlugin,
     mock: () => {
+        const deerExampleImage = 'https://images.unsplash.com/photo-1707822906785-78e5d288f783?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcxMjE3MDkyOA&ixlib=rb-4.0.3&q=80&w=500'
         return (<PicturePlugin instanceId="mock" config={{
-            url: 'https://example.com/image.jpg'
+            url: deerExampleImage
         }} />)
     },
     appearance: {
