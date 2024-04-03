@@ -5,6 +5,7 @@ import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { Input } from "@components/Input";
 import { useState } from "react";
+import browser from 'webextension-polyfill';
 
 type PicturePluginWidgetConfigType = {
     url: string
@@ -33,7 +34,7 @@ const PictureConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
 };
 
 const PicturePlugin = ({ config, instanceId }: WidgetRenderProps<PicturePluginWidgetConfigType>) => {
-    const deerExampleImage = 'https://images.unsplash.com/photo-1707822906785-78e5d288f783?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcxMjE3MDkyOA&ixlib=rb-4.0.3&q=80&w=500'
+    const deerExampleImage = browser.runtime.getURL('/assets/images/picturePreview.jpg')
     return (<div className="PictureWidget">
         <img className="Image" src={config.url !== '' ? config.url : deerExampleImage} />
     </div>);
@@ -47,7 +48,7 @@ const widgetDescriptor = {
     configurationScreen: PictureConfigScreen,
     mainScreen: PicturePlugin,
     mock: () => {
-        const deerExampleImage = 'https://images.unsplash.com/photo-1707822906785-78e5d288f783?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcxMjE3MDkyOA&ixlib=rb-4.0.3&q=80&w=500'
+        const deerExampleImage = browser.runtime.getURL('/assets/images/picturePreview.jpg')
         return (<PicturePlugin instanceId="mock" config={{
             url: deerExampleImage
         }} />)
