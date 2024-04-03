@@ -14,6 +14,11 @@
             "expandWidgetName": "Calculator — expandable",
             "cantCalc": "Can't calculate that"
         },
+        "label-plugin": {
+            "name": "Label",
+            "label": "Text Label",
+            "text": "Description"
+        },
         "settings": {
             "general": {
                 "rememberLastFolder": "Remember last open folder"
@@ -43,11 +48,6 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
-        },
-        "label-plugin": {
-            "name": "Label",
-            "label": "Text Label",
-            "text": "Text"
         }
     }
 }

@@ -30,6 +30,11 @@
             "expandWidgetName": "Calculator — expandable",
             "cantCalc": "Can't calculate that"
         },
+        "label-plugin": {
+            "name": "Label",
+            "label": "Text Label",
+            "text": "Description"
+        },
         "settings": {
             "general": {
                 "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
@@ -68,11 +73,6 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
-        },
-        "label-plugin": {
-            "name": "Label",
-            "label": "Text Label",
-            "text": "Text"
         }
     }
 }
