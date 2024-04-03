@@ -9,7 +9,7 @@ import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { getFolderDetails, setFolderDetails, useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
-import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
+import { useHotkeys, useLocationHash, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage/api';
 import { CustomTheme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { watchForPermissionChanges } from '@utils/permissions';
@@ -86,7 +86,14 @@ const Start = () => {
     const [lastFolder, setLastFolder] = useBrowserStorageValue('lastFolder', 'home');
     const [language] = useBrowserStorageValue('language', 'en');
     const dir = useMemo(() => languageDirections[language], [language]);
-    const { folders, activeFolder, setActiveFolder } = useFolders(true, rememberLastFolder ? lastFolder : undefined);
+    const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
+    const { folders, activeFolder, setActiveFolder } = useFolders({
+        includeHome: true, 
+        defaultFolderId: rememberLastFolder ? lastFolder : (folderIdFromHash || undefined) 
+    });
+    useEffect(() => {
+        setFolderIdInHash(activeFolder.id);
+    }, [activeFolder.id]);
     console.log('Render start page', { activeFolder: activeFolder.id, lastFolder, rememberLastFolder, folders });
     const activeFolderIndex = folders.findIndex(f => f.id === activeFolder.id)!;
     const previousActiveFolderIndex = usePrevious(activeFolderIndex);

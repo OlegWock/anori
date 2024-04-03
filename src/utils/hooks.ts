@@ -173,3 +173,22 @@ export const useAsyncLayoutEffect = (func: () => any, deps?: DependencyList | un
         func();
     }, deps);
 };
+
+export const useLocationHash = () => {
+    const setHash = (newHash: string) => {
+        window.location.hash = newHash;
+    };
+
+    const [hash, _setHash] = useState(() => window.location.hash.slice(window.location.hash.length > 0 ? 1 : 0));
+
+    useEffect(() => {
+        const func = () => {
+            console.log('Hash change!');
+            _setHash(window.location.hash);
+        }
+        window.addEventListener('hashchange', func);
+        return () => window.removeEventListener('hashchange', func);
+    }, []);
+
+    return [hash, setHash] as const;
+};

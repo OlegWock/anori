@@ -248,7 +248,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
 
     const screenName = screens[screenIndex];
 
-    const { activeFolder } = useFolders(true);
+    const { activeFolder } = useFolders({includeHome: true});
     const { addWidget } = useFolderWidgets(activeFolder);
 
     const [ref, bounds] = useMeasure();

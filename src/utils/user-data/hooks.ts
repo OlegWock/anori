@@ -9,8 +9,13 @@ import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
 import { useTranslation } from "react-i18next";
 
+type UseFoldersOptions = {
+    includeHome?: boolean,
+    defaultFolderId?: string,
+};
+
 const activeFolderAtom = atom<ID | null>(null);
-export const useFolders = (includeHome = false, defaultFolderId: string = homeFolder.id) => {
+export const useFolders = ({ includeHome = false, defaultFolderId = homeFolder.id }: UseFoldersOptions = {}) => {
     const createFolder = (name = '', icon = 'ion:folder-open-sharp') => {
         const newFolder = {
             id: guid(),

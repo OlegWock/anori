@@ -17,6 +17,15 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.18.0</h2>
+                    <ul>
+                        <li>
+                            Now, after you navigated to another page from Anori and then clicked 'Back' 
+                            you will be taken to folder you navigated from rather than home/default folder.
+                        </li>
+                    </ul>
+                </section>
+                <section>
                     <h2>1.17.0</h2>
                     <ul>
                         <li>Custom themes are finally here! Now you can set custom background and select colors to your liking.</li>
@@ -24,8 +33,8 @@ export const WhatsNew = () => {
                         <li>Fixed bugs here and there.</li>
                     </ul>
                     <div className='donation-callout'>
-                        I recently set up Buy me a coffe and crypto wallets. So if you're enjoying Anori and would like 
-                        to support its development with some coin, you can find more 
+                        I recently set up Buy me a coffe and crypto wallets. So if you're enjoying Anori and would like
+                        to support its development with some coin, you can find more
                         details <a href="https://sinja.io/support">here</a>.
                     </div>
                 </section>
