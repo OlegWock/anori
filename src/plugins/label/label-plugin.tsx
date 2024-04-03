@@ -15,8 +15,8 @@ type LabelWidgetConfigType = {
 const LabelScreen = ({ config, instanceId }: WidgetRenderProps<LabelWidgetConfigType>) => {
     return (<div className="LabelScreen">
         <div className="text">
-            <h1 className="label">{ config.title }</h1>
-            <div className="label_span">{ config.description }</div>
+            <h1 className="label">{config.title}</h1>
+            <div className="description">{config.description}</div>
         </div>
     </div>);
 };
@@ -34,12 +34,12 @@ const LabelConfigurationScreen = ({ saveConfiguration, currentConfig }: WidgetCo
         <div className="LabelWidget-config">
             <div className="field">
                 <label>{t('title')}:</label>
-                <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Input placeholder={t('title')} value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
             <div className="field">
                 <label>{t('label-plugin.text')}:</label>
-                <Textarea rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
+                <Textarea placeholder={t('label-plugin.text')} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
 
             <div className="save-config">
@@ -79,7 +79,7 @@ const widgetDescriptor = {
             }
         },
         withHoverAnimation: false,
-        withoutPadding: true,
+        withoutPadding: false,
     }
 } as const satisfies WidgetDescriptor<any>;
 

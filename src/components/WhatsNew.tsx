@@ -20,6 +20,10 @@ export const WhatsNew = () => {
                     <h2>1.18.0</h2>
                     <ul>
                         <li>
+                            Added new Label plugin so you can better organize your widgets. 
+                            This was contribution from @slayernominee. Thanks!
+                        </li>
+                        <li>
                             Now, after you navigated to another page from Anori and then clicked 'Back' 
                             you will be taken to folder you navigated from rather than home/default folder.
                         </li>

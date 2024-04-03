@@ -19,5 +19,5 @@ export const Textarea = forwardRef<HTMLTextAreaElement, ComponentProps<'textarea
         if (onChange) return onChange(e);
     };
 
-    return (<textarea onChange={patchedOnChange} ref={ref} className={clsx(className, 'Input')}  {...props} />)
+    return (<textarea onChange={patchedOnChange} ref={ref} className={clsx(className, 'Input', 'TextArea')}  {...props} />)
 });

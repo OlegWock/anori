@@ -1,8 +1,10 @@
 .Input {
     border-radius: 8px;
     padding: 0.6rem 1rem;
+    font-family: inherit;
     font-size: 0.875rem;
     line-height: 1;
+    letter-spacing: inherit;
     min-width: 15rem;
     border: none;
     color: var(--text-subtle-1);
@@ -15,4 +17,8 @@
     &::placeholder {
         color: var(--text-subtle-2);
     }
+}
+
+.TextArea {
+    line-height: inherit !important;
 }

@@ -1,26 +1,35 @@
 .LabelScreen {
     text-decoration: none;
-    padding: 0.5rem 1rem;
-
-
-    // background: var(--accent);
 }
 
 .label {
     font-size: 3rem;
+    line-height: 1;
 }
 
-.label_span {
-    font-style: italic;
+.description {
+    margin-top: 0.5rem;
     color: var(--text-subtle-2);
+    white-space: pre;
 }
 
-.save-config {
-    align-self: center;
-    margin-top: 16px;
-}
-
-.field {
+.LabelWidget-config {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+    
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    textarea {
+        resize: none;
+    }
 }
