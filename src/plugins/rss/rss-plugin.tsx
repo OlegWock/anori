@@ -23,7 +23,7 @@ import { Checkbox } from "@components/Checkbox";
 import clsx from "clsx";
 
 
-const parser = new DOMParser();
+const parser = (typeof DOMParser === 'undefined' ? null : new DOMParser()) as DOMParser;
 
 const decodeHtmlEntities = (text: string) => {
     const plaintext = parser.parseFromString(text, 'text/html').documentElement.textContent || '';
