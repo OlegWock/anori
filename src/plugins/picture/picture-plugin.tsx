@@ -25,18 +25,17 @@ const PictureConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
 
     return (<div className="PictureWidget-config">
         <div className="field">
-                <label>url:</label>
+                <label>{t('url')}:</label>
                 <Input placeholder='https://example.com/image.jpg' value={url} onChange={(e) => setUrl(e.target.value)} />
             </div>
 
-        <Button className="save-config" onClick={onConfirm}>Save</Button>
+        <Button className="save-config" onClick={onConfirm}>{t('save')}</Button>
     </div>);
 };
 
 const PicturePlugin = ({ config, instanceId }: WidgetRenderProps<PicturePluginWidgetConfigType>) => {
-    const deerExampleImage = browser.runtime.getURL('/assets/images/picturePreview.jpg')
     return (<div className="PictureWidget">
-        <img className="Image" src={config.url !== '' ? config.url : deerExampleImage} />
+        <img className="Image" alt="no image set" src={config.url} />
     </div>);
 };
 
@@ -54,20 +53,12 @@ const widgetDescriptor = {
         }} />)
     },
     appearance: {
+        withoutPadding: true,
         size: {
             width: 2,
             height: 2,
         },
-        resizable: {
-            min: {
-                width: 1,
-                height: 1,
-            },
-            max: {
-                width: 4,
-                height: 4,
-            }
-        }
+        resizable: true,
     }
 } as const satisfies WidgetDescriptor<any>;
 
