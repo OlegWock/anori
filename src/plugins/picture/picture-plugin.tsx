@@ -35,7 +35,7 @@ const PictureConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigu
 
 const PicturePlugin = ({ config, instanceId }: WidgetRenderProps<PicturePluginWidgetConfigType>) => {
     return (<div className="PictureWidget">
-        <img className="Image" alt="no image set" src={config.url} />
+        <img className="Image" src={config.url} />
     </div>);
 };
 
@@ -47,9 +47,8 @@ const widgetDescriptor = {
     configurationScreen: PictureConfigScreen,
     mainScreen: PicturePlugin,
     mock: () => {
-        const deerExampleImage = browser.runtime.getURL('/assets/images/picturePreview.jpg')
         return (<PicturePlugin instanceId="mock" config={{
-            url: deerExampleImage
+            url: 'https://source.unsplash.com/random/256x256'
         }} />)
     },
     appearance: {
