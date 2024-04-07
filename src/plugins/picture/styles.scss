@@ -1,0 +1,33 @@
+.PictureWidget {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-grow: 1;
+
+}
+
+.PictureWidget-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    &>div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+}
+
+.Image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    user-select: none;
+    pointer-events: none;
+}
