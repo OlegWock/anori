@@ -13,7 +13,7 @@ type PicturePluginWidgetConfigType = {
 
 const PictureConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<PicturePluginWidgetConfigType>) => {
     const { t } = useTranslation();
-    const [url, setUrl] = useState(currentConfig?.url ?? 'https://source.unsplash.com/random/256x256');
+    const [url, setUrl] = useState(currentConfig?.url ?? 'https://source.unsplash.com/random/512x512');
 
     const onConfirm = () => {
 
@@ -48,7 +48,7 @@ const widgetDescriptor = {
     mainScreen: PicturePlugin,
     mock: () => {
         return (<PicturePlugin instanceId="mock" config={{
-            url: 'https://source.unsplash.com/random/256x256'
+            url: 'https://source.unsplash.com/random/512x512'
         }} />)
     },
     appearance: {

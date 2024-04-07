@@ -20,8 +20,12 @@ export const WhatsNew = () => {
                     <h2>1.18.0</h2>
                     <ul>
                         <li>
-                            Added new Label plugin so you can better organize your widgets. 
+                            Added new Picture plugin to spring some ✨aesthetic✨ on your new tab.
                             This was contribution from @slayernominee. Thanks!
+                        </li>
+                        <li>
+                            Added new Label plugin so you can better organize your widgets. 
+                            This was another contribution from @slayernominee. Thanks!
                         </li>
                         <li>
                             Now, after you navigated to another page from Anori and then clicked 'Back' 
