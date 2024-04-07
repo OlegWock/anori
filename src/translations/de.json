@@ -310,6 +310,15 @@
             "examplePostDescription3": "Du kannst deine eigene neue Tab aus den mitgelieferten Widgets (Aufgaben, Notizen, Lesezeichen usw.) zusammenstellen und sie in Ordnern organisieren.",
             "exampleFeedTitle3": "Reddit",
             "compactView": "Kompakte Ansicht"
+        },
+        "picture-plugin": {
+            "name": "Fotos",
+            "widgetName": "Bild"
+        },
+        "label-plugin": {
+            "name": "Label",
+            "label": "Text Label",
+            "text": "Beschreibung"
         }
     }
 }

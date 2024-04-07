@@ -4,6 +4,10 @@
             "name": "Label",
             "label": "Text Label",
             "text": "Description"
+        },
+        "picture-plugin": {
+            "name": "Picture",
+            "widgetName": "Image"
         }
     }
 }

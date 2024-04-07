@@ -27,6 +27,10 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
+        },
+        "picture-plugin": {
+            "name": "Picture",
+            "widgetName": "Image"
         }
     }
 }
