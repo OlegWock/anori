@@ -1,14 +1,5 @@
 {
     "translation": {
-        "label-plugin": {
-            "name": "Label",
-            "label": "Text Label",
-            "text": "Description"
-        },
-        "picture-plugin": {
-            "name": "Picture",
-            "widgetName": "Image"
-        },
         "settings": {
             "theme": {
                 "blur": "Blur",
