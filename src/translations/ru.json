@@ -78,7 +78,11 @@
             "theme": {
                 "title": "Тема",
                 "createCustom": "Создать кастомную тему",
-                "selectBackground": "Выберите фон"
+                "selectBackground": "Выберите фон",
+                "blur": "Размытие",
+                "colorAccent": "Акцент",
+                "colorBackground": "Задний фон",
+                "colorText": "Текст"
             },
             "importExport": {
                 "title": "Импорт и экспорт",
