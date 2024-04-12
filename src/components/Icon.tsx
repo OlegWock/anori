@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, useMemo, useRef, useState } from 'react';
 import browser from 'webextension-polyfill';
 import { useAsyncLayoutEffect, useForceRerender } from '@utils/hooks';
-import { combineRefs } from '@utils/misc';
+import { combineRefs } from '@utils/react';
 import { forwardRef } from 'react';
 import { useCustomIcon } from '@utils/custom-icons';
 import './Icon.scss';

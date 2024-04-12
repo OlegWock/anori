@@ -1,5 +1,6 @@
 
-import { mountPage, setPageTitle } from '@utils/mount';
+import { mountPage } from '@utils/react';
+import { setPageTitle } from '@utils/page';
 import './styles.scss';
 import { FolderButton } from '@components/FolderButton';
 import { FloatingDelayGroup } from '@floating-ui/react';
@@ -11,7 +12,6 @@ import { getFolderDetails, setFolderDetails, useFolders } from '@utils/user-data
 import { FolderContent } from './components/FolderContent';
 import { useHotkeys, useLocationHash, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage/api';
-import { CustomTheme, applyTheme, defaultTheme, themes } from '@utils/user-data/theme';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import clsx from 'clsx';
@@ -221,11 +221,6 @@ const Start = () => {
 
 
 watchForPermissionChanges();
-
-storage.get({theme: defaultTheme.name, customThemes: [] as CustomTheme[]}).then(({theme: themeName, customThemes}) => {
-    const theme = [...themes, ...customThemes].find(t => t.name === themeName);
-    applyTheme(theme || defaultTheme);
-});
 
 storage.getOne('newTabTitle').then(title => {
     setPageTitle(title || 'Anori new tab');

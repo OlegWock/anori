@@ -100,7 +100,11 @@
             "theme": {
                 "title": "Theme",
                 "createCustom": "Create custom theme",
-                "selectBackground": "Select background"
+                "selectBackground": "Select background",
+                "blur": "Blur",
+                "colorAccent": "Accent",
+                "colorBackground": "Background",
+                "colorText": "Text"
             },
             "importExport": {
                 "title": "Import & export",

@@ -1,8 +1,7 @@
 import { Color, darken, fromHsl, lighten, toCss, toCssHslValues, transparentize } from "@utils/color";
 import { asyncIterableToArray } from "@utils/misc";
-import { setPageBackground } from "@utils/mount";
+import { setPageBackground } from "@utils/page";
 import { getDirectoryInRoot } from "@utils/opfs";
-import { useBrowserStorageValue } from "@utils/storage/api";
 import browser from 'webextension-polyfill';
 
 
@@ -179,16 +178,18 @@ export const applyBuiltinTheme = (themeName: Theme["name"]) => {
 };
 
 export const applyTheme = async (theme: Theme) => {
+    let prom = Promise.resolve();
     if (theme.type === 'builtin') {
         setPageBackground(browser.runtime.getURL(`/assets/images/backgrounds/${theme.background}`));
     } else {
-        getThemeBackground(theme.name).then(bg => {
+        prom = getThemeBackground(theme.name).then(bg => {
             const url = URL.createObjectURL(bg);
             setPageBackground(url);
         });
     }
 
     applyThemeColors(theme.colors);
+    await prom;
 };
 
 export const applyThemeColors = (colors: Theme['colors']) => {
@@ -215,13 +216,3 @@ export const applyThemeColors = (colors: Theme['colors']) => {
     root.style.setProperty('--background-lighter', toCss(lighterBg));
     root.style.setProperty('--text-disabled', toCss(darkerText));
 };
-
-export const useCurrentTheme = () => {
-    const [theme, setTheme] = useBrowserStorageValue('theme', defaultTheme.name);
-    const [customThemes] = useBrowserStorageValue('customThemes', []);
-
-    return [
-        [...themes, ...customThemes].find(t => t.name === theme)!,
-        setTheme
-    ] as const;
-}

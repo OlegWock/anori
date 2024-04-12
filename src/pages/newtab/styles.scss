@@ -23,7 +23,7 @@ body {
     color: var(--text);
     height: 100vh;
     height: 100dvh;
-    background-image: var(--background-image);
+    background: var(--background-image);
     background-size: cover;
     overflow: hidden;
     font-size: 1rem;

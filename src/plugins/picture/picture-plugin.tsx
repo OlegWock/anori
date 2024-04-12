@@ -5,7 +5,6 @@ import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { Input } from "@components/Input";
 import { useState } from "react";
-import browser from 'webextension-polyfill';
 
 type PicturePluginWidgetConfigType = {
     url: string

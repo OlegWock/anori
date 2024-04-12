@@ -78,7 +78,11 @@
             "theme": {
                 "title": "Тема оформлення",
                 "createCustom": "Створити власну тему",
-                "selectBackground": "Обрати фон"
+                "selectBackground": "Обрати фон",
+                "blur": "Розмиття",
+                "colorAccent": "Акценти",
+                "colorBackground": "Фон",
+                "colorText": "Текст"
             },
             "importExport": {
                 "title": "Імпорт та експорт",

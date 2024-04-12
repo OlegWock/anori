@@ -3,7 +3,8 @@
 
 :root {
     font-size: 16px;
-    --background-image: url("/assets/images/backgrounds/greenery.jpg");
+    // --background-image: url("/assets/images/backgrounds/greenery.jpg");
+    --background-image: transparent;
     --accent: #{utils.$accent};
     --accent-subtle: #{color.scale(utils.$accent, $alpha: -50%)};
     --background: #{utils.$background};

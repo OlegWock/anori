@@ -1,7 +1,7 @@
 import { ButtonProps, Button } from "@components/Button";
 import { toCss } from "@utils/color";
 import { storage, useBrowserStorageValue } from "@utils/storage/api";
-import { CustomTheme, PartialCustomTheme, Theme, applyTheme, applyThemeColors, defaultTheme, deleteThemeBackgrounds, getThemeBackground, getThemeBackgroundOriginal, saveThemeBackground, themes, useCurrentTheme } from "@utils/user-data/theme";
+import { CustomTheme, PartialCustomTheme, Theme, applyTheme, applyThemeColors, defaultTheme, deleteThemeBackgrounds, getThemeBackground, getThemeBackgroundOriginal, saveThemeBackground, themes } from "@utils/user-data/theme";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { ComponentProps, useEffect, useRef, useState } from "react";
@@ -13,8 +13,9 @@ import { showOpenFilePicker } from "@utils/files";
 import { Slider } from "@components/Slider";
 import { ColorPicker } from "@components/ColorPicker";
 import { useRunAfterNextRender } from "@utils/hooks";
-import { setPageBackground } from "@utils/mount";
+import { setPageBackground } from "@utils/page";
 import { Icon } from "@components/Icon";
+import { useCurrentTheme } from "@utils/user-data/theme-hooks";
 
 
 const ThemePlate = ({ theme, className, onEdit, onDelete, ...props }: { theme: Theme, onEdit?: VoidFunction, onDelete?: VoidFunction } & ButtonProps) => {
@@ -36,31 +37,34 @@ const ThemePlate = ({ theme, className, onEdit, onDelete, ...props }: { theme: T
         }
     }, [theme]);
 
-    return (<Button
-        style={{ backgroundImage: `url(${backgroundUrl})` }}
-        className={clsx('BackgroundPlate', className)}
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: 'spring', duration: 0.1 }}
-        withoutBorder
-        {...props}
-    >
-        <div className="theme-actions">
-            {!!onEdit && <Button onClick={e => {
-                e.stopPropagation();
-                onEdit();
-            }}><Icon icon='ion:pencil' height={16} /></Button>}
-            {!!onDelete && <Button onClick={e => {
-                e.stopPropagation();
-                onDelete();
-            }}><Icon icon='ion:close' height={16} /></Button>}
-        </div>
+    return (
+        <div className={clsx('BackgroundPlate', className)}>
+            <Button
+                className="main-btn"
+                style={{ backgroundImage: `url(${backgroundUrl})` }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: 'spring', duration: 0.1 }}
+                withoutBorder
+                {...props}
+            >
+                <div className="color-cirles-wrapper">
+                    <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.background) }} />
+                    <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.text) }} />
+                    <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.accent) }} />
+                </div>
+            </Button>
 
-        <div className="color-cirles-wrapper">
-            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.background) }} />
-            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.text) }} />
-            <div className='color-circle' style={{ backgroundColor: toCss(theme.colors.accent) }} />
-        </div>
-    </Button>);
+            <div className="theme-actions">
+                {!!onEdit && <Button onClick={e => {
+                    e.stopPropagation();
+                    onEdit();
+                }}><Icon icon='ion:pencil' height={16} /></Button>}
+                {!!onDelete && <Button onClick={e => {
+                    e.stopPropagation();
+                    onDelete();
+                }}><Icon icon='ion:close' height={16} /></Button>}
+            </div>
+        </div>);
 };
 
 const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme, onClose: VoidFunction }) => {
@@ -187,8 +191,10 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme, 
             >
             </div>
 
-            <div className="background-and-blur">
-                <Button onClick={loadBackground}>{t('settings.theme.selectBackground')}</Button>
+            <Button className="select-bg-btn" onClick={loadBackground}>{t('settings.theme.selectBackground')}</Button>
+
+            <div className="blur-settings">
+                <label>{t('settings.theme.blur')}:</label>
                 <Slider
                     value={theme.blur}
                     min={0}
@@ -198,20 +204,33 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme, 
                 />
             </div>
             <div className="swatches">
-                <button onClick={() => setCurrentlyEditingColor('accent')} style={{ background: toCss(theme.colors.accent) }} />
-                <button onClick={() => setCurrentlyEditingColor('background')} style={{ background: toCss(theme.colors.background) }} />
-                <button onClick={() => setCurrentlyEditingColor('text')} style={{ background: toCss(theme.colors.text) }} />
+                <div className="swatch-wrapper">
+                    <button onClick={() => setCurrentlyEditingColor('accent')} style={{ background: toCss(theme.colors.accent) }} />
+                    <div>{t('settings.theme.colorAccent')}</div>
+                </div>
+                <div className="swatch-wrapper">
+                    <button onClick={() => setCurrentlyEditingColor('background')} style={{ background: toCss(theme.colors.background) }} />
+                    <div>{t('settings.theme.colorBackground')}</div>
+                </div>
+                <div className="swatch-wrapper">
+                    <button onClick={() => setCurrentlyEditingColor('text')} style={{ background: toCss(theme.colors.text) }} />
+                    <div>{t('settings.theme.colorText')}</div>
+                </div>
             </div>
 
             {!!currentlyEditingColor && <ColorPicker
                 className="color-picker"
                 value={theme.colors[currentlyEditingColor]}
                 onChange={(color) => {
+                    const modifiedColor = {
+                        ...color,
+                        saturation: color.lightness === 1 ? 0 : color.saturation,
+                    }
                     setTheme(p => ({
                         ...p,
                         colors: {
                             ...p.colors,
-                            [currentlyEditingColor]: color
+                            [currentlyEditingColor]: modifiedColor
                         }
                     }));
                     applyPreview();

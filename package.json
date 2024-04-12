@@ -102,8 +102,7 @@
         "walk-sync": "^3.0.0",
         "webextension-polyfill": "^0.10.0",
         "webpack": "^5.75.0",
-        "webpack-cli": "^5.0.1",
-        "wrapper-webpack-plugin": "^2.2.2"
+        "webpack-cli": "^5.0.1"
     },
     "devDependencies": {
         "@iconify/tools": "^3.0.4",

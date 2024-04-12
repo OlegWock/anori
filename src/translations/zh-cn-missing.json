@@ -35,6 +35,10 @@
             "label": "Text Label",
             "text": "Description"
         },
+        "picture-plugin": {
+            "name": "Picture",
+            "widgetName": "Image"
+        },
         "settings": {
             "general": {
                 "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
@@ -47,7 +51,11 @@
             },
             "theme": {
                 "createCustom": "Create custom theme",
-                "selectBackground": "Select background"
+                "selectBackground": "Select background",
+                "blur": "Blur",
+                "colorAccent": "Accent",
+                "colorBackground": "Background",
+                "colorText": "Text"
             },
             "importExport": {
                 "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
@@ -73,10 +81,6 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
-        },
-        "picture-plugin": {
-            "name": "Picture",
-            "widgetName": "Image"
         }
     }
 }

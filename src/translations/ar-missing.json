@@ -5,10 +5,18 @@
             "label": "Text Label",
             "text": "Description"
         },
+        "picture-plugin": {
+            "name": "Picture",
+            "widgetName": "Image"
+        },
         "settings": {
             "theme": {
                 "createCustom": "Create custom theme",
-                "selectBackground": "Select background"
+                "selectBackground": "Select background",
+                "blur": "Blur",
+                "colorAccent": "Accent",
+                "colorBackground": "Background",
+                "colorText": "Text"
             },
             "aboutHelp": {
                 "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
@@ -16,10 +24,6 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
-        },
-        "picture-plugin": {
-            "name": "Picture",
-            "widgetName": "Image"
         }
     }
 }

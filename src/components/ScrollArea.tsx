@@ -4,7 +4,7 @@ import { ComponentProps, ReactNode, Ref, WheelEvent, useEffect, useRef } from 'r
 import clsx from 'clsx';
 import { m } from 'framer-motion';
 import { forwardRef } from 'react';
-import { combineRefs } from '@utils/misc';
+import { combineRefs } from '@utils/react';
 import { useDirection } from '@radix-ui/react-direction';
 
 type ScrollAreaProps = {

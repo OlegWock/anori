@@ -1,12 +1,23 @@
 .BackgroundPlate {
-    // width: 250px;
     height: 140px;
     flex-grow: 1;
-    border-radius: 0.75rem;
-    background-size: cover;
-    background-clip: padding-box;
     position: relative;
-    border: 0.25rem solid transparent;
+
+
+    .main-btn {
+        position: absolute;
+        inset: 0;
+        border-radius: 0.75rem;
+        background-size: cover;
+        background-clip: padding-box;
+        border: 0.25rem solid transparent;        
+    }
+
+    &.active {
+        .main-btn {
+            border-color: var(--accent);
+        }
+    }
 
     .theme-actions {
         position: absolute;
@@ -32,12 +43,6 @@
             height: 30px;
             border-radius: 15px;
         }
-    }
-
-
-
-    &.active {
-        border-color: var(--accent);
     }
 }
 
@@ -68,21 +73,29 @@
             height: 400px;
         }
 
-        .background-and-blur {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
+        .select-bg-btn {
+            align-self: center;
+        }
+
+        .blur-settings {
 
             .Slider {
-                flex-grow: 1;
+                margin-top: 4px;
             }
         }
 
-        
+
         .swatches {
             display: flex;
             justify-content: center;
-            gap: 3rem;
+            gap: 4rem;
+
+            .swatch-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.35rem;
+            }
 
             button {
                 width: 2rem;

@@ -23,7 +23,7 @@ import { analyticsEnabledAtom } from '@utils/analytics';
 import { FolderItem } from './FolderItem';
 import { atom, useAtom, useSetAtom } from 'jotai';
 import { Modal } from '@components/Modal';
-import { setPageTitle } from '@utils/mount';
+import { setPageTitle } from '@utils/page';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import { Trans, useTranslation } from 'react-i18next';
 import { Select } from '@components/Select';

@@ -4,7 +4,6 @@ import * as walkSync from 'walk-sync';
 import * as webpack from 'webpack';
 import * as TerserPlugin from 'terser-webpack-plugin';
 // @ts-ignore No declarations for this module!
-import * as WrapperPlugin from 'wrapper-webpack-plugin';
 // @ts-ignore No declarations for this module!
 import * as GenerateFiles from 'generate-file-webpack-plugin';
 import * as CopyPlugin from 'copy-webpack-plugin';
@@ -210,7 +209,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
         encoding: 'utf-8',
     });
 
-    const entries: { [id: string]: string } = {
+    const entries: webpack.Configuration["entry"] = {
         backgroundScript: paths.src.background,
     };
     const outputs: { [id: string]: string } = {
@@ -267,7 +266,11 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
     console.log('Scripts:', scripts);
     scripts.forEach((cs) => {
         const cleanName = scriptName(cs);
-        entries[cleanName] = joinPath(paths.src.scripts, cs);
+
+        entries[cleanName] = {
+            'import': joinPath(paths.src.scripts, cs),
+            chunkLoading: false,
+        }
         outputs[cleanName] = joinPath(paths.dist.scripts, cleanName + '.js');
     });
 
@@ -498,13 +501,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             }),
             new MomentLocalesPlugin({
                 localesToKeep: ['uk', 'de', 'fr', 'es', 'it', 'th', 'zh-cn', 'ru', 'ar', 'pt-br'],
-            }),
-
-            // TODO: replace this with proper worker support
-            new WrapperPlugin({
-                test: /\.worker\./i,
-                header: 'importScripts("/libs/ui.js", "/libs/other.js");\n\n',
-                afterOptimizations: true,
             }),
             ...zipPlugin,
         ],
