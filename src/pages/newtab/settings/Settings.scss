@@ -164,6 +164,12 @@
     flex-direction: column;
     gap: 1.25rem;
 
+    .logo {
+        align-self: center;
+        width: 300px;
+        height: auto;
+    }
+
     .shortcuts-section {
         display: flex;
         flex-direction: column;

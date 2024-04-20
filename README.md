@@ -1,4 +1,4 @@
-![Anori](./src/assets/images/vtuber-logo-white.svg)
+![Anori](header.png)
 ---
 
 # Features

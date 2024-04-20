@@ -37,6 +37,7 @@ import { useDirection } from '@radix-ui/react-direction';
 import { ThemesScreen } from './ThemesScreen';
 import { OPFS_AVAILABLE } from '@utils/opfs';
 import { CUSTOM_THEMES_FOLDER_NAME, deleteAllThemeBackgrounds, getAllCustomThemeBackgroundFiles, saveThemeBackground } from '@utils/user-data/theme';
+import vtuberLogo from '@assets/images/vtuber-logo-dark.svg';
 
 export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
 
@@ -429,6 +430,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
     const { t, i18n } = useTranslation();
     return (<m.div {...props} className='HelpAboutScreen'>
+        <img src={vtuberLogo} alt="Anori logo" className="logo" />
         <p>
             <Trans t={t} i18nKey="settings.aboutHelp.p1">
                 <a href="https://github.com/OlegWock/anori"></a>

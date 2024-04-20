@@ -5,6 +5,7 @@ import { analyticsEnabledAtom } from '@utils/analytics';
 import { Checkbox } from './Checkbox';
 import { useAtomWithStorage } from '@utils/storage/api';
 import { useTranslation } from 'react-i18next';
+import vtuberLogo from '@assets/images/vtuber-logo-dark.svg';
 
 export const WhatsNew = () => {
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
@@ -17,6 +18,17 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.19.0</h2>
+                    <ul>
+                        <li>Minor UI refactoring here and there.</li>
+                        <li>I made a cute and simple vtuber-style logo for Anori :3</li>
+                    </ul>
+                    <div className="logo-wrapper">
+                        <img src={vtuberLogo} alt="Anori logo" className="logo" />
+                    </div>
+                </section>
+
+                <section>
                     <h2>1.18.0</h2>
                     <ul>
                         <li>
@@ -24,11 +36,11 @@ export const WhatsNew = () => {
                             This was contribution from @slayernominee. Thanks!
                         </li>
                         <li>
-                            Added new Label plugin so you can better organize your widgets. 
+                            Added new Label plugin so you can better organize your widgets.
                             This was another contribution from @slayernominee. Thanks!
                         </li>
                         <li>
-                            Now, after you navigated to another page from Anori and then clicked 'Back' 
+                            Now, after you navigated to another page from Anori and then clicked 'Back'
                             you will be taken to folder you navigated from rather than home/default folder.
                         </li>
                     </ul>
