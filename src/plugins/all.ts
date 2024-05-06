@@ -17,7 +17,9 @@ import { labelPlugin } from "./label/label-plugin";
 import { picturePlugin } from "./picture/picture-plugin";
 import { ankiPlugin } from "./anki/anki-plugin";
 
-const unavailableInFirefox: AnoriPlugin<any, any>[] = [systemStatusPlugin];
+const unavailableInFirefox: AnoriPlugin<any, any>[] = [
+    systemStatusPlugin
+];
 
 const unavailableInSafari: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
@@ -47,11 +49,9 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
     if (X_BROWSER === 'firefox') {
         return !unavailableInFirefox.includes(plugin);
     }
-
     if (X_BROWSER === 'safari') {
         return !unavailableInSafari.includes(plugin);
     }
-
     return true;
 });
 
@@ -59,6 +59,4 @@ if (X_MODE === 'development') {
     availablePlugins.unshift(testPlugin);
 }
 
-export const availablePluginsWithWidgets = availablePlugins.filter(
-    (p) => p.widgets.length > 0,
-);
+export const availablePluginsWithWidgets = availablePlugins.filter(p => p.widgets.length > 0);
