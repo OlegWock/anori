@@ -18,7 +18,7 @@ import { picturePlugin } from "./picture/picture-plugin";
 import { ankiPlugin } from "./anki/anki-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
-    systemStatusPlugin
+    systemStatusPlugin,
 ];
 
 const unavailableInSafari: AnoriPlugin<any, any>[] = [
@@ -49,9 +49,11 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
     if (X_BROWSER === 'firefox') {
         return !unavailableInFirefox.includes(plugin);
     }
+
     if (X_BROWSER === 'safari') {
         return !unavailableInSafari.includes(plugin);
     }
+
     return true;
 });
 
