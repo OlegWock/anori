@@ -43,19 +43,19 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
     labelPlugin,
     picturePlugin,
     ankiPlugin,
-].filter((plugin) => {
-    if (X_BROWSER === "firefox") {
-      return !unavailableInFirefox.includes(plugin);
+].filter(plugin => {
+    if (X_BROWSER === 'firefox') {
+        return !unavailableInFirefox.includes(plugin);
     }
 
-    if (X_BROWSER === "safari") {
-      return !unavailableInSafari.includes(plugin);
+    if (X_BROWSER === 'safari') {
+        return !unavailableInSafari.includes(plugin);
     }
 
     return true;
 });
 
-if (X_MODE === "development") {
+if (X_MODE === 'development') {
     availablePlugins.unshift(testPlugin);
 }
 
