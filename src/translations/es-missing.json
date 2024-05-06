@@ -24,6 +24,14 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
+        },
+        "anki-plugin": {
+          "name": "Anki",
+          "deck": "Deck",
+          "showAnswer": "Show Answer",
+          "easy": "Easy",
+          "again": "Again",
+          "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed."
         }
     }
 }
