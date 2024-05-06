@@ -1,0 +1,15 @@
+{
+    "language_overrides": {
+        "TypeScript": {
+            "format_on_save": "off",
+            "preferred_line_length": 1000,
+            "soft_wrap": "preferred_line_length"
+        },
+        "JSON": {
+            "format_on_save": "off",
+            "preferred_line_length": 1000,
+            "soft_wrap": "preferred_line_length",
+            "tab_size": 4
+        }
+    }
+}

@@ -1,48 +1,48 @@
 {
-  "translation": {
-    "label-plugin": {
-      "name": "Label",
-      "label": "Text Label",
-      "text": "Description"
-    },
-    "picture-plugin": {
-      "name": "Picture",
-      "widgetName": "Image"
-    },
-    "settings": {
-      "general": {
-        "rememberLastFolder": "Remember last open folder"
-      },
-      "theme": {
-        "createCustom": "Create custom theme",
-        "selectBackground": "Select background",
-        "blur": "Blur",
-        "colorAccent": "Accent",
-        "colorBackground": "Background",
-        "colorText": "Text"
-      },
-      "aboutHelp": {
-        "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
-      }
-    },
-    "onboarding": {
-      "analytics": {
-        "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."
-      }
-    },
-    "bookmark-plugin": {
-      "openInNewTab": "Open in a new tab"
-    },
-    "rss-plugin": {
-      "compactView": "Compact view"
-    },
-    "anki-plugin": {
-      "name": "Anki",
-      "deck": "Deck",
-      "showAnswer": "Show Answer",
-      "easy": "Easy",
-      "again": "Again",
-      "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed."
+    "translation": {
+        "label-plugin": {
+            "name": "Label",
+            "label": "Text Label",
+            "text": "Description"
+        },
+        "picture-plugin": {
+            "name": "Picture",
+            "widgetName": "Image"
+        },
+        "settings": {
+            "general": {
+                "rememberLastFolder": "Remember last open folder"
+            },
+            "theme": {
+                "createCustom": "Create custom theme",
+                "selectBackground": "Select background",
+                "blur": "Blur",
+                "colorAccent": "Accent",
+                "colorBackground": "Background",
+                "colorText": "Text"
+            },
+            "aboutHelp": {
+                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
+            }
+        },
+        "onboarding": {
+            "analytics": {
+                "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."
+            }
+        },
+        "bookmark-plugin": {
+            "openInNewTab": "Open in a new tab"
+        },
+        "rss-plugin": {
+            "compactView": "Compact view"
+        },
+        "anki-plugin": {
+          "name": "Anki",
+          "deck": "Deck",
+          "showAnswer": "Show Answer",
+          "easy": "Easy",
+          "again": "Again",
+          "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed."
+        }
     }
-  }
 }
