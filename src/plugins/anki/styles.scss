@@ -4,7 +4,7 @@
     text-decoration: none;
     flex-grow: 1;
 
-    .setNameLine {
+    .set-name-line {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -12,7 +12,7 @@
         display: flex;
     }
 
-    .setName {
+    .set-name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -33,7 +33,7 @@
         overflow-y: scroll;
     }
 
-    .card_question_wrap {
+    .card-question-wrap {
         height: 100%;
     }
 

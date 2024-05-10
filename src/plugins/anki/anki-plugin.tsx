@@ -2,50 +2,45 @@ import { Button } from "@components/Button";
 import {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
-  OnCommandInputCallback,
   WidgetRenderProps,
   WidgetDescriptor,
 } from "@utils/user-data/types";
 import "./styles.scss";
-import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Select } from "@components/Select";
+import { Alert } from "@components/Alert";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;
   deckId: number;
 };
 
-function invoke(action: string, version: number, params = {}) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener("error", () => reject("failed to issue request"));
-    xhr.addEventListener("load", () => {
-      try {
-        const response = JSON.parse(xhr.responseText);
-        if (Object.getOwnPropertyNames(response).length != 2) {
-          throw "response has an unexpected number of fields";
-        }
-        if (!Object.prototype.hasOwnProperty.call(response, "error")) {
-          throw "response is missing required error field";
-        }
-        if (!Object.prototype.hasOwnProperty.call(response, "result")) {
-          throw "response is missing required result field";
-        }
-        if (response.error) {
-          throw response.error;
-        }
-        resolve(response.result);
-      } catch (e) {
-        reject(e);
-      }
-    });
+const invoke = async(action: string, version: number, params?: any) => {
+    try {
+        const response = await fetch("http://127.0.0.1:8765", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action, version, params }),
+        });
 
-    xhr.open("POST", "http://127.0.0.1:8765");
-    xhr.send(JSON.stringify({ action, version, params }));
-  });
+        const data = await response.json();
+
+        if (!data || !("error" in data) || !("result" in data)) {
+            throw new Error("Response has an unexpected structure");
+        }
+
+        if (data.error) {
+            throw new Error(data.error);
+        }
+
+        return data.result;
+    } catch (error) {
+        throw new Error("Failed to issue request: " + error.message);
+    }
 }
 
 const WidgetConfigScreen = ({
@@ -67,15 +62,16 @@ const WidgetConfigScreen = ({
 
   const { t } = useTranslation();
 
-  invoke("deckNames", 6).then((data: string[]) => {
-    setDecks(data);
-  });
-
-  const updateDeckId = (name: string) => {
-    setDeckName(name);
-    invoke("deckNamesAndIds", 6).then((data: any) => {
-      setDeckId(data[name]);
+  useEffect(() => {
+    invoke("deckNames", 6).then((data: string[]) => {
+      setDecks(data);
     });
+  }, []);
+
+  const updateDeckId = async (name: string) => {
+    setDeckName(name);
+    const data: any = await invoke("deckNamesAndIds", 6);
+    setDeckId(data[name]);
   };
 
   return (
@@ -102,149 +98,142 @@ const WidgetConfigScreen = ({
 };
 
 const MainScreen = ({
-  config,
-  instanceId,
+    config,
+    instanceId,
 }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
-  const { t } = useTranslation();
+    const { t } = useTranslation();
 
-  const [currentCard, setCurrentCard] = useState<any>({});
-  const [cardsToLearn, setCardsToLearn] = useState<number[]>([]);
-  const [display, setDisplay] = useState("question");
-  const [reachable, setReachable] = useState(true);
+    const [currentCard, setCurrentCard] = useState<any>({});
+    const [cardsToLearn, setCardsToLearn] = useState<number[]>([]);
+    const [display, setDisplay] = useState("question");
+    const [reachable, setReachable] = useState(true);
 
-  const getCardAndSet = (card: number) => {
-    console.log(card);
-    invoke("cardsInfo", 6, {
-      cards: [card],
-    }).then((data: any[]) => {
-      const d = data[0];
+    const getCardAndSet = (card: number) => {
+        invoke("cardsInfo", 6, {
+        cards: [card],
+        }).then((data: any[]) => {
+        const d = data[0];
 
-      d.question = { __html: d.question };
-      d.answer = { __html: d.answer };
+        d.question = { __html: d.question };
+        d.answer = { __html: d.answer };
 
-      console.log(d);
-      setCurrentCard(d);
-    });
-  };
+        setCurrentCard(d);
+        });
+    };
 
-  const init = () => {
-    invoke("findCards", 6, {
-      query: '"deck:' + config?.deckName + '" is:due',
-    })
-      .catch((e) => {
-        setReachable(false);
-      })
-      .then((data: number[]) => {
-        if (reachable) {
-          setCardsToLearn(data);
-          getCardAndSet(data[0]);
-        } else {
-          setCardsToLearn([]);
-        }
-      });
-  };
-
-  useEffect(init, []);
-
-  const again = () => {
-    invoke("answerCards", 6, {
-      answers: [
-        {
-          cardId: cardsToLearn[0],
-          ease: 1,
-        },
-      ],
-    }).then((data) => {
-      if (cardsToLearn.length == 1) {
-        init();
-        return;
-      }
-      getCardAndSet(cardsToLearn[1]);
-      setCardsToLearn(cardsToLearn.slice(1));
-      setDisplay("question");
-    });
-  };
-
-  const easy = () => {
-    invoke("answerCards", 6, {
-      answers: [
-        {
-          cardId: cardsToLearn[0],
-          ease: 4,
-        },
-      ],
-    }).then((data) => {
-      if (cardsToLearn.length == 1) {
-        init();
-        return;
-      }
-      getCardAndSet(cardsToLearn[1]);
-      setCardsToLearn(cardsToLearn.slice(1));
-      setDisplay("question");
-    });
-  };
-
-  return (
-    <div className="AnkiWidget">
-      <p
-        className="setNameLine"
-        style={{ display: reachable ? "block" : "none" }}
-      >
-        <span className="setName">{config?.deckName}</span>
-        <span>(Due: {cardsToLearn?.length})</span>
-      </p>
-
-      <div style={{ display: reachable ? "block" : "none" }} className="card">
-        <div
-          className="card_question_wrap"
-          dangerouslySetInnerHTML={currentCard[display]}
-        ></div>
-      </div>
-
-      <div style={{ display: reachable ? "none" : "block" }}>
-        <p>{t("anki-plugin.error")}</p>
-      </div>
-
-      <div className="actions" style={{ display: reachable ? "flex" : "none" }}>
-        <Button
-          style={{ display: display === "question" ? "block" : "none" }}
-          onClick={() => {
-            if (display === "question") {
-              setDisplay("answer");
+    const init = () => {
+        invoke("findCards", 6, {
+        query: '"deck:' + config?.deckName + '" is:due',
+        })
+        .catch((e) => {
+            setReachable(false);
+        })
+        .then((data: number[]) => {
+            if (reachable) {
+            setCardsToLearn(data);
+            getCardAndSet(data[0]);
             } else {
-              setDisplay("question");
+            setCardsToLearn([]);
             }
-          }}
-        >
-          {t("anki-plugin.showAnswer")}
-        </Button>
+        });
+    };
 
-        <Button
-          style={{ display: display === "question" ? "none" : "block" }}
-          onClick={easy}
-        >
-          {t("anki-plugin.easy")}
-        </Button>
-        <Button
-          style={{ display: display === "question" ? "none" : "block" }}
-          onClick={again}
-        >
-          {t("anki-plugin.again")}
-        </Button>
-      </div>
+    useEffect(init, []);
+
+    const answerCard = async (ease: number) => {
+        await invoke("answerCards", 6, {
+        answers: [
+            {
+            cardId: cardsToLearn[0],
+            ease: ease,
+            },
+        ],
+        });
+
+        if (cardsToLearn.length == 1) {
+        init();
+        return;
+        }
+
+        getCardAndSet(cardsToLearn[1]);
+        setCardsToLearn(cardsToLearn.slice(1));
+        setDisplay("question");
+    };
+
+    const again = async () => {
+        await answerCard(1);
+    };
+
+    const hard = async () => {
+        await answerCard(2);
+    };
+
+        const good = async () => {
+            await answerCard(3);
+        };
+
+    const easy = async () => {
+        await answerCard(4);
+    };
+
+    return (
+    <div className="AnkiWidget">
+
+      {reachable ? (<div>
+          <p
+            className="set-name-line"
+          >
+            <span className="set-name">{config?.deckName}</span>
+            <span>(Due: {cardsToLearn?.length})</span>
+          </p>
+
+          <div className="card">
+            <div
+              className="card-question-wrap"
+              dangerouslySetInnerHTML={currentCard[display]}
+            ></div>
+          </div>
+        </div>) : (<div>
+            <Alert>{t("anki-plugin.error")}</Alert>
+        </div>)}
+
+
+      {reachable && <>
+          <div className="actions">
+            <Button
+              style={{ display: display === "question" ? "block" : "none" }}
+              onClick={() => {
+                if (display === "question") {
+                  setDisplay("answer");
+                } else {
+                  setDisplay("question");
+                }
+              }}
+            >
+              {t("anki-plugin.showAnswer")}
+            </Button>
+
+            <Button
+              style={{ display: display === "question" ? "none" : "block" }}
+              onClick={easy}
+            >
+              {t("anki-plugin.easy")}
+            </Button>
+            <Button
+              style={{ display: display === "question" ? "none" : "block" }}
+              onClick={again}
+            >
+              {t("anki-plugin.again")}
+            </Button>
+          </div>
+        </>}
+
     </div>
   );
 };
 
-const onCommandInput: OnCommandInputCallback = async (text: string) => {
-  const q = text.toLowerCase();
-  const widgets = await getAllWidgetsByPlugin(ankiPlugin);
-
-  return [];
-};
-
 const widgetDescriptor = {
-  id: "widget",
+  id: "anki-widget",
   get name() {
     return translate("anki-plugin.widgetName");
   },
@@ -282,10 +271,8 @@ const widgetDescriptor = {
 export const ankiPlugin = {
   id: "anki-plugin",
   get name() {
-    // TODO: return translate("anki-plugin.name");
-    return "anki";
+    return translate("anki-plugin.name");
   },
   widgets: [widgetDescriptor],
-  onCommandInput,
   configurationScreen: null,
 } satisfies AnoriPlugin;
