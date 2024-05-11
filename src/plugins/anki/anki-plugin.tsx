@@ -108,17 +108,17 @@ const MainScreen = ({
     const [display, setDisplay] = useState("question");
     const [reachable, setReachable] = useState(true);
 
-    const getCardAndSet = (card: number) => {
-        invoke("cardsInfo", 6, {
+    const getCardAndSet = async (card: number) => {
+        const data = await invoke("cardsInfo", 6, {
         cards: [card],
-        }).then((data: any[]) => {
+        })
+
         const d = data[0];
 
         d.question = { __html: d.question };
         d.answer = { __html: d.answer };
 
         setCurrentCard(d);
-        });
     };
 
     const init = () => {
