@@ -326,7 +326,8 @@
           "showAnswer": "Antwort zeigen",
           "easy": "Einfach",
           "again": "Nochmal",
-          "error": "AnkiConnect konnte nicht erreicht werden, bitte stelle sicher, dass Anki läuft und AnkiConnect installiert ist."
+          "error": "AnkiConnect konnte nicht erreicht werden, bitte stelle sicher, dass Anki läuft und AnkiConnect installiert ist.",
+          "widgetName": "Anki"
         }
     }
 }
