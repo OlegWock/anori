@@ -63,10 +63,9 @@ const WidgetConfigScreen = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    invoke("deckNames", 6).then((data: string[]) => {
-      setDecks(data);
-    });
-  }, []);
+    const data: string[] = invoke("deckNames", 6)
+    setDecks(data);
+}, []);
 
   const updateDeckId = async (name: string) => {
     setDeckName(name);
@@ -111,7 +110,7 @@ const MainScreen = ({
     const getCardAndSet = async (card: number) => {
         const data = await invoke("cardsInfo", 6, {
         cards: [card],
-        })
+        });
 
         const d = data[0];
 
@@ -121,24 +120,39 @@ const MainScreen = ({
         setCurrentCard(d);
     };
 
-    const init = () => {
-        invoke("findCards", 6, {
-        query: '"deck:' + config?.deckName + '" is:due',
-        })
-        .catch((e) => {
+    const testReachable = async () => {
+        try {
+            await invoke("version", 6);
+            setReachable(true);
+        } catch (e) {
             setReachable(false);
-        })
-        .then((data: number[]) => {
-            if (reachable) {
-            setCardsToLearn(data);
-            getCardAndSet(data[0]);
-            } else {
-            setCardsToLearn([]);
-            }
-        });
+        }
     };
 
-    useEffect(init, []);
+    const init = async () => {
+        await testReachable();
+
+        if (!reachable) {
+            setCardsToLearn([]);
+            return;
+        }
+
+        const data: number[] = await invoke("findCards", 6, {
+        query: '"deck:' + config?.deckName + '" is:due',
+        });
+
+        if (data.length == 0) {
+            setCardsToLearn([]);
+            return;
+        }
+
+        setCardsToLearn(data);
+        await getCardAndSet(data[0]);
+    };
+
+    useEffect(() => {
+        init()
+    }, []);
 
     const answerCard = async (ease: number) => {
         await invoke("answerCards", 6, {
@@ -151,7 +165,7 @@ const MainScreen = ({
         });
 
         if (cardsToLearn.length == 1) {
-        init();
+        await init();
         return;
         }
 
@@ -168,9 +182,9 @@ const MainScreen = ({
         await answerCard(2);
     };
 
-        const good = async () => {
-            await answerCard(3);
-        };
+    const good = async () => {
+        await answerCard(3);
+    };
 
     const easy = async () => {
         await answerCard(4);
