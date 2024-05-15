@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Select } from "@components/Select";
 import { Alert } from "@components/Alert";
+import { useWidgetMetadata } from "@utils/plugin";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;
@@ -63,8 +64,9 @@ const WidgetConfigScreen = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    const data: string[] = invoke("deckNames", 6)
-    setDecks(data);
+    invoke("deckNames", 6).then((data: string[]) => {
+        setDecks(data);
+    })
 }, []);
 
   const updateDeckId = async (name: string) => {
@@ -101,6 +103,7 @@ const MainScreen = ({
     instanceId,
 }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
     const { t } = useTranslation();
+    const meta = useWidgetMetadata();
 
     const [currentCard, setCurrentCard] = useState<any>({});
     const [cardsToLearn, setCardsToLearn] = useState<number[]>([]);
@@ -233,6 +236,23 @@ const MainScreen = ({
             >
               {t("anki-plugin.easy")}
             </Button>
+
+            {meta.size.width > 2 && <>
+                <Button
+                    style={{ display: display === "question" ? "none" : "block" }}
+                    onClick={good}
+                >
+                  {t("anki-plugin.good")}
+                </Button>
+
+                <Button
+                    style={{ display: display === "question" ? "none" : "block" }}
+                    onClick={hard}
+                >
+                  {t("anki-plugin.hard")}
+                </Button>
+            </>}
+
             <Button
               style={{ display: display === "question" ? "none" : "block" }}
               onClick={again}
