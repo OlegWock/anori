@@ -21,6 +21,7 @@ export const WhatsNew = () => {
                     <h2>1.19.0</h2>
                     <ul>
                         <li>Minor UI refactoring here and there.</li>
+                        <li>Search plugin now supports Kagi.</li>
                         <li>I made a cute and simple vtuber-style logo for Anori :3</li>
                     </ul>
                     <div className="logo-wrapper">
