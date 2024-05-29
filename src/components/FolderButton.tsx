@@ -43,7 +43,6 @@ export const FolderButton = ({ name, active, icon, className, withRedDot, sideba
                 filter="widget"
                 onDragEnter={(i) => setHighlightDrop(true)}
                 onDragLeave={(i) => setHighlightDrop(false)}
-
             >
                 {content}
             </DropDestination>

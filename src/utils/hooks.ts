@@ -12,12 +12,12 @@ export const useForceRerender = () => {
 export function usePrevious<T>(value: T): T | undefined;
 export function usePrevious<T>(value: T, defaultValue: T): T;
 export function usePrevious<T>(value: T, defaultValue?: T) {
-    const prev = useRef<T>();
     const ref = useRef<T>();
 
-    prev.current = ref.current;
-    ref.current = value;
-    return prev.current === undefined ? defaultValue : prev.current;
+    useEffect(() => {
+        ref.current = value;
+    });
+    return ref.current === undefined ? defaultValue : ref.current;
 }
 
 export const useWindowIsResizing = () => {
@@ -94,13 +94,13 @@ export const useLinkNavigationState = () => {
 
     const [isNavigating, setIsNavigating] = useState(false);
 
-    return {isNavigating, onLinkClick}
+    return { isNavigating, onLinkClick }
 };
 
 export const useHotkeys = (keys: Keys, callback: HotkeyCallback, options?: OptionsOrDependencyArray, dependencies?: OptionsOrDependencyArray) => {
     const patchedCallback: HotkeyCallback = (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent) => {
         const finalKeys = Array.isArray(keys) ? keys.join('+') : keys;
-        trackEvent('Hotkey used', {hotkey: finalKeys});
+        trackEvent('Hotkey used', { hotkey: finalKeys });
         return callback(keyboardEvent, hotkeysEvent);
     };
 
@@ -177,14 +177,20 @@ export const useAsyncLayoutEffect = (func: () => any, deps?: DependencyList | un
 export const useLocationHash = () => {
     const setHash = (newHash: string) => {
         window.location.hash = newHash;
+        _setHash(newHash);
     };
 
     const [hash, _setHash] = useState(() => window.location.hash.slice(window.location.hash.length > 0 ? 1 : 0));
+    const hashStateRef = useMirrorStateToRef(hash);
 
     useEffect(() => {
         const func = () => {
-            console.log('Hash change!');
-            _setHash(window.location.hash);
+            const normalizedHash = window.location.hash.slice(window.location.hash.length > 0 ? 1 : 0);
+            if (hashStateRef.current === normalizedHash) {
+                return;
+            }
+            console.log(`Hash changed ${hashStateRef.current} => ${normalizedHash}`)
+            _setHash(normalizedHash);
         }
         window.addEventListener('hashchange', func);
         return () => window.removeEventListener('hashchange', func);

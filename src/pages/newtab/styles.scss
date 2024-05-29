@@ -47,7 +47,7 @@ body {
         height: 100dvh;
         top: 0;
         left: 0;
-        background-image: radial-gradient(hsla(var(--text-hsl) /  0.2), hsla(var(--text-hsl) /  0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
+        background-image: radial-gradient(hsla(var(--text-hsl) / 0.2), hsla(var(--text-hsl) / 0.2) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%);
         background-size: 30px 30px;
     }
 }
@@ -61,8 +61,8 @@ body {
 
     .start-page-content {
         display: flex;
-        flex-grow: 1;
-        max-height: 100%;
+        flex: 1;
+        overflow: hidden;
     }
 
     &.horizontal-sidebar {
@@ -71,9 +71,22 @@ body {
             flex-direction: column-reverse;
         }
 
-        .sidebar {
-            flex-direction: row;
-            padding: 2rem;
+        .sidebar-wrapper {
+            padding: 1rem 1.5rem;
+
+            .sidebar {
+                .sidebar-viewport {
+
+                    &>div[style]:not(#specifity-bump) { 
+                        flex-direction: column;
+                    }
+                    .sidebar-content {
+                        padding: 0.625rem;
+                        flex-direction: row !important;
+                    }
+                }
+            }
+
         }
 
         .widgets-area {
@@ -88,8 +101,8 @@ body {
         }
 
         &:not(.horizontal-sidebar) {
-            .sidebar {
-                padding-top: 1rem;
+            .sidebar-wrapper {
+                padding-top: 0.5rem !important;
             }
         }
     }
@@ -101,23 +114,48 @@ body {
         height: calc(0.9rem * 1.2 + 1.55rem);
     }
 
+    .sidebar-wrapper {
+        padding: 1.75rem 0.5rem;
+        overflow: hidden;
+    }
+
     .sidebar {
         flex-grow: 0;
         flex-shrink: 0;
-        padding: 2.375rem 2rem;
         z-index: 1;
+        max-height: 100%;
+        min-height: 100%;
 
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-
-        .spacer {
+        .sidebar-viewport {
             flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+
+            &>div[style]:not(#specifity-bump) {
+                flex-grow: 1;
+                height: 100%;
+                min-height: 100%;
+                display: flex !important;
+            }
+
+
+            .sidebar-content {
+                display: flex !important;
+                flex-direction: column;
+                gap: 2rem;
+                padding: 0.625rem 1.5rem;
+
+                .spacer {
+                    flex-grow: 1;
+                }
+            }
         }
     }
 
+
+
     @include utils.compact {
-        .sidebar {
+        .sidebar-content {
             gap: 1.5rem;
         }
     }

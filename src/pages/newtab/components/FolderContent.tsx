@@ -23,7 +23,7 @@ const NewWidgetWizard = lazy(() => import('./NewWidgetWizard').then(m => ({defau
 
 type FolderContentProps = {
     folder: Folder,
-    animationDirection: 'up' | 'down' | 'left' | 'right',
+    animationDirection: 'up' | 'down' | 'left' | 'right' | null,
 };
 
 const variants = {
@@ -48,9 +48,13 @@ const variants = {
                 translateX: '-35%',
                 opacity: 0,
             };
-        } else {
+        } else if (custom === 'right') {
             return {
                 translateX: '35%',
+                opacity: 0,
+            };
+        } else {
+            return {
                 opacity: 0,
             };
         }
@@ -71,11 +75,15 @@ const variants = {
                 translateX: '35%',
                 opacity: 0,
             };
-        } else {
+        } else if (custom === 'right') {
             return {
                 translateX: '-35%',
                 opacity: 0,
             };
+        } else {
+            return {
+                opacity: 0,
+            }
         }
     }
 }

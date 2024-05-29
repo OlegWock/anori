@@ -8,6 +8,7 @@ import { GridDimensions, LayoutItemSize, Position, findPositionForItemInGrid } f
 import browser from 'webextension-polyfill';
 import { NamespacedStorage } from "@utils/namespaced-storage";
 import { useTranslation } from "react-i18next";
+import { useLocationHash } from "@utils/hooks";
 
 type UseFoldersOptions = {
     includeHome?: boolean,
@@ -15,7 +16,7 @@ type UseFoldersOptions = {
 };
 
 const activeFolderAtom = atom<ID | null>(null);
-export const useFolders = ({ includeHome = false, defaultFolderId = homeFolder.id }: UseFoldersOptions = {}) => {
+export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersOptions = {}) => {
     const createFolder = (name = '', icon = 'ion:folder-open-sharp') => {
         const newFolder = {
             id: guid(),
@@ -62,15 +63,16 @@ export const useFolders = ({ includeHome = false, defaultFolderId = homeFolder.i
 
     const setActiveFolder = (f: ID | Folder) => {
         setActiveId(typeof f === 'string' ? f : f.id);
+        setFolderIdInHash(typeof f === 'string' ? f : f.id);
     }
 
+    const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
     const [_activeId, setActiveId] = useAtom(activeFolderAtom);
     if (!_activeId) {
-        setActiveId(defaultFolderId);
+        setActiveId(defaultFolderId ?? folderIdFromHash ?? homeFolder.id);
     }
-    const activeId = _activeId ?? defaultFolderId;
+    const activeId = _activeId ?? defaultFolderId ?? folderIdFromHash ?? homeFolder.id;
     const [folders, setFolders] = useBrowserStorageValue('folders', []);
-    console.log('Folders', folders);
     const { t } = useTranslation();
     const foldersFinal = [...folders];
     if (includeHome) {

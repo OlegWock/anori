@@ -10,7 +10,7 @@ import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { getFolderDetails, setFolderDetails, useFolders } from '@utils/user-data/hooks';
 import { FolderContent } from './components/FolderContent';
-import { useHotkeys, useLocationHash, useMirrorStateToRef, usePrevious } from '@utils/hooks';
+import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage/api';
 import { watchForPermissionChanges } from '@utils/permissions';
 import { ShortcutsHelp } from '@components/ShortcutsHelp';
@@ -24,6 +24,7 @@ import { WidgetWindowsProvider, useWidgetWindows } from '@components/WidgetExpan
 import { loadAndMigrateStorage } from '@utils/storage/migrations';
 import { Folder, homeFolder } from '@utils/user-data/types';
 import { findOverlapItems, findPositionForItemInGrid } from '@utils/grid';
+import { ScrollArea } from '@components/ScrollArea';
 
 const SettingsModal = lazy(() => import('./settings/Settings').then(m => ({ 'default': m.SettingsModal })));
 const WhatsNew = lazy(() => import('@components/WhatsNew').then(m => ({ 'default': m.WhatsNew })));
@@ -86,19 +87,14 @@ const Start = () => {
     const [lastFolder, setLastFolder] = useBrowserStorageValue('lastFolder', 'home');
     const [language] = useBrowserStorageValue('language', 'en');
     const dir = useMemo(() => languageDirections[language], [language]);
-    const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
     const { folders, activeFolder, setActiveFolder } = useFolders({
-        includeHome: true, 
-        defaultFolderId: rememberLastFolder ? lastFolder : (folderIdFromHash || undefined) 
+        includeHome: true,
+        defaultFolderId: rememberLastFolder ? lastFolder : undefined,
     });
-    useEffect(() => {
-        setFolderIdInHash(activeFolder.id);
-    }, [activeFolder.id]);
-    console.log('Render start page', { activeFolder: activeFolder.id, lastFolder, rememberLastFolder, folders });
     const activeFolderIndex = folders.findIndex(f => f.id === activeFolder.id)!;
     const previousActiveFolderIndex = usePrevious(activeFolderIndex);
-    const animationDirection = previousActiveFolderIndex === undefined
-        ? (sidebarOrientation === 'vertical' ? 'down' : 'right')
+    const animationDirection = (previousActiveFolderIndex === undefined || previousActiveFolderIndex === activeFolderIndex)
+        ? null
         : activeFolderIndex > previousActiveFolderIndex
             ? (sidebarOrientation === 'vertical' ? 'down' : 'right')
             : (sidebarOrientation === 'vertical' ? 'up' : 'left');
@@ -136,7 +132,6 @@ const Start = () => {
     useHotkeys('alt+8', () => switchToFolderByIndex(7));
     useHotkeys('alt+9', () => switchToFolderByIndex(8));
 
-    console.log('Current language', { language, dir });
     return (
         <DirectionProvider dir={dir}>
             <MotionConfig transition={{ duration: 0.2, ease: 'easeInOut' }}>
@@ -147,44 +142,54 @@ const Start = () => {
                     >
                         {showBookmarksBar && <Suspense fallback={<div className='bookmarks-bar-placeholder' />}><BookmarksBar /></Suspense>}
                         <div className={clsx("start-page-content")}>
-                            <div className="sidebar">
-                                <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
-                                    {folders.map(f => {
-                                        return (<FolderButton
-                                            dropDestination={{ id: f.id }}
-                                            sidebarOrientation={sidebarOrientation}
-                                            key={f.id}
-                                            icon={f.icon}
-                                            name={f.name}
-                                            active={activeFolder === f}
-                                            onClick={() => {
-                                                switchToFolder(f);
-                                                if (rememberLastFolder) setLastFolder(f.id);
-                                            }}
-                                        />);
-                                    })}
-                                    <div className="spacer" />
-                                    <FolderButton
-                                        sidebarOrientation={sidebarOrientation}
-                                        layoutId='whats-new'
-                                        icon="ion:newspaper-outline"
-                                        name={t('whatsNew')}
-                                        withRedDot={hasUnreadReleaseNotes}
-                                        onClick={() => {
-                                            setWhatsNewVisible(true);
-                                            setHasUnreadReleaseNotes(false);
-                                        }}
-                                    />
-                                    <FolderButton
-                                        sidebarOrientation={sidebarOrientation}
-                                        layoutId='settings'
-                                        icon="ion:settings-sharp"
-                                        name={t('settings.title')}
-                                        onClick={() => setSettingsVisible(true)}
-                                        whileHover={{ rotate: 180 }}
-                                        transition={{ type: 'spring', duration: 0.1 }}
-                                    />
-                                </FloatingDelayGroup>
+                            {/* TODO: move sidebar to separate component */}
+                            <div className='sidebar-wrapper'>
+                                <ScrollArea
+                                    className="sidebar"
+                                    contentClassName='sidebar-viewport'
+                                    color='translucent'
+                                    type='hover'
+                                    direction={sidebarOrientation}
+                                    mirrorVerticalScrollToHorizontal
+                                >
+                                    <div className="sidebar-content">
+                                        <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
+                                            {folders.map(f => {
+                                                return (<FolderButton
+                                                    dropDestination={{ id: f.id }}
+                                                    sidebarOrientation={sidebarOrientation}
+                                                    key={f.id}
+                                                    icon={f.icon}
+                                                    name={f.name}
+                                                    active={activeFolder === f}
+                                                    onClick={() => {
+                                                        switchToFolder(f);
+                                                        if (rememberLastFolder) setLastFolder(f.id);
+                                                    }}
+                                                />);
+                                            })}
+                                            <div className="spacer" />
+                                            <FolderButton
+                                                sidebarOrientation={sidebarOrientation}
+                                                layoutId='whats-new'
+                                                icon="ion:newspaper-outline"
+                                                name={t('whatsNew')}
+                                                withRedDot={hasUnreadReleaseNotes}
+                                                onClick={() => {
+                                                    setWhatsNewVisible(true);
+                                                    setHasUnreadReleaseNotes(false);
+                                                }}
+                                            />
+                                            <FolderButton
+                                                sidebarOrientation={sidebarOrientation}
+                                                layoutId='settings'
+                                                icon="ion:settings-sharp"
+                                                name={t('settings.title')}
+                                                onClick={() => setSettingsVisible(true)}
+                                            />
+                                        </FloatingDelayGroup>
+                                    </div>
+                                </ScrollArea>
                             </div>
 
                             <div className="widgets-area">
@@ -250,7 +255,7 @@ getAllCustomIcons();
 loadAndMigrateStorage()
     .then(() => initTranslation())
     .then(async (): Promise<void> => {
-        let folders: Folder[] = [] 
+        let folders: Folder[] = []
         const foldersFromStorage = await storage.getOne('folders');
         if (!foldersFromStorage) {
             folders = [];
@@ -273,7 +278,7 @@ loadAndMigrateStorage()
                     const columns = Math.max(...layoutWithoutOverlay.map(i => i.x + i.width), 0);
                     const rows = Math.max(...layoutWithoutOverlay.map(i => i.y + i.height), 0);
                     let position = findPositionForItemInGrid({
-                        grid: {rows, columns},
+                        grid: { rows, columns },
                         layout: layoutWithoutOverlay,
                         item,
                     });
