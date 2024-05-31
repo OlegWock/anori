@@ -41,6 +41,8 @@ const ConfigScreen = ({ currentConfig, saveConfiguration, size }: WidgetConfigur
         'hh:mm a': date.format('hh:mm a'),
         'h:mm A': date.format('h:mm A'),
         'hh:mm A': date.format('hh:mm A'),
+        'h:mm': date.format('h:mm'),
+        'hh:mm': date.format('hh:mm'),
         'H:mm': `${date.format('H:mm')} (${t('datetime-plugin.24hours')})`,
         'HH:mm': `${date.format('HH:mm')} (${t('datetime-plugin.24hours')})`,
         'hh:mm:ss a': date.format('hh:mm:ss a'),
