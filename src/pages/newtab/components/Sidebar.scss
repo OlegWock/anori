@@ -1,0 +1,44 @@
+@use '@components/utils.scss' as utils;
+
+
+.sidebar-wrapper {
+    padding: 1.75rem 0.5rem;
+    overflow: hidden;
+}
+
+.sidebar {
+    flex-grow: 0;
+    flex-shrink: 0;
+    z-index: 1;
+    max-height: 100%;
+    min-height: 100%;
+
+    .sidebar-viewport {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        &>div[style]:not(#specifity-bump) {
+            flex-grow: 1;
+            height: 100%;
+            min-height: 100%;
+            display: flex !important;
+        }
+
+
+        .sidebar-content {
+            display: flex !important;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 0.625rem 1.5rem;
+
+            .spacer {
+                flex-grow: 1;
+            }
+
+            @include utils.compact {
+                gap: 1.5rem;
+            }
+        }
+    }
+}

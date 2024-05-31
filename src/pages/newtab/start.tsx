@@ -2,10 +2,7 @@
 import { mountPage } from '@utils/react';
 import { setPageTitle } from '@utils/page';
 import './styles.scss';
-import { FolderButton } from '@components/FolderButton';
-import { FloatingDelayGroup } from '@floating-ui/react';
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
-import { Modal } from '@components/Modal';
 import { AnimatePresence, LazyMotion, MotionConfig, m } from 'framer-motion';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { getFolderDetails, setFolderDetails, useFolders } from '@utils/user-data/hooks';
@@ -13,28 +10,24 @@ import { FolderContent } from './components/FolderContent';
 import { useHotkeys, useMirrorStateToRef, usePrevious } from '@utils/hooks';
 import { storage, useBrowserStorageValue } from '@utils/storage/api';
 import { watchForPermissionChanges } from '@utils/permissions';
-import { ShortcutsHelp } from '@components/ShortcutsHelp';
 import clsx from 'clsx';
 import { CompactModeProvider } from '@utils/compact';
 import { getAllCustomIcons } from '@utils/custom-icons';
 import { initTranslation, languageDirections } from '@translations/index';
-import { useTranslation } from 'react-i18next';
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from '@utils/device';
 import { WidgetWindowsProvider, useWidgetWindows } from '@components/WidgetExpandArea';
 import { loadAndMigrateStorage } from '@utils/storage/migrations';
 import { Folder, homeFolder } from '@utils/user-data/types';
 import { findOverlapItems, findPositionForItemInGrid } from '@utils/grid';
-import { ScrollArea } from '@components/ScrollArea';
+import { Sidebar } from './components/Sidebar';
 
-const SettingsModal = lazy(() => import('./settings/Settings').then(m => ({ 'default': m.SettingsModal })));
-const WhatsNew = lazy(() => import('@components/WhatsNew').then(m => ({ 'default': m.WhatsNew })));
 const CommandMenu = lazy(() => import('@components/command-menu/CommandMenu').then(m => ({ 'default': m.CommandMenu })));
 const BookmarksBar = lazy(() => import('./components/BookmarksBar').then(m => ({ 'default': m.BookmarksBar })));
 
 const loadMotionFeatures = () => import("@utils/motion/framer-motion-features").then(res => res.default);
 
 const useSidebarOrientation = () => {
-    const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
+    const [sidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
     const [winOrientation, setWinOrientation] = useState<'landscape' | 'portrait'>(() => window.innerWidth >= window.innerHeight ? 'landscape' : 'portrait');
     const winOrientationRef = useMirrorStateToRef(winOrientation);
     const computedSidebarOrientation = sidebarOrientation === 'auto' ? winOrientation === 'landscape' ? 'vertical' : 'horizontal' : sidebarOrientation;
@@ -99,15 +92,9 @@ const Start = () => {
             ? (sidebarOrientation === 'vertical' ? 'down' : 'right')
             : (sidebarOrientation === 'vertical' ? 'up' : 'left');
 
-
-    const [settingsVisible, setSettingsVisible] = useState(false);
-    const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
-    const [whatsNewVisible, setWhatsNewVisible] = useState(false);
-    const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
     const [showBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
     const [commandMenuOpen, setCommandMenuOpen] = useState(false);
     const [renderCommandMenu, setRenderCommandMenu] = useState(false);
-    const { t } = useTranslation();
 
     useHotkeys('meta+k', () => {
         setCommandMenuOpen((open) => !open);
@@ -118,9 +105,6 @@ const Start = () => {
     useHotkeys('meta+left, alt+left', () => swithFolderUp());
     useHotkeys('meta+down, alt+down', () => swithFolderDown());
     useHotkeys('meta+right, alt+right', () => swithFolderDown());
-
-    useHotkeys('alt+h', () => setShortcutsHelpVisible(v => !v));
-    useHotkeys('alt+s', () => setSettingsVisible(v => !v));
 
     useHotkeys('alt+1', () => switchToFolderByIndex(0));
     useHotkeys('alt+2', () => switchToFolderByIndex(1));
@@ -142,55 +126,16 @@ const Start = () => {
                     >
                         {showBookmarksBar && <Suspense fallback={<div className='bookmarks-bar-placeholder' />}><BookmarksBar /></Suspense>}
                         <div className={clsx("start-page-content")}>
-                            {/* TODO: move sidebar to separate component */}
-                            <div className='sidebar-wrapper'>
-                                <ScrollArea
-                                    className="sidebar"
-                                    contentClassName='sidebar-viewport'
-                                    color='translucent'
-                                    type='hover'
-                                    direction={sidebarOrientation}
-                                    mirrorVerticalScrollToHorizontal
-                                >
-                                    <div className="sidebar-content">
-                                        <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
-                                            {folders.map(f => {
-                                                return (<FolderButton
-                                                    dropDestination={{ id: f.id }}
-                                                    sidebarOrientation={sidebarOrientation}
-                                                    key={f.id}
-                                                    icon={f.icon}
-                                                    name={f.name}
-                                                    active={activeFolder === f}
-                                                    onClick={() => {
-                                                        switchToFolder(f);
-                                                        if (rememberLastFolder) setLastFolder(f.id);
-                                                    }}
-                                                />);
-                                            })}
-                                            <div className="spacer" />
-                                            <FolderButton
-                                                sidebarOrientation={sidebarOrientation}
-                                                layoutId='whats-new'
-                                                icon="ion:newspaper-outline"
-                                                name={t('whatsNew')}
-                                                withRedDot={hasUnreadReleaseNotes}
-                                                onClick={() => {
-                                                    setWhatsNewVisible(true);
-                                                    setHasUnreadReleaseNotes(false);
-                                                }}
-                                            />
-                                            <FolderButton
-                                                sidebarOrientation={sidebarOrientation}
-                                                layoutId='settings'
-                                                icon="ion:settings-sharp"
-                                                name={t('settings.title')}
-                                                onClick={() => setSettingsVisible(true)}
-                                            />
-                                        </FloatingDelayGroup>
-                                    </div>
-                                </ScrollArea>
-                            </div>
+                            <Sidebar
+                                folders={folders}
+                                activeFolder={activeFolder}
+                                orientation={sidebarOrientation}
+
+                                onFolderClick={(f) => {
+                                    switchToFolder(f);
+                                    if (rememberLastFolder) setLastFolder(f.id);
+                                }}
+                            />
 
                             <div className="widgets-area">
                                 <AnimatePresence initial={false} mode='wait' custom={animationDirection}>
@@ -203,21 +148,7 @@ const Start = () => {
                     <Suspense key='command-menu' fallback={undefined}>
                         {renderCommandMenu && <CommandMenu open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
                     </Suspense>
-
-                    <Suspense key='settings' fallback={undefined}>
-                        <AnimatePresence>
-                            {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
-                        </AnimatePresence>
-                    </Suspense>
-                    {shortcutsHelpVisible && <Modal title={t('shortcuts.title')} key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
-                        <ShortcutsHelp />
-                    </Modal>}
-
-                    {whatsNewVisible && <Modal title={t('whatsNew')} className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
-                        <Suspense fallback={undefined}>
-                            <WhatsNew />
-                        </Suspense>
-                    </Modal>}
+                    
                 </AnimatePresence>
             </MotionConfig>
         </DirectionProvider>
