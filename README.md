@@ -20,7 +20,7 @@
 <details>
     <summary>Widgets list</summary>
 
-* Bookmark
+* Bookmarks & bookmark groups
 * World time
 * Weather
 * Notes
@@ -30,6 +30,8 @@
 * RSS reader
 * Internet search
 * Calendar
+* Anori integration
+* Pictures
 * Recently closed tabs (only Chrome & Firefox)
 * Top sites (only Chrome & Firefox)
 * CPU and RAM load (only Chrome)

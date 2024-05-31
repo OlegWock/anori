@@ -54,7 +54,8 @@
                 "sidebarOrientationOption-auto": "Залежно від орієнтації вікна",
                 "sidebarOrientationOption-vertical": "Завжди вертикальна",
                 "sidebarOrientationOption-horizontal": "Завжди горизонтальна",
-                "rememberLastFolder": "Запам'ятовувати останню відкриту папку"
+                "rememberLastFolder": "Запам'ятовувати останню відкриту папку",
+                "autoHideSidebar": "Автоматично ховати бокову панель"
             },
             "customIcons": {
                 "title": "Користувацькі іконки",
@@ -323,6 +324,17 @@
         "picture-plugin": {
             "name": "Зображення",
             "widgetName": "Зображення"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Колода",
+            "showAnswer": "Показати відповідь",
+            "easy": "Легко",
+            "again": "Знову",
+            "good": "Добре",
+            "hard": "Важко",
+            "error": "AnkiConnect недоступний, будь ласка впевніться що Anki запущено та AnkiConnect встановлений.",
+            "widgetName": "Anki"
         }
     }
 }

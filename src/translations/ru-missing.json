@@ -3,7 +3,7 @@
         "anki-plugin": {
             "name": "Anki",
             "deck": "Deck",
-            "showAnswer": "Show Answer",
+            "showAnswer": "Show answer",
             "easy": "Easy",
             "again": "Again",
             "good": "Good",
