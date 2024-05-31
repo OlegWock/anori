@@ -1,0 +1,72 @@
+.AnkiWidget {
+    //display: flex;
+    //align-items: center;
+    text-decoration: none;
+    flex-grow: 1;
+
+    .set-name-line {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 600;
+        display: flex;
+    }
+
+    .set-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 600;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        cursor: pointer;
+        padding: 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        height: 200px;
+        overflow-y: scroll;
+    }
+
+    .card-question-wrap {
+        height: 100%;
+    }
+
+    .actions {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 16px;
+    }
+
+    .mock-style {
+        font-size: 80px;
+        font-family: Arial;
+        font-size: 20px;
+        text-align: center;
+        color: black;
+        background-color: white;
+    }
+}
+
+.AnkiWidget-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .save-config {
+        align-self: center;
+        margin-top: 16px;
+    }
+}

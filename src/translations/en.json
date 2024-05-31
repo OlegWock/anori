@@ -231,7 +231,7 @@
             "exampleTitle": "Shopping list",
             "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
         },
-        
+
         "recently-closed-plugin": {
             "name": "Recently closed tabs",
             "widgetTitle": "Recently closed",
@@ -261,7 +261,7 @@
             "exampleTask1": "Lay on the couch",
             "exampleTask2": "Lay on the floor",
             "exampleTask3": "Try not to cry"
-        }, 
+        },
 
         "top-sites-plugin": {
             "name": "Top sites",
@@ -341,6 +341,17 @@
         "picture-plugin": {
             "name": "Picture",
             "widgetName": "Image"
+        },
+        "anki-plugin": {
+          "name": "Anki",
+          "deck": "Deck",
+          "showAnswer": "Show Answer",
+          "easy": "Easy",
+          "again": "Again",
+          "good": "Good",
+          "hard": "Hard",
+          "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
+          "widgetName": "Anki"
         }
     }
 }

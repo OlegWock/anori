@@ -1,0 +1,15 @@
+{
+    "translation": {
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Deck",
+            "showAnswer": "Show Answer",
+            "easy": "Easy",
+            "again": "Again",
+            "good": "Good",
+            "hard": "Hard",
+            "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
+            "widgetName": "Anki"
+        }
+    }
+}

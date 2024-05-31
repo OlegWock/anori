@@ -15,6 +15,7 @@ import { iframePlugin } from "./iframe/iframe-plugin";
 import { mathPlugin } from "./math/math-plugin";
 import { labelPlugin } from "./label/label-plugin";
 import { picturePlugin } from "./picture/picture-plugin";
+import { ankiPlugin } from "./anki/anki-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
@@ -43,15 +44,16 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
     systemStatusPlugin,
     labelPlugin,
     picturePlugin,
+    ankiPlugin,
 ].filter(plugin => {
     if (X_BROWSER === 'firefox') {
         return !unavailableInFirefox.includes(plugin);
     }
-    
+
     if (X_BROWSER === 'safari') {
         return !unavailableInSafari.includes(plugin);
     }
-    
+
     return true;
 });
 
