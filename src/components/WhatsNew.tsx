@@ -20,6 +20,7 @@ export const WhatsNew = () => {
                 <section>
                     <h2>1.19.0</h2>
                     <ul>
+                        <li>Added new Anki plugin to study your cards directly from Anori! This was contribution from @slayernominee. Thanks!</li>
                         <li>Minor UI refactoring here and there.</li>
                         <li>Search plugin now supports Kagi.</li>
                         <li>I made a cute and simple vtuber-style logo for Anori :3</li>
@@ -33,7 +34,7 @@ export const WhatsNew = () => {
                     <h2>1.18.0</h2>
                     <ul>
                         <li>
-                            Added new Picture plugin to spring some ✨aesthetic✨ on your new tab.
+                            Added new Picture plugin to sprinkle some ✨aesthetic✨ on your new tab.
                             This was contribution from @slayernominee. Thanks!
                         </li>
                         <li>

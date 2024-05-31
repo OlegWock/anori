@@ -1,12 +1,12 @@
 import { Button } from "@components/Button";
 import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
-import "./styles.scss";
 import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Select } from "@components/Select";
 import { Alert } from "@components/Alert";
-import { useWidgetMetadata } from "@utils/plugin";
+import { Icon } from "@components/Icon";
+import "./styles.scss";
 
 type AnkiPluginWidgetConfigType = {
     deckName: string;
@@ -23,6 +23,9 @@ const invoke = async (action: string, version: number, params?: any) => {
             body: JSON.stringify({ action, version, params }),
         });
 
+        if (!response.ok) {
+            throw new Error('Failed to fetch');
+        }
         const data = await response.json();
 
         if (!data || !("error" in data) || !("result" in data)) {
@@ -39,10 +42,32 @@ const invoke = async (action: string, version: number, params?: any) => {
     }
 };
 
+const wrapCardHtml = (html: string) => {
+    return `
+    <style>
+        html, body {
+            height: 100%;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+        }
+        .card {
+            min-height: 100%;
+            box-sizing: border-box;
+            padding: 16px;
+        }
+    </style>
+    <div class="card">
+        ${html}
+    </div>`;
+}
+
 const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<AnkiPluginWidgetConfigType>) => {
     const [deckName, setDeckName] = useState(currentConfig?.deckName ?? "Default");
     const [deckId, setDeckId] = useState(currentConfig?.deckId ?? 1);
     const [decks, setDecks] = useState<string[]>([]);
+    const [reachable, setReachable] = useState(false);
 
     const onConfirm = () => {
         saveConfiguration({
@@ -55,7 +80,10 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 
     useEffect(() => {
         invoke("deckNames", 6).then((data: string[]) => {
+            setReachable(true);
             setDecks(data);
+        }).catch(err => {
+            setReachable(false);
         });
     }, []);
 
@@ -67,28 +95,26 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
 
     return (
         <div className="AnkiWidget-config">
-            <div>{t("anki-plugin.name")}</div>
-
+            {!reachable && <Alert>{t("anki-plugin.error")}</Alert>}
             <div className="field">
                 <label>{t("anki-plugin.deck")}:</label>
 
                 <Select<string> options={decks} value={deckName} onChange={updateDeckId} getOptionKey={(o) => o} getOptionLabel={(o) => o} />
             </div>
 
-            <Button className="save-config" onClick={onConfirm}>
+            <Button className="save-config" onClick={onConfirm} disabled={!reachable}>
                 Save
             </Button>
         </div>
     );
 };
 
-const MainScreen = ({ config, instanceId }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
+const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
     const { t } = useTranslation();
-    const meta = useWidgetMetadata();
 
     const [currentCard, setCurrentCard] = useState<any>({});
     const [cardsToLearn, setCardsToLearn] = useState<number[]>([]);
-    const [display, setDisplay] = useState("question");
+    const [currentScreen, setCurrentScreen] = useState<"question" | "answer">("question");
     const [reachable, setReachable] = useState(true);
 
     const getCardAndSet = async (card: number) => {
@@ -96,25 +122,22 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<AnkiPluginWidgetCo
             cards: [card],
         });
 
-        const d = data[0];
-
-        d.question = { __html: d.question };
-        d.answer = { __html: d.answer };
-
-        setCurrentCard(d);
+        setCurrentCard(data[0]);
     };
 
     const testReachable = async () => {
         try {
             await invoke("version", 6);
             setReachable(true);
+            return true;
         } catch (e) {
             setReachable(false);
+            return false;
         }
     };
 
     const init = async () => {
-        await testReachable();
+        const reachable = await testReachable();
 
         if (!reachable) {
             setCardsToLearn([]);
@@ -122,7 +145,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<AnkiPluginWidgetCo
         }
 
         const data: number[] = await invoke("findCards", 6, {
-            query: '"deck:' + config?.deckName + '" is:due',
+            query: '"deck:' + config.deckName + '" is:due',
         });
 
         if (data.length == 0) {
@@ -136,7 +159,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<AnkiPluginWidgetCo
 
     useEffect(() => {
         init();
-    }, []);
+    }, [config.deckName]);
 
     const answerCard = async (ease: number) => {
         await invoke("answerCards", 6, {
@@ -155,134 +178,76 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<AnkiPluginWidgetCo
 
         getCardAndSet(cardsToLearn[1]);
         setCardsToLearn(cardsToLearn.slice(1));
-        setDisplay("question");
+        setCurrentScreen("question");
     };
 
-    const again = async () => {
-        await answerCard(1);
-    };
 
-    const hard = async () => {
-        await answerCard(2);
-    };
+    return (<div className="AnkiWidget">
+        {reachable ? (<>
+            <div className="set-name-line">
+                <div className="set-name">{config?.deckName}</div>
+                <div className="set-due">{cardsToLearn?.length} <Icon icon="ion:albums" /></div>
+            </div>
 
-    const good = async () => {
-        await answerCard(3);
-    };
+            {currentCard[currentScreen] ? <iframe srcDoc={wrapCardHtml(currentCard[currentScreen])} /> : <div className="spacer" />}
+        </>) : (<>
+            <Alert>{t("anki-plugin.error")}</Alert>
+        </>)}
 
-    const easy = async () => {
-        await answerCard(4);
-    };
+        {reachable && (<>
+            <div className="actions">
+                {currentScreen === 'question' && <Button onClick={() => setCurrentScreen("answer")} >
+                    {t("anki-plugin.showAnswer")}
+                </Button>}
 
-    return (
-        <div className="AnkiWidget">
-            {reachable ? (
-                <div>
-                    <p className="set-name-line">
-                        <span className="set-name">{config?.deckName}</span>
-                        <span>(Due: {cardsToLearn?.length})</span>
-                    </p>
+                {currentScreen === 'answer' && <>
+                    <Button onClick={() => answerCard(1)}>
+                        {t("anki-plugin.again")}
+                    </Button>
 
-                    <div className="card">
-                        <div className="card-question-wrap" dangerouslySetInnerHTML={currentCard[display]}></div>
-                    </div>
-                </div>
-            ) : (
-                <div>
-                    <Alert>{t("anki-plugin.error")}</Alert>
-                </div>
-            )}
+                    <Button onClick={() => answerCard(2)}>
+                        {t("anki-plugin.hard")}
+                    </Button>
 
-            {reachable && (
-                <>
-                    <div className="actions">
-                        <Button
-                            style={{ display: display === "question" ? "block" : "none" }}
-                            onClick={() => {
-                                if (display === "question") {
-                                    setDisplay("answer");
-                                } else {
-                                    setDisplay("question");
-                                }
-                            }}
-                        >
-                            {t("anki-plugin.showAnswer")}
-                        </Button>
+                    <Button onClick={() => answerCard(3)}>
+                        {t("anki-plugin.good")}
+                    </Button>
 
-                        <Button style={{ display: display === "question" ? "none" : "block" }} onClick={easy}>
-                            {t("anki-plugin.easy")}
-                        </Button>
-
-                        {meta.size.width > 2 && (
-                            <>
-                                <Button style={{ display: display === "question" ? "none" : "block" }} onClick={good}>
-                                    {t("anki-plugin.good")}
-                                </Button>
-
-                                <Button style={{ display: display === "question" ? "none" : "block" }} onClick={hard}>
-                                    {t("anki-plugin.hard")}
-                                </Button>
-                            </>
-                        )}
-
-                        <Button style={{ display: display === "question" ? "none" : "block" }} onClick={again}>
-                            {t("anki-plugin.again")}
-                        </Button>
-                    </div>
-                </>
-            )}
-        </div>
-    );
+                    <Button onClick={() => answerCard(4)}>
+                        {t("anki-plugin.easy")}
+                    </Button>
+                </>}
+            </div>
+        </>)}
+    </div>);
 };
 
 const MockScreen = () => {
     const { t } = useTranslation();
 
-    return (
-        <div className="AnkiWidget">
-            <div>
-                <p className="set-name-line">
-                    <span className="set-name">Deck Name</span>
-                    <span>(Due: 12)</span>
-                </p>
-
-                <div className="card">
-                    <div className="card-question-wrap mock-style">
-                        <span>水</span>
-                        <hr />
-                        <span>
-                            みず・したみず・さんずい
-                            <br />
-                            <br />
-                        </span>
-                        <span>
-                            <b>water</b>
-                            <br />
-                        </span>
-                        <hr />
-                        Stroke Orders:
-                        <br />
-                        <span>水</span>
-                        <hr />
-                        <span>
-                            Radical Number: 85
-                            <br />
-                            Number of Strokes: 4<br />
-                            Alternative Form: 氵、氺
-                            <br />
-                            Example: 水 永 泳 決 治 海 演 漢 瀬
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div className="actions">
-                <Button>{t("anki-plugin.easy")}</Button>
-
-                <Button>{t("anki-plugin.again")}</Button>
-            </div>
+    return (<div className="AnkiWidget">
+        <div className="set-name-line">
+            <div className="set-name">{t("anki-plugin.deck")}</div>
+            <div className="set-due">12 <Icon icon="ion:albums" /></div>
         </div>
-    );
+
+        <div className="card-question-wrap mock-card">
+            <span className="big-kanji">水</span>
+            <hr />
+            <span>
+                みず・したみず・さんずい
+                <br />
+            </span>
+            <strong>water</strong>
+        </div>
+
+        <div className="actions">
+            <Button>{t("anki-plugin.again")}</Button>
+            <Button>{t("anki-plugin.hard")}</Button>
+            <Button>{t("anki-plugin.good")}</Button>
+            <Button>{t("anki-plugin.easy")}</Button>
+        </div>
+    </div>);
 };
 
 const widgetDescriptor = {
@@ -292,9 +257,7 @@ const widgetDescriptor = {
     },
     configurationScreen: WidgetConfigScreen,
     mainScreen: MainScreen,
-    mock: () => {
-        return <MockScreen />;
-    },
+    mock: MockScreen,
     appearance: {
         size: {
             width: 2,
@@ -307,7 +270,7 @@ const widgetDescriptor = {
             },
             max: {
                 width: 4,
-                height: 2,
+                height: 4,
             },
         },
     },
