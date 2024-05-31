@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 import './Sidebar.scss';
+import clsx from "clsx";
 
 
 
@@ -26,16 +27,18 @@ export type SidebarProps = {
 export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: SidebarProps) => {
     const { t } = useTranslation();
     const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue('hasUnreadReleaseNotes', false);
+    const [autoHideSidebar] = useBrowserStorageValue('autoHideSidebar', false);
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
+    
 
     useHotkeys('alt+h', () => setShortcutsHelpVisible(v => !v));
     useHotkeys('alt+s', () => setSettingsVisible(v => !v));
 
 
     return (<>
-        <div className='sidebar-wrapper'>
+        <div className={clsx('sidebar-wrapper', autoHideSidebar && 'sidebar-autohide')}>
             <ScrollArea
                 className="sidebar"
                 contentClassName='sidebar-viewport'

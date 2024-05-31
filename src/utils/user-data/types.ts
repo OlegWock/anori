@@ -10,6 +10,7 @@ export type StorageContent = {
     stealFocus: boolean,
     userId: string,
     sidebarOrientation: "vertical" | "horizontal" | "auto",
+    autoHideSidebar: boolean,
     showBookmarksBar: boolean,
     rememberLastFolder: boolean,
     lastFolder: string | undefined,

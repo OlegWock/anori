@@ -4,6 +4,24 @@
 .sidebar-wrapper {
     padding: 1.75rem 0.5rem;
     overflow: hidden;
+
+    &.sidebar-autohide {
+        padding: 1.75rem 1rem;
+
+        .sidebar {
+            display: none;
+        }
+    
+        // We don't use utils.hover (i.e. proper hover) to allow users
+        // with touch screens to access sidebar
+        &:hover {
+            padding: 1.75rem 0.5rem;
+    
+            .sidebar {
+                display: flex;
+            }
+        }
+    }
 }
 
 .sidebar {

@@ -102,6 +102,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
     const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue('showBookmarksBar', false);
     const [newTabTitle, setNewTabTitle] = useBrowserStorageValue('newTabTitle', 'Anori new tab');
     const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue('sidebarOrientation', 'auto');
+    const [autoHideSidebar, setAutoHideSidebar] = useBrowserStorageValue('autoHideSidebar', false);
     const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
     const screenWidth = useScreenWidth();
     const { t } = useTranslation();
@@ -170,6 +171,10 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
             if (!v) storage.setOne('lastFolder', undefined);
         }}>
             {t("settings.general.rememberLastFolder")}
+        </Checkbox>
+
+        <Checkbox checked={autoHideSidebar} onChange={setAutoHideSidebar}>
+            {t("settings.general.autoHideSidebar")}
         </Checkbox>
 
         {/* Bookmarks API absent in Safari */}

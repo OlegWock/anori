@@ -39,6 +39,17 @@
             "name": "Picture",
             "widgetName": "Image"
         },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Deck",
+            "showAnswer": "Show Answer",
+            "easy": "Easy",
+            "again": "Again",
+            "good": "Good",
+            "hard": "Hard",
+            "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
+            "widgetName": "Anki"
+        },
         "settings": {
             "general": {
                 "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
@@ -46,6 +57,7 @@
                 "sidebarOrientationOption-auto": "Based on window orientation",
                 "sidebarOrientationOption-vertical": "Always vertical",
                 "sidebarOrientationOption-horizontal": "Always horizontal",
+                "autoHideSidebar": "Automatically hide sidebar",
                 "showBookmarksBar": "Show bookmarks bar",
                 "rememberLastFolder": "Remember last open folder"
             },
@@ -81,17 +93,6 @@
         },
         "rss-plugin": {
             "compactView": "Compact view"
-        },
-        "anki-plugin": {
-          "name": "Anki",
-          "deck": "Deck",
-          "showAnswer": "Show Answer",
-          "easy": "Easy",
-          "again": "Again",
-          "good": "Good",
-          "hard": "Hard",
-          "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
-          "widgetName": "Anki"
         }
     }
 }

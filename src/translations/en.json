@@ -61,6 +61,7 @@
                 "sidebarOrientationOption-auto": "Based on window orientation",
                 "sidebarOrientationOption-vertical": "Always vertical",
                 "sidebarOrientationOption-horizontal": "Always horizontal",
+                "autoHideSidebar": "Automatically hide sidebar",
                 "newTabTitle": "New tab title",
                 "enableAnalytics": "Enable sending analytics",
                 "analyticsHintP1": "Analytics help me to better understand how users interact with Anori and which features are used the most. It doesn't share any private information, such as the content of notes or bookmark URLs.",

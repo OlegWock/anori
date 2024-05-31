@@ -1,6 +1,9 @@
 {
     "translation": {
         "settings": {
+            "general": {
+                "autoHideSidebar": "Automatically hide sidebar"
+            },
             "theme": {
                 "blur": "Blur",
                 "colorAccent": "Accent",

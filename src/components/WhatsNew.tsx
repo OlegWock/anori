@@ -20,7 +20,11 @@ export const WhatsNew = () => {
                 <section>
                     <h2>1.19.0</h2>
                     <ul>
-                        <li>Added new Anki plugin to study your cards directly from Anori! This was contribution from @slayernominee. Thanks!</li>
+                        <li>
+                            Added new Anki plugin to study your cards directly from Anori! 
+                            This was contribution from @slayernominee. Thanks!
+                        </li>
+                        <li>Added option to hide sidebar (move your mouse to left/bottom edge to show it).</li>
                         <li>Minor UI refactoring here and there.</li>
                         <li>Search plugin now supports Kagi.</li>
                         <li>I made a cute and simple vtuber-style logo for Anori :3</li>

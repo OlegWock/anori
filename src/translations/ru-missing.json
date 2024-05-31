@@ -10,6 +10,11 @@
             "hard": "Hard",
             "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
             "widgetName": "Anki"
+        },
+        "settings": {
+            "general": {
+                "autoHideSidebar": "Automatically hide sidebar"
+            }
         }
     }
 }
