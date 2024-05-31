@@ -31,7 +31,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
     const [whatsNewVisible, setWhatsNewVisible] = useState(false);
-    
+
 
     useHotkeys('alt+h', () => setShortcutsHelpVisible(v => !v));
     useHotkeys('alt+s', () => setSettingsVisible(v => !v));
@@ -85,17 +85,22 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                 </div>
             </ScrollArea>
         </div>
-        {shortcutsHelpVisible && <Modal title={t('shortcuts.title')} key='shortcuts' closable onClose={() => setShortcutsHelpVisible(false)}>
-            <ShortcutsHelp />
-        </Modal>}
 
-        {whatsNewVisible && <Modal title={t('whatsNew')} className='WhatsNew-modal' key='whats-new' closable onClose={() => setWhatsNewVisible(false)}>
-            <Suspense fallback={undefined}>
-                <WhatsNew />
-            </Suspense>
-        </Modal>}
+        <AnimatePresence>
+            {shortcutsHelpVisible && <Modal title={t('shortcuts.title')} closable onClose={() => setShortcutsHelpVisible(false)}>
+                <ShortcutsHelp />
+            </Modal>}
+        </AnimatePresence>
 
-        <Suspense key='settings' fallback={undefined}>
+        <AnimatePresence>
+            {whatsNewVisible && <Modal title={t('whatsNew')} className='WhatsNew-modal' closable onClose={() => setWhatsNewVisible(false)}>
+                <Suspense fallback={undefined}>
+                    <WhatsNew />
+                </Suspense>
+            </Modal>}
+        </AnimatePresence>
+
+        <Suspense fallback={undefined}>
             <AnimatePresence>
                 {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
             </AnimatePresence>
