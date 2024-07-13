@@ -8,6 +8,7 @@
     max-height: 100%;
     padding: 1rem;
     position: relative;
+    cursor: pointer;
 
     .bookmark-content {
         display: flex;
@@ -94,20 +95,20 @@
             color: var(--text);
             border-radius: 24px;
             overflow: hidden;
-    
+
             cursor: pointer;
-    
+
             &>div {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-    
-    
+
+
                 padding: 6px 18px;
                 background: transparent;
                 transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
             }
-    
+
             @include utils.hover {
                 &>div {
                     background: hsla(var(--text-hsl) / 0.05);
