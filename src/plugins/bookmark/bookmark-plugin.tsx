@@ -217,8 +217,12 @@ const BookmarGroupkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: W
 const BookmarkGroupWidget = ({ config, isMock }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean }) => {
     const openGroup: MouseEventHandler<HTMLElement> = (e) => {
         e.preventDefault();
+        // aux click but with another button, like rmb
+        if(e.type === 'auxclick' && e.button !== 1) {
+            return;
+        }
         onLinkClick(e);
-        const shouldKeepCurrentTab = e.ctrlKey || (isMacLike && e.metaKey) || (e.type == 'auxclick' && e.button == 1)
+        const shouldKeepCurrentTab = e.ctrlKey || (isMacLike && e.metaKey) || (e.type == 'auxclick')
         sendMessage('openGroup', {
             urls: config.urls.map(u => normalizeUrl(u)),
             openInTabGroup: config.openInTabGroup,
@@ -232,7 +236,7 @@ const BookmarkGroupWidget = ({ config, isMock }: WidgetRenderProps<BookmarkGroup
     const { size: { width } } = useWidgetMetadata();
     const size = width === 1 ? 's' : 'm';
 
-    return (<div className={clsx(['BookmarkWidget', `size-${size}`])} onClick={openGroup} onAuxClick={openGroup}>
+    return (<button className={clsx(['BookmarkWidget', `size-${size}`])} onClick={openGroup} onAuxClick={openGroup}>
         <div className="bookmark-content">
             <div className="text">
                 <h2>{config.title}</h2>
@@ -243,7 +247,7 @@ const BookmarkGroupWidget = ({ config, isMock }: WidgetRenderProps<BookmarkGroup
                 : (<Icon icon={config.icon} width={size === 'm' ? rem(5.75) : rem(2.25)} height={size === 'm' ? rem(5.75) : rem(2.25)} />)
             }
         </div>
-    </div>);
+    </button>);
 };
 
 const BookmarkWidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<BookmarkWidgetConfigType>) => {
