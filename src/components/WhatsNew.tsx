@@ -18,10 +18,15 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.20.0</h2>
+                    <ul>
+                        <li>Tab groups now can be opened in new tab using middle mouse button click. This was 
+                            contribution from @DarkVen0m. Thanks!</li>
+                    </ul>
                     <h2>1.19.0</h2>
                     <ul>
                         <li>
-                            Added new Anki plugin to study your cards directly from Anori! 
+                            Added new Anki plugin to study your cards directly from Anori!
                             This was contribution from @slayernominee. Thanks!
                         </li>
                         <li>Added option to hide sidebar (move your mouse to left/bottom edge to show it).</li>

@@ -196,7 +196,6 @@ const generateManifest = (
 
 const baseSrc = './src';
 const baseDist = './dist';
-
 const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
     const { mode = 'development', targetBrowser = 'chrome', WEBPACK_WATCH } = env;
 
@@ -529,9 +528,8 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             splitChunks: {
                 chunks: 'all',
                 automaticNameDelimiter: '-',
-                minChunks: 2,
-                minSize: 1024 * 400,
-                maxSize: 1024 * 1024 * 2,
+                minSize: 1024 * 50,
+                maxSize: 1024 * 1024 * 3,
             },
         },
         performance: {
