@@ -83,7 +83,7 @@ export const useRunIfDepsChanged = (fn: () => void, deps: React.DependencyList) 
 };
 
 export const useLinkNavigationState = () => {
-    const onLinkClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    const onLinkClick: MouseEventHandler<HTMLElement> = (e) => {
         if (e.metaKey || e.ctrlKey) return;
         setIsNavigating(true);
 
