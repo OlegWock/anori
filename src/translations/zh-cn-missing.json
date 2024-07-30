@@ -1,98 +1,98 @@
 {
     "translation": {
-        "reload": "Reload",
-        "icons": "Icons",
-        "canBeEmpty": "can be empty",
+        "reload": "重新加载",
+        "icons": "图标",
+        "canBeEmpty": "可以为空",
         "safari": {
             "onboarding": {
-                "iosMacP1": "To start using Anori you'll need to enable it in Safari's settings.",
-                "macButton": "Quit and Open Safari Extensions Preferences…",
-                "iosP2": "Process is a bit tedious, we know, but bear with us.",
-                "iosP3": "Firstly, you'll need to enable the extension (1) and then switch your new tab page to Anori (2). Here is picture, so you won't get lost in woods of Safari settings :)",
-                "iosButton": "Open Safari Extensions Settings"
+                "iosMacP1": "要开始使用 Anori，您需要在 Safari 的设置中启用它。",
+                "macButton": "退出并打开 Safari 扩展偏好设置…",
+                "iosP2": "我们知道这个过程有点繁琐，但请耐心等待。",
+                "iosP3": "首先，您需要启用扩展，然后将新标签页切换到 Anori。这里有示意图，这样您就不会在 Safari 设置中迷路了 :)",
+                "iosButton": "打开 Safari 扩展设置"
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Custom icons are icons which you upload for later use in Anori.",
-            "customIconsAbsent": "Currently, you don't have any custom icons. To upload your first custom icon please head to settings.",
-            "iconFamily": "Icons family",
-            "allIcons": "All icons"
+            "customIconsInfo": "自定义图标是您上传以供以后在 Anori 中使用的图标。",
+            "customIconsAbsent": "目前，您没有任何自定义图标。要上传您的第一个自定义图标，请前往设置。",
+            "iconFamily": "图标系列",
+            "allIcons": "所有图标"
         },
         "iframe-plugin": {
-            "name": "Embed webpage",
-            "expandWidgetName": "Embed webpage — expandable",
-            "showLink": "Show link to original page",
-            "limitations": "Embedding doesn't work with all pages. Some sites actively resist being displayed as an embedded page, and unfortunately, Anori can't do much about it. This might result in pages not loading (as is the case with Gmail) or working poorly."
+            "name": "嵌入网页",
+            "expandWidgetName": "嵌入网页 — 点击可扩展",
+            "showLink": "显示跳转原始页面的按钮",
+            "limitations": "嵌入并不适用于所有页面。有些网站抵制作为嵌入页面显示，不幸的是，Anori 无能为力。这可能导致页面无法加载或异常。"
         },
         "math-plugin": {
-            "name": "Math",
-            "calculator": "Calculator",
-            "expandWidgetName": "Calculator — expandable",
-            "cantCalc": "Can't calculate that"
+            "name": "数学",
+            "calculator": "计算器",
+            "expandWidgetName": "计算器 — 点击可扩展",
+            "cantCalc": "无法计算"
         },
         "label-plugin": {
-            "name": "Label",
-            "label": "Text Label",
-            "text": "Description"
+            "name": "标签",
+            "label": "文本标签",
+            "text": "描述"
         },
         "picture-plugin": {
-            "name": "Picture",
-            "widgetName": "Image"
+            "name": "图片",
+            "widgetName": "图像"
         },
         "anki-plugin": {
             "name": "Anki",
-            "deck": "Deck",
-            "showAnswer": "Show answer",
-            "easy": "Easy",
-            "again": "Again",
-            "good": "Good",
-            "hard": "Hard",
-            "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
+            "deck": "牌组",
+            "showAnswer": "显示答案",
+            "easy": "简单",
+            "again": "再来",
+            "good": "好",
+            "hard": "难",
+            "error": "AnkiConnect 无法连接，请确保 Anki 正在运行并且已安装 AnkiConnect 扩展。",
             "widgetName": "Anki"
         },
         "settings": {
             "general": {
-                "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
-                "sidebarOrientation": "Sidebar orientation",
-                "sidebarOrientationOption-auto": "Based on window orientation",
-                "sidebarOrientationOption-vertical": "Always vertical",
-                "sidebarOrientationOption-horizontal": "Always horizontal",
-                "autoHideSidebar": "Automatically hide sidebar",
-                "showBookmarksBar": "Show bookmarks bar",
-                "rememberLastFolder": "Remember last open folder"
+                "translationInfo": "除英语和乌克兰语外的其他语言翻译由社区提供。如果您发现任何错误或未翻译的字符串，请帮助我们修复！<0>这里</0>是您可以参与的说明。",
+                "sidebarOrientation": "侧边栏方向",
+                "sidebarOrientationOption-auto": "基于窗口方向",
+                "sidebarOrientationOption-vertical": "始终垂直",
+                "sidebarOrientationOption-horizontal": "始终水平",
+                "autoHideSidebar": "自动隐藏侧边栏",
+                "showBookmarksBar": "显示书签栏",
+                "rememberLastFolder": "记住上次打开的文件夹"
             },
             "theme": {
-                "createCustom": "Create custom theme",
-                "selectBackground": "Select background",
-                "blur": "Blur",
-                "colorAccent": "Accent",
-                "colorBackground": "Background",
-                "colorText": "Text"
+                "createCustom": "创建自定义主题",
+                "selectBackground": "选择背景",
+                "blur": "模糊",
+                "colorAccent": "强调色",
+                "colorBackground": "背景色",
+                "colorText": "文字颜色"
             },
             "importExport": {
-                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+                "safariBugAlert": "由于 Safari 中的错误，我们无法从扩展程序保存任何文件，这反过来使得无法下载备份。我们非常抱歉，但对此无能为力 :("
             },
             "aboutHelp": {
-                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
+                "p4": "如果您想通过一些硬币支持 Anori 的开发，您可以在<0>这里</0>进行。支持加密货币和信用卡选项。"
             }
         },
         "onboarding": {
             "analytics": {
-                "p3": "If you'd like to learn more about which data is collected, click <0>here</0>."
+                "p3": "如果您想了解更多关于收集哪些数据的信息，请点击<0>这里</0>。"
             }
         },
         "bookmark-plugin": {
-            "checkStatus": "Check page status",
-            "checkStatusHint": "Anori will make request to page every 10-15 minutes in background to see if it's up. If server is unreachable or returns HTTP 5xx error it will be considered down. This will require additional permission. Checks won't be made while browser is closed or computer is sleeping.",
-            "checkingStatus": "Checking page status...",
-            "status": "Page is currently {{status}}, last status change was {{lastChange}}. Last checked {{lastCheck}}.",
-            "statusUp": "up",
-            "statusDown": "down",
-            "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites.",
-            "openInNewTab": "Open in a new tab"
+            "checkStatus": "检查页面状态",
+            "checkStatusHint": "Anori 将每 10-15 分钟在后台请求页面以查看其是否正常运行。如果服务器无法访问或返回 HTTP 5xx 错误，则将其视为宕机。这将需要额外的权限。检查不会在浏览器关闭或计算机休眠时进行。",
+            "checkingStatus": "正在检查页面状态...",
+            "status": "页面当前{{status}}，上次状态更改为{{lastChange}}。上次检查时间为{{lastCheck}}。",
+            "statusUp": "正常",
+            "statusDown": "宕机",
+            "permissionExplanation": "Anori 需要此权限来解决 CORS 问题。浏览器显示的措辞可能令人望而生畏，但 Anori 不会更改或读取任何书签网站的数据。",
+            "openInNewTab": "在新标签页中打开"
         },
         "rss-plugin": {
-            "compactView": "Compact view"
+            "compactView": "紧凑视图"
         }
     }
 }
