@@ -47,7 +47,15 @@
                 "showAnimationOnOpen": "打开时显示动画",
                 "showAnimationOnOpenHint": "如果启用，该扩展将显示一个快速加载动画，它将隐藏加载数据的闪烁，并提供更好的外观。",
                 "hideEditButton": "隐藏 '编辑目录' 按钮",
-                "hideEditButtonHint": "非常极简主义。"
+                "hideEditButtonHint": "非常极简主义。",
+                "translationInfo": "除英语和乌克兰语外的其他语言翻译由社区提供。如果您发现任何错误或未翻译的字符串，请帮助我们修复！<0>这里</0>是您可以参与的说明。",
+                "sidebarOrientation": "侧边栏方向",
+                "sidebarOrientationOption-auto": "基于窗口方向",
+                "sidebarOrientationOption-vertical": "始终垂直",
+                "sidebarOrientationOption-horizontal": "始终水平",
+                "autoHideSidebar": "自动隐藏侧边栏",
+                "showBookmarksBar": "显示书签栏",
+                "rememberLastFolder": "记住上次打开的文件夹"
             },
             "customIcons": {
                 "title": "自定义图标",
@@ -69,20 +77,28 @@
                 "title": "插件设置"
             },
             "theme": {
-                "title": "主题"
+                "title": "主题",
+                "createCustom": "创建自定义主题",
+                "selectBackground": "选择背景",
+                "blur": "模糊",
+                "colorAccent": "强调色",
+                "colorBackground": "背景色",
+                "colorText": "文字颜色"
             },
             "importExport": {
                 "title": "导入 & 导出",
                 "info": "你可以在这里备份或恢复你的设置。",
                 "import": "导入",
-                "export": "导出"
+                "export": "导出",
+                "safariBugAlert": "由于 Safari 中的错误，我们无法从扩展程序保存任何文件，这反过来使得无法下载备份。我们非常抱歉，但对此无能为力 :("
             },
             "aboutHelp": {
                 "title": "关于此扩展 & 帮助",
                 "onlyEnglishPlease": "我（项目的作者）不会说很多语言，所以请用英语提交您的问题。谢谢！",
                 "p1": "Anori 是一个免费的开源扩展程序。源代码可以在<0>GitHub</0>上找到。如果您想建议一个功能或报告一个错误，请在存储库中创建<1>新问题</1>。如果您只是想说谢谢，您可以给该存储库点赞：）。",
                 "p2": "如果您想修改此扩展程序，添加自己的插件或小部件，请参阅<0>readme</0>获取更多信息。",
-                "p3": "关注作者的<0>Twitter</0>并<1>支持乌克兰</1>。"
+                "p3": "关注作者的<0>Twitter</0>并<1>支持乌克兰</1>。",
+                "p4": "如果您想通过一些硬币支持 Anori 的开发，您可以在<0>这里</0>进行。支持加密货币和信用卡选项。"
             }
         },
         "shortcuts": {
@@ -126,7 +142,8 @@
             "analytics": {
                 "title": "诊断数据",
                 "p1": "我们快要完成了。但是还有一件事。默认情况下，Anori 不会收集任何跟踪数据，也不会将任何内容发送到远程服务器。但是，我使用用户自愿发送的分析数据来查看哪些功能被使用最多，哪些需要进行一些改进。",
-                "p2": "因此，我要求您启用发送分析数据。Anori 不会发送任何私人数据（例如您的笔记或书签URL），只会发送有关您如何使用扩展的指标（例如您有多少文件夹以及您使用快捷方式的频率）。但这完全取决于您，即使您不启用分析，Anori 也将像往常一样工作。"
+                "p2": "因此，我要求您启用发送分析数据。Anori 不会发送任何私人数据（例如您的笔记或书签URL），只会发送有关您如何使用扩展的指标（例如您有多少文件夹以及您使用快捷方式的频率）。但这完全取决于您，即使您不启用分析，Anori 也将像往常一样工作。",
+                "p3": "如果您想了解更多关于收集哪些数据的信息，请点击<0>这里</0>。"
             },
             "presets": {
                 "title": "新的开始",
@@ -156,7 +173,15 @@
             "groupWidgetName": "书签组",
             "openInGroup": "在标签页组中打开",
             "group": "组",
-            "searchBookmarks": "搜索书签"
+            "searchBookmarks": "搜索书签",
+            "checkStatus": "检查页面状态",
+            "checkStatusHint": "Anori 将每 10-15 分钟在后台请求页面以查看其是否正常运行。如果服务器无法访问或返回 HTTP 5xx 错误，则将其视为宕机。这将需要额外的权限。检查不会在浏览器关闭或计算机休眠时进行。",
+            "checkingStatus": "正在检查页面状态...",
+            "status": "页面当前{{status}}，上次状态更改为{{lastChange}}。上次检查时间为{{lastCheck}}。",
+            "statusUp": "正常",
+            "statusDown": "宕机",
+            "permissionExplanation": "Anori 需要此权限来解决 CORS 问题。浏览器显示的措辞可能令人望而生畏，但 Anori 不会更改或读取任何书签网站的数据。",
+            "openInNewTab": "在新标签页中打开"
         },
         "calendar-plugin": {
             "name": "日历",
@@ -258,7 +283,58 @@
             "exampleFeedTitle2": "Productivity 101",
             "examplePostTitle3": "一款可以让您从小部件中组合自己的新标签页的扩展程序！",
             "examplePostDescription3": "您可以从提供的小部件（任务、笔记、书签等）中组合自己的新标签页，并将它们组织成文件夹。",
-            "exampleFeedTitle3": "Reddit"
+            "exampleFeedTitle3": "Reddit",
+            "compactView": "紧凑视图"
+        },
+        "reload": "重新加载",
+        "icons": "图标",
+        "canBeEmpty": "可以为空",
+        "safari": {
+            "onboarding": {
+                "iosMacP1": "要开始使用 Anori，您需要在 Safari 的设置中启用它。",
+                "macButton": "退出并打开 Safari 扩展偏好设置…",
+                "iosP2": "我们知道这个过程有点繁琐，但请耐心等待。",
+                "iosP3": "首先，您需要启用扩展，然后将新标签页切换到 Anori。这里有示意图，这样您就不会在 Safari 设置中迷路了 :)",
+                "iosButton": "打开 Safari 扩展设置"
+            }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "自定义图标是您上传以供以后在 Anori 中使用的图标。",
+            "customIconsAbsent": "目前，您没有任何自定义图标。要上传您的第一个自定义图标，请前往设置。",
+            "iconFamily": "图标系列",
+            "allIcons": "所有图标"
+        },
+        "iframe-plugin": {
+            "name": "嵌入网页",
+            "expandWidgetName": "嵌入网页 — 点击可扩展",
+            "showLink": "显示跳转原始页面的按钮",
+            "limitations": "嵌入并不适用于所有页面。有些网站抵制作为嵌入页面显示，不幸的是，Anori 无能为力。这可能导致页面无法加载或异常。"
+        },
+        "math-plugin": {
+            "name": "数学",
+            "calculator": "计算器",
+            "expandWidgetName": "计算器 — 点击可扩展",
+            "cantCalc": "无法计算"
+        },
+        "label-plugin": {
+            "name": "标签",
+            "label": "文本标签",
+            "text": "描述"
+        },
+        "picture-plugin": {
+            "name": "图片",
+            "widgetName": "图像"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "牌组",
+            "showAnswer": "显示答案",
+            "easy": "简单",
+            "again": "再来",
+            "good": "好",
+            "hard": "难",
+            "error": "AnkiConnect 无法连接，请确保 Anki 正在运行并且已安装 AnkiConnect 扩展。",
+            "widgetName": "Anki"
         }
     }
 }

@@ -18,10 +18,15 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
-                    <h2>1.20.0</h2>
+                    <h2>1.20.0</h2>P
                     <ul>
-                        <li>Tab groups now can be opened in new tab using middle mouse button click. This was 
-                            contribution from @DarkVen0m. Thanks!</li>
+                        <li>
+                            Tab groups now can be opened in new tab using middle mouse button click. This was
+                            contribution from @DarkVen0m. Thanks!
+                        </li>
+                        <li>
+                            Chinese translation was updated. This was contribution from @rockcor. Thanks!
+                        </li>
                     </ul>
                     <h2>1.19.0</h2>
                     <ul>
