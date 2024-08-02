@@ -18,7 +18,7 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
-                    <h2>1.20.0</h2>P
+                    <h2>1.20.0</h2>
                     <ul>
                         <li>
                             Tab groups now can be opened in new tab using middle mouse button click. This was
