@@ -103,7 +103,17 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
             plugin: searchPlugin,
             widget: searchWidgetDescriptor,
             config: {
-                defaultProvider: 'google'
+                defaultProvider: {name: 'Google', url: 'https://www.google.com/search?q={query}'},
+                visibleProviders: [
+                    { name: 'Google', url: 'https://www.google.com/search?q={query}' },
+                    { name: 'Google Images', url: 'https://www.google.com/search?q={query}&tbm=isch' },
+                    { name: 'YouTube', url: 'https://www.youtube.com/results?search_query={query}' },
+                    { name: 'Bing', url: 'https://www.bing.com/search?q={query}' },
+                    { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q={query}' },
+                    { name: 'Ecosia', url: 'https://www.ecosia.org/search?q={query}' },
+                    { name: 'Kagi', url: 'https://kagi.com/search?q={query}' },
+                    { name: 'Brave', url: 'https://search.brave.com/search?q={query}' }
+                ],
             },
             position: {
                 x: 1 + compensationForTopSites,
