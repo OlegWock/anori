@@ -1,0 +1,55 @@
+name: Compile Extension
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome, firefox, safari]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Compile for Chrome
+      if: matrix.browser == 'chrome'
+      run: yarn dev
+
+    - name: Compile for Firefox
+      if: matrix.browser == 'firefox'
+      run: yarn dev:ff
+
+    - name: Compile for Safari
+      if: matrix.browser == 'safari'
+      run: yarn production:sf
+
+    - name: Upload Chrome/Firefox artifacts
+      if: matrix.browser != 'safari'
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.browser }}-extension
+        path: dist/
+
+    - name: Upload Safari artifacts
+      if: matrix.browser == 'safari'
+      uses: actions/upload-artifact@v3
+      with:
+        name: safari-extension
+        path: safari-app/anori/Shared (Extension)/
