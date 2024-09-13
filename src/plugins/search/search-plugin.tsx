@@ -21,6 +21,7 @@ const providersPretty = {
     'duck': 'DuckDuckGo',
     'ecosia': 'Ecosia',
     'kagi': 'Kagi',
+    'brave': 'Brave',
 } as const;
 
 const providersIcons = {
@@ -31,6 +32,7 @@ const providersIcons = {
     'duck': 'logos:duckduckgo',
     'ecosia': 'twemoji:deciduous-tree',
     'kagi': 'twemoji:dog-face',
+    'brave': 'logos:brave-icon'
 } as const;
 
 type Provider = keyof typeof providersPretty;
@@ -49,7 +51,8 @@ const generateSearchUrl = (provider: Provider, query: string) => {
         'bing': `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
         'duck': `https://duckduckgo.com/?q=${encodeURIComponent(query)}`,
         'ecosia': `https://www.ecosia.org/search?q=${encodeURIComponent(query)}`,
-        'kagi': `https://kagi.com/search?q=${encodeURIComponent(query)}`
+        'kagi': `https://kagi.com/search?q=${encodeURIComponent(query)}`,
+        'brave': `https://search.brave.com/search?q=${encodeURIComponent(query)}`
     }[provider];
 }
 
