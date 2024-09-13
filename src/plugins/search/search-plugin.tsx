@@ -32,7 +32,7 @@ const providersIcons = {
     'duck': 'logos:duckduckgo',
     'ecosia': 'twemoji:deciduous-tree',
     'kagi': 'twemoji:dog-face',
-    'brave': 'logos:brave-icon'
+    'brave': 'logos:brave'
 } as const;
 
 type Provider = keyof typeof providersPretty;
@@ -57,25 +57,59 @@ const generateSearchUrl = (provider: Provider, query: string) => {
 }
 
 
-const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<WidgetConfig>) => {
+const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationScreenProps<WidgetConfig & { visibleProviders: Provider[] }>) => {
     const [defaultProvider, setDefaultProvider] = useState<Provider>(currentConfig ? currentConfig.defaultProvider : 'google');
+    const [visibleProviders, setVisibleProviders] = useState<Provider[]>(
+        currentConfig?.visibleProviders || providers
+    );
     const { t } = useTranslation();
 
-    return (<div className='SearchWidget-config'>
-        <div>
-            <label>{t('search-plugin.defaultProvider')}</label>
-            <Select<Provider>
-                options={providers}
-                value={defaultProvider}
-                onChange={setDefaultProvider}
-                getOptionKey={o => o}
-                getOptionLabel={o => providersPretty[o]}
-            />
-        </div>
+    const toggleProvider = (provider: Provider) => {
+        setVisibleProviders((prev) =>
+            prev.includes(provider)
+                ? prev.filter((p) => p !== provider)
+                : [...prev, provider]
+        );
+    };
 
-        <Button className='save-config' onClick={() => saveConfiguration({ defaultProvider })}>{t('save')}</Button>
-    </div>)
+    return (
+        <div className='SearchWidget-config'>
+            <div>
+                <label>{t('search-plugin.defaultProvider')}</label>
+                <Select<Provider>
+                    options={visibleProviders}
+                    value={defaultProvider}
+                    onChange={setDefaultProvider}
+                    getOptionKey={o => o}
+                    getOptionLabel={o => providersPretty[o]}
+                />
+            </div>
+
+            <div>
+                <label>{t('search-plugin.selectProviders')}</label>
+                {providers.map((provider) => (
+                    <div key={provider}>
+                        <input
+                            type="checkbox"
+                            id={provider}
+                            checked={visibleProviders.includes(provider)}
+                            onChange={() => toggleProvider(provider)}
+                        />
+                        <label htmlFor={provider}>{providersPretty[provider]}</label>
+                    </div>
+                ))}
+            </div>
+
+            <Button
+                className='save-config'
+                onClick={() => saveConfiguration({ defaultProvider, visibleProviders })}
+            >
+                {t('save')}
+            </Button>
+        </div>
+    );
 };
+
 
 const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     const doSearch = (e: React.KeyboardEvent | React.MouseEvent) => {
