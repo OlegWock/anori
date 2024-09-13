@@ -54,6 +54,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
     );
     const [customName, setCustomName] = useState('');
     const [customUrl, setCustomUrl] = useState('');
+    const [customUrlPlaceholder] = useState('https://www.google.com/search?q={query}'); // Default text for URL input
     const { t } = useTranslation();
 
     // Update state when currentConfig changes
@@ -63,12 +64,6 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
             setVisibleProviders(currentConfig.visibleProviders);
         }
     }, [currentConfig]);
-
-    // Log visibleProviders and defaultProvider whenever they are updated
-    useEffect(() => {
-        console.log('Visible Providers:', visibleProviders);
-        console.log('Primary (Default) Provider:', defaultProvider);
-    }, [visibleProviders, defaultProvider]);
 
     const toggleProvider = (provider: Provider) => {
         setVisibleProviders((prev) => {
@@ -95,8 +90,16 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         }
     };
 
-    const isProviderVisible = (provider: Provider) => {
-        return visibleProviders.some(p => p.name === provider.name);
+    const handleCustomUrlFocus = () => {
+        if (customUrl === '') {
+            setCustomUrl(customUrlPlaceholder); // Show placeholder text
+        }
+    };
+
+    const handleCustomUrlBlur = () => {
+        if (customUrl === customUrlPlaceholder) {
+            setCustomUrl(''); // Clear input field if it's just the placeholder
+        }
     };
 
     return (
@@ -119,7 +122,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
                     <input
                         type="checkbox"
                         id={provider.name}
-                        checked={isProviderVisible(provider)}  // Reflect current state in checkboxes
+                        checked={visibleProviders.includes(provider)}  // Reflect current state in checkboxes
                         onChange={() => toggleProvider(provider)}
                     />
                         <label htmlFor={provider.name}>
@@ -139,7 +142,9 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
                 <Input
                     value={customUrl}
                     onChange={e => setCustomUrl(e.target.value)}
-                    placeholder={t('Search URL')}
+                    onFocus={handleCustomUrlFocus}
+                    onBlur={handleCustomUrlBlur}
+                    placeholder={customUrlPlaceholder} // Display the placeholder when empty
                 />
                 <Button onClick={addCustomProvider}>{t('Add')}</Button>
             </div>
@@ -153,7 +158,6 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         </div>
     );
 };
-
 
 const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
     const [activeProvider, setActiveProvider] = useState<Provider>(config.defaultProvider);
