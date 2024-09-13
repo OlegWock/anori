@@ -51,9 +51,19 @@
     gap: 12px;
     align-items: stretch;
 
-    &>div {
+    & > div {
         display: flex;
         flex-direction: column;
+    }
+
+    .provider-row {
+        display: flex;
+        align-items: center; /* Align items (checkbox and label) vertically */
+        gap: 8px; /* Space between checkbox and label */
+    }
+
+    label {
+        font-size: 0.875rem; /* Make the label text slightly smaller */
     }
 
     .save-config {

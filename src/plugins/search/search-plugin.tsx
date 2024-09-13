@@ -54,7 +54,6 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
     );
     const [customName, setCustomName] = useState('');
     const [customUrl, setCustomUrl] = useState('');
-    const [customUrlPlaceholder] = useState('https://www.google.com/search?q={query}'); // Default text for URL input
     const { t } = useTranslation();
 
     // Update state when currentConfig changes
@@ -90,18 +89,6 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
         }
     };
 
-    const handleCustomUrlFocus = () => {
-        if (customUrl === '') {
-            setCustomUrl(customUrlPlaceholder); // Show placeholder text
-        }
-    };
-
-    const handleCustomUrlBlur = () => {
-        if (customUrl === customUrlPlaceholder) {
-            setCustomUrl(''); // Clear input field if it's just the placeholder
-        }
-    };
-
     return (
         <div className='SearchWidget-config'>
             <div>
@@ -117,19 +104,19 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
             <div>
                 <label>{t('Visible Providers')}</label>
-                {providers.map((provider) => (
-                    <div key={provider.name}>
-                    <input
-                        type="checkbox"
-                        id={provider.name}
-                        checked={visibleProviders.includes(provider)}  // Reflect current state in checkboxes
-                        onChange={() => toggleProvider(provider)}
-                    />
-                        <label htmlFor={provider.name}>
-                            {provider.name}
-                        </label>
-                    </div>
-                ))}
+                    {providers.map((provider) => (
+                        <div className="provider-row" key={provider.name}>
+                            <input
+                                type="checkbox"
+                                id={provider.name}
+                                checked={visibleProviders.includes(provider)}  // Reflect current state in checkboxes
+                                onChange={() => toggleProvider(provider)}
+                            />
+                            <label htmlFor={provider.name}>
+                                {provider.name}
+                            </label>
+                        </div>
+                    ))}
             </div>
 
             <div>
@@ -142,9 +129,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
                 <Input
                     value={customUrl}
                     onChange={e => setCustomUrl(e.target.value)}
-                    onFocus={handleCustomUrlFocus}
-                    onBlur={handleCustomUrlBlur}
-                    placeholder={customUrlPlaceholder} // Display the placeholder when empty
+                    placeholder={t('ex: https://www.google.com/search?q={query}')} // Display the placeholder when empty
                 />
                 <Button onClick={addCustomProvider}>{t('Add')}</Button>
             </div>
