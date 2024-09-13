@@ -1,7 +1,7 @@
 import { AnoriPlugin, OnCommandInputCallback, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from '@utils/user-data/types';
 import './styles.scss';
 import { Button } from '@components/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input } from '@components/Input';
 import { Select } from '@components/Select';
 import { Icon } from '@components/Icon';
@@ -11,7 +11,6 @@ import { FloatingDelayGroup } from '@floating-ui/react';
 import { translate } from '@translations/index';
 import { useTranslation } from 'react-i18next';
 import browser from 'webextension-polyfill';
-import { useEffect } from 'react';
 
 const providers = [
     { name: 'Google', url: 'https://www.google.com/search?q={query}' },
@@ -157,7 +156,7 @@ const ConfigScreen = ({ currentConfig, saveConfiguration }: WidgetConfigurationS
 
 
 const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
-    const [activeProvider, setProvider] = useState<Provider>(config.defaultProvider);
+    const [activeProvider, setActiveProvider] = useState<Provider>(config.defaultProvider);
     const [query, setQuery] = useState('');
     const { rem, isCompact } = useSizeSettings();
     const { t } = useTranslation();
@@ -176,7 +175,7 @@ const WidgetScreen = ({ config }: WidgetRenderProps<WidgetConfig>) => {
                         <Tooltip key={p.name} label={p.name} placement='top'>
                             <Button
                                 className='provider-button'
-                                onClick={() => setProvider(p)}
+                                onClick={() => setActiveProvider(p)}
                                 active={p === activeProvider}
                             >
                                 <Icon
