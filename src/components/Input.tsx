@@ -1,5 +1,5 @@
 import { ChangeEvent, ComponentProps } from 'react';
-import TextareaAutosize, { TextareaAutosizeProps } from 'react-textarea-autosize';
+import TextareaAutosize, { type TextareaAutosizeProps } from 'react-textarea-autosize';
 import './Input.scss';
 import { clsx } from 'clsx';
 import { forwardRef } from 'react';
