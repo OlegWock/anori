@@ -18,6 +18,22 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.21.0</h2>
+                    <ul>
+                        <li>
+                            Happy New Year and thank you for choosing Anori in 2024 :)
+                        </li>
+                        <li>
+                            Previously Anori would stop working if you had a lot of bookmarks in bookmarks bar widget. 
+                            This was fixed in this version, now it can handle <em>really big</em> number of bookmarks.
+                        </li>
+                        <li>
+                            Smaller fixes here and there.
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>1.20.0</h2>
                     <ul>
                         <li>
@@ -28,6 +44,9 @@ export const WhatsNew = () => {
                             Chinese translation was updated. This was contribution from @rockcor. Thanks!
                         </li>
                     </ul>
+                </section>
+
+                <section>
                     <h2>1.19.0</h2>
                     <ul>
                         <li>
