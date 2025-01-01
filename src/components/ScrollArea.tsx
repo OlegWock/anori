@@ -33,10 +33,8 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(({
 }, ref) => {
     const mirrorScroll = (e: WheelEvent<HTMLDivElement>) => {
         e.stopPropagation();
-        // e.preventDefault();
         if (e.deltaY) {
             e.currentTarget.scrollLeft += e.deltaY;
-            // e.currentTarget.scrollLeft += Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         }
     };
 

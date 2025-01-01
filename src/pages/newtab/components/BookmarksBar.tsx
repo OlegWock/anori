@@ -1,6 +1,6 @@
 import { RequirePermissions } from '@components/RequirePermissions';
 import './BookmarksBar.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import browser from 'webextension-polyfill';
 import { Favicon, Icon } from '@components/Icon';
 import { useSizeSettings } from '@utils/compact';
@@ -10,6 +10,7 @@ import * as Menubar from '@radix-ui/react-menubar';
 import { ScrollArea } from '@components/ScrollArea';
 import { Link } from '@components/Link';
 import { useDirection } from '@radix-ui/react-direction';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 type BookmarkItem = {
     id: string,
@@ -89,7 +90,6 @@ const useBookmarks = () => {
 
 const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shiftSubmenu?: boolean }) => {
     const { rem } = useSizeSettings();
-    const [scrollAreaOverflows, setScrollAreaOverflows] = useState(false);
     const dir = useDirection();
 
     if (bookmark.type === 'bookmark') {
@@ -113,19 +113,57 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType, shif
         </Menubar.SubTrigger>
         <Menubar.Portal>
             <div className='radix-popover-zindex-fix'>
-                <Menubar.SubContent className="BookmarksMenubarContent" alignOffset={rem(-0.5)} sideOffset={shiftSubmenu ? rem(0.75) + 12 : rem(0.75)}>
-                    <ScrollArea color='translucent' onVerticalOverflowStatusChange={setScrollAreaOverflows} size='thin'>
-                        {bookmark.items.map(bm => <MenuBookmark shiftSubmenu={scrollAreaOverflows} bookmark={bm} key={bm.id} />)}
-                    </ScrollArea>
-                </Menubar.SubContent>
+                <VirtualizedBookmarksMenuContent bookmarks={bookmark.items} isSubmenu shiftSubmenu={shiftSubmenu} />
             </div>
         </Menubar.Portal>
     </Menubar.Sub>);
 };
 
-const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?: boolean }) => {
+const VirtualizedBookmarksMenuContent = ({ bookmarks, isSubmenu = false, shiftSubmenu = false }: { bookmarks: BookmarkType[], isSubmenu?: boolean, shiftSubmenu?: boolean }) => {
     const { rem } = useSizeSettings();
     const [scrollAreaOverflows, setScrollAreaOverflows] = useState(false);
+
+    const scrollAreaRef = useRef<HTMLDivElement>(null)
+    const virtualizer = useVirtualizer({
+        count: bookmarks.length,
+        getScrollElement: () => scrollAreaRef.current,
+        estimateSize: () => rem(2.08),
+    });
+
+    const virtualizedItems = virtualizer.getVirtualItems();
+    const firstItemOffset = virtualizedItems[0]?.start ?? 0;
+
+    const WrapperComponent = isSubmenu ? Menubar.SubContent : Menubar.Content;
+    const wrapperProps = isSubmenu ? {
+        alignOffset: rem(-0.5),
+        sideOffset: shiftSubmenu ? rem(0.75) + 12 : rem(0.75),
+    } : {
+        align: "start",
+        sideOffset: 5,
+        alignOffset: -3,
+    };
+
+    return (<WrapperComponent className="BookmarksMenubarContent" {...wrapperProps}>
+        <ScrollArea
+            color='translucent'
+            onVerticalOverflowStatusChange={setScrollAreaOverflows}
+            size='thin'
+            viewportRef={scrollAreaRef}
+        >
+            <div style={{ height: virtualizer.getTotalSize() }}>
+                <div style={{ transform: `translateY(${firstItemOffset}px)` }}>
+                    {virtualizedItems.map((virtualItem) => {
+                        const bm = bookmarks[virtualItem.index]
+                        return <MenuBookmark shiftSubmenu={scrollAreaOverflows} bookmark={bm} key={bm.id} />
+                    })}
+                </div>
+            </div>
+        </ScrollArea>
+    </WrapperComponent>)
+};
+
+const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?: boolean }) => {
+    const { rem } = useSizeSettings();
 
     const content = (<>
         {bookmark.type === 'bookmark' && <Favicon url={bookmark.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />}
@@ -144,11 +182,7 @@ const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?:
             <Menubar.Trigger className={clsx("Bookmark", fullWidth && 'full-width')}>{content}</Menubar.Trigger>
             <Menubar.Portal>
                 <div className='radix-popover-zindex-fix' onWheel={e => e.stopPropagation()}>
-                    <Menubar.Content className="BookmarksMenubarContent" align="start" sideOffset={5} alignOffset={-3}>
-                        <ScrollArea color='translucent' onVerticalOverflowStatusChange={setScrollAreaOverflows} size='thin'>
-                            {bookmark.items.map(bm => <MenuBookmark shiftSubmenu={scrollAreaOverflows} bookmark={bm} key={bm.id} />)}
-                        </ScrollArea>
-                    </Menubar.Content>
+                    <VirtualizedBookmarksMenuContent bookmarks={bookmark.items} />
                 </div>
             </Menubar.Portal>
         </Menubar.Menu>
@@ -158,6 +192,17 @@ const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType, fullWidth?:
 const BookmarksBarComponent = () => {
     const [bar, other] = useBookmarks();
     const dir = useDirection();
+
+    const scrollAreaRef = useRef<HTMLDivElement>(null)
+    const virtualizer = useVirtualizer({
+        count: bar.length,
+        horizontal: true,
+        getScrollElement: () => scrollAreaRef.current,
+        estimateSize: () => 144 + 12,
+    });
+
+    const virtualizedItems = virtualizer.getVirtualItems();
+    const firstItemOffset = virtualizedItems[0]?.start ?? 0;
 
     return (<Menubar.Root className='bookmarks' dir={dir}>
         {(bar.length === 0 && !other) && <div className='bookmarks-placeholder' />}
@@ -169,9 +214,17 @@ const BookmarksBarComponent = () => {
             size='thin'
             className='bookmarks-bar-wrapper'
             mirrorVerticalScrollToHorizontal
+            viewportRef={scrollAreaRef}
         >
-            <div className='bookmarks-bar'>
-                {bar.map(bm => <Bookmark bookmark={bm} key={bm.id} />)}
+            <div style={{ width: virtualizer.getTotalSize() }}>
+                <div className='bookmarks-bar' style={{
+                    transform: `translateX(${firstItemOffset}px)`,
+                }}>
+                    {virtualizedItems.map((virtualItem) => {
+                        const bm = bar[virtualItem.index];
+                        return <Bookmark bookmark={bm} key={bm.id} />
+                    })}
+                </div>
             </div>
         </ScrollArea>
         {!!other && <Bookmark bookmark={other} fullWidth />}
