@@ -205,12 +205,6 @@
             "tab": "แท็บ",
             "window": "หน้าต่าง"
         },
-        "search-plugin": {
-            "name": "ค้นหาทางอินเทอร์เน็ต",
-            "widgetName": "ค้นหา",
-            "defaultProvider": "ผู้ให้บริการเริ่มต้น",
-            "searchProviderForQ": "ค้นหา {{provider}} สำหรับ «{{query}}»"
-        },
         "system-status-plugin": {
             "name": "สถานะอุปกรณ์",
             "ramLoad": "RAM โหลด",

@@ -232,13 +232,6 @@
         "window": "نافذة"
       },
   
-      "search-plugin": {
-        "name": "البحث على الإنترنت",
-        "widgetName": "بحث",
-        "defaultProvider": "مزود افتراضي",
-        "searchProviderForQ": "البحث عن {{provider}} عن «{{query}}»"
-      },
-  
       "system-status-plugin": {
         "name": "حالة النظام",
         "ramLoad": "حمل الرام",

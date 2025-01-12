@@ -28,7 +28,6 @@
 * Calculator
 * Embedded page
 * RSS reader
-* Internet search
 * Calendar
 * Anori integration
 * Pictures

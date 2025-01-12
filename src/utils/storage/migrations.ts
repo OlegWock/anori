@@ -92,5 +92,18 @@ const migrations: Migration[] = [
 
             return storage;
         }
+    },
+    {
+        v: 3,
+        migrate: (storage: any) => {
+            const customFolders = storage.folders || [];
+            const folders: Folder[] = [homeFolder, ...customFolders];
+            folders.map((folder) => {
+                const details: FolderDetailsInStorage = storage[`Folder.${folder.id}`] || { widgets: [] };
+                details.widgets = details.widgets.filter(widget => widget.pluginId !== 'search-plugin');
+            });
+
+            return storage;
+        },
     }
 ].sort((a, b) => a.v - b.v);

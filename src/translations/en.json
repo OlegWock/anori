@@ -240,13 +240,6 @@
             "window": "Window"
         },
 
-        "search-plugin": {
-            "name": "Internet search",
-            "widgetName": "Search",
-            "defaultProvider": "Default provider",
-            "searchProviderForQ": "Search {{provider}} for «{{query}}»"
-        },
-
         "system-status-plugin": {
             "name": "System status",
             "ramLoad": "RAM load",

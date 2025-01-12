@@ -209,12 +209,6 @@
             "tab": "Вкладка",
             "window": "Окно"
         },
-        "search-plugin": {
-            "name": "Поиск в Интернете",
-            "widgetName": "Поиск",
-            "defaultProvider": "Провайдер по умолчанию",
-            "searchProviderForQ": "Поиск «{{query}}» в {{provider}}"
-        },
         "system-status-plugin": {
             "name": "Состояние системы",
             "ramLoad": "Нагрузка RAM",

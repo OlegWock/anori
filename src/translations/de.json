@@ -235,12 +235,6 @@
             "tab": "Tab",
             "window": "Fenster"
         },
-        "search-plugin": {
-            "name": "Internetsuche",
-            "widgetName": "Suche",
-            "searchProviderForQ": "Durchsuche {{provider}} nach «{{query}}»",
-            "defaultProvider": "Standard-Suchmaschine"
-        },
         "system-status-plugin": {
             "name": "Systemstatus",
             "ramLoad": "RAM Auslastung",

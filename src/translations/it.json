@@ -208,12 +208,6 @@
             "tab": "Scheda",
             "window": "Finestra"
         },
-        "search-plugin": {
-            "name": "Ricerca su Internet",
-            "widgetName": "Ricerca",
-            "defaultProvider": "Provider predefinito",
-            "searchProviderForQ": "Cerca «{{query}}» su {{provider}}"
-        },
         "system-status-plugin": {
             "name": "System status",
             "ramLoad": "RAM load",

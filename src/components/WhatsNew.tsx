@@ -24,6 +24,10 @@ export const WhatsNew = () => {
                             Happy New Year and thank you for choosing Anori in 2024 :)
                         </li>
                         <li>
+                            Unfortunately, I had to remove search widget from the Anori due to requirements from 
+                            Google. I apologize for any inconvenience, but unfortunately there is not much I can do about it.
+                        </li>
+                        <li>
                             Previously Anori would stop working if you had a lot of bookmarks in bookmarks bar widget. 
                             This was fixed in this version, now it can handle <em>really big</em> number of bookmarks.
                         </li>

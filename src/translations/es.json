@@ -220,12 +220,6 @@
             "tab": "Pestaña",
             "window": "Ventana"
         },
-        "search-plugin": {
-            "name": "Búsqueda en internet",
-            "widgetName": "Buscar",
-            "defaultProvider": "Proveedor por defecto",
-            "searchProviderForQ": "Buscar {{provider}} para «{{query}}»"
-        },
         "system-status-plugin": {
             "name": "Estado del sistema",
             "ramLoad": "Carga de RAM",

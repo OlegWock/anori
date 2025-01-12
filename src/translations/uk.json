@@ -210,12 +210,6 @@
             "tab": "Вкладка",
             "window": "Вікно"
         },
-        "search-plugin": {
-            "name": "Пошук в мережі",
-            "widgetName": "Пошук",
-            "searchProviderForQ": "Шукати «{{query}}» в {{provider}}",
-            "defaultProvider": "Пошуковик за замовчуванням"
-        },
         "system-status-plugin": {
             "name": "Статус системи",
             "ramLoad": "Навантаження RAM",

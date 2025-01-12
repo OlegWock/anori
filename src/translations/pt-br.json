@@ -231,14 +231,6 @@
             "tab": "Aba",
             "window": "Janela"
         },
-
-        "search-plugin": {
-            "name": "Pesquisar na internet",
-            "widgetName": "Pesquisar",
-            "defaultProvider": "Provedor padrão",
-            "searchProviderForQ": "Pesquisar no(a) {{provider}} por «{{query}}»"
-        },
-
         "system-status-plugin": {
             "name": "Status do sistema",
             "ramLoad": "Uso de RAM",

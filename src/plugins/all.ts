@@ -1,7 +1,6 @@
 import { AnoriPlugin } from "@utils/user-data/types";
 import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
 import { datetimePlugin } from "./datetime/datetime-plugin";
-import { searchPlugin } from "./search/search-plugin";
 import { recentlyClosedPlugin } from "./recently-closed/recently-closed-plugin";
 import { systemStatusPlugin } from "./system-status/system-status-plugin";
 import { calendarPlugin } from "./calendar/calendar-plugin";
@@ -36,7 +35,6 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
     notesPlugin,
     tasksPlugin,
     mathPlugin,
-    searchPlugin,
     weatherPlugin,
     calendarPlugin,
     recentlyClosedPlugin,

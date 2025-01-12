@@ -217,12 +217,6 @@
             "tab": "Onglet",
             "window": "Fenêtre"
         },
-        "search-plugin": {
-            "name": "Recherche Internet",
-            "widgetName": "Recherche",
-            "defaultProvider": "Fournisseur par défaut",
-            "searchProviderForQ": "Recherche {{provider}} pour «{{query}}»"
-        },
         "system-status-plugin": {
             "name": "État du système",
             "ramLoad": "Chargement de la RAM",

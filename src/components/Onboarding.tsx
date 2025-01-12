@@ -17,7 +17,6 @@ import { analyticsEnabledAtom } from '@utils/analytics';
 import { Checkbox } from './Checkbox';
 import { getIpInfo } from '@utils/network';
 import { topSitesPlugin, topSitesWidgetDescriptorVertical } from '@plugins/top-sites/top-sites-plugin';
-import { searchPlugin, searchWidgetDescriptor } from '@plugins/search/search-plugin';
 import { tasksPlugin, tasksWidgetDescriptor } from '@plugins/tasks/tasks-plugin';
 import { notesPlugin, notesWidgetDescriptor } from '@plugins/notes/notes-plugin';
 import { rssFeedDescriptor, rssPlugin } from '@plugins/rss/rss-plugin';
@@ -98,18 +97,6 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
             });
         }
 
-
-        addIfPossible({
-            plugin: searchPlugin,
-            widget: searchWidgetDescriptor,
-            config: {
-                defaultProvider: 'google'
-            },
-            position: {
-                x: 1 + compensationForTopSites,
-                y: 0,
-            }
-        });
         addIfPossible({
             plugin: tasksPlugin,
             widget: tasksWidgetDescriptor,
@@ -248,7 +235,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
 
     const screenName = screens[screenIndex];
 
-    const { activeFolder } = useFolders({includeHome: true});
+    const { activeFolder } = useFolders({ includeHome: true });
     const { addWidget } = useFolderWidgets(activeFolder);
 
     const [ref, bounds] = useMeasure();

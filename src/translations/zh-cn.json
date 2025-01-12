@@ -210,12 +210,6 @@
             "tab": "标签页",
             "window": "窗口"
         },
-        "search-plugin": {
-            "name": "在线搜索",
-            "widgetName": "搜索",
-            "searchProviderForQ": "在 {{provider}} 搜索 «{{query}}»",
-            "defaultProvider": "默认搜索引擎"
-        },
         "system-status-plugin": {
             "name": "系统状态",
             "ramLoad": "RAM 占用",
