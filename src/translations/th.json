@@ -57,7 +57,8 @@
                 "sidebarOrientationOption-vertical": "แนวตั้งเสมอ",
                 "sidebarOrientationOption-horizontal": "แนวนอนเสมอ",
                 "showBookmarksBar": "แสดงแถบบุ๊กมาร์ก",
-                "rememberLastFolder": "จำโฟลเดอร์ที่เปิดล่าสุด"
+                "rememberLastFolder": "จำโฟลเดอร์ที่เปิดล่าสุด",
+                "autoHideSidebar": "ซ่อนแถบด้านข้างโดยอัตโนมัติ"
             },
             "customIcons": {
                 "title": "ไอคอนที่กำหนดเอง",
@@ -79,7 +80,13 @@
                 "title": "ตั่งค่าส่วนเสริม"
             },
             "theme": {
-                "title": "ธีม"
+                "title": "ธีม",
+                "createCustom": "สร้างธีมแบบปรับแต่งเอง",
+                "selectBackground": "เลือกพื้นหลัง",
+                "blur": "เบลอ",
+                "colorAccent": "โทน",
+                "colorBackground": "พื้นหลัง",
+                "colorText": "ข้อความ"
             },
             "importExport": {
                 "title": "นำเข้า และ ส่งออก",
@@ -93,7 +100,8 @@
                 "onlyEnglishPlease": "ฉัน (ผู้เริ่มโครงการ) พูดได้ไม่กี่ภาษาดังนั้นกรุณาแจ้งปัญหาเป็นภาษาอังกฤษ ขอบคุณ!",
                 "p1": "ส่วนเสริม Anori ฟรีและ open source คุณสามารถดู Source code ได้ที่ <0>GitHub</0>, ถ้าคุณต้องการเสนอฟังก์ชันเพิ่มเติมหรือรายงานปัญหา กรุณาสร้าง <1>new issue</1> ใน Github หรือถ้าแค่อยากขอบคุณ คุณสามารถกดดาวให้กับโครงการของเราได้ :).",
                 "p2": "ถ้าคุณต้องการแก้ไขโครงการนี้ หรือเพิ่มวิดเจ็ตของคุณกรุณาอ่าน <0>Readme</0> สำหรับข้อมูลเพิ่มเติม",
-                "p3": "ติดตามผู้เริ่มโครงการได้ที่ <0>Twitter</0> และ <1>สนับสนุน Ukraine</1>."
+                "p3": "ติดตามผู้เริ่มโครงการได้ที่ <0>Twitter</0> และ <1>สนับสนุน Ukraine</1>.",
+                "p4": "ถ้าคุญอยากจะสนับสนุนการพัฒนา Anori ด้วยเหรียญคริปโตคุณสามารถทำได้ <0>ที่นี่</0> เหรียญคริปโตและบัตรเครดิตสามารถใช้งานได้"
             }
         },
         "shortcuts": {
@@ -272,7 +280,8 @@
             "exampleFeedTitle2": "Productivity 101",
             "examplePostTitle3": "ส่วนขยายที่ให้คุณสร้างแท็บใหม่ของคุณเองจากวิดเจ็ต!",
             "examplePostDescription3": "คุณสามารถสร้างแท็บใหม่ของคุณเองจากวิดเจ็ตที่มีให้ (งาน บันทึก บุ๊กมาร์ก ฯลฯ) และจัดระเบียบเป็นโฟลเดอร์",
-            "exampleFeedTitle3": "Reddit"
+            "exampleFeedTitle3": "Reddit",
+            "compactView": "มุมมองที่กะทัดรัด"
         },
         "safari": {
             "onboarding": {
@@ -299,7 +308,27 @@
             "name": "คณิตศาสตร์",
             "calculator": "เครื่องคิดเลข",
             "expandWidgetName": "เครื่องคิดเลข — ขยายได้",
-            "cantCalc": "คำนวณมันไม่ได้"
+            "cantCalc": "ไม่สามารถคำนวณได้"
+        },
+        "label-plugin": {
+            "name": "Label",
+            "label": "Label ข้อความ",
+            "text": "ข้อความ"
+        },
+        "picture-plugin": {
+            "name": "รูป",
+            "widgetName": "รูป"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Deck",
+            "showAnswer": "เฉลย",
+            "easy": "ง่าย",
+            "again": "อีกรอบ",
+            "good": "ดี",
+            "hard": "ยาก",
+            "error": "ไม่พบ AnkiConnect, โปรดตรวจสอบว่า Anki เปิดใช่งานอยู่และ AnkiConnect ถูกติดตั้งแล้ว",
+            "widgetName": "Anki"
         }
     }
 }
