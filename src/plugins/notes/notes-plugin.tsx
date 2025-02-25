@@ -1,6 +1,6 @@
 import { Input, Textarea } from "@components/Input";
 import { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
-import { ComponentProps, Suspense, lazy, useEffect, useRef, useState } from "react";
+import { ComponentProps, KeyboardEventHandler, Suspense, lazy, useEffect, useRef, useState } from "react";
 import './styles.scss';
 import { useWidgetStorage } from "@utils/plugin";
 import { translate } from "@translations/index";
@@ -42,6 +42,17 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
         setIsEditing(newIsEditing);
     };
 
+    const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
+        if (event.key !== 'Tab') return;
+		event.preventDefault();
+        const textarea = event.currentTarget;
+		const start = textarea.selectionStart;
+		const end = textarea.selectionEnd;
+		const value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+		textarea.selectionStart = textarea.selectionEnd = start + 1;
+		setBody(value);
+	};
+
     const storage = useWidgetStorage<{ title: string, body: string }>();
     const [title, setTitle] = storage.useValue('title', '');
     const [body, setBody] = storage.useValue('body', '');
@@ -73,6 +84,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
             className="note-body-editor"
             placeholder={t('notes-plugin.noteText')}
             onBlur={() => switchEditing(false)}
+            onKeyDown={handleKeyDown}
             ref={bodyEditorRef}
         />}
         {!isEditing && <div
