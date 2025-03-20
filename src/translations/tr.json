@@ -1,0 +1,127 @@
+{
+    "translation": {
+        "appName": "Anori: Verimlilik Yeni Sekme",
+        "appDescription": "Özelleştirilebilir yeni sekme: widget'lardan kendi sayfanızı oluşturun",
+        "appActionTitle": "Anori yeni sekmesini aç",
+        "icon": "İkon",
+        "title": "Başlık",
+        "url": "URL",
+        "urls": "URL'ler",
+        "save": "Kaydet",
+        "import": "İçe Aktar",
+        "add": "Ekle",
+        "reload": "Yeniden Yükle",
+        "noResults": "Sonuç yok",
+        "example": "Örnek",
+        "timezone": "Zaman Dilimi",
+        "refreshing": "Yenileniyor...",
+        "refresh": "Yenile",
+        "startTypingToSearch": "Aramak için yazmaya başlayın...",
+        "search": "Ara...",
+        "loading": "Yükleniyor...",
+        "lastUpdatedAt": "Son güncelleme {{datetime}} tarihinde yapıldı",
+        "home": "Ana Sayfa",
+        "availableOnlyInEnglish": "Yalnızca İngilizce olarak mevcut",
+        "px": "px",
+
+        "whatsNew": "Yenilikler",
+        "editWidget": "Widget'ı düzenle",
+        "configureWidget": "Widget'ı yapılandır",
+        "addWidget": "Widget ekle",
+        "next": "İleri",
+        "back": "Geri",
+        "icons": "İkonlar",
+        "customIcons": "Özel ikonlar",
+        "canBeEmpty": "Boş olabilir",
+
+        "safari": {
+            "onboarding": {
+                "iosMacP1": "Anori'yi kullanmaya başlamak için Safari ayarlarında etkinleştirmeniz gerekir.",
+                "macButton": "Kapat ve Safari Uzantı Tercihlerini Aç ...",
+                "iosP2": "Süreç biraz zahmetli, biliyoruz, ama bizimle kalın.",
+                "iosP3": "Öncelikle, uzantıyı etkinleştirmeniz (1) ve ardından yeni sekme sayfanızı Anori'ye değiştirmeniz gerekiyor (2). İşte kaybolmamanız için bir resim :)",
+                "iosButton": "Safari Uzantı Ayarlarını Aç"
+            }
+        },
+
+        "iconsPicker": {
+            "customIconsInfo": "Özel ikonlar, Anori'de daha sonra kullanmak üzere yüklediğiniz ikonlardır.",
+            "customIconsAbsent": "Şu anda özel ikonlarınız yok. İlk özel ikonunuzu yüklemek için ayarlara gidin.",
+            "iconFamily": "İkon ailesi",
+            "allIcons": "Tüm ikonlar"
+        },
+
+        "settings": {
+            "title": "Ayarlar",
+            "general": {
+                "title": "Genel",
+                "language": "Dil",
+                "translationInfo": "İngilizce veya Ukraynaca dışındaki dillere yapılan çeviriler topluluk tarafından sağlanmaktadır. Herhangi bir hata veya çevrilmemiş metin fark ederseniz, düzeltmemize yardımcı olun! <0>Burada</0> nasıl katılabileceğinize dair talimatlar var.",
+                "sidebarOrientation": "Kenar çubuğu yönü",
+                "sidebarOrientationOption-auto": "Pencere yönüne göre",
+                "sidebarOrientationOption-vertical": "Her zaman dikey",
+                "sidebarOrientationOption-horizontal": "Her zaman yatay",
+                "autoHideSidebar": "Kenar çubuğunu otomatik olarak gizle",
+                "newTabTitle": "Yeni sekme başlığı",
+                "enableAnalytics": "Analitik gönderimini etkinleştir",
+                "analyticsHintP1": "Analitikler, kullanıcıların Anori ile nasıl etkileşimde bulunduğunu ve hangi özelliklerin en çok kullanıldığını daha iyi anlamama yardımcı olur. Notların içeriği veya yer imi URL'leri gibi özel bilgileri paylaşmaz.",
+                "analyticsHintP2": "Bu, daha iyi bir ürün geliştirmeme yardımcı olur, bu yüzden analitik gönderimini etkinleştirmenizi rica ediyorum. <0>Daha fazla bilgi edinin.</0>",
+                "showBookmarksBar": "Yer imleri çubuğunu göster",
+                "stealFocus": "Adres çubuğundan odağı çal",
+                "stealFocusHint": "Etkinleştirilirse, bu, tarayıcının odağı adres çubuğundan bu sayfaya taşımaya zorlar. Yeni bir sekme açarken komut menüsünü (Cmd+K) sayfaya manuel olarak odaklanmadan (tıklayarak veya Tab tuşuna basarak) kullanabilirsiniz.",
+                "automaticCompact": "Ekran boyutuna göre otomatik olarak kompakt moda geç",
+                "automaticCompactModeThreshold": "Ekran boyutu daha küçükse kompakt moda geç",
+                "automaticCompactModeThresholdHint": "Mevcut ekran genişliğiniz {{screenWidth}}px",
+                "useCompact": "Her zaman kompakt modu kullan",
+                "showAnimationOnOpen": "Açılışta animasyon göster",
+                "showAnimationOnOpenHint": "Etkinleştirilirse, uzantı hızlı bir yükleme animasyonu gösterir, bu da veri yükleme sırasında oluşan başlangıç titremesini gizler ve daha iyi bir görünüm sağlar.",
+                "hideEditButton": "'Klasörü düzenle' düğmesini gizle",
+                "hideEditButtonHint": "Ekstra minimalist, evet.",
+                "rememberLastFolder": "Son açık klasörü hatırla"
+            },
+            "customIcons": {
+                "title": "Özel ikonlar",
+                "incorrectFormat": "Lütfen geçerli dosya(lar) sağlayın. Anori, .png, .jpg, .gif, .jpeg ve .svg formatlarını destekler.",
+                "noIcons": "Henüz özel ikonlarınız yok.",
+                "iconName": "İkon adı",
+                "invalidNames": "Bazı ikonların geçersiz bir adı var, lütfen kaydetmeden önce adları düzeltin.",
+                "nameContainsInvalidChars": "Ad geçersiz karakterler içeriyor, yalnızca harfler, rakamlar, - ve _ kabul edilir.",
+                "saveIcons": "İkonları kaydet",
+                "supportedFormats": "Anori, .png, .jpg, .gif ve .svg formatlarını destekler. Kare görüntüler kullanmak en iyisidir (128 ile 256 piksel genişliğinde, .svg için geçerli değildir).",
+                "importIcons": "İkonları içe aktar"
+            },
+            "folders": {
+                "title": "Klasörler",
+                "createNew": "Yeni klasör oluştur",
+                "defaultName": "Yeni klasör"
+            },
+            "pluginSettings": {
+                "title": "Eklenti ayarları"
+            },
+            "theme": {
+                "title": "Tema",
+                "createCustom": "Özel tema oluştur",
+                "selectBackground": "Arka plan seç",
+                "blur": "Bulanıklık",
+                "colorAccent": "Vurgu",
+                "colorBackground": "Arka plan",
+                "colorText": "Metin"
+            },
+            "importExport": {
+                "title": "İçe aktar & dışa aktar",
+                "info": "Burada ayarlarınızı yedekleyebilir veya eski bir yedeği geri yükleyebilirsiniz.",
+                "import": "İçe aktar",
+                "export": "Dışa aktar",
+                "safariBugAlert": "Safari'deki bir hata nedeniyle, uzantıdan herhangi bir dosya kaydedemiyoruz, bu da yedek indirmeyi imkansız hale getiriyor. Çok üzgünüz, ancak bu konuda yapabileceğimiz bir şey yok :("
+            },
+            "aboutHelp": {
+                "title": "Yardım & uzantı hakkında",
+                "onlyEnglishPlease": "Ben (projenin yazarı) çok fazla dil bilmiyorum, bu yüzden lütfen sorunlarınızı İngilizce olarak bildirin. Teşekkürler!",
+                "p1": "Anori, ücretsiz ve açık kaynaklı bir uzantıdır. Kaynak kodu <0>GitHub</0>'da bulunabilir. Bir özellik önermek veya bir hata bildirmek isterseniz, lütfen depoda <1>yeni bir sorun</1> oluşturun. Sadece teşekkür etmek istiyorsanız, o depoyu yıldızlayabilirsiniz :).",
+                "p2": "Bu uzantıyı değiştirmek, kendi eklentinizi veya widget'ınızı eklemek isterseniz, daha fazla bilgi için <0>readme</0>'ye bakın.",
+                "p3": "Yazarı <0>Twitter</0>'da takip edin ve <1>Ukrayna'yı destekleyin</1>.",
+                "p4": "Anori'nin geliştirilmesini biraz para ile desteklemek isterseniz, bunu <0>buradan</0> yapabilirsiniz. Kripto ve kredi kartı seçenekleri mevcuttur."
+            }
+        }
+    }
+}

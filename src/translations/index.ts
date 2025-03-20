@@ -9,6 +9,7 @@ import itTranslation from './it.json';
 import ukTranslation from './uk.json';
 import zhCnTranslation from './zh-cn.json';
 import thTranslation from './th.json';
+import trTranslation from './tr.json';
 import ruTranslation from './ru.json';
 import arTranslation from './ar.json';
 import ptBrTranslation from './pt-br.json';
@@ -21,6 +22,7 @@ import 'moment/locale/fr';
 import 'moment/locale/es';
 import 'moment/locale/ru';
 import 'moment/locale/th';
+import 'moment/locale/tr';
 import 'moment/locale/it';
 import 'moment/locale/ar';
 import 'moment/locale/zh-cn';
@@ -29,7 +31,7 @@ moment.locale('en');
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
-export const availableTranslations = ['en', 'de', 'fr', 'es', 'pt-BR', 'it', 'uk', 'th', 'zh-CN', 'ru', 'ar'] as const;
+export const availableTranslations = ['en', 'de', 'fr', 'es', 'pt-BR', 'it', 'uk', 'th', 'tr', 'zh-CN', 'ru', 'ar'] as const;
 
 export type Language = typeof availableTranslations[number];
 
@@ -40,6 +42,7 @@ export const availableTranslationsPrettyNames = {
     'it': 'Italiano',
     'uk': 'Українська',
     'th': 'ไทย',
+    "tr": "Türkçe",
     'zh-CN': '中文 (简体)',
     'ru': 'Русский',
     'es': 'Español',
@@ -56,6 +59,7 @@ const resources = {
     it: itTranslation,
     uk: ukTranslation,
     th: thTranslation,
+    tr: trTranslation,
     'zh-CN': zhCnTranslation,
     ru: ruTranslation,
     ar: arTranslation,
@@ -70,6 +74,7 @@ export const languageDirections = {
     it: 'ltr',
     uk: 'ltr',
     th: 'ltr',
+    tr: 'ltr',
     'zh-CN': 'ltr',
     ru: 'ltr',
     'pt-BR': 'ltr',
