@@ -18,6 +18,13 @@ export const WhatsNew = () => {
                 </section>}
 
                 <section>
+                    <h2>1.22.0</h2>
+                    <ul>
+                        <li>Added partial Turkish translation. This was contribution from @AbdullahVC. Thanks!</li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>1.21.0</h2>
                     <ul>
                         <li>
