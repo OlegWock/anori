@@ -120,7 +120,8 @@
                 "p1": "Anori is a free and open source extension. Source code can be found on <0>GitHub</0>. If you would like to suggest a feature or report a bug, please create <1>new issue</1> in repository. If you just want to say thanks you can star that repo :).",
                 "p2": "If you would like to modify this extension, add your own plugin or widget, please refer to <0>readme</0> for more info.",
                 "p3": "Follow the author on <0>Twitter</0> and <1>support Ukraine</1>.",
-                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
+                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available.",
+                "license": "License"
             }
         },
 

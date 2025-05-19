@@ -38,6 +38,7 @@ import { ThemesScreen } from './ThemesScreen';
 import { OPFS_AVAILABLE } from '@utils/opfs';
 import { CUSTOM_THEMES_FOLDER_NAME, deleteAllThemeBackgrounds, getAllCustomThemeBackgroundFiles, saveThemeBackground } from '@utils/user-data/theme';
 import vtuberLogo from '@assets/images/vtuber-logo-dark.svg';
+import { License } from './License';
 
 export const ReorderGroup = lazy(() => import('@utils/motion/lazy-load-reorder').then(m => ({ default: m.ReorderGroup })));
 
@@ -470,6 +471,11 @@ const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
         <section className='shortcuts-section'>
             <h2>{t('shortcuts.title')}</h2>
             <ShortcutsHelp />
+        </section>
+        
+        <section>
+            <h2>{t('settings.aboutHelp.license')}</h2>
+            <License />
         </section>
     </m.div>)
 };

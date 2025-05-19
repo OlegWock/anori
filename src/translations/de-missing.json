@@ -9,6 +9,9 @@
                 "colorAccent": "Accent",
                 "colorBackground": "Background",
                 "colorText": "Text"
+            },
+            "aboutHelp": {
+                "license": "License"
             }
         }
     }

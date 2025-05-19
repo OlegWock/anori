@@ -33,7 +33,8 @@
                 "colorText": "Text"
             },
             "aboutHelp": {
-                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available."
+                "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available.",
+                "license": "License"
             }
         },
         "rss-plugin": {

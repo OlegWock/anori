@@ -14,6 +14,9 @@
         "settings": {
             "general": {
                 "autoHideSidebar": "Automatically hide sidebar"
+            },
+            "aboutHelp": {
+                "license": "License"
             }
         }
     }
