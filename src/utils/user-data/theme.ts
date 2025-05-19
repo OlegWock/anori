@@ -162,7 +162,14 @@ export const deleteThemeBackgrounds = async (id: CustomTheme["name"]) => {
 
 export const deleteAllThemeBackgrounds = async () => {
     const opfsRoot = await navigator.storage.getDirectory();
-    await opfsRoot.removeEntry(CUSTOM_THEMES_FOLDER_NAME, { recursive: true });
+    try {
+        await opfsRoot.removeEntry(CUSTOM_THEMES_FOLDER_NAME, { recursive: true });
+    } catch (err) {
+        if (!(err instanceof DOMException) || err.name !== 'NotFoundError') {
+            // Rethrow only if this IS NOT 'not found' error
+            throw err;
+        }
+    }
 };
 
 export const getAllCustomThemeBackgroundFiles = async () => {
