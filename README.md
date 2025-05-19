@@ -46,6 +46,10 @@
 
 You can support development of Anori with small donation, more info [here](https://sinja.io/support). Crypto and credit card options are available.
 
+# Contributing
+
+Currently, only pull requests for bug fixes and translations are accepted. If you want to add a new feature, please create an issue describing your idea first. Feature requests or proposals should not be submitted as pull requests; instead, open an issue to discuss your suggestion.
+
 # Building from sources and extending
 
 All details about building from sources and extending app with your own widgets are in [separate document](/DEVELOPMENT_AND_EXTENDING.md). If you wan't to contribute to the project, please read [contribution guidelines](CONTRIBUTING.md) first.
