@@ -47,7 +47,7 @@ export type WidgetInFolder<T extends {}> = {
     pluginId: ID,
     widgetId: ID,
     instanceId: ID,
-    configutation: T,
+    configuration: T,
 } & LayoutItem;
 
 export type WidgetInFolderWithMeta<T extends WT, P extends {}, WT extends {}> = WidgetInFolder<T> & {

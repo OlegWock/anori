@@ -415,10 +415,10 @@ export const rssPlugin = {
             const promises = widgets.map(async (w) => {
                 const storage = getWidgetStorage<WidgetStorage>(w.instanceId);
                 await storage.waitForLoad();
-                if ('feedUrl' in w.configutation) {
-                    return updateFeedsForWidget([w.configutation.feedUrl], storage);
+                if ('feedUrl' in w.configuration) {
+                    return updateFeedsForWidget([w.configuration.feedUrl], storage);
                 } else {
-                    return updateFeedsForWidget(w.configutation.feedUrls, storage);
+                    return updateFeedsForWidget(w.configuration.feedUrls, storage);
                 }
             });
             await Promise.all(promises);

@@ -122,7 +122,7 @@ export const useFolderWidgets = (folder: Folder) => {
             pluginId: plugin.id,
             widgetId: widget.id,
             instanceId,
-            configutation: config,
+            configuration: config,
             ...(size ? size : widget.appearance.size),
             ...position,
         };
@@ -197,8 +197,8 @@ export const useFolderWidgets = (folder: Folder) => {
                     if (w.instanceId === id) {
                         return {
                             ...w,
-                            configutation: {
-                                ...w.configutation,
+                            configuration: {
+                                ...w.configuration,
                                 ...newConfig,
                             },
                         }

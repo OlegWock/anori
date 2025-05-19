@@ -11,7 +11,7 @@ type LayoutArg = {
     pluginId: string;
     widgetId: string;
     instanceId: string;
-    configutation: any;
+    configuration: any;
 } & {
     plugin: AnoriPlugin<any, any>;
     widget: WidgetDescriptor<any>;
@@ -161,7 +161,7 @@ export const WidgetsGrid = ({
                         widget={w.widget}
                         plugin={w.plugin}
                         instanceId={w.instanceId}
-                        config={w.configutation}
+                        config={w.configuration}
                         key={w.instanceId}
                         size={w}
                         position={w}

@@ -79,7 +79,7 @@ const getPageStatus = async (url: string): Promise<'up' | 'down'> => {
 const updateStatusesForTrackedPages = async () => {
     const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
     const widgetsToCheck = widgets.filter(w => {
-        return w.widgetId === bookmarkWidgetDescriptor.id && (w.configutation as BookmarkWidgetConfigType).checkStatus;
+        return w.widgetId === bookmarkWidgetDescriptor.id && (w.configuration as BookmarkWidgetConfigType).checkStatus;
     }) as WidgetInFolderWithMeta<BookmarkWidgetConfigType, {}, BookmarkWidgetConfigType>[];
 
     const promises = widgetsToCheck.map(async (w) => {
@@ -87,7 +87,7 @@ const updateStatusesForTrackedPages = async () => {
         await store.waitForLoad();
         const currentStatus = store.get('status');
         store.set('status', 'loading');
-        const newStatus = await getPageStatus(normalizeUrl(w.configutation.url));
+        const newStatus = await getPageStatus(normalizeUrl(w.configuration.url));
         const updatePayload: Partial<BookmarkWidgetStorageType> = {
             lastCheck: Date.now(),
             status: newStatus,
@@ -439,14 +439,14 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
     const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
     return widgets.filter(widget => {
         const w = widget;
-        const inUrl = ('url' in w.configutation && w.configutation.url.toLowerCase().includes(q)) || ('urls' in w.configutation && w.configutation.urls.join('').toLowerCase().includes(q));
-        const inTitle = w.configutation.title.toLowerCase().includes(q);
-        const inIcon = w.configutation.icon.toLowerCase().includes(q);
+        const inUrl = ('url' in w.configuration && w.configuration.url.toLowerCase().includes(q)) || ('urls' in w.configuration && w.configuration.urls.join('').toLowerCase().includes(q));
+        const inTitle = w.configuration.title.toLowerCase().includes(q);
+        const inIcon = w.configuration.icon.toLowerCase().includes(q);
 
         return inUrl || inTitle || inIcon;
     }).map(w => {
-        if ('url' in w.configutation) {
-            const { url, title, icon } = w.configutation;
+        if ('url' in w.configuration) {
+            const { url, title, icon } = w.configuration;
             const host = parseHost(url);
             return {
                 icon,
@@ -458,7 +458,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
                 }
             };
         } else {
-            const { urls, title, icon, openInTabGroup } = w.configutation;
+            const { urls, title, icon, openInTabGroup } = w.configuration;
             return {
                 icon,
                 text: title,

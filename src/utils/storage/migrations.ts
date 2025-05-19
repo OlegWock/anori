@@ -43,7 +43,7 @@ export const migrateStorage = (oldStorage: any): any => {
 
 type Migration = {
     v: number,
-    migrate: (storage: any) => any,
+    migrate: (storage: any) => Record<string, any>,
 };
 
 const migrations: Migration[] = [
@@ -83,7 +83,7 @@ const migrations: Migration[] = [
             const folders: Folder[] = [homeFolder, ...customFolders];
             folders.map((folder) => {
                 const details: FolderDetailsInStorage = storage[`Folder.${folder.id}`] || { widgets: [] };
-                details.widgets.forEach(w => {
+                details.widgets.forEach((w: any) => {
                     if (w.pluginId === 'datetime-plugin' && ['HH:mm:ss a', 'HH:mm:ss A'].includes(w.configutation.timeFormat)) {
                         w.configutation.timeFormat = w.configutation.timeFormat.replace('HH', 'hh');
                     }
@@ -104,6 +104,21 @@ const migrations: Migration[] = [
             });
 
             return storage;
+        },
+    }, {
+        v: 4,
+        migrate: (storage: any) => {
+            const customFolders = storage.folders || [];
+            const folders: Folder[] = [homeFolder, ...customFolders];
+            folders.map((folder) => {
+                const details: FolderDetailsInStorage = storage[`Folder.${folder.id}`] || { widgets: [] };
+                details.widgets.forEach((w: any) => {
+                    w.configuration = w.configutation;
+                    delete w.configutation;
+                })
+            });
+            
+            return storage
         },
     }
 ].sort((a, b) => a.v - b.v);

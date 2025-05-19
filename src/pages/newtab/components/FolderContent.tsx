@@ -248,7 +248,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
                         >
                             <ScrollArea className='edit-widget-scrollarea'>
                                 <m.div className='edit-widget-content' transition={{ duration: 0.18 }} animate={{ opacity: 1, translateX: '0%' }}>
-                                    <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configutation} saveConfiguration={(config) => {
+                                    <editingWidget.widget.configurationScreen instanceId={editingWidget.instanceId} widgetId={editingWidget.widgetId} currentConfig={editingWidget.configuration} saveConfiguration={(config) => {
                                         updateWidgetConfig(editingWidget.instanceId, config);
                                         setEditingWidget(null);
                                     }} />
