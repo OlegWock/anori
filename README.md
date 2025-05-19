@@ -38,8 +38,8 @@
 
 # Installation
 
-* If you use Chrome or any browser based on Chromium -> install extension from [Chrome Web Store](https://chrome.google.com/webstore/detail/anori/ddeaekifelikgnaacipabpmjpffgifek)
-* If you use Firefox -> install extension from [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/addon/anori/)
+* If you use Chrome or any browser based on Chromium → install extension from [Chrome Web Store](https://chrome.google.com/webstore/detail/anori/ddeaekifelikgnaacipabpmjpffgifek)
+* If you use Firefox → install extension from [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/addon/anori/)
 * Anori also suports Safari, but due to bugs in webkit (namely [this](https://bugs.webkit.org/show_bug.cgi?id=226440), [this](https://bugs.webkit.org/show_bug.cgi?id=259637) and [this](https://bugs.webkit.org/show_bug.cgi?id=259656)) it's not actively supported. You can compile Safari version for yourself, but some functions won't work. 
 
 # Support development
