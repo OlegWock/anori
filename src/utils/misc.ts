@@ -73,3 +73,5 @@ export const globalCallOnce = <T>(name: string, func: () => T) => {
     namedCallOnceCache.set(name, intance);
     return intance;
 };
+
+export const iife = <T>(func: () => T): T => func();
