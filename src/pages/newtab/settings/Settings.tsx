@@ -277,7 +277,7 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ scale: 0 }}
                         >
-                            <img alt={icon.name} src={icon.urlObject} height={38} width={38} />
+                            <Icon icon={`custom:${icon.name}`} height={32} width={32} />
                             <div className='custom-icon-name'>{icon.name}</div>
                             <Button onClick={() => removeCustomIcon(icon.name)}><Icon icon='ion:close' height={22} /></Button>
                         </m.div>)

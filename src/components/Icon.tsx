@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useMemo, useRef, useState } from 'react';
+import { ComponentPropsWithoutRef, useCallback, useMemo, useRef, useState } from 'react';
 import browser from 'webextension-polyfill';
 import { useAsyncLayoutEffect, useForceRerender } from '@utils/hooks';
 import { combineRefs } from '@utils/react';
@@ -22,13 +22,18 @@ export type IconProps = {
     cache?: boolean,
 } & BaseIconProps;
 
-const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, style = {}, ...props }, ref) => {
+const CustomIcon = forwardRef<HTMLDivElement | HTMLImageElement, IconProps>(({ icon, className, style = {}, ...props }, ref) => {
     const iconInfo = useCustomIcon(icon);
     let size = props.width || props.height || 24;
     if (typeof size === 'string') size = parseInt(size);
 
+    const setSvgContentRef = useCallback((el: HTMLDivElement) => {
+        if (el && iconInfo?.svgContent) {
+            el.innerHTML = iconInfo?.svgContent;
+        }
+    }, [iconInfo?.svgContent]);
+
     if (!iconInfo) {
-        // @ts-ignore incorrect ref types?
         return (<div ref={ref} style={{
             background: 'var(--text)',
             borderRadius: size / 5,
@@ -38,9 +43,20 @@ const CustomIcon = forwardRef<SVGSVGElement, IconProps>(({ icon, className, styl
         }} />);
     }
 
+    if (iconInfo.svgContent !== null) {
+        return (<div 
+            className={clsx('CustomIcon', className)}
+            ref={setSvgContentRef} 
+            style={{
+                width: props.width || props.height || 24,
+                height: props.height || props.width || 24,
+            }} 
+        />);
+    }
+
     return (<m.img
         className={clsx('CustomIcon', className)}
-        // @ts-ignore incorrect ref types?
+        // @ts-ignore TS can't comprehend union ref type
         ref={ref}
         style={{
             borderRadius: size / 5,
@@ -82,7 +98,6 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
         if (cache && fromCache) {
             iconInfo = await fromCache;
         } else {
-            const start = performance.now();
             const promise = fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`))
                 .then(r => r.text())
                 .then(svgText => {
@@ -98,7 +113,6 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, width, hei
                         nodes,
                     } satisfies IconInfo;
                     if (cache) iconsCache.set(icon, cachedIcon);
-                    // console.log('Icon loaded in', (performance.now() - start).toFixed(4));
                     return cachedIcon;
                 });
             if (cache) iconsCache.set(icon, promise);

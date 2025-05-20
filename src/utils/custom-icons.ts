@@ -9,11 +9,12 @@ export const CUSTOM_ICONS_FOLDER_NAME = 'custom-icons';
 export type CustomIcon = {
     name: string,
     urlObject: string,
+    svgContent: string | null,
 };
 
 export const CUSTOM_ICONS_AVAILABLE = OPFS_AVAILABLE;
 
-const iconsCache: Record<string, string> = {};
+const iconsCache: Record<string, CustomIcon> = {};
 const iconsAtom = atom<CustomIcon[]>([]);
 
 const getMimeFromFile = (f: FileSystemFileHandle) => {
@@ -31,18 +32,29 @@ export const getAllCustomIconNames = async (): Promise<string[]> => {
     return files.map(f => f.name);
 };
 
+const createCustomIconFromFileHandle = async (fileHandle: FileSystemFileHandle): Promise<CustomIcon> => {
+    const file = await fileHandle.getFile();
+    const blob = new Blob([file], { type: getMimeFromFile(fileHandle) });
+    const isSvg = fileHandle.name.toLowerCase().endsWith('.svg');
+    const urlObject = URL.createObjectURL(blob);
+    const svgContent = isSvg ? await file.text() : null;
+    return {
+        name: fileHandle.name,
+        urlObject,
+        svgContent
+    };
+};
+
 export const getAllCustomIcons = async (): Promise<CustomIcon[]> => {
     const files = await getAllCustomIconFiles();
     const icons: CustomIcon[] = await Promise.all(
         files.sort((a, b) => a.name.localeCompare(b.name)).map(async (handle) => {
-            const file = await (handle as FileSystemFileHandle).getFile();
-            const blob = new Blob([file], { type: getMimeFromFile(handle) });
-            const urlObject = iconsCache[handle.name] ? iconsCache[handle.name] : URL.createObjectURL(blob);
-            if (!iconsCache[handle.name]) iconsCache[handle.name] = urlObject;
-            return {
-                name: handle.name,
-                urlObject
-            };
+            if (iconsCache[handle.name]) {
+                return iconsCache[handle.name];
+            }
+            const icon = await createCustomIconFromFileHandle(handle);
+            iconsCache[handle.name] = icon;
+            return icon;
         })
     );
     getDefaultStore().set(iconsAtom, icons);
@@ -62,37 +74,22 @@ export const deleteAllCustomIcons = async () => {
 
 export const getCustomIcon = async (name: string): Promise<CustomIcon | null> => {
     if (iconsCache[name]) {
-        return {
-            name,
-            urlObject: iconsCache[name],
-        }
+        return iconsCache[name];
     }
 
     const iconsDir = await getIconsDirHandle();
     try {
         const fileHandle = await iconsDir.getFileHandle(name);
-        const file = await fileHandle.getFile();
-        const blob = new Blob([file], { type: getMimeFromFile(fileHandle) });
-        const urlObject = URL.createObjectURL(blob);
-        iconsCache[name] = urlObject;
-        return {
-            name,
-            urlObject,
-        };
+        const icon = await createCustomIconFromFileHandle(fileHandle);
+        iconsCache[name] = icon;
+        return icon;
     } catch (err) {
         return null;
     }
 };
 
 export const getCustomIconFromCache = (name: string): CustomIcon | null => {
-    if (iconsCache[name]) {
-        return {
-            name,
-            urlObject: iconsCache[name],
-        }
-    }
-
-    return null;
+    return iconsCache[name] || null;
 };
 
 export const useCustomIcon = (name: string) => {
@@ -109,8 +106,15 @@ export const useCustomIcons = () => {
                 worker.addEventListener('message', (message) => {
                     if (message.data.success) {
                         const urlObjFinal = urlObj || URL.createObjectURL(new Blob([message.data.content]));
-                        iconsCache[filename] = urlObjFinal;
-                        setIcons(p => [...p.filter(i => i.name !== filename), { name: filename, urlObject: urlObjFinal }].sort((a, b) => a.name.localeCompare(b.name)));
+                        const isSvg = filename.toLowerCase().endsWith('.svg');
+                        const svgContent = isSvg ? new TextDecoder().decode(message.data.content) : null;
+                        const icon = {
+                            name: filename,
+                            urlObject: urlObjFinal,
+                            svgContent
+                        };
+                        iconsCache[filename] = icon;
+                        setIcons(p => [...p.filter(i => i.name !== filename), icon].sort((a, b) => a.name.localeCompare(b.name)));
                         worker.terminate();
                         resolve();
                     } else {
@@ -132,8 +136,15 @@ export const useCustomIcons = () => {
             await writeHandle.close();
 
             const urlObjFinal = urlObj || URL.createObjectURL(new Blob([content]));
-            iconsCache[filename] = urlObjFinal;
-            setIcons(p => [...p.filter(i => i.name !== filename), { name: filename, urlObject: urlObjFinal }].sort((a, b) => a.name.localeCompare(b.name)));
+            const isSvg = filename.toLowerCase().endsWith('.svg');
+            const svgContent = isSvg ? new TextDecoder().decode(content) : null;
+            const icon = {
+                name: filename,
+                urlObject: urlObjFinal,
+                svgContent
+            };
+            iconsCache[filename] = icon;
+            setIcons(p => [...p.filter(i => i.name !== filename), icon].sort((a, b) => a.name.localeCompare(b.name)));
         }
     };
 
@@ -142,7 +153,7 @@ export const useCustomIcons = () => {
         await iconsDir.removeEntry(filename);
         setIcons(p => p.filter(icon => icon.name !== filename));
         if (iconsCache[filename]) {
-            URL.revokeObjectURL(iconsCache[filename]);
+            URL.revokeObjectURL(iconsCache[filename].urlObject);
             delete iconsCache[filename];
         }
     }
