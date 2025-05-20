@@ -162,8 +162,14 @@ const CustomIcon = forwardRef<SVGSVGElement | HTMLImageElement | HTMLDivElement,
 });
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, icon, cache = true, ...props }, ref) => {
+    const [prevIcon, setPrevIcon] = useState(icon);
     const [family, iconName] = icon.split(':');
     const [svgText, setSvgText] = useState<string | null>(null);
+
+    if (prevIcon !== icon) {
+        setPrevIcon(icon);
+        setSvgText(null);
+    }
 
     useAsyncLayoutEffect(async () => {
         if (family === 'custom') {
