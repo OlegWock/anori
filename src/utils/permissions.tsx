@@ -6,7 +6,8 @@ export type CorrectPermission = Manifest.OptionalPermission | 'tabGroups' | 'fav
 export const availablePermissionsAtom = atom<null | { hosts: string[], permissions: CorrectPermission[], }>(null);
 
 export const containsHostPermission = (hostPermissions: string[], host: string) => {
-    return hostPermissions.some(grantedHost => grantedHost.toLowerCase().includes(normalizeHost(host)));
+    const hasAllSitesPermission = hostPermissions.includes("*://*/*")
+    return hasAllSitesPermission || hostPermissions.some(grantedHost => grantedHost.toLowerCase().includes(normalizeHost(host)));
 };
 
 export const normalizeHost = (host: string) => {
