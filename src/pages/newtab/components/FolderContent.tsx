@@ -1,8 +1,8 @@
 import { AnimatePresence, m } from "framer-motion";
 import "./FolderContent.scss";
-import { Folder, WidgetInFolderWithMeta } from "@utils/user-data/types";
+import type { Folder, WidgetInFolderWithMeta } from "@utils/user-data/types";
 import { Icon } from "@components/Icon";
-import { CSSProperties, Suspense, lazy, useState } from "react";
+import { type CSSProperties, Suspense, lazy, useState } from "react";
 import { Button } from "@components/Button";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@utils/user-data/hooks";
 import { FolderContentContext } from "@utils/FolderContentContext";
@@ -15,7 +15,7 @@ import { useBrowserStorageValue } from "@utils/storage/api";
 import { useTranslation } from "react-i18next";
 import { ScrollArea } from "@components/ScrollArea";
 import clsx from "clsx";
-import { LayoutChange, WidgetsGrid } from "./WidgetsGrid";
+import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 import { atom, useAtom } from "jotai";
 
 const NewWidgetWizard = lazy(() => import("./NewWidgetWizard").then((m) => ({ default: m.NewWidgetWizard })));

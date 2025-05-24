@@ -1,6 +1,6 @@
-import { MotionValue, animate, useAnimate, useMotionValue } from "framer-motion";
+import { type MotionValue, animate, useAnimate, useMotionValue } from "framer-motion";
 import { useEffect, useMemo, useRef } from "react";
-import { AnimateFunction, AnimationOptions, BetterAnimationPlaybackControls } from "./types";
+import type { AnimateFunction, AnimationOptions, BetterAnimationPlaybackControls } from "./types";
 
 type AnimationOptions$2<V> = AnimationOptions<V>[2];
 

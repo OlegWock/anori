@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from "react-i18next";
 import "./Onboarding.scss";
-import { ComponentProps, forwardRef, useEffect, useState } from "react";
+import { type ComponentProps, forwardRef, useEffect, useState } from "react";
 import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
 import useMeasure from "react-use-motion-measure";
 import { useHotkeys, usePrevious } from "@utils/hooks";
@@ -11,7 +11,7 @@ import { useFolderWidgets, useFolders } from "@utils/user-data/hooks";
 import { bookmarkPlugin, bookmarkWidgetDescriptor } from "@plugins/bookmark/bookmark-plugin";
 import { Icon } from "./Icon";
 import {
-  Language,
+  type Language,
   availableTranslations,
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
@@ -27,8 +27,8 @@ import { notesPlugin, notesWidgetDescriptor } from "@plugins/notes/notes-plugin"
 import { rssFeedDescriptor, rssPlugin } from "@plugins/rss/rss-plugin";
 import { datetimePlugin, datetimeWidgetDescriptorS } from "@plugins/datetime/datetime-plugin";
 import { weatherPlugin, weatherWidgetDescriptorCurrent } from "@plugins/weather/weather-plugin";
-import { GridDimensions, LayoutItemSize, Position, canPlaceItemInGrid } from "@utils/grid";
-import { AnoriPlugin, WidgetDescriptor } from "@utils/user-data/types";
+import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemInGrid } from "@utils/grid";
+import type { AnoriPlugin, WidgetDescriptor } from "@utils/user-data/types";
 import { useMotionTransition } from "@utils/motion/hooks";
 import { useDirection } from "@radix-ui/react-direction";
 
@@ -367,7 +367,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   <p>{t("onboarding.analytics.p2")}</p>
                   <p>
                     <Trans t={t} i18nKey="onboarding.analytics.p3">
-                      <a href="https://anori.app/privacy#analytics" target="_blank"></a>
+                      <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer"></a>
                     </Trans>
                   </p>
 

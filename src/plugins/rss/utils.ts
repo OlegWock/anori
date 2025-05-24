@@ -1,5 +1,5 @@
 import { lazyAsyncVariable } from "@utils/misc";
-import { NamespacedStorage } from "@utils/namespaced-storage";
+import type { NamespacedStorage } from "@utils/namespaced-storage";
 import { useWidgetStorage } from "@utils/plugin";
 import moment from "moment-timezone";
 import { useEffect, useMemo, useState } from "react";
@@ -139,8 +139,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
 
   const consolidatedFeed = useMemo(() => {
     return Object.values(feeds)
-      .map((f) => f.posts)
-      .flat()
+      .flatMap((f) => f.posts)
       .sort((a, b) => b.timestamp - a.timestamp);
   }, [feeds]);
   const lastUpdatedMoment = useMemo(() => moment(lastUpdated), [lastUpdated, i18n.language]);

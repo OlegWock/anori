@@ -1,8 +1,8 @@
 import {
-  CSSProperties,
-  KeyboardEvent,
-  MutableRefObject,
-  Ref,
+  type CSSProperties,
+  type KeyboardEvent,
+  type MutableRefObject,
+  type Ref,
   createContext,
   useContext,
   useMemo,
@@ -11,7 +11,7 @@ import {
 } from "react";
 import "./IconPicker.scss";
 import browser from "webextension-polyfill";
-import { PopoverRenderProps } from "./Popover";
+import type { PopoverRenderProps } from "./Popover";
 import { FixedSizeList } from "react-window";
 import { allSets, iconSetPrettyNames } from "./icons/all-sets";
 import { Select } from "./Select";
@@ -166,8 +166,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
       base = [[selectedFamily, iconsBySet[selectedFamily]]];
     }
     return base
-      .map(([family, icons]) => icons.map((icon) => `${family}:${icon}`))
-      .flat()
+      .flatMap(([family, icons]) => icons.map((icon) => `${family}:${icon}`))
       .filter((icon) => icon.split(":")[1].includes(query.toLowerCase()));
   }, [selectedFamily, query, iconsBySet]);
 

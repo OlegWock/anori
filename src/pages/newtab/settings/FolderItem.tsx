@@ -2,7 +2,7 @@ import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
 import { IconPicker } from "@components/IconPicker";
 import { Popover } from "@components/Popover";
-import { Folder } from "@utils/user-data/types";
+import type { Folder } from "@utils/user-data/types";
 import { m, useDragControls } from "framer-motion";
 import { lazy, useRef } from "react";
 import "./FolderItem.scss";

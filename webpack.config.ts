@@ -11,8 +11,6 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import * as MomentTimezoneDataPlugin from "moment-timezone-data-webpack-plugin";
 // @ts-ignore No declarations for this module!
 import * as MomentLocalesPlugin from "moment-locales-webpack-plugin";
-// eslint-disable-next-line unused-imports/no-unused-imports
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import * as FileManagerPlugin from "filemanager-webpack-plugin";
 import * as SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 import {

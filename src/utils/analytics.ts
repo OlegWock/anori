@@ -1,7 +1,7 @@
 import { getAllCustomIconNames } from "./custom-icons";
 import { guid, wait } from "./misc";
 import { atomWithBrowserStorageStatic, storage } from "./storage/api";
-import { FolderDetailsInStorage } from "./user-data/types";
+import type { FolderDetailsInStorage } from "./user-data/types";
 import browser from "webextension-polyfill";
 
 export const analyticsEnabledAtom = atomWithBrowserStorageStatic("analyticsEnabled", false);

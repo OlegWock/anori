@@ -1,5 +1,5 @@
 import {
-  AtomWithBrowserStorage,
+  type AtomWithBrowserStorage,
   atomWithBrowserStorage,
   focusAtomWithStorage,
   getAtomWithStorageValue,

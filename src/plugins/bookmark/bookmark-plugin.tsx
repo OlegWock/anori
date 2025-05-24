@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
-import {
+import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   OnCommandInputCallback,
@@ -9,7 +9,7 @@ import {
   ID,
   WidgetInFolderWithMeta,
 } from "@utils/user-data/types";
-import { MouseEvent, MouseEventHandler, useRef, useState } from "react";
+import { type MouseEvent, type MouseEventHandler, useRef, useState } from "react";
 import "./styles.scss";
 import { Popover } from "@components/Popover";
 import { IconPicker } from "@components/IconPicker";
@@ -38,7 +38,7 @@ import { IS_TOUCH_DEVICE } from "@utils/device";
 import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
 import { PickBookmark } from "@components/PickBookmark";
 import { Link } from "@components/Link";
-import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
 import { Checkbox } from "@components/Checkbox";

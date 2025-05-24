@@ -1,4 +1,4 @@
-import { AnoriPlugin, OnCommandInputCallback, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, OnCommandInputCallback, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
 import browser from "webextension-polyfill";
 import { useMemo, useState } from "react";

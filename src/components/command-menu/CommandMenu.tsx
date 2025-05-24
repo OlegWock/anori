@@ -2,7 +2,7 @@ import { Command } from "cmdk";
 import { useEffect, useState } from "react";
 import "./CommandMenu.scss";
 import { Icon } from "@components/Icon";
-import { AnoriPlugin, CommandItem } from "@utils/user-data/types";
+import type { AnoriPlugin, CommandItem } from "@utils/user-data/types";
 import { availablePlugins } from "@plugins/all";
 import { wait } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
@@ -53,7 +53,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean; onOpenChang
     loadActionsByQuery("").then(() => setInitialized(true));
   }, []);
 
-  const itemsToRender = actions.map(({ items }) => items).flat();
+  const itemsToRender = actions.flatMap(({ items }) => items);
   console.log("itemsToRender", itemsToRender);
   return (
     <Command.Dialog open={open} onOpenChange={onOpenChange} label={t("commandMenu.name")} shouldFilter={false}>

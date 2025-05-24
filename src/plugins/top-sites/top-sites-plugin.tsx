@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { useEffect, useState } from "react";

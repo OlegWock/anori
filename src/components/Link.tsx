@@ -1,6 +1,6 @@
 import { normalizeUrl } from "@utils/misc";
 import { isMacLike } from "@utils/shortcuts";
-import { ComponentProps, MouseEvent, forwardRef } from "react";
+import { type ComponentProps, type MouseEvent, forwardRef } from "react";
 import browser from "webextension-polyfill";
 
 // Drop-in replacement for <a> which correctly handles local resource urls (like file:// or chrome://)

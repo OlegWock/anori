@@ -1,6 +1,6 @@
 import { LayoutGroup, m, useIsPresent } from "framer-motion";
 import "./Modal.scss";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Icon } from "./Icon";
 import { createPortal } from "react-dom";
 import clsx from "clsx";

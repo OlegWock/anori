@@ -5,7 +5,7 @@ import { ShortcutsHelp } from "@components/ShortcutsHelp";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import { useHotkeys } from "@utils/hooks";
 import { useBrowserStorageValue } from "@utils/storage/api";
-import { Folder } from "@utils/user-data/types";
+import type { Folder } from "@utils/user-data/types";
 import { AnimatePresence } from "framer-motion";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";

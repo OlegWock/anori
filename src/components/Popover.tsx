@@ -1,6 +1,7 @@
-import React, { MutableRefObject, cloneElement, useMemo, useState } from "react";
+import type React from "react";
+import { type MutableRefObject, cloneElement, useMemo, useState } from "react"
 import {
-  Placement,
+  type Placement,
   offset,
   flip,
   shift,
@@ -15,7 +16,7 @@ import {
   FloatingPortal,
   useHover,
   safePolygon,
-  Side,
+  type Side,
   size,
 } from "@floating-ui/react";
 import { mergeRefs } from "react-merge-refs";

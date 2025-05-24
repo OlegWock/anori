@@ -219,7 +219,7 @@ export const WhatsNew = () => {
               <li>Anori is now available in Simplified Chinese. This was contribution from @TheSnowfield. Thanks!</li>
               <li>
                 Added a{" "}
-                <a href="https://anori.app/privacy" target="_blank">
+                <a href="https://anori.app/privacy" target="_blank" rel="noreferrer">
                   Privacy practices
                 </a>{" "}
                 page where you can read in details which data Anori collects and other related info.
@@ -254,7 +254,7 @@ export const WhatsNew = () => {
               </li>
               <li>
                 Added Ukrainian translation. If you would like to help translating Anori into your language, check{" "}
-                <a target="_blank" href="https://github.com/OlegWock/anori/issues/104">
+                <a target="_blank" href="https://github.com/OlegWock/anori/issues/104" rel="noreferrer">
                   this
                 </a>
                 .
@@ -307,22 +307,22 @@ export const WhatsNew = () => {
             </p>
             <ul>
               <li>
-                <a target="_blank" href="https://www.svgrepo.com/collection/stylized-app-icons/">
+                <a target="_blank" href="https://www.svgrepo.com/collection/stylized-app-icons/" rel="noreferrer">
                   Cute stylized app icons
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.svgrepo.com/collection/landscape-circled-vectors/">
+                <a target="_blank" href="https://www.svgrepo.com/collection/landscape-circled-vectors/" rel="noreferrer">
                   Landscapes
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.svgrepo.com/collection/animal-sticker-stamp-vectors/">
+                <a target="_blank" href="https://www.svgrepo.com/collection/animal-sticker-stamp-vectors/" rel="noreferrer">
                   Animals
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.pngrepo.com/collection/traveling-flat-icons/">
+                <a target="_blank" href="https://www.pngrepo.com/collection/traveling-flat-icons/" rel="noreferrer">
                   Traveling flat icons
                 </a>
               </li>

@@ -4,15 +4,15 @@ import {
   useMotionValue,
   useTransform,
   useAnimate,
-  Transition,
+  type Transition,
   usePresence,
-  PanInfo,
-  MotionValue,
+  type PanInfo,
+  type MotionValue,
 } from "framer-motion";
 import "./WidgetExpandArea.scss";
 import {
-  MouseEvent,
-  ReactNode,
+  type MouseEvent,
+  type ReactNode,
   createContext,
   forwardRef,
   useContext,

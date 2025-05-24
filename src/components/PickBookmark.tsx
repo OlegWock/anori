@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PopoverRenderProps } from "./Popover";
+import type { PopoverRenderProps } from "./Popover";
 import browser from "webextension-polyfill";
 import { useTranslation } from "react-i18next";
 import { useSizeSettings } from "@utils/compact";

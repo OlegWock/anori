@@ -1,7 +1,7 @@
-import { LayoutItem, LayoutItemSize } from "@utils/grid";
-import { ComponentType } from "react";
-import { CustomTheme, Theme } from "./theme";
-import { Language, translate } from "@translations/index";
+import type { LayoutItem, LayoutItemSize } from "@utils/grid";
+import type { ComponentType } from "react";
+import type { CustomTheme, Theme } from "./theme";
+import { type Language, translate } from "@translations/index";
 
 export type StorageContent = {
   folders: Folder[];

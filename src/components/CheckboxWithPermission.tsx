@@ -1,5 +1,5 @@
-import { CorrectPermission, usePermissionsQuery } from "@utils/permissions";
-import { Checkbox, CheckboxProps } from "./Checkbox";
+import { type CorrectPermission, usePermissionsQuery } from "@utils/permissions";
+import { Checkbox, type CheckboxProps } from "./Checkbox";
 import { Popover } from "./Popover";
 import { RequirePermissions } from "./RequirePermissions";
 

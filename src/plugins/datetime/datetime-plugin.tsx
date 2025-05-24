@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import {
+import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,

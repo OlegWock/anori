@@ -1,6 +1,6 @@
-import { MouseEvent, ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import "./Hint.scss";
-import { Icon, IconProps } from "./Icon";
+import { Icon, type IconProps } from "./Icon";
 import { Tooltip } from "./Tooltip";
 import clsx from "clsx";
 

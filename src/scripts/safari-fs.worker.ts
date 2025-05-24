@@ -1,5 +1,5 @@
 import { getIconsDirHandle } from "@utils/custom-icons";
-import { SafariWorkerMessageIn, SafariWorkerMessageOut, TypedWorkerSelf } from "@utils/workers";
+import type { SafariWorkerMessageIn, SafariWorkerMessageOut, TypedWorkerSelf } from "@utils/workers";
 
 declare let self: TypedWorkerSelf<SafariWorkerMessageIn, SafariWorkerMessageOut>;
 

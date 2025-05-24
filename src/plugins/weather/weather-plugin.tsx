@@ -1,14 +1,14 @@
 import { Button } from "@components/Button";
-import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
 import { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import { Combobox } from "@components/Combobox";
 import {
-  City,
-  CurrentWeather,
-  Speed,
-  Temperature,
-  WeatherForecast,
+  type City,
+  type CurrentWeather,
+  type Speed,
+  type Temperature,
+  type WeatherForecast,
   gerCurrentWeather,
   getForecast,
   searchCity,

@@ -1,7 +1,7 @@
 export const OPFS_AVAILABLE = (() => {
   if (typeof window === "undefined") return true;
   if (navigator.userAgent.includes("Firefox/")) {
-    const version = parseInt(navigator.userAgent.split("Firefox/")[1].split(".")[0]);
+    const version = Number.parseInt(navigator.userAgent.split("Firefox/")[1].split(".")[0]);
     return version >= 111;
   } else if (navigator.userAgent.includes("Safari/") && navigator.userAgent.includes("Version/")) {
     // This should be supported in Safari 15.2+. However, due to bug in Safari, data is not persisted across browser runs

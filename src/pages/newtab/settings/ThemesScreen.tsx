@@ -1,10 +1,10 @@
-import { ButtonProps, Button } from "@components/Button";
+import { type ButtonProps, Button } from "@components/Button";
 import { toCss } from "@utils/color";
 import { storage, useBrowserStorageValue } from "@utils/storage/api";
 import {
-  CustomTheme,
-  PartialCustomTheme,
-  Theme,
+  type CustomTheme,
+  type PartialCustomTheme,
+  type Theme,
   applyTheme,
   applyThemeColors,
   defaultTheme,
@@ -16,7 +16,7 @@ import {
 } from "@utils/user-data/theme";
 import clsx from "clsx";
 import { m } from "framer-motion";
-import { ComponentProps, useEffect, useRef, useState } from "react";
+import { type ComponentProps, useEffect, useRef, useState } from "react";
 import browser from "webextension-polyfill";
 import "./ThemesScreen.scss";
 import { guid } from "@utils/misc";

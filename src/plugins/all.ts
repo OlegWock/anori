@@ -1,4 +1,4 @@
-import { AnoriPlugin } from "@utils/user-data/types";
+import type { AnoriPlugin } from "@utils/user-data/types";
 import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
 import { datetimePlugin } from "./datetime/datetime-plugin";
 import { recentlyClosedPlugin } from "./recently-closed/recently-closed-plugin";

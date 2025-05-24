@@ -1,4 +1,4 @@
-import React, { ReactNode, Suspense, lazy, useLayoutEffect, useState } from "react";
+import React, { type ReactNode, Suspense, lazy, useLayoutEffect, useState } from "react";
 import type { SelectItemProps } from "@radix-ui/react-select";
 import classnames, { clsx } from "clsx";
 import "./Select.scss";

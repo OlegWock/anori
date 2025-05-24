@@ -1,6 +1,6 @@
 import * as RadixScrollArea from "@radix-ui/react-scroll-area";
 import "./ScrollArea.scss";
-import { ComponentProps, ReactNode, Ref, WheelEvent, useEffect, useRef } from "react";
+import { type ComponentProps, type ReactNode, type Ref, type WheelEvent, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { forwardRef } from "react";

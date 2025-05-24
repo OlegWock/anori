@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, CSSProperties, Ref, useMemo, useRef, useState } from "react";
+import { type ComponentPropsWithoutRef, type CSSProperties, type Ref, useMemo, useRef, useState } from "react";
 import browser from "webextension-polyfill";
 import { useAsyncLayoutEffect } from "@utils/hooks";
 import { combineRefs } from "@utils/react";
@@ -31,8 +31,8 @@ function parseSvgToIconInfo(svgText: string): SvgIconCacheDescriptor | null {
   }
 
   const viewBox = svgRoot.getAttribute("viewBox") || "0 0 24 24";
-  const width = parseInt(svgRoot.getAttribute("width") || "24");
-  const height = parseInt(svgRoot.getAttribute("height") || "24");
+  const width = Number.parseInt(svgRoot.getAttribute("width") || "24");
+  const height = Number.parseInt(svgRoot.getAttribute("height") || "24");
   return {
     svgText,
     viewbox: viewBox,
@@ -128,7 +128,7 @@ const CustomIcon = forwardRef<SVGSVGElement | HTMLImageElement | HTMLDivElement,
   ({ icon, className, style = {}, cache = true, ...props }, ref) => {
     const customIconInfo = useCustomIcon(icon);
     let size = props.width || props.height || 24;
-    if (typeof size === "string") size = parseInt(size);
+    if (typeof size === "string") size = Number.parseInt(size);
 
     if (!customIconInfo) {
       return (

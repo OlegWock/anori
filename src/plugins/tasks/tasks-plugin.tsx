@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { Input, Textarea } from "@components/Input";
-import {
+import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   OnCommandInputCallback,
@@ -15,7 +15,7 @@ import {
   AnimatePresence,
   LayoutGroup,
   m,
-  MotionValue,
+  type MotionValue,
   useDragControls,
   useMotionValue,
   useTransform,
@@ -29,7 +29,7 @@ import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
 import { listItemAnimation } from "@components/animations";
 import { useCancelableAnimate } from "@utils/motion/hooks";
-import { BetterAnimationPlaybackControls } from "@utils/motion/types";
+import type { BetterAnimationPlaybackControls } from "@utils/motion/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { useRunAfterNextRender } from "@utils/hooks";
 

@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import "./styles.scss";
 import { Icon } from "@components/Icon";
@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import clsx from "clsx";
 import moment from "moment-timezone";
 import { useEffect } from "react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { usePrevious } from "@utils/hooks";
 import { Select } from "@components/Select";

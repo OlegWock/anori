@@ -4,7 +4,7 @@ import "./Settings.scss";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
-import { AnoriPlugin, homeFolder } from "@utils/user-data/types";
+import { type AnoriPlugin, homeFolder } from "@utils/user-data/types";
 import { storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
 import { availablePlugins } from "@plugins/all";
 import { usePluginConfig } from "@utils/plugin";
@@ -12,7 +12,7 @@ import { Checkbox } from "@components/Checkbox";
 import { Hint } from "@components/Hint";
 import { ScrollArea } from "@components/ScrollArea";
 import moment from "moment-timezone";
-import { ComponentProps, Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { type ComponentProps, Suspense, lazy, useEffect, useMemo, useState } from "react";
 import {
   CUSTOM_ICONS_AVAILABLE,
   CUSTOM_ICONS_FOLDER_NAME,
@@ -35,7 +35,7 @@ import { ShortcutsHelp } from "@components/ShortcutsHelp";
 import { Trans, useTranslation } from "react-i18next";
 import { Select } from "@components/Select";
 import {
-  Language,
+  type Language,
   SHOW_LANGUAGE_SELECT_IN_SETTINGS,
   availableTranslations,
   availableTranslationsPrettyNames,
@@ -225,7 +225,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
               <div style={{ marginTop: "0.5rem" }}>
                 <Trans t={t} i18nKey="settings.general.analyticsHintP2">
-                  <a href="https://anori.app/privacy#analytics" target="_blank"></a>
+                  <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer"></a>
                 </Trans>
               </div>
             </>

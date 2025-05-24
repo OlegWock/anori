@@ -2,18 +2,18 @@ import { Onboarding } from "@components/Onboarding";
 import { MotionScrollArea } from "@components/ScrollArea";
 import { WidgetCard } from "@components/WidgetCard";
 import {
-  GridDimensions,
-  Layout,
-  LayoutItem,
-  Position,
+  type GridDimensions,
+  type Layout,
+  type LayoutItem,
+  type Position,
   canPlaceItemInGrid,
   layoutTo2DArray,
   positionToPixelPosition,
   willItemOverlay,
 } from "@utils/grid";
-import { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta } from "@utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
-import { Ref } from "react";
+import type { Ref } from "react";
 
 type LayoutArg = {
   pluginId: string;

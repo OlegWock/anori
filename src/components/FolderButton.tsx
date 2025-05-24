@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ComponentProps, useState } from "react";
+import { type ComponentProps, useState } from "react";
 import { m } from "framer-motion";
 import { Icon } from "./Icon";
 import { Tooltip } from "./Tooltip";

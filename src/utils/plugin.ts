@@ -1,16 +1,16 @@
 import browser from "webextension-polyfill";
-import { AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithStorage } from "./storage/api";
+import { type AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithStorage } from "./storage/api";
 import {
-  AnoriPlugin,
-  FolderDetailsInStorage,
-  ID,
-  OnMessageDescriptor,
-  WidgetInFolderWithMeta,
+  type AnoriPlugin,
+  type FolderDetailsInStorage,
+  type ID,
+  type OnMessageDescriptor,
+  type WidgetInFolderWithMeta,
   homeFolder,
 } from "./user-data/types";
-import { SetStateAction, createContext, useContext, useMemo } from "react";
+import { type SetStateAction, createContext, useContext, useMemo } from "react";
 import { NamespacedStorage } from "./namespaced-storage";
-import { LayoutItemSize } from "./grid";
+import type { LayoutItemSize } from "./grid";
 
 export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin: AnoriPlugin<PT, WT>) => {
   const foldersFromStorage = await storage.getOne("folders");

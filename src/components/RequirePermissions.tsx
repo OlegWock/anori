@@ -1,10 +1,10 @@
 import browser from "webextension-polyfill";
 import { useState } from "react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Button } from "@components/Button";
 import "./RequirePermissions.scss";
 import {
-  CorrectPermission,
+  type CorrectPermission,
   containsHostPermission,
   isPermissionSupported,
   normalizeHost,

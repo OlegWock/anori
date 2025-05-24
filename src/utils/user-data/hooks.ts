@@ -1,5 +1,5 @@
 import {
-  AtomWithBrowserStorage,
+  type AtomWithBrowserStorage,
   atomWithBrowserStorage,
   setAtomWithStorageValue,
   storage,
@@ -8,19 +8,19 @@ import {
 } from "@utils/storage/api";
 import { atom, useAtom } from "jotai";
 import {
-  AnoriPlugin,
-  Folder,
-  FolderDetailsInStorage,
-  ID,
-  WidgetDescriptor,
-  WidgetInFolder,
-  WidgetInFolderWithMeta,
+  type AnoriPlugin,
+  type Folder,
+  type FolderDetailsInStorage,
+  type ID,
+  type WidgetDescriptor,
+  type WidgetInFolder,
+  type WidgetInFolderWithMeta,
   homeFolder,
 } from "./types";
 import { guid } from "@utils/misc";
 import { useMemo } from "react";
 import { availablePluginsWithWidgets } from "@plugins/all";
-import { GridDimensions, LayoutItemSize, Position, findPositionForItemInGrid } from "@utils/grid";
+import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@utils/grid";
 import browser from "webextension-polyfill";
 import { NamespacedStorage } from "@utils/namespaced-storage";
 import { useTranslation } from "react-i18next";

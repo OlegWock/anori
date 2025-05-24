@@ -1,4 +1,4 @@
-import moment, { Moment } from "moment-timezone";
+import moment, { type Moment } from "moment-timezone";
 
 export type City = {
   id: number;

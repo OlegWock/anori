@@ -23,7 +23,7 @@ export const getIpInfo = async (): Promise<IpInfo> => {
   const json = await resp.json();
 
   const [lat, long] = json.loc.includes(",")
-    ? json.loc.split(",").map((i: string) => parseInt(i))
+    ? json.loc.split(",").map((i: string) => Number.parseInt(i))
     : [undefined, undefined];
   return {
     ...json,

@@ -1,4 +1,4 @@
-import { locate, lookupCollection } from "@iconify/json";
+import { locate, type lookupCollection } from "@iconify/json";
 import { IconSet, exportToDirectory } from "@iconify/tools";
 import { join } from "path";
 import { writeFileSync, readFileSync } from "fs";

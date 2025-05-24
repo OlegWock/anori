@@ -1,11 +1,11 @@
 import { Button } from "@components/Button";
-import { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
 import { translate } from "@translations/index";
 import { Fragment, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Input } from "@components/Input";
-import { RssPost, WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
+import { type RssPost, type WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
 import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@utils/plugin";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { guid, parseHost, wait } from "@utils/misc";
@@ -243,7 +243,7 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
                 loading: { rotate: [0, 360] },
               }}
               animate={isRefreshing ? "loading" : undefined}
-              transition={{ duration: 2, repeat: isRefreshing ? Infinity : 0, repeatDelay: 0.2, ease: "easeInOut" }}
+              transition={{ duration: 2, repeat: isRefreshing ? Number.POSITIVE_INFINITY : 0, repeatDelay: 0.2, ease: "easeInOut" }}
             />
           </Button>
         </Tooltip>

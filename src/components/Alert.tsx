@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { m } from "framer-motion";
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 import "./Alert.scss";
 
 type AlertLevel = "info-darker" | "info" | "attention";

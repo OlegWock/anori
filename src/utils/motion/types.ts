@@ -1,4 +1,4 @@
-import { AnimationPlaybackControls, Variant, animate } from "framer-motion";
+import type { AnimationPlaybackControls, Variant, animate } from "framer-motion";
 
 export type AnimateFunction<V> = typeof animate<V>;
 export type AnimationOptions<V> = Parameters<AnimateFunction<V>>;

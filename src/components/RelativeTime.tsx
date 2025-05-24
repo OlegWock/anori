@@ -1,5 +1,5 @@
 import { useScheduledRender } from "@utils/hooks";
-import { Moment } from "moment-timezone";
+import type { Moment } from "moment-timezone";
 import { useTranslation } from "react-i18next";
 
 const seconds = (n: number) => n * 1000;

@@ -1,4 +1,4 @@
-import { Color, fromHsl } from "@utils/color";
+import { type Color, fromHsl } from "@utils/color";
 import "./ColorPicker.scss";
 import { HslColorPicker } from "react-colorful";
 import { useMemo } from "react";

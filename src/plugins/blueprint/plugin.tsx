@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import {
+import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   OnCommandInputCallback,

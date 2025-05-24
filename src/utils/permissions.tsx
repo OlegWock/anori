@@ -1,5 +1,5 @@
 import { atom, getDefaultStore, useAtomValue } from "jotai";
-import browser, { Manifest } from "webextension-polyfill";
+import browser, { type Manifest } from "webextension-polyfill";
 
 export type CorrectPermission =
   | Manifest.OptionalPermission

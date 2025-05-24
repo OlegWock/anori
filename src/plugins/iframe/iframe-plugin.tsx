@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import {
+import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetRenderProps,
@@ -19,7 +19,7 @@ import { IconPicker } from "@components/IconPicker";
 import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
 import { AnimatePresence } from "framer-motion";
-import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "@components/Link";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";

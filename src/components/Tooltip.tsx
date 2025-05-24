@@ -1,6 +1,6 @@
-import { ReactNode, Ref, cloneElement, useId, useState } from "react";
+import { type ReactNode, type Ref, cloneElement, useId, useState } from "react";
 import {
-  Placement,
+  type Placement,
   offset,
   flip,
   shift,
@@ -14,7 +14,7 @@ import {
   useDelayGroupContext,
   useDelayGroup,
   FloatingPortal,
-  Strategy,
+  type Strategy,
   safePolygon,
   useClick,
 } from "@floating-ui/react";

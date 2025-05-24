@@ -1,7 +1,7 @@
 import {
-  DependencyList,
-  MouseEventHandler,
-  MutableRefObject,
+  type DependencyList,
+  type MouseEventHandler,
+  type MutableRefObject,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useHotkeys as useHotkeysOriginal } from "react-hotkeys-hook";
-import { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
+import type { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
 import { trackEvent } from "./analytics";
 
 export const useForceRerender = () => {

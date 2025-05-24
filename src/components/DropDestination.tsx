@@ -1,5 +1,5 @@
-import { DndItemMeta, getCurrentDraggable, useCurrentDrop } from "@utils/drag-and-drop";
-import { JSXElementConstructor, ReactElement, cloneElement, forwardRef } from "react";
+import { type DndItemMeta, getCurrentDraggable, useCurrentDrop } from "@utils/drag-and-drop";
+import { type JSXElementConstructor, type ReactElement, cloneElement, forwardRef } from "react";
 import { mergeRefs } from "react-merge-refs";
 
 type DropDestinationProps = {

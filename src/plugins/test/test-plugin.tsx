@@ -1,11 +1,11 @@
 import { Button } from "@components/Button";
-import { AnoriPlugin, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
 import "./styles.scss";
 import { useTranslation } from "react-i18next";
 import { Icon } from "@components/Icon";
 import { useSizeSettings } from "@utils/compact";
 import { useRef, useState } from "react";
-import { WidgetExpandArea, WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { AnimatePresence } from "framer-motion";
 
 type PluginWidgetConfigType = {};

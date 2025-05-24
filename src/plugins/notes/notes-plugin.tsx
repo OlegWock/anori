@@ -1,6 +1,6 @@
 import { Input, Textarea } from "@components/Input";
-import { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
-import { ComponentProps, KeyboardEventHandler, Suspense, lazy, useEffect, useRef, useState } from "react";
+import type { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
+import { type ComponentProps, type KeyboardEventHandler, Suspense, lazy, useEffect, useRef, useState } from "react";
 import "./styles.scss";
 import { useWidgetStorage } from "@utils/plugin";
 import { translate } from "@translations/index";

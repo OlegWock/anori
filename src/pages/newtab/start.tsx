@@ -16,7 +16,7 @@ import { initTranslation, languageDirections } from "@translations/index";
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from "@utils/device";
 import { WidgetWindowsProvider, useWidgetWindows } from "@components/WidgetExpandArea";
 import { loadAndMigrateStorage } from "@utils/storage/migrations";
-import { Folder, homeFolder } from "@utils/user-data/types";
+import { type Folder, homeFolder } from "@utils/user-data/types";
 import { findOverlapItems, findPositionForItemInGrid } from "@utils/grid";
 import { Sidebar } from "./components/Sidebar";
 

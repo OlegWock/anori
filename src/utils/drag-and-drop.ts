@@ -1,4 +1,4 @@
-import { PanInfo, TargetAndTransition, useDragControls } from "framer-motion";
+import { type PanInfo, type TargetAndTransition, useDragControls } from "framer-motion";
 import { atom, getDefaultStore, useAtom, useStore } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { useMirrorStateToRef } from "./hooks";

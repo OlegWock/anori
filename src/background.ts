@@ -2,7 +2,7 @@ import { availablePlugins } from "@plugins/all";
 import { gatherDailyUsageData, sendAnalyticsIfEnabled } from "@utils/analytics";
 import { storage } from "@utils/storage/api";
 import browser from "webextension-polyfill";
-import { Language, availableTranslations } from "./translations";
+import { type Language, availableTranslations } from "./translations";
 
 console.log("Background init");
 
@@ -31,8 +31,8 @@ const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
   // v1 is newer than v2 => -1
   // v1 and v2 are same => 0
   // v1 is older than v2 => 1
-  const v1Tokens = v1.split(".").map((d) => parseInt(d));
-  const v2Tokens = v2.split(".").map((d) => parseInt(d));
+  const v1Tokens = v1.split(".").map((d) => Number.parseInt(d));
+  const v2Tokens = v2.split(".").map((d) => Number.parseInt(d));
   for (let ind = 0; ind < Math.min(v1Tokens.length, v2Tokens.length); ind++) {
     if (v1Tokens[ind] > v2Tokens[ind]) return -1;
     if (v1Tokens[ind] < v2Tokens[ind]) return 1;
