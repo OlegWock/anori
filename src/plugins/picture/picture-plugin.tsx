@@ -12,7 +12,7 @@ type PicturePluginWidgetConfigType = {
 
 const PictureConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<PicturePluginWidgetConfigType>) => {
     const { t } = useTranslation();
-    const [url, setUrl] = useState(currentConfig?.url ?? 'https://random.imagecdn.app/800/800');
+    const [url, setUrl] = useState(currentConfig?.url ?? 'https://picsum.photos/800');
 
     const onConfirm = () => {
 
@@ -47,7 +47,7 @@ const widgetDescriptor = {
     mainScreen: PicturePlugin,
     mock: () => {
         return (<PicturePlugin instanceId="mock" config={{
-            url: 'https://random.imagecdn.app/800/800'
+            url: 'https://picsum.photos/800'
         }} />)
     },
     appearance: {
