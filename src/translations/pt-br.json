@@ -224,7 +224,7 @@
             "exampleTitle": "Lista de compras",
             "exampleText": "Vegetais, ketchup, queijo, farinha, azeite de oliva"
         },
-        
+
         "recently-closed-plugin": {
             "name": "Abas fechadas recentemente",
             "widgetTitle": "Recentemente fechado",
@@ -246,7 +246,7 @@
             "exampleTask1": "Se esparramar no sofá",
             "exampleTask2": "Deitar no chão",
             "exampleTask3": "Tentar não chorar"
-        }, 
+        },
 
         "top-sites-plugin": {
             "name": "Top sites",

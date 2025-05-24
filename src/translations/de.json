@@ -315,15 +315,15 @@
             "text": "Beschreibung"
         },
         "anki-plugin": {
-          "name": "Anki",
-          "deck": "Deck",
-          "showAnswer": "Antwort zeigen",
-          "easy": "Einfach",
-          "again": "Nochmal",
-          "good": "Gut",
-          "hard": "Schwer",
-          "error": "AnkiConnect konnte nicht erreicht werden, bitte stelle sicher, dass Anki läuft und AnkiConnect installiert ist.",
-          "widgetName": "Anki"
+            "name": "Anki",
+            "deck": "Deck",
+            "showAnswer": "Antwort zeigen",
+            "easy": "Einfach",
+            "again": "Nochmal",
+            "good": "Gut",
+            "hard": "Schwer",
+            "error": "AnkiConnect konnte nicht erreicht werden, bitte stelle sicher, dass Anki läuft und AnkiConnect installiert ist.",
+            "widgetName": "Anki"
         }
     }
 }

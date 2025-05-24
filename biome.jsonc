@@ -1,54 +1,59 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "vcs": {
-    "enabled": false,
-    "clientKind": "git",
-    "useIgnoreFile": false
-  },
-  "files": {
-    "ignoreUnknown": false,
-    "ignore": ["dist/", "build_helpers/", "safari-app/", "**/*.js"]
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space",
-
-    "lineWidth": 120
-  },
-  "organizeImports": {
-    "enabled": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "complexity": {
-        "useDateNow": "error",
-        "noForEach": "off"
-      },
-      "correctness": {
-        "noConstantMathMinMaxClamp": "error",
-        "noInvalidNewBuiltin": "error",
-        "noUnusedImports": "error",
-        "noUnusedVariables": "warn"
-      },
-      "style": {
-        "noDefaultExport": "error",
-        "useThrowOnlyError": "warn",
-        "noUnusedTemplateLiteral": "off"
-      },
-      "suspicious": {
-        "useErrorMessage": "error",
-        "noConfusingVoidType": "off",
-        "noArrayIndexKey": "off",
-        "noExplicitAny": "off"
-      }
-    }
-  },
-  "javascript": {
+    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+    "vcs": {
+        "enabled": false,
+        "clientKind": "git",
+        "useIgnoreFile": false
+    },
+    "files": {
+        "ignoreUnknown": false,
+        "ignore": ["dist/", "build_helpers/", "safari-app/", "**/*.js"]
+    },
     "formatter": {
-      "quoteStyle": "double",
-      "semicolons": "always"
+        "enabled": true,
+        "indentStyle": "space",
+
+        "lineWidth": 120
+    },
+    "organizeImports": {
+        "enabled": true
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "complexity": {
+                "useDateNow": "error",
+                "noForEach": "off"
+            },
+            "correctness": {
+                "noConstantMathMinMaxClamp": "error",
+                "noInvalidNewBuiltin": "error",
+                "noUnusedImports": "error",
+                "noUnusedVariables": "warn"
+            },
+            "style": {
+                "noDefaultExport": "error",
+                "useThrowOnlyError": "warn",
+                "noUnusedTemplateLiteral": "off"
+            },
+            "suspicious": {
+                "useErrorMessage": "error",
+                "noConfusingVoidType": "off",
+                "noArrayIndexKey": "off",
+                "noExplicitAny": "off"
+            }
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "double",
+            "semicolons": "always"
+        }
+    },
+    "json": {
+        "formatter": {
+            "indentWidth": 4
+        }
     }
-  }
 }

@@ -16,47 +16,45 @@ import { labelPlugin } from "./label/label-plugin";
 import { picturePlugin } from "./picture/picture-plugin";
 import { ankiPlugin } from "./anki/anki-plugin";
 
-const unavailableInFirefox: AnoriPlugin<any, any>[] = [
-    systemStatusPlugin,
-];
+const unavailableInFirefox: AnoriPlugin<any, any>[] = [systemStatusPlugin];
 
 const unavailableInSafari: AnoriPlugin<any, any>[] = [
-    systemStatusPlugin,
-    recentlyClosedPlugin,
-    topSitesPlugin,
-    iframePlugin,
+  systemStatusPlugin,
+  recentlyClosedPlugin,
+  topSitesPlugin,
+  iframePlugin,
 ];
 
 export const availablePlugins: AnoriPlugin<any, any>[] = [
-    bookmarkPlugin,
-    iframePlugin,
-    datetimePlugin,
-    rssPlugin,
-    notesPlugin,
-    tasksPlugin,
-    mathPlugin,
-    weatherPlugin,
-    calendarPlugin,
-    recentlyClosedPlugin,
-    topSitesPlugin,
-    systemStatusPlugin,
-    labelPlugin,
-    picturePlugin,
-    ankiPlugin,
-].filter(plugin => {
-    if (X_BROWSER === 'firefox') {
-        return !unavailableInFirefox.includes(plugin);
-    }
+  bookmarkPlugin,
+  iframePlugin,
+  datetimePlugin,
+  rssPlugin,
+  notesPlugin,
+  tasksPlugin,
+  mathPlugin,
+  weatherPlugin,
+  calendarPlugin,
+  recentlyClosedPlugin,
+  topSitesPlugin,
+  systemStatusPlugin,
+  labelPlugin,
+  picturePlugin,
+  ankiPlugin,
+].filter((plugin) => {
+  if (X_BROWSER === "firefox") {
+    return !unavailableInFirefox.includes(plugin);
+  }
 
-    if (X_BROWSER === 'safari') {
-        return !unavailableInSafari.includes(plugin);
-    }
+  if (X_BROWSER === "safari") {
+    return !unavailableInSafari.includes(plugin);
+  }
 
-    return true;
+  return true;
 });
 
-if (X_MODE === 'development') {
-    availablePlugins.unshift(testPlugin);
+if (X_MODE === "development") {
+  availablePlugins.unshift(testPlugin);
 }
 
-export const availablePluginsWithWidgets = availablePlugins.filter(p => p.widgets.length > 0);
+export const availablePluginsWithWidgets = availablePlugins.filter((p) => p.widgets.length > 0);
