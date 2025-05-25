@@ -18,7 +18,7 @@ import {
   useRole,
 } from "@floating-ui/react";
 import { AnimatePresence, m } from "framer-motion";
-import { type ReactNode, type Ref, cloneElement, useId, useState } from "react";
+import { type ReactElement, type ReactNode, type Ref, cloneElement, useId, useState } from "react";
 import "./Tooltip.scss";
 import { IS_TOUCH_DEVICE } from "@utils/device";
 import clsx from "clsx";
@@ -31,7 +31,7 @@ interface Props {
   placement?: Placement;
   strategy?: Strategy;
   maxWidth?: number;
-  children: JSX.Element;
+  children: ReactElement<Record<string, unknown>>;
   targetRef?: Ref<HTMLElement>;
   hasClickableContent?: boolean;
   ignoreFocus?: boolean;
@@ -117,6 +117,7 @@ export const Tooltip = ({
   return (
     <>
       {cloneElement(children, getReferenceProps({ ref: mergedRef, ...children.props }))}
+      {/* @ts-expect-error Declared component type not compatible with React 19 */}
       <FloatingPortal root={document.body}>
         <AnimatePresence>
           {open && (

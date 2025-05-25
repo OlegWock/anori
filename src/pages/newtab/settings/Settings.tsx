@@ -36,6 +36,7 @@ import {
 import { IS_TOUCH_DEVICE } from "@utils/device";
 import { downloadBlob, showOpenFilePicker } from "@utils/files";
 import { guid } from "@utils/misc";
+import type { ReorderGroup as ReorderGroupType } from "@utils/motion/lazy-load-reorder";
 import { OPFS_AVAILABLE } from "@utils/opfs";
 import { setPageTitle } from "@utils/page";
 import { usePluginConfig } from "@utils/plugin";
@@ -60,7 +61,7 @@ import { ThemesScreen } from "./ThemesScreen";
 
 export const ReorderGroup = lazy(() =>
   import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderGroup })),
-);
+) as typeof ReorderGroupType;
 
 type DraftCustomIcon = {
   id: string;

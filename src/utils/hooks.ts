@@ -21,7 +21,7 @@ export const useForceRerender = () => {
 export function usePrevious<T>(value: T): T | undefined;
 export function usePrevious<T>(value: T, defaultValue: T): T;
 export function usePrevious<T>(value: T, defaultValue?: T) {
-  const ref = useRef<T>();
+  const ref = useRef<T | undefined>(undefined);
 
   useEffect(() => {
     ref.current = value;

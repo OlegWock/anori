@@ -1,0 +1,51 @@
+diff --git a/node_modules/@radix-ui/react-scroll-area/dist/index.d.mts b/node_modules/@radix-ui/react-scroll-area/dist/index.d.mts
+index 28bfd02..7e08198 100644
+--- a/node_modules/@radix-ui/react-scroll-area/dist/index.d.mts
++++ b/node_modules/@radix-ui/react-scroll-area/dist/index.d.mts
+@@ -119,5 +119,6 @@ declare const Viewport: React.ForwardRefExoticComponent<ScrollAreaViewportProps
+ declare const Scrollbar: React.ForwardRefExoticComponent<ScrollAreaScrollbarProps & React.RefAttributes<HTMLDivElement>>;
+ declare const Thumb: React.ForwardRefExoticComponent<ScrollAreaThumbProps & React.RefAttributes<HTMLDivElement>>;
+ declare const Corner: React.ForwardRefExoticComponent<ScrollAreaCornerProps & React.RefAttributes<HTMLDivElement>>;
++declare const useScrollAreaContext: () => ScrollAreaContextValue;
+ 
+-export { Corner, Root, ScrollArea, ScrollAreaCorner, type ScrollAreaCornerProps, type ScrollAreaProps, ScrollAreaScrollbar, type ScrollAreaScrollbarProps, ScrollAreaThumb, type ScrollAreaThumbProps, ScrollAreaViewport, type ScrollAreaViewportProps, Scrollbar, Thumb, Viewport, createScrollAreaScope };
++export { Corner, Root, ScrollArea, ScrollAreaCorner, type ScrollAreaCornerProps, type ScrollAreaProps, ScrollAreaScrollbar, type ScrollAreaScrollbarProps, ScrollAreaThumb, type ScrollAreaThumbProps, ScrollAreaViewport, type ScrollAreaViewportProps, Scrollbar, Thumb, Viewport, createScrollAreaScope, useScrollAreaContext, type ScrollAreaContextValue };
+diff --git a/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts b/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts
+index 28bfd02..7e08198 100644
+--- a/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts
++++ b/node_modules/@radix-ui/react-scroll-area/dist/index.d.ts
+@@ -119,5 +119,6 @@ declare const Viewport: React.ForwardRefExoticComponent<ScrollAreaViewportProps
+ declare const Scrollbar: React.ForwardRefExoticComponent<ScrollAreaScrollbarProps & React.RefAttributes<HTMLDivElement>>;
+ declare const Thumb: React.ForwardRefExoticComponent<ScrollAreaThumbProps & React.RefAttributes<HTMLDivElement>>;
+ declare const Corner: React.ForwardRefExoticComponent<ScrollAreaCornerProps & React.RefAttributes<HTMLDivElement>>;
++declare const useScrollAreaContext: () => ScrollAreaContextValue;
+ 
+-export { Corner, Root, ScrollArea, ScrollAreaCorner, type ScrollAreaCornerProps, type ScrollAreaProps, ScrollAreaScrollbar, type ScrollAreaScrollbarProps, ScrollAreaThumb, type ScrollAreaThumbProps, ScrollAreaViewport, type ScrollAreaViewportProps, Scrollbar, Thumb, Viewport, createScrollAreaScope };
++export { Corner, Root, ScrollArea, ScrollAreaCorner, type ScrollAreaCornerProps, type ScrollAreaProps, ScrollAreaScrollbar, type ScrollAreaScrollbarProps, ScrollAreaThumb, type ScrollAreaThumbProps, ScrollAreaViewport, type ScrollAreaViewportProps, Scrollbar, Thumb, Viewport, createScrollAreaScope, useScrollAreaContext, type ScrollAreaContextValue };
+diff --git a/node_modules/@radix-ui/react-scroll-area/dist/index.js b/node_modules/@radix-ui/react-scroll-area/dist/index.js
+index 6e0a40d..e7c3798 100644
+--- a/node_modules/@radix-ui/react-scroll-area/dist/index.js
++++ b/node_modules/@radix-ui/react-scroll-area/dist/index.js
+@@ -41,7 +41,8 @@ __export(index_exports, {
+   Scrollbar: () => Scrollbar,
+   Thumb: () => Thumb,
+   Viewport: () => Viewport,
+-  createScrollAreaScope: () => createScrollAreaScope
++  createScrollAreaScope: () => createScrollAreaScope,
++  useScrollAreaContext:  () => useScrollAreaContext,
+ });
+ module.exports = __toCommonJS(index_exports);
+ 
+diff --git a/node_modules/@radix-ui/react-scroll-area/dist/index.mjs b/node_modules/@radix-ui/react-scroll-area/dist/index.mjs
+index fac521d..97dd9b1 100644
+--- a/node_modules/@radix-ui/react-scroll-area/dist/index.mjs
++++ b/node_modules/@radix-ui/react-scroll-area/dist/index.mjs
+@@ -734,6 +734,7 @@ export {
+   Scrollbar,
+   Thumb,
+   Viewport,
+-  createScrollAreaScope
++  createScrollAreaScope,
++  useScrollAreaContext
+ };
+ //# sourceMappingURL=index.mjs.map

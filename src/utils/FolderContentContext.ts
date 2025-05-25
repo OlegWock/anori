@@ -5,7 +5,7 @@ import { type Folder, homeFolder } from "./user-data/types";
 type FolderContentContextType = {
   activeFolder: Folder;
   isEditing: boolean;
-  gridRef: RefObject<HTMLDivElement>;
+  gridRef: RefObject<HTMLDivElement | null>;
   grid: GridDimensions & {
     position: PixelPosition;
     pixelSize: LayoutItemSize;

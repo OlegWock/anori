@@ -19,22 +19,25 @@ import { translate } from "@translations/index";
 import { useSizeSettings } from "@utils/compact";
 import { useRunAfterNextRender } from "@utils/hooks";
 import { choose, guid } from "@utils/misc";
-import { useCancelableAnimate } from "@utils/motion/hooks";
-import type { BetterAnimationPlaybackControls } from "@utils/motion/types";
+import type { ReorderGroup as ReorderGroupType } from "@utils/motion/lazy-load-reorder";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
 import { combineRefs } from "@utils/react";
 import {
   AnimatePresence,
+  type AnimationPlaybackControlsWithThen,
   LayoutGroup,
   type MotionValue,
   m,
+  useAnimate,
   useDragControls,
   useMotionValue,
   useTransform,
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
-const ReorderGroup = lazy(() => import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderGroup })));
+const ReorderGroup = lazy(() =>
+  import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderGroup })),
+) as typeof ReorderGroupType;
 const ReorderItem = lazy(() => import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderItem })));
 
 type TaskWidgetConfigType = {
@@ -145,9 +148,8 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, 
       if (animationRef.current) animationRef.current.stop();
 
       animationRef.current = animate(completionProgress, 1, { duration: 0.95, ease: "easeInOut" });
-      animationRef.current.then(({ reason }) => {
-        console.log("Animation complete", { reason });
-        if (reason === "finished") onComplete();
+      animationRef.current.then(() => {
+        onComplete();
       });
     } else {
       if (animationRef.current) {
@@ -161,9 +163,9 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, 
   const { rem } = useSizeSettings();
   const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
-  const [scope, animate] = useCancelableAnimate();
+  const [scope, animate] = useAnimate();
   const mergedRef = combineRefs(ref, scope);
-  const animationRef = useRef<BetterAnimationPlaybackControls | null>(null);
+  const animationRef = useRef<AnimationPlaybackControlsWithThen | null>(null);
   const checkboxRef = useRef<HTMLDivElement>(null);
 
   const completionProgress = useMotionValue(0);

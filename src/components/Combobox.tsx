@@ -176,8 +176,10 @@ export const Combobox = <T,>({
           },
         })}
       />
+      {/* @ts-expect-error Declared component type not compatible with React 19 */}
       <FloatingPortal>
         {open && (
+          // @ts-expect-error Declared component type not compatible with React 19
           <FloatingFocusManager context={context} initialFocus={-1} visuallyHiddenDismiss>
             <m.div
               {...getFloatingProps({

@@ -1,8 +1,8 @@
-import type { LegacyRef, MutableRefObject } from "react";
+import type { ReactNode, Ref } from "react";
 import { createRoot } from "react-dom/client";
 import { mergeRefs } from "react-merge-refs";
 
-export const mountPage = (element: JSX.Element) => {
+export const mountPage = (element: ReactNode) => {
   const node = document.getElementById("root");
   if (!node) {
     throw new Error("Called mountPage in invalid context");
@@ -15,6 +15,6 @@ export const mountPage = (element: JSX.Element) => {
   };
 };
 
-export const combineRefs = (...args: (MutableRefObject<any> | LegacyRef<any> | undefined)[]) => {
-  return mergeRefs(args.filter((a) => !!a) as (MutableRefObject<any> | LegacyRef<any>)[]);
+export const combineRefs = (...args: (Ref<any> | undefined)[]) => {
+  return mergeRefs(args.filter((a) => !!a));
 };

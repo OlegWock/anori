@@ -28,7 +28,7 @@ export type CheckboxProps = {
   };
 } & Omit<ComponentProps<typeof m.div>, "onChange">;
 
-const MotionIndicator = m(RadixCheckbox.Indicator);
+const MotionIndicator = m.create(RadixCheckbox.Indicator);
 
 export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
   (

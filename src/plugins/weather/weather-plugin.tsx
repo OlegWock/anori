@@ -396,6 +396,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
           </div>
         </div>
         {!!forecast && (
+          // @ts-expect-error Declared component type not compatible with React 19
           <FloatingDelayGroup delay={500}>
             {forecast.map((f) => {
               return (

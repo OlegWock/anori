@@ -11,7 +11,7 @@ export type TabsProps = {
   defaultTab: string;
 };
 
-const TabContent = m(RadixTabs.Content);
+const TabContent = m.create(RadixTabs.Content);
 
 export const Tabs = ({ children, defaultTab }: TabsProps) => {
   const tabs = Children.map(children, (el) => {

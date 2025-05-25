@@ -9,8 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@components/Link";
 import { ScrollArea } from "@components/ScrollArea";
 import { useRunAfterNextRender } from "@utils/hooks";
-import type { ReactMarkdownProps } from "react-markdown/lib/complex-types";
-import type { PluggableList } from "react-markdown/lib/react-markdown";
+import type { Options } from "react-markdown";
 import { sequentialNewlinesPlugin } from "./utils";
 
 const ReactMarkdown = lazy(() => import("react-markdown"));
@@ -25,7 +24,7 @@ const Mock = () => {
   );
 };
 
-const LinkWithoutPropagation = (props: ComponentProps<typeof Link> & ReactMarkdownProps) => {
+const LinkWithoutPropagation = (props: ComponentProps<typeof Link>) => {
   return <Link onClick={(e) => e.stopPropagation()} onFocus={(e) => e.stopPropagation()} {...props} />;
 };
 
@@ -58,7 +57,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
   const bodyEditorRef = useRef<HTMLTextAreaElement>(null);
   const { t } = useTranslation();
   const runAfterNextRender = useRunAfterNextRender();
-  const [remarkPlugins, setRemarkPlugins] = useState<PluggableList>([sequentialNewlinesPlugin]);
+  const [remarkPlugins, setRemarkPlugins] = useState<NonNullable<Options["remarkPlugins"]>>([sequentialNewlinesPlugin]);
 
   useEffect(() => {
     import("remark-gfm").then(({ default: remarkGfm }) => setRemarkPlugins((p) => [...p, remarkGfm]));

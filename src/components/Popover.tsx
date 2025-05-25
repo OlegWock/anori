@@ -19,20 +19,29 @@ import {
 } from "@floating-ui/react";
 import { AnimatePresence, m } from "framer-motion";
 import type React from "react";
-import { type MutableRefObject, cloneElement, useMemo, useState } from "react";
+import {
+  Children,
+  type ReactElement,
+  type ReactNode,
+  type Ref,
+  type RefObject,
+  cloneElement,
+  useMemo,
+  useState,
+} from "react";
 import { mergeRefs } from "react-merge-refs";
 import "./Popover.scss";
 import classNames from "clsx";
 
 export type PopoverProps<D = undefined> = {
-  component: (data: PopoverRenderProps<D>) => JSX.Element;
+  component: (data: PopoverRenderProps<D>) => ReactNode;
   trigger?: "click" | "hover";
   placement?: Placement;
   className?: string;
   style?: React.CSSProperties;
-  children: JSX.Element;
+  children: ReactNode;
   onStateChange?: (open: boolean) => void;
-  initialFocus?: number | MutableRefObject<HTMLElement | null>;
+  initialFocus?: number | RefObject<HTMLElement | null>;
 } & (D extends undefined ? { additionalData?: D } : { additionalData: D });
 
 export type PopoverRenderProps<D = undefined> = {
@@ -53,6 +62,12 @@ export const Popover = <D = undefined>({
   trigger = "click",
   initialFocus = 0,
 }: PopoverProps<D>) => {
+  if (!Children.only(children)) {
+    throw new Error("Popover children should be single element");
+  }
+
+  const childrenReactElement = children as ReactElement<Record<string, unknown>>;
+
   const [open, setOpen] = useState(false);
 
   const {
@@ -110,7 +125,10 @@ export const Popover = <D = undefined>({
   ]);
 
   // Preserve the consumer's ref
-  const ref = useMemo(() => mergeRefs([reference, (children as any).ref]), [reference, children]);
+  const ref = useMemo(
+    () => mergeRefs([reference, childrenReactElement.props.ref as Ref<Element>]) as Ref<Element>,
+    [reference, childrenReactElement.props.ref],
+  );
 
   const OFFSET = 5;
 
@@ -124,10 +142,12 @@ export const Popover = <D = undefined>({
 
   return (
     <>
-      {cloneElement(children, getReferenceProps({ ref, ...children.props }))}
+      {cloneElement(childrenReactElement, getReferenceProps({ ref, ...childrenReactElement.props }))}
+      {/* @ts-expect-error Declared component type not compatible with React 19 */}
       <FloatingPortal>
         <AnimatePresence>
           {open && (
+            // @ts-expect-error Declared component type not compatible with React 19
             <FloatingFocusManager initialFocus={initialFocus} context={context} key="popover">
               <m.div
                 ref={floating}

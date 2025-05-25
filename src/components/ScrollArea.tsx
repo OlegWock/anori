@@ -24,7 +24,7 @@ type ScrollAreaProps = {
 const checkVerticalOverflow = (el: Element) => el.clientHeight < el.scrollHeight;
 const checkHorizontalOverflow = (el: Element) => el.clientWidth < el.scrollWidth;
 
-const MotionViewport = m(RadixScrollArea.ScrollAreaViewport);
+const MotionViewport = m.create(RadixScrollArea.ScrollAreaViewport);
 
 export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
   (
@@ -128,4 +128,4 @@ const ResizeObserverComponent = ({ onResize }: { onResize: () => void }) => {
   return <></>;
 };
 
-export const MotionScrollArea = m(ScrollArea);
+export const MotionScrollArea = m.create(ScrollArea);

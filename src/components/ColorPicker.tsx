@@ -22,6 +22,7 @@ export const ColorPicker = ({ value: valueFromProps, onChange, className }: Colo
   );
 
   return (
+    // @ts-expect-error Declared component type not compatible with React 19
     <HslColorPicker
       className={clsx("ColorPicker", className)}
       color={hslValue}

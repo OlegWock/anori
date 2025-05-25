@@ -42,7 +42,7 @@ export const calculateColumnWidth = (containerWidth: number, desiredSize: number
   return Number.isNaN(colWidth) ? desiredSize : colWidth;
 };
 
-export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSize: number, layout: Layout) => {
+export const useGrid = (ref: RefObject<HTMLElement | null>, desiredSize: number, minSize: number, layout: Layout) => {
   const calculateDimensions = useCallback(
     (el: HTMLElement) => {
       const box = el.getBoundingClientRect();

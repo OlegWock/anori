@@ -222,6 +222,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
               <p>{t("iconsPicker.customIconsAbsent")}</p>
             </div>
           ) : (
+            // @ts-expect-error Declared component type not compatible with React 19
             <FixedSizeList<GridItemData>
               className="icons-grid"
               height={350}
