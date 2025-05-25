@@ -56,6 +56,7 @@ export const searchCity = async (query: string): Promise<City[]> => {
 export const gerCurrentWeather = async (city: City): Promise<CurrentWeather> => {
   // https://open-meteo.com/en/docs
   const response = await fetch(
+    // biome-ignore lint/style/useTemplate: more readable this way
     `https://api.open-meteo.com/v1/forecast` +
       `?latitude=${encodeURIComponent(city.latitude)}` +
       `&longitude=${encodeURIComponent(city.longitude)}` +
@@ -73,6 +74,7 @@ export const gerCurrentWeather = async (city: City): Promise<CurrentWeather> => 
 export const getForecast = async (city: City): Promise<WeatherForecast[]> => {
   const tz = moment.tz.guess();
   const response = await fetch(
+    // biome-ignore lint/style/useTemplate: more readable this way
     `https://api.open-meteo.com/v1/forecast` +
       `?latitude=${encodeURIComponent(city.latitude)}` +
       `&longitude=${encodeURIComponent(city.longitude)}` +

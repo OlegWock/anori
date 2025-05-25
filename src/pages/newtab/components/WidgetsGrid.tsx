@@ -186,8 +186,8 @@ export const WidgetsGrid = ({
               pointerEvents: "none",
               opacity: 0,
             }}
-          ></div>
-          {layout.map((w, i) => {
+          />
+          {layout.map((w) => {
             return (
               <WidgetCard
                 type="widget"

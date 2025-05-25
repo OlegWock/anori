@@ -46,7 +46,7 @@ export const FolderItem = ({
           component={IconPicker}
           initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
           additionalData={{
-            onSelected: (icon: string) => onIconChange && onIconChange(icon),
+            onSelected: (icon: string) => onIconChange?.(icon),
             inputRef: iconSearchRef,
           }}
         >
@@ -56,11 +56,11 @@ export const FolderItem = ({
         </Popover>
         <input
           value={folder.name}
-          onChange={(e) => onNameChange && onNameChange(e.target.value)}
+          onChange={(e) => onNameChange?.(e.target.value)}
           className="folder-name"
           type="text"
         />
-        <Button onClick={() => onRemove && onRemove()}>
+        <Button onClick={() => onRemove?.()}>
           <Icon icon="ion:close" height={ICON_SIZE} />
         </Button>
       </ReorderItem>

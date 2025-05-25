@@ -98,7 +98,7 @@ const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
             return true;
           })
           .map((s) => {
-            const id = s.tab ? s.tab.sessionId : s.window!.sessionId;
+            const id = s.tab ? s.tab.sessionId : s.window?.sessionId;
             return <Session key={id?.toString()} session={s} isMock={instanceId === "mock"} />;
           })}
       </ScrollArea>
@@ -113,18 +113,19 @@ const onCommandInput: OnCommandInputCallback = async (query: string) => {
   return sessions
     .filter((s) => {
       if (s.tab) {
-        if (s.tab.title && s.tab.title.toLowerCase().includes(q)) return true;
-        if (s.tab.url && s.tab.url.toLowerCase().includes(q)) return true;
+        if (s.tab.title?.toLowerCase().includes(q)) return true;
+        if (s.tab.url?.toLowerCase().includes(q)) return true;
         return false;
-      } else if (s.window) {
-        if (s.window.title && s.window.title.toLowerCase().includes(q)) return true;
+      }
+      if (s.window) {
+        if (s.window.title?.toLowerCase().includes(q)) return true;
         return false;
       }
       return false;
     })
     .map((s) => {
-      const id = s.tab ? s.tab.sessionId! : s.window!.sessionId!;
-      const title = s.tab ? s.tab.title : s.window!.title;
+      const id = s.tab ? s.tab.sessionId! : s.window?.sessionId!;
+      const title = s.tab ? s.tab.title : s.window?.title;
       const favIcon = s.tab ? s.tab.favIconUrl : "";
       const icon = favIcon ? undefined : s.tab ? "ic:baseline-tab" : "ic:outline-window";
       return {

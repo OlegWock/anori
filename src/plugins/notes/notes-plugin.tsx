@@ -1,5 +1,5 @@
 import { Input, Textarea } from "@components/Input";
-import type { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import { type ComponentProps, type KeyboardEventHandler, Suspense, lazy, useEffect, useRef, useState } from "react";
 import "./styles.scss";
 import { useWidgetStorage } from "@utils/plugin";
@@ -47,7 +47,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
     const textarea = event.currentTarget;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
-    const value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+    const value = `${textarea.value.substring(0, start)}\t${textarea.value.substring(end)}`;
     textarea.selectionStart = textarea.selectionEnd = start + 1;
     setBody(value);
   };
@@ -90,12 +90,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
         />
       )}
       {!isEditing && (
-        <div
-          className="note-body-rendered"
-          tabIndex={0}
-          onFocus={() => switchEditing(true)}
-          onClick={() => switchEditing(true)}
-        >
+        <div className="note-body-rendered" onFocus={() => switchEditing(true)} onClick={() => switchEditing(true)}>
           <ScrollArea type="hover" color="dark">
             {!!body && (
               <div className="note-body-rendered-content">
@@ -122,7 +117,6 @@ export const notesWidgetDescriptor = {
     return translate("notes-plugin.name");
   },
   configurationScreen: null,
-  withAnimation: false,
   mainScreen: MainScreen,
   mock: Mock,
   appearance: {
@@ -134,7 +128,7 @@ export const notesWidgetDescriptor = {
       height: 1,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor;
 
 export const notesPlugin = {
   id: "notes-plugin",

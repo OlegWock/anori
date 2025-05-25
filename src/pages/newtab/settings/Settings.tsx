@@ -195,7 +195,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
           <Alert level="info" className="translation-alert">
             <Trans t={t} i18nKey="settings.general.translationInfo">
-              <a href="https://github.com/OlegWock/anori/issues/104"></a>
+              <a href="https://github.com/OlegWock/anori/issues/104" />
             </Trans>
           </Alert>
         </div>
@@ -225,7 +225,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
               <div style={{ marginTop: "0.5rem" }}>
                 <Trans t={t} i18nKey="settings.general.analyticsHintP2">
-                  <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer"></a>
+                  <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer" />
                 </Trans>
               </div>
             </>
@@ -456,7 +456,7 @@ const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
         <FolderItem folder={homeFolder} />
         <Suspense>
           <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">
-            {folders.map((f, index) => {
+            {folders.map((f, _index) => {
               return (
                 <FolderItem
                   key={f.id}
@@ -593,8 +593,8 @@ const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
       <img src={vtuberLogo} alt="Anori logo" className="logo" />
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p1">
-          <a href="https://github.com/OlegWock/anori"></a>
-          <a href="https://github.com/OlegWock/anori/issues/new"></a>
+          <a href="https://github.com/OlegWock/anori" />
+          <a href="https://github.com/OlegWock/anori/issues/new" />
         </Trans>
       </p>
 
@@ -602,20 +602,20 @@ const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
 
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p4">
-          <a href="https://sinja.io/support"></a>
+          <a href="https://sinja.io/support" />
         </Trans>
       </p>
 
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p2">
-          <a href="https://github.com/OlegWock/anori"></a>
+          <a href="https://github.com/OlegWock/anori" />
         </Trans>
       </p>
 
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p3">
-          <a href="https://twitter.com/OlegWock"></a>
-          <a href="https://stand-with-ukraine.pp.ua/"></a>
+          <a href="https://twitter.com/OlegWock" />
+          <a href="https://stand-with-ukraine.pp.ua/" />
         </Trans>
       </p>
 

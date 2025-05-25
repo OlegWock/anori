@@ -73,7 +73,7 @@ const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) =>
           url,
           parsed,
         };
-      } catch (err) {
+      } catch (_err) {
         console.log("Error while loading feed", url);
         return undefined;
       }
@@ -135,7 +135,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [feeds, setFeeds] = storage.useValue("feeds", {});
-  const [lastUpdated, setLastUpdated, lastUpdatedMeta] = storage.useValue("lastUpdated", null);
+  const [lastUpdated, setLastUpdated, _lastUpdatedMeta] = storage.useValue("lastUpdated", null);
 
   const consolidatedFeed = useMemo(() => {
     return Object.values(feeds)

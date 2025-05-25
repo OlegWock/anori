@@ -99,7 +99,7 @@ const webResponseHandler = (details: browser.WebRequest.OnHeadersReceivedDetails
   }
 
   return {
-    responseHeaders: details.responseHeaders!.filter((h) => {
+    responseHeaders: details.responseHeaders?.filter((h) => {
       return !["x-frame-options", "frame-options", "content-security-policy"].includes(h.name.toLowerCase());
     }),
   };
@@ -111,7 +111,7 @@ const webRequestHandler = (details: browser.WebRequest.OnBeforeSendHeadersDetail
   }
 
   return {
-    requestHeaders: details.requestHeaders!.filter((h) => {
+    requestHeaders: details.requestHeaders?.filter((h) => {
       return !["sec-fetch-site", "sec-fetch-dest"].includes(h.name.toLowerCase());
     }),
   };

@@ -77,7 +77,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean; onOpenChang
                           <Command.Item
                             key={key}
                             value={key}
-                            onSelect={async (e) => {
+                            onSelect={async () => {
                               onOpenChange(false);
                               setQuery("");
                               await trackEvent("Command option selected", { plugin: plugin.id });

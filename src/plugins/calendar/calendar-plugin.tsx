@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import { useState } from "react";
 import "./styles.scss";
 import { Icon } from "@components/Icon";
@@ -134,7 +134,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
 
     return res;
   }, [today, offsetMonths, i18n.language, firstDayShift]);
-  const currentKey = useMemo(() => currentMonth.month() + "_" + currentMonth.year(), [currentMonth]);
+  const currentKey = useMemo(() => `${currentMonth.month()}_${currentMonth.year()}`, [currentMonth]);
 
   useEffect(() => {
     const tid = setInterval(() => setToday(moment()), 1000 * 60);
@@ -197,7 +197,6 @@ const widgetDescriptor = {
     return translate("calendar-plugin.widgetName");
   },
   configurationScreen: ConfigScreen,
-  withAnimation: false,
   mainScreen: MainScreen,
   mock: () => {
     return <MainScreen instanceId="mock" config={{}} />;
@@ -209,7 +208,7 @@ const widgetDescriptor = {
       height: 2,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor;
 
 export const calendarPlugin = {
   id: "calendar-plugin",

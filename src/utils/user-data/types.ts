@@ -103,7 +103,7 @@ export type WidgetResizable =
       max?: LayoutItemSize;
     };
 
-export type WidgetDescriptor<T extends {} = {}> = {
+export type WidgetDescriptor<T extends {} = Record<string, never>> = {
   id: ID;
   name: string;
   mock: ComponentType<{}>;
@@ -120,7 +120,7 @@ export type WidgetDescriptor<T extends {} = {}> = {
     }
   | {
       configurationScreen: null;
-      mainScreen: ComponentType<WidgetRenderProps<{}>>;
+      mainScreen: ComponentType<WidgetRenderProps<Record<string, never>>>;
     }
 );
 

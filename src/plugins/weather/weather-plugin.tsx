@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import { Combobox } from "@components/Combobox";
@@ -144,7 +144,7 @@ const WidgetConfigScreen = ({
           isLoading={loadingCities}
           getOptionKey={(o) => (o ? o.id.toString() : "")}
           getOptionLabel={(o) => (o ? formatCityLabel(o) : "")}
-          shouldDisplayOption={(o, q) => !!o}
+          shouldDisplayOption={(o) => !!o}
           placeholder={t("weather-plugin.selectCity")}
         />
       </div>
@@ -443,7 +443,6 @@ export const weatherWidgetDescriptorCurrent = {
     return translate("weather-plugin.currentWeather");
   },
   configurationScreen: WidgetConfigScreen,
-  withAnimation: false,
   mainScreen: MainScreenCurrent,
   mock: () => {
     return (
@@ -457,7 +456,7 @@ export const weatherWidgetDescriptorCurrent = {
       height: 1,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
 
 export const weatherWidgetDescriptorForecast = {
   id: "weather-forecast",
@@ -465,7 +464,6 @@ export const weatherWidgetDescriptorForecast = {
     return translate("weather-plugin.weatherForecast");
   },
   configurationScreen: WidgetConfigScreen,
-  withAnimation: false,
   mainScreen: MainScreenForecast,
   mock: () => {
     return (
@@ -479,7 +477,7 @@ export const weatherWidgetDescriptorForecast = {
       height: 4,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
 
 export const weatherPlugin = {
   id: "weather-plugin",

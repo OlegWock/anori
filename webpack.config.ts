@@ -1,5 +1,5 @@
-import * as path from "path";
-import * as fs from "fs";
+import * as path from "node:path";
+import * as fs from "node:fs";
 import * as walkSync from "walk-sync";
 import * as webpack from "webpack";
 import * as TerserPlugin from "terser-webpack-plugin";
@@ -122,27 +122,27 @@ const generateManifest = (
     manifest.manifest_version = 2;
 
     manifest.browser_action = manifest.action;
-    delete manifest.action;
+    manifest.action = undefined;
 
-    delete manifest.host_permissions;
-    delete manifest.minimum_chrome_version;
+    manifest.host_permissions = undefined;
+    manifest.minimum_chrome_version = undefined;
 
     manifest.optional_permissions = [...manifest.optional_permissions!, ...manifest.optional_host_permissions!];
 
-    delete manifest.optional_host_permissions;
+    manifest.optional_host_permissions = undefined;
 
     manifest.permissions = [
-      ...manifest.permissions!.filter((p) => !unavailablePermissions.includes(p)),
+      ...(manifest.permissions?.filter((p) => !unavailablePermissions.includes(p)) ?? []),
       ...additionalPermissions,
     ];
-    manifest.optional_permissions = manifest.optional_permissions!.filter((p) => !unavailablePermissions.includes(p));
+    manifest.optional_permissions = manifest.optional_permissions?.filter((p) => !unavailablePermissions.includes(p));
 
     manifest.background = {
       persistent: false,
       scripts: ["background.js"],
     };
 
-    manifest.web_accessible_resources = manifest.web_accessible_resources!.flatMap((descriptor) => {
+    manifest.web_accessible_resources = manifest.web_accessible_resources?.flatMap((descriptor) => {
       return (descriptor as Manifest.WebExtensionManifestWebAccessibleResourcesC2ItemType).resources;
     });
 
@@ -156,12 +156,12 @@ const generateManifest = (
 
     if (targetBrowser === "safari") {
       manifest.browser_url_overrides = manifest.chrome_url_overrides;
-      delete manifest.chrome_url_overrides;
+      manifest.chrome_url_overrides = undefined;
     }
   }
 
   if (targetBrowser === "firefox") {
-    manifest.optional_permissions!.push("webRequest", "webRequestBlocking");
+    manifest.optional_permissions?.push("webRequest", "webRequestBlocking");
 
     // Despite the name this seem to work only in Firefox (for Chrome new tab page and home page are the same)
     manifest.chrome_settings_overrides = {
@@ -196,15 +196,15 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
   const generateFileInvocations: GenerateFiles[] = [];
 
   const pages = walkSync(paths.src.pages, {
-    globs: scriptExtensions.map((ext) => "*/*" + ext),
-    ignore: scriptExtensions.map((ext) => "**/components/**/*" + ext),
+    globs: scriptExtensions.map((ext) => `*/*${ext}`),
+    ignore: scriptExtensions.map((ext) => `**/components/**/*${ext}`),
     directories: false,
   });
   console.log("Pages:", pages);
   pages.forEach((page) => {
     const cleanName = scriptName(page);
     entries[cleanName] = joinPath(paths.src.pages, page);
-    outputs[cleanName] = joinPath(paths.dist.pages, cleanName + ".js");
+    outputs[cleanName] = joinPath(paths.dist.pages, `${cleanName}.js`);
 
     const scriptsToInject = [`/${paths.dist.pages}/${cleanName}.js`];
 
@@ -223,18 +223,18 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
   });
 
   const contentscripts = walkSync(paths.src.contentscripts, {
-    globs: scriptExtensions.map((ext) => "**/*" + ext),
+    globs: scriptExtensions.map((ext) => `**/*${ext}`),
     directories: false,
   });
   console.log("Content scripts:", contentscripts);
   contentscripts.forEach((cs) => {
     const cleanName = scriptName(cs);
     entries[cleanName] = joinPath(paths.src.contentscripts, cs);
-    outputs[cleanName] = joinPath(paths.dist.contentscripts, cleanName + ".js");
+    outputs[cleanName] = joinPath(paths.dist.contentscripts, `${cleanName}.js`);
   });
 
   const scripts = walkSync(paths.src.scripts, {
-    globs: scriptExtensions.map((ext) => "**/*" + ext),
+    globs: scriptExtensions.map((ext) => `**/*${ext}`),
     directories: false,
   });
   console.log("Scripts:", scripts);
@@ -245,7 +245,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
       import: joinPath(paths.src.scripts, cs),
       chunkLoading: false,
     };
-    outputs[cleanName] = joinPath(paths.dist.scripts, cleanName + ".js");
+    outputs[cleanName] = joinPath(paths.dist.scripts, `${cleanName}.js`);
   });
 
   // @ts-expect-error There is some issue with types provided with FileManagerPlugin and CJS/ESM imports
@@ -325,14 +325,14 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
     entry: entries,
     output: {
       clean: false,
-      filename: (pathData, assetInfo) => {
+      filename: (pathData, _assetInfo) => {
         if (!pathData.chunk) {
           throw new Error("pathData.chunk not defined for some reason");
         }
 
         const predefinedName = outputs[pathData.chunk.name || ""];
         if (predefinedName) return predefinedName;
-        const filename = (pathData.chunk.name || pathData.chunk.id) + ".js";
+        const filename = `${pathData.chunk.name || pathData.chunk.id}.js`;
         return path.join(paths.dist.chunks, filename);
       },
       path: path.resolve(__dirname, paths.dist.base),
@@ -451,8 +451,10 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             context: paths.src.assets,
             to: ({ context, absoluteFilename }) => {
               const assetAbsolutePath = path.resolve(paths.src.assets);
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              return path.join(paths.dist.assets, absoluteFilename!.replace(assetAbsolutePath, ""));
+              if (!absoluteFilename) {
+                throw new Error("Expected absoluteFilename to contain a value");
+              }
+              return path.join(paths.dist.assets, absoluteFilename.replace(assetAbsolutePath, ""));
             },
           },
           {
@@ -460,8 +462,10 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
             context: paths.src.locales,
             to: ({ context, absoluteFilename }) => {
               const assetAbsolutePath = path.resolve(paths.src.locales);
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              return path.join(paths.dist.locales, absoluteFilename!.replace(assetAbsolutePath, ""));
+              if (!absoluteFilename) {
+                throw new Error("Expected absoluteFilename to contain a value");
+              }
+              return path.join(paths.dist.locales, absoluteFilename.replace(assetAbsolutePath, ""));
             },
             // Only for Safari we rename extension to just 'Anori', to make it easier to deeplink extension settings from app
             transform:

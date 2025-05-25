@@ -67,9 +67,8 @@ export const isPermissionSupported = (permission: string) => {
   if (X_BROWSER === "firefox") {
     // declarativeNetRequestWithHostAccess is available, but Anori doesn't use it in Firefox
     return !["favicon", "declarativeNetRequestWithHostAccess"].includes(permission);
-  } else {
-    return !["webRequest", "webRequestBlocking"].includes(permission);
   }
+  return !["webRequest", "webRequestBlocking"].includes(permission);
 };
 
 export const useAvailablePermissions = () => {

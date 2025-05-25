@@ -219,7 +219,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
   return (
     <>
       <div className="theme-editor">
-        <div className="theme-preview" style={bgStyles}></div>
+        <div className="theme-preview" style={bgStyles} />
 
         <Button className="select-bg-btn" onClick={loadBackground}>
           {t("settings.theme.selectBackground")}

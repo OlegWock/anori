@@ -85,7 +85,7 @@ export const getCustomIcon = async (name: string): Promise<CustomIcon | null> =>
     const icon = await createCustomIconFromFileHandle(fileHandle);
     iconsCache[name] = icon;
     return icon;
-  } catch (err) {
+  } catch (_err) {
     return null;
   }
 };
@@ -135,24 +135,23 @@ export const useCustomIcons = () => {
           [content],
         );
       });
-    } else {
-      const iconsDir = await getIconsDirHandle();
-      const fileHandle = await iconsDir.getFileHandle(filename, { create: true });
-      const writeHandle = await fileHandle.createWritable();
-      await writeHandle.write(content);
-      await writeHandle.close();
-
-      const urlObjFinal = urlObj || URL.createObjectURL(new Blob([content]));
-      const isSvg = filename.toLowerCase().endsWith(".svg");
-      const svgContent = isSvg ? new TextDecoder().decode(content) : null;
-      const icon = {
-        name: filename,
-        urlObject: urlObjFinal,
-        svgContent,
-      };
-      iconsCache[filename] = icon;
-      setIcons((p) => [...p.filter((i) => i.name !== filename), icon].sort((a, b) => a.name.localeCompare(b.name)));
     }
+    const iconsDir = await getIconsDirHandle();
+    const fileHandle = await iconsDir.getFileHandle(filename, { create: true });
+    const writeHandle = await fileHandle.createWritable();
+    await writeHandle.write(content);
+    await writeHandle.close();
+
+    const urlObjFinal = urlObj || URL.createObjectURL(new Blob([content]));
+    const isSvg = filename.toLowerCase().endsWith(".svg");
+    const svgContent = isSvg ? new TextDecoder().decode(content) : null;
+    const icon = {
+      name: filename,
+      urlObject: urlObjFinal,
+      svgContent,
+    };
+    iconsCache[filename] = icon;
+    setIcons((p) => [...p.filter((i) => i.name !== filename), icon].sort((a, b) => a.name.localeCompare(b.name)));
   };
 
   const removeCustomIcon = async (filename: string) => {

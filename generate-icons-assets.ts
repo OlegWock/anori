@@ -1,7 +1,7 @@
 import { locate, type lookupCollection } from "@iconify/json";
 import { IconSet, exportToDirectory } from "@iconify/tools";
-import { join } from "path";
-import { writeFileSync, readFileSync } from "fs";
+import { join } from "node:path";
+import { writeFileSync, readFileSync } from "node:fs";
 
 type IconifyJSON = Awaited<ReturnType<typeof lookupCollection>>;
 
@@ -60,7 +60,7 @@ import { translate } from '@translations/index';
 export const allSets = [\n${sets.map((s) => `    ${JSON.stringify(s.name)}, // https://icon-sets.iconify.design/${s.name}/`).join("\n")},\n];
 
 export const iconSetPrettyNames: Record<string, string> = {
-${sets.map((s) => `    '${s.name}': ${JSON.stringify(s.data.info!.name)},`).join("\n")}
+${sets.map((s) => `    '${s.name}': ${JSON.stringify(s.data.info?.name)},`).join("\n")}
 } as const;
 
 if (CUSTOM_ICONS_AVAILABLE) {

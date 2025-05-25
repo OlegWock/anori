@@ -6,6 +6,7 @@ import type {
   OnCommandInputCallback,
   WidgetRenderProps,
   ID,
+  WidgetDescriptor,
 } from "@utils/user-data/types";
 import { Suspense, forwardRef, lazy, useRef, useState } from "react";
 import "./styles.scss";
@@ -98,7 +99,7 @@ const Scribble = ({ progress }: { progress: MotionValue<number> }) => {
         d="M555 250s29.462-28.973 47-33c-16.023 22.729-42.826 68.074-45 82 17.983-23.371 69.102-67.995 80.24-69.964C623.278 252.289 612.923 275.993 605 300c25.22-31.052 48.497-54.183 69-66-10.213 16.227-17.608 32.572-23 49 28.694-34.388 54.013-58.222 71-56-19.088 35.256-28.268 55.016-28 60 29.819-27.767 63.526-61.176 78-59-8.469 25.555-21.84 35.374-30 59 30.4-26.291 62.256-54.721 77-58-13.465 22.016-24.184 45.015-33 67 27.334-28.012 53.189-54.498 65-56 2.246 5.085-13.629 32.302-24 57 27.526-27.99 55.886-58.066 73-60 .983 6.374-14.012 25.95-26 54 18.558-21.423 36.626-41.184 50-45-10.498 20.536-23.786 42.256-23 58 18.008-18.065 36.051-36.222 48-38-7.189 12.097-12.698 24.12-15 36 6.88-6.42 13.86-12.212 21-17"
         transform="translate(-530 -210.5)"
         pathLength={progress}
-      ></m.path>
+      />
     </m.svg>
   );
 };
@@ -368,7 +369,6 @@ export const tasksWidgetDescriptor = {
     return translate("tasks-plugin.name");
   },
   configurationScreen: WidgetConfigScreen,
-  withAnimation: false,
   mainScreen: MainScreen,
   mock: Mock,
   appearance: {
@@ -380,7 +380,7 @@ export const tasksWidgetDescriptor = {
       height: 2,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor<TaskWidgetConfigType>;
 
 export const tasksPlugin = {
   id: "tasks-plugin",

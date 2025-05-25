@@ -71,7 +71,7 @@ export const Modal = ({
             {closable && (
               <m.button
                 className="close-button"
-                onClick={() => onClose && onClose()}
+                onClick={onClose}
                 whileHover={{
                   rotate: 180,
                   transition: { duration: 0.2 },

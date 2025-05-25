@@ -52,16 +52,16 @@ export const useDraggable = (info: DndItemMeta, options?: UseDraggableOptions) =
 
   const onDragStart = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     registerDrag();
-    if (options && options.onDragStart) options.onDragStart(e, info);
+    options?.onDragStart?.(e, info);
   };
 
   const onDrag = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    if (options && options.onDrag) options.onDrag(e, info);
+    options?.onDrag?.(e, info);
   };
 
   const onDragEnd = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const destination = endDrag();
-    if (options && options.onDragEnd) options.onDragEnd(destination, e, info);
+    options?.onDragEnd?.(destination, e, info);
   };
 
   const dragControls = useDragControls();

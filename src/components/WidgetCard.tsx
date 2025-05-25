@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
     return { hasError: true };
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
+  componentDidCatch(error: any) {
     console.error("Error happened inside widget");
     console.error(error);
   }
@@ -108,7 +108,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
 
   const convertPixelsToUnits = (px: number) => Math.round((px + gapSize * 2) / grid.boxSize);
 
-  const updateResize = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const updateResize = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (!widget.appearance.resizable) return;
     const res = widget.appearance.resizable;
     const minWidth = res === true ? 1 : (res.min?.width ?? 1);
@@ -133,7 +133,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
     resizeHeight.set(newHeight);
   };
 
-  const finishResize = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const finishResize = (_event: MouseEvent | TouchEvent | PointerEvent, _info: PanInfo) => {
     setIsResizing(false);
     let shouldReset = true;
     if (onResize) {
@@ -149,12 +149,12 @@ export const WidgetCard = <T extends {}, PT extends T>({
 
   const onDragEnd = (
     foundDestination: DndItemMeta | null,
-    e: MouseEvent | TouchEvent | PointerEvent,
+    _e: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
   ) => {
     setIsDragging(false);
     if (foundDestination && ensureDndItemType(foundDestination, "folder")) {
-      onMoveToFolder && onMoveToFolder(foundDestination.id);
+      onMoveToFolder?.(foundDestination.id);
       return;
     }
 
@@ -166,7 +166,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
     };
     const possibleSnapPoints = snapToSector({ grid, position: relativePoint });
     if (possibleSnapPoints.length === 0) return;
-    onPositionChange && onPositionChange(possibleSnapPoints[0].position);
+    onPositionChange?.(possibleSnapPoints[0].position);
   };
 
   const { isEditing, grid, gridRef } = useParentFolder();
@@ -296,7 +296,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
       <ErrorBoundary>
         <div className="overflow-protection">
           {children}
-          {(type === "mock" || isResizing || isDragging) && <div className="interaction-blocker"></div>}
+          {(type === "mock" || isResizing || isDragging) && <div className="interaction-blocker" />}
         </div>
       </ErrorBoundary>
     </m.div>
@@ -310,7 +310,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
           instanceId: instanceId ?? "mock",
           size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
           config: config ?? {},
-          updateConfig: (newConf) => onUpdateConfig && onUpdateConfig(newConf),
+          updateConfig: (newConf) => onUpdateConfig?.(newConf),
         }}
       >
         {isDragging ? createPortal(card, document.body, `card-${instanceId}`) : card}

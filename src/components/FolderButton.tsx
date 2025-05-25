@@ -47,7 +47,7 @@ export const FolderButton = ({
           transition={{ duration: 0.2, type: "spring" }}
         />
       )}
-      {withRedDot && <m.div className="red-dot"></m.div>}
+      {withRedDot && <m.div className="red-dot" />}
       <Icon icon={icon} width={24} height={24} />
     </m.button>
   );
@@ -59,8 +59,8 @@ export const FolderButton = ({
           type="folder"
           id={dropDestination.id}
           filter="widget"
-          onDragEnter={(i) => setHighlightDrop(true)}
-          onDragLeave={(i) => setHighlightDrop(false)}
+          onDragEnter={() => setHighlightDrop(true)}
+          onDragLeave={() => setHighlightDrop(false)}
         >
           {content}
         </DropDestination>

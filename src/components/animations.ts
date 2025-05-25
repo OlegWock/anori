@@ -11,14 +11,14 @@ export const slidingScreensAnimation = {
         x: "-35%",
         opacity: 0,
       };
-    } else if (direction === "right") {
+    }
+    if (direction === "right") {
       return {
         x: "35%",
         opacity: 0,
       };
-    } else {
-      return {};
     }
+    return {};
   },
   show: (direction: "right" | "left" | "none") => {
     if (direction === "none") {
@@ -35,13 +35,13 @@ export const slidingScreensAnimation = {
         x: "35%",
         opacity: 0,
       };
-    } else if (direction === "right") {
+    }
+    if (direction === "right") {
       return {
         x: "-35%",
         opacity: 0,
       };
-    } else {
-      return {};
     }
+    return {};
   },
 };

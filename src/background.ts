@@ -108,11 +108,10 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
         active: message.active ?? false,
         index: sender.tab.index + 1,
       });
-    } else {
-      return browser.tabs.update(sender.tab.id, {
-        url: message.url,
-      });
     }
+    return browser.tabs.update(sender.tab.id, {
+      url: message.url,
+    });
   }
 
   return true;

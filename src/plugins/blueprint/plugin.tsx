@@ -40,8 +40,8 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
 };
 
 const onCommandInput: OnCommandInputCallback = async (text: string) => {
-  const q = text.toLowerCase();
-  const widgets = await getAllWidgetsByPlugin(pluginnamePlugin);
+  const _q = text.toLowerCase();
+  const _widgets = await getAllWidgetsByPlugin(pluginnamePlugin);
 
   return [];
 };

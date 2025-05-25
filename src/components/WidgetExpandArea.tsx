@@ -58,9 +58,9 @@ const transition: Transition = {
 };
 
 const WidgetWindowsContext = createContext({
-  register: (id: string, mv: MotionValue<number>) => {},
-  unregister: (id: string) => {},
-  bringToFront: (id: string) => {},
+  register: (_id: string, _mv: MotionValue<number>) => {},
+  unregister: (_id: string) => {},
+  bringToFront: (_id: string) => {},
   hasDetachedWindows: () => false as boolean,
 });
 
@@ -128,19 +128,19 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
   ) => {
     const playUnmount = () => {
       if (detached) {
-        safeToRemove && safeToRemove();
+        safeToRemove?.();
         return;
       }
 
       if (!areaRef.current) {
         console.warn("WidgetExpandArea ref is missing on unmount");
-        safeToRemove && safeToRemove();
+        safeToRemove?.();
         return;
       }
 
       if (!cardRef.current) {
         console.error("You should use WidgetExpandArea only inside widge");
-        safeToRemove && safeToRemove();
+        safeToRemove?.();
         return;
       }
 
@@ -171,7 +171,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
           animate(backdropOpacity, 0, { ...transition, duration });
           return animate(scaleX, xScale, { ...transition, duration });
         })
-        .then(() => safeToRemove && safeToRemove());
+        .then(() => safeToRemove?.());
     };
 
     const detach = () => {
@@ -192,14 +192,14 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
       setDetached(false);
     };
 
-    const onPan = (event: PointerEvent, info: PanInfo) => {
+    const onPan = (_event: PointerEvent, info: PanInfo) => {
       positionX.set(positionXCorrected.get() + info.delta.x);
       positionY.set(positionYCorrected.get() + info.delta.y);
     };
 
     const onResizeHandler =
       (side: "right" | "left" | "top" | "bottom" | "left-top" | "right-bottom" | "left-bottom" | "right-top") =>
-      (event: PointerEvent, info: PanInfo) => {
+      (_event: PointerEvent, info: PanInfo) => {
         if (side.includes("left")) {
           const newWidth = width.get() - info.delta.x;
           if (newWidth > 400) {
@@ -323,8 +323,8 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
 
       console.log("Card coordinates", { cardBox, cardCenterX, cardCenterY, realAreaBox });
 
-      let areaCenterX = cardCenterX,
-        areaCenterY = cardCenterY;
+      let areaCenterX = cardCenterX;
+      let areaCenterY = cardCenterY;
 
       if (areaCenterY - realAreaBox.height / 2 < SCREEN_PADDING) {
         // Top edge overflows screen
@@ -401,7 +401,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
         ref={scope}
         onClick={(e) => {
           e.stopPropagation();
-          onClose && onClose();
+          onClose?.();
         }}
         style={{
           backgroundColor: detached ? "transparent" : backgroundStr,
@@ -504,7 +504,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
                 )}
                 {closable && (
                   <m.button
-                    onClick={() => onClose && onClose()}
+                    onClick={onClose}
                     whileHover={{
                       rotate: 180,
                       transition: { duration: 0.2 },
@@ -612,7 +612,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
             {!enableDetach && closable && (
               <m.button
                 className="close-button"
-                onClick={() => onClose && onClose()}
+                onClick={onClose}
                 whileHover={{
                   rotate: 180,
                   transition: { duration: 0.2 },

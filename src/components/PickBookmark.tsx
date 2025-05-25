@@ -31,16 +31,15 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
       if (node.children) {
         const res = node.children.map((n) => walkNode(n));
         return res.flat();
-      } else {
-        return [
-          {
-            id: node.id,
-            title: node.title,
-            url: node.url!,
-            dateAdded: node.dateAdded || 0,
-          },
-        ];
       }
+      return [
+        {
+          id: node.id,
+          title: node.title,
+          url: node.url!,
+          dateAdded: node.dateAdded || 0,
+        },
+      ];
     };
 
     const main = async () => {

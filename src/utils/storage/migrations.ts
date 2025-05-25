@@ -8,7 +8,7 @@ export const globalStorageCache = {
 
 export const loadAndMigrateStorage = async () => {
   const currentStorage = await browser.storage.local.get(null);
-  const { madeChanges, storage, version } = migrateStorage(currentStorage);
+  const { madeChanges, storage } = migrateStorage(currentStorage);
   if (madeChanges) {
     await browser.storage.local.set(storage);
   }
@@ -118,6 +118,7 @@ const migrations: Migration[] = [
         const details: FolderDetailsInStorage = storage[`Folder.${folder.id}`] || { widgets: [] };
         details.widgets.forEach((w: any) => {
           w.configuration = w.configutation;
+          // biome-ignore lint/performance/noDelete: We want to remove this prop from storage
           delete w.configutation;
         });
       });

@@ -6,7 +6,7 @@ export const guid = () => {
       .toString(16)
       .substring(1);
   }
-  return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
+  return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
 
 export const wait = (ms: number): Promise<void> => {
@@ -16,14 +16,14 @@ export const wait = (ms: number): Promise<void> => {
 export const parseHost = (url: string) => {
   try {
     return new URL(url).hostname;
-  } catch (err) {
+  } catch (_err) {
     return `Couldn't parse hostname`;
   }
 };
 
 export const normalizeUrl = (url: string) => {
   if (!url.includes("://") && !url.startsWith("#")) {
-    return "https://" + url;
+    return `https://${url}`;
   }
 
   return url;

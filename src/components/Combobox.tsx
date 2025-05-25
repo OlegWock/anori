@@ -104,7 +104,6 @@ export const Combobox = <T,>({
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const valueRef = useMirrorStateToRef(value);
   const openRef = useRef(false);
   const inputFocusedRef = useRef(false);
 

@@ -239,14 +239,13 @@ export const Favicon = forwardRef<HTMLElement, FaviconProps>(({ useFaviconApiIfP
       resUrl.searchParams.set("pageUrl", props.url);
       resUrl.searchParams.set("size", size);
       return resUrl.toString();
-    } else {
-      try {
-        const host = new URL(props.url).host;
-        return `https://magnificent-orange-damselfly.faviconkit.com/${host}/${size}`;
-      } catch (err) {
-        console.log("Error parsing host from", props.url);
-        return "";
-      }
+    }
+    try {
+      const host = new URL(props.url).host;
+      return `https://magnificent-orange-damselfly.faviconkit.com/${host}/${size}`;
+    } catch (_err) {
+      console.log("Error parsing host from", props.url);
+      return "";
     }
   }, [hasPermission, props.url]);
 

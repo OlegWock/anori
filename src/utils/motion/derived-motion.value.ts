@@ -48,11 +48,11 @@ export class DerivedMotionValue<I = any, V = any> extends MotionValue<V> {
     this.detach();
   }
 
-  set(v: V, render?: boolean | undefined): void {
+  set(_v: V, _render?: boolean | undefined): void {
     return;
   }
 
-  jump(v: V): void {
+  jump(_v: V): void {
     return;
   }
 }

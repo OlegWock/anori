@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
 import { RequirePermissions } from "@components/RequirePermissions";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import { useParentFolder } from "@utils/FolderContentContext";
 import { translate } from "@translations/index";
 import { useSizeSettings } from "@utils/compact";
 import { Link } from "@components/Link";
+import { CorrectPermission } from "@utils/permissions";
 
 type PluginWidgetConfigType = {};
 
@@ -20,7 +21,7 @@ type WidgetStorageType = {
   blacklist: string[];
 };
 
-const REQUIRED_PERMISSIONS = X_BROWSER === "firefox" ? ["topSites"] : ["topSites", "favicon"];
+const REQUIRED_PERMISSIONS: CorrectPermission[] = X_BROWSER === "firefox" ? ["topSites"] : ["topSites", "favicon"];
 
 const LinkPlate = ({
   href,
@@ -147,8 +148,6 @@ export const topSitesWidgetDescriptorHorizontal = {
     return translate("top-sites-plugin.widgetHorizontal");
   },
   configurationScreen: null,
-  withAnimation: false,
-  // @ts-expect-error favicon is not present in webextension-polyfill typings yet
   mainScreen: (props) => (
     <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}>
       <MainScreen type="horizontal" {...props} />
@@ -162,7 +161,7 @@ export const topSitesWidgetDescriptorHorizontal = {
       height: 1,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
 
 export const topSitesWidgetDescriptorVertical = {
   id: "top-sites-vertical",
@@ -170,8 +169,6 @@ export const topSitesWidgetDescriptorVertical = {
     return translate("top-sites-plugin.widgetVertical");
   },
   configurationScreen: null,
-  withAnimation: false,
-  // @ts-expect-error favicon is not present in webextension-polyfill typings yet
   mainScreen: (props) => (
     <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}>
       <MainScreen type="vertical" {...props} />
@@ -185,7 +182,7 @@ export const topSitesWidgetDescriptorVertical = {
       height: 4,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
 
 export const topSitesPlugin = {
   id: "top-sites-plugin",

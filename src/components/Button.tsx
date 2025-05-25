@@ -28,9 +28,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={classNames(
           "Button",
           {
-            [`Button-normal`]: true,
+            "Button-normal": true,
             [`Button-size-${size}`]: true,
-            [`Button-block`]: block,
+            "Button-block": block,
             "with-border": !withoutBorder,
             active: active,
           },

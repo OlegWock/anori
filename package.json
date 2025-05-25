@@ -21,7 +21,7 @@
         "format": "biome format --write .",
         "lint": "biome lint --write .",
         "biome:check": "biome check --write .",
-        "typecheck": "tsc --noEmit",
+        "typecheck": "tsc --noEmit -p tsconfig.json",
         "pre-commit": "run-s biome:check",
         "icons": "ts-node generate-icons-assets.ts",
         "translations:missing": "ts-node translations-manager.ts check-missing",

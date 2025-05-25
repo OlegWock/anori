@@ -20,7 +20,8 @@
         "jsx": "preserve", // Will be compiled with Babel anyway
         "allowJs": true,
         "moduleResolution": "node",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
     },
 
     "ts-node": {

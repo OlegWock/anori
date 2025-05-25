@@ -31,9 +31,6 @@ export const ClampTextToFit: ClampTextToFitComponent = React.forwardRef(
     { as, text, withTooltip = false, ...props }: ClampTextToFitProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
-    const checkOverflow = (el: HTMLElement) => {
-      if (!el) return;
-    };
 
     const Component = as || "span";
     const myRef = useRef<HTMLElement>(null);
@@ -45,15 +42,12 @@ export const ClampTextToFit: ClampTextToFitComponent = React.forwardRef(
     useLayoutEffect(() => {
       if (!myRef.current) return;
       const el = myRef.current;
-      console.log("Measuring text elemet", el);
       const ratioOverflown = el.offsetHeight / el.scrollHeight;
       if (ratioOverflown >= 1) return;
-      console.log("Overflow ratio", ratioOverflown);
       const textToUse = text.startsWith(trimmedText.slice(0, trimmedText.length - 1)) ? trimmedText : text;
       const trimmedTextLength = Math.floor(textToUse.length * ratioOverflown * 0.95);
       const newTrimmedText = textToUse.slice(0, trimmedTextLength);
-      console.log("Updating text to", newTrimmedText + "…");
-      setTrimmedText(newTrimmedText + "…");
+      setTrimmedText(`${newTrimmedText}…`);
       setIsTrimmed(true);
     });
 

@@ -276,7 +276,7 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
         },
       },
     ];
-  } catch (err) {
+  } catch (_err) {
     if (force) {
       return [
         {

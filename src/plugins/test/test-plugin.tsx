@@ -47,7 +47,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
                 voluptatem! Cum, magnam!
               </span>
             </p>
-            <div style={{ height: "2rem", alignSelf: "stretch", background: "green" }}></div>
+            <div style={{ height: "2rem", alignSelf: "stretch", background: "green" }} />
             <p>
               <span>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores molestias fugit laboriosam aliquam.

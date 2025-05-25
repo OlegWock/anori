@@ -114,7 +114,7 @@ const ResizeObserverComponent = ({ onResize }: { onResize: () => void }) => {
   const ctx = RadixScrollArea.useScrollAreaContext();
 
   useEffect(() => {
-    const observer = new ResizeObserver((entries) => {
+    const observer = new ResizeObserver(() => {
       onResize();
     });
 

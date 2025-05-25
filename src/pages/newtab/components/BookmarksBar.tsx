@@ -36,14 +36,13 @@ const transformBrowserBookmarkItem = (item: browser.Bookmarks.BookmarkTreeNode):
       url: item.url,
       title: item.title,
     };
-  } else {
-    return {
-      type: "folder",
-      id: item.id,
-      title: item.title,
-      items: item.children!.map((i) => transformBrowserBookmarkItem(i)),
-    };
   }
+  return {
+    type: "folder",
+    id: item.id,
+    title: item.title,
+    items: item.children?.map((i) => transformBrowserBookmarkItem(i)) ?? [],
+  };
 };
 
 const useBookmarks = () => {
@@ -54,7 +53,7 @@ const useBookmarks = () => {
     }
 
     const [bmBar, bmOther] = tree[0].children!;
-    const parsedBar = bmBar.children!.map((b) => transformBrowserBookmarkItem(b));
+    const parsedBar = bmBar.children?.map((b) => transformBrowserBookmarkItem(b)) ?? [];
     const parsedOther = transformBrowserBookmarkItem(bmOther) as BookmarkFolder;
     setBookmarksBar(parsedBar);
     setOtherBookmarks(parsedOther);

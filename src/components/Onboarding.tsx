@@ -367,7 +367,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   <p>{t("onboarding.analytics.p2")}</p>
                   <p>
                     <Trans t={t} i18nKey="onboarding.analytics.p3">
-                      <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer"></a>
+                      <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer" />
                     </Trans>
                   </p>
 
@@ -406,7 +406,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                 {t("back")}
               </Button>
             )}
-            <div className="spacer"></div>
+            <div className="spacer" />
             {screenIndex !== screens.length - 1 && (
               <Button
                 variants={navigationButtonVariants}

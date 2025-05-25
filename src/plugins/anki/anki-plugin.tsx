@@ -43,7 +43,7 @@ const invoke = async (action: string, version: number, params?: any) => {
 
     return data.result;
   } catch (error) {
-    throw new Error("Failed to issue request: " + error.message);
+    throw new Error(`Failed to issue request: ${error.message}`);
   }
 };
 
@@ -92,7 +92,7 @@ const WidgetConfigScreen = ({
         setReachable(true);
         setDecks(data);
       })
-      .catch((err) => {
+      .catch((_err) => {
         setReachable(false);
       });
   }, []);
@@ -146,7 +146,7 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
       await invoke("version", 6);
       setReachable(true);
       return true;
-    } catch (e) {
+    } catch (_e) {
       setReachable(false);
       return false;
     }
@@ -161,10 +161,10 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
     }
 
     const data: number[] = await invoke("findCards", 6, {
-      query: '"deck:' + config.deckName + '" is:due',
+      query: `"deck:${config.deckName}" is:due`,
     });
 
-    if (data.length == 0) {
+    if (data.length === 0) {
       setCardsToLearn([]);
       return;
     }
@@ -187,7 +187,7 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
       ],
     });
 
-    if (cardsToLearn.length == 1) {
+    if (cardsToLearn.length === 1) {
       await init();
       return;
     }
@@ -221,25 +221,23 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
       )}
 
       {reachable && (
-        <>
-          <div className="actions">
-            {currentScreen === "question" && (
-              <Button onClick={() => setCurrentScreen("answer")}>{t("anki-plugin.showAnswer")}</Button>
-            )}
+        <div className="actions">
+          {currentScreen === "question" && (
+            <Button onClick={() => setCurrentScreen("answer")}>{t("anki-plugin.showAnswer")}</Button>
+          )}
 
-            {currentScreen === "answer" && (
-              <>
-                <Button onClick={() => answerCard(1)}>{t("anki-plugin.again")}</Button>
+          {currentScreen === "answer" && (
+            <>
+              <Button onClick={() => answerCard(1)}>{t("anki-plugin.again")}</Button>
 
-                <Button onClick={() => answerCard(2)}>{t("anki-plugin.hard")}</Button>
+              <Button onClick={() => answerCard(2)}>{t("anki-plugin.hard")}</Button>
 
-                <Button onClick={() => answerCard(3)}>{t("anki-plugin.good")}</Button>
+              <Button onClick={() => answerCard(3)}>{t("anki-plugin.good")}</Button>
 
-                <Button onClick={() => answerCard(4)}>{t("anki-plugin.easy")}</Button>
-              </>
-            )}
-          </div>
-        </>
+              <Button onClick={() => answerCard(4)}>{t("anki-plugin.easy")}</Button>
+            </>
+          )}
+        </div>
       )}
     </div>
   );

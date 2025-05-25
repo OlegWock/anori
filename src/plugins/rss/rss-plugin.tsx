@@ -1,5 +1,5 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
 import { translate } from "@translations/index";
 import { Fragment, useMemo, useState } from "react";
@@ -27,7 +27,7 @@ const parser = (typeof DOMParser === "undefined" ? null : new DOMParser()) as DO
 const decodeHtmlEntities = (text: string) => {
   const plaintext = parser.parseFromString(text, "text/html").documentElement.textContent || "";
   if (plaintext.length > 150) {
-    return plaintext.slice(0, 150) + "…";
+    return `${plaintext.slice(0, 150)}…`;
   }
   return plaintext;
 };
@@ -186,7 +186,7 @@ const RssFeedConfigScreen = ({
                       })
                     }
                   />
-                  <Button onClick={() => setUrls((p) => p.filter((u, i) => i !== ind))}>
+                  <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
                     <Icon icon="ion:close" height={22} />
                   </Button>
                 </m.div>
@@ -243,7 +243,12 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
                 loading: { rotate: [0, 360] },
               }}
               animate={isRefreshing ? "loading" : undefined}
-              transition={{ duration: 2, repeat: isRefreshing ? Number.POSITIVE_INFINITY : 0, repeatDelay: 0.2, ease: "easeInOut" }}
+              transition={{
+                duration: 2,
+                repeat: isRefreshing ? Number.POSITIVE_INFINITY : 0,
+                repeatDelay: 0.2,
+                ease: "easeInOut",
+              }}
             />
           </Button>
         </Tooltip>
@@ -255,7 +260,7 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
 
             return (
               <Fragment key={post.url}>
-                <div className="separator"></div>
+                <div className="separator" />
                 <Post post={post} compact={config.compactView} />
               </Fragment>
             );
@@ -267,7 +272,7 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
 };
 
 const RssFeedMock = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { rem } = useSizeSettings();
 
   const feed: RssPost[] = [
@@ -321,7 +326,7 @@ const RssFeedMock = () => {
 
             return (
               <Fragment key={i.toString()}>
-                <div className="separator"></div>
+                <div className="separator" />
                 <Post post={post} />
               </Fragment>
             );
@@ -412,7 +417,7 @@ type RssMessageHandlers = {
 };
 
 const { handlers, sendMessage } = createOnMessageHandlers<RssMessageHandlers>("rss-plugin", {
-  getFeedText: async (args, senderTabId) => fetchFeed(args.url),
+  getFeedText: async (args, _senderTabId) => fetchFeed(args.url),
 });
 
 export const rssFeedDescriptor = {
@@ -421,7 +426,6 @@ export const rssFeedDescriptor = {
     return translate("rss-plugin.widgetFeedName");
   },
   configurationScreen: RssFeedConfigScreen,
-  withAnimation: false,
   mainScreen: (props: WidgetRenderProps<RssFeedConfigType>) => (
     <RequirePermissions hosts={props.config.feedUrls.map((u) => parseHost(u))}>
       <RssFeed {...props} />
@@ -437,7 +441,7 @@ export const rssFeedDescriptor = {
       height: 3,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor<RssFeedConfigType>;
 
 export const rssLastestPostDescriptor = {
   id: "rss-latest-post",
@@ -445,7 +449,6 @@ export const rssLastestPostDescriptor = {
     return translate("rss-plugin.widgetLatestPostName");
   },
   configurationScreen: RssLatestPostConfigScreen,
-  withAnimation: true,
   mainScreen: (props: WidgetRenderProps<RssLatestPostConfigType>) => (
     <RequirePermissions compact hosts={[parseHost(props.config.feedUrl)]} permissions={["tabs"]}>
       <RssLatestPost {...props} />
@@ -453,13 +456,14 @@ export const rssLastestPostDescriptor = {
   ),
   mock: RssLatestPostMock,
   appearance: {
+    withHoverAnimation: true,
     resizable: false,
     size: {
       width: 2,
       height: 1,
     },
   },
-} as const;
+} as const satisfies WidgetDescriptor<RssLatestPostConfigType>;
 
 export const rssPlugin = {
   id: "rss-plugin",
@@ -478,9 +482,8 @@ export const rssPlugin = {
         await storage.waitForLoad();
         if ("feedUrl" in w.configuration) {
           return updateFeedsForWidget([w.configuration.feedUrl], storage);
-        } else {
-          return updateFeedsForWidget(w.configuration.feedUrls, storage);
         }
+        return updateFeedsForWidget(w.configuration.feedUrls, storage);
       });
       await Promise.all(promises);
       await wait(1000); // Make sure widget storage synced to the disk

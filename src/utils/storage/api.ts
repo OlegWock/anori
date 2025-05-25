@@ -197,7 +197,7 @@ export const atomWithBrowserStorage = <V>(
         currentValue: nextValue,
       };
       set(baseAtom, nextValueMeta);
-      storage.setOneDynamic<V>(key, nextValue, true).then(() => onSave && onSave());
+      storage.setOneDynamic<V>(key, nextValue, true).then(() => onSave?.());
     },
   );
 

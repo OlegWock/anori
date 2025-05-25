@@ -64,63 +64,62 @@ export const RequirePermissions = ({
 
   if (missingPermissions.length === 0 && missingHostPermissions.length === 0) {
     return <>{children}</>;
-  } else {
-    return (
-      <>
-        <div
-          className={clsx("RequirePermissions", compact && "compact", className)}
-          onClick={() => (compact ? setModalVisible(true) : null)}
-        >
-          <h3>{t("requirePermissions.eh")}</h3>
-          {compact && <div className="text">{t("requirePermissions.compactText")}</div>}
-          {!compact && (
-            <>
-              <div>{t("requirePermissions.text")}</div>
-              {missingPermissions.length !== 0 && (
-                <div>
-                  {t("requirePermissions.apiPermissions")}: <strong>{missingPermissions.join(", ")}</strong>.
-                </div>
-              )}
-              {missingHostPermissions.length !== 0 && (
-                <div>
-                  {t("requirePermissions.hostPermissions")}: <strong>{missingHostPermissions.join(", ")}</strong>.
-                </div>
-              )}
-              {!!additionalInfo && <div className="additional-info">{additionalInfo}</div>}
-              <Button className="grant-button" onClick={grantPermissions}>
-                {t("requirePermissions.grant")}
-              </Button>
-            </>
-          )}
-        </div>
-        <AnimatePresence>
-          {modalVisible && (
-            <Modal
-              title={t("requirePermissions.modalTitle")}
-              className="RequirePermissions-modal"
-              closable
-              onClose={() => setModalVisible(false)}
-            >
-              <div>{t("requirePermissions.text")}</div>
-              {missingPermissions.length !== 0 && (
-                <div>
-                  {t("requirePermissions.apiPermissions")}: <strong>{missingPermissions.join(", ")}</strong>.
-                </div>
-              )}
-              {missingHostPermissions.length !== 0 && (
-                <div>
-                  {t("requirePermissions.hostPermissions")}: <strong>{missingHostPermissions.join(", ")}</strong>.
-                </div>
-              )}
-
-              {!!additionalInfo && <div className="additional-info">{additionalInfo}</div>}
-              <Button className="grant-button" onClick={grantPermissions}>
-                {t("requirePermissions.grant")}
-              </Button>
-            </Modal>
-          )}
-        </AnimatePresence>
-      </>
-    );
   }
+  return (
+    <>
+      <div
+        className={clsx("RequirePermissions", compact && "compact", className)}
+        onClick={() => (compact ? setModalVisible(true) : null)}
+      >
+        <h3>{t("requirePermissions.eh")}</h3>
+        {compact && <div className="text">{t("requirePermissions.compactText")}</div>}
+        {!compact && (
+          <>
+            <div>{t("requirePermissions.text")}</div>
+            {missingPermissions.length !== 0 && (
+              <div>
+                {t("requirePermissions.apiPermissions")}: <strong>{missingPermissions.join(", ")}</strong>.
+              </div>
+            )}
+            {missingHostPermissions.length !== 0 && (
+              <div>
+                {t("requirePermissions.hostPermissions")}: <strong>{missingHostPermissions.join(", ")}</strong>.
+              </div>
+            )}
+            {!!additionalInfo && <div className="additional-info">{additionalInfo}</div>}
+            <Button className="grant-button" onClick={grantPermissions}>
+              {t("requirePermissions.grant")}
+            </Button>
+          </>
+        )}
+      </div>
+      <AnimatePresence>
+        {modalVisible && (
+          <Modal
+            title={t("requirePermissions.modalTitle")}
+            className="RequirePermissions-modal"
+            closable
+            onClose={() => setModalVisible(false)}
+          >
+            <div>{t("requirePermissions.text")}</div>
+            {missingPermissions.length !== 0 && (
+              <div>
+                {t("requirePermissions.apiPermissions")}: <strong>{missingPermissions.join(", ")}</strong>.
+              </div>
+            )}
+            {missingHostPermissions.length !== 0 && (
+              <div>
+                {t("requirePermissions.hostPermissions")}: <strong>{missingHostPermissions.join(", ")}</strong>.
+              </div>
+            )}
+
+            {!!additionalInfo && <div className="additional-info">{additionalInfo}</div>}
+            <Button className="grant-button" onClick={grantPermissions}>
+              {t("requirePermissions.grant")}
+            </Button>
+          </Modal>
+        )}
+      </AnimatePresence>
+    </>
+  );
 };

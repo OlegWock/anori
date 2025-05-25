@@ -215,7 +215,7 @@ const BookmarGroupkWidgetConfigScreen = ({
                       <Button>{t("import")}</Button>
                     </Popover>
                   )}
-                  <Button onClick={() => setUrls((p) => p.filter((u, i) => i !== ind))}>
+                  <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
                     <Icon icon="ion:close" height={22} />
                   </Button>
                 </m.div>
@@ -256,7 +256,7 @@ const BookmarkGroupWidget = ({
       return;
     }
     onLinkClick(e);
-    const shouldKeepCurrentTab = e.ctrlKey || (isMacLike && e.metaKey) || e.type == "auxclick";
+    const shouldKeepCurrentTab = e.ctrlKey || (isMacLike && e.metaKey) || e.type === "auxclick";
     sendMessage("openGroup", {
       urls: config.urls.map((u) => normalizeUrl(u)),
       openInTabGroup: config.openInTabGroup,
@@ -561,23 +561,22 @@ const onCommandInput: OnCommandInputCallback = async (text: string) => {
             window.location.href = url;
           },
         };
-      } else {
-        const { urls, title, icon, openInTabGroup } = w.configuration;
-        return {
-          icon,
-          text: title,
-          hint: translate("bookmark-plugin.group"),
-          key: w.instanceId,
-          onSelected: () => {
-            sendMessage("openGroup", {
-              urls,
-              title,
-              openInTabGroup,
-              closeCurrentTab: true,
-            });
-          },
-        };
       }
+      const { urls, title, icon, openInTabGroup } = w.configuration;
+      return {
+        icon,
+        text: title,
+        hint: translate("bookmark-plugin.group"),
+        key: w.instanceId,
+        onSelected: () => {
+          sendMessage("openGroup", {
+            urls,
+            title,
+            openInTabGroup,
+            closeCurrentTab: true,
+          });
+        },
+      };
     });
 };
 

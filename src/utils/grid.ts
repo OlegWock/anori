@@ -113,7 +113,7 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
     if (ref.current) {
       setDimensions(calculateDimensions(ref.current));
 
-      const resizeObserver = new ResizeObserver((entries) => {
+      const resizeObserver = new ResizeObserver(() => {
         if (!ref.current) return;
         const dimensions = calculateDimensions(ref.current);
         setDimensions(dimensions);

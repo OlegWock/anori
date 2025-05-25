@@ -8,7 +8,7 @@ const CompactModeContext = createContext(false);
 export const applyCompactMode = (isCompact: boolean) => {
   const root = document.documentElement;
   const size = isCompact ? 14 : 16;
-  root.style.setProperty("font-size", size + "px");
+  root.style.setProperty("font-size", `${size}px`);
   if (isCompact) document.body.classList.add("compact-mode-active");
   else document.body.classList.remove("compact-mode-active");
 };
@@ -35,7 +35,7 @@ export const CompactModeProvider = ({ children }: { children: ReactNode }) => {
   const [isAutomaticCompact] = useBrowserStorageValue("automaticCompactMode", !IS_TOUCH_DEVICE);
   const [isManualCompact] = useBrowserStorageValue("compactMode", IS_TOUCH_DEVICE);
   const screenWidth = useScreenWidth();
-  const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue(
+  const [automaticCompactModeThreshold] = useBrowserStorageValue(
     "automaticCompactModeThreshold",
     1500,
   );

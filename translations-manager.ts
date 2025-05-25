@@ -1,5 +1,5 @@
-import { join } from "path";
-import { writeFileSync, readFileSync, readdirSync, rmSync, existsSync, mkdirSync } from "fs";
+import { join } from "node:path";
+import { writeFileSync, readFileSync, readdirSync, rmSync, existsSync, mkdirSync } from "node:fs";
 import { get, set } from "lodash";
 
 const objectDeepKeys = (obj: object): string[] => {
@@ -88,7 +88,7 @@ const main = async () => {
     }
   } else if (args[0] === "remove-excessive") {
     Object.entries(results)
-      .filter(([lang, { excessive }]) => excessive.length !== 0)
+      .filter(([_lang, { excessive }]) => excessive.length !== 0)
       .forEach(([lang, { excessive }]) => {
         console.log("Removing excessive strings from", lang);
         const filename = join(TRANSLATIONS_FOLDER, `${lang}.json`);
@@ -98,7 +98,7 @@ const main = async () => {
       });
   } else if (args[0] === "extract-untranslated") {
     Object.entries(results)
-      .filter(([lang, { missing }]) => missing.length !== 0)
+      .filter(([_lang, { missing }]) => missing.length !== 0)
       .forEach(([lang, { missing }]) => {
         console.log("Extracting missing strings from", lang);
         const newData = {};

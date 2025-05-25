@@ -37,26 +37,28 @@ const variants = {
         translateY: "-35%",
         opacity: 0,
       };
-    } else if (custom === "down") {
+    }
+    if (custom === "down") {
       return {
         translateY: "35%",
         opacity: 0,
       };
-    } else if (custom === "left") {
+    }
+    if (custom === "left") {
       return {
         translateX: "-35%",
         opacity: 0,
       };
-    } else if (custom === "right") {
+    }
+    if (custom === "right") {
       return {
         translateX: "35%",
         opacity: 0,
       };
-    } else {
-      return {
-        opacity: 0,
-      };
     }
+    return {
+      opacity: 0,
+    };
   },
   exit: (custom: "up" | "down") => {
     if (custom === "up") {
@@ -64,26 +66,28 @@ const variants = {
         translateY: "35%",
         opacity: 0,
       };
-    } else if (custom === "down") {
+    }
+    if (custom === "down") {
       return {
         translateY: "-35%",
         opacity: 0,
       };
-    } else if (custom === "left") {
+    }
+    if (custom === "left") {
       return {
         translateX: "35%",
         opacity: 0,
       };
-    } else if (custom === "right") {
+    }
+    if (custom === "right") {
       return {
         translateX: "-35%",
         opacity: 0,
       };
-    } else {
-      return {
-        opacity: 0,
-      };
     }
+    return {
+      opacity: 0,
+    };
   },
 };
 
@@ -128,7 +132,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
   const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
-  const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue("hideEditFolderButton", false);
+  const [hideEditFolderButton] = useBrowserStorageValue("hideEditFolderButton", false);
 
   const { blockSize, minBlockSize, gapSize } = useSizeSettings();
   const { t } = useTranslation();
@@ -175,7 +179,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
           style={
             {
               "--widget-box-size": gridDimensions.boxSize,
-              "--widget-box-size-px": gridDimensions.boxSize + "px",
+              "--widget-box-size-px": `${gridDimensions.boxSize}px`,
               "--widget-box-percent": (gridDimensions.boxSize - minBlockSize) / (blockSize - minBlockSize),
             } as CSSProperties
           }

@@ -38,7 +38,7 @@ type IconPickerContextType = {
 
 const IconPickerContext = createContext<IconPickerContextType>({
   rowRefs: { current: {} },
-  moveFocus: (direction, curX, curY) => {},
+  moveFocus: (_direction, _curX, _curY) => {},
 });
 
 const COLUMNS = 8;

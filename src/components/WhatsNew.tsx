@@ -312,12 +312,20 @@ export const WhatsNew = () => {
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.svgrepo.com/collection/landscape-circled-vectors/" rel="noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.svgrepo.com/collection/landscape-circled-vectors/"
+                  rel="noreferrer"
+                >
                   Landscapes
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.svgrepo.com/collection/animal-sticker-stamp-vectors/" rel="noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.svgrepo.com/collection/animal-sticker-stamp-vectors/"
+                  rel="noreferrer"
+                >
                   Animals
                 </a>
               </li>

@@ -1,5 +1,5 @@
 import type React from "react";
-import { type MutableRefObject, cloneElement, useMemo, useState } from "react"
+import { type MutableRefObject, cloneElement, useMemo, useState } from "react";
 import {
   type Placement,
   offset,
