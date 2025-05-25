@@ -22,7 +22,6 @@
         "lint": "biome lint --write .",
         "biome:check": "biome check --write .",
         "typecheck": "tsc --noEmit -p tsconfig.json",
-        "pre-commit": "run-s biome:check",
         "icons": "ts-node generate-icons-assets.ts",
         "translations:missing": "ts-node translations-manager.ts check-missing",
         "translations:extract": "ts-node translations-manager.ts extract-untranslated",
@@ -30,6 +29,9 @@
         "translations:merge": "ts-node translations-manager.ts merge-back",
         "translations:locales": "ts-node translations-manager.ts generate-locales",
         "translations:safari": "ts-node translations-manager.ts generate-safari"
+    },
+    "lint-staged": {
+        "*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true --write"]
     },
     "dependencies": {
         "@babel/core": "^7.18.6",
@@ -74,6 +76,7 @@
         "inject-react-anywhere": "^1.0.0",
         "jotai": "^2.0.0",
         "jszip": "^3.10.1",
+        "lint-staged": "^16.0.0",
         "lodash": "^4.17.21",
         "mathjs": "^11.9.1",
         "moment-locales-webpack-plugin": "^1.2.0",
