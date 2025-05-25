@@ -10,21 +10,21 @@ import {
   useState,
 } from "react";
 import "./IconPicker.scss";
-import browser from "webextension-polyfill";
-import type { PopoverRenderProps } from "./Popover";
-import { FixedSizeList } from "react-window";
-import { allSets, iconSetPrettyNames } from "./icons/all-sets";
-import { Select } from "./Select";
-import { Input } from "./Input";
-import { Icon } from "./Icon";
-import { Tooltip } from "./Tooltip";
+import { useSizeSettings } from "@utils/compact";
+import { useCustomIcons } from "@utils/custom-icons";
+import { choose } from "@utils/misc";
 import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
-import { useCustomIcons } from "@utils/custom-icons";
 import { useTranslation } from "react-i18next";
+import { FixedSizeList } from "react-window";
+import browser from "webextension-polyfill";
 import { Button } from "./Button";
-import { useSizeSettings } from "@utils/compact";
-import { choose } from "@utils/misc";
+import { Icon } from "./Icon";
+import { Input } from "./Input";
+import type { PopoverRenderProps } from "./Popover";
+import { Select } from "./Select";
+import { Tooltip } from "./Tooltip";
+import { allSets, iconSetPrettyNames } from "./icons/all-sets";
 
 type IconPickerProps = PopoverRenderProps<{
   onSelected: (icon: string) => void;
@@ -67,6 +67,7 @@ const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void;
   return (
     <Tooltip label={icon} placement="bottom" showDelay={2000} resetDelay={0} targetRef={registerRef} ignoreFocus>
       <button
+        type="button"
         style={{ padding: PADDING }}
         className="IconCell"
         data-icon={icon}
@@ -168,7 +169,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
     return base
       .flatMap(([family, icons]) => icons.map((icon) => `${family}:${icon}`))
       .filter((icon) => icon.split(":")[1].includes(query.toLowerCase()));
-  }, [selectedFamily, query, iconsBySet]);
+  }, [selectedFamily, query, iconsBySet, customIcons]);
 
   const ROWS = Math.ceil(iconsList.length / COLUMNS);
 
@@ -176,13 +177,13 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
     const load = async () => {
       const url = browser.runtime.getURL(`/assets/icons/meta.json`);
       const resp = await fetch(url);
-      const json = await resp.json();
+      const json = (await resp.json()) as Record<string, string[]>;
       setIconsBySet(json);
     };
     if (iconsBySet === null) {
       load();
     }
-  }, []);
+  }, [iconsBySet]);
 
   return (
     <IconPickerContext.Provider value={{ rowRefs, moveFocus }}>

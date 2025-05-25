@@ -1,16 +1,16 @@
 import { RequirePermissions } from "@components/RequirePermissions";
 import "./BookmarksBar.scss";
-import { useEffect, useRef, useState } from "react";
-import browser from "webextension-polyfill";
 import { Favicon, Icon } from "@components/Icon";
+import { Link } from "@components/Link";
+import { ScrollArea } from "@components/ScrollArea";
+import { useDirection } from "@radix-ui/react-direction";
+import * as Menubar from "@radix-ui/react-menubar";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { useSizeSettings } from "@utils/compact";
 import { usePermissionsQuery } from "@utils/permissions";
 import clsx from "clsx";
-import * as Menubar from "@radix-ui/react-menubar";
-import { ScrollArea } from "@components/ScrollArea";
-import { Link } from "@components/Link";
-import { useDirection } from "@radix-ui/react-direction";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { useCallback, useEffect, useRef, useState } from "react";
+import browser from "webextension-polyfill";
 
 type BookmarkItem = {
   id: string;
@@ -46,18 +46,19 @@ const transformBrowserBookmarkItem = (item: browser.Bookmarks.BookmarkTreeNode):
 };
 
 const useBookmarks = () => {
-  const loadBookmarks = async () => {
+  const loadBookmarks = useCallback(async () => {
     const tree = await browser.bookmarks.getTree();
-    if (!tree[0].children) {
+    const nextChildren = tree[0].children;
+    if (!nextChildren) {
       return [];
     }
 
-    const [bmBar, bmOther] = tree[0].children!;
+    const [bmBar, bmOther] = nextChildren;
     const parsedBar = bmBar.children?.map((b) => transformBrowserBookmarkItem(b)) ?? [];
     const parsedOther = transformBrowserBookmarkItem(bmOther) as BookmarkFolder;
     setBookmarksBar(parsedBar);
     setOtherBookmarks(parsedOther);
-  };
+  }, []);
 
   const [bookmarksBar, setBookmarksBar] = useState<BookmarkType[]>([]);
   const [otherBookmarks, setOtherBookmarks] = useState<BookmarkFolder | null>(null);
@@ -82,7 +83,7 @@ const useBookmarks = () => {
       browser.bookmarks.onMoved.removeListener(handler);
       browser.bookmarks.onRemoved.removeListener(handler);
     };
-  }, []);
+  }, [loadBookmarks]);
 
   return [bookmarksBar, otherBookmarks] as const;
 };

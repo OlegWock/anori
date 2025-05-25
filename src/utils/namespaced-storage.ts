@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import browser from "webextension-polyfill";
 import {
   type AtomWithBrowserStorage,
   atomWithBrowserStorage,
@@ -6,16 +8,14 @@ import {
   setAtomWithStorageValue,
   useAtomWithStorage,
 } from "./storage/api";
-import { useMemo } from "react";
-import browser from "webextension-polyfill";
 
-export class NamespacedStorage<T extends {} = {}> {
+export class NamespacedStorage<T extends {} = Record<string, never>> {
   ns: string;
   atom: AtomWithBrowserStorage<Partial<T>>;
   loaded: boolean;
   private _loadingPromise: Promise<void>;
 
-  static get<T extends {} = {}>(ns: string): NamespacedStorage<T> {
+  static get<T extends {} = Record<string, never>>(ns: string): NamespacedStorage<T> {
     const inCache = cache.get(ns);
     if (inCache) {
       return inCache as NamespacedStorage<T>;

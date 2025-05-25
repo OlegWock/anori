@@ -36,9 +36,9 @@ export type Speed = "km/h" | "m/s" | "mph";
 
 export const searchCity = async (query: string): Promise<City[]> => {
   const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}`);
-  const json = await response.json();
+  const json = (await response.json()) as { results: any[] };
 
-  return json.results.map((r: any) => {
+  return json.results.map((r) => {
     return {
       id: r.id,
       name: r.name,
@@ -62,7 +62,7 @@ export const gerCurrentWeather = async (city: City): Promise<CurrentWeather> => 
       `&longitude=${encodeURIComponent(city.longitude)}` +
       `&current_weather=true`,
   );
-  const json = await response.json();
+  const json = (await response.json()) as any;
   return {
     temperature: json.current_weather.temperature,
     windSpeed: json.current_weather.windspeed,
@@ -81,7 +81,7 @@ export const getForecast = async (city: City): Promise<WeatherForecast[]> => {
       `&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,winddirection_10m_dominant` +
       `&timezone=${encodeURIComponent(tz)}`,
   );
-  const json = await response.json();
+  const json = (await response.json()) as any;
 
   const results = (json.daily.time as any[]).slice(0, 5).map((dateRaw, i) => {
     const date = moment(dateRaw);

@@ -1,23 +1,23 @@
 import { Button } from "@components/Button";
+import { Input } from "@components/Input";
+import { Textarea } from "@components/Input";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
-  WidgetRenderProps,
   WidgetDescriptor,
+  WidgetRenderProps,
 } from "@utils/user-data/types";
-import { Input } from "@components/Input";
-import { Textarea } from "@components/Input";
 import "./styles.scss";
-import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import { translate } from "@translations/index";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type LabelWidgetConfigType = {
   title: string;
   description: string;
 };
 
-const LabelScreen = ({ config, instanceId }: WidgetRenderProps<LabelWidgetConfigType>) => {
+const LabelScreen = ({ config }: WidgetRenderProps<LabelWidgetConfigType>) => {
   return (
     <div className="LabelScreen">
       <div className="text">

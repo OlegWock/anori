@@ -1,24 +1,28 @@
 import { Button } from "@components/Button";
 import type {
   AnoriPlugin,
-  WidgetConfigurationScreenProps,
   OnCommandInputCallback,
-  WidgetRenderProps,
+  WidgetConfigurationScreenProps,
   WidgetDescriptor,
+  WidgetRenderProps,
 } from "@utils/user-data/types";
 import "./styles.scss";
-import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { translate } from "@translations/index";
+import { getAllWidgetsByPlugin } from "@utils/plugin";
 import { useTranslation } from "react-i18next";
 
-type PluginWidgetConfigType = {};
+type PluginWidgetConfigType = {
+  exampleConfigProp: string;
+};
 
 const WidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
 }: WidgetConfigurationScreenProps<PluginWidgetConfigType>) => {
   const onConfirm = () => {
-    saveConfiguration({});
+    saveConfiguration({
+      exampleConfigProp: "test",
+    });
   };
 
   const { t } = useTranslation();
@@ -26,7 +30,7 @@ const WidgetConfigScreen = ({
   return (
     <div className="PluginWidget-config">
       <div>{t("blueprint-plugin.name")}</div>
-
+      Prop value: {currentConfig?.exampleConfigProp}
       <Button className="save-config" onClick={onConfirm}>
         Save
       </Button>
@@ -36,7 +40,12 @@ const WidgetConfigScreen = ({
 
 const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
   const { t } = useTranslation();
-  return <div className="PluginWidget">{t("blueprint-plugin.name")}</div>;
+  return (
+    <div className="PluginWidget">
+      {t("blueprint-plugin.name")}
+      Prop value: {config.exampleConfigProp} (instance id {instanceId})
+    </div>
+  );
 };
 
 const onCommandInput: OnCommandInputCallback = async (text: string) => {
@@ -54,7 +63,7 @@ const widgetDescriptor = {
   configurationScreen: WidgetConfigScreen,
   mainScreen: MainScreen,
   mock: () => {
-    return <MainScreen instanceId="mock" config={{}} />;
+    return <MainScreen instanceId="mock" config={{ exampleConfigProp: "hey!" }} />;
   },
   appearance: {
     size: {

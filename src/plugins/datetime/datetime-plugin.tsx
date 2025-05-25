@@ -1,24 +1,24 @@
-import moment from "moment-timezone";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
 } from "@utils/user-data/types";
+import moment from "moment-timezone";
 import "./styles.scss";
 import { Button } from "@components/Button";
-import { useState } from "react";
-import { Input } from "@components/Input";
-import { useMemo } from "react";
-import { Select } from "@components/Select";
-import clsx from "clsx";
-import { useEffect } from "react";
 import { Combobox } from "@components/Combobox";
+import { Input } from "@components/Input";
+import { Select } from "@components/Select";
 import { translate } from "@translations/index";
-import { useTranslation } from "react-i18next";
-import { m } from "framer-motion";
-import { capitalize } from "@utils/strings";
 import { useForceRerender, useLazyRef } from "@utils/hooks";
+import { capitalize } from "@utils/strings";
+import clsx from "clsx";
+import { m } from "framer-motion";
+import { useState } from "react";
+import { useMemo } from "react";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 type WidgetConfig = {
   tz: string;
@@ -132,14 +132,21 @@ const ConfigScreen = ({
 
 const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size: "s" | "m" }) => {
   const { i18n } = useTranslation();
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const currentMoment = useMemo(() => moment().tz(config.tz), [config.tz, i18n.language]);
   const lastTickTimeRef = useLazyRef(() => Date.now());
   const forceRerender = useForceRerender();
 
+  // TODO: probably should refactor this so dependencies are explicit?
+  // TODO: also would be good to migrate to dayjs
+  // biome-ignore lint/correctness/useExhaustiveDependencies: both using i18n as proxy and mutable moment messes with deps array
   const time = useMemo(
     () => currentMoment.format(config.timeFormat),
     [currentMoment.valueOf(), i18n.language, config.timeFormat],
   );
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const date = useMemo(() => {
     if (config.dateFormat === "noDate") return "";
     let date = currentMoment.format(config.dateFormat);
@@ -155,6 +162,7 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
   const minutes = currentMoment.minutes();
   const hours = currentMoment.hours();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   useEffect(() => {
     const intervalMs = config.timeFormat.includes("ss") ? 1000 : 20 * 1000;
     const tid = window.setInterval(() => {

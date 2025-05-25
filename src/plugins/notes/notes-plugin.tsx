@@ -2,18 +2,16 @@ import { Input, Textarea } from "@components/Input";
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import { type ComponentProps, type KeyboardEventHandler, Suspense, lazy, useEffect, useRef, useState } from "react";
 import "./styles.scss";
-import { useWidgetStorage } from "@utils/plugin";
 import { translate } from "@translations/index";
+import { useWidgetStorage } from "@utils/plugin";
 import { useTranslation } from "react-i18next";
 
+import { Link } from "@components/Link";
+import { ScrollArea } from "@components/ScrollArea";
 import { useRunAfterNextRender } from "@utils/hooks";
 import type { ReactMarkdownProps } from "react-markdown/lib/complex-types";
 import type { PluggableList } from "react-markdown/lib/react-markdown";
-import { ScrollArea } from "@components/ScrollArea";
 import { sequentialNewlinesPlugin } from "./utils";
-import { Link } from "@components/Link";
-
-type PluginWidgetConfigType = {};
 
 const ReactMarkdown = lazy(() => import("react-markdown"));
 
@@ -31,7 +29,7 @@ const LinkWithoutPropagation = (props: ComponentProps<typeof Link> & ReactMarkdo
   return <Link onClick={(e) => e.stopPropagation()} onFocus={(e) => e.stopPropagation()} {...props} />;
 };
 
-const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
+const MainScreen = (_props: WidgetRenderProps) => {
   const switchEditing = (newIsEditing: boolean) => {
     if (newIsEditing) {
       runAfterNextRender(() => {
@@ -90,7 +88,12 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
         />
       )}
       {!isEditing && (
-        <div className="note-body-rendered" onFocus={() => switchEditing(true)} onClick={() => switchEditing(true)}>
+        <button
+          type="button"
+          className="note-body-rendered"
+          onFocus={() => switchEditing(true)}
+          onClick={() => switchEditing(true)}
+        >
           <ScrollArea type="hover" color="dark">
             {!!body && (
               <div className="note-body-rendered-content">
@@ -105,7 +108,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
             )}
           </ScrollArea>
           {!body && <span className="notes-body-placeholder">{t("notes-plugin.noteText")}</span>}
-        </div>
+        </button>
       )}
     </div>
   );

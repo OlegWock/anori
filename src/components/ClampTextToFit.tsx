@@ -10,10 +10,15 @@ type AsProp<C extends React.ElementType> = {
 
 type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
 
-type PolymorphicComponentProp<C extends React.ElementType, Props = {}> = React.PropsWithChildren<Props & AsProp<C>> &
+type PolymorphicComponentProp<C extends React.ElementType, Props = Record<string, any>> = React.PropsWithChildren<
+  Props & AsProp<C>
+> &
   Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
 
-type PolymorphicComponentPropWithRef<C extends React.ElementType, Props = {}> = PolymorphicComponentProp<C, Props> & {
+type PolymorphicComponentPropWithRef<
+  C extends React.ElementType,
+  Props = Record<string, any>,
+> = PolymorphicComponentProp<C, Props> & {
   ref?: PolymorphicRef<C>;
 };
 
@@ -31,7 +36,6 @@ export const ClampTextToFit: ClampTextToFitComponent = React.forwardRef(
     { as, text, withTooltip = false, ...props }: ClampTextToFitProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
-
     const Component = as || "span";
     const myRef = useRef<HTMLElement>(null);
     // @ts-ignore don't know how to type all this polymorphic tricks properly

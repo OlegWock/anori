@@ -1,22 +1,20 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, OnCommandInputCallback, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
+import type { AnoriPlugin, OnCommandInputCallback, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
-import { useWidgetMetadata } from "@utils/plugin";
-import { translate } from "@translations/index";
-import { useTranslation } from "react-i18next";
-import { type Ref, useRef, useState } from "react";
-import { Input } from "@components/Input";
-import clsx from "clsx";
-import { ScrollArea } from "@components/ScrollArea";
-import { guid, lazyAsyncVariable } from "@utils/misc";
-import { useRunAfterNextRender } from "@utils/hooks";
-import { AnimatePresence } from "framer-motion";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
 import { Icon } from "@components/Icon";
+import { Input } from "@components/Input";
+import { ScrollArea } from "@components/ScrollArea";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { translate } from "@translations/index";
 import { useSizeSettings } from "@utils/compact";
+import { useRunAfterNextRender } from "@utils/hooks";
+import { guid, lazyAsyncVariable } from "@utils/misc";
+import { useWidgetMetadata } from "@utils/plugin";
+import clsx from "clsx";
+import { AnimatePresence } from "framer-motion";
 import type { MathJsStatic } from "mathjs";
-
-type CalculatorWidgetConfigType = {};
+import { type Ref, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // @-ts-expect-error https://github.com/josdejong/mathjs/issues/2506
 // const globalMath = lazyAsyncVariable(() => import('mathjs/number').then(m => m.create(m.all, {}) as MathJsStatic));
@@ -209,7 +207,7 @@ const Calculator = ({
   );
 };
 
-const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalculatorWidgetConfigType>) => {
+const MainScreen = (_props: WidgetRenderProps) => {
   const meta = useWidgetMetadata();
 
   return (
@@ -219,7 +217,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalculatorWidgetCo
   );
 };
 
-const MainScreenExpandable = ({ config, instanceId }: WidgetRenderProps<CalculatorWidgetConfigType>) => {
+const MainScreenExpandable = (_props: WidgetRenderProps) => {
   const [show, setShow] = useState(false);
   const { rem } = useSizeSettings();
   const runAfterRender = useRunAfterNextRender();
@@ -229,7 +227,8 @@ const MainScreenExpandable = ({ config, instanceId }: WidgetRenderProps<Calculat
 
   return (
     <>
-      <div
+      <button
+        type="button"
         className="CalculatorWidgetExpandable"
         onClick={() => {
           if (show) {
@@ -243,7 +242,7 @@ const MainScreenExpandable = ({ config, instanceId }: WidgetRenderProps<Calculat
         }}
       >
         <Icon icon="ion:calculator" width={rem(5)} height={rem(5)} />
-      </div>
+      </button>
       <AnimatePresence>
         {show && (
           <WidgetExpandArea

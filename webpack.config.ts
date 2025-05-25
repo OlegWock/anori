@@ -1,29 +1,29 @@
-import * as path from "node:path";
 import * as fs from "node:fs";
-import * as walkSync from "walk-sync";
-import * as webpack from "webpack";
-import * as TerserPlugin from "terser-webpack-plugin";
+import * as path from "node:path";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import * as CopyPlugin from "copy-webpack-plugin";
+import * as FileManagerPlugin from "filemanager-webpack-plugin";
 // @ts-ignore No declarations for this module!
 // @ts-ignore No declarations for this module!
 import * as GenerateFiles from "generate-file-webpack-plugin";
-import * as CopyPlugin from "copy-webpack-plugin";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import * as MomentTimezoneDataPlugin from "moment-timezone-data-webpack-plugin";
 // @ts-ignore No declarations for this module!
 import * as MomentLocalesPlugin from "moment-locales-webpack-plugin";
-import * as FileManagerPlugin from "filemanager-webpack-plugin";
+import * as MomentTimezoneDataPlugin from "moment-timezone-data-webpack-plugin";
 import * as SpeedMeasurePlugin from "speed-measure-webpack-plugin";
-import {
-  createPathsObject,
-  joinPath,
-  scriptName,
-  generatePageContentForScript,
-  scriptExtensions,
-} from "./build_helpers/webpack-utils";
+import * as TerserPlugin from "terser-webpack-plugin";
+import * as walkSync from "walk-sync";
+import type { Manifest } from "webextension-polyfill";
+import * as webpack from "webpack";
 import WebExtensionChuckLoaderRuntimePlugin from "./build_helpers/dynamic_import_plugin/ChunkLoader";
 import ServiceWorkerEntryPlugin from "./build_helpers/dynamic_import_plugin/ServiceWorkerPlugin";
-import type { Manifest } from "webextension-polyfill";
-import { version, name, author } from "./package.json";
+import {
+  createPathsObject,
+  generatePageContentForScript,
+  joinPath,
+  scriptExtensions,
+  scriptName,
+} from "./build_helpers/webpack-utils";
+import { author, name, version } from "./package.json";
 const currentYear = new Date().getFullYear();
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -96,10 +96,10 @@ const generateManifest = (
   }
 
   if (targetBrowser === "chrome-all-permissions") {
-    manifest.permissions = [...manifest.permissions!, ...manifest.optional_permissions!];
+    manifest.permissions = [...(manifest.permissions ?? []), ...(manifest.optional_permissions ?? [])];
     manifest.optional_permissions = [];
 
-    manifest.host_permissions = [...manifest.host_permissions!, ...manifest.optional_host_permissions!];
+    manifest.host_permissions = [...(manifest.host_permissions ?? []), ...(manifest.optional_host_permissions ?? [])];
     manifest.optional_host_permissions = [];
   }
 
@@ -127,7 +127,10 @@ const generateManifest = (
     manifest.host_permissions = undefined;
     manifest.minimum_chrome_version = undefined;
 
-    manifest.optional_permissions = [...manifest.optional_permissions!, ...manifest.optional_host_permissions!];
+    manifest.optional_permissions = [
+      ...(manifest.optional_permissions ?? []),
+      ...(manifest.optional_host_permissions ?? []),
+    ];
 
     manifest.optional_host_permissions = undefined;
 
@@ -449,7 +452,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
           {
             from: `**`,
             context: paths.src.assets,
-            to: ({ context, absoluteFilename }) => {
+            to: ({ absoluteFilename }) => {
               const assetAbsolutePath = path.resolve(paths.src.assets);
               if (!absoluteFilename) {
                 throw new Error("Expected absoluteFilename to contain a value");
@@ -460,7 +463,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
           {
             from: `**`,
             context: paths.src.locales,
-            to: ({ context, absoluteFilename }) => {
+            to: ({ absoluteFilename }) => {
               const assetAbsolutePath = path.resolve(paths.src.locales);
               if (!absoluteFilename) {
                 throw new Error("Expected absoluteFilename to contain a value");
@@ -533,4 +536,5 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
   // return config;
 };
 
+// biome-ignore lint/style/noDefaultExport: required by webpack
 export default config;

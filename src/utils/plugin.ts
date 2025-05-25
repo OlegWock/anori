@@ -1,4 +1,7 @@
+import { type SetStateAction, createContext, useContext, useMemo } from "react";
 import browser from "webextension-polyfill";
+import type { LayoutItemSize } from "./grid";
+import { NamespacedStorage } from "./namespaced-storage";
 import { type AtomWithBrowserStorage, atomWithBrowserStorage, storage, useAtomWithStorage } from "./storage/api";
 import {
   type AnoriPlugin,
@@ -8,9 +11,6 @@ import {
   type WidgetInFolderWithMeta,
   homeFolder,
 } from "./user-data/types";
-import { type SetStateAction, createContext, useContext, useMemo } from "react";
-import { NamespacedStorage } from "./namespaced-storage";
-import type { LayoutItemSize } from "./grid";
 
 export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin: AnoriPlugin<PT, WT>) => {
   const foldersFromStorage = await storage.getOne("folders");
@@ -32,7 +32,10 @@ export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin
   return widgets
     .filter((w) => w.pluginId === plugin.id)
     .map((w) => {
-      const widget = plugin.widgets.flat().find((d) => d.id === w.widgetId)!;
+      const widget = plugin.widgets.flat().find((d) => d.id === w.widgetId);
+      if (!widget) {
+        throw new Error(`couldn't find widget with id ${w.widgetId} for plugin ${plugin.id}`);
+      }
 
       return {
         ...w,
@@ -42,7 +45,7 @@ export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin
     });
 };
 
-export type WidgetMetadataContextType<WidgetConfigT extends {}> = {
+export type WidgetMetadataContextType<WidgetConfigT extends {} = Record<string, unknown>> = {
   pluginId: string;
   instanceId: string;
   size: LayoutItemSize;
@@ -50,11 +53,18 @@ export type WidgetMetadataContextType<WidgetConfigT extends {}> = {
   updateConfig: (update: Partial<WidgetConfigT>) => void;
 };
 
-export const WidgetMetadataContext = createContext({
+export const WidgetMetadataContext = createContext<WidgetMetadataContextType>({
   pluginId: "",
-} as WidgetMetadataContextType<{}>);
+  instanceId: "",
+  size: {
+    width: 0,
+    height: 0,
+  },
+  config: {},
+  updateConfig: () => {},
+});
 
-export const useWidgetMetadata = <WidgetConfigT extends {} = {}>() => {
+export const useWidgetMetadata = <WidgetConfigT extends {} = Record<string, never>>() => {
   const val = useContext(WidgetMetadataContext) as WidgetMetadataContextType<WidgetConfigT>;
   if (!val.pluginId) throw new Error("useWidgetMetadata should be used only inside widgets");
 
@@ -67,7 +77,7 @@ export const getWidgetStorage = <StorageT extends {}>(instanceId: ID) => {
 
 export const useWidgetStorage = <StorageT extends {}>() => {
   const metadata = useWidgetMetadata();
-  const nsStorage = useMemo(() => getWidgetStorage<StorageT>(metadata.instanceId), [metadata.pluginId]);
+  const nsStorage = useMemo(() => getWidgetStorage<StorageT>(metadata.instanceId), [metadata.instanceId]);
   return nsStorage;
 };
 

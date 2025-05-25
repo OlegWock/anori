@@ -70,7 +70,7 @@ export const FolderItem = ({
   return (
     <m.div className="FolderItem">
       <span style={{ width: ICON_SIZE }} />
-      <button className="folder-icon static">
+      <button className="folder-icon static" type="button">
         <Icon icon={folder.icon} width={ICON_SIZE} />
       </button>
       <span className="folder-name">{folder.name}</span>

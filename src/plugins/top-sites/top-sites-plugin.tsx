@@ -1,21 +1,19 @@
 import { Button } from "@components/Button";
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
+import { Icon } from "@components/Icon";
+import { Link } from "@components/Link";
 import { RequirePermissions } from "@components/RequirePermissions";
+import { translate } from "@translations/index";
+import { useParentFolder } from "@utils/FolderContentContext";
+import { useSizeSettings } from "@utils/compact";
+import { useLinkNavigationState } from "@utils/hooks";
+import { parseHost } from "@utils/misc";
+import type { CorrectPermission } from "@utils/permissions";
+import { useWidgetStorage } from "@utils/plugin";
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import browser from "webextension-polyfill";
-import { parseHost } from "@utils/misc";
-import clsx from "clsx";
-import { useLinkNavigationState } from "@utils/hooks";
-import { Icon } from "@components/Icon";
-import { useWidgetStorage } from "@utils/plugin";
-import { useParentFolder } from "@utils/FolderContentContext";
-import { translate } from "@translations/index";
-import { useSizeSettings } from "@utils/compact";
-import { Link } from "@components/Link";
-import { CorrectPermission } from "@utils/permissions";
-
-type PluginWidgetConfigType = {};
 
 type WidgetStorageType = {
   blacklist: string[];
@@ -35,7 +33,7 @@ const LinkPlate = ({
   return (
     <Link href={href} onClick={onLinkClick}>
       {isNavigating && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={32} height={32} />}
-      {!isNavigating && <img src={favicon} />}
+      {!isNavigating && <img src={favicon} aria-hidden />}
       <div className="site-title">{title}</div>
       {isEditing && (
         <Button
@@ -53,11 +51,7 @@ const LinkPlate = ({
   );
 };
 
-const MainScreen = ({
-  config,
-  instanceId,
-  type,
-}: WidgetRenderProps<PluginWidgetConfigType> & { type: "horizontal" | "vertical" }) => {
+const MainScreen = ({ type }: WidgetRenderProps & { type: "horizontal" | "vertical" }) => {
   const addToBlacklist = (url: string) => {
     setBlacklist((b) => [...b, url]);
   };
@@ -114,27 +108,27 @@ const Mock = ({ type }: { type: "horizontal" | "vertical" }) => {
   const { rem } = useSizeSettings();
   return (
     <div className={clsx("TopSitesWidget", type)}>
-      <a href="#">
+      <a href="http://example.com">
         <Icon icon="logos:facebook" height={rem(2)} width={rem(2)} />
         <div className="site-title">Facebook</div>
       </a>
-      <a href="#">
+      <a href="http://example.com">
         <Icon icon="logos:twitter" height={rem(2)} width={rem(2)} />
         <div className="site-title">Twitter</div>
       </a>
-      <a href="#">
+      <a href="http://example.com">
         <Icon icon="logos:jira" height={rem(2)} width={rem(2)} />
         <div className="site-title">Jira</div>
       </a>
-      <a href="#">
+      <a href="http://example.com">
         <Icon icon="logos:github-icon" height={rem(2)} width={rem(2)} />
         <div className="site-title">GitHub</div>
       </a>
-      <a href="#">
+      <a href="http://example.com">
         <Icon icon="logos:whatsapp-icon" height={rem(2)} width={rem(2)} />
         <div className="site-title">Whatsapp</div>
       </a>
-      <a href="#">
+      <a href="http://example.com">
         <Icon icon="logos:notion-icon" height={rem(2)} width={rem(2)} />
         <div className="site-title">Notion</div>
       </a>
@@ -161,7 +155,7 @@ export const topSitesWidgetDescriptorHorizontal = {
       height: 1,
     },
   },
-} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
+} as const satisfies WidgetDescriptor;
 
 export const topSitesWidgetDescriptorVertical = {
   id: "top-sites-vertical",
@@ -182,7 +176,7 @@ export const topSitesWidgetDescriptorVertical = {
       height: 4,
     },
   },
-} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
+} as const satisfies WidgetDescriptor;
 
 export const topSitesPlugin = {
   id: "top-sites-plugin",

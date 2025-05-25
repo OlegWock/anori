@@ -1,5 +1,5 @@
-import { createRoot } from "react-dom/client";
 import type { LegacyRef, MutableRefObject } from "react";
+import { createRoot } from "react-dom/client";
 import { mergeRefs } from "react-merge-refs";
 
 export const mountPage = (element: JSX.Element) => {

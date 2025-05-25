@@ -32,9 +32,11 @@ export function sequentialNewlinesPlugin() {
   const data = this.data();
 
   function add(field: any, value: any) {
-    const list = data[field] ? data[field] : (data[field] = []);
+    if (!data[field]) {
+      data[field] = [];
+    }
 
-    list.push(value);
+    data[field].push(value);
   }
 
   add("fromMarkdownExtensions", sequentialNewlinesFromMarkdown);

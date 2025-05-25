@@ -1,28 +1,28 @@
-import { type ReactNode, type Ref, cloneElement, useId, useState } from "react";
 import {
-  type Placement,
-  offset,
-  flip,
-  shift,
-  autoUpdate,
-  useFloating,
-  useInteractions,
-  useHover,
-  useFocus,
-  useRole,
-  useDismiss,
-  useDelayGroupContext,
-  useDelayGroup,
   FloatingPortal,
+  type Placement,
   type Strategy,
+  autoUpdate,
+  flip,
+  offset,
   safePolygon,
+  shift,
   useClick,
+  useDelayGroup,
+  useDelayGroupContext,
+  useDismiss,
+  useFloating,
+  useFocus,
+  useHover,
+  useInteractions,
+  useRole,
 } from "@floating-ui/react";
 import { AnimatePresence, m } from "framer-motion";
+import { type ReactNode, type Ref, cloneElement, useId, useState } from "react";
 import "./Tooltip.scss";
-import { mergeRefs } from "react-merge-refs";
-import clsx from "clsx";
 import { IS_TOUCH_DEVICE } from "@utils/device";
+import clsx from "clsx";
+import { mergeRefs } from "react-merge-refs";
 
 interface Props {
   label: ReactNode | (() => ReactNode);

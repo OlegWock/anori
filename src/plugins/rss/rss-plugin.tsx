@@ -1,26 +1,31 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import type {
+  AnoriPlugin,
+  WidgetConfigurationScreenProps,
+  WidgetDescriptor,
+  WidgetRenderProps,
+} from "@utils/user-data/types";
 import "./styles.scss";
-import { translate } from "@translations/index";
-import { Fragment, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Input } from "@components/Input";
-import { type RssPost, type WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
-import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@utils/plugin";
-import { RequirePermissions } from "@components/RequirePermissions";
-import { guid, parseHost, wait } from "@utils/misc";
-import { Icon } from "@components/Icon";
-import { useSizeSettings } from "@utils/compact";
-import moment from "moment-timezone";
-import { RelativeTime } from "@components/RelativeTime";
-import { ClampTextToFit } from "@components/ClampTextToFit";
-import { AnimatePresence, m } from "framer-motion";
-import { listItemAnimation } from "@components/animations";
-import { ScrollArea } from "@components/ScrollArea";
-import { Tooltip } from "@components/Tooltip";
 import { Alert } from "@components/Alert";
 import { Checkbox } from "@components/Checkbox";
+import { ClampTextToFit } from "@components/ClampTextToFit";
+import { Icon } from "@components/Icon";
+import { Input } from "@components/Input";
+import { RelativeTime } from "@components/RelativeTime";
+import { RequirePermissions } from "@components/RequirePermissions";
+import { ScrollArea } from "@components/ScrollArea";
+import { Tooltip } from "@components/Tooltip";
+import { listItemAnimation } from "@components/animations";
+import { translate } from "@translations/index";
+import { useSizeSettings } from "@utils/compact";
+import { guid, parseHost, wait } from "@utils/misc";
+import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@utils/plugin";
 import clsx from "clsx";
+import { AnimatePresence, m } from "framer-motion";
+import moment from "moment-timezone";
+import { Fragment, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { type RssPost, type WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
 
 const parser = (typeof DOMParser === "undefined" ? null : new DOMParser()) as DOMParser;
 
@@ -39,6 +44,8 @@ const Post = ({
 }: { post: RssPost; clampTitle?: boolean; compact?: boolean }) => {
   const { rem } = useSizeSettings();
   const { i18n } = useTranslation();
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const postMoment = useMemo(() => moment(post.timestamp), [post.timestamp, i18n.language]);
   const feedTitle = useMemo(() => decodeHtmlEntities(post.feed.title), [post.feed.title]);
   const title = useMemo(() => decodeHtmlEntities(post.title), [post.title]);
@@ -100,7 +107,6 @@ const RssFeedConfigScreen = ({
     currentConfig ? currentConfig.feedUrls.map((url) => ({ url, id: guid() })) : [{ url: "", id: guid() }],
   );
   const [compactView, setCompactView] = useState(currentConfig ? currentConfig.compactView : false);
-  const { rem } = useSizeSettings();
   const { t } = useTranslation();
 
   const presets = [
@@ -217,8 +223,8 @@ const RssFeedConfigScreen = ({
   );
 };
 
-const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) => {
-  const { t, i18n } = useTranslation();
+const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfigType>) => {
+  const { t } = useTranslation();
   const { rem } = useSizeSettings();
   const { feed, isRefreshing, refresh, lastUpdated } = useRssFeeds(config.feedUrls, (url) =>
     sendMessage("getFeedText", { url }),
@@ -226,7 +232,7 @@ const RssFeed = ({ config, instanceId }: WidgetRenderProps<RssFeedConfigType>) =
 
   const lastRefresh = useMemo(
     () => (lastUpdated ? t("lastUpdatedAt", { datetime: lastUpdated.format("HH:mm") }) : t("refreshing")),
-    [lastUpdated, i18n.language],
+    [lastUpdated, t],
   );
   const trimmedFeed = feed.slice(0, 100);
 
@@ -366,7 +372,7 @@ const RssLatestPostConfigScreen = ({
   );
 };
 
-const RssLatestPost = ({ config, instanceId }: WidgetRenderProps<RssLatestPostConfigType>) => {
+const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfigType>) => {
   const { t } = useTranslation();
   const feeds = useMemo(() => [config.feedUrl], [config.feedUrl]);
   const { feed, isRefreshing } = useRssFeeds(feeds, (url) => sendMessage("getFeedText", { url }));
@@ -476,7 +482,9 @@ export const rssPlugin = {
     intervalInMinutes: 30,
     callback: async () => {
       console.log("Updating feeds in background");
-      const widgets = await getAllWidgetsByPlugin<{}, RssFeedConfigType | RssLatestPostConfigType>(rssPlugin);
+      const widgets = await getAllWidgetsByPlugin<Record<string, never>, RssFeedConfigType | RssLatestPostConfigType>(
+        rssPlugin,
+      );
       const promises = widgets.map(async (w) => {
         const storage = getWidgetStorage<WidgetStorage>(w.instanceId);
         await storage.waitForLoad();

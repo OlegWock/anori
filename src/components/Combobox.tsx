@@ -1,24 +1,23 @@
-import { useState, forwardRef, useRef } from "react";
+import { forwardRef, useRef, useState } from "react";
 import "./Combobox.scss";
-import { type HTMLMotionProps, m } from "framer-motion";
-import clsx from "clsx";
 import {
+  FloatingFocusManager,
+  FloatingPortal,
   autoUpdate,
+  offset,
   size,
-  useId,
   useDismiss,
   useFloating,
+  useId,
   useInteractions,
   useListNavigation,
   useRole,
-  FloatingFocusManager,
-  FloatingPortal,
-  offset,
 } from "@floating-ui/react";
-import { Input } from "./Input";
+import clsx from "clsx";
+import { type HTMLMotionProps, m } from "framer-motion";
 import { useEffect } from "react";
-import { useMirrorStateToRef } from "@utils/hooks";
 import { Icon } from "./Icon";
+import { Input } from "./Input";
 
 export type ComboboxProps<T> = {
   options: T[];
@@ -45,6 +44,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps & React.HTMLProps<HTMLDivEleme
       <div
         ref={ref}
         role="option"
+        tabIndex={0}
         className="Combobox-option"
         id={id}
         aria-selected={active}
@@ -75,7 +75,6 @@ export const Combobox = <T,>({
   onChange,
   onInputChange,
   placeholder,
-  isLoading,
   className,
 }: ComboboxProps<T>) => {
   const localOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,6 +141,7 @@ export const Combobox = <T,>({
     }),
   ]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: getOptionLabel is allowed to be dynamic for convenience, but we don't want to reset input value on its every change
   useEffect(() => {
     setInputValue(getOptionLabel(value));
   }, [value]);
@@ -167,7 +167,9 @@ export const Combobox = <T,>({
               openRef.current = false;
             }
           },
-          onFocus: () => (inputFocusedRef.current = true),
+          onFocus: () => {
+            inputFocusedRef.current = true;
+          },
           onBlur: () => {
             inputFocusedRef.current = false;
             resetValueIfNeeded();
@@ -193,8 +195,8 @@ export const Combobox = <T,>({
                 const itemKey = getOptionKey(item);
                 return (
                   <Item
+                    key={getOptionKey(item)}
                     {...getItemProps({
-                      key: getOptionKey(item),
                       ref(node) {
                         listRef.current[index] = node;
                       },

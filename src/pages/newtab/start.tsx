@@ -1,23 +1,23 @@
-import { mountPage } from "@utils/react";
 import { setPageTitle } from "@utils/page";
+import { mountPage } from "@utils/react";
 import "./styles.scss";
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
-import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
+import { WidgetWindowsProvider, useWidgetWindows } from "@components/WidgetExpandArea";
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { getFolderDetails, setFolderDetails, useFolders } from "@utils/user-data/hooks";
-import { FolderContent } from "./components/FolderContent";
-import { useHotkeys, useMirrorStateToRef, usePrevious } from "@utils/hooks";
-import { storage, useBrowserStorageValue } from "@utils/storage/api";
-import { watchForPermissionChanges } from "@utils/permissions";
-import clsx from "clsx";
+import { initTranslation, languageDirections } from "@translations/index";
 import { CompactModeProvider } from "@utils/compact";
 import { getAllCustomIcons } from "@utils/custom-icons";
-import { initTranslation, languageDirections } from "@translations/index";
 import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from "@utils/device";
-import { WidgetWindowsProvider, useWidgetWindows } from "@components/WidgetExpandArea";
-import { loadAndMigrateStorage } from "@utils/storage/migrations";
-import { type Folder, homeFolder } from "@utils/user-data/types";
 import { findOverlapItems, findPositionForItemInGrid } from "@utils/grid";
+import { useHotkeys, useMirrorStateToRef, usePrevious } from "@utils/hooks";
+import { watchForPermissionChanges } from "@utils/permissions";
+import { storage, useBrowserStorageValue } from "@utils/storage/api";
+import { loadAndMigrateStorage } from "@utils/storage/migrations";
+import { getFolderDetails, setFolderDetails, useFolders } from "@utils/user-data/hooks";
+import { type Folder, homeFolder } from "@utils/user-data/types";
+import clsx from "clsx";
+import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
 
 const CommandMenu = lazy(() =>
@@ -25,7 +25,7 @@ const CommandMenu = lazy(() =>
 );
 const BookmarksBar = lazy(() => import("./components/BookmarksBar").then((m) => ({ default: m.BookmarksBar })));
 
-const loadMotionFeatures = () => import("@utils/motion/framer-motion-features").then((res) => res.default);
+const loadMotionFeatures = () => import("@utils/motion/framer-motion-features").then(({ domMax }) => domMax);
 
 const useSidebarOrientation = () => {
   const [sidebarOrientation] = useBrowserStorageValue("sidebarOrientation", "auto");
@@ -88,7 +88,7 @@ const Start = () => {
     includeHome: true,
     defaultFolderId: rememberLastFolder ? lastFolder : undefined,
   });
-  const activeFolderIndex = folders.findIndex((f) => f.id === activeFolder.id)!;
+  const activeFolderIndex = folders.findIndex((f) => f.id === activeFolder.id) ?? 0;
   const previousActiveFolderIndex = usePrevious(activeFolderIndex);
   const animationDirection =
     previousActiveFolderIndex === undefined || previousActiveFolderIndex === activeFolderIndex

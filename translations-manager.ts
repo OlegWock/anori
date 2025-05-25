@@ -1,5 +1,5 @@
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { writeFileSync, readFileSync, readdirSync, rmSync, existsSync, mkdirSync } from "node:fs";
 import { get, set } from "lodash";
 
 const objectDeepKeys = (obj: object): string[] => {

@@ -1,15 +1,15 @@
-import { type ComponentPropsWithoutRef, type CSSProperties, type Ref, useMemo, useRef, useState } from "react";
-import browser from "webextension-polyfill";
+import { useCustomIcon } from "@utils/custom-icons";
 import { useAsyncLayoutEffect } from "@utils/hooks";
 import { combineRefs } from "@utils/react";
+import { type CSSProperties, type ComponentPropsWithoutRef, type Ref, useMemo, useRef, useState } from "react";
 import { forwardRef } from "react";
-import { useCustomIcon } from "@utils/custom-icons";
+import browser from "webextension-polyfill";
 import "./Icon.scss";
-import clsx from "clsx";
-import { useAtomValue } from "jotai";
-import { availablePermissionsAtom } from "@utils/permissions";
-import { m } from "framer-motion";
 import { iife } from "@utils/misc";
+import { availablePermissionsAtom } from "@utils/permissions";
+import clsx from "clsx";
+import { m } from "framer-motion";
+import { useAtomValue } from "jotai";
 
 type SvgIconCacheDescriptor = {
   svgText: string;
@@ -247,11 +247,11 @@ export const Favicon = forwardRef<HTMLElement, FaviconProps>(({ useFaviconApiIfP
       console.log("Error parsing host from", props.url);
       return "";
     }
-  }, [hasPermission, props.url]);
+  }, [hasPermission, props.url, props.height, props.width, useFaviconApiIfPossible]);
 
   if (iconUrl && !imageError) {
     // @ts-ignore incorrect ref typing
-    return <img src={iconUrl} onError={() => setImageError(true)} {...props} ref={ref} />;
+    return <img src={iconUrl} onError={() => setImageError(true)} {...props} ref={ref} aria-hidden />;
   }
 
   // @ts-ignore incorrect ref typing

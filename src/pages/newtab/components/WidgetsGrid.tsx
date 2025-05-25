@@ -53,7 +53,7 @@ export type WidgetsGridProps = {
   gapSize: number;
   layout: Layout<LayoutArg>;
   onEditWidget: (w: LayoutItem<LayoutArg>) => void;
-  onUpdateWidgetConfig: (instaceId: string, config: Partial<{}>) => void;
+  onUpdateWidgetConfig: (instaceId: string, config: Partial<Record<string, any>>) => void;
   onLayoutUpdate?: (changes: LayoutChange[]) => void;
   showOnboarding?: boolean;
   gridRef?: Ref<HTMLDivElement>;

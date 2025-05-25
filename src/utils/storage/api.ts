@@ -1,6 +1,6 @@
+import { type SetStateAction, type WritableAtom, atom, getDefaultStore, useAtom } from "jotai";
 import browser, { type Storage } from "webextension-polyfill";
 import type { StorageContent } from "../user-data/types";
-import { type SetStateAction, type WritableAtom, atom, getDefaultStore, useAtom } from "jotai";
 import { globalStorageCache } from "./migrations";
 
 type StorageKey = keyof StorageContent;

@@ -1,20 +1,20 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import enTranslation from "./en.json";
-import deTranslation from "./de.json";
-import frTranslation from "./fr.json";
-import esTranslation from "./es.json";
-import itTranslation from "./it.json";
-import ukTranslation from "./uk.json";
-import zhCnTranslation from "./zh-cn.json";
-import thTranslation from "./th.json";
-import trTranslation from "./tr.json";
-import ruTranslation from "./ru.json";
-import arTranslation from "./ar.json";
-import ptBrTranslation from "./pt-br.json";
 import { storage } from "@utils/storage/api";
 import moment from "moment";
+import arTranslation from "./ar.json";
+import deTranslation from "./de.json";
+import enTranslation from "./en.json";
+import esTranslation from "./es.json";
+import frTranslation from "./fr.json";
+import itTranslation from "./it.json";
+import ptBrTranslation from "./pt-br.json";
+import ruTranslation from "./ru.json";
+import thTranslation from "./th.json";
+import trTranslation from "./tr.json";
+import ukTranslation from "./uk.json";
+import zhCnTranslation from "./zh-cn.json";
 // When adding any of moment locales, don't forget to update webpack config to actually include them in build
 import "moment/locale/uk";
 import "moment/locale/de";

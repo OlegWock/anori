@@ -41,6 +41,10 @@
         line-height: inherit;
         margin: 0.125rem 0.625rem;
         cursor: text;
+        text-align: start;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
 
         .ScrollAreaRoot {
             max-height: 100%;

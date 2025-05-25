@@ -1,36 +1,36 @@
 import { Trans, useTranslation } from "react-i18next";
 import "./Onboarding.scss";
-import { type ComponentProps, forwardRef, useEffect, useState } from "react";
-import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
-import useMeasure from "react-use-motion-measure";
-import { useHotkeys, usePrevious } from "@utils/hooks";
-import { Button } from "./Button";
-import { slidingScreensAnimation } from "./animations";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
-import { useFolderWidgets, useFolders } from "@utils/user-data/hooks";
 import { bookmarkPlugin, bookmarkWidgetDescriptor } from "@plugins/bookmark/bookmark-plugin";
-import { Icon } from "./Icon";
+import { datetimePlugin, datetimeWidgetDescriptorS } from "@plugins/datetime/datetime-plugin";
+import { notesPlugin, notesWidgetDescriptor } from "@plugins/notes/notes-plugin";
+import { rssFeedDescriptor, rssPlugin } from "@plugins/rss/rss-plugin";
+import { tasksPlugin, tasksWidgetDescriptor } from "@plugins/tasks/tasks-plugin";
+import { topSitesPlugin, topSitesWidgetDescriptorVertical } from "@plugins/top-sites/top-sites-plugin";
+import { weatherPlugin, weatherWidgetDescriptorCurrent } from "@plugins/weather/weather-plugin";
+import { useDirection } from "@radix-ui/react-direction";
 import {
   type Language,
   availableTranslations,
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
 } from "@translations/index";
-import { Select } from "./Select";
-import { metaKeyOnCurrentPlatform } from "@utils/shortcuts";
 import { analyticsEnabledAtom } from "@utils/analytics";
-import { Checkbox } from "./Checkbox";
-import { getIpInfo } from "@utils/network";
-import { topSitesPlugin, topSitesWidgetDescriptorVertical } from "@plugins/top-sites/top-sites-plugin";
-import { tasksPlugin, tasksWidgetDescriptor } from "@plugins/tasks/tasks-plugin";
-import { notesPlugin, notesWidgetDescriptor } from "@plugins/notes/notes-plugin";
-import { rssFeedDescriptor, rssPlugin } from "@plugins/rss/rss-plugin";
-import { datetimePlugin, datetimeWidgetDescriptorS } from "@plugins/datetime/datetime-plugin";
-import { weatherPlugin, weatherWidgetDescriptorCurrent } from "@plugins/weather/weather-plugin";
 import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemInGrid } from "@utils/grid";
-import type { AnoriPlugin, WidgetDescriptor } from "@utils/user-data/types";
+import { useHotkeys, usePrevious } from "@utils/hooks";
 import { useMotionTransition } from "@utils/motion/hooks";
-import { useDirection } from "@radix-ui/react-direction";
+import { getIpInfo } from "@utils/network";
+import { metaKeyOnCurrentPlatform } from "@utils/shortcuts";
+import { storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
+import { useFolderWidgets, useFolders } from "@utils/user-data/hooks";
+import type { AnoriPlugin, WidgetDescriptor } from "@utils/user-data/types";
+import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
+import { type ComponentProps, forwardRef, useEffect, useState } from "react";
+import useMeasure from "react-use-motion-measure";
+import { Button } from "./Button";
+import { Checkbox } from "./Checkbox";
+import { Icon } from "./Icon";
+import { Select } from "./Select";
+import { slidingScreensAnimation } from "./animations";
 
 const screens = ["start", "folders", "shortcuts", "customization", "analytics", "presets"] as const;
 
@@ -367,6 +367,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   <p>{t("onboarding.analytics.p2")}</p>
                   <p>
                     <Trans t={t} i18nKey="onboarding.analytics.p3">
+                      {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
                       <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer" />
                     </Trans>
                   </p>

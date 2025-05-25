@@ -1,18 +1,18 @@
 import type { AnoriPlugin, Folder, WidgetDescriptor } from "@utils/user-data/types";
 import "./NewWidgetWizard.scss";
-import { availablePluginsWithWidgets } from "@plugins/all";
-import { WidgetCard } from "@components/WidgetCard";
-import { useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
-import { Modal } from "@components/Modal";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
-import { useFolderWidgets } from "@utils/user-data/hooks";
-import { type GridDimensions, type Layout, findPositionForItemInGrid } from "@utils/grid";
-import { MotionScrollArea, ScrollArea } from "@components/ScrollArea";
-import { useTranslation } from "react-i18next";
-import { useDirection } from "@radix-ui/react-direction";
 import { Input } from "@components/Input";
+import { Modal } from "@components/Modal";
+import { MotionScrollArea, ScrollArea } from "@components/ScrollArea";
+import { WidgetCard } from "@components/WidgetCard";
+import { availablePluginsWithWidgets } from "@plugins/all";
+import { useDirection } from "@radix-ui/react-direction";
+import { type GridDimensions, type Layout, findPositionForItemInGrid } from "@utils/grid";
+import { useFolderWidgets } from "@utils/user-data/hooks";
+import { AnimatePresence, m } from "framer-motion";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export type NewWidgetWizardProps = {
   folder: Folder;
@@ -134,20 +134,28 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                                 <div className="widgets-group" key={`group-${ind}`}>
                                   {widgetOrGroup.map((widget) => {
                                     return (
-                                      <div key={widget.id} onClick={() => onWidgetClick(widget, plugin)}>
+                                      <button
+                                        type="button"
+                                        key={widget.id}
+                                        onClick={() => onWidgetClick(widget, plugin)}
+                                      >
                                         <WidgetCard type="mock" widget={widget} plugin={plugin} />
                                         <div className="widget-name">{widget.name}</div>
-                                      </div>
+                                      </button>
                                     );
                                   })}
                                 </div>
                               );
                             }
                             return (
-                              <div key={widgetOrGroup.id} onClick={() => onWidgetClick(widgetOrGroup, plugin)}>
+                              <button
+                                type="button"
+                                key={widgetOrGroup.id}
+                                onClick={() => onWidgetClick(widgetOrGroup, plugin)}
+                              >
                                 <WidgetCard type="mock" widget={widgetOrGroup} plugin={plugin} />
                                 <div className="widget-name">{widgetOrGroup.name}</div>
-                              </div>
+                              </button>
                             );
                           })}
                         </div>

@@ -1,9 +1,9 @@
 import * as RadixTabs from "@radix-ui/react-tabs";
 import "./Tabs.scss";
-import { Children, type ReactElement, type ReactNode, useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
-import clsx from "clsx";
 import { usePrevious } from "@utils/hooks";
+import clsx from "clsx";
+import { AnimatePresence, m } from "framer-motion";
+import { Children, type ReactElement, type ReactNode, useState } from "react";
 import { slidingScreensAnimation } from "./animations";
 
 export type TabsProps = {

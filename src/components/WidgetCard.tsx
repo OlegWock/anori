@@ -1,20 +1,20 @@
 import { Component, type ComponentProps, createContext, createRef, useContext, useRef, useState } from "react";
 import "./WidgetCard.scss";
-import { type PanInfo, m, useMotionValue } from "framer-motion";
-import clsx from "clsx";
 import { useParentFolder } from "@utils/FolderContentContext";
-import { Button } from "./Button";
-import { Icon } from "./Icon";
-import type { ReactNode } from "react";
 import { useSizeSettings } from "@utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@utils/drag-and-drop";
-import { minmax } from "@utils/misc";
-import type { AnoriPlugin, WidgetDescriptor } from "@utils/user-data/types";
 import { type LayoutItemSize, type Position, positionToPixelPosition, snapToSector } from "@utils/grid";
-import { WidgetMetadataContext } from "@utils/plugin";
-import { createPortal } from "react-dom";
 import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@utils/hooks";
+import { minmax } from "@utils/misc";
 import { useDerivedMotionValue } from "@utils/motion/derived-motion.value";
+import { WidgetMetadataContext } from "@utils/plugin";
+import type { AnoriPlugin, WidgetDescriptor } from "@utils/user-data/types";
+import clsx from "clsx";
+import { type PanInfo, m, useMotionValue } from "framer-motion";
+import type { ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { Button } from "./Button";
+import { Icon } from "./Icon";
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   constructor(props: { children: ReactNode }) {
@@ -310,7 +310,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
           instanceId: instanceId ?? "mock",
           size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
           config: config ?? {},
-          updateConfig: (newConf) => onUpdateConfig?.(newConf),
+          updateConfig: (newConf) => onUpdateConfig?.(newConf as Partial<T>),
         }}
       >
         {isDragging ? createPortal(card, document.body, `card-${instanceId}`) : card}

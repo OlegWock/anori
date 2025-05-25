@@ -2,7 +2,7 @@ import { lazyAsyncVariable } from "@utils/misc";
 import type { NamespacedStorage } from "@utils/namespaced-storage";
 import { useWidgetStorage } from "@utils/plugin";
 import moment from "moment-timezone";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type Parser from "rss-parser";
 
@@ -114,8 +114,7 @@ const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) =>
 };
 
 export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Promise<string>) => {
-  const refresh = async () => {
-    console.log("useRssFeeds.refresh", feedUrls);
+  const refresh = useCallback(async () => {
     setIsRefreshing(true);
 
     try {
@@ -128,7 +127,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
     } finally {
       setIsRefreshing(false);
     }
-  };
+  }, [feedUrls, fetchFeed]);
 
   const storage = useWidgetStorage<WidgetStorage>();
   const { i18n } = useTranslation();
@@ -142,6 +141,9 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
       .flatMap((f) => f.posts)
       .sort((a, b) => b.timestamp - a.timestamp);
   }, [feeds]);
+
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const lastUpdatedMoment = useMemo(() => moment(lastUpdated), [lastUpdated, i18n.language]);
 
   useEffect(() => {
@@ -152,7 +154,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
     }, CHECK_INTERVAL);
 
     return () => clearInterval(tid);
-  }, [lastUpdated]);
+  }, [lastUpdated, refresh]);
 
   useEffect(() => {
     const main = async () => {
@@ -171,7 +173,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
     };
 
     main();
-  }, [feedUrls]);
+  }, [feedUrls, refresh, storage]);
 
   return {
     feed: consolidatedFeed,

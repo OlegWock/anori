@@ -2,37 +2,37 @@ import { Button } from "@components/Button";
 import { Input, Textarea } from "@components/Input";
 import type {
   AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  OnCommandInputCallback,
-  WidgetRenderProps,
   ID,
+  OnCommandInputCallback,
+  WidgetConfigurationScreenProps,
   WidgetDescriptor,
+  WidgetRenderProps,
 } from "@utils/user-data/types";
 import { Suspense, forwardRef, lazy, useRef, useState } from "react";
 import "./styles.scss";
+import { Checkbox } from "@components/Checkbox";
 import { Icon } from "@components/Icon";
+import { ScrollArea } from "@components/ScrollArea";
+import { listItemAnimation } from "@components/animations";
+import { useDirection } from "@radix-ui/react-direction";
+import { translate } from "@translations/index";
+import { useSizeSettings } from "@utils/compact";
+import { useRunAfterNextRender } from "@utils/hooks";
+import { choose, guid } from "@utils/misc";
+import { useCancelableAnimate } from "@utils/motion/hooks";
+import type { BetterAnimationPlaybackControls } from "@utils/motion/types";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
+import { combineRefs } from "@utils/react";
 import {
   AnimatePresence,
   LayoutGroup,
-  m,
   type MotionValue,
+  m,
   useDragControls,
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { Checkbox } from "@components/Checkbox";
-import { choose, guid } from "@utils/misc";
-import { combineRefs } from "@utils/react";
-import { ScrollArea } from "@components/ScrollArea";
-import { useSizeSettings } from "@utils/compact";
-import { translate } from "@translations/index";
 import { useTranslation } from "react-i18next";
-import { listItemAnimation } from "@components/animations";
-import { useCancelableAnimate } from "@utils/motion/hooks";
-import type { BetterAnimationPlaybackControls } from "@utils/motion/types";
-import { useDirection } from "@radix-ui/react-direction";
-import { useRunAfterNextRender } from "@utils/hooks";
 
 const ReorderGroup = lazy(() => import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderGroup })));
 const ReorderItem = lazy(() => import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderItem })));
@@ -77,6 +77,7 @@ const Scribble = ({ progress }: { progress: MotionValue<number> }) => {
   const display = useTransform(progress, (v) => (v === 0 ? "none" : "block"));
 
   return (
+    // biome-ignore lint/a11y/noSvgWithoutTitle: this is cosmetics element, hidden from screen readers
     <m.svg
       xmlns="http://www.w3.org/2000/svg"
       fillRule="evenodd"
@@ -91,6 +92,7 @@ const Scribble = ({ progress }: { progress: MotionValue<number> }) => {
         scaleX: dir === "rtl" ? -1 : 1,
         display,
       }}
+      aria-hidden
     >
       <m.path
         stroke="currentColor"
@@ -224,7 +226,7 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, 
   );
 });
 
-const MainScreen = ({ config, instanceId }: WidgetRenderProps<TaskWidgetConfigType>) => {
+const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
   const addTask = () => {
     const id = guid();
     setTasks((p) => {

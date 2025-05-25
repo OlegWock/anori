@@ -7,7 +7,7 @@ import { useHotkeys } from "@utils/hooks";
 import { useBrowserStorageValue } from "@utils/storage/api";
 import type { Folder } from "@utils/user-data/types";
 import { AnimatePresence } from "framer-motion";
-import { lazy, Suspense, useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Sidebar.scss";
 import clsx from "clsx";

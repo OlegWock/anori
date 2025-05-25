@@ -1,12 +1,12 @@
 import { Command } from "cmdk";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./CommandMenu.scss";
 import { Icon } from "@components/Icon";
-import type { AnoriPlugin, CommandItem } from "@utils/user-data/types";
-import { availablePlugins } from "@plugins/all";
-import { wait } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
+import { availablePlugins } from "@plugins/all";
 import { trackEvent } from "@utils/analytics";
+import { wait } from "@utils/misc";
+import type { AnoriPlugin, CommandItem } from "@utils/user-data/types";
 import { useTranslation } from "react-i18next";
 
 const ON_COMMAND_INPUT_TIMEOUT = 300;
@@ -22,17 +22,20 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean; onOpenChang
     loadActionsByQuery(val);
   };
 
-  const loadActionsByQuery = async (query: string) => {
+  const loadActionsByQuery = useCallback(async (query: string) => {
     const promises = availablePlugins
       .filter((p) => !!p.onCommandInput)
       .map(async (p) => {
+        const { onCommandInput } = p;
         const items = await Promise.race([
           wait(ON_COMMAND_INPUT_TIMEOUT).then(() => [] as CommandItem[]),
-          p.onCommandInput!(query).catch((err) => {
-            console.error("Error in onCommandInput handler of", p);
-            console.error(err);
-            return [] as CommandItem[];
-          }),
+          onCommandInput
+            ? onCommandInput(query).catch((err) => {
+                console.error("Error in onCommandInput handler of", p);
+                console.error(err);
+                return [] as CommandItem[];
+              })
+            : [],
         ]);
         return {
           items,
@@ -42,7 +45,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean; onOpenChang
 
     const actions = await Promise.all(promises);
     setActions(actions);
-  };
+  }, []);
 
   const [query, setQuery] = useState("");
   const [actions, setActions] = useState<ActionsWithMetadata[]>([]);
@@ -51,7 +54,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean; onOpenChang
 
   useEffect(() => {
     loadActionsByQuery("").then(() => setInitialized(true));
-  }, []);
+  }, [loadActionsByQuery]);
 
   const itemsToRender = actions.flatMap(({ items }) => items);
   console.log("itemsToRender", itemsToRender);
@@ -86,7 +89,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean; onOpenChang
                           >
                             <div cmdk-item-icon="">
                               {!!icon && <Icon icon={icon} height={24} width={24} />}
-                              {!!image && <img src={image} height={24} />}
+                              {!!image && <img src={image} height={24} aria-hidden />}
                             </div>
                             <div cmdk-item-text="">{text}</div>
                             {!!hint && <div cmdk-item-right-hint="">{hint}</div>}

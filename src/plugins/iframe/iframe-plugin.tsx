@@ -2,30 +2,30 @@ import { Button } from "@components/Button";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
-  WidgetRenderProps,
   WidgetDescriptor,
+  WidgetRenderProps,
 } from "@utils/user-data/types";
 import "./styles.scss";
-import { translate } from "@translations/index";
-import { useTranslation } from "react-i18next";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Input } from "@components/Input";
-import { Popover } from "@components/Popover";
-import { PickBookmark } from "@components/PickBookmark";
-import { RequirePermissions } from "@components/RequirePermissions";
-import { normalizeUrl, parseHost } from "@utils/misc";
-import { IS_TOUCH_DEVICE } from "@utils/device";
-import { IconPicker } from "@components/IconPicker";
-import { Icon } from "@components/Icon";
-import { useSizeSettings } from "@utils/compact";
-import { AnimatePresence } from "framer-motion";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
-import { Checkbox } from "@components/Checkbox";
-import { Link } from "@components/Link";
-import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
 import { Alert } from "@components/Alert";
+import { Checkbox } from "@components/Checkbox";
+import { Icon } from "@components/Icon";
+import { IconPicker } from "@components/IconPicker";
+import { Input } from "@components/Input";
+import { Link } from "@components/Link";
+import { PickBookmark } from "@components/PickBookmark";
+import { Popover } from "@components/Popover";
+import { RequirePermissions } from "@components/RequirePermissions";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
+import { translate } from "@translations/index";
+import { useSizeSettings } from "@utils/compact";
+import { IS_TOUCH_DEVICE } from "@utils/device";
+import { normalizeUrl, parseHost } from "@utils/misc";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-// There is some problem with cookies in Iframe. When cookie set with SameSite=Lax (default value) or SameSite=Strict
+// NOTE: There is some problem with cookies in Iframe. When cookie set with SameSite=Lax (default value) or SameSite=Strict
 // it's not available for JS (not sent at all?) if opened in iframe. Sites need to explicitly set SameSite=None to allow
 // those cookies to function
 
@@ -97,9 +97,10 @@ const MainWidgetConfigScreen = ({
   );
 };
 
-const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidgetConfigType>) => {
+const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfigType>) => {
   const [canRenderIframe, setCanRenderIframe] = useState(false);
   const { rem } = useSizeSettings();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const main = async () => {
@@ -136,6 +137,7 @@ const MainWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginWidget
         <iframe
           src={config.url}
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture; cross-origin-isolated"
+          title={t("iframe-plugin.name")}
         />
       )}
     </div>
@@ -215,7 +217,7 @@ const ExpandableWidgetConfigScreen = ({
   );
 };
 
-const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePluginExpandableWidgetConfigType>) => {
+const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWidgetConfigType>) => {
   const [open, setOpen] = useState(false);
   const { rem } = useSizeSettings();
   const { t } = useTranslation();
@@ -230,6 +232,7 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
   return (
     <>
       <button
+        type="button"
         className="ExpandableIframeWidget"
         onClick={() => (open ? expandAreaRef.current?.focus(true) : setOpen(true))}
       >
@@ -261,6 +264,7 @@ const ExpandableWidget = ({ config, instanceId }: WidgetRenderProps<IframePlugin
             <iframe
               src={config.url}
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture; cross-origin-isolated"
+              title={t("iframe-plugin.name")}
             />
           </WidgetExpandArea>
         )}

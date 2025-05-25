@@ -20,7 +20,7 @@ export type IpInfo = {
 
 export const getIpInfo = async (): Promise<IpInfo> => {
   const resp = await fetch("https://ipinfo.io/json");
-  const json = await resp.json();
+  const json = (await resp.json()) as any;
 
   const [lat, long] = json.loc.includes(",")
     ? json.loc.split(",").map((i: string) => Number.parseInt(i))

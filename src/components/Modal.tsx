@@ -1,12 +1,12 @@
 import { LayoutGroup, m, useIsPresent } from "framer-motion";
 import "./Modal.scss";
-import type { ReactNode } from "react";
-import { Icon } from "./Icon";
-import { createPortal } from "react-dom";
-import clsx from "clsx";
-import useMeasure from "react-use-motion-measure";
 import { useHotkeys } from "@utils/hooks";
 import { useMotionTransition } from "@utils/motion/hooks";
+import clsx from "clsx";
+import type { ReactNode } from "react";
+import { createPortal } from "react-dom";
+import useMeasure from "react-use-motion-measure";
+import { Icon } from "./Icon";
 
 export type ModalProps = {
   title: string;

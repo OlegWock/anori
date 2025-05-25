@@ -1,7 +1,7 @@
+import { type Language, translate } from "@translations/index";
 import type { LayoutItem, LayoutItemSize } from "@utils/grid";
 import type { ComponentType } from "react";
 import type { CustomTheme, Theme } from "./theme";
-import { type Language, translate } from "@translations/index";
 
 export type StorageContent = {
   folders: Folder[];
@@ -39,7 +39,7 @@ export type Folder = {
   icon: string;
 };
 
-export type FolderDetailsInStorage<WT extends {} = any> = {
+export type FolderDetailsInStorage<WT extends {} = Record<string, any>> = {
   widgets: WidgetInFolder<WT>[];
 };
 
@@ -65,7 +65,7 @@ export const homeFolder = {
 
 // ------ Plugins
 
-export type AnoriPlugin<T extends {} = {}, WT extends {} = {}> = {
+export type AnoriPlugin<T extends {} = Record<string, unknown>, WT extends {} = Record<string, any>> = {
   id: ID;
   name: string;
   widgets: Array<WidgetDescriptor<WT> | WidgetDescriptor<WT>[]>;
@@ -91,7 +91,7 @@ export type PluginConfigurationScreenProps<T extends {}> = {
   saveConfiguration: (config: T) => void;
 };
 
-export type WidgetRenderProps<T extends {}> = {
+export type WidgetRenderProps<T extends {} = Record<string, unknown>> = {
   config: T;
   instanceId: string;
 };
@@ -103,10 +103,10 @@ export type WidgetResizable =
       max?: LayoutItemSize;
     };
 
-export type WidgetDescriptor<T extends {} = Record<string, never>> = {
+export type WidgetDescriptor<T extends {} = Record<string, unknown>> = {
   id: ID;
   name: string;
-  mock: ComponentType<{}>;
+  mock: ComponentType<Record<string, never>>;
   appearance: {
     withHoverAnimation?: boolean;
     withoutPadding?: boolean;

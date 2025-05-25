@@ -1,17 +1,17 @@
 import type { AnoriPlugin, OnCommandInputCallback, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
-import browser from "webextension-polyfill";
-import { useMemo, useState } from "react";
 import { Icon } from "@components/Icon";
+import { RelativeTime } from "@components/RelativeTime";
 import { RequirePermissions } from "@components/RequirePermissions";
-import { useEffect } from "react";
-import moment from "moment-timezone";
-import { m, useAnimationControls } from "framer-motion";
-import { wait } from "@utils/misc";
 import { ScrollArea } from "@components/ScrollArea";
 import { translate } from "@translations/index";
+import { wait } from "@utils/misc";
+import { m, useAnimationControls } from "framer-motion";
+import moment from "moment-timezone";
+import { useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { RelativeTime } from "@components/RelativeTime";
+import browser from "webextension-polyfill";
 
 const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMock: boolean }) => {
   const restore = async () => {
@@ -27,6 +27,8 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   const { t, i18n } = useTranslation();
   const controls = useAnimationControls();
   const favIcon = session.tab ? session.tab.favIconUrl : "";
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const lastModified = useMemo(() => {
     if (X_BROWSER === "chrome") return moment.unix(session.lastModified);
     return moment(session.lastModified);
@@ -48,7 +50,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
         },
       }}
     >
-      {!!favIcon && <img className="fav-icon" src={favIcon} />}
+      {!!favIcon && <img className="fav-icon" src={favIcon} aria-hidden />}
       {!favIcon && <Icon icon={session.tab ? "ic:baseline-tab" : "ic:outline-window"} width={18} />}
       <div className="title">
         {session.tab
@@ -62,7 +64,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   );
 };
 
-const WidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
+const WidgetScreen = ({ instanceId }: WidgetRenderProps) => {
   const [sessions, setSessions] = useState<browser.Sessions.Session[]>([]);
   const { t } = useTranslation();
 
@@ -124,7 +126,7 @@ const onCommandInput: OnCommandInputCallback = async (query: string) => {
       return false;
     })
     .map((s) => {
-      const id = s.tab ? s.tab.sessionId! : s.window?.sessionId!;
+      const id = (s.tab ? s.tab.sessionId : s.window?.sessionId) as string;
       const title = s.tab ? s.tab.title : s.window?.title;
       const favIcon = s.tab ? s.tab.favIconUrl : "";
       const icon = favIcon ? undefined : s.tab ? "ic:baseline-tab" : "ic:outline-window";
@@ -164,7 +166,7 @@ const widgetDescriptor = {
     </RequirePermissions>
   ),
   mock: () => <WidgetScreen config={{}} instanceId="mock" />,
-} satisfies WidgetDescriptor<{}>;
+} satisfies WidgetDescriptor;
 
 export const recentlyClosedPlugin = {
   id: "recently-closed-plugin",

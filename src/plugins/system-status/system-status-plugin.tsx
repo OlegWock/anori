@@ -1,9 +1,9 @@
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
-import browser from "webextension-polyfill";
+import { translate } from "@translations/index";
 import { useState } from "react";
 import { useEffect } from "react";
-import { translate } from "@translations/index";
+import browser from "webextension-polyfill";
 
 type CpuTime = {
   idle: number;
@@ -16,7 +16,7 @@ const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
 
 const avg = (arr: number[]) => (arr.length === 0 ? 0 : sum(arr) / arr.length);
 
-const CpuWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
+const CpuWidgetScreen = (_props: WidgetRenderProps) => {
   const [load, setLoad] = useState(0);
   useEffect(() => {
     const load = async () => {
@@ -56,7 +56,7 @@ const CpuWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
   );
 };
 
-const MemoryWidgetScreen = ({ config, instanceId }: WidgetRenderProps<{}>) => {
+const MemoryWidgetScreen = (_props: WidgetRenderProps) => {
   const [allocatedMemory, setAllocatedMemory] = useState(0);
   useEffect(() => {
     const load = async () => {
@@ -95,7 +95,7 @@ const cpuWidgetDescriptor = {
   configurationScreen: null,
   mainScreen: CpuWidgetScreen,
   mock: () => <CpuWidgetScreen config={{}} instanceId="mock" />,
-} satisfies WidgetDescriptor<{}>;
+} satisfies WidgetDescriptor;
 
 const ramWidgetDescriptor = {
   id: "ram-load-status",
@@ -112,7 +112,7 @@ const ramWidgetDescriptor = {
   configurationScreen: null,
   mainScreen: MemoryWidgetScreen,
   mock: () => <MemoryWidgetScreen config={{}} instanceId="mock" />,
-} satisfies WidgetDescriptor<{}>;
+} satisfies WidgetDescriptor;
 
 export const systemStatusPlugin = {
   id: "system-status-plugin",

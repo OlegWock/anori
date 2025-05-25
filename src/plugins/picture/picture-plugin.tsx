@@ -2,14 +2,14 @@ import { Button } from "@components/Button";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
-  WidgetRenderProps,
   WidgetDescriptor,
+  WidgetRenderProps,
 } from "@utils/user-data/types";
 import "./styles.scss";
-import { translate } from "@translations/index";
-import { useTranslation } from "react-i18next";
 import { Input } from "@components/Input";
+import { translate } from "@translations/index";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type PicturePluginWidgetConfigType = {
   url: string;
@@ -42,10 +42,11 @@ const PictureConfigScreen = ({
   );
 };
 
-const PicturePlugin = ({ config, instanceId }: WidgetRenderProps<PicturePluginWidgetConfigType>) => {
+const PicturePlugin = ({ config }: WidgetRenderProps<PicturePluginWidgetConfigType>) => {
+  const { t } = useTranslation();
   return (
     <div className="PictureWidget">
-      <img className="Image" src={config.url} />
+      <img className="Image" src={config.url} alt={t("picture-plugin.name")} />
     </div>
   );
 };

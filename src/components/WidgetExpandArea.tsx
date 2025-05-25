@@ -1,37 +1,39 @@
 import {
+  type MotionValue,
+  type PanInfo,
+  type Transition,
   m,
+  useAnimate,
   useMotionTemplate,
   useMotionValue,
-  useTransform,
-  useAnimate,
-  type Transition,
   usePresence,
-  type PanInfo,
-  type MotionValue,
+  useTransform,
 } from "framer-motion";
 import "./WidgetExpandArea.scss";
+import { useDirection } from "@radix-ui/react-direction";
+import { useSizeSettings } from "@utils/compact";
+import { useHotkeys, usePrevious } from "@utils/hooks";
+import { minmax } from "@utils/misc";
+import clsx from "clsx";
 import {
   type MouseEvent,
   type ReactNode,
   createContext,
   forwardRef,
+  useCallback,
   useContext,
   useEffect,
   useId,
   useImperativeHandle,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { useParentWidgetCardRef } from "./WidgetCard";
-import { useHotkeys, usePrevious } from "@utils/hooks";
-import clsx from "clsx";
 import { Icon } from "./Icon";
 import { ScrollArea } from "./ScrollArea";
-import { useSizeSettings } from "@utils/compact";
-import { minmax } from "@utils/misc";
-import { useDirection } from "@radix-ui/react-direction";
+import { useParentWidgetCardRef } from "./WidgetCard";
 
 export type WidgetExpandAreaProps = {
   children: ReactNode;
@@ -65,46 +67,56 @@ const WidgetWindowsContext = createContext({
 });
 
 export const WidgetWindowsProvider = ({ children }: { children: ReactNode }) => {
-  const register = (id: string, mv: MotionValue<number>) => {
-    console.log("Register", id);
-    registeredWindows.current[id] = mv;
-    stack.current = [...stack.current, id];
-    updateZindexForStack();
-  };
-
-  const unregister = (id: string) => {
-    console.log("Unregister", id);
-    delete registeredWindows.current[id];
-    stack.current = stack.current.filter((e) => e !== id);
-    updateZindexForStack();
-  };
-
-  const bringToFront = (id: string) => {
-    if (!stack.current.includes(id)) return;
-    console.log("bringToFront", id);
-    stack.current = [...stack.current.filter((e) => e !== id), id];
-    updateZindexForStack();
-  };
-
-  const updateZindexForStack = () => {
+  const updateZindexForStack = useCallback(() => {
     stack.current.forEach((id, ind) => {
       registeredWindows.current[id]?.jump(minZindex + ind);
     });
-  };
+  }, []);
 
-  const hasDetachedWindows = () => {
+  const register = useCallback(
+    (id: string, mv: MotionValue<number>) => {
+      console.log("Register", id);
+      registeredWindows.current[id] = mv;
+      stack.current = [...stack.current, id];
+      updateZindexForStack();
+    },
+    [updateZindexForStack],
+  );
+
+  const unregister = useCallback(
+    (id: string) => {
+      console.log("Unregister", id);
+      delete registeredWindows.current[id];
+      stack.current = stack.current.filter((e) => e !== id);
+      updateZindexForStack();
+    },
+    [updateZindexForStack],
+  );
+
+  const bringToFront = useCallback(
+    (id: string) => {
+      if (!stack.current.includes(id)) return;
+      console.log("bringToFront", id);
+      stack.current = [...stack.current.filter((e) => e !== id), id];
+      updateZindexForStack();
+    },
+    [updateZindexForStack],
+  );
+
+  const hasDetachedWindows = useCallback(() => {
     return stack.current.length !== 0;
-  };
+  }, []);
 
   const registeredWindows = useRef<Record<string, MotionValue<number>>>({});
   const stack = useRef<string[]>([]);
   const minZindex = 10;
 
-  return (
-    <WidgetWindowsContext.Provider value={{ register, bringToFront, unregister, hasDetachedWindows }}>
-      {children}
-    </WidgetWindowsContext.Provider>
+  const ctxValue = useMemo(
+    () => ({ register, bringToFront, unregister, hasDetachedWindows }),
+    [register, bringToFront, unregister, hasDetachedWindows],
   );
+
+  return <WidgetWindowsContext.Provider value={ctxValue}>{children}</WidgetWindowsContext.Provider>;
 };
 
 export const useWidgetWindows = () => {
@@ -301,7 +313,7 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
           },
         };
       },
-      [id, bringToFront],
+      [id, bringToFront, animate],
     );
 
     useLayoutEffect(() => {
@@ -381,13 +393,13 @@ export const WidgetExpandArea = forwardRef<WidgetExpandAreaRef, WidgetExpandArea
           return animate(contentOpacity, 1, { ...transition, duration: duration / 2 });
         });
       animate(backdropOpacity, 0.75, { ...transition, duration });
-    }, []);
+    }, [animate]);
 
     useEffect(() => {
       return () => {
         if (detached) unregister(id);
       };
-    }, [detached]);
+    }, [detached, id, unregister]);
 
     if (!isPresent && prevIsPresent) {
       playUnmount();

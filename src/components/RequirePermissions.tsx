@@ -1,7 +1,7 @@
-import browser from "webextension-polyfill";
+import { Button } from "@components/Button";
 import { useState } from "react";
 import type { ReactNode } from "react";
-import { Button } from "@components/Button";
+import browser from "webextension-polyfill";
 import "./RequirePermissions.scss";
 import {
   type CorrectPermission,
@@ -11,10 +11,10 @@ import {
   updateAvailablePermissions,
   useAvailablePermissions,
 } from "@utils/permissions";
-import { Modal } from "./Modal";
-import { AnimatePresence } from "framer-motion";
 import clsx from "clsx";
+import { AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Modal } from "./Modal";
 
 export type RequirePermissionsProps = {
   additionalInfo?: string;
@@ -67,7 +67,8 @@ export const RequirePermissions = ({
   }
   return (
     <>
-      <div
+      <button
+        type="button"
         className={clsx("RequirePermissions", compact && "compact", className)}
         onClick={() => (compact ? setModalVisible(true) : null)}
       >
@@ -92,7 +93,7 @@ export const RequirePermissions = ({
             </Button>
           </>
         )}
-      </div>
+      </button>
       <AnimatePresence>
         {modalVisible && (
           <Modal

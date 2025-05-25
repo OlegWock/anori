@@ -1,39 +1,21 @@
-import browser from "webextension-polyfill";
 import { useFolders } from "@utils/user-data/hooks";
+import browser from "webextension-polyfill";
 import "./Settings.scss";
-import { AnimatePresence, LayoutGroup, m } from "framer-motion";
+import vtuberLogo from "@assets/images/vtuber-logo-dark.svg";
+import { Alert } from "@components/Alert";
 import { Button } from "@components/Button";
-import { Icon } from "@components/Icon";
-import { type AnoriPlugin, homeFolder } from "@utils/user-data/types";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
-import { availablePlugins } from "@plugins/all";
-import { usePluginConfig } from "@utils/plugin";
 import { Checkbox } from "@components/Checkbox";
+import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
 import { Hint } from "@components/Hint";
-import { ScrollArea } from "@components/ScrollArea";
-import moment from "moment-timezone";
-import { type ComponentProps, Suspense, lazy, useEffect, useMemo, useState } from "react";
-import {
-  CUSTOM_ICONS_AVAILABLE,
-  CUSTOM_ICONS_FOLDER_NAME,
-  getAllCustomIconFiles,
-  isValidCustomIconName,
-  deleteAllCustomIcons,
-  useCustomIcons,
-} from "@utils/custom-icons";
-import { guid } from "@utils/misc";
+import { Icon } from "@components/Icon";
 import { Input } from "@components/Input";
-import { downloadBlob, showOpenFilePicker } from "@utils/files";
-import { Tooltip } from "@components/Tooltip";
-import JSZip from "jszip";
-import { analyticsEnabledAtom } from "@utils/analytics";
-import { FolderItem } from "./FolderItem";
-import { atom, useAtom, useSetAtom } from "jotai";
 import { Modal } from "@components/Modal";
-import { setPageTitle } from "@utils/page";
-import { ShortcutsHelp } from "@components/ShortcutsHelp";
-import { Trans, useTranslation } from "react-i18next";
+import { ScrollArea } from "@components/ScrollArea";
 import { Select } from "@components/Select";
+import { ShortcutsHelp } from "@components/ShortcutsHelp";
+import { Tooltip } from "@components/Tooltip";
+import { availablePlugins } from "@plugins/all";
+import { useDirection } from "@radix-ui/react-direction";
 import {
   type Language,
   SHOW_LANGUAGE_SELECT_IN_SETTINGS,
@@ -41,22 +23,40 @@ import {
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
 } from "@translations/index";
+import { analyticsEnabledAtom } from "@utils/analytics";
 import { useScreenWidth } from "@utils/compact";
-import { Alert } from "@components/Alert";
+import {
+  CUSTOM_ICONS_AVAILABLE,
+  CUSTOM_ICONS_FOLDER_NAME,
+  deleteAllCustomIcons,
+  getAllCustomIconFiles,
+  isValidCustomIconName,
+  useCustomIcons,
+} from "@utils/custom-icons";
 import { IS_TOUCH_DEVICE } from "@utils/device";
-import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
-import { migrateStorage } from "@utils/storage/migrations";
-import { useDirection } from "@radix-ui/react-direction";
-import { ThemesScreen } from "./ThemesScreen";
+import { downloadBlob, showOpenFilePicker } from "@utils/files";
+import { guid } from "@utils/misc";
 import { OPFS_AVAILABLE } from "@utils/opfs";
+import { setPageTitle } from "@utils/page";
+import { usePluginConfig } from "@utils/plugin";
+import { storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
+import { migrateStorage } from "@utils/storage/migrations";
 import {
   CUSTOM_THEMES_FOLDER_NAME,
   deleteAllThemeBackgrounds,
   getAllCustomThemeBackgroundFiles,
   saveThemeBackground,
 } from "@utils/user-data/theme";
-import vtuberLogo from "@assets/images/vtuber-logo-dark.svg";
+import { type AnoriPlugin, homeFolder } from "@utils/user-data/types";
+import { AnimatePresence, LayoutGroup, m } from "framer-motion";
+import { atom, useAtom, useSetAtom } from "jotai";
+import JSZip from "jszip";
+import moment from "moment-timezone";
+import { type ComponentProps, Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { FolderItem } from "./FolderItem";
 import { License } from "./License";
+import { ThemesScreen } from "./ThemesScreen";
 
 export const ReorderGroup = lazy(() =>
   import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderGroup })),
@@ -195,6 +195,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
           <Alert level="info" className="translation-alert">
             <Trans t={t} i18nKey="settings.general.translationInfo">
+              {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
               <a href="https://github.com/OlegWock/anori/issues/104" />
             </Trans>
           </Alert>
@@ -225,6 +226,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
               <div style={{ marginTop: "0.5rem" }}>
                 <Trans t={t} i18nKey="settings.general.analyticsHintP2">
+                  {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
                   <a href="https://anori.app/privacy#analytics" target="_blank" rel="noreferrer" />
                 </Trans>
               </div>
@@ -529,9 +531,13 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const files = await showOpenFilePicker(false, ".zip");
     const file = files[0];
     const zip = await JSZip.loadAsync(file);
-    const storageJson = await zip.file("storage.json")!.async("string");
-    const parsedStorage = JSON.parse(storageJson);
-    const { storage: migratedStorage } = migrateStorage(parsedStorage);
+    const storageJsonFile = zip.file("storage.json");
+    if (!storageJsonFile) {
+      throw new Error(`couldn't find storage.json in backup`);
+    }
+    const storageJsonString = await storageJsonFile.async("string");
+    const storageContent = JSON.parse(storageJsonString);
+    const { storage: migratedStorage } = migrateStorage(storageContent);
     await browser.storage.local.clear();
     await browser.storage.local.set(migratedStorage);
 
@@ -593,7 +599,9 @@ const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
       <img src={vtuberLogo} alt="Anori logo" className="logo" />
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p1">
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://github.com/OlegWock/anori" />
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://github.com/OlegWock/anori/issues/new" />
         </Trans>
       </p>
@@ -602,19 +610,23 @@ const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
 
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p4">
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://sinja.io/support" />
         </Trans>
       </p>
 
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p2">
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://github.com/OlegWock/anori" />
         </Trans>
       </p>
 
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p3">
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://twitter.com/OlegWock" />
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://stand-with-ukraine.pp.ua/" />
         </Trans>
       </p>

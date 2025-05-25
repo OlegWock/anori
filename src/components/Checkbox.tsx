@@ -1,11 +1,11 @@
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import "./Checkbox.scss";
-import { type ComponentProps, forwardRef, useId } from "react";
-import { Icon } from "./Icon";
-import type { ReactNode } from "react";
+import type { NarrowVariants } from "@utils/motion/types";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import type { NarrowVariants } from "@utils/motion/types";
+import { type ComponentProps, forwardRef, useId } from "react";
+import type { ReactNode } from "react";
+import { Icon } from "./Icon";
 
 export type CheckboxVariant = "disabled" | "checked" | "unchecked";
 

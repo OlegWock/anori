@@ -1,20 +1,20 @@
 import type { AnoriPlugin } from "@utils/user-data/types";
+import { ankiPlugin } from "./anki/anki-plugin";
 import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
-import { datetimePlugin } from "./datetime/datetime-plugin";
-import { recentlyClosedPlugin } from "./recently-closed/recently-closed-plugin";
-import { systemStatusPlugin } from "./system-status/system-status-plugin";
 import { calendarPlugin } from "./calendar/calendar-plugin";
+import { datetimePlugin } from "./datetime/datetime-plugin";
+import { iframePlugin } from "./iframe/iframe-plugin";
+import { labelPlugin } from "./label/label-plugin";
+import { mathPlugin } from "./math/math-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
+import { picturePlugin } from "./picture/picture-plugin";
+import { recentlyClosedPlugin } from "./recently-closed/recently-closed-plugin";
+import { rssPlugin } from "./rss/rss-plugin";
+import { systemStatusPlugin } from "./system-status/system-status-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
+import { testPlugin } from "./test/test-plugin";
 import { topSitesPlugin } from "./top-sites/top-sites-plugin";
 import { weatherPlugin } from "./weather/weather-plugin";
-import { rssPlugin } from "./rss/rss-plugin";
-import { testPlugin } from "./test/test-plugin";
-import { iframePlugin } from "./iframe/iframe-plugin";
-import { mathPlugin } from "./math/math-plugin";
-import { labelPlugin } from "./label/label-plugin";
-import { picturePlugin } from "./picture/picture-plugin";
-import { ankiPlugin } from "./anki/anki-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [systemStatusPlugin];
 

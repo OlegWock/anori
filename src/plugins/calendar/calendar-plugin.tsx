@@ -1,20 +1,25 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetConfigurationScreenProps, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import type {
+  AnoriPlugin,
+  WidgetConfigurationScreenProps,
+  WidgetDescriptor,
+  WidgetRenderProps,
+} from "@utils/user-data/types";
 import { useState } from "react";
 import "./styles.scss";
 import { Icon } from "@components/Icon";
-import { useMemo } from "react";
+import { Select } from "@components/Select";
+import { useDirection } from "@radix-ui/react-direction";
+import { translate } from "@translations/index";
+import { usePrevious } from "@utils/hooks";
+import { capitalize } from "@utils/strings";
 import clsx from "clsx";
+import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
+import { useMemo } from "react";
 import { useEffect } from "react";
 import type { ReactNode } from "react";
-import { AnimatePresence, m } from "framer-motion";
-import { usePrevious } from "@utils/hooks";
-import { Select } from "@components/Select";
 import { useTranslation } from "react-i18next";
-import { translate } from "@translations/index";
-import { capitalize } from "@utils/strings";
-import { useDirection } from "@radix-ui/react-direction";
 
 type CalendarWidgetConfigType = {
   // 0 is monday, 6 is sunday
@@ -33,6 +38,8 @@ const ConfigScreen = ({
   saveConfiguration,
 }: WidgetConfigurationScreenProps<CalendarWidgetConfigType>) => {
   const { t, i18n } = useTranslation();
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const weekdays = useMemo(getWeekdays, [i18n.language]);
 
   const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
@@ -57,7 +64,7 @@ const ConfigScreen = ({
   );
 };
 
-const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConfigType>) => {
+const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => {
   const { i18n } = useTranslation();
   const dir = useDirection();
   const [today, setToday] = useState(() => moment());
@@ -73,6 +80,8 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
 
   const monthName = useMemo(() => capitalize(currentMonth.format("MMMM")), [currentMonth]);
 
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   useEffect(() => {
     setToday(moment());
   }, [i18n.language]);
@@ -100,6 +109,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
     },
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const rows: ReactNode[] = useMemo(() => {
     const res: ReactNode[] = [];
     const startOfMonth = today.clone().add(offsetMonths, "months").startOf("month");
@@ -133,7 +143,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
     }
 
     return res;
-  }, [today, offsetMonths, i18n.language, firstDayShift]);
+  }, [today, offsetMonths, i18n.language, firstDayShift, currentMonth]);
   const currentKey = useMemo(() => `${currentMonth.month()}_${currentMonth.year()}`, [currentMonth]);
 
   useEffect(() => {
@@ -141,6 +151,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<CalendarWidgetConf
     return () => clearInterval(tid);
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const headerDays = useMemo(() => {
     const weekdays = getWeekdays();
     const long = [...weekdays.slice(firstDayShift), ...weekdays.slice(0, firstDayShift)];

@@ -1,11 +1,11 @@
 import { ScrollArea } from "./ScrollArea";
 import { ShortcutHint } from "./ShortcutHint";
 import "./WhatsNew.scss";
+import vtuberLogo from "@assets/images/vtuber-logo-dark.svg";
 import { analyticsEnabledAtom } from "@utils/analytics";
-import { Checkbox } from "./Checkbox";
 import { useAtomWithStorage } from "@utils/storage/api";
 import { useTranslation } from "react-i18next";
-import vtuberLogo from "@assets/images/vtuber-logo-dark.svg";
+import { Checkbox } from "./Checkbox";
 
 export const WhatsNew = () => {
   const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);

@@ -1,24 +1,24 @@
+import { Alert } from "@components/Alert";
 import { Button } from "@components/Button";
+import { Icon } from "@components/Icon";
+import { Select } from "@components/Select";
+import { translate } from "@translations/index";
+import { useAsyncEffect } from "@utils/hooks";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
-  WidgetRenderProps,
   WidgetDescriptor,
+  WidgetRenderProps,
 } from "@utils/user-data/types";
-import { translate } from "@translations/index";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { Select } from "@components/Select";
-import { Alert } from "@components/Alert";
-import { Icon } from "@components/Icon";
 import "./styles.scss";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;
-  deckId: number;
 };
 
-const invoke = async (action: string, version: number, params?: any) => {
+const callAnkiConnectApi = async <T = void>(action: string, version: number, params?: any): Promise<T> => {
   try {
     const response = await fetch("http://127.0.0.1:8765", {
       method: "POST",
@@ -33,15 +33,15 @@ const invoke = async (action: string, version: number, params?: any) => {
     }
     const data = await response.json();
 
-    if (!data || !("error" in data) || !("result" in data)) {
+    if (!data || !(typeof data === "object") || !("error" in data) || !("result" in data)) {
       throw new Error("Response has an unexpected structure");
     }
 
     if (data.error) {
-      throw new Error(data.error);
+      throw new Error(String(data.error));
     }
 
-    return data.result;
+    return data.result as T;
   } catch (error) {
     throw new Error(`Failed to issue request: ${error.message}`);
   }
@@ -68,40 +68,47 @@ const wrapCardHtml = (html: string) => {
     </div>`;
 };
 
+const getCardInfo = async (cardId: number) => {
+  const data = await callAnkiConnectApi<any>("cardsInfo", 6, {
+    cards: [cardId],
+  });
+  return data[0];
+};
+
+const checkAnkiConnectivity = async () => {
+  try {
+    await callAnkiConnectApi("version", 6);
+    return true;
+  } catch (_e) {
+    return false;
+  }
+};
+
 const WidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
 }: WidgetConfigurationScreenProps<AnkiPluginWidgetConfigType>) => {
   const [deckName, setDeckName] = useState(currentConfig?.deckName ?? "Default");
-  const [deckId, setDeckId] = useState(currentConfig?.deckId ?? 1);
-  const [decks, setDecks] = useState<string[]>([]);
+  const [decks, setDecks] = useState<Record<string, number>>({});
   const [reachable, setReachable] = useState(false);
 
   const onConfirm = () => {
     saveConfiguration({
       deckName: deckName,
-      deckId: deckId,
     });
   };
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    invoke("deckNames", 6)
-      .then((data: string[]) => {
-        setReachable(true);
-        setDecks(data);
-      })
-      .catch((_err) => {
-        setReachable(false);
-      });
+  useAsyncEffect(async () => {
+    try {
+      const data = await callAnkiConnectApi<Record<string, number>>("deckNamesAndIds", 6);
+      setReachable(true);
+      setDecks(data);
+    } catch (_err) {
+      setReachable(false);
+    }
   }, []);
-
-  const updateDeckId = async (name: string) => {
-    setDeckName(name);
-    const data: any = await invoke("deckNamesAndIds", 6);
-    setDeckId(data[name]);
-  };
 
   return (
     <div className="AnkiWidget-config">
@@ -110,9 +117,9 @@ const WidgetConfigScreen = ({
         <label>{t("anki-plugin.deck")}:</label>
 
         <Select<string>
-          options={decks}
+          options={Object.keys(decks)}
           value={deckName}
-          onChange={updateDeckId}
+          onChange={setDeckName}
           getOptionKey={(o) => o}
           getOptionLabel={(o) => o}
         />
@@ -133,52 +140,35 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
   const [currentScreen, setCurrentScreen] = useState<"question" | "answer">("question");
   const [reachable, setReachable] = useState(true);
 
-  const getCardAndSet = async (card: number) => {
-    const data = await invoke("cardsInfo", 6, {
-      cards: [card],
-    });
+  const pullCards = useCallback(async () => {
+    const isReachable = await checkAnkiConnectivity();
+    setReachable(isReachable);
 
-    setCurrentCard(data[0]);
-  };
-
-  const testReachable = async () => {
-    try {
-      await invoke("version", 6);
-      setReachable(true);
-      return true;
-    } catch (_e) {
-      setReachable(false);
-      return false;
-    }
-  };
-
-  const init = async () => {
-    const reachable = await testReachable();
-
-    if (!reachable) {
+    if (!isReachable) {
       setCardsToLearn([]);
       return;
     }
 
-    const data: number[] = await invoke("findCards", 6, {
+    const data = await callAnkiConnectApi<number[]>("findCards", 6, {
       query: `"deck:${config.deckName}" is:due`,
     });
 
+    setCardsToLearn(data);
+
     if (data.length === 0) {
-      setCardsToLearn([]);
       return;
     }
 
-    setCardsToLearn(data);
-    await getCardAndSet(data[0]);
-  };
-
-  useEffect(() => {
-    init();
+    const cardData = await getCardInfo(data[0]);
+    setCurrentCard(cardData);
   }, [config.deckName]);
 
+  useEffect(() => {
+    pullCards();
+  }, [pullCards]);
+
   const answerCard = async (ease: number) => {
-    await invoke("answerCards", 6, {
+    await callAnkiConnectApi("answerCards", 6, {
       answers: [
         {
           cardId: cardsToLearn[0],
@@ -188,11 +178,12 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
     });
 
     if (cardsToLearn.length === 1) {
-      await init();
+      await pullCards();
       return;
     }
 
-    getCardAndSet(cardsToLearn[1]);
+    const cardData = await getCardInfo(cardsToLearn[1]);
+    setCurrentCard(cardData);
     setCardsToLearn(cardsToLearn.slice(1));
     setCurrentScreen("question");
   };
@@ -209,7 +200,7 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
           </div>
 
           {currentCard[currentScreen] ? (
-            <iframe srcDoc={wrapCardHtml(currentCard[currentScreen])} />
+            <iframe srcDoc={wrapCardHtml(currentCard[currentScreen])} title="Anki card" />
           ) : (
             <div className="spacer" />
           )}
@@ -229,11 +220,8 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
           {currentScreen === "answer" && (
             <>
               <Button onClick={() => answerCard(1)}>{t("anki-plugin.again")}</Button>
-
               <Button onClick={() => answerCard(2)}>{t("anki-plugin.hard")}</Button>
-
               <Button onClick={() => answerCard(3)}>{t("anki-plugin.good")}</Button>
-
               <Button onClick={() => answerCard(4)}>{t("anki-plugin.easy")}</Button>
             </>
           )}

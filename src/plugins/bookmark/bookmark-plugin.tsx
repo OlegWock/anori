@@ -2,20 +2,35 @@ import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import type {
   AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  OnCommandInputCallback,
-  WidgetRenderProps,
-  WidgetDescriptor,
   ID,
+  OnCommandInputCallback,
+  WidgetConfigurationScreenProps,
+  WidgetDescriptor,
   WidgetInFolderWithMeta,
+  WidgetRenderProps,
 } from "@utils/user-data/types";
 import { type MouseEvent, type MouseEventHandler, useRef, useState } from "react";
 import "./styles.scss";
-import { Popover } from "@components/Popover";
-import { IconPicker } from "@components/IconPicker";
+import { Checkbox } from "@components/Checkbox";
+import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
+import { Hint } from "@components/Hint";
 import { Icon } from "@components/Icon";
-import { useMemo } from "react";
-import clsx from "clsx";
+import { IconPicker } from "@components/IconPicker";
+import { Link } from "@components/Link";
+import { PickBookmark } from "@components/PickBookmark";
+import { Popover } from "@components/Popover";
+import { RequirePermissions } from "@components/RequirePermissions";
+import { Tooltip } from "@components/Tooltip";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { listItemAnimation } from "@components/animations";
+import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
+import { translate } from "@translations/index";
+import { isChromeLike } from "@utils/browser";
+import { useSizeSettings } from "@utils/compact";
+import { IS_TOUCH_DEVICE } from "@utils/device";
+import { useAsyncEffect, useLinkNavigationState, usePrevious } from "@utils/hooks";
+import { guid, normalizeUrl, parseHost } from "@utils/misc";
+import { usePermissionsQuery } from "@utils/permissions";
 import {
   createOnMessageHandlers,
   getAllWidgetsByPlugin,
@@ -23,28 +38,13 @@ import {
   useWidgetMetadata,
   useWidgetStorage,
 } from "@utils/plugin";
-import { guid, normalizeUrl, parseHost } from "@utils/misc";
-import { useAsyncEffect, useLinkNavigationState, usePrevious } from "@utils/hooks";
-import { useSizeSettings } from "@utils/compact";
-import browser from "webextension-polyfill";
-import { AnimatePresence, m } from "framer-motion";
-import { useTranslation } from "react-i18next";
-import { translate } from "@translations/index";
-import { usePermissionsQuery } from "@utils/permissions";
-import { listItemAnimation } from "@components/animations";
-import { isChromeLike } from "@utils/browser";
 import { isMacLike } from "@utils/shortcuts";
-import { IS_TOUCH_DEVICE } from "@utils/device";
-import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
-import { PickBookmark } from "@components/PickBookmark";
-import { Link } from "@components/Link";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
-import { RequirePermissions } from "@components/RequirePermissions";
-import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
-import { Checkbox } from "@components/Checkbox";
-import { Hint } from "@components/Hint";
+import clsx from "clsx";
+import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
-import { Tooltip } from "@components/Tooltip";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import browser from "webextension-polyfill";
 
 type BookmarkWidgetConfigType = {
   url: string;
@@ -94,7 +94,7 @@ const updateStatusesForTrackedPages = async () => {
   const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
   const widgetsToCheck = widgets.filter((w) => {
     return w.widgetId === bookmarkWidgetDescriptor.id && (w.configuration as BookmarkWidgetConfigType).checkStatus;
-  }) as WidgetInFolderWithMeta<BookmarkWidgetConfigType, {}, BookmarkWidgetConfigType>[];
+  }) as WidgetInFolderWithMeta<BookmarkWidgetConfigType, Record<string, never>, BookmarkWidgetConfigType>[];
 
   const promises = widgetsToCheck.map(async (w) => {
     const store = getWidgetStorage<BookmarkWidgetStorageType>(w.instanceId);
@@ -245,10 +245,7 @@ const BookmarGroupkWidgetConfigScreen = ({
   );
 };
 
-const BookmarkGroupWidget = ({
-  config,
-  isMock,
-}: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean }) => {
+const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean }) => {
   const openGroup: MouseEventHandler<HTMLElement> = (e) => {
     e.preventDefault();
     // aux click but with another button, like rmb
@@ -273,7 +270,12 @@ const BookmarkGroupWidget = ({
   const size = width === 1 ? "s" : "m";
 
   return (
-    <button className={clsx(["BookmarkWidget", `size-${size}`])} onClick={openGroup} onAuxClick={openGroup}>
+    <button
+      type="button"
+      className={clsx(["BookmarkWidget", `size-${size}`])}
+      onClick={openGroup}
+      onAuxClick={openGroup}
+    >
       <div className="bookmark-content">
         <div className="text">
           <h2>{config.title}</h2>
@@ -421,7 +423,10 @@ const BookmarkWidget = ({
   const [status] = store.useValue("status", "loading");
   const [lastCheck] = store.useValue("lastCheck", undefined);
   const [lastStatusChange] = store.useValue("lastStatusChange", undefined);
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const lastCheckMoment = useMemo(() => moment(lastCheck), [lastCheck, i18n.language]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
   const statusColor = {
     loading: "var(--text-disabled)",
@@ -495,7 +500,7 @@ const BookmarkWidget = ({
           )}
 
           {["chrome", "firefox"].includes(X_BROWSER) && (
-            <button onClick={openIframe} className="open-in-iframe">
+            <button type="button" onClick={openIframe} className="open-in-iframe">
               <div>
                 <Icon icon="ion:expand" />
               </div>
@@ -524,6 +529,7 @@ const BookmarkWidget = ({
                 <iframe
                   src={config.url}
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture; cross-origin-isolated"
+                  title={t("iframe-plugin.name")}
                 />
               )}
             </RequirePermissions>
@@ -679,7 +685,7 @@ const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandle
     if (senderTabId !== undefined && args.closeCurrentTab) browser.tabs.remove(senderTabId);
     if (args.openInTabGroup && isChromeLike(browser)) {
       const groupId = await browser.tabs.group({
-        tabIds: tabs.map((t) => t.id!),
+        tabIds: tabs.map((t) => t.id).filter(Boolean),
       });
 
       await browser.tabGroups.update(groupId, { collapsed: false, title: args.title });
@@ -687,7 +693,10 @@ const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandle
   },
 });
 
-export const bookmarkPlugin: AnoriPlugin<{}, BookmarkWidgetConfigType | BookmarkGroupWidgetConfigType> = {
+export const bookmarkPlugin: AnoriPlugin<
+  Record<string, never>,
+  BookmarkWidgetConfigType | BookmarkGroupWidgetConfigType
+> = {
   id: "bookmark-plugin",
   get name() {
     return translate("bookmark-plugin.name");

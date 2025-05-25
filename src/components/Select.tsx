@@ -1,9 +1,9 @@
-import React, { type ReactNode, Suspense, lazy, useLayoutEffect, useState } from "react";
 import type { SelectItemProps } from "@radix-ui/react-select";
 import classnames, { clsx } from "clsx";
+import React, { type ReactNode, Suspense, lazy, useLayoutEffect, useState } from "react";
 import "./Select.scss";
-import { Icon } from "./Icon";
 import { useDirection } from "@radix-ui/react-direction";
+import { Icon } from "./Icon";
 
 const RadixSelectRoot = lazy(() => import("@radix-ui/react-select").then((m) => ({ default: m.Root })));
 const RadixSelectTrigger = lazy(() => import("@radix-ui/react-select").then((m) => ({ default: m.SelectTrigger })));
@@ -55,6 +55,7 @@ export const Select = <T,>({
   const [innerValue, setInnerValue] = useState(getOptionKey(value));
   const dir = useDirection();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: getOptionKey is allowed to be dynamic for convenience, but we don't wantg to reset input value on its every change
   useLayoutEffect(() => {
     setInnerValue(getOptionKey(value));
   }, [value]);

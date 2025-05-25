@@ -1,22 +1,22 @@
 import { AnimatePresence, m } from "framer-motion";
 import "./FolderContent.scss";
-import type { Folder, WidgetInFolderWithMeta } from "@utils/user-data/types";
-import { Icon } from "@components/Icon";
-import { type CSSProperties, Suspense, lazy, useState } from "react";
 import { Button } from "@components/Button";
-import { tryMoveWidgetToFolder, useFolderWidgets } from "@utils/user-data/hooks";
+import { Icon } from "@components/Icon";
+import { Modal } from "@components/Modal";
+import { ScrollArea } from "@components/ScrollArea";
 import { FolderContentContext } from "@utils/FolderContentContext";
-import { useRef } from "react";
+import { useSizeSettings } from "@utils/compact";
 import { useGrid } from "@utils/grid";
 import { useHotkeys } from "@utils/hooks";
-import { Modal } from "@components/Modal";
-import { useSizeSettings } from "@utils/compact";
 import { useBrowserStorageValue } from "@utils/storage/api";
-import { useTranslation } from "react-i18next";
-import { ScrollArea } from "@components/ScrollArea";
+import { tryMoveWidgetToFolder, useFolderWidgets } from "@utils/user-data/hooks";
+import type { Folder, WidgetInFolderWithMeta } from "@utils/user-data/types";
 import clsx from "clsx";
-import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 import { atom, useAtom } from "jotai";
+import { type CSSProperties, Suspense, lazy, useState } from "react";
+import { useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 
 const NewWidgetWizard = lazy(() => import("./NewWidgetWizard").then((m) => ({ default: m.NewWidgetWizard })));
 

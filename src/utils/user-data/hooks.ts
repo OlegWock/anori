@@ -1,3 +1,8 @@
+import { availablePluginsWithWidgets } from "@plugins/all";
+import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@utils/grid";
+import { useLocationHash } from "@utils/hooks";
+import { guid } from "@utils/misc";
+import { NamespacedStorage } from "@utils/namespaced-storage";
 import {
   type AtomWithBrowserStorage,
   atomWithBrowserStorage,
@@ -7,6 +12,9 @@ import {
   useBrowserStorageValue,
 } from "@utils/storage/api";
 import { atom, useAtom } from "jotai";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import browser from "webextension-polyfill";
 import {
   type AnoriPlugin,
   type Folder,
@@ -17,14 +25,6 @@ import {
   type WidgetInFolderWithMeta,
   homeFolder,
 } from "./types";
-import { guid } from "@utils/misc";
-import { useMemo } from "react";
-import { availablePluginsWithWidgets } from "@plugins/all";
-import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@utils/grid";
-import browser from "webextension-polyfill";
-import { NamespacedStorage } from "@utils/namespaced-storage";
-import { useTranslation } from "react-i18next";
-import { useLocationHash } from "@utils/hooks";
 
 type UseFoldersOptions = {
   includeHome?: boolean;
@@ -97,7 +97,7 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
     foldersFinal.unshift(homeFolder);
   }
 
-  const activeFolder = activeId === homeFolder.id ? homeFolder : folders.find((f) => f.id === activeId)! || homeFolder;
+  const activeFolder = (activeId === homeFolder.id ? homeFolder : folders.find((f) => f.id === activeId)) || homeFolder;
 
   return {
     folders: foldersFinal,
@@ -246,8 +246,8 @@ export const useFolderWidgets = (folder: Folder) => {
           return !!plugin.widgets.flat().find((d) => d.id === w.widgetId);
         })
         .map((w) => {
-          const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId)!;
-          const widget = plugin.widgets.flat().find((d) => d.id === w.widgetId)!;
+          const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId) as AnoriPlugin;
+          const widget = plugin.widgets.flat().find((d) => d.id === w.widgetId) as WidgetDescriptor;
 
           return {
             ...w,

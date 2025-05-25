@@ -1,8 +1,8 @@
+import { atom, getDefaultStore, useAtom } from "jotai";
 import { useEffect } from "react";
 import { asyncIterableToArray } from "./misc";
-import { atom, getDefaultStore, useAtom } from "jotai";
-import { createSafariFsWorker } from "./workers";
 import { OPFS_AVAILABLE, getDirectoryInRoot } from "./opfs";
+import { createSafariFsWorker } from "./workers";
 
 export const CUSTOM_ICONS_FOLDER_NAME = "custom-icons";
 

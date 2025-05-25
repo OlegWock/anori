@@ -1,23 +1,20 @@
 import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetRenderProps, WidgetDescriptor } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
 import "./styles.scss";
-import { useTranslation } from "react-i18next";
 import { Icon } from "@components/Icon";
-import { useSizeSettings } from "@utils/compact";
-import { useRef, useState } from "react";
 import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
+import { useSizeSettings } from "@utils/compact";
 import { AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 
-type PluginWidgetConfigType = {};
-
-const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
-  const { t } = useTranslation();
+const MainScreen = (_props: WidgetRenderProps) => {
   const { rem } = useSizeSettings();
   const [showExpandableArea, setShowExpandableArea] = useState(false);
   const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
 
   return (
-    <div
+    <button
+      type="button"
       className="ExpandableTestWidget"
       onClick={() => (showExpandableArea ? expandAreaRef.current?.focus(true) : setShowExpandableArea(true))}
     >
@@ -99,12 +96,11 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
           </WidgetExpandArea>
         )}
       </AnimatePresence>
-    </div>
+    </button>
   );
 };
 
-const MainScreen2 = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
-  const { t } = useTranslation();
+const MainScreen2 = (_Props: WidgetRenderProps) => {
   const { rem } = useSizeSettings();
 
   return (

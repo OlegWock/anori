@@ -21,7 +21,7 @@
         "allowJs": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "skipLibCheck": true,
+        "skipLibCheck": true
     },
 
     "ts-node": {

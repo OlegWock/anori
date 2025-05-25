@@ -1,11 +1,11 @@
 import * as RadixScrollArea from "@radix-ui/react-scroll-area";
 import "./ScrollArea.scss";
-import { type ComponentProps, type ReactNode, type Ref, type WheelEvent, useEffect, useRef } from "react";
+import { useDirection } from "@radix-ui/react-direction";
+import { combineRefs } from "@utils/react";
 import clsx from "clsx";
 import { m } from "framer-motion";
+import { type ComponentProps, type ReactNode, type Ref, type WheelEvent, useCallback, useEffect, useRef } from "react";
 import { forwardRef } from "react";
-import { combineRefs } from "@utils/react";
-import { useDirection } from "@radix-ui/react-direction";
 
 type ScrollAreaProps = {
   children?: ReactNode;
@@ -51,22 +51,22 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
       }
     };
 
-    const onContentResize = () => {
+    const onContentResize = useCallback(() => {
       if (!localViewportRef.current) return;
       const newHorizontalOverflow = checkHorizontalOverflow(localViewportRef.current);
       const newVerticalOverflow = checkVerticalOverflow(localViewportRef.current);
 
-      if (newHorizontalOverflow !== horizontalOverflowRef.current && onHorizontalOverflowStatusChange) {
-        onHorizontalOverflowStatusChange(newHorizontalOverflow);
+      if (newHorizontalOverflow !== horizontalOverflowRef.current) {
+        onHorizontalOverflowStatusChange?.(newHorizontalOverflow);
       }
 
-      if (newVerticalOverflow !== verticalOverflowRef.current && onVerticalOverflowStatusChange) {
-        onVerticalOverflowStatusChange(newVerticalOverflow);
+      if (newVerticalOverflow !== verticalOverflowRef.current) {
+        onVerticalOverflowStatusChange?.(newVerticalOverflow);
       }
 
       horizontalOverflowRef.current = newHorizontalOverflow;
       verticalOverflowRef.current = newVerticalOverflow;
-    };
+    }, [onHorizontalOverflowStatusChange, onVerticalOverflowStatusChange]);
 
     const localViewportRef = useRef<HTMLDivElement>(null);
     const mergedRef = combineRefs(localViewportRef, viewportRef);
@@ -123,7 +123,7 @@ const ResizeObserverComponent = ({ onResize }: { onResize: () => void }) => {
     }
 
     return () => observer.disconnect();
-  }, [ctx.content]);
+  }, [ctx.content, onResize]);
 
   return <></>;
 };

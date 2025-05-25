@@ -1,4 +1,4 @@
-import { type ButtonProps, Button } from "@components/Button";
+import { Button, type ButtonProps } from "@components/Button";
 import { toCss } from "@utils/color";
 import { storage, useBrowserStorageValue } from "@utils/storage/api";
 import {
@@ -16,18 +16,18 @@ import {
 } from "@utils/user-data/theme";
 import clsx from "clsx";
 import { m } from "framer-motion";
-import { type ComponentProps, useEffect, useRef, useState } from "react";
+import { type ComponentProps, useCallback, useEffect, useRef, useState } from "react";
 import browser from "webextension-polyfill";
 import "./ThemesScreen.scss";
-import { guid } from "@utils/misc";
-import { useTranslation } from "react-i18next";
-import { showOpenFilePicker } from "@utils/files";
-import { Slider } from "@components/Slider";
 import { ColorPicker } from "@components/ColorPicker";
-import { useRunAfterNextRender } from "@utils/hooks";
-import { setPageBackground } from "@utils/page";
 import { Icon } from "@components/Icon";
+import { Slider } from "@components/Slider";
+import { showOpenFilePicker } from "@utils/files";
+import { useRunAfterNextRender } from "@utils/hooks";
+import { guid } from "@utils/misc";
+import { setPageBackground } from "@utils/page";
 import { useCurrentTheme } from "@utils/user-data/theme-hooks";
+import { useTranslation } from "react-i18next";
 
 const ThemePlate = ({
   theme,
@@ -52,9 +52,13 @@ const ThemePlate = ({
     };
     main();
     if (theme.type === "custom") {
-      return () => URL.revokeObjectURL(backgroundUrl!);
+      return () => {
+        if (backgroundUrl) {
+          URL.revokeObjectURL(backgroundUrl);
+        }
+      };
     }
-  }, [theme]);
+  }, [theme, backgroundUrl]);
 
   return (
     <div className={clsx("BackgroundPlate", className)}>
@@ -102,12 +106,13 @@ const ThemePlate = ({
 const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; onClose: VoidFunction }) => {
   const loadBackground = async () => {
     const files = await showOpenFilePicker(false, ".jpg,.jpeg,.png");
-    const background = files[0]!;
+    if (!files[0]) return;
+    const background = files[0];
     originalBackgroundBlob.current = background;
     applyBlur(theme.blur);
   };
 
-  const applyBlur = (blur: number) => {
+  const applyBlur = useCallback((blur: number) => {
     if (!originalBackgroundBlob.current) return;
     const bgUrl = URL.createObjectURL(originalBackgroundBlob.current);
     const img = new Image();
@@ -117,17 +122,24 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
       const canvas = document.createElement("canvas");
       canvas.width = img.width + PADDING * 2;
       canvas.height = img.height + PADDING * 2;
-      const ctx = canvas.getContext("2d")!;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        throw new Error(`couldn't get 2D context from canvas`);
+      }
       ctx.filter = `blur(${blur}px)`;
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const croppedCanvas = document.createElement("canvas");
       croppedCanvas.width = img.width;
       croppedCanvas.height = img.height;
-      const croppedCtx = croppedCanvas.getContext("2d")!;
+      const croppedCtx = croppedCanvas.getContext("2d");
+      if (!croppedCtx) {
+        throw new Error(`couldn't get 2D context from canvas`);
+      }
       croppedCtx.drawImage(canvas, PADDING, PADDING, img.width, img.height, 0, 0, img.width, img.height);
 
-      // Optional: Convert canvas to Blob, then to File for further use
+      // TODO: we should probably switch to image/webp with compression as current custom backgrounds are quite
+      // big. But we need to check if it will affect current users and/or if we can migrate them automatically
       croppedCanvas.toBlob((blob) => {
         if (!blob) return;
         blurredBackgroundBlob.current = blob;
@@ -137,7 +149,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
         URL.revokeObjectURL(bgUrl);
       }, "image/png");
     };
-  };
+  }, []);
 
   const applyPreview = () => {
     runAfterRender(() => applyThemeColors(theme.colors));
@@ -194,7 +206,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     };
 
     main();
-  }, []);
+  }, [applyBlur, theme.blur, theme.name]);
 
   const { t } = useTranslation();
   const originalBackgroundBlob = useRef<Blob | null>(null);
@@ -238,6 +250,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
         <div className="swatches">
           <div className="swatch-wrapper">
             <button
+              type="button"
               onClick={() => setCurrentlyEditingColor("accent")}
               style={{ background: toCss(theme.colors.accent) }}
             />
@@ -245,13 +258,18 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
           </div>
           <div className="swatch-wrapper">
             <button
+              type="button"
               onClick={() => setCurrentlyEditingColor("background")}
               style={{ background: toCss(theme.colors.background) }}
             />
             <div>{t("settings.theme.colorBackground")}</div>
           </div>
           <div className="swatch-wrapper">
-            <button onClick={() => setCurrentlyEditingColor("text")} style={{ background: toCss(theme.colors.text) }} />
+            <button
+              type="button"
+              onClick={() => setCurrentlyEditingColor("text")}
+              style={{ background: toCss(theme.colors.text) }}
+            />
             <div>{t("settings.theme.colorText")}</div>
           </div>
         </div>

@@ -59,6 +59,7 @@ export const useMirrorStateToRef = <T>(val: T) => {
 
 export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
   const isFirstRun = useRef(true);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fn is not in dependencies intentionally
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
@@ -71,6 +72,7 @@ export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.Depende
 
 export const useOnChangeLayoutEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
   const isFirstRun = useRef(true);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fn is not in dependencies intentionally
   useLayoutEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
@@ -125,8 +127,8 @@ export const useRunAfterNextRender = () => {
 
   useEffect(() => {
     while (functionsList.current.length > 0) {
-      const func = functionsList.current.pop()!;
-      func();
+      const func = functionsList.current.pop();
+      func?.();
     }
   });
 
@@ -174,6 +176,7 @@ export const useLazyRef = <T>(init: () => T): MutableRefObject<T> => {
 
 export const useAsyncEffect = (func: () => any, deps?: DependencyList | undefined) => {
   // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
+  // biome-ignore lint/correctness/useExhaustiveDependencies: func is not in dependencies intentionally
   useEffect(() => {
     func();
   }, deps);
@@ -181,6 +184,7 @@ export const useAsyncEffect = (func: () => any, deps?: DependencyList | undefine
 
 export const useAsyncLayoutEffect = (func: () => any, deps?: DependencyList | undefined) => {
   // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
+  // biome-ignore lint/correctness/useExhaustiveDependencies: func is not in dependencies intentionally
   useLayoutEffect(() => {
     func();
   }, deps);

@@ -1,8 +1,8 @@
 import type { MouseEvent, ReactNode } from "react";
 import "./Hint.scss";
+import clsx from "clsx";
 import { Icon, type IconProps } from "./Icon";
 import { Tooltip } from "./Tooltip";
-import clsx from "clsx";
 
 export const Hint = ({
   content,

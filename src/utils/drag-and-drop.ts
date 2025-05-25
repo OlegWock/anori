@@ -97,11 +97,12 @@ export const useCurrentlyDragging = (filter?: { type: string | string[] }) => {
       const curValue = store.get(currentDraggableAtom);
       let matchesFilters = false;
       if (curValue) {
-        if (filter) {
-          if (Array.isArray(filter.type)) {
-            matchesFilters = filter.type.includes(curValue.type);
+        const filterType = filter?.type;
+        if (filterType) {
+          if (Array.isArray(filterType)) {
+            matchesFilters = filterType.includes(curValue.type);
           } else {
-            matchesFilters = filter.type === curValue.type;
+            matchesFilters = filterType === curValue.type;
           }
         } else {
           matchesFilters = true;

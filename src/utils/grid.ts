@@ -1,4 +1,4 @@
-import { type RefObject, useLayoutEffect, useState } from "react";
+import { type RefObject, useCallback, useLayoutEffect, useState } from "react";
 import { useMirrorStateToRef } from "./hooks";
 
 export type GridDimensions = {
@@ -24,8 +24,8 @@ export type PixelPosition = {
   y: number;
 };
 
-export type LayoutItem<T extends {} = {}> = Position & LayoutItemSize & T;
-export type Layout<T extends {} = {}> = LayoutItem<T>[];
+export type LayoutItem<T extends {} = Record<string, unknown>> = Position & LayoutItemSize & T;
+export type Layout<T extends {} = Record<string, unknown>> = LayoutItem<T>[];
 
 type Grid2DArray = boolean[][];
 
@@ -43,52 +43,58 @@ export const calculateColumnWidth = (containerWidth: number, desiredSize: number
 };
 
 export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSize: number, layout: Layout) => {
-  const calculateDimensions = (el: HTMLElement) => {
-    const box = el.getBoundingClientRect();
-    const scrollWidth = el.scrollWidth;
-    const scrollHeight = el.scrollHeight;
-    const boxSize = calculateColumnWidth(box.width, desiredSize, minSize);
-    const minColumns = Math.floor(box.width / boxSize);
-    const minRows = Math.floor(box.height / boxSize);
+  const calculateDimensions = useCallback(
+    (el: HTMLElement) => {
+      const box = el.getBoundingClientRect();
+      const scrollWidth = el.scrollWidth;
+      const scrollHeight = el.scrollHeight;
+      const boxSize = calculateColumnWidth(box.width, desiredSize, minSize);
+      const minColumns = Math.floor(box.width / boxSize);
+      const minRows = Math.floor(box.height / boxSize);
 
-    const maxColOccupied = Math.max(...layout.map((i) => i.x + i.width));
-    const maxRowOccupied = Math.max(...layout.map((i) => i.y + i.height));
+      const maxColOccupied = Math.max(...layout.map((i) => i.x + i.width));
+      const maxRowOccupied = Math.max(...layout.map((i) => i.y + i.height));
 
-    const columns = Math.max(minColumns, maxColOccupied);
-    const rows = Math.max(minRows, maxRowOccupied);
+      const columns = Math.max(minColumns, maxColOccupied);
+      const rows = Math.max(minRows, maxRowOccupied);
 
-    return {
-      boxSize,
-      columns,
-      rows,
-      minColumns,
-      minRows,
-      position: {
-        x: box.left,
-        y: box.top,
-      },
-      pixelSize: {
-        width: scrollWidth,
-        height: scrollHeight,
-      },
-    };
-  };
+      return {
+        boxSize,
+        columns,
+        rows,
+        minColumns,
+        minRows,
+        position: {
+          x: box.left,
+          y: box.top,
+        },
+        pixelSize: {
+          width: scrollWidth,
+          height: scrollHeight,
+        },
+      };
+    },
+    [desiredSize, minSize, layout],
+  );
 
-  const setDimensions = (newDimensions: GridDimensions & { position: PixelPosition; pixelSize: LayoutItemSize }) => {
-    if (
-      newDimensions.boxSize !== dimensionsRef.current.boxSize ||
-      newDimensions.columns !== dimensionsRef.current.columns ||
-      newDimensions.rows !== dimensionsRef.current.rows ||
-      newDimensions.minColumns !== dimensionsRef.current.minColumns ||
-      newDimensions.minRows !== dimensionsRef.current.minRows ||
-      newDimensions.position.x !== dimensionsRef.current.position.x ||
-      newDimensions.position.y !== dimensionsRef.current.position.y ||
-      newDimensions.pixelSize.width !== dimensionsRef.current.pixelSize.width ||
-      newDimensions.pixelSize.height !== dimensionsRef.current.pixelSize.height
-    ) {
-      _setDimensions(newDimensions);
-    }
-  };
+  const setDimensions = useCallback(
+    (newDimensions: GridDimensions & { position: PixelPosition; pixelSize: LayoutItemSize }) => {
+      if (
+        newDimensions.boxSize !== dimensionsRef.current.boxSize ||
+        newDimensions.columns !== dimensionsRef.current.columns ||
+        newDimensions.rows !== dimensionsRef.current.rows ||
+        newDimensions.minColumns !== dimensionsRef.current.minColumns ||
+        newDimensions.minRows !== dimensionsRef.current.minRows ||
+        newDimensions.position.x !== dimensionsRef.current.position.x ||
+        newDimensions.position.y !== dimensionsRef.current.position.y ||
+        newDimensions.pixelSize.width !== dimensionsRef.current.pixelSize.width ||
+        newDimensions.pixelSize.height !== dimensionsRef.current.pixelSize.height
+      ) {
+        _setDimensions(newDimensions);
+      }
+    },
+    [],
+  );
 
   const [dimensions, _setDimensions] = useState<
     GridDimensions & { position: PixelPosition; pixelSize: LayoutItemSize }
@@ -122,12 +128,12 @@ export const useGrid = (ref: RefObject<HTMLElement>, desiredSize: number, minSiz
       resizeObserver.observe(ref.current);
       return () => resizeObserver.disconnect();
     }
-  }, [ref.current, desiredSize, layout, minSize]);
+  }, [ref.current, calculateDimensions, setDimensions]);
 
   return dimensions;
 };
 
-const layoutItemToSectors = (item: LayoutItem) => {
+const layoutItemToSectors = (item: LayoutItem<Record<string, unknown>>) => {
   const arr: Position[] = [];
   for (let i = item.x; i < item.x + item.width; i++) {
     for (let j = item.y; j < item.y + item.height; j++) {
@@ -182,7 +188,10 @@ export const findOverlapItems = <T extends {}>(layout: Layout<T>): LayoutItem<T>
   return overlapItems;
 };
 
-export const willItemOverlay = ({ arr, item }: { arr: Grid2DArray; item: LayoutItem }): boolean => {
+export const willItemOverlay = ({
+  arr,
+  item,
+}: { arr: Grid2DArray; item: LayoutItem<Record<string, unknown>> }): boolean => {
   const itemSectors = layoutItemToSectors(item);
   for (const sector of itemSectors) {
     if (arr.length <= sector.y || arr[sector.y].length <= sector.x) continue; // Ignore overflow

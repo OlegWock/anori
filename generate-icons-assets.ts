@@ -1,7 +1,7 @@
+import { readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { locate, type lookupCollection } from "@iconify/json";
 import { IconSet, exportToDirectory } from "@iconify/tools";
-import { join } from "node:path";
-import { writeFileSync, readFileSync } from "node:fs";
 
 type IconifyJSON = Awaited<ReturnType<typeof lookupCollection>>;
 

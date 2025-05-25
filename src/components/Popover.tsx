@@ -1,26 +1,26 @@
-import type React from "react";
-import { type MutableRefObject, cloneElement, useMemo, useState } from "react";
 import {
-  type Placement,
-  offset,
-  flip,
-  shift,
-  autoUpdate,
-  useFloating,
-  useInteractions,
-  useRole,
-  useDismiss,
-  useId,
-  useClick,
   FloatingFocusManager,
   FloatingPortal,
-  useHover,
-  safePolygon,
+  type Placement,
   type Side,
+  autoUpdate,
+  flip,
+  offset,
+  safePolygon,
+  shift,
   size,
+  useClick,
+  useDismiss,
+  useFloating,
+  useHover,
+  useId,
+  useInteractions,
+  useRole,
 } from "@floating-ui/react";
+import { AnimatePresence, m } from "framer-motion";
+import type React from "react";
+import { type MutableRefObject, cloneElement, useMemo, useState } from "react";
 import { mergeRefs } from "react-merge-refs";
-import { m, AnimatePresence } from "framer-motion";
 import "./Popover.scss";
 import classNames from "clsx";
 

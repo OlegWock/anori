@@ -5,7 +5,10 @@ export const showOpenFilePicker = (multiple = false, accept?: string): Promise<F
     if (multiple) input.multiple = true;
     if (accept) input.accept = accept;
     input.addEventListener("change", (e) => {
-      resolve(Array.from((e.target as HTMLInputElement).files!));
+      const files = (e.target as HTMLInputElement).files;
+      if (files) {
+        resolve(Array.from(files));
+      }
     });
 
     input.click();

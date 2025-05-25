@@ -1,7 +1,7 @@
 import { type Color, darken, fromHsl, lighten, toCss, toCssHslValues, transparentize } from "@utils/color";
 import { asyncIterableToArray } from "@utils/misc";
-import { setPageBackground } from "@utils/page";
 import { getDirectoryInRoot } from "@utils/opfs";
+import { setPageBackground } from "@utils/page";
 import browser from "webextension-polyfill";
 
 export type BuiltinTheme = {

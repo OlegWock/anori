@@ -1,11 +1,11 @@
 import clsx from "clsx";
-import { type ComponentProps, useState } from "react";
 import { m } from "framer-motion";
+import { type ComponentProps, useState } from "react";
 import { Icon } from "./Icon";
 import { Tooltip } from "./Tooltip";
 import "./FolderButton.scss";
-import { DropDestination } from "./DropDestination";
 import { useCurrentlyDragging } from "@utils/drag-and-drop";
+import { DropDestination } from "./DropDestination";
 
 export type FolderButtonProps = {
   name: string;

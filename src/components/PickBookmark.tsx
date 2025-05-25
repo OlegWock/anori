@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import type { PopoverRenderProps } from "./Popover";
-import browser from "webextension-polyfill";
-import { useTranslation } from "react-i18next";
 import { useSizeSettings } from "@utils/compact";
-import { Input } from "./Input";
-import { ScrollArea } from "./ScrollArea";
-import { Favicon } from "./Icon";
 import { m } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import browser from "webextension-polyfill";
+import { Favicon } from "./Icon";
+import { Input } from "./Input";
+import type { PopoverRenderProps } from "./Popover";
 import { RequirePermissions } from "./RequirePermissions";
+import { ScrollArea } from "./ScrollArea";
 import "./PickBookmark.scss";
 
 type BrowserBookmark = {
@@ -36,7 +36,7 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
         {
           id: node.id,
           title: node.title,
-          url: node.url!,
+          url: node.url ?? "",
           dateAdded: node.dateAdded || 0,
         },
       ];
