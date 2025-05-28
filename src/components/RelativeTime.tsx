@@ -1,4 +1,4 @@
-import { useScheduledRender } from "@utils/hooks";
+import { useScheduledRender } from "@anori/utils/hooks";
 import type { Moment } from "moment-timezone";
 import { useTranslation } from "react-i18next";
 

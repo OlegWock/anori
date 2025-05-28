@@ -1,5 +1,5 @@
-import { Button } from "@components/Button";
-import { Input } from "@components/Input";
+import { Button } from "@anori/components/Button";
+import { Input } from "@anori/components/Input";
 import type {
   AnoriPlugin,
   ID,
@@ -8,37 +8,37 @@ import type {
   WidgetDescriptor,
   WidgetInFolderWithMeta,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import { type MouseEvent, type MouseEventHandler, useRef, useState } from "react";
 import "./styles.scss";
-import { Checkbox } from "@components/Checkbox";
-import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
-import { Hint } from "@components/Hint";
-import { Icon } from "@components/Icon";
-import { IconPicker } from "@components/IconPicker";
-import { Link } from "@components/Link";
-import { PickBookmark } from "@components/PickBookmark";
-import { Popover } from "@components/Popover";
-import { RequirePermissions } from "@components/RequirePermissions";
-import { Tooltip } from "@components/Tooltip";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
-import { listItemAnimation } from "@components/animations";
-import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@plugins/shared/dnr";
-import { translate } from "@translations/index";
-import { isChromeLike } from "@utils/browser";
-import { useSizeSettings } from "@utils/compact";
-import { IS_TOUCH_DEVICE } from "@utils/device";
-import { useAsyncEffect, useLinkNavigationState } from "@utils/hooks";
-import { guid, normalizeUrl, parseHost } from "@utils/misc";
-import { usePermissionsQuery } from "@utils/permissions";
+import { Checkbox } from "@anori/components/Checkbox";
+import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
+import { Hint } from "@anori/components/Hint";
+import { Icon } from "@anori/components/Icon";
+import { IconPicker } from "@anori/components/IconPicker";
+import { Link } from "@anori/components/Link";
+import { PickBookmark } from "@anori/components/PickBookmark";
+import { Popover } from "@anori/components/Popover";
+import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { Tooltip } from "@anori/components/Tooltip";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
+import { listItemAnimation } from "@anori/components/animations";
+import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
+import { translate } from "@anori/translations/index";
+import { isChromeLike } from "@anori/utils/browser";
+import { useSizeSettings } from "@anori/utils/compact";
+import { IS_TOUCH_DEVICE } from "@anori/utils/device";
+import { useAsyncEffect, useLinkNavigationState } from "@anori/utils/hooks";
+import { guid, normalizeUrl, parseHost } from "@anori/utils/misc";
+import { usePermissionsQuery } from "@anori/utils/permissions";
 import {
   createOnMessageHandlers,
   getAllWidgetsByPlugin,
   getWidgetStorage,
   useWidgetMetadata,
   useWidgetStorage,
-} from "@utils/plugin";
-import { isMacLike } from "@utils/shortcuts";
+} from "@anori/utils/plugin";
+import { isMacLike } from "@anori/utils/shortcuts";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";

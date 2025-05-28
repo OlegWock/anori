@@ -1,6 +1,6 @@
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import "./Checkbox.scss";
-import type { NarrowVariants } from "@utils/motion/types";
+import type { NarrowVariants } from "@anori/utils/motion/types";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import { type ComponentProps, forwardRef, useId } from "react";

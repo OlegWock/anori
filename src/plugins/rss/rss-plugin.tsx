@@ -1,25 +1,25 @@
-import { Button } from "@components/Button";
+import { Button } from "@anori/components/Button";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { Alert } from "@components/Alert";
-import { Checkbox } from "@components/Checkbox";
-import { ClampTextToFit } from "@components/ClampTextToFit";
-import { Icon } from "@components/Icon";
-import { Input } from "@components/Input";
-import { RelativeTime } from "@components/RelativeTime";
-import { RequirePermissions } from "@components/RequirePermissions";
-import { ScrollArea } from "@components/ScrollArea";
-import { Tooltip } from "@components/Tooltip";
-import { listItemAnimation } from "@components/animations";
-import { translate } from "@translations/index";
-import { useSizeSettings } from "@utils/compact";
-import { guid, parseHost, wait } from "@utils/misc";
-import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@utils/plugin";
+import { Alert } from "@anori/components/Alert";
+import { Checkbox } from "@anori/components/Checkbox";
+import { ClampTextToFit } from "@anori/components/ClampTextToFit";
+import { Icon } from "@anori/components/Icon";
+import { Input } from "@anori/components/Input";
+import { RelativeTime } from "@anori/components/RelativeTime";
+import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { Tooltip } from "@anori/components/Tooltip";
+import { listItemAnimation } from "@anori/components/animations";
+import { translate } from "@anori/translations/index";
+import { useSizeSettings } from "@anori/utils/compact";
+import { guid, parseHost, wait } from "@anori/utils/misc";
+import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@anori/utils/plugin";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";

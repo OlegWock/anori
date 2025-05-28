@@ -1,12 +1,12 @@
-import { useCustomIcon } from "@utils/custom-icons";
-import { useAsyncLayoutEffect } from "@utils/hooks";
-import { combineRefs } from "@utils/react";
+import { useCustomIcon } from "@anori/utils/custom-icons";
+import { useAsyncLayoutEffect } from "@anori/utils/hooks";
+import { combineRefs } from "@anori/utils/react";
 import { type CSSProperties, type ComponentPropsWithoutRef, type Ref, useMemo, useRef, useState } from "react";
 import { forwardRef } from "react";
 import browser from "webextension-polyfill";
 import "./Icon.scss";
-import { iife } from "@utils/misc";
-import { availablePermissionsAtom } from "@utils/permissions";
+import { iife } from "@anori/utils/misc";
+import { availablePermissionsAtom } from "@anori/utils/permissions";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { useAtomValue } from "jotai";

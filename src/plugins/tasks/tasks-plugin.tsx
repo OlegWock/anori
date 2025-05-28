@@ -1,5 +1,5 @@
-import { Button } from "@components/Button";
-import { Input, Textarea } from "@components/Input";
+import { Button } from "@anori/components/Button";
+import { Input, Textarea } from "@anori/components/Input";
 import type {
   AnoriPlugin,
   ID,
@@ -7,21 +7,21 @@ import type {
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import { Suspense, forwardRef, useRef, useState } from "react";
 import "./styles.scss";
-import { Checkbox } from "@components/Checkbox";
-import { Icon } from "@components/Icon";
-import { ScrollArea } from "@components/ScrollArea";
-import { listItemAnimation } from "@components/animations";
-import { ReorderGroup, ReorderItem } from "@components/lazy-components";
+import { Checkbox } from "@anori/components/Checkbox";
+import { Icon } from "@anori/components/Icon";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { listItemAnimation } from "@anori/components/animations";
+import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
+import { translate } from "@anori/translations/index";
+import { useSizeSettings } from "@anori/utils/compact";
+import { useRunAfterNextRender } from "@anori/utils/hooks";
+import { choose, guid } from "@anori/utils/misc";
+import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@anori/utils/plugin";
+import { combineRefs } from "@anori/utils/react";
 import { useDirection } from "@radix-ui/react-direction";
-import { translate } from "@translations/index";
-import { useSizeSettings } from "@utils/compact";
-import { useRunAfterNextRender } from "@utils/hooks";
-import { choose, guid } from "@utils/misc";
-import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
-import { combineRefs } from "@utils/react";
 import {
   AnimatePresence,
   type AnimationPlaybackControlsWithThen,

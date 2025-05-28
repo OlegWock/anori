@@ -1,12 +1,12 @@
 import { Command } from "cmdk";
 import { useCallback, useEffect, useState } from "react";
 import "./CommandMenu.scss";
-import { Icon } from "@components/Icon";
-import { ScrollArea } from "@components/ScrollArea";
-import { availablePlugins } from "@plugins/all";
-import { trackEvent } from "@utils/analytics";
-import { wait } from "@utils/misc";
-import type { AnoriPlugin, CommandItem } from "@utils/user-data/types";
+import { Icon } from "@anori/components/Icon";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { availablePlugins } from "@anori/plugins/all";
+import { trackEvent } from "@anori/utils/analytics";
+import { wait } from "@anori/utils/misc";
+import type { AnoriPlugin, CommandItem } from "@anori/utils/user-data/types";
 import { useTranslation } from "react-i18next";
 
 const ON_COMMAND_INPUT_TIMEOUT = 300;

@@ -5,11 +5,11 @@
         "lib": ["es6", "es2023", "dom", "dom.iterable", "WebWorker"],
         "baseUrl": ".",
         "paths": {
-            "@utils/*": ["./src/utils/*"],
-            "@components/*": ["./src/components/*"],
-            "@assets/*": ["./src/assets/*"],
-            "@plugins/*": ["./src/plugins/*"],
-            "@translations/*": ["./src/translations/*"]
+            "@anori/utils/*": ["./src/utils/*"],
+            "@anori/components/*": ["./src/components/*"],
+            "@anori/assets/*": ["./src/assets/*"],
+            "@anori/plugins/*": ["./src/plugins/*"],
+            "@anori/translations/*": ["./src/translations/*"]
         },
         "outDir": "dist_copy",
         "noImplicitAny": true,

@@ -1,22 +1,22 @@
-import { Button } from "@components/Button";
+import { Button } from "@anori/components/Button";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import { useMemo, useState } from "react";
 import "./styles.scss";
-import { Combobox } from "@components/Combobox";
-import { Icon } from "@components/Icon";
-import { Tooltip } from "@components/Tooltip";
-import { Select } from "@components/lazy-components";
+import { Combobox } from "@anori/components/Combobox";
+import { Icon } from "@anori/components/Icon";
+import { Tooltip } from "@anori/components/Tooltip";
+import { Select } from "@anori/components/lazy-components";
+import { translate } from "@anori/translations/index";
+import { useSizeSettings } from "@anori/utils/compact";
+import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
+import { useWidgetStorage } from "@anori/utils/plugin";
+import { capitalize } from "@anori/utils/strings";
 import { FloatingDelayGroup } from "@floating-ui/react";
-import { translate } from "@translations/index";
-import { useSizeSettings } from "@utils/compact";
-import { useAsyncEffect, useOnChangeEffect } from "@utils/hooks";
-import { useWidgetStorage } from "@utils/plugin";
-import { capitalize } from "@utils/strings";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import {

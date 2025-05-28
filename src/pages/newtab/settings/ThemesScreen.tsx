@@ -1,6 +1,6 @@
-import { Button, type ButtonProps } from "@components/Button";
-import { toCss } from "@utils/color";
-import { storage, useBrowserStorageValue } from "@utils/storage/api";
+import { Button, type ButtonProps } from "@anori/components/Button";
+import { toCss } from "@anori/utils/color";
+import { storage, useBrowserStorageValue } from "@anori/utils/storage/api";
 import {
   type CustomTheme,
   type PartialCustomTheme,
@@ -13,20 +13,20 @@ import {
   getThemeBackgroundOriginal,
   saveThemeBackground,
   themes,
-} from "@utils/user-data/theme";
+} from "@anori/utils/user-data/theme";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { type ComponentProps, useCallback, useEffect, useRef, useState } from "react";
 import browser from "webextension-polyfill";
 import "./ThemesScreen.scss";
-import { ColorPicker } from "@components/ColorPicker";
-import { Icon } from "@components/Icon";
-import { Slider } from "@components/Slider";
-import { showOpenFilePicker } from "@utils/files";
-import { useRunAfterNextRender } from "@utils/hooks";
-import { guid } from "@utils/misc";
-import { setPageBackground } from "@utils/page";
-import { useCurrentTheme } from "@utils/user-data/theme-hooks";
+import { ColorPicker } from "@anori/components/ColorPicker";
+import { Icon } from "@anori/components/Icon";
+import { Slider } from "@anori/components/Slider";
+import { showOpenFilePicker } from "@anori/utils/files";
+import { useRunAfterNextRender } from "@anori/utils/hooks";
+import { guid } from "@anori/utils/misc";
+import { setPageBackground } from "@anori/utils/page";
+import { useCurrentTheme } from "@anori/utils/user-data/theme-hooks";
 import { useTranslation } from "react-i18next";
 
 const ThemePlate = ({

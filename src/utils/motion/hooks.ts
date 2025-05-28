@@ -1,4 +1,4 @@
-import { useMirrorStateToRef } from "@utils/hooks";
+import { useMirrorStateToRef } from "@anori/utils/hooks";
 import { type AnimationOptions, type MotionValue, animate, useMotionValue } from "framer-motion";
 import { useEffect, useRef } from "react";
 

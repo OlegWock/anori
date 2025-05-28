@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": false,
-        "ignore": ["dist/", "build_helpers/", "**/*.js", "src/assets/"]
+        "ignore": ["dist/", "**/*.js", "src/assets/"]
     },
     "formatter": {
         "enabled": true,

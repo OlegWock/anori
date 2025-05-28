@@ -1,29 +1,29 @@
 import { Trans, useTranslation } from "react-i18next";
 import "./Onboarding.scss";
-import { Select } from "@components/lazy-components";
-import { bookmarkPlugin, bookmarkWidgetDescriptor } from "@plugins/bookmark/bookmark-plugin";
-import { datetimePlugin, datetimeWidgetDescriptorS } from "@plugins/datetime/datetime-plugin";
-import { notesPlugin, notesWidgetDescriptor } from "@plugins/notes/notes-plugin";
-import { rssFeedDescriptor, rssPlugin } from "@plugins/rss/rss-plugin";
-import { tasksPlugin, tasksWidgetDescriptor } from "@plugins/tasks/tasks-plugin";
-import { topSitesPlugin, topSitesWidgetDescriptorVertical } from "@plugins/top-sites/top-sites-plugin";
-import { weatherPlugin, weatherWidgetDescriptorCurrent } from "@plugins/weather/weather-plugin";
-import { useDirection } from "@radix-ui/react-direction";
+import { Select } from "@anori/components/lazy-components";
+import { bookmarkPlugin, bookmarkWidgetDescriptor } from "@anori/plugins/bookmark/bookmark-plugin";
+import { datetimePlugin, datetimeWidgetDescriptorS } from "@anori/plugins/datetime/datetime-plugin";
+import { notesPlugin, notesWidgetDescriptor } from "@anori/plugins/notes/notes-plugin";
+import { rssFeedDescriptor, rssPlugin } from "@anori/plugins/rss/rss-plugin";
+import { tasksPlugin, tasksWidgetDescriptor } from "@anori/plugins/tasks/tasks-plugin";
+import { topSitesPlugin, topSitesWidgetDescriptorVertical } from "@anori/plugins/top-sites/top-sites-plugin";
+import { weatherPlugin, weatherWidgetDescriptorCurrent } from "@anori/plugins/weather/weather-plugin";
 import {
   type Language,
   availableTranslations,
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
-} from "@translations/index";
-import { analyticsEnabledAtom } from "@utils/analytics";
-import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemInGrid } from "@utils/grid";
-import { useHotkeys, usePrevious } from "@utils/hooks";
-import { useMotionTransition } from "@utils/motion/hooks";
-import { getIpInfo } from "@utils/network";
-import { metaKeyOnCurrentPlatform } from "@utils/shortcuts";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
-import { useFolderWidgets, useFolders } from "@utils/user-data/hooks";
-import type { AnoriPlugin, WidgetDescriptor } from "@utils/user-data/types";
+} from "@anori/translations/index";
+import { analyticsEnabledAtom } from "@anori/utils/analytics";
+import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemInGrid } from "@anori/utils/grid";
+import { useHotkeys, usePrevious } from "@anori/utils/hooks";
+import { useMotionTransition } from "@anori/utils/motion/hooks";
+import { getIpInfo } from "@anori/utils/network";
+import { metaKeyOnCurrentPlatform } from "@anori/utils/shortcuts";
+import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
+import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/user-data/types";
+import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
 import { type ComponentProps, forwardRef, useEffect, useState } from "react";
 import useMeasure from "react-use-motion-measure";

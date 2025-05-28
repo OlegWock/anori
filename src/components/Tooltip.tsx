@@ -20,7 +20,7 @@ import {
 import { AnimatePresence, m } from "framer-motion";
 import { type ReactElement, type ReactNode, type Ref, cloneElement, useId, useState } from "react";
 import "./Tooltip.scss";
-import { IS_TOUCH_DEVICE } from "@utils/device";
+import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import clsx from "clsx";
 import { mergeRefs } from "react-merge-refs";
 

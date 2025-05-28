@@ -1,11 +1,11 @@
-import { FolderButton } from "@components/FolderButton";
-import { Modal } from "@components/Modal";
-import { ScrollArea } from "@components/ScrollArea";
-import { ShortcutsHelp } from "@components/ShortcutsHelp";
+import { FolderButton } from "@anori/components/FolderButton";
+import { Modal } from "@anori/components/Modal";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
+import { useHotkeys } from "@anori/utils/hooks";
+import { useBrowserStorageValue } from "@anori/utils/storage/api";
+import type { Folder } from "@anori/utils/user-data/types";
 import { FloatingDelayGroup } from "@floating-ui/react";
-import { useHotkeys } from "@utils/hooks";
-import { useBrowserStorageValue } from "@utils/storage/api";
-import type { Folder } from "@utils/user-data/types";
 import { AnimatePresence } from "framer-motion";
 import { Suspense, lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ import "./Sidebar.scss";
 import clsx from "clsx";
 
 const SettingsModal = lazy(() => import("../settings/Settings").then((m) => ({ default: m.SettingsModal })));
-const WhatsNew = lazy(() => import("@components/WhatsNew").then((m) => ({ default: m.WhatsNew })));
+const WhatsNew = lazy(() => import("@anori/components/WhatsNew").then((m) => ({ default: m.WhatsNew })));
 
 export type SidebarProps = {
   folders: Folder[];

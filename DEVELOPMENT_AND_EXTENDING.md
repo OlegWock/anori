@@ -165,7 +165,7 @@ Those CSS variables set on folder's root element and thus are available for use 
 Those classes applied to `body` and allow you to apply particular styles only in compact mode or target touch devices or Android. To make life easier, there are also mixin versions of those:
 
 ```scss
-@use "@components/utils.scss" as utils;
+@use "@anori/components/utils.scss" as utils;
 
 .foo {
     padding: 2rem;

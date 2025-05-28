@@ -1,7 +1,7 @@
 import { LayoutGroup, m, useIsPresent } from "framer-motion";
 import "./Modal.scss";
-import { useHotkeys } from "@utils/hooks";
-import { useMotionTransition } from "@utils/motion/hooks";
+import { useHotkeys } from "@anori/utils/hooks";
+import { useMotionTransition } from "@anori/utils/motion/hooks";
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";

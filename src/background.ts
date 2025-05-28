@@ -1,6 +1,6 @@
-import { availablePlugins } from "@plugins/all";
-import { gatherDailyUsageData, sendAnalyticsIfEnabled } from "@utils/analytics";
-import { storage } from "@utils/storage/api";
+import { availablePlugins } from "@anori/plugins/all";
+import { gatherDailyUsageData, sendAnalyticsIfEnabled } from "@anori/utils/analytics";
+import { storage } from "@anori/utils/storage/api";
 import browser from "webextension-polyfill";
 import { type Language, availableTranslations } from "./translations";
 

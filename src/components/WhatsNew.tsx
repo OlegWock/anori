@@ -1,9 +1,9 @@
 import { ScrollArea } from "./ScrollArea";
 import { ShortcutHint } from "./ShortcutHint";
 import "./WhatsNew.scss";
-import vtuberLogo from "@assets/images/vtuber-logo-dark.svg";
-import { analyticsEnabledAtom } from "@utils/analytics";
-import { useAtomWithStorage } from "@utils/storage/api";
+import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
+import { analyticsEnabledAtom } from "@anori/utils/analytics";
+import { useAtomWithStorage } from "@anori/utils/storage/api";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "./Checkbox";
 

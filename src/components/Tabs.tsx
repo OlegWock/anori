@@ -1,6 +1,6 @@
 import * as RadixTabs from "@radix-ui/react-tabs";
 import "./Tabs.scss";
-import { usePrevious } from "@utils/hooks";
+import { usePrevious } from "@anori/utils/hooks";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import { Children, type ReactElement, type ReactNode, useState } from "react";

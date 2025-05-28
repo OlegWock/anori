@@ -4,7 +4,7 @@ import { type ComponentProps, useState } from "react";
 import { Icon } from "./Icon";
 import { Tooltip } from "./Tooltip";
 import "./FolderButton.scss";
-import { useCurrentlyDragging } from "@utils/drag-and-drop";
+import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";
 import { DropDestination } from "./DropDestination";
 
 export type FolderButtonProps = {

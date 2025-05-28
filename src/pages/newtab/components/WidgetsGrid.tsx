@@ -1,6 +1,6 @@
-import { Onboarding } from "@components/Onboarding";
-import { MotionScrollArea } from "@components/ScrollArea";
-import { WidgetCard } from "@components/WidgetCard";
+import { Onboarding } from "@anori/components/Onboarding";
+import { MotionScrollArea } from "@anori/components/ScrollArea";
+import { WidgetCard } from "@anori/components/WidgetCard";
 import {
   type GridDimensions,
   type Layout,
@@ -10,8 +10,8 @@ import {
   layoutTo2DArray,
   positionToPixelPosition,
   willItemOverlay,
-} from "@utils/grid";
-import type { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta } from "@utils/user-data/types";
+} from "@anori/utils/grid";
+import type { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
 import type { Ref } from "react";
 

@@ -1,30 +1,29 @@
-import { useFolders } from "@utils/user-data/hooks";
+import { useFolders } from "@anori/utils/user-data/hooks";
 import browser from "webextension-polyfill";
 import "./Settings.scss";
-import vtuberLogo from "@assets/images/vtuber-logo-dark.svg";
-import { Alert } from "@components/Alert";
-import { Button } from "@components/Button";
-import { Checkbox } from "@components/Checkbox";
-import { CheckboxWithPermission } from "@components/CheckboxWithPermission";
-import { Hint } from "@components/Hint";
-import { Icon } from "@components/Icon";
-import { Input } from "@components/Input";
-import { Modal } from "@components/Modal";
-import { ScrollArea } from "@components/ScrollArea";
-import { ShortcutsHelp } from "@components/ShortcutsHelp";
-import { Tooltip } from "@components/Tooltip";
-import { ReorderGroup, Select } from "@components/lazy-components";
-import { availablePlugins } from "@plugins/all";
-import { useDirection } from "@radix-ui/react-direction";
+import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
+import { Alert } from "@anori/components/Alert";
+import { Button } from "@anori/components/Button";
+import { Checkbox } from "@anori/components/Checkbox";
+import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
+import { Hint } from "@anori/components/Hint";
+import { Icon } from "@anori/components/Icon";
+import { Input } from "@anori/components/Input";
+import { Modal } from "@anori/components/Modal";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
+import { Tooltip } from "@anori/components/Tooltip";
+import { ReorderGroup, Select } from "@anori/components/lazy-components";
+import { availablePlugins } from "@anori/plugins/all";
 import {
   type Language,
   SHOW_LANGUAGE_SELECT_IN_SETTINGS,
   availableTranslations,
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
-} from "@translations/index";
-import { analyticsEnabledAtom } from "@utils/analytics";
-import { useScreenWidth } from "@utils/compact";
+} from "@anori/translations/index";
+import { analyticsEnabledAtom } from "@anori/utils/analytics";
+import { useScreenWidth } from "@anori/utils/compact";
 import {
   CUSTOM_ICONS_AVAILABLE,
   CUSTOM_ICONS_FOLDER_NAME,
@@ -32,22 +31,23 @@ import {
   getAllCustomIconFiles,
   isValidCustomIconName,
   useCustomIcons,
-} from "@utils/custom-icons";
-import { IS_TOUCH_DEVICE } from "@utils/device";
-import { downloadBlob, showOpenFilePicker } from "@utils/files";
-import { guid } from "@utils/misc";
-import { OPFS_AVAILABLE } from "@utils/opfs";
-import { setPageTitle } from "@utils/page";
-import { usePluginConfig } from "@utils/plugin";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@utils/storage/api";
-import { migrateStorage } from "@utils/storage/migrations";
+} from "@anori/utils/custom-icons";
+import { IS_TOUCH_DEVICE } from "@anori/utils/device";
+import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
+import { guid } from "@anori/utils/misc";
+import { OPFS_AVAILABLE } from "@anori/utils/opfs";
+import { setPageTitle } from "@anori/utils/page";
+import { usePluginConfig } from "@anori/utils/plugin";
+import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import { migrateStorage } from "@anori/utils/storage/migrations";
 import {
   CUSTOM_THEMES_FOLDER_NAME,
   deleteAllThemeBackgrounds,
   getAllCustomThemeBackgroundFiles,
   saveThemeBackground,
-} from "@utils/user-data/theme";
-import { type AnoriPlugin, homeFolder } from "@utils/user-data/types";
+} from "@anori/utils/user-data/theme";
+import { type AnoriPlugin, homeFolder } from "@anori/utils/user-data/types";
+import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";
 import { atom, useAtom, useSetAtom } from "jotai";
 import JSZip from "jszip";

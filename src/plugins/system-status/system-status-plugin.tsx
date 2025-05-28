@@ -1,6 +1,6 @@
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { translate } from "@translations/index";
+import { translate } from "@anori/translations/index";
 import { useState } from "react";
 import { useEffect } from "react";
 import browser from "webextension-polyfill";

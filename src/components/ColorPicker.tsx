@@ -1,4 +1,4 @@
-import { type Color, fromHsl } from "@utils/color";
+import { type Color, fromHsl } from "@anori/utils/color";
 import "./ColorPicker.scss";
 import clsx from "clsx";
 import { useMemo } from "react";

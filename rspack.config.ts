@@ -1,10 +1,9 @@
 import * as fs from "node:fs";
+import { createRequire } from "node:module";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
-import { defineConfig } from "@rspack/cli";
-
-import { createRequire } from "node:module";
 import { RsdoctorRspackPlugin } from "@rsdoctor/rspack-plugin";
+import { defineConfig } from "@rspack/cli";
 // @ts-expect-error Incompatible declarations
 import FileManagerPlugin from "filemanager-webpack-plugin";
 // @ts-expect-error No declarations for this module!
@@ -81,11 +80,11 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
     },
     resolve: {
       alias: {
-        "@utils": path.resolve(__dirname, paths.src.utils),
-        "@components": path.resolve(__dirname, paths.src.components),
-        "@assets": path.resolve(__dirname, paths.src.assets),
-        "@plugins": path.resolve(__dirname, paths.src.plugins),
-        "@translations": path.resolve(__dirname, paths.src.translations),
+        "@anori/utils": path.resolve(__dirname, paths.src.utils),
+        "@anori/components": path.resolve(__dirname, paths.src.components),
+        "@anori/assets": path.resolve(__dirname, paths.src.assets),
+        "@anori/plugins": path.resolve(__dirname, paths.src.plugins),
+        "@anori/translations": path.resolve(__dirname, paths.src.translations),
 
         // This by default resolves to version for browser, which then breaks background worker
         "decode-named-character-reference": path.resolve(

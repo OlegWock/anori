@@ -1,5 +1,5 @@
-import { type Language, translate } from "@translations/index";
-import type { LayoutItem, LayoutItemSize } from "@utils/grid";
+import { type Language, translate } from "@anori/translations/index";
+import type { LayoutItem, LayoutItemSize } from "@anori/utils/grid";
 import type { ComponentType } from "react";
 import type { CustomTheme, Theme } from "./theme";
 

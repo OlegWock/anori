@@ -1,15 +1,20 @@
-import { Button } from "@components/Button";
-import type { AnoriPlugin, OnCommandInputCallback, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import { Button } from "@anori/components/Button";
+import type {
+  AnoriPlugin,
+  OnCommandInputCallback,
+  WidgetDescriptor,
+  WidgetRenderProps,
+} from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { Icon } from "@components/Icon";
-import { Input } from "@components/Input";
-import { ScrollArea } from "@components/ScrollArea";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
-import { translate } from "@translations/index";
-import { useSizeSettings } from "@utils/compact";
-import { useRunAfterNextRender } from "@utils/hooks";
-import { cachedFunc, guid } from "@utils/misc";
-import { useWidgetMetadata } from "@utils/plugin";
+import { Icon } from "@anori/components/Icon";
+import { Input } from "@anori/components/Input";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
+import { translate } from "@anori/translations/index";
+import { useSizeSettings } from "@anori/utils/compact";
+import { useRunAfterNextRender } from "@anori/utils/hooks";
+import { cachedFunc, guid } from "@anori/utils/misc";
+import { useWidgetMetadata } from "@anori/utils/plugin";
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import type { MathJsInstance } from "mathjs";

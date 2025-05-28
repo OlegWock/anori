@@ -1,18 +1,18 @@
-import { Button } from "@components/Button";
+import { Button } from "@anori/components/Button";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import { useState } from "react";
 import "./styles.scss";
-import { Icon } from "@components/Icon";
-import { Select } from "@components/lazy-components";
+import { Icon } from "@anori/components/Icon";
+import { Select } from "@anori/components/lazy-components";
+import { translate } from "@anori/translations/index";
+import { usePrevious } from "@anori/utils/hooks";
+import { capitalize } from "@anori/utils/strings";
 import { useDirection } from "@radix-ui/react-direction";
-import { translate } from "@translations/index";
-import { usePrevious } from "@utils/hooks";
-import { capitalize } from "@utils/strings";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";

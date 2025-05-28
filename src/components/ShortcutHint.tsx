@@ -1,4 +1,4 @@
-import { localizeShortcut } from "@utils/shortcuts";
+import { localizeShortcut } from "@anori/utils/shortcuts";
 import "./ShortcutHint.scss";
 
 type ShortcutHintProps = {

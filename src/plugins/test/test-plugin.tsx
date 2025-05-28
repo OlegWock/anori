@@ -1,9 +1,9 @@
-import { Button } from "@components/Button";
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import { Button } from "@anori/components/Button";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { Icon } from "@components/Icon";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetExpandArea";
-import { useSizeSettings } from "@utils/compact";
+import { Icon } from "@anori/components/Icon";
+import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
+import { useSizeSettings } from "@anori/utils/compact";
 import { AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 

@@ -1,7 +1,7 @@
 // TODO: replace biome-ignore lint/style/noDefaultExport in this file with single file-level ignore once
 // we update to biome 2
 
-declare module "@assets/*" {
+declare module "@anori/assets/*" {
   const url: string;
   // biome-ignore lint/style/noDefaultExport: we prefer asset imports to have default export
   export default url;

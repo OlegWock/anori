@@ -1,5 +1,5 @@
-import { globalCallOnce } from "@utils/misc";
-import type { CorrectPermission } from "@utils/permissions";
+import { globalCallOnce } from "@anori/utils/misc";
+import type { CorrectPermission } from "@anori/utils/permissions";
 import browser from "webextension-polyfill";
 
 export const dnrPermissions: CorrectPermission[] = [

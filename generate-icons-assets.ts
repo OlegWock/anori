@@ -54,8 +54,8 @@ const main = async () => {
 ////// TO MODIFY THIS FILE HEAD TO generate-icons-assets.ts //////
 //////////////////////////////////////////////////////////////////
 
-import { CUSTOM_ICONS_AVAILABLE } from '@utils/custom-icons';
-import { translate } from '@translations/index';
+import { CUSTOM_ICONS_AVAILABLE } from '@anori/utils/custom-icons';
+import { translate } from '@anori/translations/index';
 
 export const allSets = [\n${sets.map((s) => `    ${JSON.stringify(s.name)}, // https://icon-sets.iconify.design/${s.name}/`).join("\n")},\n];
 

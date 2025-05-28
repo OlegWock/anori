@@ -1,5 +1,5 @@
-import { normalizeUrl } from "@utils/misc";
-import { isMacLike } from "@utils/shortcuts";
+import { normalizeUrl } from "@anori/utils/misc";
+import { isMacLike } from "@anori/utils/shortcuts";
 import { type ComponentProps, type MouseEvent, forwardRef } from "react";
 import browser from "webextension-polyfill";
 

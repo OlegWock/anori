@@ -1,14 +1,14 @@
-import { Button } from "@components/Button";
+import { Button } from "@anori/components/Button";
 import type {
   AnoriPlugin,
   OnCommandInputCallback,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { translate } from "@translations/index";
-import { getAllWidgetsByPlugin } from "@utils/plugin";
+import { translate } from "@anori/translations/index";
+import { getAllWidgetsByPlugin } from "@anori/utils/plugin";
 import { useTranslation } from "react-i18next";
 
 type PluginWidgetConfigType = {

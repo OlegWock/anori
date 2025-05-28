@@ -1,4 +1,4 @@
-import { type DndItemMeta, getCurrentDraggable, useCurrentDrop } from "@utils/drag-and-drop";
+import { type DndItemMeta, getCurrentDraggable, useCurrentDrop } from "@anori/utils/drag-and-drop";
 import { type JSXElementConstructor, type ReactElement, cloneElement, forwardRef } from "react";
 import { mergeRefs } from "react-merge-refs";
 

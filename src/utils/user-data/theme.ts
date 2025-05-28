@@ -1,7 +1,7 @@
-import { type Color, darken, fromHsl, lighten, toCss, toCssHslValues, transparentize } from "@utils/color";
-import { asyncIterableToArray } from "@utils/misc";
-import { getDirectoryInRoot } from "@utils/opfs";
-import { setPageBackground } from "@utils/page";
+import { type Color, darken, fromHsl, lighten, toCss, toCssHslValues, transparentize } from "@anori/utils/color";
+import { asyncIterableToArray } from "@anori/utils/misc";
+import { getDirectoryInRoot } from "@anori/utils/opfs";
+import { setPageBackground } from "@anori/utils/page";
 import browser from "webextension-polyfill";
 
 export type BuiltinTheme = {

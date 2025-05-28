@@ -1,1 +1,1 @@
-export type TargetBrowser = "chrome" | "chrome-all-permissions" | "firefox"
+export type TargetBrowser = "chrome" | "chrome-all-permissions" | "firefox";

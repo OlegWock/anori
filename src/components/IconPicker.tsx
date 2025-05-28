@@ -10,10 +10,10 @@ import {
   useState,
 } from "react";
 import "./IconPicker.scss";
-import { Select } from "@components/lazy-components";
-import { useSizeSettings } from "@utils/compact";
-import { useCustomIcons } from "@utils/custom-icons";
-import { choose } from "@utils/misc";
+import { Select } from "@anori/components/lazy-components";
+import { useSizeSettings } from "@anori/utils/compact";
+import { useCustomIcons } from "@anori/utils/custom-icons";
+import { choose } from "@anori/utils/misc";
 import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";

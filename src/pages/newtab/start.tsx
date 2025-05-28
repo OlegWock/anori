@@ -1,20 +1,20 @@
-import { setPageTitle } from "@utils/page";
-import { mountPage } from "@utils/react";
+import { setPageTitle } from "@anori/utils/page";
+import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
-import { WidgetWindowsProvider, useWidgetWindows } from "@components/WidgetExpandArea";
-import { CommandMenu, scheduleLazyComponentsPreload } from "@components/lazy-components";
+import { WidgetWindowsProvider, useWidgetWindows } from "@anori/components/WidgetExpandArea";
+import { CommandMenu, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
+import { initTranslation, languageDirections } from "@anori/translations/index";
+import { CompactModeProvider } from "@anori/utils/compact";
+import { getAllCustomIcons } from "@anori/utils/custom-icons";
+import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
+import { findOverlapItems, findPositionForItemInGrid } from "@anori/utils/grid";
+import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
+import { watchForPermissionChanges } from "@anori/utils/permissions";
+import { storage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import { loadAndMigrateStorage } from "@anori/utils/storage/migrations";
+import { getFolderDetails, setFolderDetails, useFolders } from "@anori/utils/user-data/hooks";
+import { type Folder, homeFolder } from "@anori/utils/user-data/types";
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { initTranslation, languageDirections } from "@translations/index";
-import { CompactModeProvider } from "@utils/compact";
-import { getAllCustomIcons } from "@utils/custom-icons";
-import { IS_ANDROID, IS_TOUCH_DEVICE } from "@utils/device";
-import { findOverlapItems, findPositionForItemInGrid } from "@utils/grid";
-import { useHotkeys, useMirrorStateToRef, usePrevious } from "@utils/hooks";
-import { watchForPermissionChanges } from "@utils/permissions";
-import { storage, useBrowserStorageValue } from "@utils/storage/api";
-import { loadAndMigrateStorage } from "@utils/storage/migrations";
-import { getFolderDetails, setFolderDetails, useFolders } from "@utils/user-data/hooks";
-import { type Folder, homeFolder } from "@utils/user-data/types";
 import clsx from "clsx";
 import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
@@ -23,7 +23,7 @@ import { Sidebar } from "./components/Sidebar";
 
 const BookmarksBar = lazy(() => import("./components/BookmarksBar").then((m) => ({ default: m.BookmarksBar })));
 
-const loadMotionFeatures = () => import("@utils/motion/framer-motion-features").then(({ domMax }) => domMax);
+const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
 
 const useSidebarOrientation = () => {
   const [sidebarOrientation] = useBrowserStorageValue("sidebarOrientation", "auto");

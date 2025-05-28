@@ -1,4 +1,4 @@
-import { type Folder, type FolderDetailsInStorage, homeFolder } from "@utils/user-data/types";
+import { type Folder, type FolderDetailsInStorage, homeFolder } from "@anori/utils/user-data/types";
 import browser from "webextension-polyfill";
 
 export const globalStorageCache = {

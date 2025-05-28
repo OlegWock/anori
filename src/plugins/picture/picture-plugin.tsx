@@ -1,13 +1,13 @@
-import { Button } from "@components/Button";
+import { Button } from "@anori/components/Button";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { Input } from "@components/Input";
-import { translate } from "@translations/index";
+import { Input } from "@anori/components/Input";
+import { translate } from "@anori/translations/index";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 

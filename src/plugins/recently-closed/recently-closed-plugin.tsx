@@ -1,11 +1,16 @@
-import type { AnoriPlugin, OnCommandInputCallback, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import type {
+  AnoriPlugin,
+  OnCommandInputCallback,
+  WidgetDescriptor,
+  WidgetRenderProps,
+} from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { Icon } from "@components/Icon";
-import { RelativeTime } from "@components/RelativeTime";
-import { RequirePermissions } from "@components/RequirePermissions";
-import { ScrollArea } from "@components/ScrollArea";
-import { translate } from "@translations/index";
-import { wait } from "@utils/misc";
+import { Icon } from "@anori/components/Icon";
+import { RelativeTime } from "@anori/components/RelativeTime";
+import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { translate } from "@anori/translations/index";
+import { wait } from "@anori/utils/misc";
 import { m, useAnimationControls } from "framer-motion";
 import moment from "moment-timezone";
 import { useMemo, useState } from "react";

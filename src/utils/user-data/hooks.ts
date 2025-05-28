@@ -1,8 +1,8 @@
-import { availablePluginsWithWidgets } from "@plugins/all";
-import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@utils/grid";
-import { useLocationHash } from "@utils/hooks";
-import { guid } from "@utils/misc";
-import { NamespacedStorage } from "@utils/namespaced-storage";
+import { availablePluginsWithWidgets } from "@anori/plugins/all";
+import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@anori/utils/grid";
+import { useLocationHash } from "@anori/utils/hooks";
+import { guid } from "@anori/utils/misc";
+import { NamespacedStorage } from "@anori/utils/namespaced-storage";
 import {
   type AtomWithBrowserStorage,
   atomWithBrowserStorage,
@@ -10,7 +10,7 @@ import {
   storage,
   useAtomWithStorage,
   useBrowserStorageValue,
-} from "@utils/storage/api";
+} from "@anori/utils/storage/api";
 import { atom, useAtom } from "jotai";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

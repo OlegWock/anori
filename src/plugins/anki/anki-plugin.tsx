@@ -1,18 +1,18 @@
-import { Alert } from "@components/Alert";
-import { Button } from "@components/Button";
-import { Icon } from "@components/Icon";
-import { translate } from "@translations/index";
-import { useAsyncEffect } from "@utils/hooks";
+import { Alert } from "@anori/components/Alert";
+import { Button } from "@anori/components/Button";
+import { Icon } from "@anori/components/Icon";
+import { translate } from "@anori/translations/index";
+import { useAsyncEffect } from "@anori/utils/hooks";
 import type {
   AnoriPlugin,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./styles.scss";
-import { Select } from "@components/lazy-components";
+import { Select } from "@anori/components/lazy-components";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;

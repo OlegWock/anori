@@ -1,4 +1,4 @@
-import { Button } from "@components/Button";
+import { Button } from "@anori/components/Button";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import browser from "webextension-polyfill";
@@ -10,7 +10,7 @@ import {
   normalizeHost,
   updateAvailablePermissions,
   useAvailablePermissions,
-} from "@utils/permissions";
+} from "@anori/utils/permissions";
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";

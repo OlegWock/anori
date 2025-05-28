@@ -10,10 +10,10 @@ import {
   useTransform,
 } from "framer-motion";
 import "./WidgetExpandArea.scss";
+import { useSizeSettings } from "@anori/utils/compact";
+import { useHotkeys, usePrevious } from "@anori/utils/hooks";
+import { minmax } from "@anori/utils/misc";
 import { useDirection } from "@radix-ui/react-direction";
-import { useSizeSettings } from "@utils/compact";
-import { useHotkeys, usePrevious } from "@utils/hooks";
-import { minmax } from "@utils/misc";
 import clsx from "clsx";
 import {
   type MouseEvent,

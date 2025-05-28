@@ -3,16 +3,16 @@ import type {
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
-} from "@utils/user-data/types";
+} from "@anori/utils/user-data/types";
 import moment from "moment-timezone";
 import "./styles.scss";
-import { Button } from "@components/Button";
-import { Combobox } from "@components/Combobox";
-import { Input } from "@components/Input";
-import { Select } from "@components/lazy-components";
-import { translate } from "@translations/index";
-import { useForceRerender, useLazyRef } from "@utils/hooks";
-import { capitalize } from "@utils/strings";
+import { Button } from "@anori/components/Button";
+import { Combobox } from "@anori/components/Combobox";
+import { Input } from "@anori/components/Input";
+import { Select } from "@anori/components/lazy-components";
+import { translate } from "@anori/translations/index";
+import { useForceRerender, useLazyRef } from "@anori/utils/hooks";
+import { capitalize } from "@anori/utils/strings";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { useState } from "react";

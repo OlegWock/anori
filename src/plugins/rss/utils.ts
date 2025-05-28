@@ -1,12 +1,12 @@
-import { lazyAsyncVariable } from "@utils/misc";
-import type { NamespacedStorage } from "@utils/namespaced-storage";
-import { useWidgetStorage } from "@utils/plugin";
+import { cachedFunc } from "@anori/utils/misc";
+import type { NamespacedStorage } from "@anori/utils/namespaced-storage";
+import { useWidgetStorage } from "@anori/utils/plugin";
 import moment from "moment-timezone";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type Parser from "rss-parser";
 
-const globalParser = lazyAsyncVariable<Parser>(() => import("rss-parser").then((m) => new m.default()));
+const getParser = cachedFunc<Promise<Parser>>(() => import("rss-parser").then((m) => new m.default()));
 
 export type RssFeed = {
   title: string;
@@ -62,7 +62,7 @@ export const fetchFeed = async (url: string) => {
 };
 
 const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) => Promise<string>) => {
-  const parser = await globalParser.get();
+  const parser = await getParser();
   type ParsedOutput = Awaited<ReturnType<typeof parser.parseString>>;
   const parsedFeeds = await Promise.all(
     feedUrls.map(async (url) => {

@@ -3,8 +3,8 @@
 ////// TO MODIFY THIS FILE HEAD TO generate-icons-assets.ts //////
 //////////////////////////////////////////////////////////////////
 
-import { translate } from "@translations/index";
-import { CUSTOM_ICONS_AVAILABLE } from "@utils/custom-icons";
+import { translate } from "@anori/translations/index";
+import { CUSTOM_ICONS_AVAILABLE } from "@anori/utils/custom-icons";
 
 export const allSets = [
   "ion", // https://icon-sets.iconify.design/ion/

@@ -1,20 +1,20 @@
-import type { Select as SelectType } from "@components/Select";
-import { cachedFunc } from "@utils/misc";
-import type { ReorderGroup as ReorderGroupType } from "@utils/motion/lazy-load-reorder";
+import type { Select as SelectType } from "@anori/components/Select";
+import { cachedFunc } from "@anori/utils/misc";
+import type { ReorderGroup as ReorderGroupType } from "@anori/utils/motion/lazy-load-reorder";
 import { type ComponentType, Suspense, lazy } from "react";
 
 const loaders = {
   // TODO: add other components here and update usage
   // Settings modal, Whats new modal, New widget wizard, Bookmarks bar
-  Select: cachedFunc(() => import("@components/Select").then((module) => ({ default: module.Select }))),
+  Select: cachedFunc(() => import("@anori/components/Select").then((module) => ({ default: module.Select }))),
   CommandMenu: cachedFunc(() =>
-    import("@components/command-menu/CommandMenu").then((module) => ({ default: module.CommandMenu })),
+    import("@anori/components/command-menu/CommandMenu").then((module) => ({ default: module.CommandMenu })),
   ),
   ReorderGroup: cachedFunc(() =>
-    import("@utils/motion/lazy-load-reorder").then((module) => ({ default: module.ReorderGroup })),
+    import("@anori/utils/motion/lazy-load-reorder").then((module) => ({ default: module.ReorderGroup })),
   ),
   ReorderItem: cachedFunc(() =>
-    import("@utils/motion/lazy-load-reorder").then((module) => ({ default: module.ReorderItem })),
+    import("@anori/utils/motion/lazy-load-reorder").then((module) => ({ default: module.ReorderItem })),
   ),
   ReactMarkdown: cachedFunc(() => import("react-markdown")),
 } satisfies Record<string, () => Promise<{ default: ComponentType<any> }>>;

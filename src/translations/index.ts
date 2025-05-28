@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import { storage } from "@utils/storage/api";
+import { storage } from "@anori/utils/storage/api";
 import moment from "moment";
 import arTranslation from "./ar.json";
 import deTranslation from "./de.json";

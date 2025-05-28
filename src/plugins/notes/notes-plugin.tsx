@@ -1,15 +1,15 @@
-import { Input, Textarea } from "@components/Input";
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
+import { Input, Textarea } from "@anori/components/Input";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import { type ComponentProps, type KeyboardEventHandler, Suspense, useEffect, useRef, useState } from "react";
 import "./styles.scss";
-import { translate } from "@translations/index";
-import { useWidgetStorage } from "@utils/plugin";
+import { translate } from "@anori/translations/index";
+import { useWidgetStorage } from "@anori/utils/plugin";
 import { useTranslation } from "react-i18next";
 
-import { Link } from "@components/Link";
-import { ScrollArea } from "@components/ScrollArea";
-import { ReactMarkdown } from "@components/lazy-components";
-import { useRunAfterNextRender } from "@utils/hooks";
+import { Link } from "@anori/components/Link";
+import { ScrollArea } from "@anori/components/ScrollArea";
+import { ReactMarkdown } from "@anori/components/lazy-components";
+import { useRunAfterNextRender } from "@anori/utils/hooks";
 import type { Options } from "react-markdown";
 import { sequentialNewlinesPlugin } from "./utils";
 

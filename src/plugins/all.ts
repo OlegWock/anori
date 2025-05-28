@@ -1,4 +1,4 @@
-import type { AnoriPlugin } from "@utils/user-data/types";
+import type { AnoriPlugin } from "@anori/utils/user-data/types";
 import { ankiPlugin } from "./anki/anki-plugin";
 import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
 import { calendarPlugin } from "./calendar/calendar-plugin";
