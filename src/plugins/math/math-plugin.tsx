@@ -8,28 +8,26 @@ import { WidgetExpandArea, type WidgetExpandAreaRef } from "@components/WidgetEx
 import { translate } from "@translations/index";
 import { useSizeSettings } from "@utils/compact";
 import { useRunAfterNextRender } from "@utils/hooks";
-import { guid, lazyAsyncVariable } from "@utils/misc";
+import { cachedFunc, guid } from "@utils/misc";
 import { useWidgetMetadata } from "@utils/plugin";
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
-import type { MathJsStatic } from "mathjs";
+import type { MathJsInstance } from "mathjs";
 import { type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-// @-ts-expect-error https://github.com/josdejong/mathjs/issues/2506
-// const globalMath = lazyAsyncVariable(() => import('mathjs/number').then(m => m.create(m.all, {}) as MathJsStatic));
-const globalMath = lazyAsyncVariable(() =>
+const getMath = cachedFunc(() =>
   import("mathjs").then(
     (m) =>
       m.create(m.all, {
         number: "BigNumber",
         precision: 32,
-      }) as MathJsStatic,
+      }) as MathJsInstance,
   ),
 );
 
 const evaluate = async (expression: string) => {
-  const math = await globalMath.get();
+  const math = await getMath();
   const result = math.evaluate(expression);
   return result;
 };

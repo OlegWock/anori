@@ -43,17 +43,6 @@ export const minmax = (num: number, min: number, max: number) => {
   return Math.min(Math.max(num, min), max);
 };
 
-export const lazyAsyncVariable = <T>(init: () => Promise<T>) => {
-  let promise: Promise<T> | undefined = undefined;
-
-  return {
-    get: () => {
-      if (!promise) promise = init();
-      return promise;
-    },
-  };
-};
-
 export const cachedFunc = <T>(func: () => T) => {
   const called = false;
   let val: T | undefined = undefined;

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "@rspack/cli";
 
 import { createRequire } from "node:module";
+import { RsdoctorRspackPlugin } from "@rsdoctor/rspack-plugin";
 // @ts-expect-error Incompatible declarations
 import FileManagerPlugin from "filemanager-webpack-plugin";
 // @ts-expect-error No declarations for this module!
@@ -43,24 +44,6 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
   });
 
   const manifest = generateManifest(mode, targetBrowser, paths);
-
-  let zipPlugin: FileManagerPlugin[] = [];
-  if (mode === "production") {
-    zipPlugin = [
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            archive: [
-              {
-                source: paths.dist.base,
-                destination: `${baseDist}/${packageJson.name}-${targetBrowser}-${mode}-v${packageJson.version}.zip`,
-              },
-            ],
-          },
-        },
-      }),
-    ];
-  }
 
   return {
     mode,
@@ -250,7 +233,25 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
       new MomentLocalesPlugin({
         localesToKeep: ["uk", "de", "fr", "es", "it", "th", "zh-cn", "ru", "ar", "pt-br"],
       }),
-      ...zipPlugin,
-    ],
+      mode === "production" &&
+        new FileManagerPlugin({
+          events: {
+            onEnd: {
+              archive: [
+                {
+                  source: paths.dist.base,
+                  destination: `${baseDist}/${packageJson.name}-${targetBrowser}-${mode}-v${packageJson.version}.zip`,
+                },
+              ],
+            },
+          },
+        }),
+      process.env.RSDOCTOR &&
+        new RsdoctorRspackPlugin({
+          supports: {
+            generateTileGraph: true,
+          },
+        }),
+    ].filter(Boolean),
   };
 });
