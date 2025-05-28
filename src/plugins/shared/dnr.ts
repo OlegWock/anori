@@ -140,11 +140,7 @@ export const ensureDnrRules = async (url: string) => {
   const plantWebRequestHandlerSingleton = globalCallOnce("plantWebRequestHandler", plantWebRequestHandler);
 
   try {
-    await Promise.all([
-      clearBrowsingData(url),
-      addUniversalDnrRulesSingleton.call(),
-      plantWebRequestHandlerSingleton.call(),
-    ]);
+    await Promise.all([clearBrowsingData(url), addUniversalDnrRulesSingleton(), plantWebRequestHandlerSingleton()]);
     console.log("Iframe headers overwrite setup");
   } catch (err) {
     console.log("Err while registering rule", err);

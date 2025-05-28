@@ -9,7 +9,7 @@ import "./styles.scss";
 import { Button } from "@components/Button";
 import { Combobox } from "@components/Combobox";
 import { Input } from "@components/Input";
-import { Select } from "@components/Select";
+import { Select } from "@components/lazy-components";
 import { translate } from "@translations/index";
 import { useForceRerender, useLazyRef } from "@utils/hooks";
 import { capitalize } from "@utils/strings";

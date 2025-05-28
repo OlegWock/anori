@@ -11,9 +11,9 @@ import { Icon } from "@components/Icon";
 import { Input } from "@components/Input";
 import { Modal } from "@components/Modal";
 import { ScrollArea } from "@components/ScrollArea";
-import { Select } from "@components/Select";
 import { ShortcutsHelp } from "@components/ShortcutsHelp";
 import { Tooltip } from "@components/Tooltip";
+import { ReorderGroup, Select } from "@components/lazy-components";
 import { availablePlugins } from "@plugins/all";
 import { useDirection } from "@radix-ui/react-direction";
 import {
@@ -36,7 +36,6 @@ import {
 import { IS_TOUCH_DEVICE } from "@utils/device";
 import { downloadBlob, showOpenFilePicker } from "@utils/files";
 import { guid } from "@utils/misc";
-import type { ReorderGroup as ReorderGroupType } from "@utils/motion/lazy-load-reorder";
 import { OPFS_AVAILABLE } from "@utils/opfs";
 import { setPageTitle } from "@utils/page";
 import { usePluginConfig } from "@utils/plugin";
@@ -53,15 +52,11 @@ import { AnimatePresence, LayoutGroup, m } from "framer-motion";
 import { atom, useAtom, useSetAtom } from "jotai";
 import JSZip from "jszip";
 import moment from "moment-timezone";
-import { type ComponentProps, Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { type ComponentProps, Suspense, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { FolderItem } from "./FolderItem";
 import { License } from "./License";
 import { ThemesScreen } from "./ThemesScreen";
-
-export const ReorderGroup = lazy(() =>
-  import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderGroup })),
-) as typeof ReorderGroupType;
 
 type DraftCustomIcon = {
   id: string;

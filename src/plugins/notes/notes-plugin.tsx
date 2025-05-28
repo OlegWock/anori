@@ -1,6 +1,6 @@
 import { Input, Textarea } from "@components/Input";
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@utils/user-data/types";
-import { type ComponentProps, type KeyboardEventHandler, Suspense, lazy, useEffect, useRef, useState } from "react";
+import { type ComponentProps, type KeyboardEventHandler, Suspense, useEffect, useRef, useState } from "react";
 import "./styles.scss";
 import { translate } from "@translations/index";
 import { useWidgetStorage } from "@utils/plugin";
@@ -8,11 +8,10 @@ import { useTranslation } from "react-i18next";
 
 import { Link } from "@components/Link";
 import { ScrollArea } from "@components/ScrollArea";
+import { ReactMarkdown } from "@components/lazy-components";
 import { useRunAfterNextRender } from "@utils/hooks";
 import type { Options } from "react-markdown";
 import { sequentialNewlinesPlugin } from "./utils";
-
-const ReactMarkdown = lazy(() => import("react-markdown"));
 
 const Mock = () => {
   const { t } = useTranslation();

@@ -4,13 +4,10 @@ import { IconPicker } from "@components/IconPicker";
 import { Popover } from "@components/Popover";
 import type { Folder } from "@utils/user-data/types";
 import { m, useDragControls } from "framer-motion";
-import { lazy, useRef } from "react";
+import { useRef } from "react";
 import "./FolderItem.scss";
+import { ReorderItem } from "@components/lazy-components";
 import { IS_TOUCH_DEVICE } from "@utils/device";
-
-export const ReorderItem = lazy(() =>
-  import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderItem })),
-);
 
 export const FolderItem = ({
   folder,

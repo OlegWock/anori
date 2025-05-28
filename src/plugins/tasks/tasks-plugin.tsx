@@ -8,18 +8,18 @@ import type {
   WidgetDescriptor,
   WidgetRenderProps,
 } from "@utils/user-data/types";
-import { Suspense, forwardRef, lazy, useRef, useState } from "react";
+import { Suspense, forwardRef, useRef, useState } from "react";
 import "./styles.scss";
 import { Checkbox } from "@components/Checkbox";
 import { Icon } from "@components/Icon";
 import { ScrollArea } from "@components/ScrollArea";
 import { listItemAnimation } from "@components/animations";
+import { ReorderGroup, ReorderItem } from "@components/lazy-components";
 import { useDirection } from "@radix-ui/react-direction";
 import { translate } from "@translations/index";
 import { useSizeSettings } from "@utils/compact";
 import { useRunAfterNextRender } from "@utils/hooks";
 import { choose, guid } from "@utils/misc";
-import type { ReorderGroup as ReorderGroupType } from "@utils/motion/lazy-load-reorder";
 import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@utils/plugin";
 import { combineRefs } from "@utils/react";
 import {
@@ -34,11 +34,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
-
-const ReorderGroup = lazy(() =>
-  import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderGroup })),
-) as typeof ReorderGroupType;
-const ReorderItem = lazy(() => import("@utils/motion/lazy-load-reorder").then((m) => ({ default: m.ReorderItem })));
 
 type TaskWidgetConfigType = {
   title: string;

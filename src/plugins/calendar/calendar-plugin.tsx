@@ -8,7 +8,7 @@ import type {
 import { useState } from "react";
 import "./styles.scss";
 import { Icon } from "@components/Icon";
-import { Select } from "@components/Select";
+import { Select } from "@components/lazy-components";
 import { useDirection } from "@radix-ui/react-direction";
 import { translate } from "@translations/index";
 import { usePrevious } from "@utils/hooks";

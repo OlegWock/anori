@@ -54,22 +54,23 @@ export const lazyAsyncVariable = <T>(init: () => Promise<T>) => {
   };
 };
 
-export const callOnce = <T>(func: () => T) => {
+export const cachedFunc = <T>(func: () => T) => {
+  const called = false;
   let val: T | undefined = undefined;
 
-  return {
-    call: () => {
-      if (!val) val = func();
-      return val;
-    },
+  return () => {
+    if (!called) {
+      val = func();
+    }
+    return val as T;
   };
 };
 
-const namedCallOnceCache: Map<string, ReturnType<typeof callOnce<any>>> = new Map();
+const namedCallOnceCache: Map<string, ReturnType<typeof cachedFunc<any>>> = new Map();
 export const globalCallOnce = <T>(name: string, func: () => T) => {
   const fromCache = namedCallOnceCache.get(name);
   if (fromCache) return fromCache;
-  const intance = callOnce(func);
+  const intance = cachedFunc(func);
   namedCallOnceCache.set(name, intance);
   return intance;
 };

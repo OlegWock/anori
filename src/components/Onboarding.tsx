@@ -1,5 +1,6 @@
 import { Trans, useTranslation } from "react-i18next";
 import "./Onboarding.scss";
+import { Select } from "@components/lazy-components";
 import { bookmarkPlugin, bookmarkWidgetDescriptor } from "@plugins/bookmark/bookmark-plugin";
 import { datetimePlugin, datetimeWidgetDescriptorS } from "@plugins/datetime/datetime-plugin";
 import { notesPlugin, notesWidgetDescriptor } from "@plugins/notes/notes-plugin";
@@ -29,7 +30,6 @@ import useMeasure from "react-use-motion-measure";
 import { Button } from "./Button";
 import { Checkbox } from "./Checkbox";
 import { Icon } from "./Icon";
-import { Select } from "./Select";
 import { slidingScreensAnimation } from "./animations";
 
 const screens = ["start", "folders", "shortcuts", "customization", "analytics", "presets"] as const;

@@ -2,6 +2,7 @@ import { setPageTitle } from "@utils/page";
 import { mountPage } from "@utils/react";
 import "./styles.scss";
 import { WidgetWindowsProvider, useWidgetWindows } from "@components/WidgetExpandArea";
+import { CommandMenu, scheduleLazyComponentsPreload } from "@components/lazy-components";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import { initTranslation, languageDirections } from "@translations/index";
 import { CompactModeProvider } from "@utils/compact";
@@ -20,9 +21,6 @@ import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
 
-const CommandMenu = lazy(() =>
-  import("@components/command-menu/CommandMenu").then((m) => ({ default: m.CommandMenu })),
-);
 const BookmarksBar = lazy(() => import("./components/BookmarksBar").then((m) => ({ default: m.BookmarksBar })));
 
 const loadMotionFeatures = () => import("@utils/motion/framer-motion-features").then(({ domMax }) => domMax);
@@ -208,6 +206,7 @@ loadAndMigrateStorage()
       folders = [...foldersFromStorage];
     }
     folders.unshift(homeFolder);
+    // TODO: not sure if we still need this overlay handling code
     console.log("Checking for overlay");
     for (const folder of folders) {
       const { widgets } = await getFolderDetails(folder.id);
@@ -245,6 +244,7 @@ loadAndMigrateStorage()
     }
   })
   .then(() => {
+    scheduleLazyComponentsPreload();
     mountPage(
       <CompactModeProvider>
         {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}

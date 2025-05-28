@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import "./IconPicker.scss";
+import { Select } from "@components/lazy-components";
 import { useSizeSettings } from "@utils/compact";
 import { useCustomIcons } from "@utils/custom-icons";
 import { choose } from "@utils/misc";
@@ -22,7 +23,6 @@ import { Button } from "./Button";
 import { Icon } from "./Icon";
 import { Input } from "./Input";
 import type { PopoverRenderProps } from "./Popover";
-import { Select } from "./Select";
 import { Tooltip } from "./Tooltip";
 import { allSets, iconSetPrettyNames } from "./icons/all-sets";
 

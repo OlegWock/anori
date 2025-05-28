@@ -1,7 +1,6 @@
 import { Alert } from "@components/Alert";
 import { Button } from "@components/Button";
 import { Icon } from "@components/Icon";
-import { Select } from "@components/Select";
 import { translate } from "@translations/index";
 import { useAsyncEffect } from "@utils/hooks";
 import type {
@@ -13,6 +12,7 @@ import type {
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./styles.scss";
+import { Select } from "@components/lazy-components";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;
