@@ -32,15 +32,6 @@
         "icons": "Icônes",
         "customIcons": "Icônes personnalisés",
         "canBeEmpty": "peut être vide",
-        "safari": {
-            "onboarding": {
-                "iosMacP1": "Pour commencer à utiliser Anori, vous devez l'activer dans les paramètres de Safari.",
-                "macButton": "Quitter et ouvrir les préférences de Safari Extensions...",
-                "iosP2": "Le processus est un peu fastidieux, nous le savons, mais soyez indulgents.",
-                "iosP3": "Tout d'abord, vous devez activer l'extension (1) et ensuite changer la page de votre nouvel onglet pour Anori (2). Voici l'image, pour que vous ne vous perdiez pas dans les bois des paramètres de Safari :)",
-                "iosButton": "Ouvrez les paramètres d'extensions de Safari"
-            }
-        },
         "iconsPicker": {
             "customIconsInfo": "Les icônes personnalisées sont des icônes que vous téléchargez pour les utiliser ultérieurement dans Anori.",
             "customIconsAbsent": "Actuellement, vous n'avez pas d'icônes personnalisées. Pour télécharger votre première icône personnalisée, rendez-vous dans les paramètres.",
@@ -99,8 +90,7 @@
                 "title": "Importation & exportation",
                 "info": "Ici, vous pouvez sauvegarder vos paramètres ou restaurer une ancienne sauvegarde.",
                 "import": "Importer",
-                "export": "Exporter",
-                "safariBugAlert": "En raison d'un bug dans Safari, nous ne pouvons pas enregistrer de fichiers à partir de l'extension, ce qui rend impossible le téléchargement de la sauvegarde. Nous sommes vraiment désolés, mais il n'y a rien que nous puissions faire :("
+                "export": "Exporter"
             },
             "aboutHelp": {
                 "title": "Aide & à propos de l'extension",

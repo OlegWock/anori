@@ -35,7 +35,7 @@ const smp = new SpeedMeasurePlugin({
 interface WebpackEnvs {
   WEBPACK_WATCH: boolean;
   mode?: "development" | "production";
-  targetBrowser?: "chrome" | "chrome-all-permissions" | "firefox" | "safari";
+  targetBrowser?: "chrome" | "chrome-all-permissions" | "firefox";
 }
 
 const generateManifest = (
@@ -104,7 +104,7 @@ const generateManifest = (
   }
 
   // Chrome (with manifest v3) treated as default platform. So, need to patch it for Firefox manifest v2
-  if (targetBrowser === "firefox" || targetBrowser === "safari") {
+  if (targetBrowser === "firefox") {
     const unavailablePermissions = [
       "system.cpu",
       "system.memory",
@@ -114,10 +114,6 @@ const generateManifest = (
     ];
 
     const additionalPermissions: string[] = [];
-
-    if (targetBrowser === "safari") {
-      additionalPermissions.push("nativeMessaging"); // Might want to talk with native companion app
-    }
 
     manifest.manifest_version = 2;
 
@@ -156,11 +152,6 @@ const generateManifest = (
         },
       };
     }
-
-    if (targetBrowser === "safari") {
-      manifest.browser_url_overrides = manifest.chrome_url_overrides;
-      manifest.chrome_url_overrides = undefined;
-    }
   }
 
   if (targetBrowser === "firefox") {
@@ -180,10 +171,7 @@ const baseDist = "./dist";
 const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
   const { mode = "development", targetBrowser = "chrome", WEBPACK_WATCH } = env;
 
-  const paths = createPathsObject(
-    baseSrc,
-    targetBrowser === "safari" ? `./safari-app/anori/Shared (Extension)/Resources` : joinPath(baseDist, targetBrowser),
-  );
+  const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
 
   const pageTemplate = fs.readFileSync(paths.src.pageHtmlTemplate, {
     encoding: "utf-8",
@@ -253,7 +241,7 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
 
   // @ts-expect-error There is some issue with types provided with FileManagerPlugin and CJS/ESM imports
   let zipPlugin: FileManagerPlugin[] = [];
-  if (!WEBPACK_WATCH && targetBrowser !== "safari") {
+  if (!WEBPACK_WATCH) {
     zipPlugin = [
       // @ts-expect-error Same as above
       new FileManagerPlugin({
@@ -279,7 +267,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
           targets: {
             chrome: 104,
             firefox: 99,
-            safari: 14,
           },
         },
       ],
@@ -470,16 +457,6 @@ const config = async (env: WebpackEnvs): Promise<webpack.Configuration> => {
               }
               return path.join(paths.dist.locales, absoluteFilename.replace(assetAbsolutePath, ""));
             },
-            // Only for Safari we rename extension to just 'Anori', to make it easier to deeplink extension settings from app
-            transform:
-              targetBrowser === "safari"
-                ? (content, absoluteFrom) => {
-                    if (absoluteFrom.endsWith("messages.json")) {
-                      return content.toString().replace(/(?<="appName":\s?{\s*"message":\s?")[^"]+/i, "Anori");
-                    }
-                    return content;
-                  }
-                : undefined,
           },
         ],
         options: {

@@ -87,8 +87,7 @@
                 "title": "Import & Export",
                 "info": "Hier können Sie Ihre Einstellungen sichern oder ältere Sicherungen wiederherstellen.",
                 "import": "Import",
-                "export": "Export",
-                "safariBugAlert": "Wegen einem Bug in Safari, können wir keine Dateien von der Erweiterung aus sichern, was es wiederum unmöglich macht ein Backup zu erstellen. Tut uns wirklich leid, aber leider können wir hier nichts machen :("
+                "export": "Export"
             },
             "aboutHelp": {
                 "title": "Hilfe & über Anori",
@@ -97,15 +96,6 @@
                 "p2": "Wenn Sie diese Erweiterung modifizieren oder ein eigenes Plugin oder Widget hinzufügen möchten, lesen Sie bitte die <0>readme</0> für weitere Informationen.",
                 "p3": "Dem Autor auf<0>Twitter</0> folgen und die <1>Ukraine unterstützen</1>.",
                 "p4": "Wenn du willst, kannst du die Entwicklung von Anori finanziell <0>hier</0> untersützten. Crypto und Kreditkartenzahlungen sind möglich."
-            }
-        },
-        "safari": {
-            "onboarding": {
-                "iosMacP1": "Um Anori nutzen zu können, musst du es erst in den Safari Einstellungen aktivieren.",
-                "macButton": "Schließen und die Safari Erweiterungs-Einstellungen öffnen",
-                "iosP2": "Der Prozess ist etwas langsam, aber bitte warten sie geduldig.",
-                "iosP3": "Zuerst musst du die Erweiterung aktivieren (1) dann deine Neue-Tab Seite zu Anori ändern (2). Hier ist ein Bild, damit sie nicht in den Safari Einstellungen verloren gehen :)",
-                "iosButton": "Safari Erweiterungs-Einstellungen öffnen"
             }
         },
         "iconsPicker": {

@@ -18,13 +18,6 @@ import { weatherPlugin } from "./weather/weather-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [systemStatusPlugin];
 
-const unavailableInSafari: AnoriPlugin<any, any>[] = [
-  systemStatusPlugin,
-  recentlyClosedPlugin,
-  topSitesPlugin,
-  iframePlugin,
-];
-
 export const availablePlugins: AnoriPlugin<any, any>[] = [
   bookmarkPlugin,
   iframePlugin,
@@ -44,10 +37,6 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
 ].filter((plugin) => {
   if (X_BROWSER === "firefox") {
     return !unavailableInFirefox.includes(plugin);
-  }
-
-  if (X_BROWSER === "safari") {
-    return !unavailableInSafari.includes(plugin);
   }
 
   return true;

@@ -89,15 +89,13 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
     const ipInfo = await getIpInfo();
     console.log("Ip info", ipInfo);
 
-    const shouldAddTopSites =
-      X_BROWSER !== "safari" &&
-      canPlaceItemInGrid({
-        grid: gridDimensions,
-        layout: [],
-        item: topSitesWidgetDescriptorVertical.appearance.size,
-        position: { x: 0, y: 0 },
-      });
-    // Top sites widget isn't available in safari
+    const shouldAddTopSites = canPlaceItemInGrid({
+      grid: gridDimensions,
+      layout: [],
+      item: topSitesWidgetDescriptorVertical.appearance.size,
+      position: { x: 0, y: 0 },
+    });
+
     const compensationForTopSites = shouldAddTopSites ? 0 : -1;
 
     if (shouldAddTopSites) {

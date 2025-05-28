@@ -89,8 +89,7 @@
                 "title": "导入 & 导出",
                 "info": "你可以在这里备份或恢复你的设置。",
                 "import": "导入",
-                "export": "导出",
-                "safariBugAlert": "由于 Safari 中的错误，我们无法从扩展程序保存任何文件，这反过来使得无法下载备份。我们非常抱歉，但对此无能为力 :("
+                "export": "导出"
             },
             "aboutHelp": {
                 "title": "关于此扩展 & 帮助",
@@ -283,15 +282,6 @@
         "reload": "重新加载",
         "icons": "图标",
         "canBeEmpty": "可以为空",
-        "safari": {
-            "onboarding": {
-                "iosMacP1": "要开始使用 Anori，您需要在 Safari 的设置中启用它。",
-                "macButton": "退出并打开 Safari 扩展偏好设置…",
-                "iosP2": "我们知道这个过程有点繁琐，但请耐心等待。",
-                "iosP3": "首先，您需要启用扩展，然后将新标签页切换到 Anori。这里有示意图，这样您就不会在 Safari 设置中迷路了 :)",
-                "iosButton": "打开 Safari 扩展设置"
-            }
-        },
         "iconsPicker": {
             "customIconsInfo": "自定义图标是您上传以供以后在 Anori 中使用的图标。",
             "customIconsAbsent": "目前，您没有任何自定义图标。要上传您的第一个自定义图标，请前往设置。",

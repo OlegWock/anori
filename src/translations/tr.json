@@ -34,16 +34,6 @@
         "customIcons": "Özel ikonlar",
         "canBeEmpty": "Boş olabilir",
 
-        "safari": {
-            "onboarding": {
-                "iosMacP1": "Anori'yi kullanmaya başlamak için Safari ayarlarında etkinleştirmeniz gerekir.",
-                "macButton": "Kapat ve Safari Uzantı Tercihlerini Aç ...",
-                "iosP2": "Süreç biraz zahmetli, biliyoruz, ama bizimle kalın.",
-                "iosP3": "Öncelikle, uzantıyı etkinleştirmeniz (1) ve ardından yeni sekme sayfanızı Anori'ye değiştirmeniz gerekiyor (2). İşte kaybolmamanız için bir resim :)",
-                "iosButton": "Safari Uzantı Ayarlarını Aç"
-            }
-        },
-
         "iconsPicker": {
             "customIconsInfo": "Özel ikonlar, Anori'de daha sonra kullanmak üzere yüklediğiniz ikonlardır.",
             "customIconsAbsent": "Şu anda özel ikonlarınız yok. İlk özel ikonunuzu yüklemek için ayarlara gidin.",
@@ -111,8 +101,7 @@
                 "title": "İçe aktar & dışa aktar",
                 "info": "Burada ayarlarınızı yedekleyebilir veya eski bir yedeği geri yükleyebilirsiniz.",
                 "import": "İçe aktar",
-                "export": "Dışa aktar",
-                "safariBugAlert": "Safari'deki bir hata nedeniyle, uzantıdan herhangi bir dosya kaydedemiyoruz, bu da yedek indirmeyi imkansız hale getiriyor. Çok üzgünüz, ancak bu konuda yapabileceğimiz bir şey yok :("
+                "export": "Dışa aktar"
             },
             "aboutHelp": {
                 "title": "Yardım & uzantı hakkında",

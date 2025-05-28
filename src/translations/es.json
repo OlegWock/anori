@@ -32,15 +32,6 @@
         "icons": "Iconos",
         "customIcons": "Iconos personalizados",
         "canBeEmpty": "puede estar vacío",
-        "safari": {
-            "onboarding": {
-                "iosMacP1": "Para empezar a usar Anori necesitas habilitarla en la configuración de Safari.",
-                "macButton": "Salir y abrir las Preferencias de Extensiones de Zafari…",
-                "iosP2": "Sabemos que el proceso es un poco tedioso, pero sea paciente con nosotros.",
-                "iosP3": "Primero, necesitas habilitar la extensión (1) y luego cambiar tu nueva pestaña a Anori (2). Aquí hay una foto, así no te perderás en las configuraciones de Zafari :)",
-                "iosButton": "Abrir la Configuración de Extensiones de Safari"
-            }
-        },
         "iconsPicker": {
             "customIconsInfo": "Los iconos personalizados son iconos que puede subir para usarlos después en Anori.",
             "customIconsAbsent": "Actualmente, usted no cuenta con iconos personalizados. Para subir su primer icono personalizado por favor vaya a configuración.",
@@ -100,8 +91,7 @@
                 "title": "Importar & exportar",
                 "info": "Aquí puedes hacer una copia de seguridad de tu configuración o restaurar una copia de seguridad anterior.",
                 "import": "Importar",
-                "export": "Exportar",
-                "safariBugAlert": "Debido a un error en Safari, no podemos guardar ningún archivo de la extensión, lo que vuelve imposible hacer copias de seguridad. Lo sentimos muchísimo, pero no hay nada que podamos hacer :("
+                "export": "Exportar"
             },
             "aboutHelp": {
                 "title": "Ayuda y sobre la extensión",

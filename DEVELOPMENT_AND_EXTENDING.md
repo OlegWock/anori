@@ -13,19 +13,17 @@ To compile extension you can use either `dev` or `production` command with optio
 ```
 yarn dev # Development Chrome
 yarn dev:ff # Development version for Firefox
-yarn production:sf # Production version for Safari
 ```
 
-In case of Chrome and Firefox, compiled code will be placed under `dist` folder. For Safari, it's placed in `safari-app/anori/Shared (Extension)` folder.
+Compiled code will be placed under `dist` folder.
 
-To install extension from disk refer to instructions for [Chrome](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked) and [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing). For Safari, extendions are shipped as part of native apps, so you'll need to open `safari-app/anori/anori.xcodeproj` in Xcode and compile app for your Mac. This will install extension for Safari.
+To install extension from disk refer to instructions for [Chrome](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked) and [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing).
 
 For easier development, there is also `watch` command which will compile changes as you code:
 
 ```
 yarn watch
 yarn watch:ff
-yarn watch:sf
 ```
 
 ## Extending
@@ -162,10 +160,9 @@ Those CSS variables set on folder's root element and thus are available for use 
 
 > `.compact-mode-active`
 > `.is-touch-device`
-> `.is-ipad`
 > `.is-android`
 
-Those classes applied to `body` and allow you to apply particular styles only in compact mode or target touch devices, iPad or Android. To make life easier, there are also mixin versions of those:
+Those classes applied to `body` and allow you to apply particular styles only in compact mode or target touch devices or Android. To make life easier, there are also mixin versions of those:
 
 ```scss
 @use "@components/utils.scss" as utils;
@@ -179,7 +176,6 @@ Those classes applied to `body` and allow you to apply particular styles only in
 
 // Same with 
 // @include utils.touch {}
-// @include utils.ipad {}
 // @include utils.android {}
 ```
 

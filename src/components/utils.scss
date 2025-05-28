@@ -86,12 +86,6 @@ $text: #ffffff;
     }
 }
 
-@mixin ipad {
-    @at-root #{selector.nest(".is-ipad", &)} {
-        @content;
-    }
-}
-
 @mixin android {
     @at-root #{selector.nest(".is-android", &)} {
         @content;

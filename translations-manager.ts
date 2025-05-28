@@ -150,25 +150,6 @@ const main = async () => {
       }, {});
       saveJsonFile(join(__dirname, `src/_locales/${correctedLang}/messages.json`), data);
     });
-  } else if (args[0] === "generate-safari") {
-    console.log("Generating Safari locales for", FINISHED_TRANSLATIONS.join(", "));
-    const resultDir = join(__dirname, "safari-app/anori/Shared (App)/Resources/locales");
-    const htmlFile = readFileSync(join(__dirname, "safari-app/anori/Shared (App)/Resources/Main.html"), {
-      encoding: "utf-8",
-    });
-    const keys = [...htmlFile.matchAll(/data-t-key=(?:"([^"]+)"|'([^']+)')/gim)].map((m) => m[1] || m[2]);
-    console.log("Keys to copy:", keys);
-    FINISHED_TRANSLATIONS.forEach((lang) => {
-      // const correctedLang = transformLocaleNameForChrome(lang);
-      const filename = join(TRANSLATIONS_FOLDER, `${lang}.json`);
-      const original = loadJsonFile(filename);
-
-      const data = keys.reduce((obj, key) => {
-        console.log(`[${lang}]`, "Setting", key, "to value", get(original, key));
-        return set(obj, key, get(original, key));
-      }, {});
-      saveJsonFile(join(resultDir, `${lang}.json`), data);
-    });
   } else {
     console.error("Unknown command", args[0]);
   }

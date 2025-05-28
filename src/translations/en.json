@@ -34,16 +34,6 @@
         "customIcons": "Custom icons",
         "canBeEmpty": "can be empty",
 
-        "safari": {
-            "onboarding": {
-                "iosMacP1": "To start using Anori you'll need to enable it in Safari's settings.",
-                "macButton": "Quit and Open Safari Extensions Preferences…",
-                "iosP2": "Process is a bit tedious, we know, but bear with us.",
-                "iosP3": "Firstly, you'll need to enable the extension (1) and then switch your new tab page to Anori (2). Here is picture, so you won't get lost in woods of Safari settings :)",
-                "iosButton": "Open Safari Extensions Settings"
-            }
-        },
-
         "iconsPicker": {
             "customIconsInfo": "Custom icons are icons which you upload for later use in Anori.",
             "customIconsAbsent": "Currently, you don't have any custom icons. To upload your first custom icon please head to settings.",
@@ -111,8 +101,7 @@
                 "title": "Import & export",
                 "info": "Here you can backup your settings or restore older backup.",
                 "import": "Import",
-                "export": "Export",
-                "safariBugAlert": "Due to bug in Safari, we can't save any files from the extension, which in turn makes it impossible to download backup. We're very sorry, but there is nothing we can do about it :("
+                "export": "Export"
             },
             "aboutHelp": {
                 "title": "Help & about the extension",

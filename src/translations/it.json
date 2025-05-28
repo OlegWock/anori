@@ -30,15 +30,7 @@
         "back": "Indietro",
         "icons": "Icone",
         "customIcons": "Icone personalizzate",
-        "safari": {
-            "onboarding": {
-                "iosMacP1": "Per iniziare ad usare Anori, devi abilitarlo nelle impostazioni di Safari.",
-                "macButton": "Esci e apri Preferenze Estensioni di Safari...",
-                "iosP2": "Il processo è un po' tedioso, lo sappiamo, ma resisti.",
-                "iosP3": "Innanzitutto, devi abilitare l'estensione (1) e poi cambiare la pagina della nuova scheda con Anori (2). Ecco un'immagine per non perdersi nella foresta delle impostazioni di Safari :)",
-                "iosButton": "Apri Impostazioni Estensioni di Safari"
-            }
-        },
+
         "iconsPicker": {
             "customIconsInfo": "Le icone personalizzate sono icone che carichi in Anori per un uso futuro.",
             "customIconsAbsent": "Attualmente, non hai nessuna icona personalizzata. Per caricare la tua prima icona vai alle impostazioni.",
@@ -97,8 +89,7 @@
                 "title": "Importa ed esporta",
                 "info": "Qui puoi eseguire il backup delle tue impostazioni o ripristinare un backup precedente.",
                 "import": "Importa",
-                "export": "Esporta",
-                "safariBugAlert": "A causa di un bug in Safari, non possiamo salvare file dall'estensione, il che rende impossibile scaricare il backup. Ci scusiamo molto, ma non possiamo fare nulla a riguardo :("
+                "export": "Esporta"
             },
             "aboutHelp": {
                 "title": "Aiuto e informazioni sull'estensione",

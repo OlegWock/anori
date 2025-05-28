@@ -7,7 +7,7 @@ import { DirectionProvider } from "@radix-ui/react-direction";
 import { initTranslation, languageDirections } from "@translations/index";
 import { CompactModeProvider } from "@utils/compact";
 import { getAllCustomIcons } from "@utils/custom-icons";
-import { IS_ANDROID, IS_IPAD, IS_TOUCH_DEVICE } from "@utils/device";
+import { IS_ANDROID, IS_TOUCH_DEVICE } from "@utils/device";
 import { findOverlapItems, findPositionForItemInGrid } from "@utils/grid";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@utils/hooks";
 import { watchForPermissionChanges } from "@utils/permissions";
@@ -258,5 +258,4 @@ loadAndMigrateStorage()
   });
 
 if (IS_TOUCH_DEVICE) document.body.classList.add("is-touch-device");
-if (IS_IPAD) document.body.classList.add("is-ipad");
 if (IS_ANDROID) document.body.classList.add("is-android");

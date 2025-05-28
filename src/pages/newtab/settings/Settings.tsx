@@ -245,7 +245,6 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         {t("settings.general.autoHideSidebar")}
       </Checkbox>
 
-      {/* Bookmarks API absent in Safari */}
       {/* In Firefox, we can't get favicon https://bugzilla.mozilla.org/show_bug.cgi?id=1315616 */}
       {X_BROWSER === "chrome" && (
         <CheckboxWithPermission
@@ -569,20 +568,10 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="ImportExportScreen">
-      {X_BROWSER === "safari" && (
-        <Alert>
-          {/* Bug in question: https://bugs.webkit.org/show_bug.cgi?id=226440 */}
-          {t("settings.importExport.safariBugAlert")}
-        </Alert>
-      )}
       <div>{t("settings.importExport.info")}</div>
       <div className="import-export-button">
-        <Button disabled={X_BROWSER === "safari"} onClick={importSettings}>
-          {t("settings.importExport.import")}
-        </Button>
-        <Button disabled={X_BROWSER === "safari"} onClick={exportSettings}>
-          {t("settings.importExport.export")}
-        </Button>
+        <Button onClick={importSettings}>{t("settings.importExport.import")}</Button>
+        <Button onClick={exportSettings}>{t("settings.importExport.export")}</Button>
       </div>
     </m.div>
   );

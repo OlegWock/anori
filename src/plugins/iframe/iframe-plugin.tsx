@@ -68,20 +68,17 @@ const MainWidgetConfigScreen = ({
         <label>{t("url")}:</label>
         <div className="url-import-wrapper">
           <Input value={url} onChange={(e) => setUrl(e.target.value)} />
-          {/* Bookmarks API not supported in Safari at all */}
-          {X_BROWSER !== "safari" && (
-            <Popover
-              component={PickBookmark}
-              additionalData={{
-                onSelected: (title, url) => {
-                  console.log("Selected bookmark", title, url);
-                  setUrl(url);
-                },
-              }}
-            >
-              <Button>{t("import")}</Button>
-            </Popover>
-          )}
+          <Popover
+            component={PickBookmark}
+            additionalData={{
+              onSelected: (title, url) => {
+                console.log("Selected bookmark", title, url);
+                setUrl(url);
+              },
+            }}
+          >
+            <Button>{t("import")}</Button>
+          </Popover>
         </div>
       </div>
       <div className="field">
@@ -187,20 +184,17 @@ const ExpandableWidgetConfigScreen = ({
         <label>{t("url")}:</label>
         <div className="url-import-wrapper">
           <Input value={url} onChange={(e) => setUrl(e.target.value)} />
-          {/* Bookmarks API not supported in Safari at all */}
-          {X_BROWSER !== "safari" && (
-            <Popover
-              component={PickBookmark}
-              additionalData={{
-                onSelected: (title, url) => {
-                  console.log("Selected bookmark", title, url);
-                  setUrl(url);
-                },
-              }}
-            >
-              <Button>{t("import")}</Button>
-            </Popover>
-          )}
+          <Popover
+            component={PickBookmark}
+            additionalData={{
+              onSelected: (title, url) => {
+                console.log("Selected bookmark", title, url);
+                setUrl(url);
+              },
+            }}
+          >
+            <Button>{t("import")}</Button>
+          </Popover>
         </div>
       </div>
 

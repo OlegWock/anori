@@ -197,24 +197,21 @@ const BookmarGroupkWidgetConfigScreen = ({
                       })
                     }
                   />
-                  {/* Bookmarks API not supported in Safari at all */}
-                  {X_BROWSER !== "safari" && (
-                    <Popover
-                      component={PickBookmark}
-                      additionalData={{
-                        onSelected: (title, url) => {
-                          console.log("Selected bookmark", title, url);
-                          setUrls((p) => {
-                            const copy = [...p];
-                            copy[ind].url = url;
-                            return copy;
-                          });
-                        },
-                      }}
-                    >
-                      <Button>{t("import")}</Button>
-                    </Popover>
-                  )}
+                  <Popover
+                    component={PickBookmark}
+                    additionalData={{
+                      onSelected: (title, url) => {
+                        console.log("Selected bookmark", title, url);
+                        setUrls((p) => {
+                          const copy = [...p];
+                          copy[ind].url = url;
+                          return copy;
+                        });
+                      },
+                    }}
+                  >
+                    <Button>{t("import")}</Button>
+                  </Popover>
                   <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
                     <Icon icon="ion:close" height={22} />
                   </Button>
@@ -346,21 +343,18 @@ const BookmarkWidgetConfigScreen = ({
         <label>{t("url")}:</label>
         <div className="url-import-wrapper">
           <Input value={url} onChange={(e) => setUrl(e.target.value)} />
-          {/* Bookmarks API not supported in Safari at all */}
-          {X_BROWSER !== "safari" && (
-            <Popover
-              component={PickBookmark}
-              additionalData={{
-                onSelected: (title, url) => {
-                  console.log("Selected bookmark", title, url);
-                  setTitle(title);
-                  setUrl(url);
-                },
-              }}
-            >
-              <Button>{t("import")}</Button>
-            </Popover>
-          )}
+          <Popover
+            component={PickBookmark}
+            additionalData={{
+              onSelected: (title, url) => {
+                console.log("Selected bookmark", title, url);
+                setTitle(title);
+                setUrl(url);
+              },
+            }}
+          >
+            <Button>{t("import")}</Button>
+          </Popover>
         </div>
       </div>
       <div className="field">

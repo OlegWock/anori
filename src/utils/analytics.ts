@@ -38,10 +38,6 @@ const detectBrowser = (): string => {
     return "Chrome";
   }
 
-  if (ua.includes("safari/") && ua.includes("version/")) {
-    return "Safari";
-  }
-
   return "Unknown";
 };
 

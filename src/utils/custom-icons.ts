@@ -2,7 +2,6 @@ import { atom, getDefaultStore, useAtom } from "jotai";
 import { useEffect } from "react";
 import { asyncIterableToArray } from "./misc";
 import { OPFS_AVAILABLE, getDirectoryInRoot } from "./opfs";
-import { createSafariFsWorker } from "./workers";
 
 export const CUSTOM_ICONS_FOLDER_NAME = "custom-icons";
 
@@ -102,40 +101,6 @@ export const useCustomIcon = (name: string) => {
 
 export const useCustomIcons = () => {
   const addNewCustomIcon = async (filename: string, content: ArrayBuffer, urlObj?: string) => {
-    if (X_BROWSER === "safari") {
-      return new Promise<void>((resolve, reject) => {
-        const worker = createSafariFsWorker();
-        worker.addEventListener("message", (message) => {
-          if (message.data.success) {
-            const urlObjFinal = urlObj || URL.createObjectURL(new Blob([message.data.content]));
-            const isSvg = filename.toLowerCase().endsWith(".svg");
-            const svgContent = isSvg ? new TextDecoder().decode(message.data.content) : null;
-            const icon = {
-              name: filename,
-              urlObject: urlObjFinal,
-              svgContent,
-            };
-            iconsCache[filename] = icon;
-            setIcons((p) =>
-              [...p.filter((i) => i.name !== filename), icon].sort((a, b) => a.name.localeCompare(b.name)),
-            );
-            worker.terminate();
-            resolve();
-          } else {
-            worker.terminate();
-            reject(message.data.err || "Unknown error");
-          }
-        });
-        worker.postMessage(
-          {
-            type: "addCustomIcon",
-            content,
-            filename,
-          },
-          [content],
-        );
-      });
-    }
     const iconsDir = await getIconsDirHandle();
     const fileHandle = await iconsDir.getFileHandle(filename, { create: true });
     const writeHandle = await fileHandle.createWritable();
