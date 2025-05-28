@@ -11,6 +11,7 @@ import GenerateFiles from "generate-file-webpack-plugin";
 // @ts-expect-error No declarations for this module!
 import MomentLocalesPlugin from "moment-locales-webpack-plugin";
 import MomentTimezoneDataPlugin from "moment-timezone-data-webpack-plugin";
+import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
 import packageJson from "./package.json" with { type: "json" };
 
 const require = createRequire(import.meta.url);
@@ -203,6 +204,7 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
       ],
     },
     plugins: [
+      new TsCheckerRspackPlugin(),
       new DefinePlugin({
         X_MODE: JSON.stringify(mode),
         X_BROWSER: JSON.stringify(targetBrowser),
