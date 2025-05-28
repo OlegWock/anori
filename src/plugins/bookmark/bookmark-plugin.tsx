@@ -28,7 +28,7 @@ import { translate } from "@translations/index";
 import { isChromeLike } from "@utils/browser";
 import { useSizeSettings } from "@utils/compact";
 import { IS_TOUCH_DEVICE } from "@utils/device";
-import { useAsyncEffect, useLinkNavigationState, usePrevious } from "@utils/hooks";
+import { useAsyncEffect, useLinkNavigationState } from "@utils/hooks";
 import { guid, normalizeUrl, parseHost } from "@utils/misc";
 import { usePermissionsQuery } from "@utils/permissions";
 import {
@@ -459,8 +459,10 @@ const BookmarkWidget = ({
     hosts: [parseHost(config.url)],
     permissions: ["declarativeNetRequestWithHostAccess", "browsingData"],
   });
-  const prevUrl = usePrevious(config.url);
+
+  const [prevUrl, setPrevUrl] = useState(config.url);
   if (prevUrl && prevUrl !== config.url) {
+    setPrevUrl(config.url);
     setShowIframe(false);
   }
 
