@@ -1,6 +1,6 @@
 {
-    "include": ["declarations.d.ts", "src/**/*", "webpack.config.ts"],
-    "exclude": ["node_modules", "dist"],
+    "include": ["declarations.d.ts", "src/**/*", "rspack.config.ts", "build_helpers/**/*"],
+    "exclude": ["node_modules", "dist_copy"],
     "compilerOptions": {
         "lib": ["es6", "es2023", "dom", "dom.iterable", "WebWorker"],
         "baseUrl": ".",
@@ -11,7 +11,7 @@
             "@plugins/*": ["./src/plugins/*"],
             "@translations/*": ["./src/translations/*"]
         },
-        "outDir": "./dist/",
+        "outDir": "dist_copy",
         "noImplicitAny": true,
         "allowSyntheticDefaultImports": true,
         "strictNullChecks": true,
@@ -19,14 +19,19 @@
         "target": "esnext",
         "jsx": "preserve", // Will be compiled with Babel anyway
         "allowJs": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "allowImportingTsExtensions": true,
+        "noEmit": true
     },
 
     "ts-node": {
         "compilerOptions": {
-            "module": "CommonJS"
+            "module": "ESNext",
+            "moduleResolution": "bundler",
+            "allowImportingTsExtensions": true,
+            "noEmit": true
         },
         "files": true,
         "include": ["declarations.d.ts"]
