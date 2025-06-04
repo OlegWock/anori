@@ -11,7 +11,6 @@ import {
   useAtomWithStorage,
   useBrowserStorageValue,
 } from "@anori/utils/storage/api";
-import { atom, useAtom } from "jotai";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
@@ -31,7 +30,6 @@ type UseFoldersOptions = {
   defaultFolderId?: string;
 };
 
-const activeFolderAtom = atom<ID | null>(null);
 export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersOptions = {}) => {
   const createFolder = (name = "", icon = "ion:folder-open-sharp") => {
     const newFolder = {
@@ -80,16 +78,12 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   };
 
   const setActiveFolder = (f: ID | Folder) => {
-    setActiveId(typeof f === "string" ? f : f.id);
     setFolderIdInHash(typeof f === "string" ? f : f.id);
   };
 
   const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
-  const [_activeId, setActiveId] = useAtom(activeFolderAtom);
-  if (!_activeId) {
-    setActiveId(defaultFolderId ?? folderIdFromHash ?? homeFolder.id);
-  }
-  const activeId = _activeId ?? defaultFolderId ?? folderIdFromHash ?? homeFolder.id;
+
+  const activeId = folderIdFromHash ?? defaultFolderId ?? homeFolder.id;
   const [folders, setFolders] = useBrowserStorageValue("folders", []);
   const { t } = useTranslation();
   const foldersFinal = [...folders];

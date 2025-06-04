@@ -13,7 +13,7 @@ import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import clsx from "clsx";
 import { atom, useAtom } from "jotai";
-import { type CSSProperties, Suspense, lazy, useState } from "react";
+import { type CSSProperties, type Ref, Suspense, lazy, useState } from "react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
@@ -23,6 +23,7 @@ const NewWidgetWizard = lazy(() => import("./NewWidgetWizard").then((m) => ({ de
 type FolderContentProps = {
   folder: Folder;
   animationDirection: "up" | "down" | "left" | "right" | null;
+  ref?: Ref<HTMLDivElement>;
 };
 
 const variants = {
@@ -112,7 +113,7 @@ const actionButtonAnimations = {
 
 const isEditingModeActiveAtom = atom(false);
 
-export const FolderContent = ({ folder, animationDirection }: FolderContentProps) => {
+export const FolderContent = ({ folder, animationDirection, ref }: FolderContentProps) => {
   const onLayoutUpdate = (changes: LayoutChange[]) => {
     changes.forEach(async (ch) => {
       if (ch.type === "remove") {
@@ -142,8 +143,6 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
 
   const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
 
-  console.log("Render folder content", { gridDimensions, layout: widgets });
-
   useHotkeys("alt+e", () => {
     setIsEditing(true);
     setNewWidgetWizardVisible(true);
@@ -166,6 +165,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
       >
         <m.div
           key={`FolderContent-${folder.id}`}
+          data-folder-id={folder.id}
           className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
           transition={{
             duration: 0.2,
@@ -183,6 +183,7 @@ export const FolderContent = ({ folder, animationDirection }: FolderContentProps
               "--widget-box-percent": (gridDimensions.boxSize - minBlockSize) / (blockSize - minBlockSize),
             } as CSSProperties
           }
+          ref={ref}
         >
           <header
             style={{
