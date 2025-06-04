@@ -32,8 +32,9 @@ const baseSrc = "./src";
 const baseDist = "./dist";
 
 // biome-ignore lint/style/noDefaultExport: Required by Rspack
-export default defineConfig(async (env): Promise<RspackOptions> => {
-  const { mode = "development", targetBrowser = "chrome" } = env;
+export default defineConfig(async (env, argv): Promise<RspackOptions> => {
+  const { mode = "development" } = argv;
+  const { targetBrowser = "chrome" } = env;
   const currentYear = new Date().getFullYear();
 
   const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
@@ -44,6 +45,19 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
   });
 
   const manifest = generateManifest(mode, targetBrowser, paths);
+
+  const sharedSwcEnvConfiguration = {
+    targets: {
+      chrome: "110",
+      firefox: "110",
+    },
+  };
+  const sharedSwcTransformConfiguration = {
+    react: {
+      runtime: "automatic",
+      development: mode === "development",
+    },
+  };
 
   return {
     mode,
@@ -118,16 +132,12 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
           include: path.resolve(__dirname, paths.src.base),
           loader: "builtin:swc-loader",
           options: {
+            env: sharedSwcEnvConfiguration,
             jsc: {
               parser: {
                 syntax: "typescript",
               },
-              transform: {
-                react: {
-                  runtime: "automatic",
-                  development: mode === "development",
-                },
-              },
+              transform: sharedSwcTransformConfiguration,
             },
           },
           type: "javascript/auto",
@@ -138,17 +148,13 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
           use: {
             loader: "builtin:swc-loader",
             options: {
+              env: sharedSwcEnvConfiguration,
               jsc: {
                 parser: {
                   syntax: "ecmascript",
                   jsx: true,
                 },
-                transform: {
-                  react: {
-                    runtime: "automatic",
-                    development: mode === "development",
-                  },
-                },
+                transform: sharedSwcTransformConfiguration,
               },
             },
           },
@@ -204,7 +210,7 @@ export default defineConfig(async (env): Promise<RspackOptions> => {
       ],
     },
     plugins: [
-      new TsCheckerRspackPlugin(),
+      new TsCheckerRspackPlugin({ typescript: { mode: "write-references" } }),
       new DefinePlugin({
         X_MODE: JSON.stringify(mode),
         X_BROWSER: JSON.stringify(targetBrowser),

@@ -23,7 +23,9 @@
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "allowImportingTsExtensions": true,
-        "noEmit": true
+        "noEmit": true,
+        "isolatedModules": true,
+        "incremental": true
     },
 
     "ts-node": {

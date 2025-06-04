@@ -7,10 +7,12 @@ export type CorrectPermission =
   | "favicon"
   | "declarativeNetRequestWithHostAccess";
 
+export const ALL_HOSTS_WILDCARD = "*://*/*";
+
 export const availablePermissionsAtom = atom<null | { hosts: string[]; permissions: CorrectPermission[] }>(null);
 
 export const containsHostPermission = (hostPermissions: string[], host: string) => {
-  const hasAllSitesPermission = hostPermissions.includes("*://*/*");
+  const hasAllSitesPermission = hostPermissions.includes(ALL_HOSTS_WILDCARD);
   return (
     hasAllSitesPermission ||
     hostPermissions.some((grantedHost) => grantedHost.toLowerCase().includes(normalizeHost(host)))
@@ -18,6 +20,10 @@ export const containsHostPermission = (hostPermissions: string[], host: string) 
 };
 
 export const normalizeHost = (host: string) => {
+  if (host === ALL_HOSTS_WILDCARD) {
+    return host;
+  }
+
   let correctedHost = host;
   if (correctedHost.includes("://")) correctedHost = correctedHost.split("://")[1];
   if (correctedHost.includes("/")) correctedHost = correctedHost.split("/")[0];
