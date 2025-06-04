@@ -148,14 +148,20 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                               );
                             }
                             return (
-                              <button
-                                type="button"
+                              <div
+                                role="button"
+                                tabIndex={0}
                                 key={widgetOrGroup.id}
                                 onClick={() => onWidgetClick(widgetOrGroup, plugin)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    onWidgetClick(widgetOrGroup, plugin);
+                                  }
+                                }}
                               >
                                 <WidgetCard type="mock" widget={widgetOrGroup} plugin={plugin} />
                                 <div className="widget-name">{widgetOrGroup.name}</div>
-                              </button>
+                              </div>
                             );
                           })}
                         </div>
