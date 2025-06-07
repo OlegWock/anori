@@ -19,10 +19,10 @@ export const WhatsNew = () => {
           <section>
             <h2>1.23.0</h2>
             <ul>
-              <li>Bunch of bugfixes.</li>
+              <li>This is housekeeping release. A lot of refactoring, a bit of optimizations, bunch of bugfixes.</li>
               <li>
-                Updates to analytics. As always, Anori doesn't send any analytics if you didn't enable it explicitly.
-                And even then we don't track any sensetive data. You can read more{" "}
+                Significant changes to analytics. As always, Anori doesn't send any analytics if you didn't enable it
+                explicitly. And even then we don't track any sensetive data. You can read more{" "}
                 <a href="https://anori.app/privacy">here</a>.
               </li>
             </ul>
