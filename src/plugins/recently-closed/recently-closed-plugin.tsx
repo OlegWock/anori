@@ -10,6 +10,7 @@ import { RelativeTime } from "@anori/components/RelativeTime";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { translate } from "@anori/translations/index";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { wait } from "@anori/utils/misc";
 import { m, useAnimationControls } from "framer-motion";
 import moment from "moment-timezone";
@@ -21,6 +22,7 @@ import browser from "webextension-polyfill";
 const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMock: boolean }) => {
   const restore = async () => {
     controls.start("swipe", { duration: 0.1 });
+    trackInteraction("Restore tab");
     await wait(100);
     if (isMock) {
       controls.set("reset");
@@ -32,6 +34,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   const { t, i18n } = useTranslation();
   const controls = useAnimationControls();
   const favIcon = session.tab ? session.tab.favIconUrl : "";
+  const trackInteraction = useWidgetInteractionTracker();
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const lastModified = useMemo(() => {

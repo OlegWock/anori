@@ -10,6 +10,7 @@ import "./styles.scss";
 import { Icon } from "@anori/components/Icon";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { usePrevious } from "@anori/utils/hooks";
 import { capitalize } from "@anori/utils/strings";
 import { useDirection } from "@radix-ui/react-direction";
@@ -67,6 +68,7 @@ const ConfigScreen = ({
 const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => {
   const { i18n } = useTranslation();
   const dir = useDirection();
+  const trackInteraction = useWidgetInteractionTracker();
   const [today, setToday] = useState(() => moment());
   const [offsetMonths, setOffsetMonths] = useState(0);
   const prevOffset = usePrevious(offsetMonths, offsetMonths);
@@ -163,13 +165,32 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
   return (
     <div className="CalendarWidget">
       <h3 className="header">
-        <Button withoutBorder onClick={() => setOffsetMonths((p) => p - 1)}>
+        <Button
+          withoutBorder
+          onClick={() => {
+            trackInteraction("Switched month");
+            setOffsetMonths((p) => p - 1);
+          }}
+        >
           <Icon icon={dir === "ltr" ? "ion:chevron-back" : "ion:chevron-forward"} />
         </Button>
-        <Button withoutBorder onClick={() => setOffsetMonths(0)} className="month-name">
+        <Button
+          withoutBorder
+          onClick={() => {
+            trackInteraction("Switched month");
+            setOffsetMonths(0);
+          }}
+          className="month-name"
+        >
           {monthName}
         </Button>
-        <Button withoutBorder onClick={() => setOffsetMonths((p) => p + 1)}>
+        <Button
+          withoutBorder
+          onClick={() => {
+            trackInteraction("Switched month");
+            setOffsetMonths((p) => p + 1);
+          }}
+        >
           <Icon icon={dir === "ltr" ? "ion:chevron-forward" : "ion:chevron-back"} />
         </Button>
       </h3>

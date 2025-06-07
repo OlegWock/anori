@@ -18,6 +18,7 @@ import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
 import { translate } from "@anori/translations/index";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
@@ -218,6 +219,7 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
   const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
   const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
   const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
+  const trackInteraction = useWidgetInteractionTracker();
 
   useEffect(() => {
     ensureDnrRules(config.url);
@@ -228,7 +230,10 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
       <button
         type="button"
         className="ExpandableIframeWidget"
-        onClick={() => (open ? expandAreaRef.current?.focus(true) : setOpen(true))}
+        onClick={() => {
+          trackInteraction("Expanded");
+          open ? expandAreaRef.current?.focus(true) : setOpen(true);
+        }}
       >
         <div className="iframe-widget-content">
           <Icon icon={config.icon} width={rem(2.25)} height={rem(2.25)} />

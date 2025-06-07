@@ -17,6 +17,7 @@ import { ScrollArea } from "@anori/components/ScrollArea";
 import { Tooltip } from "@anori/components/Tooltip";
 import { listItemAnimation } from "@anori/components/animations";
 import { translate } from "@anori/translations/index";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { guid, parseHost, wait } from "@anori/utils/misc";
 import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@anori/utils/plugin";
@@ -44,6 +45,7 @@ const Post = ({
 }: { post: RssPost; clampTitle?: boolean; compact?: boolean }) => {
   const { rem } = useSizeSettings();
   const { i18n } = useTranslation();
+  const trackInteraction = useWidgetInteractionTracker();
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const postMoment = useMemo(() => moment(post.timestamp), [post.timestamp, i18n.language]);
@@ -52,7 +54,7 @@ const Post = ({
   const subtitle = useMemo(() => decodeHtmlEntities(post.description), [post.description]);
 
   return (
-    <a className={clsx("Post", compact && "compact")} href={post.url}>
+    <a className={clsx("Post", compact && "compact")} href={post.url} onClick={() => trackInteraction("Open post")}>
       {clampTitle && <ClampTextToFit withTooltip text={title} as="h3" className="title" />}
       {!clampTitle && (
         <>

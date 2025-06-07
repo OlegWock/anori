@@ -83,7 +83,7 @@ export const CommandMenu = ({ open, onOpenChange }: { open: boolean; onOpenChang
                             onSelect={async () => {
                               onOpenChange(false);
                               setQuery("");
-                              await trackEvent("Command option selected", { plugin: plugin.id });
+                              trackEvent("Command menu option selected", { "Plugin ID": plugin.id });
                               onSelected();
                             }}
                           >

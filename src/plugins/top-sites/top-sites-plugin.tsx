@@ -6,6 +6,7 @@ import { Link } from "@anori/components/Link";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { translate } from "@anori/translations/index";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useLinkNavigationState } from "@anori/utils/hooks";
 import { parseHost } from "@anori/utils/misc";
@@ -29,9 +30,16 @@ const LinkPlate = ({
 }: { href: string; favicon: string; title: string; onRemove: () => void }) => {
   const { onLinkClick, isNavigating } = useLinkNavigationState();
   const { isEditing } = useParentFolder();
+  const trackInteraction = useWidgetInteractionTracker();
 
   return (
-    <Link href={href} onClick={onLinkClick}>
+    <Link
+      href={href}
+      onClick={(e) => {
+        trackInteraction("Open website");
+        onLinkClick(e);
+      }}
+    >
       {isNavigating && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={32} height={32} />}
       {!isNavigating && <img src={favicon} aria-hidden />}
       <div className="site-title">{title}</div>

@@ -25,6 +25,7 @@ import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/Wi
 import { listItemAnimation } from "@anori/components/animations";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
 import { translate } from "@anori/translations/index";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { isChromeLike } from "@anori/utils/browser";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
@@ -244,6 +245,7 @@ const BookmarGroupkWidgetConfigScreen = ({
 
 const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean }) => {
   const openGroup: MouseEventHandler<HTMLElement> = (e) => {
+    trackInteraction("Open group");
     e.preventDefault();
     // aux click but with another button, like rmb
     if (e.type === "auxclick" && e.button !== 1) {
@@ -264,6 +266,7 @@ const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetCo
   const {
     size: { width },
   } = useWidgetMetadata();
+  const trackInteraction = useWidgetInteractionTracker();
   const size = width === 1 ? "s" : "m";
 
   return (
@@ -384,6 +387,7 @@ const BookmarkWidget = ({
     e.preventDefault();
     e.stopPropagation();
     setShowExpandArea(true);
+    trackInteraction("Open iframe");
     if (hasDnrPermissions) {
       if (!showIframe) {
         ensureDnrRules(normalizedUrl).then(() => setShowIframe(true));
@@ -413,6 +417,7 @@ const BookmarkWidget = ({
   const { rem } = useSizeSettings();
   const store = useWidgetStorage<BookmarkWidgetStorageType>();
   const { t, i18n } = useTranslation();
+  const trackInteraction = useWidgetInteractionTracker();
 
   const [status] = store.useValue("status", "loading");
   const [lastCheck] = store.useValue("lastCheck", undefined);
@@ -465,7 +470,10 @@ const BookmarkWidget = ({
       <Link
         className={clsx(["BookmarkWidget", `size-${size}`])}
         href={isMock ? undefined : normalizedUrl}
-        onClick={onLinkClick}
+        onClick={(e) => {
+          trackInteraction("Open bookmark");
+          return onLinkClick(e);
+        }}
         target={config.openInNewTab ? "_blank" : undefined}
       >
         <div className="bookmark-content">

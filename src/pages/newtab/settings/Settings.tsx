@@ -22,7 +22,7 @@ import {
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
 } from "@anori/translations/index";
-import { analyticsEnabledAtom } from "@anori/utils/analytics";
+import { analyticsEnabledAtom, trackEvent } from "@anori/utils/analytics";
 import { useScreenWidth } from "@anori/utils/compact";
 import {
   CUSTOM_ICONS_AVAILABLE,
@@ -520,6 +520,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const blob = await zip.generateAsync({ type: "blob" });
     const datetime = moment().format("DD-MM-yyyy_HH-mm");
     downloadBlob(`anori-backup-${datetime}.zip`, blob);
+    trackEvent("Configuration exported");
   };
 
   const importSettings = async () => {
@@ -559,6 +560,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
       await Promise.all(promises);
     }
+    await trackEvent("Configuration imported");
     window.location.reload();
   };
 

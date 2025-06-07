@@ -3,6 +3,12 @@ import type { LayoutItem, LayoutItemSize } from "@anori/utils/grid";
 import type { ComponentType } from "react";
 import type { CustomTheme, Theme } from "./theme";
 
+type UsageQuantifiableMetrics =
+  | "Times new tab opened"
+  | "Times hotkey used"
+  | "Times navigated to another folder"
+  | `Interactions / ${string} / ${string} / ${string}`; // plugin id / widget id / interaction type
+
 export type StorageContent = {
   folders: Folder[];
   theme: Theme["name"];
@@ -28,6 +34,14 @@ export type StorageContent = {
   hideEditFolderButton: boolean;
   newTabTitle: string;
   language: Language;
+
+  dailyUsageMetrics: { [key in UsageQuantifiableMetrics]?: number };
+  performanceAvgLcp: {
+    avg: number;
+    n: number;
+  };
+  performanceRawInp: number[];
+
   storageVersion: number;
 };
 

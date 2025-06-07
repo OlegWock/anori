@@ -1,5 +1,5 @@
 import { availablePlugins } from "@anori/plugins/all";
-import { gatherDailyUsageData, sendAnalyticsIfEnabled } from "@anori/utils/analytics";
+import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
 import { storage } from "@anori/utils/storage/api";
 import browser from "webextension-polyfill";
 import { type Language, availableTranslations } from "./translations";
@@ -112,6 +112,12 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     return browser.tabs.update(sender.tab.id, {
       url: message.url,
     });
+  } else if (message.type === "track-event") {
+    trackEvent(message.eventName, message.props);
+    return null;
+  } else if (message.type === "increment-daily-usage-metric") {
+    incrementDailyUsageMetric(message.name);
+    return null;
   }
 
   return true;
@@ -156,13 +162,6 @@ browser.alarms.onAlarm.addListener((alarm) => {
     sendAnalyticsIfEnabled();
   }
 });
-
-// @ts-ignore Add this into global scope for debug
-self.sendAnalyticsIfEnabled = sendAnalyticsIfEnabled;
-// @ts-ignore Add this into global scope for debug
-self.runScheduledCallbacks = runScheduledCallbacks;
-// @ts-ignore Add this into global scope for debug
-self.gatherDailyUsageData = gatherDailyUsageData;
 
 browser.alarms.create("scheduledCallbacks", {
   periodInMinutes: 5,

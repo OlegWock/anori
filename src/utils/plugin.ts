@@ -47,6 +47,7 @@ export const getAllWidgetsByPlugin = async <PT extends {}, WT extends {}>(plugin
 
 export type WidgetMetadataContextType<WidgetConfigT extends {} = Record<string, unknown>> = {
   pluginId: string;
+  widgetId: string;
   instanceId: string;
   size: LayoutItemSize;
   config: WidgetConfigT;
@@ -55,6 +56,7 @@ export type WidgetMetadataContextType<WidgetConfigT extends {} = Record<string, 
 
 export const WidgetMetadataContext = createContext<WidgetMetadataContextType>({
   pluginId: "",
+  widgetId: "",
   instanceId: "",
   size: {
     width: 0,

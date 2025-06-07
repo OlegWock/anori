@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./styles.scss";
 import { Select } from "@anori/components/lazy-components";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;
@@ -167,7 +168,10 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
     pullCards();
   }, [pullCards]);
 
+  const trackInteraction = useWidgetInteractionTracker();
+
   const answerCard = async (ease: number) => {
+    trackInteraction("Answer card");
     await callAnkiConnectApi("answerCards", 6, {
       answers: [
         {

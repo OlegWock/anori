@@ -11,6 +11,7 @@ import { Input } from "@anori/components/Input";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
 import { translate } from "@anori/translations/index";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { cachedFunc, guid } from "@anori/utils/misc";
@@ -61,6 +62,7 @@ const Calculator = ({
           behavior: "smooth",
         });
       });
+      trackInteraction("Evaluate");
     } catch (err) {
       console.log(err);
       setResult(t("math-plugin.cantCalc"));
@@ -98,6 +100,7 @@ const Calculator = ({
   const runAfterRender = useRunAfterNextRender();
   const mathPreloaded = useRef(false);
   const { t } = useTranslation();
+  const trackInteraction = useWidgetInteractionTracker();
 
   return (
     <div className={clsx("Calculator")}>
@@ -227,6 +230,7 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
   const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
+  const trackInteraction = useWidgetInteractionTracker();
 
   return (
     <>
@@ -234,6 +238,7 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
         type="button"
         className="CalculatorWidgetExpandable"
         onClick={() => {
+          trackInteraction("Expand");
           if (show) {
             expandAreaRef.current?.focus(true);
           } else {

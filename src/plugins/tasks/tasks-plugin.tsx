@@ -16,6 +16,7 @@ import { ScrollArea } from "@anori/components/ScrollArea";
 import { listItemAnimation } from "@anori/components/animations";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
@@ -226,6 +227,7 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, 
 const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
   const addTask = () => {
     const id = guid();
+    trackInteraction("Added task");
     setTasks((p) => {
       return [...p, { id, text: X_MODE === "development" ? choose(devOnlyMockTasks) : "" }];
     });
@@ -235,6 +237,7 @@ const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
   };
 
   const completeTask = (id: Task["id"]) => {
+    trackInteraction("Completed task");
     setTasks((p) => p.filter((t) => t.id !== id));
   };
 
@@ -251,6 +254,7 @@ const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
   const [tasks, setTasks] = storage.useValue("tasks", []);
   const { t } = useTranslation();
   const runAfterRender = useRunAfterNextRender();
+  const trackInteraction = useWidgetInteractionTracker();
 
   return (
     <m.div className="TasksWidget" layoutRoot>

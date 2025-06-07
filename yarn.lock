@@ -6275,6 +6275,11 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
+webext-detect@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/webext-detect/-/webext-detect-5.3.2.tgz#7959f0e39a099e5a14258fe5ff89d694bc18bac4"
+  integrity sha512-RU/e8OLiPwU0efWs/cHp3sRCY+vakaTnbOS/x8VM/FkTtv6cfW/Ofed0i7WnkAKw2jbp4gki3WcpAdii+2QVMw==
+
 webextension-polyfill@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/webextension-polyfill/-/webextension-polyfill-0.12.0.tgz#f62c57d2cd42524e9fbdcee494c034cae34a3d69"

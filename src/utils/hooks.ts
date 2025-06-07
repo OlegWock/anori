@@ -1,7 +1,8 @@
+import { incrementDailyUsageMetric } from "@anori/utils/analytics";
 import {
   type DependencyList,
   type MouseEventHandler,
-  type MutableRefObject,
+  type RefObject,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -10,7 +11,6 @@ import {
 } from "react";
 import { useHotkeys as useHotkeysOriginal } from "react-hotkeys-hook";
 import type { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
-import { trackEvent } from "./analytics";
 
 export const useForceRerender = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -114,8 +114,11 @@ export const useHotkeys = (
   dependencies?: OptionsOrDependencyArray,
 ) => {
   const patchedCallback: HotkeyCallback = (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent) => {
-    const finalKeys = Array.isArray(keys) ? keys.join("+") : keys;
-    trackEvent("Hotkey used", { hotkey: finalKeys });
+    const isEsc =
+      typeof keys === "string" ? keys.toLowerCase() === "esc" : keys.length === 1 && keys[0].toLowerCase() === "esc";
+    if (!isEsc) {
+      incrementDailyUsageMetric("Times hotkey used");
+    }
     return callback(keyboardEvent, hotkeysEvent);
   };
 
@@ -165,13 +168,13 @@ export const useScheduledRender = () => {
   };
 };
 
-export const useLazyRef = <T>(init: () => T): MutableRefObject<T> => {
+export const useLazyRef = <T>(init: () => T): RefObject<T> => {
   const ref = useRef<T | undefined>(undefined);
   if (ref.current === undefined) {
     ref.current = init();
   }
 
-  return ref as MutableRefObject<T>;
+  return ref as RefObject<T>;
 };
 
 export const useAsyncEffect = (func: () => any, deps?: DependencyList | undefined) => {

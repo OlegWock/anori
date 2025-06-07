@@ -4,6 +4,7 @@ import "./styles.scss";
 import { WidgetWindowsProvider, useWidgetWindows } from "@anori/components/WidgetExpandArea";
 import { CommandMenu, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { initTranslation, languageDirections } from "@anori/translations/index";
+import { incrementDailyUsageMetric, plantPerformanceMetricsListeners, trackEvent } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { getAllCustomIcons } from "@anori/utils/custom-icons";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
@@ -106,6 +107,7 @@ const Start = () => {
   useHotkeys(
     "meta+k",
     () => {
+      trackEvent("Command menu opened");
       setCommandMenuOpen((open) => !open);
       setRenderCommandMenu(true);
     },
@@ -167,6 +169,8 @@ const Start = () => {
     </DirectionProvider>
   );
 };
+
+plantPerformanceMetricsListeners();
 
 watchForPermissionChanges();
 
@@ -245,6 +249,7 @@ loadAndMigrateStorage()
   })
   .then(() => {
     scheduleLazyComponentsPreload();
+    incrementDailyUsageMetric("Times new tab opened");
     mountPage(
       <CompactModeProvider>
         {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}

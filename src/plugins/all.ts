@@ -18,7 +18,7 @@ import { weatherPlugin } from "./weather/weather-plugin";
 
 const unavailableInFirefox: AnoriPlugin<any, any>[] = [systemStatusPlugin];
 
-export const availablePlugins: AnoriPlugin<any, any>[] = [
+export const allPlugins: AnoriPlugin<any, any>[] = [
   bookmarkPlugin,
   iframePlugin,
   datetimePlugin,
@@ -34,16 +34,18 @@ export const availablePlugins: AnoriPlugin<any, any>[] = [
   labelPlugin,
   picturePlugin,
   ankiPlugin,
-].filter((plugin) => {
+];
+
+if (X_MODE === "development") {
+  allPlugins.unshift(testPlugin);
+}
+
+export const availablePlugins = allPlugins.filter((plugin) => {
   if (X_BROWSER === "firefox") {
     return !unavailableInFirefox.includes(plugin);
   }
 
   return true;
 });
-
-if (X_MODE === "development") {
-  availablePlugins.unshift(testPlugin);
-}
 
 export const availablePluginsWithWidgets = availablePlugins.filter((p) => p.widgets.length > 0);

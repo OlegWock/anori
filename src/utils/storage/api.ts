@@ -7,8 +7,9 @@ type StorageKey = keyof StorageContent;
 
 type StoageValue<T extends StorageKey> = StorageContent[T] | undefined;
 
+type StorageQueryForKeys<K extends StorageKey> = { [key in K]: StorageContent[key] };
 type SetStoragePayload = { [key in StorageKey]?: StorageContent[key] };
-type GetStorageQueryWithDefaults = SetStoragePayload;
+
 type StorageChanges = {
   [key in StorageKey]:
     | {
@@ -19,27 +20,22 @@ type StorageChanges = {
 };
 type StorageChangeCallback = (changes: StorageChanges, areaName: "local") => void;
 
-async function storageGet(query: null): Promise<StorageContent>; // Load entire storage
-async function storageGet<T extends StorageKey>(query: T): Promise<{ [key in T]: StoageValue<T> }>; // Single key without default value
-async function storageGet<T extends StorageKey>(query: T[]): Promise<{ [key in T]: StoageValue<T> }>;
-async function storageGet<T extends GetStorageQueryWithDefaults>(query: T): Promise<T>;
-async function storageGet(query: any): Promise<any> {
-  return browser.storage.local.get(query);
-}
-
 export const storage = {
-  get: storageGet,
-  getOne: async <K extends StorageKey>(key: K) => {
+  get: async <T extends StorageKey>(query: StorageQueryForKeys<T>): Promise<Required<StorageQueryForKeys<T>>> => {
+    return browser.storage.local.get(query) as Promise<Required<StorageQueryForKeys<T>>>;
+  },
+  getDynamic: async <T extends Record<string, any>>(query: T): Promise<T> => {
+    return browser.storage.local.get(query) as Promise<T>;
+  },
+  getOne: async <K extends StorageKey>(key: K): Promise<StorageContent[K] | undefined> => {
     if (globalStorageCache.loaded) {
       return globalStorageCache.content[key] as StoageValue<K>;
     }
-    const res = await storageGet(key);
+    const res = await browser.storage.local.get(key);
     return res[key];
   },
   getOneDynamic: async <V>(key: string) => {
-    // @ts-ignore untyped
-    const res = await storageGet(key);
-    // @ts-ignore untyped
+    const res = await browser.storage.local.get(key);
     return res[key] as V | undefined;
   },
   set: (changes: SetStoragePayload) => {

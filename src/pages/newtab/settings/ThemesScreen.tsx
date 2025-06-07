@@ -162,7 +162,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     saveThemeBackground(`${id}-original`, originalBackgroundBlob.current);
     saveThemeBackground(`${id}-blurred`, blurredBackgroundBlob.current);
 
-    let { customThemes = [] } = await storage.get("customThemes");
+    let customThemes = (await storage.getOne("customThemes")) ?? [];
     if (themeFromProps) {
       customThemes = customThemes.map((t) => {
         if (t.name === id) return theme;

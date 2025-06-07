@@ -307,6 +307,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
       <WidgetMetadataContext.Provider
         value={{
           pluginId: plugin.id,
+          widgetId: widget.id,
           instanceId: instanceId ?? "mock",
           size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
           config: config ?? {},

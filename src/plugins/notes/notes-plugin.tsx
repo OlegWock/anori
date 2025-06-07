@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@anori/components/Link";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ReactMarkdown } from "@anori/components/lazy-components";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import type { Options } from "react-markdown";
 import { sequentialNewlinesPlugin } from "./utils";
@@ -57,6 +58,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
   const { t } = useTranslation();
   const runAfterNextRender = useRunAfterNextRender();
   const [remarkPlugins, setRemarkPlugins] = useState<NonNullable<Options["remarkPlugins"]>>([sequentialNewlinesPlugin]);
+  const trackInteraction = useWidgetInteractionTracker();
 
   useEffect(() => {
     import("remark-gfm").then(({ default: remarkGfm }) => setRemarkPlugins((p) => [...p, remarkGfm]));
@@ -71,7 +73,10 @@ const MainScreen = (_props: WidgetRenderProps) => {
         className="note-title"
         placeholder={t("notes-plugin.noteTitle")}
         spellCheck={titleFocused}
-        onFocus={() => setTitleFocused(true)}
+        onFocus={() => {
+          trackInteraction("Initiated editing");
+          setTitleFocused(true);
+        }}
         onBlur={() => setTitleFocused(false)}
       />
       {isEditing && (
@@ -89,8 +94,14 @@ const MainScreen = (_props: WidgetRenderProps) => {
         <button
           type="button"
           className="note-body-rendered"
-          onFocus={() => switchEditing(true)}
-          onClick={() => switchEditing(true)}
+          onFocus={() => {
+            trackInteraction("Initiated editing");
+            switchEditing(true);
+          }}
+          onClick={() => {
+            trackInteraction("Initiated editing");
+            switchEditing(true);
+          }}
         >
           <ScrollArea type="hover" color="dark">
             {!!body && (

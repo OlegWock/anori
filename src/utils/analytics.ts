@@ -1,15 +1,21 @@
+import { allPlugins } from "@anori/plugins/all";
+import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
+import { useWidgetMetadata } from "@anori/utils/plugin";
+import type { FolderDetailsInStorage, StorageContent } from "@anori/utils/user-data/types";
+import { useCallback } from "react";
+import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
 import { getAllCustomIconNames } from "./custom-icons";
 import { guid, wait } from "./misc";
 import { atomWithBrowserStorageStatic, storage } from "./storage/api";
-import type { FolderDetailsInStorage } from "./user-data/types";
 
 export const analyticsEnabledAtom = atomWithBrowserStorageStatic("analyticsEnabled", false);
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
-const MIXPANEL_TOKEN = "102076bf45f59f216724374916b45d48";
-const MIXPANEL_BASE_URL = "https://api-eu.mixpanel.com";
 
-export const getUserId = async () => {
+const POSTHOG_ENDPOINT_URL = "https://eu.i.posthog.com/i/v0/e/";
+const POSTHOG_API_KEY = "phc_K159gMq9zFXnfVlrfbr7vLf866l6hY8VViB01m1LBj2";
+
+const getUserId = async () => {
   let userId = await storage.getOne("userId");
   if (!userId) {
     userId = guid();
@@ -41,55 +47,182 @@ const detectBrowser = (): string => {
   return "Unknown";
 };
 
-export const gatherDailyUsageData = async (): Promise<any> => {
+export const plantPerformanceMetricsListeners = async () => {
+  const { analyticsEnabled } = await storage.get({ analyticsEnabled: false });
+  if (!analyticsEnabled) {
+    return;
+  }
+
+  // LCP
+  new PerformanceObserver(async (list) => {
+    const lcpEntry = list.getEntries().at(-1) as LargestContentfulPaint | undefined;
+    console.log("LCP entry", lcpEntry?.renderTime);
+    if (lcpEntry) {
+      const { performanceAvgLcp } = await storage.get({ performanceAvgLcp: { n: 0, avg: 0 } });
+      const n = performanceAvgLcp.n ?? 0;
+      const avg = performanceAvgLcp.avg ?? 0;
+      // Rolling average
+      await storage.set({
+        performanceAvgLcp: {
+          n: n + 1,
+          avg: avg + ((lcpEntry.renderTime - avg) / n + 1),
+        },
+      });
+    }
+  }).observe({ type: "largest-contentful-paint", buffered: true });
+
+  // INP
+  const latest = new Map<number, number>(); // interactionId → longest duration
+  let idleTimer: ReturnType<typeof setTimeout>;
+  new PerformanceObserver((list) => {
+    for (const _entry of list.getEntries()) {
+      const entry = _entry as PerformanceEventTiming;
+      // @ts-expect-error Prop is missing in TS types, but it's real
+      const interactionId = entry.interactionId as number;
+      if (!interactionId) continue; // ignore non-interaction events
+      const d = latest.get(interactionId) || 0;
+      if (entry.duration > d) latest.set(interactionId, entry.duration);
+    }
+    // 200ms debounce
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(async () => {
+      const values = [...latest.values()];
+      if (values.length) {
+        console.log("INP entries", values);
+        const { performanceRawInp } = await storage.get({ performanceRawInp: [] });
+        await storage.set({ performanceRawInp: [...performanceRawInp, ...values] });
+        latest.clear();
+      }
+    }, 200);
+    // @ts-expect-error Prop is missing in TS types, but it's real
+  }).observe({ type: "event", buffered: true, durationThreshold: 8 });
+};
+
+export const incrementDailyUsageMetric = async (name: keyof StorageContent["dailyUsageMetrics"]) => {
+  if (isBackground()) {
+    const { dailyUsageMetrics, analyticsEnabled } = await storage.get({
+      dailyUsageMetrics: {},
+      analyticsEnabled: false,
+    });
+    if (!analyticsEnabled) {
+      return;
+    }
+    dailyUsageMetrics[name] = (dailyUsageMetrics[name] ?? 0) + 1;
+    await storage.setOne("dailyUsageMetrics", dailyUsageMetrics);
+  } else {
+    return browser.runtime.sendMessage({ type: "increment-daily-usage-metric", name });
+  }
+};
+
+const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
+  const { folders } = await storage.get({ folders: [] });
+
+  const foldersQuery: Record<string, FolderDetailsInStorage> = Object.fromEntries(
+    folders.map((f) => [
+      f.name,
+      {
+        widgets: [],
+      },
+    ]),
+  );
+
+  const folderDetails = await storage.getDynamic<Record<string, FolderDetailsInStorage>>({
+    ...foldersQuery,
+    "Folder.home": { widgets: [] },
+  });
+
+  const widgetsCount: WidgetsCount = {};
+
+  allPlugins.forEach((plugin) => {
+    const widgets = plugin.widgets.flatMap((widgetOrGroup) => (Array.isArray(widgetOrGroup) ? widgetOrGroup : []));
+    widgets.forEach((wd) => {
+      widgetsCount[`Home folder widgets / ${plugin.id} / ${wd.id}`] = 0;
+      widgetsCount[`Custom folder widgets / ${plugin.id} / ${wd.id}`] = 0;
+    });
+  });
+
+  Object.entries(folderDetails).forEach(([key, { widgets }]) => {
+    const isHome = key === "Folder.home";
+    widgets.forEach((wd) => {
+      const propName = `${isHome ? "Home" : "Custom"} folder widgets / ${wd.pluginId} / ${wd.widgetId}` as const;
+      widgetsCount[propName] += 1;
+    });
+  });
+
+  return widgetsCount;
+};
+
+const aggregateInp = (values: number[]) => {
+  if (values.length === 0) return null;
+
+  // < 50 interactions → take the worst
+  if (values.length < 50) return Math.max(...values);
+
+  // ≥ 50 interactions → 98-th percentile
+  const sorted = values.slice().sort((a, b) => a - b);
+  const rank = Math.ceil(values.length * 0.98) - 1;
+  return sorted[rank];
+};
+
+const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"]> => {
   const folders = (await storage.getOne("folders")) || [];
   const numberOfCustomFolders = folders.length;
 
   const customIcons = await getAllCustomIconNames();
   const numberOfCustomIcons = customIcons.length;
 
-  const compactModeStorage = await storage.getOne("compactMode");
-  const automaticCompactMode = await storage.getOne("automaticCompactMode");
-  const compactMode = automaticCompactMode ? "auto" : compactModeStorage ? "enabled" : "disabled";
+  const {
+    sidebarOrientation,
+    autoHideSidebar,
+    theme: usedTheme,
+    language,
+    showBookmarksBar,
+    compactMode,
+    automaticCompactMode,
+    stealFocus,
+    showLoadAnimation,
+    hideEditFolderButton,
+    dailyUsageMetrics,
+    performanceAvgLcp,
+    performanceRawInp,
+  } = await storage.get({
+    sidebarOrientation: "auto",
+    autoHideSidebar: false,
+    theme: "Greenery",
+    language: "en",
+    showBookmarksBar: false,
+    compactMode: false,
+    automaticCompactMode: false,
+    stealFocus: false,
+    showLoadAnimation: false,
+    hideEditFolderButton: false,
+    dailyUsageMetrics: {},
+    performanceAvgLcp: { avg: 0, n: 0 },
+    performanceRawInp: [],
+  });
 
-  const usedTheme = (await storage.getOne("theme")) || "Greenery";
-  const language = (await storage.getOne("language")) || "en";
-  const showBookmarksBar = (await storage.getOne("showBookmarksBar")) || false;
   const { os } = await browser.runtime.getPlatformInfo();
   const extVersion = browser.runtime.getManifest().version;
 
-  const homeFolderDetails = ((await storage.getOneDynamic("Folder.home")) || { widgets: [] }) as FolderDetailsInStorage;
-  const folderDetails = (await Promise.all(
-    folders.map((f) => storage.getOneDynamic(`Folder.${f.id}`)),
-  )) as FolderDetailsInStorage[];
-
-  const widgetsUsage: Record<string, number> = {};
-  homeFolderDetails.widgets.forEach((w) => {
-    const key = `wh_${w.widgetId}`;
-    if (!widgetsUsage[key]) widgetsUsage[key] = 0;
-    widgetsUsage[key] += 1;
-  });
-
-  folderDetails.forEach((f) => {
-    if (!f) return;
-    f.widgets.forEach((w) => {
-      const key = `wo_${w.widgetId}`;
-      if (!widgetsUsage[key]) widgetsUsage[key] = 0;
-      widgetsUsage[key] += 1;
-    });
-  });
-
   return {
-    numberOfCustomFolders,
-    numberOfCustomIcons,
-    compactMode,
-    usedTheme,
-    showBookmarksBar,
-    language,
-    os,
-    browser: detectBrowser(),
-    extVersion,
-    ...widgetsUsage,
+    "Browser": detectBrowser(),
+    "Operational system": os,
+    "Extension version": extVersion,
+    "Custom icons count": numberOfCustomIcons,
+    "Custom folders count": numberOfCustomFolders,
+    "Sidebar orientation": sidebarOrientation,
+    "Automatically hide sidebar enabled": autoHideSidebar,
+    "Bookmarks bar enabled": showBookmarksBar,
+    "Focus stealer enabled": stealFocus,
+    "Compact mode": automaticCompactMode ? "auto" : compactMode ? "enabled" : "disabled",
+    "Open animation enabled": showLoadAnimation,
+    "Edit folder button hidden": hideEditFolderButton,
+    "Language": language,
+    "Theme": usedTheme,
+    "Performance / Avg LCP": performanceAvgLcp.avg || null,
+    "Performance / INP": aggregateInp(performanceRawInp),
+    ...dailyUsageMetrics,
+    ...(await gatherUsedWidgetsCount()),
   };
 };
 
@@ -101,53 +234,58 @@ export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
   if (lastSend && lastSend + ANALYTICS_TIMEOUT > Date.now() && !skipTimeout) return;
 
   const data = await gatherDailyUsageData();
-  const userId = await getUserId();
-  console.log("Before mixpanel call");
 
-  const payload = {
-    event: "Daily stats",
-    properties: {
-      distinct_id: userId,
-      token: MIXPANEL_TOKEN,
-      time: Date.now(),
-      $insert_id: guid(),
-      ...data,
-    },
-  };
-
-  await fetch(`${MIXPANEL_BASE_URL}/track?ip=1`, {
-    method: "POST",
-    headers: { accept: "text/plain", "content-type": "application/json" },
-    mode: "no-cors",
-    credentials: "omit",
-    body: `data=${encodeURIComponent(JSON.stringify(payload))}`,
+  await trackEvent("Usage statistics", data);
+  await storage.set({
+    analyticsLastSend: Date.now(),
+    dailyUsageMetrics: {},
+    performanceAvgLcp: { n: 0, avg: 0 },
+    performanceRawInp: [],
   });
-  await storage.setOne("analyticsLastSend", Date.now());
 };
 
-export const trackEvent = async (eventName: string, props: Record<string, any> = {}, timeout = 300) => {
-  const enabled = await storage.getOne("analyticsEnabled");
-  if (!enabled) return;
-  const userId = await getUserId();
+type TrackEventParams<K extends keyof AnalyticEvents> = AnalyticEvents[K] extends Record<string, never>
+  ? [eventName: K]
+  : [eventName: K, props: AnalyticEvents[K]];
+export async function trackEvent<K extends keyof AnalyticEvents>(...params: TrackEventParams<K>): Promise<void>;
+export async function trackEvent<K extends keyof AnalyticEvents>(eventName: K, props = {}) {
+  if (isBackground()) {
+    if (X_MODE === "development") {
+      console.log("Tracked event", eventName, props);
+      return;
+    }
 
-  const payload = {
-    event: eventName,
-    properties: {
-      distinct_id: userId,
-      token: MIXPANEL_TOKEN,
-      time: Date.now(),
-      $insert_id: guid(),
-      ...props,
-    },
-  };
+    const enabled = await storage.getOne("analyticsEnabled");
+    if (!enabled) return;
+    const userId = await getUserId();
 
-  const promise = fetch(`${MIXPANEL_BASE_URL}/track?ip=1`, {
-    method: "POST",
-    headers: { accept: "text/plain", "content-type": "application/json" },
-    mode: "no-cors",
-    credentials: "omit",
-    body: `data=${encodeURIComponent(JSON.stringify(payload))}`,
-  });
+    const promise = fetch(POSTHOG_ENDPOINT_URL, {
+      method: "POST",
+      headers: { accept: "text/plain", "content-type": "application/json" },
+      mode: "no-cors",
+      credentials: "omit",
+      body: JSON.stringify({
+        api_key: POSTHOG_API_KEY,
+        event: eventName,
+        properties: {
+          distinct_id: userId,
+          ...props,
+        },
+      }),
+    });
 
-  return Promise.race([wait(timeout), promise]);
+    return Promise.race([wait(1000), promise]);
+  }
+
+  return browser.runtime.sendMessage({ type: "track-event", eventName, props });
+}
+
+export const useWidgetInteractionTracker = () => {
+  const ctx = useWidgetMetadata();
+  const trackInteraction = useCallback(
+    (name: string) => incrementDailyUsageMetric(`Interactions / ${ctx.pluginId} / ${ctx.widgetId} / ${name}`),
+    [ctx.pluginId, ctx.widgetId],
+  );
+
+  return trackInteraction;
 };
