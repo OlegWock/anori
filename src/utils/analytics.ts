@@ -134,7 +134,10 @@ const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
   const widgetsCount: WidgetsCount = {};
 
   allPlugins.forEach((plugin) => {
-    const widgets = plugin.widgets.flatMap((widgetOrGroup) => (Array.isArray(widgetOrGroup) ? widgetOrGroup : []));
+    const widgets = plugin.widgets.flatMap((widgetOrGroup) =>
+      Array.isArray(widgetOrGroup) ? widgetOrGroup : [widgetOrGroup],
+    );
+
     widgets.forEach((wd) => {
       widgetsCount[`Home folder widgets / ${plugin.id} / ${wd.id}`] = 0;
       widgetsCount[`Custom folder widgets / ${plugin.id} / ${wd.id}`] = 0;
@@ -225,6 +228,9 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
     ...(await gatherUsedWidgetsCount()),
   };
 };
+
+// @ts-ignore
+self.gatherDailyUsageData = gatherDailyUsageData;
 
 export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
   const enabled = await storage.getOne("analyticsEnabled");
