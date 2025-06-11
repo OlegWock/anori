@@ -1,9 +1,13 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import { locate, type lookupCollection } from "@iconify/json";
 import { IconSet, exportToDirectory } from "@iconify/tools";
 
 type IconifyJSON = Awaited<ReturnType<typeof lookupCollection>>;
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const main = async () => {
   const ICON_SETS_TO_LOAD = [
