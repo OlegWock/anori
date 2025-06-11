@@ -1,14 +1,22 @@
 import { useCustomIcon } from "@anori/utils/custom-icons";
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { combineRefs } from "@anori/utils/react";
-import { type CSSProperties, type ComponentPropsWithoutRef, type Ref, useMemo, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  type ComponentPropsWithoutRef,
+  type Ref,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { forwardRef } from "react";
 import browser from "webextension-polyfill";
 import "./Icon.scss";
 import { iife } from "@anori/utils/misc";
 import { availablePermissionsAtom } from "@anori/utils/permissions";
 import clsx from "clsx";
-import { m } from "framer-motion";
+import { m, motion } from "framer-motion";
 import { useAtomValue } from "jotai";
 
 type SvgIconCacheDescriptor = {
@@ -90,18 +98,35 @@ const SvgIconRendered = forwardRef<SVGSVGElement, SvgIconRenderedProps>(
       if (svgElementRef.current) patchSvgRef(svgElementRef.current);
     }, [icon]);
 
+    const borderRadius =
+      iife(() => {
+        const rawSize = width || height || 24;
+        if (typeof rawSize === "string") {
+          return Number.parseInt(rawSize);
+        }
+        if (typeof rawSize === "number") {
+          return rawSize;
+        }
+        return 24;
+      }) / 5;
+
+    useEffect(() => {
+      // TODO: for some reason borderRadius is not applied by Motion when passed as field of `style`
+      // so we set it manually. Might get resolved on itself after Motion update
+      if (svgElementRef.current) {
+        svgElementRef.current.style.borderRadius = `${borderRadius.toString()}px`;
+      }
+    });
+
     const finalWidth = width || (height ? undefined : "1rem");
     const finalHeight = height || (width ? undefined : "1rem");
 
     return (
-      <m.svg
+      <motion.svg
         {...props}
         style={{
           aspectRatio,
-          // Fill and stroke will be overwritten in SVG itself, we set them to transparent
-          // here to avoid browser applying default value like solid black
-          fill: "transparent",
-          stroke: "transparent",
+          borderRadius,
           ...style,
         }}
         width={finalWidth}
