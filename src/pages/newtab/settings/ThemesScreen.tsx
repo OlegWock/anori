@@ -23,7 +23,7 @@ import { ColorPicker } from "@anori/components/ColorPicker";
 import { Icon } from "@anori/components/Icon";
 import { Slider } from "@anori/components/Slider";
 import { showOpenFilePicker } from "@anori/utils/files";
-import { useRunAfterNextRender } from "@anori/utils/hooks";
+import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
 import { setPageBackground } from "@anori/utils/page";
 import { useCurrentTheme } from "@anori/utils/user-data/theme-hooks";
@@ -41,6 +41,7 @@ const ThemePlate = ({
       ? browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background}`)
       : null;
   });
+  const backgroundUrlRef = useMirrorStateToRef(backgroundUrl);
 
   useEffect(() => {
     const main = async () => {
@@ -53,12 +54,12 @@ const ThemePlate = ({
     main();
     if (theme.type === "custom") {
       return () => {
-        if (backgroundUrl) {
-          URL.revokeObjectURL(backgroundUrl);
+        if (backgroundUrlRef.current) {
+          URL.revokeObjectURL(backgroundUrlRef.current);
         }
       };
     }
-  }, [theme, backgroundUrl]);
+  }, [theme]);
 
   return (
     <div className={clsx("BackgroundPlate", className)}>
