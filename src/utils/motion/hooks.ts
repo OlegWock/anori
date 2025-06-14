@@ -1,11 +1,14 @@
 import { useMirrorStateToRef } from "@anori/utils/hooks";
-import { type AnimationOptions, type MotionValue, animate, useMotionValue } from "framer-motion";
+import { type MotionValue, animate, useMotionValue } from "framer-motion";
 import { useEffect, useRef } from "react";
+import type { AnimationOptions } from "./types";
+
+type AnimationOptions$2<V extends {}> = AnimationOptions<V>[2];
 
 // Source: https://github.com/framer/motion/issues/218#issuecomment-766101845
 export const useMotionTransition = <T extends {}>(
   source: MotionValue<T>,
-  { ignoreInitial, ...config }: AnimationOptions & { ignoreInitial?: boolean } = {},
+  { ignoreInitial, ...config }: AnimationOptions$2<T> & { ignoreInitial?: boolean } = {},
 ) => {
   const animatedMotionValue = useMotionValue(source.get());
   const prevValue = useRef<undefined | T>(undefined);
