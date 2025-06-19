@@ -154,9 +154,7 @@ const Start = () => {
               />
 
               <div className="widgets-area">
-                <AnimatePresence initial={false} mode="wait" custom={animationDirection}>
-                  <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
-                </AnimatePresence>
+                <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
               </div>
             </div>
           </m.div>

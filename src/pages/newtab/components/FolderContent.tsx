@@ -32,7 +32,7 @@ const variants = {
     translateX: "0%",
     opacity: 1,
   },
-  initial: (custom: "up" | "down") => {
+  initial: (custom: "up" | "down" | "left" | "right") => {
     if (custom === "up") {
       return {
         translateY: "-35%",
@@ -54,35 +54,6 @@ const variants = {
     if (custom === "right") {
       return {
         translateX: "35%",
-        opacity: 0,
-      };
-    }
-    return {
-      opacity: 0,
-    };
-  },
-  exit: (custom: "up" | "down") => {
-    if (custom === "up") {
-      return {
-        translateY: "35%",
-        opacity: 0,
-      };
-    }
-    if (custom === "down") {
-      return {
-        translateY: "-35%",
-        opacity: 0,
-      };
-    }
-    if (custom === "left") {
-      return {
-        translateX: "35%",
-        opacity: 0,
-      };
-    }
-    if (custom === "right") {
-      return {
-        translateX: "-35%",
         opacity: 0,
       };
     }
@@ -174,7 +145,6 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
           variants={variants}
           initial="initial"
           animate="visible"
-          exit="exit"
           custom={animationDirection}
           style={
             {
