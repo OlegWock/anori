@@ -23,19 +23,19 @@ export const allSets = [
 ];
 
 export const iconSetPrettyNames: Record<string, string> = {
-  "ion": "IonIcons",
-  "fluent": "Fluent UI System Icons",
-  "ic": "Google Material Icons",
-  "jam": "Jam Icons",
+  ion: "IonIcons",
+  fluent: "Fluent UI System Icons",
+  ic: "Google Material Icons",
+  jam: "Jam Icons",
   "fluent-emoji-flat": "Fluent Emoji Flat",
-  "twemoji": "Twitter Emoji",
+  twemoji: "Twitter Emoji",
   "flat-color-icons": "Flat Color Icons",
-  "logos": "SVG Logos",
+  logos: "SVG Logos",
   "skill-icons": "Skill Icons",
   "vscode-icons": "VSCode Icons",
   "circle-flags": "Circle Flags",
-  "flagpack": "Flagpack",
-  "wi": "Weather Icons",
+  flagpack: "Flagpack",
+  wi: "Weather Icons",
 } as const;
 
 if (CUSTOM_ICONS_AVAILABLE) {
