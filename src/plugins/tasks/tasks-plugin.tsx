@@ -2,8 +2,6 @@ import { Button } from "@anori/components/Button";
 import { Input, Textarea } from "@anori/components/Input";
 import type {
   AnoriPlugin,
-  ID,
-  OnCommandInputCallback,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
@@ -20,7 +18,7 @@ import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
-import { getAllWidgetsByPlugin, getWidgetStorage, useWidgetStorage } from "@anori/utils/plugin";
+import { useWidgetStorage } from "@anori/utils/plugin";
 import { combineRefs } from "@anori/utils/react";
 import { useDirection } from "@radix-ui/react-direction";
 import {
@@ -329,43 +327,6 @@ const Mock = () => {
   );
 };
 
-const onCommandInput: OnCommandInputCallback = async (text: string) => {
-  const pullTasksFromWidget = async (instaceId: ID) => {
-    const storage = getWidgetStorage<TaskWidgetStorageType>(instaceId);
-    await storage.waitForLoad();
-    const tasks = storage.get("tasks") || [];
-    return { tasks, instaceId };
-  };
-
-  const markTaskAsCompleted = async (instaceId: ID, taskId: ID) => {
-    const storage = getWidgetStorage<TaskWidgetStorageType>(instaceId);
-    await storage.waitForLoad();
-    const tasks = storage.get("tasks") || [];
-    storage.set(
-      "tasks",
-      tasks.filter((t) => t.id !== taskId),
-    );
-  };
-
-  const q = text.toLowerCase();
-  const widgets = await getAllWidgetsByPlugin(tasksPlugin);
-  const tasksByWidget = await Promise.all(widgets.map((w) => pullTasksFromWidget(w.instanceId)));
-  return tasksByWidget.flatMap(({ tasks, instaceId }) => {
-    return tasks
-      .filter((t) => t.text.toLowerCase().includes(q))
-      .map((t) => {
-        return {
-          icon: "ion:checkmark-circle-outline",
-          text: translate("tasks-plugin.completeTask", { task: t.text }),
-          key: t.id,
-          onSelected: () => {
-            markTaskAsCompleted(instaceId, t.id);
-          },
-        };
-      });
-  });
-};
-
 export const tasksWidgetDescriptor = {
   id: "tasks-widget",
   get name() {
@@ -392,5 +353,4 @@ export const tasksPlugin = {
   },
   widgets: [tasksWidgetDescriptor],
   configurationScreen: null,
-  onCommandInput,
 } satisfies AnoriPlugin;

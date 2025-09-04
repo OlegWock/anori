@@ -109,7 +109,6 @@
             "title": "Atalhos",
             "showCheatsheet": "Mostrar/ocultar folha de dicas de atalhos",
             "toggleSettings": "Mostrar/ocultar configurações",
-            "displayCommandMenu": "Mostrar menu de comandos",
             "closeMenuOrModal": "Fechar menu de comandos or janela modal",
             "switchToFolderAbove": "Mudar para a pasta acima",
             "switchToFolderBelow": "Mudar para a pasta abaixo",
@@ -131,13 +130,6 @@
                 "p1": "Por padrão, todos os seus widgets são adicionados à pasta ‘Início’. No entanto, você também pode organizar seus widgets em pastas diferentes. Por exemplo, você pode ter pastas diferentes para widgets pessoais e de trabalho. Ou você pode ter uma pasta separada para cada projeto individual.",
                 "p2": "Para gerenciar pastas, clique no ícone de engrenagem no canto inferior esquerdo. Isso abrirá as configurações, onde você pode personalizar o Anori ao seu gosto. Clique em 'Pastas' para abrir o gerenciador de pastas."
             },
-            "shortcuts": {
-                "title": "Atalhos",
-                "p1": "Muitas ações no Anori podem ser realizadas usando atalhos de teclado.",
-                "p2": "Vários widgets permitem que você interaja com eles usando um menu de comando. Para abrir o menu, pressione {{metaKey}}+K. Depois de adicionar os primeiros widgets, você poderá utilizar todo o seu poder para abrir marcadores, pesquisar ou marcar tarefas como concluídas usando apenas o teclado.",
-                "p3": "Por padrão, ao abrir uma nova aba, a barra de pesquisa do navegador estará ativa. Anori não recebe nenhum evento quando você digita lá, então para usar atalhos você precisa primeiro mover o foco para a página Anori e depois pressionar as teclas de atalho. Para mover o foco, você pode pressionar Tab ou clicar em qualquer lugar da página.",
-                "p4": "Se quiser ver a lista completa de atalhos, você pode encontrar uma folha de dicas na seção 'Ajuda' das configurações."
-            },
             "customization": {
                 "title": "Customização",
                 "p1": "Embora o Anori permita que você componha sua própria página inicial com widgets, ela pode ser ainda mais customizada.",
@@ -157,12 +149,6 @@
                 "p3": "Pode não estar adaptado para todas as suas necessidades, mas você pode usá-lo como base para fazer sua própria configuração que você vai adorar.",
                 "cta": "🚀 Apenas me dê uma configuração produtiva, hein!"
             }
-        },
-
-        "commandMenu": {
-            "name": "Menu de Comandos Global",
-            "placeholder": "Digite um comando",
-            "noWidgets": "Nada aqui ainda. Tente adicionar alguns widgets a uma pasta."
         },
 
         "requirePermissions": {

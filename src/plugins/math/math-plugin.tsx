@@ -1,10 +1,5 @@
 import { Button } from "@anori/components/Button";
-import type {
-  AnoriPlugin,
-  OnCommandInputCallback,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Icon } from "@anori/components/Icon";
 import { Input } from "@anori/components/Input";
@@ -264,36 +259,6 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
   );
 };
 
-const onCommandInput: OnCommandInputCallback = async (text: string) => {
-  const force = text.startsWith("=");
-  const exp = force ? text.slice(1) : text;
-  try {
-    const result = await evaluate(exp);
-    return [
-      {
-        icon: "ion:calculator",
-        text: result.toString(),
-        key: result.toString(),
-        onSelected: () => {
-          navigator.clipboard.writeText(result.toString());
-        },
-      },
-    ];
-  } catch (_err) {
-    if (force) {
-      return [
-        {
-          icon: "ion:calculator",
-          text: translate("math-plugin.cantCalc"),
-          key: "cant-parse",
-          onSelected: () => {},
-        },
-      ];
-    }
-    return [];
-  }
-};
-
 const widgetDescriptor = {
   id: "calc-widget",
   get name() {
@@ -349,6 +314,5 @@ export const mathPlugin = {
     return translate("math-plugin.name");
   },
   widgets: [widgetDescriptor, expandableWidgetDescriptor],
-  onCommandInput,
   configurationScreen: null,
 } satisfies AnoriPlugin;

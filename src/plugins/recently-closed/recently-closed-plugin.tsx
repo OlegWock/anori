@@ -1,9 +1,4 @@
-import type {
-  AnoriPlugin,
-  OnCommandInputCallback,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
+import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Icon } from "@anori/components/Icon";
 import { RelativeTime } from "@anori/components/RelativeTime";
@@ -116,42 +111,6 @@ const WidgetScreen = ({ instanceId }: WidgetRenderProps) => {
   );
 };
 
-const onCommandInput: OnCommandInputCallback = async (query: string) => {
-  const sessions = await browser.sessions.getRecentlyClosed();
-  const q = query.toLowerCase();
-
-  return sessions
-    .filter((s) => {
-      if (s.tab) {
-        if (s.tab.title?.toLowerCase().includes(q)) return true;
-        if (s.tab.url?.toLowerCase().includes(q)) return true;
-        return false;
-      }
-      if (s.window) {
-        if (s.window.title?.toLowerCase().includes(q)) return true;
-        return false;
-      }
-      return false;
-    })
-    .map((s) => {
-      const id = (s.tab ? s.tab.sessionId : s.window?.sessionId) as string;
-      const title = s.tab ? s.tab.title : s.window?.title;
-      const favIcon = s.tab ? s.tab.favIconUrl : "";
-      const icon = favIcon ? undefined : s.tab ? "ic:baseline-tab" : "ic:outline-window";
-      return {
-        icon: icon,
-        image: favIcon,
-        text: title || "",
-        key: id,
-        hint: moment.unix(s.lastModified).fromNow(true),
-        onSelected: async () => {
-          await browser.sessions.restore(id);
-          window.close();
-        },
-      };
-    });
-};
-
 const widgetDescriptor = {
   id: "recently-closed-widget",
   get name() {
@@ -183,5 +142,4 @@ export const recentlyClosedPlugin = {
   },
   widgets: [widgetDescriptor],
   configurationScreen: null,
-  onCommandInput,
 } satisfies AnoriPlugin;

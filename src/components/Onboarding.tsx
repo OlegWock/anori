@@ -19,7 +19,6 @@ import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemIn
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
-import { metaKeyOnCurrentPlatform } from "@anori/utils/shortcuts";
 import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
 import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
 import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/user-data/types";
@@ -32,7 +31,7 @@ import { Checkbox } from "./Checkbox";
 import { Icon } from "./Icon";
 import { slidingScreensAnimation } from "./animations";
 
-const screens = ["start", "folders", "shortcuts", "customization", "analytics", "presets"] as const;
+const screens = ["start", "folders", "customization", "analytics", "presets"] as const;
 
 const Section = forwardRef<HTMLDivElement, ComponentProps<typeof m.section>>(({ ...props }, ref) => {
   return (
@@ -339,15 +338,6 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   <h1>{t("onboarding.folders.title")}</h1>
                   <p>{t("onboarding.folders.p1")}</p>
                   <p>{t("onboarding.folders.p2")}</p>
-                </Section>
-              )}
-              {screenName === "shortcuts" && (
-                <Section custom={direction} key="shortcuts">
-                  <h1>{t("onboarding.shortcuts.title")}</h1>
-                  <p>{t("onboarding.shortcuts.p1")}</p>
-                  <p>{t("onboarding.shortcuts.p2", { metaKey: metaKeyOnCurrentPlatform })}</p>
-                  <p>{t("onboarding.shortcuts.p3")}</p>
-                  <p>{t("onboarding.shortcuts.p4")}</p>
                 </Section>
               )}
               {screenName === "customization" && (

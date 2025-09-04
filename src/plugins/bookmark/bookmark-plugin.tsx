@@ -3,7 +3,6 @@ import { Input } from "@anori/components/Input";
 import type {
   AnoriPlugin,
   ID,
-  OnCommandInputCallback,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetInFolderWithMeta,
@@ -540,52 +539,6 @@ const BookmarkWidget = ({
   );
 };
 
-const onCommandInput: OnCommandInputCallback = async (text: string) => {
-  const q = text.toLowerCase();
-  const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
-  return widgets
-    .filter((widget) => {
-      const w = widget;
-      const inUrl =
-        ("url" in w.configuration && w.configuration.url.toLowerCase().includes(q)) ||
-        ("urls" in w.configuration && w.configuration.urls.join("").toLowerCase().includes(q));
-      const inTitle = w.configuration.title.toLowerCase().includes(q);
-      const inIcon = w.configuration.icon.toLowerCase().includes(q);
-
-      return inUrl || inTitle || inIcon;
-    })
-    .map((w) => {
-      if ("url" in w.configuration) {
-        const { url, title, icon } = w.configuration;
-        const host = parseHost(url);
-        return {
-          icon,
-          text: title,
-          hint: host,
-          key: w.instanceId,
-          onSelected: () => {
-            window.location.href = url;
-          },
-        };
-      }
-      const { urls, title, icon, openInTabGroup } = w.configuration;
-      return {
-        icon,
-        text: title,
-        hint: translate("bookmark-plugin.group"),
-        key: w.instanceId,
-        onSelected: () => {
-          sendMessage("openGroup", {
-            urls,
-            title,
-            openInTabGroup,
-            closeCurrentTab: true,
-          });
-        },
-      };
-    });
-};
-
 export const bookmarkWidgetDescriptor = {
   id: "bookmark",
   get name() {
@@ -702,7 +655,6 @@ export const bookmarkPlugin: AnoriPlugin<
     return translate("bookmark-plugin.name");
   },
   widgets: [bookmarkWidgetDescriptor, bookmarkGroupWidgetDescriptor],
-  onCommandInput,
   configurationScreen: null,
   onMessage: handlers,
   scheduledCallback: {

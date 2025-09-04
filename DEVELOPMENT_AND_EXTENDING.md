@@ -28,9 +28,9 @@ yarn watch:ff
 
 ## Extending
 
-To extend Anori with your own widgets or command for Cmd+K menu, you need to create plugin and enable it. Plugin may contain multiple widgets (and can contain none as well). To get a grasp on how plugin might look, check `src/plugins/blueprint` folder. You can use it as base for your own plugin. And also you will need to add your plugin descriptor to `availablePlugins` in `src/plugins/all.ts`.
+To extend Anori with your own widgets, you need to create plugin and enable it. Plugin may contain multiple widgets (and can contain none as well). To get a grasp on how plugin might look, check `src/plugins/blueprint` folder. You can use it as base for your own plugin. And also you will need to add your plugin descriptor to `availablePlugins` in `src/plugins/all.ts`.
 
-Besides widgets and command handler, plugin may provide configuration component. If present, this component will be rendered in separate section in settings and later widgets and command handlers can use stored configuration. Currently, this feature isn't used by any plugins, so it probably will require a bit of polishing UI in settings as well.
+Besides widgets, plugin may provide configuration component. If present, this component will be rendered in separate section in settings and later widgets can use stored configuration. Currently, this feature isn't used by any plugins, so it probably will require a bit of polishing UI in settings as well.
 
 ### Widgets
 
@@ -45,22 +45,6 @@ Widgets are main building blocks of page. Each plugin may provide multiple widge
 * If widget is resizable, and if so what are minimal and maximal sizes (also in boxes).
 * `appearance.withHoverAnimation` property. If set to `true`, Anori will apply scale animation to card on hover.
 * `appearance.withoutPadding` property. If set to `true`, Anori won't add 1rem padding to widget card. Usually used to make whole widget clickable (like bookmark widget).
-
-### Command handler
-
-Plugin can also provide handler, which will be called when user types into Cmd+K menu. Handler should return promise which resolves to array of `CommandItem`. There is time limit of 300ms (`ON_COMMAND_INPUT_TIMEOUT` const). If promise doesn't resolve in 300ms, it will be ignored.
-
-Each `CommandItem` should have:
-
-* Text.
-* Unique key (this should be stable between handler calls).
-* Callback which will be invoked if user selects this item.
-
-Optionally, it can also have:
-
-* Icon or image URL. See below for details about icons.
-* Hint which will be displayed on right side of item.
-
 
 ## Useful APIs
 
@@ -148,7 +132,7 @@ This hook exposes metadata about current widget: configuration, function to upda
 
 > `getAllWidgetsByPlugin(pluginDescriptor)`
 
-This function loads all widget instances from selected plugin. Might be useful to loop over all widgets to provide related results in command handler or background task.
+This function loads all widget instances from selected plugin. Might be useful to loop over all widgets in background task.
 
 ### CSS
 

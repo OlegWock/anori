@@ -20,12 +20,6 @@ export const ShortcutsHelp = () => {
       </div>
       <div className="shortcut-row">
         <div className="hint-wrapper">
-          <ShortcutHint shortcut="meta+k" />
-        </div>
-        <div>{t("shortcuts.displayCommandMenu")}</div>
-      </div>
-      <div className="shortcut-row">
-        <div className="hint-wrapper">
           <ShortcutHint shortcut="Esc" />
         </div>
         <div>{t("shortcuts.closeMenuOrModal")}</div>

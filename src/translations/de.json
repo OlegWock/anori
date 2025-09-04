@@ -120,7 +120,6 @@
             "title": "Shortcuts",
             "showCheatsheet": "Shortcuts Cheatsheet zeigen/verstecken",
             "toggleSettings": "Einstellungen zeigen/verstecken",
-            "displayCommandMenu": "Befehlsmenü anzeigen",
             "closeMenuOrModal": "Befehlsmenü oder Fenster schließen",
             "switchToFolderAbove": "Zum übergeordneten Ordner wechseln",
             "switchToFolderBelow": "Zum untergeordneten Ordner wechseln",
@@ -141,13 +140,6 @@
                 "p1": "Standardmäßig werden alle Ihre Widgets dem Ordner 'Home' hinzugefügt. Du kannst deine Widgets aber auch in verschiedenen Ordnern organisieren. Du könntest zum Beispiel verschiedene Ordner für berufliche und private Widgets haben. Oder du könntest einen separaten Ordner für einzelne Projekt haben.",
                 "p2": "Um Ordner zu verwalten, klicke auf das Zahnrad-Symbol in der unteren linken Ecke. Dadurch werden die Einstellungen geöffnet, in denen du Anori nach deinen Wünschen anpassen kannst. Klicke dort auf 'Ordner', um den Ordner-Manager zu öffnen."
             },
-            "shortcuts": {
-                "title": "Tastenkombinationen",
-                "p1": "Viele Aktionen in Anori können mit Tastenkombinationen ausgeführt werden.",
-                "p2": "Bei einer Reihe von Widgets kannst du über ein Befehlsmenü mit ihnen interagieren. Um das Menü zu öffnen, drücke {{metaKey}}+K. Sobald du deine ersten Widgets hinzugefügt hast, kannst du die volle Funktionalität nutzen, um Lesezeichen zu öffnen, zu suchen oder Aufgaben als erledigt zu markieren, indem du einfach deine Tastatur benutzt.",
-                "p3": "Wenn du eine neue Registerkarte öffnest, ist standardmäßig die Suchleiste des Browsers aktiv. Anori erhält keine Meldungen, wenn du dort tippst. Um Tastenkombinationen zu verwenden, musst du den Fokus zuerst auf die Anori-Seite verschieben und dann die Tastenkombinationen drücken. Um den Fokus zu verschieben, kannst du die Tabulatortaste drücken oder irgendwo auf der Seite klicken.",
-                "p4": "Wenn du die vollständige Liste der Tastenkombinationen sehen möchtest, findest du ein Cheatsheet im Abschnitt 'Hilfe' der Einstellungen."
-            },
             "customization": {
                 "title": "Personalisierung",
                 "p1": "Mit Anori kannst du zwar deine eigene Startseite aus Widgets zusammenstellen, aber sie kann noch weiter angepasst werden.",
@@ -167,11 +159,6 @@
                 "p3": "Es ist vielleicht nicht auf alle deine Bedürfnisse zugeschnitten, aber du kannst es als Grundlage für deine eigene Einrichtung verwenden..",
                 "cta": "🚀 Gib mir einfach ein produktives Setup"
             }
-        },
-        "commandMenu": {
-            "name": "Globales Befehlsmenü",
-            "placeholder": "Befehl eingeben",
-            "noWidgets": "Hier ist noch nichts. Versuchen Sie, einige Widgets zum Ordner hinzuzufügen."
         },
         "requirePermissions": {
             "eh": "Eh?",

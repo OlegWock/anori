@@ -1,14 +1,12 @@
 import { Button } from "@anori/components/Button";
 import type {
   AnoriPlugin,
-  OnCommandInputCallback,
   WidgetConfigurationScreenProps,
   WidgetDescriptor,
   WidgetRenderProps,
 } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { translate } from "@anori/translations/index";
-import { getAllWidgetsByPlugin } from "@anori/utils/plugin";
 import { useTranslation } from "react-i18next";
 
 type PluginWidgetConfigType = {
@@ -48,13 +46,6 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
   );
 };
 
-const onCommandInput: OnCommandInputCallback = async (text: string) => {
-  const _q = text.toLowerCase();
-  const _widgets = await getAllWidgetsByPlugin(pluginnamePlugin);
-
-  return [];
-};
-
 const widgetDescriptor = {
   id: "widget",
   get name() {
@@ -80,6 +71,5 @@ export const pluginnamePlugin = {
     return translate("blueprint-plugin.name");
   },
   widgets: [widgetDescriptor],
-  onCommandInput,
   configurationScreen: null,
 } satisfies AnoriPlugin;

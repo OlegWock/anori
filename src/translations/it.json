@@ -103,7 +103,6 @@
             "title": "Scorciatoie",
             "showCheatsheet": "Mostra/nascondi la cheatsheet delle scorciatoie",
             "toggleSettings": "Mostra/nascondi le impostazioni",
-            "displayCommandMenu": "Visualizza il menu dei comandi",
             "closeMenuOrModal": "Chiudi menu dei comandi o finestra modale",
             "switchToFolderAbove": "Passa alla cartella sopra",
             "switchToFolderBelow": "Passa alla cartella sotto",
@@ -124,13 +123,6 @@
                 "p1": "Per impostazione predefinita, tutti i tuoi widget vengono aggiunti alla cartella 'Home'. Tuttavia, puoi anche organizzare i tuoi widget in diverse cartelle. Ad esempio, potresti avere una cartella per il lavoro e una personala. Oppure potresti avere una cartella separata per ogni progetto.",
                 "p2": "Per gestire le cartelle, clicca sull'icona dell'ingranaggio nell'angolo in basso a sinistra. Questo aprirà le impostazioni, dove puoi personalizzare Anori a tuo piacimento. Clicca su 'Cartelle' per aprire il gestore delle cartelle."
             },
-            "shortcuts": {
-                "title": "Scorciatoie",
-                "p1": "Molte azioni in Anori possono essere eseguite utilizzando le scorciatoie da tastiera.",
-                "p2": "Un gruppo di widget ti consente di interagire con essi utilizzando un menu dei comandi. Per aprire il menu, premi {{metaKey}}+K. Una volta aggiunti i tuoi primi widget, sarai in grado di utilizzare pienamente la sua potenza per aprire i segnalibri, cercare o contrassegnare le attività come completate utilizzando solo la tastiera.",
-                "p3": "Per impostazione predefinita, quando apri una nuova scheda, la barra di ricerca del browser sarà attiva. Anori non riceve eventi quando digiti lì, quindi per utilizzare le scorciatoie è necessario spostare il focus sulla pagina di Anori prima e quindi premere i tasti di scelta rapida. Per spostare il focus, puoi premere Tab o fare clic ovunque sulla pagina.",
-                "p4": "Se vuoi vedere l'elenco completo delle scorciatoie, puoi trovare un cheatsheet nella sezione 'Aiuto' delle impostazioni."
-            },
             "customization": {
                 "title": "Personalizzazione",
                 "p1": "Anori ti consente di comporre la tua pagina di avvio con i widget, ma può essere personalizzato ulteriormente.",
@@ -149,11 +141,6 @@
                 "p3": "Potrebbe non essere adatta a tutte le tue esigenze, ma puoi usarla come base per creare la configurazione che amerai.",
                 "cta": "🚀 Dammi una configurazione produttiva"
             }
-        },
-        "commandMenu": {
-            "name": "Menu globale dei comandi",
-            "placeholder": "Inserisci un comando",
-            "noWidgets": "Ancora niente qui. Prova ad aggiungere alcuni widget a una cartella."
         },
         "requirePermissions": {
             "eh": "Eh?",

@@ -104,7 +104,6 @@
             "title": "Raccourcis",
             "showCheatsheet": "Afficher/masquer la liste des raccourcis",
             "toggleSettings": "Afficher/masquer les paramètres",
-            "displayCommandMenu": "Afficher le menu de commande",
             "closeMenuOrModal": "Fermer le menu de commande ou la fenêtre modale",
             "switchToFolderAbove": "Passer au dossier ci-dessus",
             "switchToFolderBelow": "Passer au dossier ci-dessous",
@@ -125,13 +124,6 @@
                 "p1": "Par défaut, tous vos widgets sont ajoutés au dossier \"Accueil\". Toutefois, vous pouvez également organiser vos widgets dans différents dossiers. Par exemple, vous pouvez avoir des dossiers différents pour les widgets professionnels et personnels. Vous pouvez également créer un dossier distinct pour chaque projet individuel.",
                 "p2": "Pour gérer les dossiers, cliquez sur l'icône en forme d'engrenage dans le coin inférieur gauche. Cela ouvrira les paramètres, où vous pouvez personnaliser Anori à votre guise. Cliquez sur \"Dossiers\" pour ouvrir le gestionnaire de dossiers."
             },
-            "shortcuts": {
-                "title": "Raccourcis",
-                "p1": "De nombreuses actions dans Anori peuvent être effectuées à l'aide de raccourcis clavier.",
-                "p2": "Un certain nombre de widgets vous permettent d'interagir avec eux à l'aide d'un menu de commande. Pour ouvrir le menu, appuyez sur {{metaKey}}+K. Une fois que vous aurez ajouté vos premiers widgets, vous pourrez utiliser toute la puissance de l'application pour ouvrir des signets, effectuer des recherches ou marquer des tâches comme étant terminées en utilisant uniquement votre clavier.",
-                "p3": "Par défaut, lorsque vous ouvrez un nouvel onglet, la barre de recherche du navigateur est active. Anori ne reçoit aucun événement lorsque vous tapez dans cette barre. Pour utiliser les raccourcis, vous devez donc d'abord déplacer le curseur sur la page Anori, puis appuyer sur les touches de raccourci. Pour déplacer le focus, vous pouvez appuyer sur la touche Tab ou cliquer n'importe où sur la page.",
-                "p4": "Si vous souhaitez consulter la liste complète des raccourcis, vous trouverez la liste dans la section \"Aide\" des paramètres."
-            },
             "customization": {
                 "title": "Personnalisation",
                 "p1": "Bien qu'Anori vous permette de composer votre propre page d'accueil à partir de widgets, il est possible de la personnaliser davantage.",
@@ -150,11 +142,6 @@
                 "p3": "Il ne répondra peut-être pas à tous vos besoins, mais vous pouvez l'utiliser comme base pour créer votre propre installation que vous adorerez.",
                 "cta": "🚀 Donnez-moi juste une configuration productive"
             }
-        },
-        "commandMenu": {
-            "name": "Menu de commandes globales",
-            "placeholder": "Entrer une commande",
-            "noWidgets": "Il n'y a encore rien ici. Essayez d'ajouter quelques widgets à un dossier."
         },
         "requirePermissions": {
             "eh": "Hein ?",

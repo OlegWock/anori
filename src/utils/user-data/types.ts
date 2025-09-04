@@ -84,7 +84,6 @@ export type AnoriPlugin<T extends {} = Record<string, unknown>, WT extends {} = 
   name: string;
   widgets: Array<WidgetDescriptor<WT> | WidgetDescriptor<WT>[]>;
   configurationScreen: ComponentType<PluginConfigurationScreenProps<T>> | null;
-  onCommandInput?: OnCommandInputCallback;
   onStart?: () => void;
   onMessage?: Record<string, (args: any, senderTab?: number) => any>;
   scheduledCallback?: {
@@ -137,17 +136,6 @@ export type WidgetDescriptor<T extends {} = Record<string, unknown>> = {
       mainScreen: ComponentType<WidgetRenderProps<Record<string, never>>>;
     }
 );
-
-export type OnCommandInputCallback = (text: string) => Promise<CommandItem[]>;
-
-export type CommandItem = {
-  icon?: string;
-  image?: string;
-  text: string;
-  key: string;
-  hint?: string;
-  onSelected: () => void;
-};
 
 export type OnMessageDescriptor<I extends {}, O> = {
   args: I;

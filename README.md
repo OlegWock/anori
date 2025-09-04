@@ -6,7 +6,6 @@
 * Add widgets to homepage and organize them however you want
 * Use bookmarks, calendar, todo, notes and other useful widgets
 * Organize them in folders
-* Quickly access your widgets using Cmd+K menu
 * Choose from 8 different color schemes and backgrounds
 * Supports Chrome and Firefox
 * Easily extend app with your own widgets

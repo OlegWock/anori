@@ -1,9 +1,9 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
-import { CommandMenu, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
+import { scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { initTranslation, languageDirections } from "@anori/translations/index";
-import { incrementDailyUsageMetric, plantPerformanceMetricsListeners, trackEvent } from "@anori/utils/analytics";
+import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { getAllCustomIcons } from "@anori/utils/custom-icons";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
@@ -89,18 +89,6 @@ const Start = () => {
           : "left";
 
   const [showBookmarksBar] = useBrowserStorageValue("showBookmarksBar", false);
-  const [commandMenuOpen, setCommandMenuOpen] = useState(false);
-  const [renderCommandMenu, setRenderCommandMenu] = useState(false);
-
-  useHotkeys(
-    "meta+k",
-    () => {
-      trackEvent("Command menu opened");
-      setCommandMenuOpen((open) => !open);
-      setRenderCommandMenu(true);
-    },
-    [],
-  );
 
   useHotkeys("meta+up, alt+up", () => swithFolderUp());
   useHotkeys("meta+left, alt+left", () => swithFolderUp());
@@ -146,10 +134,6 @@ const Start = () => {
               </div>
             </div>
           </m.div>
-
-          <Suspense key="command-menu" fallback={undefined}>
-            {renderCommandMenu && <CommandMenu open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
-          </Suspense>
         </AnimatePresence>
       </MotionConfig>
     </DirectionProvider>

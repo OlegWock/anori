@@ -24,10 +24,6 @@ export type AnalyticEvents = {
     "Performance / INP": number | null;
   } & StorageContent["dailyUsageMetrics"] &
     WidgetsCount;
-  "Command menu opened": NoParams;
-  "Command menu option selected": {
-    "Plugin ID": string;
-  };
   "Configuration imported": NoParams;
   "Configuration exported": NoParams;
   "Widget added": {

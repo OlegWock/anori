@@ -7,9 +7,6 @@ const loaders = {
   // TODO: add other components here and update usage
   // Settings modal, Whats new modal, New widget wizard, Bookmarks bar
   Select: cachedFunc(() => import("@anori/components/Select").then((module) => ({ default: module.Select }))),
-  CommandMenu: cachedFunc(() =>
-    import("@anori/components/command-menu/CommandMenu").then((module) => ({ default: module.CommandMenu })),
-  ),
   ReorderGroup: cachedFunc(() =>
     import("@anori/utils/motion/lazy-load-reorder").then((module) => ({ default: module.ReorderGroup })),
   ),
@@ -49,7 +46,6 @@ const createLazyComponentWithSuspense = <P,>(loader: () => Promise<{ default: Co
 };
 
 export const Select = createLazyComponentWithSuspense(loaders.Select) as typeof SelectType;
-export const CommandMenu = createLazyComponentWithSuspense(loaders.CommandMenu);
 export const ReorderGroup = createLazyComponentWithSuspense(loaders.ReorderGroup) as typeof ReorderGroupType;
 export const ReorderItem = createLazyComponentWithSuspense(loaders.ReorderItem);
 export const ReactMarkdown = createLazyComponentWithSuspense(loaders.ReactMarkdown);
