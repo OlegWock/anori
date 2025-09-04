@@ -1,5 +1,6 @@
 import { allPlugins } from "@anori/plugins/all";
 import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
+import { detectBrowser } from "@anori/utils/browser";
 import { useWidgetMetadata } from "@anori/utils/plugin";
 import { themes } from "@anori/utils/user-data/theme";
 import type { FolderDetailsInStorage, StorageContent } from "@anori/utils/user-data/types";
@@ -24,28 +25,6 @@ const getUserId = async () => {
   }
 
   return userId;
-};
-
-const detectBrowser = (): string => {
-  const ua = navigator.userAgent.toLowerCase();
-  if (ua.includes("firefox")) {
-    return "Firefox";
-  }
-  if (ua.includes(" opr/")) {
-    return "Opera";
-  }
-  if (ua.includes(" edg/")) {
-    return "Edge";
-  }
-  // @ts-ignore non-standart property
-  if (self.navigator.brave) {
-    return "Brave";
-  }
-  if (ua.includes("chrome/")) {
-    return "Chrome";
-  }
-
-  return "Unknown";
 };
 
 export const plantPerformanceMetricsListeners = async () => {

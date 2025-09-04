@@ -1,3 +1,4 @@
+import { detectBrowser } from "@anori/utils/browser";
 import { atom, getDefaultStore, useAtomValue } from "jotai";
 import browser, { type Manifest } from "webextension-polyfill";
 
@@ -70,9 +71,14 @@ export const watchForPermissionChanges = async () => {
 };
 
 export const isPermissionSupported = (permission: string) => {
-  if (X_BROWSER === "firefox") {
+  const browser = detectBrowser();
+  if (browser === "Firefox") {
     // declarativeNetRequestWithHostAccess is available, but Anori doesn't use it in Firefox
     return !["favicon", "declarativeNetRequestWithHostAccess"].includes(permission);
+  }
+  if (browser === "Opera") {
+    // Opera doesn't support favicon for some reason (+ webRequest not supported by Chromium browsers in general)
+    return !["favicon", "webRequest", "webRequestBlocking"].includes(permission);
   }
   return !["webRequest", "webRequestBlocking"].includes(permission);
 };
