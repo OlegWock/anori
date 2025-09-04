@@ -17,6 +17,13 @@ export const WhatsNew = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
+            <h2>1.24.0</h2>
+            <ul>
+              <li>Top sites widget is now resizable.</li>
+            </ul>
+          </section>
+
+          <section>
             <h2>1.23.0</h2>
             <ul>
               <li>This is housekeeping release. A lot of refactoring, a bit of optimizations, bunch of bugfixes.</li>

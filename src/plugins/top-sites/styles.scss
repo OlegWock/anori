@@ -16,6 +16,7 @@
 
     &.vertical {
         grid-template-rows: repeat(6, 1fr);
+        grid-auto-flow: column;
 
         .site-title {
             height: 1.25rem;

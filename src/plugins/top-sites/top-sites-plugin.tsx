@@ -11,9 +11,9 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { useLinkNavigationState } from "@anori/utils/hooks";
 import { parseHost } from "@anori/utils/misc";
 import type { CorrectPermission } from "@anori/utils/permissions";
-import { useWidgetStorage } from "@anori/utils/plugin";
+import { useWidgetMetadata, useWidgetStorage } from "@anori/utils/plugin";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import browser from "webextension-polyfill";
 
 type WidgetStorageType = {
@@ -68,6 +68,11 @@ const MainScreen = ({ type }: WidgetRenderProps & { type: "horizontal" | "vertic
   const [blacklist, setBlacklist] = store.useValue("blacklist", []);
 
   const [sites, setSites] = useState<browser.TopSites.MostVisitedURL[]>([]);
+  const {
+    size: { height, width },
+  } = useWidgetMetadata();
+  const resizableDimension = type === "horizontal" ? height : width;
+  const sitesToDisplay = useMemo(() => sites.slice(0, resizableDimension === 1 ? 6 : 12), [sites, resizableDimension]);
 
   useEffect(() => {
     const load = async () => {
@@ -78,7 +83,7 @@ const MainScreen = ({ type }: WidgetRenderProps & { type: "horizontal" | "vertic
         data = await browser.topSites.get();
       }
 
-      setSites(data.filter((s) => !blacklist.includes(s.url)).slice(0, 6));
+      setSites(data.filter((s) => !blacklist.includes(s.url)));
     };
 
     load();
@@ -88,7 +93,7 @@ const MainScreen = ({ type }: WidgetRenderProps & { type: "horizontal" | "vertic
 
   return (
     <div className={clsx("TopSitesWidget", type)}>
-      {sites.map((s) => {
+      {sitesToDisplay.map((s) => {
         const resUrl = new URL(browser.runtime.getURL("/_favicon/"));
         resUrl.searchParams.set("pageUrl", s.url);
         resUrl.searchParams.set("size", "32");
@@ -157,10 +162,19 @@ export const topSitesWidgetDescriptorHorizontal = {
   ),
   mock: () => <Mock type="horizontal" />,
   appearance: {
-    resizable: false,
     size: {
       width: 4,
       height: 1,
+    },
+    resizable: {
+      min: {
+        width: 4,
+        height: 1,
+      },
+      max: {
+        width: 4,
+        height: 2,
+      },
     },
   },
 } as const satisfies WidgetDescriptor;
@@ -178,10 +192,19 @@ export const topSitesWidgetDescriptorVertical = {
   ),
   mock: () => <Mock type="vertical" />,
   appearance: {
-    resizable: false,
     size: {
       width: 1,
       height: 4,
+    },
+    resizable: {
+      min: {
+        width: 1,
+        height: 4,
+      },
+      max: {
+        width: 2,
+        height: 4,
+      },
     },
   },
 } as const satisfies WidgetDescriptor;
