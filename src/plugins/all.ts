@@ -4,7 +4,6 @@ import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
 import { calendarPlugin } from "./calendar/calendar-plugin";
 import { datetimePlugin } from "./datetime/datetime-plugin";
 import { iframePlugin } from "./iframe/iframe-plugin";
-import { labelPlugin } from "./label/label-plugin";
 import { mathPlugin } from "./math/math-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { picturePlugin } from "./picture/picture-plugin";
@@ -31,7 +30,6 @@ export const allPlugins: AnoriPlugin<any, any>[] = [
   recentlyClosedPlugin,
   topSitesPlugin,
   systemStatusPlugin,
-  labelPlugin,
   picturePlugin,
   ankiPlugin,
 ];

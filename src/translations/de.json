@@ -282,11 +282,6 @@
             "name": "Fotos",
             "widgetName": "Bild"
         },
-        "label-plugin": {
-            "name": "Label",
-            "label": "Text Label",
-            "text": "Beschreibung"
-        },
         "anki-plugin": {
             "name": "Anki",
             "deck": "Deck",

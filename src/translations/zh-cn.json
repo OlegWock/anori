@@ -283,11 +283,6 @@
             "expandWidgetName": "计算器 — 点击可扩展",
             "cantCalc": "无法计算"
         },
-        "label-plugin": {
-            "name": "标签",
-            "label": "文本标签",
-            "text": "描述"
-        },
         "picture-plugin": {
             "name": "图片",
             "widgetName": "图像"

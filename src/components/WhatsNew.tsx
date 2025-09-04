@@ -22,7 +22,7 @@ export const WhatsNew = () => {
               <li>Top sites widget is now resizable.</li>
               <li>
                 Removed some of rarely used features: windowing system for widgets like calculator and embedded page,
-                command menu, focus stealer, option to hide edit folder button.
+                command menu, focus stealer, option to hide edit folder button, label plugin.
               </li>
               <li>Bug fixes here and there.</li>
             </ul>

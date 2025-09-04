@@ -283,11 +283,6 @@
             "expandWidgetName": "เครื่องคิดเลข — ขยายได้",
             "cantCalc": "ไม่สามารถคำนวณได้"
         },
-        "label-plugin": {
-            "name": "Label",
-            "label": "Label ข้อความ",
-            "text": "ข้อความ"
-        },
         "picture-plugin": {
             "name": "รูป",
             "widgetName": "รูป"
