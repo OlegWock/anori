@@ -29,111 +29,12 @@
         min-height: 90vh;
     }
 
-
-    &.detachable {
-        padding-top: 0;
-    }
-
-    &.detached {
-        display: flex;
-
-        .WidgetExpandArea-content {
-            align-self: stretch;
-            flex: 1;
-            min-width: unset;
-            min-height: unset;
-        }
-    }
-
-    &.minimized {
-        padding-bottom: 0;
-    }
-
-    .resize-handle {
-        position: absolute;
-        background: transparent;
-
-        &.top,
-        &.bottom {
-            cursor: ns-resize;
-            height: 0.75rem;
-        }
-
-        &.left,
-        &.right {
-            cursor: ew-resize;
-            width: 0.75rem;
-        }
-
-        &.left-top,
-        &.right-bottom {
-            cursor: nwse-resize;
-        }
-
-        &.left-bottom,
-        &.right-top {
-            cursor: nesw-resize;
-        }
-
-        &.top {
-            top: 0;
-            left: 1rem;
-            right: 1rem;
-        }
-
-        &.bottom {
-            bottom: 0;
-            left: 1rem;
-            right: 1rem;
-        }
-
-        &.left {
-            top: 1rem;
-            bottom: 1rem;
-            left: 0;
-        }
-
-        &.right {
-            top: 1rem;
-            bottom: 1rem;
-            right: 0;
-        }
-
-        &.left-top,
-        &.right-bottom,
-        &.left-bottom,
-        &.right-top {
-            width: 0.75rem;
-            height: 0.75rem;
-        }
-
-        &.left-top {
-            top: 0;
-            left: 0;
-        }
-
-        &.right-bottom {
-            right: 0;
-            bottom: 0;
-        }
-
-        &.left-bottom {
-            left: 0;
-            bottom: 0;
-        }
-
-        &.right-top {
-            right: 0;
-            top: 0;
-        }
-    }
-
     .window-control-strip {
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
-        padding: 0.75rem 0.5rem;
+        padding: 0 0.5rem 0.75rem 0.5rem;
         background: var(--background);
 
         .window-title {

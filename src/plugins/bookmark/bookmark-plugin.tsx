@@ -21,7 +21,7 @@ import { PickBookmark } from "@anori/components/PickBookmark";
 import { Popover } from "@anori/components/Popover";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { Tooltip } from "@anori/components/Tooltip";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { listItemAnimation } from "@anori/components/animations";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
 import { translate } from "@anori/translations/index";
@@ -391,8 +391,6 @@ const BookmarkWidget = ({
     if (hasDnrPermissions) {
       if (!showIframe) {
         ensureDnrRules(normalizedUrl).then(() => setShowIframe(true));
-      } else {
-        expandAreaRef.current?.focus(true);
       }
     }
   };
@@ -442,7 +440,6 @@ const BookmarkWidget = ({
   const size = width === 1 ? "s" : "m";
 
   const { onLinkClick, isNavigating } = useLinkNavigationState();
-  const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
 
   useAsyncEffect(async () => {
     if (!config.checkStatus) return;
@@ -520,7 +517,6 @@ const BookmarkWidget = ({
             size="max"
             withoutScroll
             className="BookmarkWidget-expand"
-            ref={expandAreaRef}
           >
             <RequirePermissions
               hosts={[parseHost(config.url)]}

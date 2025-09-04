@@ -1,7 +1,6 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
-import { WidgetWindowsProvider, useWidgetWindows } from "@anori/components/WidgetExpandArea";
 import { CommandMenu, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { initTranslation, languageDirections } from "@anori/translations/index";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners, trackEvent } from "@anori/utils/analytics";
@@ -54,30 +53,19 @@ const useSidebarOrientation = () => {
 };
 
 const Start = () => {
-  const switchToFolder = (folder: Folder) => {
-    if (hasDetachedWindows()) {
-      // TODO: replace with nice alert
-      // TODO: Alternatively, petsist folder content (including detached windows) between folder change
-      alert(`You have detached windows, please close them before switching folders`);
-      return;
-    }
-    setActiveFolder(folder);
-  };
-
   const switchToFolderByIndex = (ind: number) => {
     if (ind >= folders.length) return;
-    switchToFolder(folders[ind]);
+    setActiveFolder(folders[ind]);
   };
 
   const swithFolderUp = () => {
-    switchToFolder(folders[activeFolderIndex === 0 ? folders.length - 1 : activeFolderIndex - 1]);
+    setActiveFolder(folders[activeFolderIndex === 0 ? folders.length - 1 : activeFolderIndex - 1]);
   };
 
   const swithFolderDown = () => {
-    switchToFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
+    setActiveFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
   };
 
-  const { hasDetachedWindows } = useWidgetWindows();
   const sidebarOrientation = useSidebarOrientation();
   const [rememberLastFolder] = useBrowserStorageValue("rememberLastFolder", false);
   const [lastFolder, setLastFolder] = useBrowserStorageValue("lastFolder", "home");
@@ -148,7 +136,7 @@ const Start = () => {
                 activeFolder={activeFolder}
                 orientation={sidebarOrientation}
                 onFolderClick={(f) => {
-                  switchToFolder(f);
+                  setActiveFolder(f);
                   if (rememberLastFolder) setLastFolder(f.id);
                 }}
               />
@@ -252,9 +240,7 @@ loadAndMigrateStorage()
       <CompactModeProvider>
         {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
         <LazyMotion features={loadMotionFeatures}>
-          <WidgetWindowsProvider>
-            <Start />
-          </WidgetWindowsProvider>
+          <Start />
         </LazyMotion>
       </CompactModeProvider>,
     );

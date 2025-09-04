@@ -9,7 +9,7 @@ import "./styles.scss";
 import { Icon } from "@anori/components/Icon";
 import { Input } from "@anori/components/Input";
 import { ScrollArea } from "@anori/components/ScrollArea";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
@@ -229,7 +229,6 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
   const runAfterRender = useRunAfterNextRender();
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
-  const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
   const trackInteraction = useWidgetInteractionTracker();
 
   return (
@@ -239,9 +238,7 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
         className="CalculatorWidgetExpandable"
         onClick={() => {
           trackInteraction("Expand");
-          if (show) {
-            expandAreaRef.current?.focus(true);
-          } else {
+          if (!show) {
             setShow(true);
             runAfterRender(() => {
               inputRef.current?.focus();
@@ -254,7 +251,6 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
       <AnimatePresence>
         {show && (
           <WidgetExpandArea
-            ref={expandAreaRef}
             size={{ height: 600 }}
             title={t("math-plugin.calculator")}
             className="CalculatorWidgetExpandArea"

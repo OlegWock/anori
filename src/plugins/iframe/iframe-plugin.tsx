@@ -15,7 +15,7 @@ import { Link } from "@anori/components/Link";
 import { PickBookmark } from "@anori/components/PickBookmark";
 import { Popover } from "@anori/components/Popover";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
@@ -218,7 +218,6 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
   const { t } = useTranslation();
   const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
   const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
-  const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
   const trackInteraction = useWidgetInteractionTracker();
 
   useEffect(() => {
@@ -232,7 +231,7 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
         className="ExpandableIframeWidget"
         onClick={() => {
           trackInteraction("Expand");
-          open ? expandAreaRef.current?.focus(true) : setOpen(true);
+          setOpen(true);
         }}
       >
         <div className="iframe-widget-content">
@@ -247,7 +246,6 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
         {open && (
           <WidgetExpandArea
             title={config.title}
-            ref={expandAreaRef}
             size="max"
             onClose={() => setOpen(false)}
             withoutScroll

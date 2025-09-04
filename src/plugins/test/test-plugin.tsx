@@ -2,33 +2,26 @@ import { Button } from "@anori/components/Button";
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Icon } from "@anori/components/Icon";
-import { WidgetExpandArea, type WidgetExpandAreaRef } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const MainScreen = (_props: WidgetRenderProps) => {
   const { rem } = useSizeSettings();
   const [showExpandableArea, setShowExpandableArea] = useState(false);
-  const expandAreaRef = useRef<WidgetExpandAreaRef>(null);
 
   return (
     <button
       type="button"
       className="ExpandableTestWidget"
-      onClick={() => (showExpandableArea ? expandAreaRef.current?.focus(true) : setShowExpandableArea(true))}
+      onClick={() => !showExpandableArea && setShowExpandableArea(true)}
     >
       <Icon icon="logos:google-gmail" height={rem(4)} width={rem(4)} />
 
       <AnimatePresence>
         {showExpandableArea && (
-          <WidgetExpandArea
-            ref={expandAreaRef}
-            title="Test widget"
-            onClose={() => setShowExpandableArea(false)}
-            size="max"
-            closable
-          >
+          <WidgetExpandArea title="Test widget" onClose={() => setShowExpandableArea(false)} size="max" closable>
             <h2>Hello here!</h2>
             <Button onClick={() => setShowExpandableArea(false)}>Hide</Button>
 
