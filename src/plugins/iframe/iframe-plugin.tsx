@@ -231,7 +231,7 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
         type="button"
         className="ExpandableIframeWidget"
         onClick={() => {
-          trackInteraction("Expanded");
+          trackInteraction("Expand");
           open ? expandAreaRef.current?.focus(true) : setOpen(true);
         }}
       >

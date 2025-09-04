@@ -1,6 +1,7 @@
 import { allPlugins } from "@anori/plugins/all";
 import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
 import { useWidgetMetadata } from "@anori/utils/plugin";
+import { themes } from "@anori/utils/user-data/theme";
 import type { FolderDetailsInStorage, StorageContent } from "@anori/utils/user-data/types";
 import { useCallback } from "react";
 import { isBackground } from "webext-detect";
@@ -54,10 +55,11 @@ export const plantPerformanceMetricsListeners = async () => {
   }
 
   // LCP
-  new PerformanceObserver(async (list) => {
+  const perfObserver = new PerformanceObserver(async (list) => {
     const lcpEntry = list.getEntries().at(-1) as LargestContentfulPaint | undefined;
     console.log("LCP entry", lcpEntry?.renderTime);
     if (lcpEntry) {
+      perfObserver.disconnect();
       const { performanceAvgLcp } = await storage.get({ performanceAvgLcp: { n: 0, avg: 0 } });
       const n = performanceAvgLcp.n ?? 0;
       const avg = performanceAvgLcp.avg ?? 0;
@@ -69,7 +71,8 @@ export const plantPerformanceMetricsListeners = async () => {
         },
       });
     }
-  }).observe({ type: "largest-contentful-paint", buffered: true });
+  });
+  perfObserver.observe({ type: "largest-contentful-paint", buffered: true });
 
   // INP
   const latest = new Map<number, number>(); // interactionId → longest duration
@@ -221,7 +224,7 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
     "Open animation enabled": showLoadAnimation,
     "Edit folder button hidden": hideEditFolderButton,
     "Language": language,
-    "Theme": usedTheme,
+    "Theme": themes.find((t) => t.name === usedTheme) ? usedTheme : "custom",
     "Performance / Avg LCP": performanceAvgLcp.avg || null,
     "Performance / INP": aggregateInp(performanceRawInp),
     ...dailyUsageMetrics,

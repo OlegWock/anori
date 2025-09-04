@@ -168,7 +168,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
         <Button
           withoutBorder
           onClick={() => {
-            trackInteraction("Switched month");
+            trackInteraction("Switch month");
             setOffsetMonths((p) => p - 1);
           }}
         >
@@ -177,7 +177,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
         <Button
           withoutBorder
           onClick={() => {
-            trackInteraction("Switched month");
+            trackInteraction("Switch month");
             setOffsetMonths(0);
           }}
           className="month-name"
@@ -187,7 +187,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
         <Button
           withoutBorder
           onClick={() => {
-            trackInteraction("Switched month");
+            trackInteraction("Switch month");
             setOffsetMonths((p) => p + 1);
           }}
         >

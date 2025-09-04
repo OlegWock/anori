@@ -227,7 +227,7 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, 
 const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
   const addTask = () => {
     const id = guid();
-    trackInteraction("Added task");
+    trackInteraction("Add task");
     setTasks((p) => {
       return [...p, { id, text: X_MODE === "development" ? choose(devOnlyMockTasks) : "" }];
     });
@@ -237,7 +237,7 @@ const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
   };
 
   const completeTask = (id: Task["id"]) => {
-    trackInteraction("Completed task");
+    trackInteraction("Complete task");
     setTasks((p) => p.filter((t) => t.id !== id));
   };
 

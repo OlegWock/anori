@@ -74,7 +74,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
         placeholder={t("notes-plugin.noteTitle")}
         spellCheck={titleFocused}
         onFocus={() => {
-          trackInteraction("Initiated editing");
+          trackInteraction("Initiate editing");
           setTitleFocused(true);
         }}
         onBlur={() => setTitleFocused(false)}
@@ -95,11 +95,11 @@ const MainScreen = (_props: WidgetRenderProps) => {
           type="button"
           className="note-body-rendered"
           onFocus={() => {
-            trackInteraction("Initiated editing");
+            trackInteraction("Initiate editing");
             switchEditing(true);
           }}
           onClick={() => {
-            trackInteraction("Initiated editing");
+            trackInteraction("Initiate editing");
             switchEditing(true);
           }}
         >
