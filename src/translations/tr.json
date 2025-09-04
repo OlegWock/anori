@@ -57,8 +57,6 @@
                 "analyticsHintP1": "Analitikler, kullanıcıların Anori ile nasıl etkileşimde bulunduğunu ve hangi özelliklerin en çok kullanıldığını daha iyi anlamama yardımcı olur. Notların içeriği veya yer imi URL'leri gibi özel bilgileri paylaşmaz.",
                 "analyticsHintP2": "Bu, daha iyi bir ürün geliştirmeme yardımcı olur, bu yüzden analitik gönderimini etkinleştirmenizi rica ediyorum. <0>Daha fazla bilgi edinin.</0>",
                 "showBookmarksBar": "Yer imleri çubuğunu göster",
-                "stealFocus": "Adres çubuğundan odağı çal",
-                "stealFocusHint": "Etkinleştirilirse, bu, tarayıcının odağı adres çubuğundan bu sayfaya taşımaya zorlar. Yeni bir sekme açarken komut menüsünü (Cmd+K) sayfaya manuel olarak odaklanmadan (tıklayarak veya Tab tuşuna basarak) kullanabilirsiniz.",
                 "automaticCompact": "Ekran boyutuna göre otomatik olarak kompakt moda geç",
                 "automaticCompactModeThreshold": "Ekran boyutu daha küçükse kompakt moda geç",
                 "automaticCompactModeThresholdHint": "Mevcut ekran genişliğiniz {{screenWidth}}px",

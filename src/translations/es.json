@@ -53,8 +53,6 @@
                 "analyticsHintP1": "Estas analíticas me ayudan a entender de mejor manera como los usuarios interactúan con Anori y cuales características son más usadas. No es enviada ninguna información privada, como el contenido de notas o las URLs de un marcador.",
                 "analyticsHintP2": "Esto me ayuda a desarrollar un mejor producto, por lo que te pido que habilites el envío de analíticas. <0>Más información.</0>",
                 "showBookmarksBar": "Mostrar la barra de marcadores",
-                "stealFocus": "Robar el enfoque de la barra de direcciones",
-                "stealFocusHint": "Si está habilitado, esto obligará al navegador a cambiar el enfoque desde la barra de direcciones a esta página al abrir una nueva pestaña. Podrás utilizar el menú de comandos (Cmd+K) sin necesidad de cambiar manualmente el enfoque a la página (haciendo clic o presionando Tab).",
                 "automaticCompact": "Cambiar automáticamente al modo compacto basado en el tamaño de la pantalla",
                 "automaticCompactModeThreshold": "Cambiar al modo compacto si el tamaño de la pantalla es menor que",
                 "automaticCompactModeThresholdHint": "El ancho de tu pantalla actual es de {{screenWidth}}px",

@@ -38,8 +38,6 @@
                 "enableAnalytics": "发送诊断数据",
                 "analyticsHintP1": "分析帮助我更好地了解用户如何与 Anori 交互以及哪些功能被最多使用。它不会共享任何私人信息，例如笔记内容或书签URL。",
                 "analyticsHintP2": "这有助于我开发更好的产品，因此我要求您启用发送分析。<0>了解更多</0>",
-                "stealFocus": "抢占地址栏的焦点",
-                "stealFocusHint": "如果启用，这将强制浏览器在打开新标签页时将焦点从地址栏移动到此页面。您将能够使用命令菜单（Cmd+K），而无需手动将焦点移动到页面（通过单击或按Tab键）。",
                 "automaticCompact": "根据屏幕尺寸自动切换到紧凑模式",
                 "automaticCompactModeThreshold": "切换到紧凑模式，当屏幕尺寸小于某个值",
                 "automaticCompactModeThresholdHint": "您当前的屏幕宽度为 {{screenWidth}}px",

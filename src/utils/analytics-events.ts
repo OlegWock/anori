@@ -14,7 +14,6 @@ export type AnalyticEvents = {
     "Sidebar orientation": StorageContent["sidebarOrientation"];
     "Automatically hide sidebar enabled": boolean;
     "Bookmarks bar enabled": boolean;
-    "Focus stealer enabled": boolean;
     "Compact mode": "enabled" | "disabled" | "auto";
     "Open animation enabled": boolean;
     "Edit folder button hidden": boolean;

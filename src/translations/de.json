@@ -41,8 +41,6 @@
                 "enableAnalytics": "Analysedaten versenden aktivieren",
                 "analyticsHintP1": "Analysedaten helfen uns, besser zu verstehen wie die Benutzer mit Anori interagieren, und welche Funktionen am häufigsten benutzt werden. Es werden keine persönlichen Informationen wie z.B. Notizen-Inhalte oder Lesezeichen-URLs geteilt.",
                 "analyticsHintP2": "Das hilft uns, ein besseres Produkt zu entwickeln, also bitte aktiviere das Senden der Analysedaten. <0>Weitere Informationen.</0>",
-                "stealFocus": "Fokus von der Adressenleiste übertragen",
-                "stealFocusHint": "Wenn diese Option aktiviert ist, wird der Browser gezwungen, den Fokus von der Adressleiste auf diese Seite zu verschieben, wenn eine neue Registerkarte geöffnet wird. Du kannst das Befehlsmenü (Cmd+K) verwenden, ohne den Fokus manuell auf die Seite verschieben zu müssen (durch Klicken oder Drücken von Tab).",
                 "showBookmarksBar": "Lesezeichenleiste anzeigen",
                 "automaticCompact": "Automatischer Wechsel in den Kompaktmodus je nach Bildschirmgröße",
                 "useCompact": "Kompaktmodus verwenden",

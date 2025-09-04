@@ -51,8 +51,6 @@
                 "enableAnalytics": "Abilita l'invio dei dati di analisi",
                 "analyticsHintP1": "L'analisi dei dati ci aiuta a capire meglio come gli utenti interagiscono con Anori e quali funzionalità vengono utilizzate di più. Non vengono condivise le informazioni private, come il contenuto delle note o gli URL dei segnalibri.",
                 "analyticsHintP2": "Questo ci aiuta a sviluppare un prodotto migliore, quindi ti chiediamo di abilitare l'invio dei dati di analisi. <0>Scopri di più.</0>",
-                "stealFocus": "Ruba il focus dalla barra degli indirizzi",
-                "stealFocusHint": "Se abilitato, questo forzerà il browser a spostare il focus dalla barra degli indirizzi a questa pagina quando si apre una nuova scheda. Sarai in grado di utilizzare il menu dei comandi (Cmd+K) senza dover spostare manualmente il focus sulla pagina (cliccando o premendo Tab).",
                 "automaticCompact": "Passa automaticamente alla modalità compatta in base alla dimensione dello schermo",
                 "automaticCompactModeThreshold": "Passa alla modalità compatta se la dimensione dello schermo è inferiore a",
                 "automaticCompactModeThresholdHint": "La larghezza dello schermo attuale è di {{screenWidth}}px",

@@ -13,7 +13,6 @@ export type StorageContent = {
   folders: Folder[];
   theme: Theme["name"];
   customThemes: CustomTheme[];
-  stealFocus: boolean;
   userId: string;
   sidebarOrientation: "vertical" | "horizontal" | "auto";
   autoHideSidebar: boolean;

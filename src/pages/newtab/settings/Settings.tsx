@@ -141,7 +141,6 @@ const PluginConfigurationSection = <T extends {}>({ plugin }: { plugin: AnoriPlu
 };
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
-  const [stealFocus, setStealFocus] = useBrowserStorageValue("stealFocus", false);
   const [language, setLanguage] = useBrowserStorageValue("language", "en");
   const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue("automaticCompactMode", !IS_TOUCH_DEVICE);
   const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue(
@@ -256,13 +255,6 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         </CheckboxWithPermission>
       )}
 
-      {/* Focus stealer works only in Chrome and Edge */}
-      {X_BROWSER === "chrome" && (
-        <Checkbox checked={stealFocus} onChange={setStealFocus}>
-          {t("settings.general.stealFocus")}
-          <Hint content={t("settings.general.stealFocusHint")} />
-        </Checkbox>
-      )}
       <Checkbox checked={manualCompactMode} onChange={setManualCompactMode} disabled={isAutomaticCompact}>
         {t("settings.general.useCompact")}
       </Checkbox>
