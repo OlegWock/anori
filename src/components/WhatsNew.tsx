@@ -20,6 +20,7 @@ export const WhatsNew = () => {
             <h2>1.24.0</h2>
             <ul>
               <li>Top sites widget is now resizable.</li>
+              <li>Bug fixes here and there.</li>
             </ul>
           </section>
 

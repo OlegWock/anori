@@ -215,5 +215,5 @@ export const useLocationHash = () => {
     return () => window.removeEventListener("hashchange", func);
   }, []);
 
-  return [hash, setHash] as const;
+  return [hash ? hash : null, setHash] as const;
 };
