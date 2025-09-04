@@ -44,8 +44,6 @@
                 "useCompact": "始终使用紧凑模式",
                 "showAnimationOnOpen": "打开时显示动画",
                 "showAnimationOnOpenHint": "如果启用，该扩展将显示一个快速加载动画，它将隐藏加载数据的闪烁，并提供更好的外观。",
-                "hideEditButton": "隐藏 '编辑目录' 按钮",
-                "hideEditButtonHint": "非常极简主义。",
                 "translationInfo": "除英语和乌克兰语外的其他语言翻译由社区提供。如果您发现任何错误或未翻译的字符串，请帮助我们修复！<0>这里</0>是您可以参与的说明。",
                 "sidebarOrientation": "侧边栏方向",
                 "sidebarOrientationOption-auto": "基于窗口方向",

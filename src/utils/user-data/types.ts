@@ -30,7 +30,6 @@ export type StorageContent = {
   automaticCompactMode: boolean;
   automaticCompactModeThreshold: number;
   showLoadAnimation: boolean;
-  hideEditFolderButton: boolean;
   newTabTitle: string;
   language: Language;
 

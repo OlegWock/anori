@@ -62,8 +62,6 @@
                 "useCompact": "استخدم دائمًا وضع مضغوط",
                 "showAnimationOnOpen": "إظهار الرسوم المتحركة عند الفتح",
                 "showAnimationOnOpenHint": "إذا تم تمكينه ، سيعرض الملحق رسومًا متحركة سريعة التحميل تخفي وميض التحميل الأولي للبيانات وتوفر مظهرًا أفضل.",
-                "hideEditButton": "إخفاء زر 'تحرير المجلد'",
-                "hideEditButtonHint": "إضافية بسيطة ، نعم.",
                 "rememberLastFolder": "تذكر المجلد المفتوح الماضي"
             },
             "customIcons": {

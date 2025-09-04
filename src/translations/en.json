@@ -63,8 +63,6 @@
                 "useCompact": "Always use compact mode",
                 "showAnimationOnOpen": "Show animation on open",
                 "showAnimationOnOpenHint": "If enabled, the extension will show a quick-loading animation which will hide the initial flicker of loading data and provide a better look.",
-                "hideEditButton": "Hide 'Edit folder' button",
-                "hideEditButtonHint": "Extra minimalistic, yeah.",
                 "rememberLastFolder": "Remember last open folder"
             },
             "customIcons": {

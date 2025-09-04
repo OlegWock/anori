@@ -149,7 +149,6 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
   );
   const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue("compactMode", IS_TOUCH_DEVICE);
   const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue("showLoadAnimation", false);
-  const [hideEditFolderButton, setHideEditFolderButton] = useBrowserStorageValue("hideEditFolderButton", false);
   const [rememberLastFolder, setRememberLastFolder] = useBrowserStorageValue("rememberLastFolder", false);
   const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue("showBookmarksBar", false);
   const [newTabTitle, setNewTabTitle] = useBrowserStorageValue("newTabTitle", "Anori new tab");
@@ -279,10 +278,6 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
         {t("settings.general.showAnimationOnOpen")}
         <Hint content={t("settings.general.showAnimationOnOpenHint")} />
-      </Checkbox>
-      <Checkbox checked={hideEditFolderButton} onChange={setHideEditFolderButton}>
-        {t("settings.general.hideEditButton")}
-        <Hint content={t("settings.general.hideEditButtonHint")} />
       </Checkbox>
     </m.div>
   );

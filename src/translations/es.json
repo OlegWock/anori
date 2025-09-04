@@ -59,8 +59,6 @@
                 "useCompact": "Siempre usar el modo compacto",
                 "showAnimationOnOpen": "Mostrar animación al abrir",
                 "showAnimationOnOpenHint": "Si está habilitado, la extensión mostrará una animación rápida que ocultará el parpadeo inicial de la carga de datos y proporcionará un mejor aspecto.",
-                "hideEditButton": "Esconder 'Editar carpeta' botón",
-                "hideEditButtonHint": "Extra minimalista, sí.",
                 "rememberLastFolder": "Recordar la última carpeta abierta"
             },
             "customIcons": {

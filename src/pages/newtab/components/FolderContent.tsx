@@ -8,7 +8,6 @@ import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useGrid } from "@anori/utils/grid";
 import { useHotkeys } from "@anori/utils/hooks";
-import { useBrowserStorageValue } from "@anori/utils/storage/api";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import clsx from "clsx";
@@ -104,7 +103,6 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
   const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<any, any, any>>(null);
-  const [hideEditFolderButton] = useBrowserStorageValue("hideEditFolderButton", false);
 
   const { blockSize, minBlockSize, gapSize } = useSizeSettings();
   const { t } = useTranslation();
@@ -177,7 +175,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
                   </m.div>
                 )}
 
-                {!isEditing && !hideEditFolderButton && (
+                {!isEditing && (
                   <m.div className="action-buttons" key="viewing-buttons" {...actionButtonAnimations}>
                     <Button onClick={() => setIsEditing(true)} key="start-editing" {...actionButtonAnimations}>
                       <Icon icon="ion:pencil" height={24} />

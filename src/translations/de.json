@@ -46,8 +46,6 @@
                 "useCompact": "Kompaktmodus verwenden",
                 "showAnimationOnOpen": "Animation beim Öffnen anzeigen",
                 "showAnimationOnOpenHint": "Wenn diese Option aktiviert ist, zeigt die Erweiterung eine Schnellladeanimation, die das anfängliche Flackern beim Laden der Daten ausblendet und für eine bessere Optik sorgt..",
-                "hideEditButton": "\"Editieren\" Button verstecken",
-                "hideEditButtonHint": "Extra minimalistisch, yeah.",
                 "automaticCompactModeThreshold": "Wechsle in den Kompaktmodus, wenn die Bildschirmgröße kleiner ist als",
                 "automaticCompactModeThresholdHint": "Deine aktuelle Bildschirmbreite beträgt {{screenWidth}}px",
                 "translationInfo": "Übersetzungen in Sprachen außer Englisch und Ukrainisch werden von der Community bereitgestellt. Wenn du einen Fehler oder etwas Nicht-Übersetztes finden solltest, wäre es sehr nett wenn du uns helfen könntest! <0>Hier</0> ist beschrieben wie du mithelfen kannst.",

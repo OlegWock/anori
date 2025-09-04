@@ -63,8 +63,6 @@
                 "useCompact": "Her zaman kompakt modu kullan",
                 "showAnimationOnOpen": "Açılışta animasyon göster",
                 "showAnimationOnOpenHint": "Etkinleştirilirse, uzantı hızlı bir yükleme animasyonu gösterir, bu da veri yükleme sırasında oluşan başlangıç titremesini gizler ve daha iyi bir görünüm sağlar.",
-                "hideEditButton": "'Klasörü düzenle' düğmesini gizle",
-                "hideEditButtonHint": "Ekstra minimalist, evet.",
                 "rememberLastFolder": "Son açık klasörü hatırla"
             },
             "customIcons": {

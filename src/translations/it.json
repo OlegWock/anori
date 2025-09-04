@@ -57,8 +57,6 @@
                 "useCompact": "Usa sempre la modalità compatta",
                 "showAnimationOnOpen": "Mostra animazione all'apertura",
                 "showAnimationOnOpenHint": "Se abilitata, l'estensione mostrerà un'animazione di caricamento veloce che nasconderà l'iniziale sfarfallio durante il caricamento dei dati e fornirà un esperienza migliore.",
-                "hideEditButton": "Nascondi il pulsante 'Modifica cartella'",
-                "hideEditButtonHint": "Extra minimalista, sì.",
                 "showBookmarksBar": "Mostra barra segnalibri"
             },
             "customIcons": {

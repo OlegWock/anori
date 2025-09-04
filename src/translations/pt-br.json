@@ -62,8 +62,6 @@
                 "useCompact": "Sempre usar modo compacto",
                 "showAnimationOnOpen": "Mostrar animação ao abrir",
                 "showAnimationOnOpenHint": "Se ativada, a extensão mostrará uma animação de carregamento rápido que ocultará a oscilação inicial do carregamento dos dados e fornecerá uma aparência melhor.",
-                "hideEditButton": "Ocultar o botão 'Editar pasta'",
-                "hideEditButtonHint": "Extra minimalista, yeah.",
                 "rememberLastFolder": "Lembrar a última pasta aberta"
             },
             "customIcons": {

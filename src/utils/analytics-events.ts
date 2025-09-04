@@ -16,7 +16,6 @@ export type AnalyticEvents = {
     "Bookmarks bar enabled": boolean;
     "Compact mode": "enabled" | "disabled" | "auto";
     "Open animation enabled": boolean;
-    "Edit folder button hidden": boolean;
     "Language": string;
     "Theme": string;
     "Performance / Avg LCP": number | null;

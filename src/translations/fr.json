@@ -58,9 +58,7 @@
                 "automaticCompactModeThresholdHint": "La largeur actuelle de votre écran est de {{screenWidth}}px",
                 "useCompact": "Toujours utiliser le mode compact",
                 "showAnimationOnOpen": "Afficher l'animation à l'ouverture",
-                "showAnimationOnOpenHint": "Si cette option est activée, l'extension affichera une animation de chargement rapide qui masquera le scintillement initial des données de chargement et offrira un meilleur aperçu.",
-                "hideEditButton": "Cacher le bouton \"Modifier le dossier\"",
-                "hideEditButtonHint": "Très minimaliste, oui."
+                "showAnimationOnOpenHint": "Si cette option est activée, l'extension affichera une animation de chargement rapide qui masquera le scintillement initial des données de chargement et offrira un meilleur aperçu."
             },
             "customIcons": {
                 "title": "Icônes personnalisés",
