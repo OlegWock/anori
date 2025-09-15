@@ -18,6 +18,7 @@ import { Tooltip } from "@anori/components/Tooltip";
 import { listItemAnimation } from "@anori/components/animations";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { guid, parseHost, wait } from "@anori/utils/misc";
 import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@anori/utils/plugin";
@@ -26,10 +27,6 @@ import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
 import { Fragment, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import IonClose from "~icons/ion/close?raw";
-import IonLogoRss from "~icons/ion/logo-rss?raw";
-import IonTimeOutline from "~icons/ion/time-outline?raw";
-import JamRefresh from "~icons/jam/refresh?raw";
 import { type RssPost, type WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
 
 const parser = (typeof DOMParser === "undefined" ? null : new DOMParser()) as DOMParser;
@@ -77,10 +74,10 @@ const Post = ({
       {!compact && (
         <div className="details">
           <div className="feed-name">
-            <Icon icon={IonLogoRss} height={rem(1)} /> <span>{feedTitle}</span>
+            <Icon icon={builtinIcons.rssIcon} height={rem(1)} /> <span>{feedTitle}</span>
           </div>
           <div className="post-date">
-            <Icon icon={IonTimeOutline} height={rem(1)} />{" "}
+            <Icon icon={builtinIcons.time} height={rem(1)} />{" "}
             <span>
               <RelativeTime m={postMoment} />
             </span>
@@ -199,7 +196,7 @@ const RssFeedConfigScreen = ({
                     }
                   />
                   <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
-                    <Icon icon={IonClose} height={22} />
+                    <Icon icon={builtinIcons.close} height={22} />
                   </Button>
                 </m.div>
               );
@@ -249,7 +246,7 @@ const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfigType>) => {
         <Tooltip label={lastRefresh}>
           <Button className="refresh-button" visuallyDisabled={isRefreshing} onClick={() => refresh()}>
             <Icon
-              icon={JamRefresh}
+              icon={builtinIcons.refresh}
               height={rem(1.25)}
               variants={{
                 loading: { rotate: [0, 360] },
@@ -328,7 +325,7 @@ const RssFeedMock = () => {
       <div className="title-wrapper">
         <h2>{t("rss-plugin.name")}</h2>
         <Button className="refresh-button">
-          <Icon icon={JamRefresh} height={rem(1.25)} />
+          <Icon icon={builtinIcons.refresh} height={rem(1.25)} />
         </Button>
       </div>
       <ScrollArea type="hover" color="dark">

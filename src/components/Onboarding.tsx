@@ -15,6 +15,7 @@ import {
   switchTranslationLanguage,
 } from "@anori/translations/index";
 import { analyticsEnabledAtom } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemInGrid } from "@anori/utils/grid";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
@@ -26,8 +27,6 @@ import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
 import { type ComponentProps, forwardRef, useEffect, useState } from "react";
 import useMeasure from "react-use-motion-measure";
-import IonChevronBack from "~icons/ion/chevron-back?raw";
-import IonChevronForward from "~icons/ion/chevron-forward?raw";
 import { Button } from "./Button";
 import { Checkbox } from "./Checkbox";
 import { Icon } from "./Icon";
@@ -393,7 +392,12 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                 key="back-btn"
                 onClick={() => setScreenIndex((p) => p - 1)}
               >
-                <Icon icon={dir === "ltr" ? IonChevronBack : IonChevronForward} width={24} height={24} /> {t("back")}
+                <Icon
+                  icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
+                  width={24}
+                  height={24}
+                />{" "}
+                {t("back")}
               </Button>
             )}
             <div className="spacer" />
@@ -408,7 +412,12 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   setScreenIndex((p) => p + 1);
                 }}
               >
-                {t("next")} <Icon icon={dir === "ltr" ? IonChevronForward : IonChevronBack} width={24} height={24} />
+                {t("next")}{" "}
+                <Icon
+                  icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack}
+                  width={24}
+                  height={24}
+                />
               </Button>
             )}
           </AnimatePresence>

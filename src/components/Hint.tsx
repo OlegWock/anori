@@ -1,7 +1,7 @@
 import type { MouseEvent, ReactNode } from "react";
 import "./Hint.scss";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import clsx from "clsx";
-import IonHelpCircle from "~icons/ion/help-circle?raw";
 import { Icon, type IconProps } from "./Icon";
 import { Tooltip } from "./Tooltip";
 
@@ -18,7 +18,7 @@ export const Hint = ({
   return (
     <Tooltip label={content} maxWidth={400} hasClickableContent={hasClickableContent} enableOnTouch>
       <Icon
-        icon={IonHelpCircle}
+        icon={builtinIcons.helpCircle}
         className={clsx("Hint", className)}
         height={20}
         onClick={preventPropagation}

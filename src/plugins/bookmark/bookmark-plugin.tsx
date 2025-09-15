@@ -26,6 +26,7 @@ import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/p
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { isChromeLike } from "@anori/utils/browser";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useAsyncEffect, useLinkNavigationState } from "@anori/utils/hooks";
@@ -45,9 +46,6 @@ import moment from "moment-timezone";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
-import FluentSpinnerIos20Regular from "~icons/fluent/spinner-ios-20-regular?raw";
-import IonClose from "~icons/ion/close?raw";
-import IonExpand from "~icons/ion/expand?raw";
 
 type BookmarkWidgetConfigType = {
   url: string;
@@ -154,7 +152,7 @@ const BookmarGroupkWidgetConfigScreen = ({
   const [urls, setUrls] = useState<{ id: string; url: string }[]>(() => {
     return currentConfig?.urls ? currentConfig.urls.map((url) => ({ id: guid(), url })) : [{ id: guid(), url: "" }];
   });
-  const [icon, setIcon] = useState(currentConfig?.icon ?? "ion:dice");
+  const [icon, setIcon] = useState(currentConfig?.icon ?? builtinIcons.dice);
   const [openInTabGroup, setOpenInTabGroup] = useState<boolean>(
     currentConfig?.openInTabGroup ?? (X_BROWSER === "chrome" && hasTabGroupsPermission),
   );
@@ -216,7 +214,7 @@ const BookmarGroupkWidgetConfigScreen = ({
                     <Button>{t("import")}</Button>
                   </Popover>
                   <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
-                    <Icon icon={IonClose} height={22} />
+                    <Icon icon={builtinIcons.close} height={22} />
                   </Button>
                 </m.div>
               );
@@ -286,7 +284,7 @@ const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetCo
         {isNavigating ? (
           <Icon
             className="loading"
-            icon={FluentSpinnerIos20Regular}
+            icon={builtinIcons.spinner}
             width={size === "m" ? rem(5.75) : rem(2.25)}
             height={size === "m" ? rem(5.75) : rem(2.25)}
           />
@@ -314,7 +312,7 @@ const BookmarkWidgetConfigScreen = ({
 
   const [title, setTitle] = useState(currentConfig?.title || "");
   const [url, setUrl] = useState(currentConfig?.url || "");
-  const [icon, setIcon] = useState(currentConfig?.icon || "ion:dice");
+  const [icon, setIcon] = useState(currentConfig?.icon || builtinIcons.dice);
   const [checkStatus, setCheckStatus] = useState(currentConfig?.checkStatus ?? false);
   const [openInNewTab, setOpenInNewTab] = useState(currentConfig?.openInNewTab ?? false);
   const { rem } = useSizeSettings();
@@ -483,7 +481,7 @@ const BookmarkWidget = ({
           {isNavigating && !config.openInNewTab ? (
             <Icon
               className="loading"
-              icon={FluentSpinnerIos20Regular}
+              icon={builtinIcons.spinner}
               width={size === "m" ? rem(5.75) : rem(2.25)}
               height={size === "m" ? rem(5.75) : rem(2.25)}
             />
@@ -505,7 +503,7 @@ const BookmarkWidget = ({
           {["chrome", "firefox"].includes(X_BROWSER) && (
             <button type="button" onClick={openIframe} className="open-in-iframe">
               <div>
-                <Icon icon={IonExpand} />
+                <Icon icon={builtinIcons.expand} />
               </div>
             </button>
           )}
@@ -571,7 +569,7 @@ export const bookmarkWidgetDescriptor = {
         config={{
           url: "http://example.com",
           title: t("example"),
-          icon: "ion:dice",
+          icon: builtinIcons.dice,
         }}
       />
     );
@@ -609,7 +607,7 @@ export const bookmarkGroupWidgetDescriptor = {
           urls: ["http://example.com"],
           openInTabGroup: false,
           title: t("example"),
-          icon: "ion:cloud",
+          icon: builtinIcons.cloud,
         }}
       />
     );

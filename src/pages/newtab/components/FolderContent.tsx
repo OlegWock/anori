@@ -5,6 +5,7 @@ import { Icon } from "@anori/components/Icon";
 import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useGrid } from "@anori/utils/grid";
 import { useHotkeys } from "@anori/utils/hooks";
@@ -15,9 +16,6 @@ import { atom, useAtom } from "jotai";
 import { type CSSProperties, type Ref, Suspense, lazy, useState } from "react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import IonAdd from "~icons/ion/add?raw";
-import IonCheckmark from "~icons/ion/checkmark?raw";
-import IonPencil from "~icons/ion/pencil?raw";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 
 const NewWidgetWizard = lazy(() => import("./NewWidgetWizard").then((m) => ({ default: m.NewWidgetWizard })));
@@ -169,11 +167,11 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
                 {isEditing && (
                   <m.div className="action-buttons" key="editing-buttons" {...actionButtonAnimations}>
                     <Button onClick={() => setNewWidgetWizardVisible(true)}>
-                      <Icon icon={IonAdd} height={24} />
+                      <Icon icon={builtinIcons.add} height={24} />
                     </Button>
 
                     <Button onClick={() => setIsEditing(false)}>
-                      <Icon icon={IonCheckmark} height={24} />
+                      <Icon icon={builtinIcons.check} height={24} />
                     </Button>
                   </m.div>
                 )}
@@ -181,7 +179,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
                 {!isEditing && (
                   <m.div className="action-buttons" key="viewing-buttons" {...actionButtonAnimations}>
                     <Button onClick={() => setIsEditing(true)} key="start-editing" {...actionButtonAnimations}>
-                      <Icon icon={IonPencil} height={24} />
+                      <Icon icon={builtinIcons.pencil} height={24} />
                     </Button>
                   </m.div>
                 )}

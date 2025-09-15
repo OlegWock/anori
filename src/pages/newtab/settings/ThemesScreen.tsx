@@ -22,14 +22,13 @@ import "./ThemesScreen.scss";
 import { ColorPicker } from "@anori/components/ColorPicker";
 import { Icon } from "@anori/components/Icon";
 import { Slider } from "@anori/components/Slider";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
 import { setPageBackground } from "@anori/utils/page";
 import { useCurrentTheme } from "@anori/utils/user-data/theme-hooks";
 import { useTranslation } from "react-i18next";
-import IonClose from "~icons/ion/close?raw";
-import IonPencil from "~icons/ion/pencil?raw";
 
 const ThemePlate = ({
   theme,
@@ -88,7 +87,7 @@ const ThemePlate = ({
               onEdit();
             }}
           >
-            <Icon icon={IonPencil} height={16} />
+            <Icon icon={builtinIcons.pencil} height={16} />
           </Button>
         )}
         {!!onDelete && (
@@ -98,7 +97,7 @@ const ThemePlate = ({
               onDelete();
             }}
           >
-            <Icon icon={IonClose} height={16} />
+            <Icon icon={builtinIcons.close} height={16} />
           </Button>
         )}
       </div>

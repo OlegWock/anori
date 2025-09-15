@@ -6,6 +6,7 @@ import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { wait } from "@anori/utils/misc";
 import { m, useAnimationControls } from "framer-motion";
 import moment from "moment-timezone";
@@ -13,8 +14,6 @@ import { useMemo, useState } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
-import IcBaselineTab from "~icons/ic/baseline-tab?raw";
-import IcOutlineWindow from "~icons/ic/outline-window?raw";
 
 const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMock: boolean }) => {
   const restore = async () => {
@@ -56,7 +55,12 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
       }}
     >
       {!!favIcon && <img className="fav-icon" src={favIcon} aria-hidden />}
-      {!favIcon && <Icon icon={session.tab ? IcBaselineTab : IcOutlineWindow} width={18} />}
+      {!favIcon && (
+        <Icon
+          icon={session.tab ? builtinIcons.recentlyClosedTabs.tab : builtinIcons.recentlyClosedTabs.window}
+          width={18}
+        />
+      )}
       <div className="title">
         {session.tab
           ? session.tab.title || t("recently-closed-plugin.tab")

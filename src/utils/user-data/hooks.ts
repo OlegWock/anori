@@ -1,5 +1,6 @@
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, trackEvent } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@anori/utils/grid";
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
@@ -32,7 +33,7 @@ type UseFoldersOptions = {
 };
 
 export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersOptions = {}) => {
-  const createFolder = (name = "", icon = "ion:folder-open-sharp") => {
+  const createFolder = (name = "", icon = builtinIcons.folder) => {
     const newFolder = {
       id: guid(),
       name: name || t("settings.folders.defaultName"),

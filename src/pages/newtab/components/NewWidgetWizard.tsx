@@ -7,14 +7,13 @@ import { Modal } from "@anori/components/Modal";
 import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetCard } from "@anori/components/WidgetCard";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { type GridDimensions, type Layout, findPositionForItemInGrid } from "@anori/utils/grid";
 import { useFolderWidgets } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import IonArrowBack from "~icons/ion/arrow-back?raw";
-import IonArrowForward from "~icons/ion/arrow-forward?raw";
 
 export type NewWidgetWizardProps = {
   folder: Folder;
@@ -87,7 +86,11 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
               setSelectedWidget(undefined);
             }}
           >
-            <Icon icon={dir === "ltr" ? IonArrowBack : IonArrowForward} width={24} height={24} />
+            <Icon
+              icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
+              width={24}
+              height={24}
+            />
           </Button>
         ) : undefined
       }

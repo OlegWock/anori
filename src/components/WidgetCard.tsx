@@ -1,6 +1,7 @@
 import { Component, type ComponentProps, createContext, createRef, useContext, useRef, useState } from "react";
 import "./WidgetCard.scss";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
 import { type LayoutItemSize, type Position, positionToPixelPosition, snapToSector } from "@anori/utils/grid";
@@ -13,10 +14,6 @@ import clsx from "clsx";
 import { type PanInfo, m, useMotionValue } from "framer-motion";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
-import IcBaselineDragIndicator from "~icons/ic/baseline-drag-indicator?raw";
-import IonClose from "~icons/ion/close?raw";
-import IonPencil from "~icons/ion/pencil?raw";
-import IonResize from "~icons/ion/resize?raw";
 import { Button } from "./Button";
 import { Icon } from "./Icon";
 
@@ -273,17 +270,17 @@ export const WidgetCard = <T extends {}, PT extends T>({
           withoutBorder
           {...dragHandleProps}
         >
-          <Icon icon={IcBaselineDragIndicator} width={rem(1.25)} height={rem(1.25)} />
+          <Icon icon={builtinIcons.dragHandle} width={rem(1.25)} height={rem(1.25)} />
         </Button>
       )}
       {isEditing && type === "widget" && !!onRemove && (
         <Button className="remove-widget-btn" onClick={onRemove} withoutBorder>
-          <Icon icon={IonClose} width={rem(1.25)} height={rem(1.25)} />
+          <Icon icon={builtinIcons.close} width={rem(1.25)} height={rem(1.25)} />
         </Button>
       )}
       {isEditing && type === "widget" && !!onEdit && (
         <Button className="edit-widget-btn" onClick={onEdit} withoutBorder>
-          <Icon icon={IonPencil} width={rem(1.25)} height={rem(1.25)} />
+          <Icon icon={builtinIcons.pencil} width={rem(1.25)} height={rem(1.25)} />
         </Button>
       )}
       {isEditing && type === "widget" && !!widget.appearance.resizable && (
@@ -294,7 +291,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
           onPan={updateResize}
           onPanEnd={finishResize}
         >
-          <Icon icon={IonResize} width={rem(1.25)} height={rem(1.25)} style={{ rotate: 90 }} />
+          <Icon icon={builtinIcons.resize} width={rem(1.25)} height={rem(1.25)} style={{ rotate: 90 }} />
         </m.div>
       )}
       <ErrorBoundary>

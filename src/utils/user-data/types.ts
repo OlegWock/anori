@@ -1,4 +1,5 @@
 import { type Language, translate } from "@anori/translations/index";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import type { LayoutItem, LayoutItemSize } from "@anori/utils/grid";
 import type { ComponentType } from "react";
 import type { CustomTheme, Theme } from "./theme";
@@ -72,7 +73,7 @@ export const homeFolder = {
   get name() {
     return translate("home");
   },
-  icon: "ion:home",
+  icon: builtinIcons.home,
 } satisfies Folder;
 
 // ------ Plugins

@@ -19,13 +19,13 @@ import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import IonOpenOutline from "~icons/ion/open-outline?raw";
 
 // NOTE: There is some problem with cookies in Iframe. When cookie set with SameSite=Lax (default value) or SameSite=Strict
 // it's not available for JS (not sent at all?) if opened in iframe. Sites need to explicitly set SameSite=None to allow
@@ -119,7 +119,7 @@ const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfigType>)
           {config.showLinkToPage && (
             <div className="open-url-btn-wrapper">
               <Link className="open-url-btn" href={config.url}>
-                <Icon icon={IonOpenOutline} height={rem(1.25)} width={rem(1.25)} />
+                <Icon icon={builtinIcons.openOutline} height={rem(1.25)} width={rem(1.25)} />
               </Link>
             </div>
           )}
@@ -128,7 +128,7 @@ const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfigType>)
       {!config.title && config.showLinkToPage && (
         <div className="open-url-btn-wrapper absolute">
           <Link className="open-url-btn" href={config.url}>
-            <Icon icon={IonOpenOutline} height={rem(1.25)} width={rem(1.25)} />
+            <Icon icon={builtinIcons.openOutline} height={rem(1.25)} width={rem(1.25)} />
           </Link>
         </div>
       )}
@@ -152,7 +152,7 @@ const ExpandableWidgetConfigScreen = ({
   };
 
   const [title, setTitle] = useState(currentConfig?.title || "");
-  const [icon, setIcon] = useState(currentConfig?.icon || "ion:compass");
+  const [icon, setIcon] = useState(currentConfig?.icon || builtinIcons.compass);
   const [url, setUrl] = useState(currentConfig?.url || "");
   const [showLinkToPage, setShowLinkToPage] = useState(currentConfig?.showLinkToPage ?? true);
   const { t } = useTranslation();
@@ -254,7 +254,7 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
             extraButtons={
               config.showLinkToPage && (
                 <Link className="open-url-btn" href={config.url}>
-                  <Icon icon={IonOpenOutline} height={rem(1.5)} width={rem(1.5)} />
+                  <Icon icon={builtinIcons.openOutline} height={rem(1.5)} width={rem(1.5)} />
                 </Link>
               )
             }
@@ -321,7 +321,7 @@ const widgetDescriptorExpandable = {
     return (
       <ExpandableWidget
         instanceId="mock"
-        config={{ url: "http://example.com/", title: t("example"), icon: "ion:compass", showLinkToPage: true }}
+        config={{ url: "http://example.com/", title: t("example"), icon: builtinIcons.compass, showLinkToPage: true }}
       />
     );
   },

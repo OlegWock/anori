@@ -12,6 +12,7 @@ import { Icon } from "@anori/components/Icon";
 import { Tooltip } from "@anori/components/Tooltip";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
 import { useWidgetStorage } from "@anori/utils/plugin";
@@ -19,9 +20,6 @@ import { capitalize } from "@anori/utils/strings";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import IonArrowBack from "~icons/ion/arrow-back?raw";
-import IonLocationSharp from "~icons/ion/location-sharp?raw";
-import IonTimeOutline from "~icons/ion/time-outline?raw";
 import {
   type City,
   type CurrentWeather,
@@ -56,18 +54,18 @@ const formatSpeed = (speedInKmPerHour: number, to: Speed): string => {
 };
 
 const weatherCodeToIcon = (code: number) => {
-  if (code === 0) return "wi:day-sunny";
-  if ([1, 2, 3].includes(code)) return "wi:day-sunny-overcast";
-  if ([45, 48].includes(code)) return "wi:fog";
-  if ([51, 53, 55].includes(code)) return "wi:showers";
-  if ([56, 57].includes(code)) return "wi:rain-mix";
-  if ([61, 63, 65].includes(code)) return "wi:rain";
-  if ([66, 67].includes(code)) return "wi:rain-mix";
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return "wi:snow";
-  if ([80, 81, 82].includes(code)) return "wi:rain";
-  if ([95, 96, 99].includes(code)) return "wi:thunderstorm";
+  if (code === 0) return builtinIcons.weather.sunny;
+  if ([1, 2, 3].includes(code)) return builtinIcons.weather.partlyCloudy;
+  if ([45, 48].includes(code)) return builtinIcons.weather.fog;
+  if ([51, 53, 55].includes(code)) return builtinIcons.weather.showers;
+  if ([56, 57].includes(code)) return builtinIcons.weather.rainMix;
+  if ([61, 63, 65].includes(code)) return builtinIcons.weather.rain;
+  if ([66, 67].includes(code)) return builtinIcons.weather.rainMix;
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return builtinIcons.weather.snow;
+  if ([80, 81, 82].includes(code)) return builtinIcons.weather.rain;
+  if ([95, 96, 99].includes(code)) return builtinIcons.weather.thunderstorm;
 
-  return "wi:cloud";
+  return builtinIcons.weather.cloud;
 };
 
 const weatherCodeDescription = (code: number) => {
@@ -312,14 +310,14 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
               </div>
               <div className="wind">
                 <Icon
-                  icon={IonArrowBack}
+                  icon={builtinIcons.chevronBack}
                   height={rem(1.2)}
                   style={{ transform: `rotate(${Math.round((weather.windDirection + 90) % 360)}deg)` }}
                 />
                 <div>{formatSpeed(weather.windSpeed, config.speedUnit)}</div>
               </div>
               <div className="location">
-                <Icon icon={IonLocationSharp} height={rem(1.2)} />
+                <Icon icon={builtinIcons.location} height={rem(1.2)} />
                 <div>{config.location.name}</div>
               </div>
             </div>
@@ -393,7 +391,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
         <div>
           <h2>{t("weather-plugin.forecast")}</h2>
           <div className="location">
-            <Icon icon={IonLocationSharp} height={rem(1.2)} />
+            <Icon icon={builtinIcons.location} height={rem(1.2)} />
             <div>{config.location.name}</div>
           </div>
         </div>
@@ -417,14 +415,14 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
                     </div>
                     <div className="wind">
                       <Icon
-                        icon={IonArrowBack}
+                        icon={builtinIcons.chevronBack}
                         height={rem(1.2)}
                         style={{ transform: `rotate(${Math.round((f.windDirection + 90) % 360)}deg)` }}
                       />
                       <div>{formatSpeed(f.windSpeed, config.speedUnit)}</div>
                     </div>
                     <div className="location">
-                      <Icon icon={IonTimeOutline} height={rem(1.2)} />
+                      <Icon icon={builtinIcons.time} height={rem(1.2)} />
                       <div>{capitalize(f.date.format("dddd"))}</div>
                     </div>
                   </div>

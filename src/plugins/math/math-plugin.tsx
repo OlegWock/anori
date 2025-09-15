@@ -7,6 +7,7 @@ import { ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { cachedFunc, guid } from "@anori/utils/misc";
@@ -16,7 +17,6 @@ import { AnimatePresence } from "framer-motion";
 import type { MathJsInstance } from "mathjs";
 import { type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import IonCalculator from "~icons/ion/calculator?raw";
 
 const getMath = cachedFunc(() =>
   import("mathjs").then(
@@ -242,7 +242,7 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
           }
         }}
       >
-        <Icon icon={IonCalculator} width={rem(5)} height={rem(5)} />
+        <Icon icon={builtinIcons.calculator} width={rem(5)} height={rem(5)} />
       </button>
       <AnimatePresence>
         {show && (

@@ -16,10 +16,8 @@ import {
 import classnames, { clsx } from "clsx";
 import React, { type ReactNode, useLayoutEffect, useState } from "react";
 import "./Select.scss";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useDirection } from "@radix-ui/react-direction";
-import IonCheckmark from "~icons/ion/checkmark?raw";
-import IonChevronDown from "~icons/ion/chevron-down?raw";
-import IonChevronUp from "~icons/ion/chevron-up?raw";
 import { Icon } from "./Icon";
 
 export type SelectProps<T> = {
@@ -63,13 +61,13 @@ export const Select = <T,>({
       <RadixSelectTrigger className={clsx("SelectTrigger", triggerClassname)} aria-label={placeholder}>
         <RadixSelectValue placeholder={placeholder} />
         <RadixSelectIcon className="SelectIcon">
-          <Icon icon={IonChevronDown} />
+          <Icon icon={builtinIcons.chevronDown} />
         </RadixSelectIcon>
       </RadixSelectTrigger>
       <RadixSelectPortal>
         <RadixSelectContent className={clsx("SelectContent", contentClassname)}>
           <RadixSelectScrollUpButton className="SelectScrollButton">
-            <Icon icon={IonChevronUp} />
+            <Icon icon={builtinIcons.chevronUp} />
           </RadixSelectScrollUpButton>
           <RadixSelectViewport className="SelectViewport">
             {options.map((o) => {
@@ -82,7 +80,7 @@ export const Select = <T,>({
             })}
           </RadixSelectViewport>
           <RadixSelectScrollDownButton className="SelectScrollButton">
-            <Icon icon={IonChevronDown} />
+            <Icon icon={builtinIcons.chevronDown} />
           </RadixSelectScrollDownButton>
         </RadixSelectContent>
       </RadixSelectPortal>
@@ -96,7 +94,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       <RadixSelectItem className={classnames("SelectItem", className)} {...props} ref={forwardedRef}>
         <RadixSelectItemText>{children}</RadixSelectItemText>
         <RadixSelectItemIndicator className="SelectItemIndicator">
-          <Icon icon={IonCheckmark} />
+          <Icon icon={builtinIcons.check} />
         </RadixSelectItemIndicator>
       </RadixSelectItem>
     );

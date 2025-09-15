@@ -11,6 +11,7 @@ import { Icon } from "@anori/components/Icon";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { usePrevious } from "@anori/utils/hooks";
 import { capitalize } from "@anori/utils/strings";
 import { useDirection } from "@radix-ui/react-direction";
@@ -21,8 +22,6 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import IonChevronBack from "~icons/ion/chevron-back?raw";
-import IonChevronForward from "~icons/ion/chevron-forward?raw";
 
 type CalendarWidgetConfigType = {
   // 0 is monday, 6 is sunday
@@ -174,7 +173,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
             setOffsetMonths((p) => p - 1);
           }}
         >
-          <Icon icon={dir === "ltr" ? IonChevronBack : IonChevronForward} />
+          <Icon icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward} />
         </Button>
         <Button
           withoutBorder
@@ -193,7 +192,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
             setOffsetMonths((p) => p + 1);
           }}
         >
-          <Icon icon={dir === "ltr" ? IonChevronForward : IonChevronBack} />
+          <Icon icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
         </Button>
       </h3>
       <m.div className="calendar-grid" dir="ltr">

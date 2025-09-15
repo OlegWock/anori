@@ -1,5 +1,6 @@
 import { forwardRef, useRef, useState } from "react";
 import "./Combobox.scss";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -16,7 +17,6 @@ import {
 import clsx from "clsx";
 import { type HTMLMotionProps, m } from "framer-motion";
 import { useEffect } from "react";
-import IonCheckmark from "~icons/ion/checkmark?raw";
 import { Icon } from "./Icon";
 import { Input } from "./Input";
 
@@ -59,7 +59,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps & React.HTMLProps<HTMLDivEleme
       >
         {active && <m.div className="highlight" layoutId="combobox-highlight" transition={{ duration: 0.075 }} />}
         <m.div className="content">
-          <Icon className="check-icon" icon={IonCheckmark} height={16} />
+          <Icon className="check-icon" icon={builtinIcons.check} height={16} />
           {children}
         </m.div>
       </div>

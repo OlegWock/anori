@@ -23,6 +23,7 @@ import {
   switchTranslationLanguage,
 } from "@anori/translations/index";
 import { analyticsEnabledAtom, trackEvent } from "@anori/utils/analytics";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useScreenWidth } from "@anori/utils/compact";
 import {
   CUSTOM_ICONS_FOLDER_NAME,
@@ -52,17 +53,6 @@ import JSZip from "jszip";
 import moment from "moment-timezone";
 import { type ComponentProps, Suspense, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import IonAdd from "~icons/ion/add?raw";
-import IonArchiveSharp from "~icons/ion/archive-sharp?raw";
-import IonArrowBack from "~icons/ion/arrow-back?raw";
-import IonArrowForward from "~icons/ion/arrow-forward?raw";
-import IonClose from "~icons/ion/close?raw";
-import IonCodeSlashSharp from "~icons/ion/code-slash-sharp?raw";
-import IonColorPalette from "~icons/ion/color-palette?raw";
-import IonFileTrayFull from "~icons/ion/file-tray-full?raw";
-import IonFolderOpenSharp from "~icons/ion/folder-open-sharp?raw";
-import IonHelpBuoySharp from "~icons/ion/help-buoy-sharp?raw";
-import IonSettingsSharp from "~icons/ion/settings-sharp?raw";
 import { FolderItem } from "./FolderItem";
 import { License } from "./License";
 import { ThemesScreen } from "./ThemesScreen";
@@ -102,30 +92,37 @@ const MainScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="MainSettingsScreen">
-      <ScreenButton onClick={() => setScreen("general")} icon={IonSettingsSharp} name={t("settings.general.title")} />
+      <ScreenButton
+        onClick={() => setScreen("general")}
+        icon={builtinIcons.settings}
+        name={t("settings.general.title")}
+      />
       <ScreenButton
         onClick={() => setScreen("custom-icons")}
-        icon={IonFileTrayFull}
+        icon={builtinIcons.fileTray}
         name={t("settings.customIcons.title")}
       />
-      )
-      <ScreenButton onClick={() => setScreen("folders")} icon={IonFolderOpenSharp} name={t("settings.folders.title")} />
+      <ScreenButton
+        onClick={() => setScreen("folders")}
+        icon={builtinIcons.folder}
+        name={t("settings.folders.title")}
+      />
       {hasPluginsWithSettings && (
         <ScreenButton
           onClick={() => setScreen("plugins")}
-          icon={IonCodeSlashSharp}
+          icon={builtinIcons.code}
           name={t("settings.pluginSettings.title")}
         />
       )}
-      <ScreenButton onClick={() => setScreen("theme")} icon={IonColorPalette} name={t("settings.theme.title")} />
+      <ScreenButton onClick={() => setScreen("theme")} icon={builtinIcons.palette} name={t("settings.theme.title")} />
       <ScreenButton
         onClick={() => setScreen("import-export")}
-        icon={IonArchiveSharp}
+        icon={builtinIcons.archive}
         name={t("settings.importExport.title")}
       />
       <ScreenButton
         onClick={() => setScreen("about-help")}
-        icon={IonHelpBuoySharp}
+        icon={builtinIcons.helpBuoy}
         name={t("settings.aboutHelp.title")}
       />
     </m.div>
@@ -360,7 +357,7 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                   <Icon icon={`custom:${icon.name}`} height={32} width={32} />
                   <div className="custom-icon-name">{icon.name}</div>
                   <Button onClick={() => removeCustomIcon(icon.name)}>
-                    <Icon icon={IonClose} height={22} />
+                    <Icon icon={builtinIcons.close} height={22} />
                   </Button>
                 </m.div>
               );
@@ -408,7 +405,7 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                     URL.revokeObjectURL(draftCustomIcon.preview);
                   }}
                 >
-                  <Icon icon={IonClose} height={22} />
+                  <Icon icon={builtinIcons.close} height={22} />
                 </Button>
               </m.div>
             );
@@ -461,7 +458,7 @@ const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
       </m.div>
 
       <Button className="add-folder-btn" onClick={() => createFolder()}>
-        <Icon icon={IonAdd} height={24} /> {t("settings.folders.createNew")}
+        <Icon icon={builtinIcons.add} height={24} /> {t("settings.folders.createNew")}
       </Button>
     </m.div>
   );
@@ -653,7 +650,11 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
       headerButton={
         screen !== "main" ? (
           <Button withoutBorder onClick={() => setScreen("main")}>
-            <Icon icon={dir === "ltr" ? IonArrowBack : IonArrowForward} width={24} height={24} />
+            <Icon
+              icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
+              width={24}
+              height={24}
+            />
           </Button>
         ) : undefined
       }

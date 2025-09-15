@@ -1,11 +1,11 @@
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import "./Checkbox.scss";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import type { NarrowVariants } from "@anori/utils/motion/types";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import { type ComponentProps, forwardRef, useId } from "react";
 import type { ReactNode } from "react";
-import IonCheckmarkSharp from "~icons/ion/checkmark-sharp?raw";
 import { Icon } from "./Icon";
 
 export type CheckboxVariant = "disabled" | "checked" | "unchecked";
@@ -76,7 +76,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
         >
           <MotionIndicator forceMount={!!indicatorAnimations} className="Checkbox-indicator">
             <AnimatePresence>
-              {checked && <Icon {...indicatorAnimations} icon={IonCheckmarkSharp} width={14} height={14} />}
+              {checked && <Icon {...indicatorAnimations} icon={builtinIcons.checkSharp} width={14} height={14} />}
             </AnimatePresence>
           </MotionIndicator>
         </RadixCheckbox.Root>

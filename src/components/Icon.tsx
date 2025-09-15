@@ -13,9 +13,10 @@ import {
 import { forwardRef } from "react";
 import browser from "webextension-polyfill";
 import "./Icon.scss";
-import { ICONIFY_API_BASE } from "@anori/components/icons/api";
+import { getBuiltinIcon } from "@anori/utils/builtin-icons";
 import { iife } from "@anori/utils/misc";
 import { availablePermissionsAtom } from "@anori/utils/permissions";
+import { ICONIFY_API_BASE } from "@anori/utils/remote-icons";
 import clsx from "clsx";
 import { m, motion } from "framer-motion";
 import { useAtomValue } from "jotai";
@@ -200,11 +201,6 @@ const CustomIcon = forwardRef<SVGSVGElement | HTMLImageElement | HTMLDivElement,
 );
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, icon, cache = true, ...props }, ref) => {
-  if (typeof icon !== "string") {
-    throw new Error(
-      `icon prop should be string, but got ${typeof icon}. Did you forget to add ?raw when importing icon from ~icons?`,
-    );
-  }
   const [prevIcon, setPrevIcon] = useState<unknown>(icon);
   const [family, iconName] = icon.split(":");
   const [svgText, setSvgText] = useState<string | null>(null);
@@ -215,9 +211,10 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, icon, cach
   }
 
   useAsyncLayoutEffect(async () => {
-    if (icon.includes("<svg")) {
+    const builtinIcon = getBuiltinIcon(icon);
+    if (builtinIcon) {
       // This is built-in icon, not need to load it
-      return setSvgText(icon);
+      return setSvgText(builtinIcon);
     }
 
     if (family === "custom") {
@@ -289,5 +286,5 @@ export const Favicon = forwardRef<HTMLElement, FaviconProps>(({ useFaviconApiIfP
   }
 
   // @ts-ignore incorrect ref typing
-  return <Icon icon={props.fallback || "ic:baseline-tab"} {...props} ref={ref} />;
+  return <Icon icon={props.fallback || builtinIcons.recentlyClosedTabs.tab} {...props} ref={ref} />;
 });

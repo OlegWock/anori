@@ -7,9 +7,8 @@ import { m, useDragControls } from "framer-motion";
 import { useRef } from "react";
 import "./FolderItem.scss";
 import { ReorderItem } from "@anori/components/lazy-components";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
-import IcBaselineDragIndicator from "~icons/ic/baseline-drag-indicator?raw";
-import IonClose from "~icons/ion/close?raw";
 
 export const FolderItem = ({
   folder,
@@ -34,7 +33,7 @@ export const FolderItem = ({
       <ReorderItem value={folder} dragListener={false} dragControls={controls} as="div" className="FolderItem">
         <Icon
           className="folder-drag-indicator"
-          icon={IcBaselineDragIndicator}
+          icon={builtinIcons.dragHandle}
           width={ICON_SIZE}
           onPointerDown={(e) => {
             e.preventDefault();
@@ -60,7 +59,7 @@ export const FolderItem = ({
           type="text"
         />
         <Button onClick={() => onRemove?.()}>
-          <Icon icon={IonClose} height={ICON_SIZE} />
+          <Icon icon={builtinIcons.close} height={ICON_SIZE} />
         </Button>
       </ReorderItem>
     );

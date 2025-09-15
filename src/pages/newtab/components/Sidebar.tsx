@@ -10,9 +10,8 @@ import { AnimatePresence } from "framer-motion";
 import { Suspense, lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Sidebar.scss";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import clsx from "clsx";
-import IonNewspaperOutline from "~icons/ion/newspaper-outline?raw";
-import IonSettingsSharp from "~icons/ion/settings-sharp?raw";
 
 const SettingsModal = lazy(() => import("../settings/Settings").then((m) => ({ default: m.SettingsModal })));
 const WhatsNew = lazy(() => import("@anori/components/WhatsNew").then((m) => ({ default: m.WhatsNew })));
@@ -68,7 +67,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
               <FolderButton
                 sidebarOrientation={orientation}
                 layoutId="whats-new"
-                icon={IonNewspaperOutline}
+                icon={builtinIcons.newspaper}
                 name={t("whatsNew")}
                 withRedDot={hasUnreadReleaseNotes}
                 onClick={() => {
@@ -79,7 +78,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
               <FolderButton
                 sidebarOrientation={orientation}
                 layoutId="settings"
-                icon={IonSettingsSharp}
+                icon={builtinIcons.settings}
                 name={t("settings.title")}
                 onClick={() => setSettingsVisible(true)}
               />

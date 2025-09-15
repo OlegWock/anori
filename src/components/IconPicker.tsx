@@ -9,14 +9,14 @@ import {
   useState,
 } from "react";
 import "./IconPicker.scss";
-import { useIconSets, useIcons } from "@anori/components/icons/api";
 import { Select } from "@anori/components/lazy-components";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { CUSTOM_ICONS_SET_NAME } from "@anori/utils/custom-icons";
 import { choose } from "@anori/utils/misc";
+import { useIconSets, useIcons } from "@anori/utils/remote-icons";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
-import IonIosShuffle from "~icons/ion/ios-shuffle?raw";
 import { Button } from "./Button";
 import { Icon } from "./Icon";
 import { Input } from "./Input";
@@ -186,7 +186,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
               onKeyUp={onInputKeydown}
             />
             <Button onClick={pickRandom}>
-              <Icon icon={IonIosShuffle} height={rem(1.5)} width={rem(1.5)} />
+              <Icon icon={builtinIcons.shuffle} height={rem(1.5)} width={rem(1.5)} />
             </Button>
           </div>
 

@@ -1,12 +1,12 @@
 import { LayoutGroup, m, useIsPresent } from "framer-motion";
 import "./Modal.scss";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useHotkeys } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import useMeasure from "react-use-motion-measure";
-import IonClose from "~icons/ion/close?raw";
 import { Icon } from "./Icon";
 
 export type ModalProps = {
@@ -78,7 +78,7 @@ export const Modal = ({
                   transition: { duration: 0.2 },
                 }}
               >
-                <Icon icon={IonClose} width={24} height={24} />
+                <Icon icon={builtinIcons.close} width={24} height={24} />
               </m.button>
             )}
           </div>

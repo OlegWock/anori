@@ -3,6 +3,7 @@ import "./BookmarksBar.scss";
 import { Favicon, Icon } from "@anori/components/Icon";
 import { Link } from "@anori/components/Link";
 import { ScrollArea } from "@anori/components/ScrollArea";
+import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { usePermissionsQuery } from "@anori/utils/permissions";
 import { useDirection } from "@radix-ui/react-direction";
@@ -11,9 +12,6 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import browser from "webextension-polyfill";
-import IonChevronBack from "~icons/ion/chevron-back?raw";
-import IonChevronForward from "~icons/ion/chevron-forward?raw";
-import IonFolderOpenSharp from "~icons/ion/folder-open-sharp?raw";
 
 type BookmarkItem = {
   id: string;
@@ -111,11 +109,11 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType; shif
     <Menubar.Sub>
       <Menubar.SubTrigger className="MenuBookmark">
         <div className="content">
-          <Icon icon={IonFolderOpenSharp} height={rem(1)} width={rem(1)} />
+          <Icon icon={builtinIcons.folder} height={rem(1)} width={rem(1)} />
           <span className="title">{bookmark.title}</span>
         </div>
 
-        <Icon icon={dir === "ltr" ? IonChevronForward : IonChevronBack} />
+        <Icon icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
       </Menubar.SubTrigger>
       <Menubar.Portal>
         <div className="radix-popover-zindex-fix">
@@ -186,7 +184,7 @@ const Bookmark = ({ bookmark, fullWidth }: { bookmark: BookmarkType; fullWidth?:
         <Favicon url={bookmark.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />
       )}
       {bookmark.type === "folder" && (
-        <Icon className="folder-icon" icon={IonFolderOpenSharp} height={rem(1)} width={rem(1)} />
+        <Icon className="folder-icon" icon={builtinIcons.folder} height={rem(1)} width={rem(1)} />
       )}
       {!!bookmark.title && <span className="title">{bookmark.title}</span>}
     </>
