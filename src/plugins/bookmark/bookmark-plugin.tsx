@@ -45,6 +45,9 @@ import moment from "moment-timezone";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
+import FluentSpinnerIos20Regular from "~icons/fluent/spinner-ios-20-regular?raw";
+import IonClose from "~icons/ion/close?raw";
+import IonExpand from "~icons/ion/expand?raw";
 
 type BookmarkWidgetConfigType = {
   url: string;
@@ -213,7 +216,7 @@ const BookmarGroupkWidgetConfigScreen = ({
                     <Button>{t("import")}</Button>
                   </Popover>
                   <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
-                    <Icon icon="ion:close" height={22} />
+                    <Icon icon={IonClose} height={22} />
                   </Button>
                 </m.div>
               );
@@ -283,7 +286,7 @@ const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetCo
         {isNavigating ? (
           <Icon
             className="loading"
-            icon="fluent:spinner-ios-20-regular"
+            icon={FluentSpinnerIos20Regular}
             width={size === "m" ? rem(5.75) : rem(2.25)}
             height={size === "m" ? rem(5.75) : rem(2.25)}
           />
@@ -480,7 +483,7 @@ const BookmarkWidget = ({
           {isNavigating && !config.openInNewTab ? (
             <Icon
               className="loading"
-              icon="fluent:spinner-ios-20-regular"
+              icon={FluentSpinnerIos20Regular}
               width={size === "m" ? rem(5.75) : rem(2.25)}
               height={size === "m" ? rem(5.75) : rem(2.25)}
             />
@@ -502,7 +505,7 @@ const BookmarkWidget = ({
           {["chrome", "firefox"].includes(X_BROWSER) && (
             <button type="button" onClick={openIframe} className="open-in-iframe">
               <div>
-                <Icon icon="ion:expand" />
+                <Icon icon={IonExpand} />
               </div>
             </button>
           )}

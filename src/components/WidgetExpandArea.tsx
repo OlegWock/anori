@@ -15,6 +15,7 @@ import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import IonClose from "~icons/ion/close?raw";
 import { Icon } from "./Icon";
 import { ScrollArea } from "./ScrollArea";
 import { useParentWidgetCardRef } from "./WidgetCard";
@@ -272,7 +273,7 @@ export const WidgetExpandArea = ({
                     transition: { duration: 0.2 },
                   }}
                 >
-                  <Icon icon="ion:close" width={rem(1.5)} height={rem(1.5)} />
+                  <Icon icon={IonClose} width={rem(1.5)} height={rem(1.5)} />
                 </m.button>
               )}
             </m.div>

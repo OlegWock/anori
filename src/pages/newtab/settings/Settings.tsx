@@ -25,7 +25,6 @@ import {
 import { analyticsEnabledAtom, trackEvent } from "@anori/utils/analytics";
 import { useScreenWidth } from "@anori/utils/compact";
 import {
-  CUSTOM_ICONS_AVAILABLE,
   CUSTOM_ICONS_FOLDER_NAME,
   deleteAllCustomIcons,
   getAllCustomIconFiles,
@@ -35,7 +34,6 @@ import {
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
-import { OPFS_AVAILABLE } from "@anori/utils/opfs";
 import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugin";
 import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
@@ -54,6 +52,17 @@ import JSZip from "jszip";
 import moment from "moment-timezone";
 import { type ComponentProps, Suspense, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import IonAdd from "~icons/ion/add?raw";
+import IonArchiveSharp from "~icons/ion/archive-sharp?raw";
+import IonArrowBack from "~icons/ion/arrow-back?raw";
+import IonArrowForward from "~icons/ion/arrow-forward?raw";
+import IonClose from "~icons/ion/close?raw";
+import IonCodeSlashSharp from "~icons/ion/code-slash-sharp?raw";
+import IonColorPalette from "~icons/ion/color-palette?raw";
+import IonFileTrayFull from "~icons/ion/file-tray-full?raw";
+import IonFolderOpenSharp from "~icons/ion/folder-open-sharp?raw";
+import IonHelpBuoySharp from "~icons/ion/help-buoy-sharp?raw";
+import IonSettingsSharp from "~icons/ion/settings-sharp?raw";
 import { FolderItem } from "./FolderItem";
 import { License } from "./License";
 import { ThemesScreen } from "./ThemesScreen";
@@ -93,35 +102,30 @@ const MainScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="MainSettingsScreen">
-      <ScreenButton onClick={() => setScreen("general")} icon="ion:settings-sharp" name={t("settings.general.title")} />
-      {CUSTOM_ICONS_AVAILABLE && (
-        <ScreenButton
-          onClick={() => setScreen("custom-icons")}
-          icon="ion:file-tray-full"
-          name={t("settings.customIcons.title")}
-        />
-      )}
+      <ScreenButton onClick={() => setScreen("general")} icon={IonSettingsSharp} name={t("settings.general.title")} />
       <ScreenButton
-        onClick={() => setScreen("folders")}
-        icon="ion:folder-open-sharp"
-        name={t("settings.folders.title")}
+        onClick={() => setScreen("custom-icons")}
+        icon={IonFileTrayFull}
+        name={t("settings.customIcons.title")}
       />
+      )
+      <ScreenButton onClick={() => setScreen("folders")} icon={IonFolderOpenSharp} name={t("settings.folders.title")} />
       {hasPluginsWithSettings && (
         <ScreenButton
           onClick={() => setScreen("plugins")}
-          icon="ion:code-slash-sharp"
+          icon={IonCodeSlashSharp}
           name={t("settings.pluginSettings.title")}
         />
       )}
-      <ScreenButton onClick={() => setScreen("theme")} icon="ion:color-palette" name={t("settings.theme.title")} />
+      <ScreenButton onClick={() => setScreen("theme")} icon={IonColorPalette} name={t("settings.theme.title")} />
       <ScreenButton
         onClick={() => setScreen("import-export")}
-        icon="ion:archive-sharp"
+        icon={IonArchiveSharp}
         name={t("settings.importExport.title")}
       />
       <ScreenButton
         onClick={() => setScreen("about-help")}
-        icon="ion:help-buoy-sharp"
+        icon={IonHelpBuoySharp}
         name={t("settings.aboutHelp.title")}
       />
     </m.div>
@@ -356,7 +360,7 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                   <Icon icon={`custom:${icon.name}`} height={32} width={32} />
                   <div className="custom-icon-name">{icon.name}</div>
                   <Button onClick={() => removeCustomIcon(icon.name)}>
-                    <Icon icon="ion:close" height={22} />
+                    <Icon icon={IonClose} height={22} />
                   </Button>
                 </m.div>
               );
@@ -404,7 +408,7 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                     URL.revokeObjectURL(draftCustomIcon.preview);
                   }}
                 >
-                  <Icon icon="ion:close" height={22} />
+                  <Icon icon={IonClose} height={22} />
                 </Button>
               </m.div>
             );
@@ -457,7 +461,7 @@ const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
       </m.div>
 
       <Button className="add-folder-btn" onClick={() => createFolder()}>
-        <Icon icon="ion:add" height={24} /> {t("settings.folders.createNew")}
+        <Icon icon={IonAdd} height={24} /> {t("settings.folders.createNew")}
       </Button>
     </m.div>
   );
@@ -494,16 +498,14 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       { compression: "DEFLATE" },
     );
 
-    if (OPFS_AVAILABLE) {
-      const customIconFiles = await getAllCustomIconFiles();
-      customIconFiles.forEach((handle) =>
-        zip.file(`opfs/${CUSTOM_ICONS_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
-      );
-      const customThemeFiles = await getAllCustomThemeBackgroundFiles();
-      customThemeFiles.forEach((handle) =>
-        zip.file(`opfs/${CUSTOM_THEMES_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
-      );
-    }
+    const customIconFiles = await getAllCustomIconFiles();
+    customIconFiles.forEach((handle) =>
+      zip.file(`opfs/${CUSTOM_ICONS_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
+    );
+    const customThemeFiles = await getAllCustomThemeBackgroundFiles();
+    customThemeFiles.forEach((handle) =>
+      zip.file(`opfs/${CUSTOM_THEMES_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
+    );
     const blob = await zip.generateAsync({ type: "blob" });
     const datetime = moment().format("DD-MM-yyyy_HH-mm");
     downloadBlob(`anori-backup-${datetime}.zip`, blob);
@@ -524,29 +526,27 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     await browser.storage.local.clear();
     await browser.storage.local.set(migratedStorage);
 
-    if (OPFS_AVAILABLE) {
-      await deleteAllCustomIcons();
-      await deleteAllThemeBackgrounds();
-      const promises: Promise<void>[] = [];
-      zip.folder(`opfs/${CUSTOM_ICONS_FOLDER_NAME}`)?.forEach((path, file) => {
-        console.log("Importing", { file, path });
-        promises.push(
-          file.async("arraybuffer").then((ab) => {
-            return addNewCustomIcon(path, ab);
-          }),
-        );
-      });
-      zip.folder(`opfs/${CUSTOM_THEMES_FOLDER_NAME}`)?.forEach((path, file) => {
-        console.log("Importing", { file, path });
-        promises.push(
-          file.async("arraybuffer").then((ab) => {
-            return saveThemeBackground(path, ab);
-          }),
-        );
-      });
+    await deleteAllCustomIcons();
+    await deleteAllThemeBackgrounds();
+    const promises: Promise<void>[] = [];
+    zip.folder(`opfs/${CUSTOM_ICONS_FOLDER_NAME}`)?.forEach((path, file) => {
+      console.log("Importing", { file, path });
+      promises.push(
+        file.async("arraybuffer").then((ab) => {
+          return addNewCustomIcon(path, ab);
+        }),
+      );
+    });
+    zip.folder(`opfs/${CUSTOM_THEMES_FOLDER_NAME}`)?.forEach((path, file) => {
+      console.log("Importing", { file, path });
+      promises.push(
+        file.async("arraybuffer").then((ab) => {
+          return saveThemeBackground(path, ab);
+        }),
+      );
+    });
 
-      await Promise.all(promises);
-    }
+    await Promise.all(promises);
     await trackEvent("Configuration imported");
     window.location.reload();
   };
@@ -653,7 +653,7 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
       headerButton={
         screen !== "main" ? (
           <Button withoutBorder onClick={() => setScreen("main")}>
-            <Icon icon={dir === "ltr" ? "ion:arrow-back" : "ion:arrow-forward"} width={24} height={24} />
+            <Icon icon={dir === "ltr" ? IonArrowBack : IonArrowForward} width={24} height={24} />
           </Button>
         ) : undefined
       }

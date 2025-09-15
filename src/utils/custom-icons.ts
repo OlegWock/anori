@@ -1,8 +1,9 @@
 import { atom, getDefaultStore, useAtom } from "jotai";
 import { useEffect } from "react";
 import { asyncIterableToArray } from "./misc";
-import { OPFS_AVAILABLE, getDirectoryInRoot } from "./opfs";
+import { getDirectoryInRoot } from "./opfs";
 
+export const CUSTOM_ICONS_SET_NAME = "custom";
 export const CUSTOM_ICONS_FOLDER_NAME = "custom-icons";
 
 export type CustomIcon = {
@@ -10,8 +11,6 @@ export type CustomIcon = {
   urlObject: string;
   svgContent: string | null;
 };
-
-export const CUSTOM_ICONS_AVAILABLE = OPFS_AVAILABLE;
 
 const iconsCache: Record<string, CustomIcon> = {};
 const iconsAtom = atom<CustomIcon[]>([]);

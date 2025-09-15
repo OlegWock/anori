@@ -19,6 +19,9 @@ import { capitalize } from "@anori/utils/strings";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import IonArrowBack from "~icons/ion/arrow-back?raw";
+import IonLocationSharp from "~icons/ion/location-sharp?raw";
+import IonTimeOutline from "~icons/ion/time-outline?raw";
 import {
   type City,
   type CurrentWeather,
@@ -305,19 +308,18 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
             </Tooltip>
             <div>
               <div className="temperature">
-                {/* <Icon icon="wi:thermometer" height={rem(2.5)} /> */}
                 <div>{formatTemperature(weather.temperature, config.temperatureUnit)}</div>
               </div>
               <div className="wind">
                 <Icon
-                  icon="ion:arrow-back"
+                  icon={IonArrowBack}
                   height={rem(1.2)}
                   style={{ transform: `rotate(${Math.round((weather.windDirection + 90) % 360)}deg)` }}
                 />
                 <div>{formatSpeed(weather.windSpeed, config.speedUnit)}</div>
               </div>
               <div className="location">
-                <Icon icon="ion:location-sharp" height={rem(1.2)} />
+                <Icon icon={IonLocationSharp} height={rem(1.2)} />
                 <div>{config.location.name}</div>
               </div>
             </div>
@@ -391,7 +393,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
         <div>
           <h2>{t("weather-plugin.forecast")}</h2>
           <div className="location">
-            <Icon icon="ion:location-sharp" height={rem(1.2)} />
+            <Icon icon={IonLocationSharp} height={rem(1.2)} />
             <div>{config.location.name}</div>
           </div>
         </div>
@@ -415,14 +417,14 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
                     </div>
                     <div className="wind">
                       <Icon
-                        icon="ion:arrow-back"
+                        icon={IonArrowBack}
                         height={rem(1.2)}
                         style={{ transform: `rotate(${Math.round((f.windDirection + 90) % 360)}deg)` }}
                       />
                       <div>{formatSpeed(f.windSpeed, config.speedUnit)}</div>
                     </div>
                     <div className="location">
-                      <Icon icon="ion:time-outline" height={rem(1.2)} />
+                      <Icon icon={IonTimeOutline} height={rem(1.2)} />
                       <div>{capitalize(f.date.format("dddd"))}</div>
                     </div>
                   </div>

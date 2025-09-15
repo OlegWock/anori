@@ -114,7 +114,7 @@ export const generateManifest = (
     if (targetBrowser === "firefox") {
       manifest.browser_specific_settings = {
         gecko: {
-          strict_min_version: "99.0",
+          strict_min_version: "111.0",
         },
       };
     }

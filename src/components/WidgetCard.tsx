@@ -13,6 +13,10 @@ import clsx from "clsx";
 import { type PanInfo, m, useMotionValue } from "framer-motion";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
+import IcBaselineDragIndicator from "~icons/ic/baseline-drag-indicator?raw";
+import IonClose from "~icons/ion/close?raw";
+import IonPencil from "~icons/ion/pencil?raw";
+import IonResize from "~icons/ion/resize?raw";
 import { Button } from "./Button";
 import { Icon } from "./Icon";
 
@@ -269,17 +273,17 @@ export const WidgetCard = <T extends {}, PT extends T>({
           withoutBorder
           {...dragHandleProps}
         >
-          <Icon icon="ic:baseline-drag-indicator" width={rem(1.25)} height={rem(1.25)} />
+          <Icon icon={IcBaselineDragIndicator} width={rem(1.25)} height={rem(1.25)} />
         </Button>
       )}
       {isEditing && type === "widget" && !!onRemove && (
         <Button className="remove-widget-btn" onClick={onRemove} withoutBorder>
-          <Icon icon="ion:close" width={rem(1.25)} height={rem(1.25)} />
+          <Icon icon={IonClose} width={rem(1.25)} height={rem(1.25)} />
         </Button>
       )}
       {isEditing && type === "widget" && !!onEdit && (
         <Button className="edit-widget-btn" onClick={onEdit} withoutBorder>
-          <Icon icon="ion:pencil" width={rem(1.25)} height={rem(1.25)} />
+          <Icon icon={IonPencil} width={rem(1.25)} height={rem(1.25)} />
         </Button>
       )}
       {isEditing && type === "widget" && !!widget.appearance.resizable && (
@@ -290,7 +294,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
           onPan={updateResize}
           onPanEnd={finishResize}
         >
-          <Icon icon="ion:resize" width={rem(1.25)} height={rem(1.25)} style={{ rotate: 90 }} />
+          <Icon icon={IonResize} width={rem(1.25)} height={rem(1.25)} style={{ rotate: 90 }} />
         </m.div>
       )}
       <ErrorBoundary>

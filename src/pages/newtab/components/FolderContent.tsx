@@ -15,6 +15,9 @@ import { atom, useAtom } from "jotai";
 import { type CSSProperties, type Ref, Suspense, lazy, useState } from "react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import IonAdd from "~icons/ion/add?raw";
+import IonCheckmark from "~icons/ion/checkmark?raw";
+import IonPencil from "~icons/ion/pencil?raw";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 
 const NewWidgetWizard = lazy(() => import("./NewWidgetWizard").then((m) => ({ default: m.NewWidgetWizard })));
@@ -166,11 +169,11 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
                 {isEditing && (
                   <m.div className="action-buttons" key="editing-buttons" {...actionButtonAnimations}>
                     <Button onClick={() => setNewWidgetWizardVisible(true)}>
-                      <Icon icon="ion:add" height={24} />
+                      <Icon icon={IonAdd} height={24} />
                     </Button>
 
                     <Button onClick={() => setIsEditing(false)}>
-                      <Icon icon="ion:checkmark" height={24} />
+                      <Icon icon={IonCheckmark} height={24} />
                     </Button>
                   </m.div>
                 )}
@@ -178,7 +181,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
                 {!isEditing && (
                   <m.div className="action-buttons" key="viewing-buttons" {...actionButtonAnimations}>
                     <Button onClick={() => setIsEditing(true)} key="start-editing" {...actionButtonAnimations}>
-                      <Icon icon="ion:pencil" height={24} />
+                      <Icon icon={IonPencil} height={24} />
                     </Button>
                   </m.div>
                 )}

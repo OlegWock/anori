@@ -17,6 +17,9 @@ import classnames, { clsx } from "clsx";
 import React, { type ReactNode, useLayoutEffect, useState } from "react";
 import "./Select.scss";
 import { useDirection } from "@radix-ui/react-direction";
+import IonCheckmark from "~icons/ion/checkmark?raw";
+import IonChevronDown from "~icons/ion/chevron-down?raw";
+import IonChevronUp from "~icons/ion/chevron-up?raw";
 import { Icon } from "./Icon";
 
 export type SelectProps<T> = {
@@ -60,13 +63,13 @@ export const Select = <T,>({
       <RadixSelectTrigger className={clsx("SelectTrigger", triggerClassname)} aria-label={placeholder}>
         <RadixSelectValue placeholder={placeholder} />
         <RadixSelectIcon className="SelectIcon">
-          <Icon icon="ion:chevron-down" />
+          <Icon icon={IonChevronDown} />
         </RadixSelectIcon>
       </RadixSelectTrigger>
       <RadixSelectPortal>
         <RadixSelectContent className={clsx("SelectContent", contentClassname)}>
           <RadixSelectScrollUpButton className="SelectScrollButton">
-            <Icon icon="ion:chevron-up" />
+            <Icon icon={IonChevronUp} />
           </RadixSelectScrollUpButton>
           <RadixSelectViewport className="SelectViewport">
             {options.map((o) => {
@@ -79,7 +82,7 @@ export const Select = <T,>({
             })}
           </RadixSelectViewport>
           <RadixSelectScrollDownButton className="SelectScrollButton">
-            <Icon icon="ion:chevron-down" />
+            <Icon icon={IonChevronDown} />
           </RadixSelectScrollDownButton>
         </RadixSelectContent>
       </RadixSelectPortal>
@@ -93,7 +96,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       <RadixSelectItem className={classnames("SelectItem", className)} {...props} ref={forwardedRef}>
         <RadixSelectItemText>{children}</RadixSelectItemText>
         <RadixSelectItemIndicator className="SelectItemIndicator">
-          <Icon icon="ion:checkmark" />
+          <Icon icon={IonCheckmark} />
         </RadixSelectItemIndicator>
       </RadixSelectItem>
     );

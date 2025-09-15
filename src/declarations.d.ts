@@ -31,5 +31,11 @@ declare module "*.css" {
   export default content;
 }
 
+declare module "~icons/*?raw" {
+  const content: string;
+  // biome-ignore lint/style/noDefaultExport: we prefer asset imports to have default export
+  export default content;
+}
+
 declare const X_MODE: "development" | "production";
 declare const X_BROWSER: "chrome" | "firefox";

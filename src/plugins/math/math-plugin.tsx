@@ -16,6 +16,7 @@ import { AnimatePresence } from "framer-motion";
 import type { MathJsInstance } from "mathjs";
 import { type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import IonCalculator from "~icons/ion/calculator?raw";
 
 const getMath = cachedFunc(() =>
   import("mathjs").then(
@@ -241,7 +242,7 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
           }
         }}
       >
-        <Icon icon="ion:calculator" width={rem(5)} height={rem(5)} />
+        <Icon icon={IonCalculator} width={rem(5)} height={rem(5)} />
       </button>
       <AnimatePresence>
         {show && (

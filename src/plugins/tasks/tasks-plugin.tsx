@@ -33,6 +33,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import IcBaselineDragIndicator from "~icons/ic/baseline-drag-indicator?raw";
+import IonAdd from "~icons/ion/add?raw";
 
 type TaskWidgetConfigType = {
   title: string;
@@ -180,7 +182,7 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, 
     >
       <div className="drag-control">
         <Icon
-          icon="ic:baseline-drag-indicator"
+          icon={IcBaselineDragIndicator}
           width={rem(1)}
           onPointerDown={(e) => {
             e.preventDefault();
@@ -259,7 +261,7 @@ const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
       <div className="tasks-header">
         <h2>{config.title}</h2>
         <Button onClick={addTask}>
-          <Icon icon="ion:add" height={16} />
+          <Icon icon={IonAdd} height={16} />
         </Button>
       </div>
       <ScrollArea color="dark" style={{ display: tasks.length === 0 ? "none" : "flex" }}>
@@ -306,7 +308,7 @@ const Mock = () => {
       <div className="tasks-header">
         <h2>{t("tasks-plugin.todo")}</h2>
         <Button>
-          <Icon icon="ion:add" height={16} />
+          <Icon icon={IonAdd} height={16} />
         </Button>
       </div>
       <ScrollArea color="dark">

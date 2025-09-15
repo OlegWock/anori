@@ -15,6 +15,14 @@ import { useWidgetMetadata, useWidgetStorage } from "@anori/utils/plugin";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import browser from "webextension-polyfill";
+import FluentSpinnerIos20Regular from "~icons/fluent/spinner-ios-20-regular?raw";
+import IonClose from "~icons/ion/close?raw";
+import LogosFacebook from "~icons/logos/facebook?raw";
+import LogosGithubIcon from "~icons/logos/github-icon?raw";
+import LogosJira from "~icons/logos/jira?raw";
+import LogosNotionIcon from "~icons/logos/notion-icon?raw";
+import LogosTwitter from "~icons/logos/twitter?raw";
+import LogosWhatsappIcon from "~icons/logos/whatsapp-icon?raw";
 
 type WidgetStorageType = {
   blacklist: string[];
@@ -40,7 +48,7 @@ const LinkPlate = ({
         onLinkClick(e);
       }}
     >
-      {isNavigating && <Icon className="loading" icon="fluent:spinner-ios-20-regular" width={32} height={32} />}
+      {isNavigating && <Icon className="loading" icon={FluentSpinnerIos20Regular} width={32} height={32} />}
       {!isNavigating && <img src={favicon} aria-hidden />}
       <div className="site-title">{title}</div>
       {isEditing && (
@@ -52,7 +60,7 @@ const LinkPlate = ({
             onRemove();
           }}
         >
-          <Icon icon="ion:close" width={16} height={16} />
+          <Icon icon={IonClose} width={16} height={16} />
         </Button>
       )}
     </Link>
@@ -122,27 +130,27 @@ const Mock = ({ type }: { type: "horizontal" | "vertical" }) => {
   return (
     <div className={clsx("TopSitesWidget", type)}>
       <a href="http://example.com">
-        <Icon icon="logos:facebook" height={rem(2)} width={rem(2)} />
+        <Icon icon={LogosFacebook} height={rem(2)} width={rem(2)} />
         <div className="site-title">Facebook</div>
       </a>
       <a href="http://example.com">
-        <Icon icon="logos:twitter" height={rem(2)} width={rem(2)} />
+        <Icon icon={LogosTwitter} height={rem(2)} width={rem(2)} />
         <div className="site-title">Twitter</div>
       </a>
       <a href="http://example.com">
-        <Icon icon="logos:jira" height={rem(2)} width={rem(2)} />
+        <Icon icon={LogosJira} height={rem(2)} width={rem(2)} />
         <div className="site-title">Jira</div>
       </a>
       <a href="http://example.com">
-        <Icon icon="logos:github-icon" height={rem(2)} width={rem(2)} />
+        <Icon icon={LogosGithubIcon} height={rem(2)} width={rem(2)} />
         <div className="site-title">GitHub</div>
       </a>
       <a href="http://example.com">
-        <Icon icon="logos:whatsapp-icon" height={rem(2)} width={rem(2)} />
+        <Icon icon={LogosWhatsappIcon} height={rem(2)} width={rem(2)} />
         <div className="site-title">Whatsapp</div>
       </a>
       <a href="http://example.com">
-        <Icon icon="logos:notion-icon" height={rem(2)} width={rem(2)} />
+        <Icon icon={LogosNotionIcon} height={rem(2)} width={rem(2)} />
         <div className="site-title">Notion</div>
       </a>
     </div>

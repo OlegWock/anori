@@ -25,6 +25,7 @@ import { normalizeUrl, parseHost } from "@anori/utils/misc";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import IonOpenOutline from "~icons/ion/open-outline?raw";
 
 // NOTE: There is some problem with cookies in Iframe. When cookie set with SameSite=Lax (default value) or SameSite=Strict
 // it's not available for JS (not sent at all?) if opened in iframe. Sites need to explicitly set SameSite=None to allow
@@ -118,7 +119,7 @@ const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfigType>)
           {config.showLinkToPage && (
             <div className="open-url-btn-wrapper">
               <Link className="open-url-btn" href={config.url}>
-                <Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} />
+                <Icon icon={IonOpenOutline} height={rem(1.25)} width={rem(1.25)} />
               </Link>
             </div>
           )}
@@ -127,7 +128,7 @@ const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfigType>)
       {!config.title && config.showLinkToPage && (
         <div className="open-url-btn-wrapper absolute">
           <Link className="open-url-btn" href={config.url}>
-            <Icon icon="ion:open-outline" height={rem(1.25)} width={rem(1.25)} />
+            <Icon icon={IonOpenOutline} height={rem(1.25)} width={rem(1.25)} />
           </Link>
         </div>
       )}
@@ -253,7 +254,7 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
             extraButtons={
               config.showLinkToPage && (
                 <Link className="open-url-btn" href={config.url}>
-                  <Icon icon="ion:open-outline" height={rem(1.5)} width={rem(1.5)} />
+                  <Icon icon={IonOpenOutline} height={rem(1.5)} width={rem(1.5)} />
                 </Link>
               )
             }

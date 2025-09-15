@@ -12,6 +12,7 @@ import GenerateFiles from "generate-file-webpack-plugin";
 import MomentLocalesPlugin from "moment-locales-webpack-plugin";
 import MomentTimezoneDataPlugin from "moment-timezone-data-webpack-plugin";
 import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
+import Icons from "unplugin-icons/rspack";
 import packageJson from "./package.json" with { type: "json" };
 
 const require = createRequire(import.meta.url);
@@ -241,6 +242,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       new MomentLocalesPlugin({
         localesToKeep: ["uk", "de", "fr", "es", "it", "th", "zh-cn", "ru", "ar", "pt-br"],
       }),
+      Icons({ compiler: "jsx", jsx: "react" }),
       mode === "production" &&
         new FileManagerPlugin({
           events: {

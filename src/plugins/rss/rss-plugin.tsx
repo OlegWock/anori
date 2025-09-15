@@ -26,6 +26,10 @@ import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
 import { Fragment, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import IonClose from "~icons/ion/close?raw";
+import IonLogoRss from "~icons/ion/logo-rss?raw";
+import IonTimeOutline from "~icons/ion/time-outline?raw";
+import JamRefresh from "~icons/jam/refresh?raw";
 import { type RssPost, type WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
 
 const parser = (typeof DOMParser === "undefined" ? null : new DOMParser()) as DOMParser;
@@ -73,10 +77,10 @@ const Post = ({
       {!compact && (
         <div className="details">
           <div className="feed-name">
-            <Icon icon="ion:logo-rss" height={rem(1)} /> <span>{feedTitle}</span>
+            <Icon icon={IonLogoRss} height={rem(1)} /> <span>{feedTitle}</span>
           </div>
           <div className="post-date">
-            <Icon icon="ion:time-outline" height={rem(1)} />{" "}
+            <Icon icon={IonTimeOutline} height={rem(1)} />{" "}
             <span>
               <RelativeTime m={postMoment} />
             </span>
@@ -195,7 +199,7 @@ const RssFeedConfigScreen = ({
                     }
                   />
                   <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
-                    <Icon icon="ion:close" height={22} />
+                    <Icon icon={IonClose} height={22} />
                   </Button>
                 </m.div>
               );
@@ -245,7 +249,7 @@ const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfigType>) => {
         <Tooltip label={lastRefresh}>
           <Button className="refresh-button" visuallyDisabled={isRefreshing} onClick={() => refresh()}>
             <Icon
-              icon="jam:refresh"
+              icon={JamRefresh}
               height={rem(1.25)}
               variants={{
                 loading: { rotate: [0, 360] },
@@ -324,7 +328,7 @@ const RssFeedMock = () => {
       <div className="title-wrapper">
         <h2>{t("rss-plugin.name")}</h2>
         <Button className="refresh-button">
-          <Icon icon="jam:refresh" height={rem(1.25)} />
+          <Icon icon={JamRefresh} height={rem(1.25)} />
         </Button>
       </div>
       <ScrollArea type="hover" color="dark">

@@ -13,6 +13,7 @@ import {
 import { forwardRef } from "react";
 import browser from "webextension-polyfill";
 import "./Icon.scss";
+import { ICONIFY_API_BASE } from "@anori/components/icons/api";
 import { iife } from "@anori/utils/misc";
 import { availablePermissionsAtom } from "@anori/utils/permissions";
 import clsx from "clsx";
@@ -55,7 +56,7 @@ type SvgIconRenderedProps = {
   cache?: boolean;
 } & ComponentPropsWithoutRef<typeof m.svg>;
 
-const SvgIconRendered = forwardRef<SVGSVGElement, SvgIconRenderedProps>(
+const SvgIconRenderer = forwardRef<SVGSVGElement, SvgIconRenderedProps>(
   ({ icon, svgText, cache = true, width, height, style = {}, ...props }, ref) => {
     const [aspectRatio, setAspectRatio] = useState<string>();
     const [viewBox, setViewBox] = useState<string>();
@@ -172,7 +173,7 @@ const CustomIcon = forwardRef<SVGSVGElement | HTMLImageElement | HTMLDivElement,
 
     if (customIconInfo.svgContent !== null) {
       return (
-        <SvgIconRendered
+        <SvgIconRenderer
           icon={`custom:${icon}`}
           svgText={customIconInfo.svgContent}
           ref={ref as Ref<SVGSVGElement>}
@@ -199,7 +200,12 @@ const CustomIcon = forwardRef<SVGSVGElement | HTMLImageElement | HTMLDivElement,
 );
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, icon, cache = true, ...props }, ref) => {
-  const [prevIcon, setPrevIcon] = useState(icon);
+  if (typeof icon !== "string") {
+    throw new Error(
+      `icon prop should be string, but got ${typeof icon}. Did you forget to add ?raw when importing icon from ~icons?`,
+    );
+  }
+  const [prevIcon, setPrevIcon] = useState<unknown>(icon);
   const [family, iconName] = icon.split(":");
   const [svgText, setSvgText] = useState<string | null>(null);
 
@@ -209,6 +215,11 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, icon, cach
   }
 
   useAsyncLayoutEffect(async () => {
+    if (icon.includes("<svg")) {
+      // This is built-in icon, not need to load it
+      return setSvgText(icon);
+    }
+
     if (family === "custom") {
       // Will be handled by <CustomIcon />
       return;
@@ -218,9 +229,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, icon, cach
     if (cache && fromCache) {
       setSvgText(fromCache.svgText);
     } else {
-      const svgText = await fetch(browser.runtime.getURL(`/assets/icons/${family}/${iconName}.svg`)).then((r) =>
-        r.text(),
-      );
+      const svgText = await fetch(`${ICONIFY_API_BASE}/${family}/${iconName}.svg`).then((r) => r.text());
       setSvgText(svgText);
     }
   }, [icon]);
@@ -230,7 +239,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({ children, icon, cach
   }
 
   if (svgText) {
-    return <SvgIconRendered ref={ref} icon={icon} svgText={svgText} cache={cache} {...props} />;
+    return <SvgIconRenderer ref={ref} icon={icon} svgText={svgText} cache={cache} {...props} />;
   }
 
   return (

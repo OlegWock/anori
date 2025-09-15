@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import "./styles.scss";
 import { Select } from "@anori/components/lazy-components";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import IonAlbums from "~icons/ion/albums?raw";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;
@@ -199,7 +200,7 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
           <div className="set-name-line">
             <div className="set-name">{config?.deckName}</div>
             <div className="set-due">
-              {cardsToLearn?.length} <Icon icon="ion:albums" />
+              {cardsToLearn?.length} <Icon icon={IonAlbums} />
             </div>
           </div>
 
@@ -243,7 +244,7 @@ const MockScreen = () => {
       <div className="set-name-line">
         <div className="set-name">{t("anki-plugin.deck")}</div>
         <div className="set-due">
-          12 <Icon icon="ion:albums" />
+          12 <Icon icon={IonAlbums} />
         </div>
       </div>
 

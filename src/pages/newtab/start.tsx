@@ -10,6 +10,7 @@ import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { findOverlapItems, findPositionForItemInGrid } from "@anori/utils/grid";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
+import { QueryClientProvider } from "@anori/utils/react-query";
 import { storage, useBrowserStorageValue } from "@anori/utils/storage/api";
 import { loadAndMigrateStorage } from "@anori/utils/storage/migrations";
 import { getFolderDetails, setFolderDetails, useFolders } from "@anori/utils/user-data/hooks";
@@ -221,12 +222,14 @@ loadAndMigrateStorage()
     scheduleLazyComponentsPreload();
     incrementDailyUsageMetric("Times new tab opened");
     mountPage(
-      <CompactModeProvider>
-        {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
-        <LazyMotion features={loadMotionFeatures}>
-          <Start />
-        </LazyMotion>
-      </CompactModeProvider>,
+      <QueryClientProvider>
+        <CompactModeProvider>
+          {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
+          <LazyMotion features={loadMotionFeatures}>
+            <Start />
+          </LazyMotion>
+        </CompactModeProvider>
+      </QueryClientProvider>,
     );
   });
 

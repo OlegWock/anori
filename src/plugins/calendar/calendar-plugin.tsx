@@ -21,6 +21,8 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import IonChevronBack from "~icons/ion/chevron-back?raw";
+import IonChevronForward from "~icons/ion/chevron-forward?raw";
 
 type CalendarWidgetConfigType = {
   // 0 is monday, 6 is sunday
@@ -172,7 +174,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
             setOffsetMonths((p) => p - 1);
           }}
         >
-          <Icon icon={dir === "ltr" ? "ion:chevron-back" : "ion:chevron-forward"} />
+          <Icon icon={dir === "ltr" ? IonChevronBack : IonChevronForward} />
         </Button>
         <Button
           withoutBorder
@@ -191,7 +193,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
             setOffsetMonths((p) => p + 1);
           }}
         >
-          <Icon icon={dir === "ltr" ? "ion:chevron-forward" : "ion:chevron-back"} />
+          <Icon icon={dir === "ltr" ? IonChevronForward : IonChevronBack} />
         </Button>
       </h3>
       <m.div className="calendar-grid" dir="ltr">

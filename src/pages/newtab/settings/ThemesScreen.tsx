@@ -28,6 +28,8 @@ import { guid } from "@anori/utils/misc";
 import { setPageBackground } from "@anori/utils/page";
 import { useCurrentTheme } from "@anori/utils/user-data/theme-hooks";
 import { useTranslation } from "react-i18next";
+import IonClose from "~icons/ion/close?raw";
+import IonPencil from "~icons/ion/pencil?raw";
 
 const ThemePlate = ({
   theme,
@@ -86,7 +88,7 @@ const ThemePlate = ({
               onEdit();
             }}
           >
-            <Icon icon="ion:pencil" height={16} />
+            <Icon icon={IonPencil} height={16} />
           </Button>
         )}
         {!!onDelete && (
@@ -96,7 +98,7 @@ const ThemePlate = ({
               onDelete();
             }}
           >
-            <Icon icon="ion:close" height={16} />
+            <Icon icon={IonClose} height={16} />
           </Button>
         )}
       </div>

@@ -6,6 +6,8 @@ import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import LogosGoogleGmail from "~icons/logos/google-gmail?raw";
+import LogosVisualStudioCode from "~icons/logos/visual-studio-code?raw";
 
 const MainScreen = (_props: WidgetRenderProps) => {
   const { rem } = useSizeSettings();
@@ -17,7 +19,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
       className="ExpandableTestWidget"
       onClick={() => !showExpandableArea && setShowExpandableArea(true)}
     >
-      <Icon icon="logos:google-gmail" height={rem(4)} width={rem(4)} />
+      <Icon icon={LogosGoogleGmail} height={rem(4)} width={rem(4)} />
 
       <AnimatePresence>
         {showExpandableArea && (
@@ -98,7 +100,7 @@ const MainScreen2 = (_Props: WidgetRenderProps) => {
 
   return (
     <div className="ExpandableTestWidget">
-      <Icon icon="logos:visual-studio-code" height={rem(4)} width={rem(4)} />
+      <Icon icon={LogosVisualStudioCode} height={rem(4)} width={rem(4)} />
     </div>
   );
 };
