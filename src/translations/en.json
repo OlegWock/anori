@@ -38,7 +38,8 @@
             "customIconsInfo": "Custom icons are icons which you upload for later use in Anori.",
             "customIconsAbsent": "Currently, you don't have any custom icons. To upload your first custom icon please head to settings.",
             "iconFamily": "Icons family",
-            "allIcons": "All icons"
+            "allIcons": "All icons",
+            "selectFamilyOrSearch": "Select specific icon family or try searching to see icon suggestions."
         },
 
         "settings": {

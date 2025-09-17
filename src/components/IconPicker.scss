@@ -23,7 +23,15 @@
         }
     }
 
-    .no-custom-icons-alert {
+    .too-broad-alert {
+        padding: 0.25rem 0.75rem;
+        border-radius: 8px;
+        background-color: var(--background-lighter);
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state-alert {
         display: flex;
         justify-content: center;
         align-items: center;

@@ -1,23 +1,21 @@
 import {
   type CSSProperties,
   type KeyboardEvent,
-  type MutableRefObject,
   type Ref,
+  type RefObject,
+  Suspense,
   createContext,
   useContext,
+  useDeferredValue,
   useRef,
   useState,
 } from "react";
 import "./IconPicker.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { CUSTOM_ICONS_SET_NAME } from "@anori/components/icon/custom-icons";
-import { useIconSets, useIcons } from "@anori/components/icon/remote-icons";
+import { useIconSets, useIconsSuspense } from "@anori/components/icon/remote-icons";
 import { Select } from "@anori/components/lazy-components";
-import { useSizeSettings } from "@anori/utils/compact";
-import { choose } from "@anori/utils/misc";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
-import { Button } from "./Button";
 import { Input } from "./Input";
 import type { PopoverRenderProps } from "./Popover";
 import { Tooltip } from "./Tooltip";
@@ -29,7 +27,7 @@ type IconPickerProps = PopoverRenderProps<{
 }>;
 
 type IconPickerContextType = {
-  rowRefs: MutableRefObject<Record<string, HTMLButtonElement | undefined>>;
+  rowRefs: RefObject<Record<string, HTMLButtonElement | undefined>>;
   moveFocus: (direction: "up" | "down" | "left" | "right", currentX: number, currentY: number) => void;
 };
 
@@ -97,6 +95,43 @@ type GridItemData = {
 
 const ALL_SETS = "##ALL_SETS##";
 
+const IconsGrid = ({
+  searchQuery,
+  selectedFamily,
+  onSelected,
+}: { selectedFamily: string; searchQuery: string; onSelected: (icon: string) => void }) => {
+  const { t } = useTranslation();
+
+  const { icons: iconsList } = useIconsSuspense({
+    set: selectedFamily === ALL_SETS ? undefined : selectedFamily,
+    searchQuery,
+  });
+
+  const ROWS = Math.ceil(iconsList.length / COLUMNS);
+
+  return iconsList.length === 0 && selectedFamily === CUSTOM_ICONS_SET_NAME ? (
+    <div className="empty-state-alert">
+      <p>{t("iconsPicker.customIconsInfo")}</p>
+      <p>{t("iconsPicker.customIconsAbsent")}</p>
+    </div>
+  ) : (
+    // @ts-expect-error Declared component type not compatible with React 19
+    <FixedSizeList<GridItemData>
+      className="icons-grid"
+      height={350}
+      itemCount={ROWS}
+      itemSize={ICON_SIZE + PADDING * 2}
+      width={COLUMNS * (ICON_SIZE + PADDING * 2) + 8} // 8px is for scrollbar
+      itemData={{
+        iconsList,
+        onSelected,
+      }}
+    >
+      {IconRow}
+    </FixedSizeList>
+  );
+};
+
 export const IconPicker = ({ data, close }: IconPickerProps) => {
   const moveFocus = (direction: "up" | "down" | "left" | "right", currentX: number, currentY: number) => {
     let target: HTMLButtonElement | undefined = undefined;
@@ -138,24 +173,12 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
     }
   };
 
-  const pickRandom = () => {
-    const icon = choose(iconsList);
-    data.onSelected(icon);
-  };
-
   const rowRefs = useRef<IconPickerContextType["rowRefs"]["current"]>({});
   const [selectedFamily, setSelectedFamily] = useState(ALL_SETS);
   const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query);
+  const deferredSelectedFamily = useDeferredValue(selectedFamily);
   const { t } = useTranslation();
-  const { rem } = useSizeSettings();
-
-  // TODO: this hook should be debounced. Either by using debounce through state, or with suspense and deferred value
-  const { icons: iconsList } = useIcons({
-    set: selectedFamily === ALL_SETS ? undefined : selectedFamily,
-    searchQuery: query,
-  });
-
-  const ROWS = Math.ceil(iconsList.length / COLUMNS);
 
   const { iconSetIds, prettyNames } = useIconSets();
 
@@ -185,35 +208,22 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
               className="icons-search"
               onKeyUp={onInputKeydown}
             />
-            <Button onClick={pickRandom}>
-              <Icon icon={builtinIcons.shuffle} height={rem(1.5)} width={rem(1.5)} />
-            </Button>
           </div>
-
-          {selectedFamily === CUSTOM_ICONS_SET_NAME && iconsList.length === 0 ? (
-            <div className="no-custom-icons-alert">
-              <p>{t("iconsPicker.customIconsInfo")}</p>
-              <p>{t("iconsPicker.customIconsAbsent")}</p>
+          {selectedFamily === ALL_SETS && !query && (
+            <div className="too-broad-alert">
+              <p>{t("iconsPicker.selectFamilyOrSearch")}</p>
             </div>
-          ) : (
-            // @ts-expect-error Declared component type not compatible with React 19
-            <FixedSizeList<GridItemData>
-              className="icons-grid"
-              height={350}
-              itemCount={ROWS}
-              itemSize={ICON_SIZE + PADDING * 2}
-              width={COLUMNS * (ICON_SIZE + PADDING * 2) + 8} // 8px is for scrollbar
-              itemData={{
-                iconsList,
-                onSelected: (icon) => {
-                  close();
-                  data.onSelected(icon);
-                },
-              }}
-            >
-              {IconRow}
-            </FixedSizeList>
           )}
+          <Suspense fallback={null}>
+            <IconsGrid
+              selectedFamily={deferredSelectedFamily}
+              searchQuery={deferredQuery}
+              onSelected={(icon) => {
+                close();
+                data.onSelected(icon);
+              }}
+            />
+          </Suspense>
         </section>
       </div>
     </IconPickerContext.Provider>

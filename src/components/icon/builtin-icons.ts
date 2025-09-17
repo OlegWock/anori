@@ -26,7 +26,6 @@ import IonFolderOpenSharp from "~icons/ion/folder-open-sharp?raw";
 import IonHelpBuoySharp from "~icons/ion/help-buoy-sharp?raw";
 import IonHelpCircle from "~icons/ion/help-circle?raw";
 import IonHome from "~icons/ion/home?raw";
-import IonIosShuffle from "~icons/ion/ios-shuffle?raw";
 import IonLocationSharp from "~icons/ion/location-sharp?raw";
 import IonLogoRss from "~icons/ion/logo-rss?raw";
 import IonNewspaperOutline from "~icons/ion/newspaper-outline?raw";
@@ -54,7 +53,6 @@ import WiThunderstorm from "~icons/wi/thunderstorm?raw";
 
 // This is all icons we bundle together with the extension
 const builtinIconSvgsBySourceId = {
-  "ion:ios-shuffle": IonIosShuffle,
   "ion:add": IonAdd,
   "ion:archive-sharp": IonArchiveSharp,
   "ion:arrow-back": IonArrowBack,
@@ -115,7 +113,6 @@ export type BuiltInIconId = keyof typeof builtinIconSvgsBySourceId;
 
 // Semantic names for icons so raw ids are not scattered across the codebase
 export const builtinIcons = {
-  shuffle: "ion:ios-shuffle",
   add: "ion:add",
   archive: "ion:archive-sharp",
   arrowBack: "ion:arrow-back",

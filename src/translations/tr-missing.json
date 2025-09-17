@@ -4,7 +4,7 @@
             "title": "Shortcuts",
             "showCheatsheet": "Show/hide shortcuts cheatsheet",
             "toggleSettings": "Show/hide settings",
-            "closeMenuOrModal": "Close command menu or modal window",
+            "closeMenuOrModal": "Close modal window",
             "switchToFolderAbove": "Switch to folder above",
             "switchToFolderBelow": "Switch to folder below",
             "switchToNFolder": "Switch to 1st folder (works with other numbers too!)",
@@ -192,6 +192,9 @@
             "hard": "Hard",
             "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
             "widgetName": "Anki"
+        },
+        "iconsPicker": {
+            "selectFamilyOrSearch": "Select specific icon family or try searching to see icon suggestions."
         },
         "settings": {
             "aboutHelp": {

@@ -1,6 +1,6 @@
 import { CUSTOM_ICONS_SET_NAME, useCustomIcons } from "@anori/components/icon/custom-icons";
 import type { IconifyInfo } from "@iconify/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -77,11 +77,13 @@ const getRemoteIcons = async ({ set, searchQuery }: GetRemoteIconsOptions): Prom
   throw new Error("either set or searchQuery should be set when calling getRemoteIcons");
 };
 
-export const useIcons = ({ set, searchQuery }: GetRemoteIconsOptions) => {
-  const { data, isLoading, isError } = useQuery({
+export const useIconsSuspense = ({ set, searchQuery }: GetRemoteIconsOptions) => {
+  const { data, isLoading, isError } = useSuspenseQuery({
     queryKey: ["icon", "list", set, searchQuery],
+
     queryFn: () => {
       if (!set && !searchQuery) return [];
+      if (set === CUSTOM_ICONS_SET_NAME) return [];
       return getRemoteIcons({ set, searchQuery });
     },
   });
