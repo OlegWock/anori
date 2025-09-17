@@ -21,7 +21,7 @@ export const generateManifest = (
     },
     minimum_chrome_version: "104",
     background: {
-      service_worker: "background.js",
+      service_worker: "background-wrapper.js",
     },
     icons: {
       "48": "assets/images/icon48.png",

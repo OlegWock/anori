@@ -119,8 +119,8 @@ const RssFeedConfigScreen = ({
       urls: [
         "https://blog.pragmaticengineer.com/rss/",
         "https://unicornclub.dev/feed/",
-        "https://indepth.dev/rss",
-        "https://api.devblogs.co/feed.xml",
+        "https://piccalil.li/feed.xml",
+        "https://news.ycombinator.com/rss",
       ],
     },
     {
@@ -429,6 +429,24 @@ const { handlers, sendMessage } = createOnMessageHandlers<RssMessageHandlers>("r
   getFeedText: async (args, _senderTabId) => fetchFeed(args.url),
 });
 
+const rssScheduledCallback = async () => {
+  console.log("Updating feeds in background");
+  const widgets = await getAllWidgetsByPlugin<Record<string, never>, RssFeedConfigType | RssLatestPostConfigType>(
+    rssPlugin,
+  );
+  const promises = widgets.map(async (w) => {
+    const storage = getWidgetStorage<WidgetStorage>(w.instanceId);
+    await storage.waitForLoad();
+    if ("feedUrl" in w.configuration) {
+      return updateFeedsForWidget([w.configuration.feedUrl], storage);
+    }
+    return updateFeedsForWidget(w.configuration.feedUrls, storage);
+  });
+  await Promise.all(promises);
+  await wait(1000); // Make sure widget storage synced to the disk
+  console.log("Updated all RSS feeds in background");
+};
+
 export const rssFeedDescriptor = {
   id: "rss-feed",
   get name() {
@@ -483,23 +501,7 @@ export const rssPlugin = {
   onMessage: handlers,
   scheduledCallback: {
     intervalInMinutes: 30,
-    callback: async () => {
-      console.log("Updating feeds in background");
-      const widgets = await getAllWidgetsByPlugin<Record<string, never>, RssFeedConfigType | RssLatestPostConfigType>(
-        rssPlugin,
-      );
-      const promises = widgets.map(async (w) => {
-        const storage = getWidgetStorage<WidgetStorage>(w.instanceId);
-        await storage.waitForLoad();
-        if ("feedUrl" in w.configuration) {
-          return updateFeedsForWidget([w.configuration.feedUrl], storage);
-        }
-        return updateFeedsForWidget(w.configuration.feedUrls, storage);
-      });
-      await Promise.all(promises);
-      await wait(1000); // Make sure widget storage synced to the disk
-      console.log("Updated all RSS feeds in background");
-    },
+    callback: rssScheduledCallback,
   },
   configurationScreen: null,
 } satisfies AnoriPlugin;

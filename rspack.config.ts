@@ -13,6 +13,7 @@ import MomentLocalesPlugin from "moment-locales-webpack-plugin";
 import MomentTimezoneDataPlugin from "moment-timezone-data-webpack-plugin";
 import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
 import Icons from "unplugin-icons/rspack";
+import WebExtension from "webpack-target-webextension";
 import packageJson from "./package.json" with { type: "json" };
 
 const require = createRequire(import.meta.url);
@@ -89,7 +90,6 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       chunkFilename: `${paths.dist.chunks}/[id].js`,
       chunkFormat: "array-push",
       chunkLoadTimeout: 5000,
-      chunkLoading: "jsonp",
       environment: {
         dynamicImport: true,
       },
@@ -217,7 +217,6 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         X_MODE: JSON.stringify(mode),
         X_BROWSER: JSON.stringify(targetBrowser),
       }),
-      // This takes quite a bit of time during compilation, maybe there is way to speed this up?
       new CopyRspackPlugin({
         patterns: [
           {
@@ -234,6 +233,14 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       new GenerateFiles({
         file: paths.dist.manifest,
         content: JSON.stringify(manifest, null, 4),
+      }),
+      new WebExtension({
+        background:
+          targetBrowser === "firefox" ? { pageEntry: "backgroundScript" } : { serviceWorkerEntry: "backgroundScript" },
+        experimental_output: {
+          ...Object.fromEntries(Object.keys(entries).map((key) => [key, false])),
+          backgroundScript: paths.dist.backgroundWrapper,
+        },
       }),
       new MomentTimezoneDataPlugin({
         startYear: currentYear - 2,

@@ -38,6 +38,7 @@ export const createPathsObject = (baseSrc: string, baseDist: string) => {
     dist: {
       base: baseDist,
       background: "background.js",
+      backgroundWrapper: "background-wrapper.js",
       contentscripts: "contentscripts",
       scripts: "scripts",
       pages: "pages",
