@@ -4,8 +4,8 @@ import {
   type Placement,
   type Side,
   type SizeOptions,
+  autoPlacement,
   autoUpdate,
-  flip,
   offset,
   safePolygon,
   shift,
@@ -94,7 +94,9 @@ export const Popover = <D = undefined>({
         },
         padding: 5,
       } satisfies SizeOptions),
-      flip(),
+      autoPlacement({
+        allowedPlacements: ["top", "bottom"],
+      }),
       shift({
         padding: 5,
         crossAxis: true,
