@@ -310,7 +310,7 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
               </div>
               <div className="wind">
                 <Icon
-                  icon={builtinIcons.chevronBack}
+                  icon={builtinIcons.arrowBack}
                   height={rem(1.2)}
                   style={{ transform: `rotate(${Math.round((weather.windDirection + 90) % 360)}deg)` }}
                 />
@@ -396,7 +396,6 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
           </div>
         </div>
         {!!forecast && (
-          // @ts-expect-error Declared component type not compatible with React 19
           <FloatingDelayGroup delay={500}>
             {forecast.map((f) => {
               return (
@@ -415,7 +414,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
                     </div>
                     <div className="wind">
                       <Icon
-                        icon={builtinIcons.chevronBack}
+                        icon={builtinIcons.arrowBack}
                         height={rem(1.2)}
                         style={{ transform: `rotate(${Math.round((f.windDirection + 90) % 360)}deg)` }}
                       />

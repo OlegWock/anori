@@ -46,7 +46,6 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
           mirrorVerticalScrollToHorizontal
         >
           <div className="sidebar-content">
-            {/* @ts-expect-error Declared component type not compatible with React 19 */}
             <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
               {folders.map((f) => {
                 return (

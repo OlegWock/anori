@@ -4,6 +4,7 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import {
   FloatingFocusManager,
   FloatingPortal,
+  type SizeOptions,
   autoUpdate,
   offset,
   size,
@@ -46,7 +47,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps & React.HTMLProps<HTMLDivEleme
         ref={ref}
         role="option"
         tabIndex={0}
-        className="Combobox-option"
+        className={clsx("Combobox-option", active && "highlighted")}
         id={id}
         aria-selected={active}
         data-active={active}
@@ -57,7 +58,6 @@ const Item = forwardRef<HTMLDivElement, ItemProps & React.HTMLProps<HTMLDivEleme
           ...rest.style,
         }}
       >
-        {active && <m.div className="highlight" layoutId="combobox-highlight" transition={{ duration: 0.075 }} />}
         <m.div className="content">
           <Icon className="check-icon" icon={builtinIcons.check} height={16} />
           {children}
@@ -125,7 +125,7 @@ export const Combobox = <T,>({
           });
         },
         padding: 10,
-      }),
+      } satisfies SizeOptions),
       offset({ mainAxis: 4 }),
     ],
   });
@@ -177,10 +177,8 @@ export const Combobox = <T,>({
           },
         })}
       />
-      {/* @ts-expect-error Declared component type not compatible with React 19 */}
       <FloatingPortal>
         {open && (
-          // @ts-expect-error Declared component type not compatible with React 19
           <FloatingFocusManager context={context} initialFocus={-1} visuallyHiddenDismiss>
             <m.div
               {...getFloatingProps({

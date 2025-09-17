@@ -3,6 +3,7 @@ import {
   FloatingPortal,
   type Placement,
   type Side,
+  type SizeOptions,
   autoUpdate,
   flip,
   offset,
@@ -73,8 +74,7 @@ export const Popover = <D = undefined>({
   const {
     x,
     y,
-    reference,
-    floating,
+    refs,
     strategy,
     context,
     placement: computedPlacement,
@@ -87,15 +87,13 @@ export const Popover = <D = undefined>({
     middleware: [
       offset(5),
       size({
-        apply({ availableWidth, availableHeight, elements }) {
-          console.log("Size middleware call", { availableHeight, availableWidth });
+        apply: ({ elements }) => {
           Object.assign(elements.floating.style, {
-            // maxWidth: `${Math.min(Math.max(availableWidth, 0), 632)}px`,
             maxWidth: `632px`,
           });
         },
         padding: 5,
-      }),
+      } satisfies SizeOptions),
       flip(),
       shift({
         padding: 5,
@@ -126,8 +124,8 @@ export const Popover = <D = undefined>({
 
   // Preserve the consumer's ref
   const ref = useMemo(
-    () => mergeRefs([reference, childrenReactElement.props.ref as Ref<Element>]) as Ref<Element>,
-    [reference, childrenReactElement.props.ref],
+    () => mergeRefs([refs.setReference, childrenReactElement.props.ref as Ref<Element>]) as Ref<Element>,
+    [refs.setReference, childrenReactElement.props.ref],
   );
 
   const OFFSET = 5;
@@ -143,14 +141,12 @@ export const Popover = <D = undefined>({
   return (
     <>
       {cloneElement(childrenReactElement, getReferenceProps({ ref, ...childrenReactElement.props }))}
-      {/* @ts-expect-error Declared component type not compatible with React 19 */}
       <FloatingPortal>
         <AnimatePresence>
           {open && (
-            // @ts-expect-error Declared component type not compatible with React 19
             <FloatingFocusManager initialFocus={initialFocus} context={context} key="popover">
               <m.div
-                ref={floating}
+                ref={refs.setFloating}
                 className={classNames(["Popover", className])}
                 style={{
                   ...style,

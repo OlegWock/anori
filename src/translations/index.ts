@@ -15,7 +15,7 @@ import thTranslation from "./th.json";
 import trTranslation from "./tr.json";
 import ukTranslation from "./uk.json";
 import zhCnTranslation from "./zh-cn.json";
-// When adding any of moment locales, don't forget to update webpack config to actually include them in build
+// When adding any of moment locales, don't forget to update rspack config to actually include them in build
 import "moment/locale/uk";
 import "moment/locale/de";
 import "moment/locale/fr";

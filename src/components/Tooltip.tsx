@@ -9,7 +9,6 @@ import {
   shift,
   useClick,
   useDelayGroup,
-  useDelayGroupContext,
   useDismiss,
   useFloating,
   useFocus,
@@ -51,15 +50,13 @@ export const Tooltip = ({
   ignoreFocus = false,
   enableOnTouch = false,
 }: Props) => {
-  const { delay = showDelay, setCurrentId } = useDelayGroupContext();
   const [open, setOpen] = useState(false);
   const id = useId();
 
   const {
     x,
     y,
-    reference,
-    floating,
+    refs,
     strategy: localStrategy,
     context,
   } = useFloating({
@@ -76,6 +73,8 @@ export const Tooltip = ({
     middleware: [offset(5), flip(), shift({ padding: 8 })],
     whileElementsMounted: autoUpdate,
   });
+
+  const { delay = showDelay, setCurrentId } = useDelayGroup(context, { id });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useHover(context, {
@@ -99,7 +98,6 @@ export const Tooltip = ({
     }),
     useRole(context, { role: "tooltip" }),
     useDismiss(context),
-    useDelayGroup(context, { id }),
   ]);
 
   const translate = {
@@ -109,15 +107,14 @@ export const Tooltip = ({
     right: { translateX: -5 },
   }[placement.includes("-") ? placement.split("-")[0] : placement];
 
-  const refs: Ref<any>[] = [reference];
-  if (targetRef) refs.push(targetRef);
-  const mergedRef = mergeRefs(refs);
+  const refsToMerge: Ref<any>[] = [refs.setReference];
+  if (targetRef) refsToMerge.push(targetRef);
+  const mergedRef = mergeRefs(refsToMerge);
   const content = typeof label === "function" ? label() : label;
 
   return (
     <>
       {cloneElement(children, getReferenceProps({ ref: mergedRef, ...children.props }))}
-      {/* @ts-expect-error Declared component type not compatible with React 19 */}
       <FloatingPortal root={document.body}>
         <AnimatePresence>
           {open && (
@@ -132,7 +129,7 @@ export const Tooltip = ({
                   : { type: "spring", damping: 20, stiffness: 300 }
               }
               {...getFloatingProps({
-                ref: floating,
+                ref: refs.setFloating,
                 className: clsx("Tooltip", hasClickableContent && "has-clickable-content"),
                 style: {
                   position: localStrategy,
