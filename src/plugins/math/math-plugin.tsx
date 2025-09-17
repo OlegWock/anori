@@ -1,13 +1,13 @@
 import { Button } from "@anori/components/Button";
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { Icon } from "@anori/components/Icon";
 import { Input } from "@anori/components/Input";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { cachedFunc, guid } from "@anori/utils/misc";

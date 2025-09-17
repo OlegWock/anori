@@ -1,6 +1,6 @@
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, trackEvent } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@anori/utils/grid";
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";

@@ -9,13 +9,13 @@ import type {
 import { Suspense, forwardRef, useRef, useState } from "react";
 import "./styles.scss";
 import { Checkbox } from "@anori/components/Checkbox";
-import { Icon } from "@anori/components/Icon";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { listItemAnimation } from "@anori/components/animations";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";

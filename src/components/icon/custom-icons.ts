@@ -1,7 +1,7 @@
 import { atom, getDefaultStore, useAtom } from "jotai";
 import { useEffect } from "react";
-import { asyncIterableToArray } from "./misc";
-import { getDirectoryInRoot } from "./opfs";
+import { asyncIterableToArray } from "../../utils/misc";
+import { getDirectoryInRoot } from "../../utils/opfs";
 
 export const CUSTOM_ICONS_SET_NAME = "custom";
 export const CUSTOM_ICONS_FOLDER_NAME = "custom-icons";

@@ -1,6 +1,6 @@
 import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
-import { Icon } from "@anori/components/Icon";
+import { Icon } from "@anori/components/icon/Icon";
 import { translate } from "@anori/translations/index";
 import { useAsyncEffect } from "@anori/utils/hooks";
 import type {
@@ -12,9 +12,9 @@ import type {
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./styles.scss";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;

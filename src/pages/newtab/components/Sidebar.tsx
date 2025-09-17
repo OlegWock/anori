@@ -10,7 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { Suspense, lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Sidebar.scss";
-import { builtinIcons } from "@anori/utils/builtin-icons";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import clsx from "clsx";
 
 const SettingsModal = lazy(() => import("../settings/Settings").then((m) => ({ default: m.SettingsModal })));

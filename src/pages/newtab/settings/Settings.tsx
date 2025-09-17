@@ -7,12 +7,20 @@ import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/components/Checkbox";
 import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
 import { Hint } from "@anori/components/Hint";
-import { Icon } from "@anori/components/Icon";
 import { Input } from "@anori/components/Input";
 import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { Tooltip } from "@anori/components/Tooltip";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import {
+  CUSTOM_ICONS_FOLDER_NAME,
+  deleteAllCustomIcons,
+  getAllCustomIconFiles,
+  isValidCustomIconName,
+  useCustomIcons,
+} from "@anori/components/icon/custom-icons";
 import { ReorderGroup, Select } from "@anori/components/lazy-components";
 import { availablePlugins } from "@anori/plugins/all";
 import {
@@ -23,15 +31,7 @@ import {
   switchTranslationLanguage,
 } from "@anori/translations/index";
 import { analyticsEnabledAtom, trackEvent } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useScreenWidth } from "@anori/utils/compact";
-import {
-  CUSTOM_ICONS_FOLDER_NAME,
-  deleteAllCustomIcons,
-  getAllCustomIconFiles,
-  isValidCustomIconName,
-  useCustomIcons,
-} from "@anori/utils/custom-icons";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
@@ -650,11 +650,7 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
       headerButton={
         screen !== "main" ? (
           <Button withoutBorder onClick={() => setScreen("main")}>
-            <Icon
-              icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
-              width={24}
-              height={24}
-            />
+            <Icon icon={dir === "ltr" ? builtinIcons.arrowBack : builtinIcons.arrowForward} width={24} height={24} />
           </Button>
         ) : undefined
       }

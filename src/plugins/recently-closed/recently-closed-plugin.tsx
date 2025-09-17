@@ -1,12 +1,12 @@
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
-import { Icon } from "@anori/components/Icon";
 import { RelativeTime } from "@anori/components/RelativeTime";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { ScrollArea } from "@anori/components/ScrollArea";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { wait } from "@anori/utils/misc";
 import { m, useAnimationControls } from "framer-motion";
 import moment from "moment-timezone";

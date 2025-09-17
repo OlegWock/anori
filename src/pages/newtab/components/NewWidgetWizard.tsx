@@ -1,13 +1,13 @@
 import type { AnoriPlugin, Folder, WidgetDescriptor } from "@anori/utils/user-data/types";
 import "./NewWidgetWizard.scss";
 import { Button } from "@anori/components/Button";
-import { Icon } from "@anori/components/Icon";
 import { Input } from "@anori/components/Input";
 import { Modal } from "@anori/components/Modal";
 import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetCard } from "@anori/components/WidgetCard";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { type GridDimensions, type Layout, findPositionForItemInGrid } from "@anori/utils/grid";
 import { useFolderWidgets } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";

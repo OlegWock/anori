@@ -1,4 +1,4 @@
-import { CUSTOM_ICONS_SET_NAME, useCustomIcons } from "@anori/utils/custom-icons";
+import { CUSTOM_ICONS_SET_NAME, useCustomIcons } from "@anori/components/icon/custom-icons";
 import type { IconifyInfo } from "@iconify/types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -16,7 +16,7 @@ const fetchRemoteIconSets = async (): Promise<IconSetInfo[]> => {
   if (!response.ok) throw new Error(`HTTP response error: ${response.status}`);
   const json = await response.json();
   return Object.entries(json as Record<string, IconifyInfo>)
-    .filter(([id, set]) => !set.hidden)
+    .filter(([_, set]) => !set.hidden)
     .map(([id, set]) => ({
       id,
       name: set.name,

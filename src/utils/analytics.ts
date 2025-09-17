@@ -7,7 +7,7 @@ import type { FolderDetailsInStorage, StorageContent } from "@anori/utils/user-d
 import { useCallback } from "react";
 import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
-import { getAllCustomIconNames } from "./custom-icons";
+import { getAllCustomIconNames } from "../components/icon/custom-icons";
 import { guid, wait } from "./misc";
 import { atomWithBrowserStorageStatic, storage } from "./storage/api";
 

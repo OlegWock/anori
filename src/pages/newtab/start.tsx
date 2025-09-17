@@ -1,11 +1,11 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
+import { getAllCustomIcons } from "@anori/components/icon/custom-icons";
 import { scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { initTranslation, languageDirections } from "@anori/translations/index";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
-import { getAllCustomIcons } from "@anori/utils/custom-icons";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { findOverlapItems, findPositionForItemInGrid } from "@anori/utils/grid";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";

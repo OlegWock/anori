@@ -8,7 +8,7 @@ import {
   useTransform,
 } from "framer-motion";
 import "./WidgetExpandArea.scss";
-import { builtinIcons } from "@anori/utils/builtin-icons";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
@@ -16,9 +16,9 @@ import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { Icon } from "./Icon";
 import { ScrollArea } from "./ScrollArea";
 import { useParentWidgetCardRef } from "./WidgetCard";
+import { Icon } from "./icon/Icon";
 
 export type WidgetExpandAreaProps = {
   children: ReactNode;

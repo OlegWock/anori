@@ -1,7 +1,7 @@
 import { Component, type ComponentProps, createContext, createRef, useContext, useRef, useState } from "react";
 import "./WidgetCard.scss";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
 import { type LayoutItemSize, type Position, positionToPixelPosition, snapToSector } from "@anori/utils/grid";
@@ -15,7 +15,7 @@ import { type PanInfo, m, useMotionValue } from "framer-motion";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "./Button";
-import { Icon } from "./Icon";
+import { Icon } from "./icon/Icon";
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   constructor(props: { children: ReactNode }) {

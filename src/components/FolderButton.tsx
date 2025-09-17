@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { type ComponentProps, useState } from "react";
-import { Icon } from "./Icon";
 import { Tooltip } from "./Tooltip";
+import { Icon } from "./icon/Icon";
 import "./FolderButton.scss";
 import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";
 import { DropDestination } from "./DropDestination";

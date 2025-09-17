@@ -20,9 +20,9 @@ import { type ComponentProps, useCallback, useEffect, useRef, useState } from "r
 import browser from "webextension-polyfill";
 import "./ThemesScreen.scss";
 import { ColorPicker } from "@anori/components/ColorPicker";
-import { Icon } from "@anori/components/Icon";
 import { Slider } from "@anori/components/Slider";
-import { builtinIcons } from "@anori/utils/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";

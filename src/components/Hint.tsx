@@ -1,8 +1,9 @@
 import type { MouseEvent, ReactNode } from "react";
 import "./Hint.scss";
-import { builtinIcons } from "@anori/utils/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import type { IconProps } from "@anori/components/icon/types";
 import clsx from "clsx";
-import { Icon, type IconProps } from "./Icon";
 import { Tooltip } from "./Tooltip";
 
 export const Hint = ({

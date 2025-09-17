@@ -9,19 +9,19 @@ import {
   useState,
 } from "react";
 import "./IconPicker.scss";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { CUSTOM_ICONS_SET_NAME } from "@anori/components/icon/custom-icons";
+import { useIconSets, useIcons } from "@anori/components/icon/remote-icons";
 import { Select } from "@anori/components/lazy-components";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
-import { CUSTOM_ICONS_SET_NAME } from "@anori/utils/custom-icons";
 import { choose } from "@anori/utils/misc";
-import { useIconSets, useIcons } from "@anori/utils/remote-icons";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
 import { Button } from "./Button";
-import { Icon } from "./Icon";
 import { Input } from "./Input";
 import type { PopoverRenderProps } from "./Popover";
 import { Tooltip } from "./Tooltip";
+import { Icon } from "./icon/Icon";
 
 type IconPickerProps = PopoverRenderProps<{
   onSelected: (icon: string) => void;

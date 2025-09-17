@@ -1,5 +1,6 @@
 import { Trans, useTranslation } from "react-i18next";
 import "./Onboarding.scss";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { bookmarkPlugin, bookmarkWidgetDescriptor } from "@anori/plugins/bookmark/bookmark-plugin";
 import { datetimePlugin, datetimeWidgetDescriptorS } from "@anori/plugins/datetime/datetime-plugin";
@@ -15,7 +16,6 @@ import {
   switchTranslationLanguage,
 } from "@anori/translations/index";
 import { analyticsEnabledAtom } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemInGrid } from "@anori/utils/grid";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
@@ -29,8 +29,8 @@ import { type ComponentProps, forwardRef, useEffect, useState } from "react";
 import useMeasure from "react-use-motion-measure";
 import { Button } from "./Button";
 import { Checkbox } from "./Checkbox";
-import { Icon } from "./Icon";
 import { slidingScreensAnimation } from "./animations";
+import { Icon } from "./icon/Icon";
 
 const screens = ["start", "folders", "customization", "analytics", "presets"] as const;
 

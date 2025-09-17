@@ -1,9 +1,9 @@
+import { Favicon } from "@anori/components/icon/Favicon";
 import { useSizeSettings } from "@anori/utils/compact";
 import { m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
-import { Favicon } from "./Icon";
 import { Input } from "./Input";
 import type { PopoverRenderProps } from "./Popover";
 import { RequirePermissions } from "./RequirePermissions";

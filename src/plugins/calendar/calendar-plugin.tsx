@@ -7,11 +7,11 @@ import type {
 } from "@anori/utils/user-data/types";
 import { useState } from "react";
 import "./styles.scss";
-import { Icon } from "@anori/components/Icon";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { usePrevious } from "@anori/utils/hooks";
 import { capitalize } from "@anori/utils/strings";
 import { useDirection } from "@radix-ui/react-direction";

@@ -8,11 +8,11 @@ import type {
 import { useMemo, useState } from "react";
 import "./styles.scss";
 import { Combobox } from "@anori/components/Combobox";
-import { Icon } from "@anori/components/Icon";
 import { Tooltip } from "@anori/components/Tooltip";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
-import { builtinIcons } from "@anori/utils/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
 import { useWidgetStorage } from "@anori/utils/plugin";
