@@ -1,6 +1,6 @@
 {
     "include": ["declarations.d.ts", "src/**/*", "rspack.config.ts", "build_helpers/**/*"],
-    "exclude": ["node_modules", "dist_copy"],
+    "exclude": ["node_modules", "dist"],
     "compilerOptions": {
         "lib": ["es6", "es2023", "dom", "dom.iterable", "WebWorker"],
         "baseUrl": ".",
@@ -11,7 +11,7 @@
             "@anori/plugins/*": ["./src/plugins/*"],
             "@anori/translations/*": ["./src/translations/*"]
         },
-        "outDir": "dist_copy",
+        "outDir": "dist",
         "noImplicitAny": true,
         "allowSyntheticDefaultImports": true,
         "strictNullChecks": true,
