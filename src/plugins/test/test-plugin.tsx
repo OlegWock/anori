@@ -18,7 +18,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
       className="ExpandableTestWidget"
       onClick={() => !showExpandableArea && setShowExpandableArea(true)}
     >
-      <Icon icon={builtinIcons.logos.github} height={rem(4)} width={rem(4)} />
+      <Icon icon={builtinIcons.logos.notion} height={rem(4)} width={rem(4)} />
 
       <AnimatePresence>
         {showExpandableArea && (

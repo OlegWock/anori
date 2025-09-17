@@ -24,6 +24,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-self: stretch;
+            overflow: hidden;
 
             h2 {
                 margin-top: 4px;
@@ -35,6 +36,8 @@
                 font-size: 0.75rem;
                 color: var(--text-subtle-2);
                 white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
         }
 
