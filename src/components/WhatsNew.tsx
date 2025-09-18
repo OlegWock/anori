@@ -21,17 +21,31 @@ export const WhatsNew = () => {
             <ul>
               <li>Top sites widget is now resizable.</li>
               <li>
-                Removed some of rarely used features: windowing system for widgets like calculator and embedded page,
-                command menu, focus stealer, option to hide edit folder button, label plugin.
+                This is again a housekeeping release. I want to cleanup and polish existing features in Anori before
+                adding any new ones.
               </li>
-              <li>Bug fixes here and there.</li>
+              <li>
+                I removed some of the features: windowing system (e.g. for widgets like calculator and embedded page),
+                command menu, focus stealer, option to hide edit folder button, label plugin. All of them were either
+                very rarely used, or didn't feel right from product and/or design point of view.
+              </li>
+              <li>
+                Significantly changed how icons are stored and loaded. All your existing icons should work as previosuly
+                (let me know if something broke!), but now they are loaded directly from the icons service (we use{" "}
+                <a href="https://iconify.design/" target="_blank" rel="noreferrer">
+                  Iconify
+                </a>
+                , it's great). This allowed to significantly reduce size of the extension and provide even more icons
+                than before at the same time.
+              </li>
+              <li>Bunch of bug fixes and optimization.</li>
             </ul>
           </section>
 
           <section>
             <h2>1.23.0</h2>
             <ul>
-              <li>This is housekeeping release. A lot of refactoring, a bit of optimizations, bunch of bugfixes.</li>
+              <li>This is a housekeeping release. A lot of refactoring, a bit of optimizations, bunch of bugfixes.</li>
               <li>
                 Significant changes to analytics. As always, Anori doesn't send any analytics if you didn't enable it
                 explicitly. And even then we don't track any sensetive data. You can read more{" "}
