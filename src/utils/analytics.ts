@@ -49,7 +49,7 @@ export const plantPerformanceMetricsListeners = async () => {
       await storage.set({
         performanceAvgLcp: {
           n: n + 1,
-          avg: avg + ((lcpEntry.renderTime - avg) / n + 1),
+          avg: avg + (lcpEntry.startTime - avg) / (n + 1),
         },
       });
     }
