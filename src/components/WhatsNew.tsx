@@ -39,6 +39,7 @@ export const WhatsNew = () => {
                 than before at the same time.
               </li>
               <li>Bunch of bug fixes and optimization.</li>
+              <li>If you enabled sending analytics, in addition to Posthog it will be now sent to Amplitude.</li>
             </ul>
           </section>
 

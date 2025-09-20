@@ -17,6 +17,9 @@ const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
 const POSTHOG_ENDPOINT_URL = "https://eu.i.posthog.com/i/v0/e/";
 const POSTHOG_API_KEY = "phc_K159gMq9zFXnfVlrfbr7vLf866l6hY8VViB01m1LBj2";
 
+const AMPLITUDE_ENDPOINT_URL = "https://api.eu.amplitude.com/2/httpapi";
+const AMPLITUDE_API_KEY = "72ae9510d3106a53608bae9afbb2e8ba";
+
 const getUserId = async () => {
   let userId = await storage.getOne("userId");
   if (!userId) {
@@ -241,7 +244,7 @@ export async function trackEvent<K extends keyof AnalyticEvents>(eventName: K, p
     if (!enabled) return;
     const userId = await getUserId();
 
-    const promise = fetch(POSTHOG_ENDPOINT_URL, {
+    const promisePosthog = fetch(POSTHOG_ENDPOINT_URL, {
       method: "POST",
       headers: { accept: "text/plain", "content-type": "application/json" },
       mode: "no-cors",
@@ -256,7 +259,27 @@ export async function trackEvent<K extends keyof AnalyticEvents>(eventName: K, p
       }),
     });
 
-    return Promise.race([wait(1000), promise]);
+    const promiseAmplitude = fetch(AMPLITUDE_ENDPOINT_URL, {
+      method: "POST",
+      headers: { accept: "text/plain", "content-type": "application/json" },
+      mode: "no-cors",
+      credentials: "omit",
+      body: JSON.stringify({
+        api_key: AMPLITUDE_API_KEY,
+        events: [
+          {
+            user_id: userId,
+            event_type: eventName,
+            ip: "$remote",
+            event_properties: props,
+          },
+        ],
+      }),
+    });
+
+    const combined = Promise.allSettled([promiseAmplitude, promisePosthog]);
+
+    return Promise.race([wait(1000), combined]);
   }
 
   return browser.runtime.sendMessage({ type: "track-event", eventName, props });
