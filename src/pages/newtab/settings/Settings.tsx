@@ -51,7 +51,7 @@ import { AnimatePresence, LayoutGroup, m } from "framer-motion";
 import { atom, useAtom, useSetAtom } from "jotai";
 import JSZip from "jszip";
 import moment from "moment-timezone";
-import { type ComponentProps, Suspense, useEffect, useMemo, useState } from "react";
+import { type ComponentProps, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { FolderItem } from "./FolderItem";
 import { License } from "./License";
@@ -439,22 +439,20 @@ const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
     <m.div {...props} className="FoldersScreen">
       <m.div>
         <FolderItem folder={homeFolder} />
-        <Suspense>
-          <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">
-            {folders.map((f, _index) => {
-              return (
-                <FolderItem
-                  key={f.id}
-                  folder={f}
-                  editable
-                  onNameChange={(name) => updateFolder(f.id, { name })}
-                  onIconChange={(icon) => updateFolder(f.id, { icon })}
-                  onRemove={() => removeFolder(f.id)}
-                />
-              );
-            })}
-          </ReorderGroup>
-        </Suspense>
+        <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">
+          {folders.map((f, _index) => {
+            return (
+              <FolderItem
+                key={f.id}
+                folder={f}
+                editable
+                onNameChange={(name) => updateFolder(f.id, { name })}
+                onIconChange={(icon) => updateFolder(f.id, { icon })}
+                onRemove={() => removeFolder(f.id)}
+              />
+            );
+          })}
+        </ReorderGroup>
       </m.div>
 
       <Button className="add-folder-btn" onClick={() => createFolder()}>
@@ -616,6 +614,7 @@ const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
 };
 
 export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
+  console.log("Rendering SettingsModal");
   const { t } = useTranslation();
   const screenPrettyName = {
     main: t("settings.title"),
@@ -736,3 +735,5 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
     </Modal>
   );
 };
+
+console.log("Settings modal loaded");

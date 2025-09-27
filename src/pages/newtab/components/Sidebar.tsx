@@ -7,14 +7,13 @@ import { useBrowserStorageValue } from "@anori/utils/storage/api";
 import type { Folder } from "@anori/utils/user-data/types";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import { AnimatePresence } from "framer-motion";
-import { Suspense, lazy, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Sidebar.scss";
+import { WhatsNew } from "@anori/components/WhatsNew";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { SettingsModal } from "@anori/components/lazy-components";
 import clsx from "clsx";
-
-const SettingsModal = lazy(() => import("../settings/Settings").then((m) => ({ default: m.SettingsModal })));
-const WhatsNew = lazy(() => import("@anori/components/WhatsNew").then((m) => ({ default: m.WhatsNew })));
 
 export type SidebarProps = {
   folders: Folder[];
@@ -97,18 +96,14 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
       <AnimatePresence>
         {whatsNewVisible && (
           <Modal title={t("whatsNew")} className="WhatsNew-modal" closable onClose={() => setWhatsNewVisible(false)}>
-            <Suspense fallback={undefined}>
-              <WhatsNew />
-            </Suspense>
+            <WhatsNew />
           </Modal>
         )}
       </AnimatePresence>
 
-      <Suspense fallback={undefined}>
-        <AnimatePresence>
-          {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
-        </AnimatePresence>
-      </Suspense>
+      <AnimatePresence>
+        {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
+      </AnimatePresence>
     </>
   );
 };

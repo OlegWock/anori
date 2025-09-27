@@ -5,6 +5,7 @@ import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { NewWidgetWizard } from "@anori/components/lazy-components";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useGrid } from "@anori/utils/grid";
@@ -13,12 +14,10 @@ import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import clsx from "clsx";
 import { atom, useAtom } from "jotai";
-import { type CSSProperties, type Ref, Suspense, lazy, useState } from "react";
+import { type CSSProperties, type Ref, useState } from "react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
-
-const NewWidgetWizard = lazy(() => import("./NewWidgetWizard").then((m) => ({ default: m.NewWidgetWizard })));
 
 type FolderContentProps = {
   folder: Folder;
@@ -200,47 +199,45 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
           />
         </m.div>
 
-        <Suspense>
-          <AnimatePresence>
-            {newWidgetWizardVisible && (
-              <NewWidgetWizard
-                folder={folder}
-                key="new-widget-wizard"
-                onClose={() => setNewWidgetWizardVisible(false)}
-                gridDimensions={gridDimensions}
-                layout={widgets}
-              />
-            )}
+        <AnimatePresence>
+          {newWidgetWizardVisible && (
+            <NewWidgetWizard
+              folder={folder}
+              key="new-widget-wizard"
+              onClose={() => setNewWidgetWizardVisible(false)}
+              gridDimensions={gridDimensions}
+              layout={widgets}
+            />
+          )}
 
-            {!!editingWidget && editingWidget.widget.configurationScreen && (
-              <Modal
-                title={t("editWidget")}
-                key="edit-widget-modal"
-                className="edit-widget-modal"
-                onClose={() => setEditingWidget(null)}
-                closable
-              >
-                <ScrollArea className="edit-widget-scrollarea">
-                  <m.div
-                    className="edit-widget-content"
-                    transition={{ duration: 0.18 }}
-                    animate={{ opacity: 1, translateX: "0%" }}
-                  >
-                    <editingWidget.widget.configurationScreen
-                      instanceId={editingWidget.instanceId}
-                      widgetId={editingWidget.widgetId}
-                      currentConfig={editingWidget.configuration}
-                      saveConfiguration={(config) => {
-                        updateWidgetConfig(editingWidget.instanceId, config);
-                        setEditingWidget(null);
-                      }}
-                    />
-                  </m.div>
-                </ScrollArea>
-              </Modal>
-            )}
-          </AnimatePresence>
-        </Suspense>
+          {!!editingWidget && editingWidget.widget.configurationScreen && (
+            <Modal
+              title={t("editWidget")}
+              key="edit-widget-modal"
+              className="edit-widget-modal"
+              onClose={() => setEditingWidget(null)}
+              closable
+            >
+              <ScrollArea className="edit-widget-scrollarea">
+                <m.div
+                  className="edit-widget-content"
+                  transition={{ duration: 0.18 }}
+                  animate={{ opacity: 1, translateX: "0%" }}
+                >
+                  <editingWidget.widget.configurationScreen
+                    instanceId={editingWidget.instanceId}
+                    widgetId={editingWidget.widgetId}
+                    currentConfig={editingWidget.configuration}
+                    saveConfiguration={(config) => {
+                      updateWidgetConfig(editingWidget.instanceId, config);
+                      setEditingWidget(null);
+                    }}
+                  />
+                </m.div>
+              </ScrollArea>
+            </Modal>
+          )}
+        </AnimatePresence>
       </FolderContentContext.Provider>
     </>
   );

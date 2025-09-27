@@ -6,7 +6,7 @@ import type {
   WidgetDescriptor,
   WidgetRenderProps,
 } from "@anori/utils/user-data/types";
-import { Suspense, forwardRef, useRef, useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 import "./styles.scss";
 import { Checkbox } from "@anori/components/Checkbox";
 import { ScrollArea } from "@anori/components/ScrollArea";
@@ -264,25 +264,23 @@ const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
         </Button>
       </div>
       <ScrollArea color="dark" style={{ display: tasks.length === 0 ? "none" : "flex" }}>
-        <Suspense>
-          <LayoutGroup>
-            <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layoutScroll layoutRoot>
-              <AnimatePresence initial={false}>
-                {tasks.map((t) => {
-                  return (
-                    <Task
-                      task={t}
-                      key={t.id}
-                      onComplete={() => completeTask(t.id)}
-                      onEdit={(v) => editTask(t.id, v)}
-                      onEnterKeyPress={addTask}
-                    />
-                  );
-                })}
-              </AnimatePresence>
-            </ReorderGroup>
-          </LayoutGroup>
-        </Suspense>
+        <LayoutGroup>
+          <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layoutScroll layoutRoot>
+            <AnimatePresence initial={false}>
+              {tasks.map((t) => {
+                return (
+                  <Task
+                    task={t}
+                    key={t.id}
+                    onComplete={() => completeTask(t.id)}
+                    onEdit={(v) => editTask(t.id, v)}
+                    onEnterKeyPress={addTask}
+                  />
+                );
+              })}
+            </AnimatePresence>
+          </ReorderGroup>
+        </LayoutGroup>
       </ScrollArea>
       {tasks.length === 0 && (
         <m.div key="no-tasks" className="no-tasks">

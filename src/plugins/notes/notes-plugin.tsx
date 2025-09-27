@@ -1,6 +1,6 @@
 import { Input, Textarea } from "@anori/components/Input";
 import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
-import { type ComponentProps, type KeyboardEventHandler, Suspense, useEffect, useRef, useState } from "react";
+import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import "./styles.scss";
 import { translate } from "@anori/translations/index";
 import { useWidgetStorage } from "@anori/utils/plugin";
@@ -106,13 +106,11 @@ const MainScreen = (_props: WidgetRenderProps) => {
           <ScrollArea type="hover" color="dark">
             {!!body && (
               <div className="note-body-rendered-content">
-                <Suspense>
-                  <ReactMarkdown
-                    components={{ a: LinkWithoutPropagation }}
-                    remarkPlugins={remarkPlugins}
-                    children={body}
-                  />
-                </Suspense>
+                <ReactMarkdown
+                  components={{ a: LinkWithoutPropagation }}
+                  remarkPlugins={remarkPlugins}
+                  children={body}
+                />
               </div>
             )}
           </ScrollArea>

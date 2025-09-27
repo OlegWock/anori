@@ -2,7 +2,7 @@ import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
 import { getAllCustomIcons } from "@anori/components/icon/custom-icons";
-import { scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
+import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { initTranslation, languageDirections } from "@anori/translations/index";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
@@ -18,11 +18,9 @@ import { type Folder, homeFolder } from "@anori/utils/user-data/types";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
-
-const BookmarksBar = lazy(() => import("./components/BookmarksBar").then((m) => ({ default: m.BookmarksBar })));
 
 const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
 
@@ -115,9 +113,7 @@ const Start = () => {
             key="start-page"
           >
             {showBookmarksBar && (
-              <Suspense fallback={<div className="bookmarks-bar-placeholder" />}>
-                <BookmarksBar />
-              </Suspense>
+              <BookmarksBar lazyOptions={{ fallback: <div className="bookmarks-bar-placeholder" /> }} />
             )}
             <div className={clsx("start-page-content")}>
               <Sidebar
@@ -151,8 +147,7 @@ storage.getOne("newTabTitle").then((title) => {
 
 storage.getOne("showBookmarksBar").then((showBookmarksBar) => {
   if (showBookmarksBar) {
-    // Preload module
-    import("./components/BookmarksBar");
+    BookmarksBar.preload();
   }
 });
 
