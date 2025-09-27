@@ -177,7 +177,6 @@ loadAndMigrateStorage()
     }
     folders.unshift(homeFolder);
     // TODO: not sure if we still need this overlay handling code
-    console.log("Checking for overlay");
     for (const folder of folders) {
       const { widgets } = await getFolderDetails(folder.id);
       const reversedWidgets = [...widgets].reverse();
@@ -230,3 +229,8 @@ loadAndMigrateStorage()
 
 if (IS_TOUCH_DEVICE) document.body.classList.add("is-touch-device");
 if (IS_ANDROID) document.body.classList.add("is-android");
+
+if (X_MODE === "development" && !window.location.pathname.endsWith("start-debug.html")) {
+  const debugUrl = window.location.href.replace("start.html", "start-debug.html");
+  console.log("Profiler-enabled version of page is available at", debugUrl);
+}

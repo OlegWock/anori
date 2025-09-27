@@ -18,7 +18,6 @@ export const addUniversalDnrRules = async () => {
   }
 
   const currentRules = await browser.declarativeNetRequest.getDynamicRules();
-  console.log("Checking DNR rules");
 
   const requestRule = currentRules.find((r) => r.id === MODIFY_REQUEST_RULE_ID);
   const responseRule = currentRules.find((r) => r.id === MODIFY_RESPONSE_RULE_ID);
@@ -28,11 +27,9 @@ export const addUniversalDnrRules = async () => {
     !requestRule.condition.initiatorDomains?.includes(browser.runtime.id) ||
     !responseRule.condition.initiatorDomains?.includes(browser.runtime.id);
   if (!shouldUpdate) {
-    console.log("Rule already registered");
     return;
   }
 
-  console.log("Rule isn't registered yet or outdated");
   const actionModifyResponse = {
     type: "modifyHeaders",
     responseHeaders: [
@@ -119,7 +116,6 @@ const webRequestHandler = (details: browser.WebRequest.OnBeforeSendHeadersDetail
 
 export const plantWebRequestHandler = () => {
   if (!browser.webRequest) {
-    console.log("webRequest API not available");
     return;
   }
   browser.webRequest.onHeadersReceived.removeListener(webResponseHandler);
@@ -132,7 +128,6 @@ export const plantWebRequestHandler = () => {
     "requestHeaders",
     "blocking",
   ]);
-  console.log("Planted webRequest listener");
 };
 
 export const ensureDnrRules = async (url: string) => {
@@ -141,7 +136,6 @@ export const ensureDnrRules = async (url: string) => {
 
   try {
     await Promise.all([clearBrowsingData(url), addUniversalDnrRulesSingleton(), plantWebRequestHandlerSingleton()]);
-    console.log("Iframe headers overwrite setup");
   } catch (err) {
     console.log("Err while registering rule", err);
   }

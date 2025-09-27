@@ -43,7 +43,6 @@ const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
 };
 
 browser.runtime.onInstalled.addListener(async (details) => {
-  console.log("onInstalled", details);
   if (details.reason === "update" && details.previousVersion) {
     const { previousVersion } = details;
     const currentVersion = browser.runtime.getManifest().version;
@@ -84,7 +83,6 @@ browser.runtime.onInstalled.addListener(async (details) => {
 });
 
 browser.runtime.onMessage.addListener(async (message, sender) => {
-  console.log("onMessage", message);
   if (message.type === "plugin-command") {
     const plugin = availablePlugins.find((p) => p.id === message.pluginId);
     if (!plugin) {
@@ -184,7 +182,6 @@ browser.runtime.setUninstallURL(`https://anori.app/goodbye`);
 
 // @ts-ignore unknwon onRuleMatchedDebug event
 if (X_BROWSER === "chrome" && X_MODE === "development" && browser.declarativeNetRequest?.onRuleMatchedDebug) {
-  console.log("Setting on rule matched debug");
   // @ts-ignore unknwon onRuleMatchedDebug event
   browser.declarativeNetRequest.onRuleMatchedDebug.addListener((info) => console.log("Matched DNR rule", info));
 }

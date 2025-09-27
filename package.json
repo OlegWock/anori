@@ -83,6 +83,8 @@
         "postinstall-postinstall": "^2.1.0",
         "react": "^19.1.0",
         "react-colorful": "^5.6.1",
+        "react-devtools": "^6.1.5",
+        "react-devtools-core": "^6.1.5",
         "react-dom": "^19.1.0",
         "react-hotkeys-hook": "^4.3.7",
         "react-i18next": "^15.5.2",

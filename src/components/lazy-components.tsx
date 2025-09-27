@@ -29,7 +29,6 @@ const loaders = {
 
 export const scheduleLazyComponentsPreload = () => {
   const triggerPreload = () => {
-    console.log("Preloading lazy component");
     const funcs = Object.values(loaders);
     funcs.forEach((f) => f());
   };
@@ -62,7 +61,6 @@ const createLazyComponentWithSuspense = <P,>(
   const LazyComponent = lazy(loader);
 
   const Component: LazyComponent<P> = (props: P & { lazyOptions?: LazyComponentProps } & JSX.IntrinsicAttributes) => {
-    console.log("Loading", name);
     return (
       <Suspense fallback={props.lazyOptions?.fallback ?? fallbackFromOptions ?? null}>
         <LazyComponent {...props} />
@@ -71,6 +69,7 @@ const createLazyComponentWithSuspense = <P,>(
   };
 
   Component.preload = () => loader().then((m) => m.default);
+  Component.displayName = name ?? `LazyWrapper(Component)`;
 
   return Component;
 };

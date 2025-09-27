@@ -1,4 +1,5 @@
 import * as path from "node:path";
+import type { Mode } from "@rspack/core";
 // @ts-expect-error No declarations for this module!
 import GenerateFiles from "generate-file-webpack-plugin";
 import walkSync from "walk-sync";
@@ -65,7 +66,7 @@ export interface EntriesAndOutputs {
   outputs: Record<string, string>;
 }
 
-export function constructEntriesAndOutputs(paths: ReturnType<typeof createPathsObject>): EntriesAndOutputs {
+export function constructEntriesAndOutputs(paths: ReturnType<typeof createPathsObject>, mode: Mode): EntriesAndOutputs {
   const entries: EntriesAndOutputs["entries"] = {
     backgroundScript: [paths.src.background],
   };
@@ -75,7 +76,10 @@ export function constructEntriesAndOutputs(paths: ReturnType<typeof createPathsO
 
   const pages = walkSync(paths.src.pages, {
     globs: scriptExtensions.map((ext) => `*/*${ext}`),
-    ignore: scriptExtensions.map((ext) => `**/components/**/*${ext}`),
+    ignore: [
+      ...scriptExtensions.map((ext) => `**/components/**/*${ext}`),
+      ...(mode !== "development" ? scriptExtensions.map((ext) => `*/*-debug${ext}`) : []),
+    ],
     directories: false,
   });
 
@@ -87,6 +91,7 @@ export function constructEntriesAndOutputs(paths: ReturnType<typeof createPathsO
 
   const contentscripts = walkSync(paths.src.contentscripts, {
     globs: scriptExtensions.map((ext) => `**/*${ext}`),
+    ignore: mode !== "development" ? scriptExtensions.map((ext) => `**/*-debug${ext}`) : [],
     directories: false,
   });
 

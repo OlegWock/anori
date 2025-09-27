@@ -40,7 +40,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
   const currentYear = new Date().getFullYear();
 
   const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
-  const { entries, outputs } = constructEntriesAndOutputs(paths);
+  const { entries, outputs } = constructEntriesAndOutputs(paths, mode);
 
   const pageTemplate = fs.readFileSync(paths.src.pageHtmlTemplate, {
     encoding: "utf-8",
