@@ -32,6 +32,7 @@ import {
 } from "@anori/translations/index";
 import { analyticsEnabledAtom, trackEvent } from "@anori/utils/analytics";
 import { useScreenWidth } from "@anori/utils/compact";
+import { dayjs } from "@anori/utils/dayjs";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
@@ -50,7 +51,6 @@ import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";
 import { atom, useAtom, useSetAtom } from "jotai";
 import JSZip from "jszip";
-import moment from "moment-timezone";
 import { type ComponentProps, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { FolderItem } from "./FolderItem";
@@ -485,7 +485,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
         {
           extensionVersion: browser.runtime.getManifest().version,
           storageVersion: storage.storageVersion ?? 0,
-          date: moment().toString(),
+          date: dayjs().toString(),
         },
         null,
         4,
@@ -502,7 +502,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       zip.file(`opfs/${CUSTOM_THEMES_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
     );
     const blob = await zip.generateAsync({ type: "blob" });
-    const datetime = moment().format("DD-MM-yyyy_HH-mm");
+    const datetime = dayjs().format("DD-MM-yyyy_HH-mm");
     downloadBlob(`anori-backup-${datetime}.zip`, blob);
     trackEvent("Configuration exported");
   };

@@ -1,5 +1,5 @@
+import type { Dayjs } from "@anori/utils/dayjs";
 import { useScheduledRender } from "@anori/utils/hooks";
-import type { Moment } from "moment-timezone";
 import { useTranslation } from "react-i18next";
 
 const seconds = (n: number) => n * 1000;
@@ -18,7 +18,7 @@ const delayByTimestamp = (timestamp: number) => {
   return 0;
 };
 
-export const RelativeTime = ({ m, withoutSuffix }: { m: Moment; withoutSuffix?: boolean }) => {
+export const RelativeTime = ({ m, withoutSuffix }: { m: Dayjs; withoutSuffix?: boolean }) => {
   const scheduleRerender = useScheduledRender();
   useTranslation();
 

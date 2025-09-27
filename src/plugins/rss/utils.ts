@@ -1,7 +1,7 @@
+import { dayjs } from "@anori/utils/dayjs";
 import { cachedFunc } from "@anori/utils/misc";
 import type { NamespacedStorage } from "@anori/utils/namespaced-storage";
 import { useWidgetStorage } from "@anori/utils/plugin";
-import moment from "moment-timezone";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type Parser from "rss-parser";
@@ -97,7 +97,7 @@ const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) =>
           title: item.title || "Without title",
           description: item.contentSnippet || item.content || "",
           url: item.link || "",
-          timestamp: moment(item.isoDate || undefined).valueOf(),
+          timestamp: dayjs(item.isoDate || undefined).valueOf(),
           feed,
         };
       })
@@ -144,7 +144,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
 
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
-  const lastUpdatedMoment = useMemo(() => moment(lastUpdated), [lastUpdated, i18n.language]);
+  const lastUpdatedDayjs = useMemo(() => dayjs(lastUpdated), [lastUpdated, i18n.language]);
 
   useEffect(() => {
     const tid = setInterval(() => {
@@ -177,7 +177,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
 
   return {
     feed: consolidatedFeed,
-    lastUpdated: lastUpdated ? lastUpdatedMoment : undefined,
+    lastUpdated: lastUpdated ? lastUpdatedDayjs : undefined,
     isRefreshing,
     refresh,
   };

@@ -12,12 +12,12 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { dayjs } from "@anori/utils/dayjs";
 import { usePrevious } from "@anori/utils/hooks";
 import { capitalize } from "@anori/utils/strings";
 import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import moment from "moment-timezone";
 import { useMemo } from "react";
 import { useEffect } from "react";
 import type { ReactNode } from "react";
@@ -31,7 +31,7 @@ type CalendarWidgetConfigType = {
 };
 
 const getWeekdays = (short = false) => {
-  const days = short ? moment.weekdaysMin() : moment.weekdays();
+  const days = short ? dayjs.weekdaysMin() : dayjs.weekdays();
   return [...days.slice(1), ...days.slice(0, 1)].map((s) => capitalize(s).replace(".", ""));
 };
 
@@ -70,7 +70,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
   const { i18n } = useTranslation();
   const dir = useDirection();
   const trackInteraction = useWidgetInteractionTracker();
-  const [today, setToday] = useState(() => moment());
+  const [today, setToday] = useState(() => dayjs());
   const [offsetMonths, setOffsetMonths] = useState(0);
   const prevOffset = usePrevious(offsetMonths, offsetMonths);
   let direction = prevOffset > offsetMonths ? "right" : "left";
@@ -86,7 +86,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   useEffect(() => {
-    setToday(moment());
+    setToday(dayjs());
   }, [i18n.language]);
 
   const variants = {
@@ -150,7 +150,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
   const currentKey = useMemo(() => `${currentMonth.month()}_${currentMonth.year()}`, [currentMonth]);
 
   useEffect(() => {
-    const tid = setInterval(() => setToday(moment()), 1000 * 60);
+    const tid = setInterval(() => setToday(dayjs()), 1000 * 60);
     return () => clearInterval(tid);
   });
 

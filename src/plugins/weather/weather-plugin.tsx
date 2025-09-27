@@ -14,11 +14,11 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useSizeSettings } from "@anori/utils/compact";
+import { dayjs } from "@anori/utils/dayjs";
 import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
 import { useWidgetStorage } from "@anori/utils/plugin";
 import { capitalize } from "@anori/utils/strings";
 import { FloatingDelayGroup } from "@floating-ui/react";
-import moment from "moment";
 import { useTranslation } from "react-i18next";
 import {
   type City,
@@ -237,7 +237,7 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
     const fromStorage = store.get("weather");
     if (fromStorage) {
       fromStorage.forecast.forEach((r) => {
-        r.date = moment(r.dateRaw);
+        r.date = dayjs(r.dateRaw);
       });
       setForecast(fromStorage.forecast);
       setLastUpdated(fromStorage.lastUpdated);
@@ -293,7 +293,7 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
 
   return (
     <Tooltip
-      label={!weather ? t("loading") : t("lastUpdatedAt", { datetime: moment(weather.lastUpdated).format("HH:mm") })}
+      label={!weather ? t("loading") : t("lastUpdatedAt", { datetime: dayjs(weather.lastUpdated).format("HH:mm") })}
       placement="top"
     >
       <div className="WeatherWidget current">
@@ -333,7 +333,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
     () => ({
       forecast: [
         {
-          date: moment(),
+          date: dayjs(),
           windSpeed: 2.3,
           windDirection: 190,
           weatherCode: 1,
@@ -341,7 +341,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
           temperatureMax: 15,
         },
         {
-          date: moment().add(1, "day"),
+          date: dayjs().add(1, "day"),
           windSpeed: 3.1,
           windDirection: 210,
           weatherCode: 1,
@@ -349,7 +349,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
           temperatureMax: 9,
         },
         {
-          date: moment().add(2, "day"),
+          date: dayjs().add(2, "day"),
           windSpeed: 3.6,
           windDirection: 280,
           weatherCode: 0,
@@ -357,7 +357,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
           temperatureMax: 16,
         },
         {
-          date: moment().add(3, "day"),
+          date: dayjs().add(3, "day"),
           windSpeed: 2.3,
           windDirection: 190,
           weatherCode: 0,
@@ -365,7 +365,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
           temperatureMax: 16,
         },
         {
-          date: moment().add(4, "day"),
+          date: dayjs().add(4, "day"),
           windSpeed: 4.5,
           windDirection: 90,
           weatherCode: 1,
@@ -384,7 +384,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
 
   return (
     <Tooltip
-      label={!lastUpdated ? t("loading") : t("lastUpdatedAt", { datetime: moment(lastUpdated).format("HH:mm") })}
+      label={!lastUpdated ? t("loading") : t("lastUpdatedAt", { datetime: dayjs(lastUpdated).format("HH:mm") })}
       placement="top"
     >
       <div className="WeatherWidget forecast">

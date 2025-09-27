@@ -2,7 +2,6 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 import { storage } from "@anori/utils/storage/api";
-import moment from "moment";
 import arTranslation from "./ar.json";
 import deTranslation from "./de.json";
 import enTranslation from "./en.json";
@@ -15,6 +14,8 @@ import thTranslation from "./th.json";
 import trTranslation from "./tr.json";
 import ukTranslation from "./uk.json";
 import zhCnTranslation from "./zh-cn.json";
+
+import moment from "moment";
 // When adding any of moment locales, don't forget to update rspack config to actually include them in build
 import "moment/locale/uk";
 import "moment/locale/de";
@@ -28,6 +29,21 @@ import "moment/locale/ar";
 import "moment/locale/zh-cn";
 import "moment/locale/pt-br";
 moment.locale("en");
+
+import { dayjs } from "@anori/utils/dayjs";
+import "dayjs/locale/en";
+import "dayjs/locale/uk";
+import "dayjs/locale/de";
+import "dayjs/locale/fr";
+import "dayjs/locale/es";
+import "dayjs/locale/ru";
+import "dayjs/locale/th";
+import "dayjs/locale/tr";
+import "dayjs/locale/it";
+import "dayjs/locale/ar";
+import "dayjs/locale/zh-cn";
+import "dayjs/locale/pt-br";
+dayjs.locale("en");
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
@@ -106,8 +122,12 @@ export const initTranslation = async () => {
   moment.updateLocale("ar", {
     postformat: (x: any) => x,
   });
+  dayjs.updateLocale("ar", {
+    postformat: (x: any) => x,
+  });
 
   moment.locale(lang);
+  dayjs.locale(lang);
   i18n.use(initReactI18next).init({
     debug: true,
     returnNull: false,
@@ -123,6 +143,7 @@ export const initTranslation = async () => {
 export const switchTranslationLanguage = (lang: Language) => {
   i18n.changeLanguage(lang);
   moment.locale(lang.toLowerCase()); // Moment uses lowecase locales (e.g. zh-cn), but i18next requires them to be like zh-CN
+  dayjs.locale(lang.toLowerCase()); // Dayjs uses lowecase locales (e.g. zh-cn), but i18next requires them to be like zh-CN
   const html = document.querySelector("html");
   if (html) {
     html.setAttribute("lang", lang);

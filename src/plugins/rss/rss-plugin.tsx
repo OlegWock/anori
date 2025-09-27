@@ -20,11 +20,11 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
+import { dayjs } from "@anori/utils/dayjs";
 import { guid, parseHost, wait } from "@anori/utils/misc";
 import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@anori/utils/plugin";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import moment from "moment-timezone";
 import { Fragment, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type RssPost, type WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
@@ -49,7 +49,7 @@ const Post = ({
   const trackInteraction = useWidgetInteractionTracker();
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
-  const postMoment = useMemo(() => moment(post.timestamp), [post.timestamp, i18n.language]);
+  const postDayjs = useMemo(() => dayjs(post.timestamp), [post.timestamp, i18n.language]);
   const feedTitle = useMemo(() => decodeHtmlEntities(post.feed.title), [post.feed.title]);
   const title = useMemo(() => decodeHtmlEntities(post.title), [post.title]);
   const subtitle = useMemo(() => decodeHtmlEntities(post.description), [post.description]);
@@ -64,7 +64,7 @@ const Post = ({
             {compact && (
               <span className="compact-post-date">
                 &nbsp;·&nbsp;
-                <RelativeTime m={postMoment} />
+                <RelativeTime m={postDayjs} />
               </span>
             )}
           </h3>
@@ -79,7 +79,7 @@ const Post = ({
           <div className="post-date">
             <Icon icon={builtinIcons.time} height={rem(1)} />{" "}
             <span>
-              <RelativeTime m={postMoment} />
+              <RelativeTime m={postDayjs} />
             </span>
           </div>
         </div>

@@ -65,6 +65,7 @@
         "clsx": "^2.1.1",
         "cross-env": "^7.0.3",
         "css-loader": "^6.7.1",
+        "dayjs": "^1.11.18",
         "file-loader": "^6.2.0",
         "filemanager-webpack-plugin": "^7.0.0",
         "framer-motion": "^12.17.0",

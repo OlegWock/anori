@@ -7,9 +7,9 @@ import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { dayjs } from "@anori/utils/dayjs";
 import { wait } from "@anori/utils/misc";
 import { m, useAnimationControls } from "framer-motion";
-import moment from "moment-timezone";
 import { useMemo, useState } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -34,8 +34,8 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const lastModified = useMemo(() => {
-    if (X_BROWSER === "chrome") return moment.unix(session.lastModified);
-    return moment(session.lastModified);
+    if (X_BROWSER === "chrome") return dayjs.unix(session.lastModified);
+    return dayjs(session.lastModified);
   }, [session.lastModified, i18n.language]);
 
   return (

@@ -28,6 +28,7 @@ import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { isChromeLike } from "@anori/utils/browser";
 import { useSizeSettings } from "@anori/utils/compact";
+import { dayjs } from "@anori/utils/dayjs";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useAsyncEffect, useLinkNavigationState } from "@anori/utils/hooks";
 import { guid, normalizeUrl, parseHost } from "@anori/utils/misc";
@@ -42,7 +43,6 @@ import {
 import { isMacLike } from "@anori/utils/shortcuts";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import moment from "moment-timezone";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
@@ -404,8 +404,8 @@ const BookmarkWidget = ({
     console.log("Create status message", { lastStatusChange, lastCheck });
     return t("bookmark-plugin.status", {
       status: status === "up" ? t("bookmark-plugin.statusUp") : t("bookmark-plugin.statusDown"),
-      lastChange: lastStatusChangeMoment.fromNow(),
-      lastCheck: lastCheckMoment.fromNow(),
+      lastChange: lastStatusChangeDayjs.fromNow(),
+      lastCheck: lastCheckDayjs.fromNow(),
     });
   };
 
@@ -422,9 +422,9 @@ const BookmarkWidget = ({
   const [lastStatusChange] = store.useValue("lastStatusChange", undefined);
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
-  const lastCheckMoment = useMemo(() => moment(lastCheck), [lastCheck, i18n.language]);
+  const lastCheckDayjs = useMemo(() => dayjs(lastCheck), [lastCheck, i18n.language]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
-  const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
+  const lastStatusChangeDayjs = useMemo(() => dayjs(lastStatusChange), [lastStatusChange, i18n.language]);
   const statusColor = {
     loading: "var(--text-disabled)",
     up: "#2eb46a",

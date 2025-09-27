@@ -79,6 +79,14 @@ const ConfigScreen = ({
   const defaultTimeFormat = size === "s" ? "HH:mm" : "HH:mm:ss";
   const defaultDateFormat = size === "s" ? "noDate" : "Do MMMM Y";
 
+  // TODO: we migrated from moment to dayjs in most of the Anori, except this plugin. This plugin heavily relies on
+  // Moment's support for timezones, and Dayjs timezones support is lacking some features.
+  // Mostly because Dayjs relies on browser for timezones support. There are couple problems with tz in browsers
+  // 1. Even in latest versions not all TZ are supported. E.g. Europe/Kyiv is missing in Chrome, even though it's
+  // marked as canonical by IANA. This also would make troublesome migration of existing instances of the widget
+  // 2. Chrome doesn't report timezones like UTC or CET as supported (even though they are supported), so
+  // we'll need to maintain our list of special cases.
+
   const allTz = useMemo(() => moment.tz.names(), []);
   const [title, setTitle] = useState(currentConfig ? currentConfig.title : "");
   const [timeFormat, setTimeFormat] = useState(currentConfig ? currentConfig.timeFormat : defaultTimeFormat);

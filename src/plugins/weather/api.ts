@@ -1,4 +1,4 @@
-import moment, { type Moment } from "moment-timezone";
+import { type Dayjs, dayjs } from "@anori/utils/dayjs";
 
 export type City = {
   id: number;
@@ -21,7 +21,7 @@ export type CurrentWeather = {
 };
 
 export type WeatherForecast = {
-  date: Moment;
+  date: Dayjs;
   dateRaw: string;
   windSpeed: number;
   windDirection: number;
@@ -72,7 +72,7 @@ export const gerCurrentWeather = async (city: City): Promise<CurrentWeather> => 
 };
 
 export const getForecast = async (city: City): Promise<WeatherForecast[]> => {
-  const tz = moment.tz.guess();
+  const tz = dayjs.tz.guess();
   const response = await fetch(
     // biome-ignore lint/style/useTemplate: more readable this way
     `https://api.open-meteo.com/v1/forecast` +
@@ -84,7 +84,7 @@ export const getForecast = async (city: City): Promise<WeatherForecast[]> => {
   const json = (await response.json()) as any;
 
   const results = (json.daily.time as any[]).slice(0, 5).map((dateRaw, i) => {
-    const date = moment(dateRaw);
+    const date = dayjs(dateRaw);
 
     return {
       date,
