@@ -1,31 +1,23 @@
 import type { Select as SelectType } from "@anori/components/Select";
-import { cachedFunc } from "@anori/utils/misc";
+import { type CachedPromiseFuncReturn, cachedPromiseFunc } from "@anori/utils/misc";
 import type { ReorderGroup as ReorderGroupType } from "@anori/utils/motion/lazy-load-reorder";
-import { type ComponentType, type ReactNode, Suspense, lazy } from "react";
+import { type ComponentType, type ReactNode, Suspense, lazy, useMemo } from "react";
 
 const loaders = {
-  Select: cachedFunc(() => import("@anori/components/Select").then((module) => ({ default: module.Select }))),
-  ReorderGroup: cachedFunc(() =>
-    import("@anori/utils/motion/lazy-load-reorder").then((module) => ({ default: module.ReorderGroup })),
-  ),
-  ReorderItem: cachedFunc(() =>
-    import("@anori/utils/motion/lazy-load-reorder").then((module) => ({ default: module.ReorderItem })),
-  ),
-  ReactMarkdown: cachedFunc(() => import("react-markdown")),
-  BookmarksBar: cachedFunc(() =>
-    import("@anori/components/BookmarksBar").then((module) => ({ default: module.BookmarksBar })),
-  ),
-  WhatsNew: cachedFunc(() => import("@anori/components/WhatsNew").then((m) => ({ default: m.WhatsNew }))),
+  Select: cachedPromiseFunc(() => import("@anori/components/Select").then((m) => m.Select)),
+  ReorderGroup: cachedPromiseFunc(() => import("@anori/utils/motion/lazy-load-reorder").then((m) => m.ReorderGroup)),
+  ReorderItem: cachedPromiseFunc(() => import("@anori/utils/motion/lazy-load-reorder").then((m) => m.ReorderItem)),
+  ReactMarkdown: cachedPromiseFunc(() => import("react-markdown").then((m) => m.default)),
+  BookmarksBar: cachedPromiseFunc(() => import("@anori/components/BookmarksBar").then((m) => m.BookmarksBar)),
+  WhatsNew: cachedPromiseFunc(() => import("@anori/components/WhatsNew").then((m) => m.WhatsNew)),
 
   // TODO: these are components from pages/newtab folder, while this file resides in just components, this
   // breaks the hierarchy and should be fixed as part of wider structure reorganization
-  SettingsModal: cachedFunc(() =>
-    import("../pages/newtab/settings/Settings").then((m) => ({ default: m.SettingsModal })),
+  SettingsModal: cachedPromiseFunc(() => import("../pages/newtab/settings/Settings").then((m) => m.SettingsModal)),
+  NewWidgetWizard: cachedPromiseFunc(() =>
+    import("../pages/newtab/components/NewWidgetWizard").then((m) => m.NewWidgetWizard),
   ),
-  NewWidgetWizard: cachedFunc(() =>
-    import("../pages/newtab/components/NewWidgetWizard").then((m) => ({ default: m.NewWidgetWizard })),
-  ),
-} satisfies Record<string, () => Promise<{ default: ComponentType<any> }>>;
+} satisfies Record<string, () => CachedPromiseFuncReturn<ComponentType<any>>>;
 
 export const scheduleLazyComponentsPreload = () => {
   const triggerPreload = () => {
@@ -55,12 +47,25 @@ type LazyComponent<P> = ComponentType<P & { lazyOptions?: LazyComponentProps }> 
 };
 
 const createLazyComponentWithSuspense = <P,>(
-  loader: () => Promise<{ default: ComponentType<P> }>,
+  loader: () => CachedPromiseFuncReturn<ComponentType<P>>,
   { fallback: fallbackFromOptions = null, name }: CreateLazyComponentWithSuspenseOptions = {},
 ): LazyComponent<P> => {
-  const LazyComponent = lazy(loader);
+  const LazyComponent = lazy(() => loader().promise.then((comp) => ({ default: comp })));
 
   const Component: LazyComponent<P> = (props: P & { lazyOptions?: LazyComponentProps } & JSX.IntrinsicAttributes) => {
+    // When rendered multiple times, loader might return 'unresolved' at first and then 'resolved' on subsequent renders
+    // This will cause us to render different root component which will reset any state in child components. To avoid
+    // this we remember value returned at first render to keep rendered component stable.
+    //
+    // `loader` is `createLazyComponentWithSuspense`, which isn't react component, but biome can't detect that
+    // biome-ignore lint/correctness/useExhaustiveDependencies:
+    const val = useMemo(() => loader(), []);
+
+    if (val.status === "resolved") {
+      const Component = val.value;
+      return <Component {...props} />;
+    }
+
     return (
       <Suspense fallback={props.lazyOptions?.fallback ?? fallbackFromOptions ?? null}>
         <LazyComponent {...props} />
@@ -68,7 +73,7 @@ const createLazyComponentWithSuspense = <P,>(
     );
   };
 
-  Component.preload = () => loader().then((m) => m.default);
+  Component.preload = () => loader().promise;
   Component.displayName = name ?? `LazyWrapper(Component)`;
 
   return Component;
