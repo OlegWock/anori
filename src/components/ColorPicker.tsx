@@ -1,8 +1,8 @@
 import { type Color, fromHsl } from "@anori/utils/color";
 import "./ColorPicker.scss";
+import { Colorful, hslaToHsva } from "@uiw/react-color";
 import clsx from "clsx";
 import { useMemo } from "react";
-import { HslColorPicker } from "react-colorful";
 
 export type ColorPickerProps = {
   value: Color;
@@ -11,23 +11,23 @@ export type ColorPickerProps = {
 };
 
 export const ColorPicker = ({ value: valueFromProps, onChange, className }: ColorPickerProps) => {
-  const hslValue = useMemo(
-    () => ({
-      h: valueFromProps.hue * 360,
-      l: valueFromProps.lightness * 100,
-      s: valueFromProps.saturation * 100,
-      a: valueFromProps.alpha,
-    }),
+  const hsvaValue = useMemo(
+    () =>
+      hslaToHsva({
+        h: valueFromProps.hue * 360,
+        l: valueFromProps.lightness * 100,
+        s: valueFromProps.saturation * 100,
+        a: valueFromProps.alpha,
+      }),
     [valueFromProps],
   );
 
   return (
-    // @ts-expect-error Declared component type not compatible with React 19
-    <HslColorPicker
+    <Colorful
       className={clsx("ColorPicker", className)}
-      color={hslValue}
+      color={hsvaValue}
       onChange={(color) => {
-        onChange(fromHsl(color.h, color.s, color.l));
+        onChange(fromHsl(color.hsla.h, color.hsla.s, color.hsla.l, color.hsla.a));
       }}
     />
   );
