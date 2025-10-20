@@ -502,7 +502,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       zip.file(`opfs/${CUSTOM_THEMES_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
     );
     const blob = await zip.generateAsync({ type: "blob" });
-    const datetime = moment().format("DD-MM-yyyy_HH-mm");
+    const datetime = moment().format("yyyy-MM-DD_HH-mm");
     downloadBlob(`anori-backup-${datetime}.zip`, blob);
     trackEvent("Configuration exported");
   };
