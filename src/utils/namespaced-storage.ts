@@ -10,7 +10,7 @@ import {
   useAtomWithStorage,
 } from "./storage/api";
 
-export class NamespacedStorage<T extends Mapping = Record<string, unknown>> {
+export class NamespacedStorage<T extends Mapping = Mapping> {
   ns: string;
   atom: AtomWithBrowserStorage<Partial<T>>;
   loaded: boolean;

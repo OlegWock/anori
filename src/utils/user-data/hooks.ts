@@ -1,7 +1,8 @@
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, trackEvent } from "@anori/utils/analytics";
-import { type GridDimensions, type LayoutItemSize, type Position, findPositionForItemInGrid } from "@anori/utils/grid";
+import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
+import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
 import { NamespacedStorage } from "@anori/utils/namespaced-storage";
@@ -147,8 +148,8 @@ export const useFolderWidgets = (folder: Folder) => {
     widget: W;
     plugin: AnoriPlugin<string, Mapping, WD>;
     config: ConfigFromWidgetDescriptor<W>;
-    position: Position;
-    size?: LayoutItemSize;
+    position: GridPosition;
+    size?: GridItemSize;
   }) => {
     const instanceId = guid();
 
@@ -194,7 +195,7 @@ export const useFolderWidgets = (folder: Folder) => {
     });
   };
 
-  const moveWidget = (id: ID, position: Position) => {
+  const moveWidget = (id: ID, position: GridPosition) => {
     const movedWidget = details.widgets.find((w) => w.instanceId === id);
     if (movedWidget) {
       trackEvent("Widget moved", {
@@ -220,7 +221,7 @@ export const useFolderWidgets = (folder: Folder) => {
     });
   };
 
-  const resizeWidget = (id: ID, size: LayoutItemSize) => {
+  const resizeWidget = (id: ID, size: GridItemSize) => {
     const resizedWidget = details.widgets.find((w) => w.instanceId === id);
     if (resizedWidget) {
       trackEvent("Widget resized", {

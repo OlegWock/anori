@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { type Language, translate } from "@anori/translations/index";
-import type { LayoutItem } from "@anori/utils/grid";
+import type { GridItem } from "@anori/utils/grid/types";
 import type {
   AnoriPlugin,
   ConfigFromWidgetDescriptor,
@@ -70,7 +70,7 @@ export type WidgetInFolder<
   widgetId: WID;
   instanceId: ID;
   configuration: ConfigFromWidgetDescriptor<W>;
-} & LayoutItem;
+} & GridItem;
 
 export type WidgetInFolderWithMeta<
   PID extends ID = ID,

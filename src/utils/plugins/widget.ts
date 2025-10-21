@@ -1,4 +1,4 @@
-import type { LayoutItemSize } from "@anori/utils/grid";
+import type { GridItemSize } from "@anori/utils/grid/types";
 import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/plugins/types";
 import { storage } from "@anori/utils/storage/api";
 import type { EmptyObject, ID, Mapping } from "@anori/utils/types";
@@ -47,11 +47,11 @@ export const getAllWidgetsByPlugin = async <PID extends ID, WD extends WidgetDes
     }) as DistributedWidgetInFolderWithMeta<PID, WD>[];
 };
 
-export type WidgetMetadataContextType<WidgetConfigT extends Mapping = Record<string, unknown>> = {
+export type WidgetMetadataContextType<WidgetConfigT extends Mapping = Mapping> = {
   pluginId: string;
   widgetId: string;
   instanceId: string;
-  size: LayoutItemSize;
+  size: GridItemSize;
   config: WidgetConfigT;
   updateConfig: (update: Partial<WidgetConfigT>) => void;
 };

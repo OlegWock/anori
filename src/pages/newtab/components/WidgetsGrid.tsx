@@ -1,16 +1,8 @@
 import { Onboarding } from "@anori/components/Onboarding";
 import { MotionScrollArea } from "@anori/components/ScrollArea";
 import { WidgetCard } from "@anori/components/WidgetCard";
-import {
-  type GridDimensions,
-  type Layout,
-  type LayoutItem,
-  type Position,
-  canPlaceItemInGrid,
-  layoutTo2DArray,
-  positionToPixelPosition,
-  willItemOverlay,
-} from "@anori/utils/grid";
+import type { GridContent, GridDimensions, GridItem, GridPosition } from "@anori/utils/grid/types";
+import { canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@anori/utils/grid/utils";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
@@ -30,7 +22,7 @@ export type LayoutChange =
   | {
       type: "change-position";
       instanceId: string;
-      newPosition: Position;
+      newPosition: GridPosition;
     }
   | {
       type: "move-to-folder";
@@ -52,8 +44,8 @@ export type WidgetsGridProps = {
   isEditing: boolean;
   gridDimensions: GridDimensions;
   gapSize: number;
-  layout: Layout<LayoutArg>;
-  onEditWidget: (w: LayoutItem<LayoutArg>) => void;
+  layout: GridContent<LayoutArg>;
+  onEditWidget: (w: GridItem<LayoutArg>) => void;
   onUpdateWidgetConfig: (instaceId: string, config: Partial<Mapping>) => void;
   onLayoutUpdate?: (changes: LayoutChange[]) => void;
   showOnboarding?: boolean;
@@ -73,7 +65,7 @@ export const WidgetsGrid = ({
   gridRef,
   scrollAreaRef,
 }: WidgetsGridProps) => {
-  const tryRepositionWidget = (widget: WidgetInFolderWithMeta, position: Position) => {
+  const tryRepositionWidget = (widget: WidgetInFolderWithMeta, position: GridPosition) => {
     const canPlaceThere = canPlaceItemInGrid({
       grid: gridDimensions,
       item: widget,

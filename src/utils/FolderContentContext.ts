@@ -1,5 +1,5 @@
+import type { GridDimensions, GridItemSize, GridPixelPosition } from "@anori/utils/grid/types";
 import { type RefObject, createContext, useContext } from "react";
-import type { GridDimensions, LayoutItemSize, PixelPosition } from "./grid";
 import { type Folder, homeFolder } from "./user-data/types";
 
 type FolderContentContextType = {
@@ -7,8 +7,8 @@ type FolderContentContextType = {
   isEditing: boolean;
   gridRef: RefObject<HTMLDivElement | null>;
   grid: GridDimensions & {
-    position: PixelPosition;
-    pixelSize: LayoutItemSize;
+    position: GridPixelPosition;
+    pixelSize: GridItemSize;
   };
 };
 

@@ -25,7 +25,7 @@ export const storage = {
   get: async <T extends StorageKey>(query: StorageQueryForKeys<T>): Promise<Required<StorageQueryForKeys<T>>> => {
     return browser.storage.local.get(query) as Promise<Required<StorageQueryForKeys<T>>>;
   },
-  getDynamic: async <T extends Record<string, unknown>>(query: T): Promise<T> => {
+  getDynamic: async <T extends Mapping>(query: T): Promise<T> => {
     return browser.storage.local.get(query) as Promise<T>;
   },
   getOne: async <K extends StorageKey>(key: K): Promise<StorageContent[K] | undefined> => {

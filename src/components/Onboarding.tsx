@@ -16,7 +16,8 @@ import {
   switchTranslationLanguage,
 } from "@anori/translations/index";
 import { analyticsEnabledAtom } from "@anori/utils/analytics";
-import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemInGrid } from "@anori/utils/grid";
+import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
+import { canPlaceItemInGrid } from "@anori/utils/grid/utils";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
@@ -65,8 +66,8 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
       plugin: AnoriPlugin<string, Mapping, WD>;
       widget: W;
       config: ConfigFromWidgetDescriptor<W>;
-      position: Position;
-      size?: LayoutItemSize;
+      position: GridPosition;
+      size?: GridItemSize;
     }) => {
       if (
         canPlaceItemInGrid({

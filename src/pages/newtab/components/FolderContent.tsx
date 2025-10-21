@@ -8,7 +8,7 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { NewWidgetWizard } from "@anori/components/lazy-components";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
-import { useGrid } from "@anori/utils/grid";
+import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
 import { useHotkeys } from "@anori/utils/hooks";
 import type { WidgetDescriptor } from "@anori/utils/plugins/types";
 import type { ID } from "@anori/utils/types";
@@ -114,7 +114,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   const { t } = useTranslation();
   const mainRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const gridDimensions = useGrid(scrollAreaRef, blockSize, minBlockSize, widgets);
+  const gridDimensions = useGridDimensions(scrollAreaRef, blockSize, minBlockSize, widgets);
 
   const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
 

@@ -1,4 +1,4 @@
-import type { LayoutItemSize } from "@anori/utils/grid";
+import type { GridItemSize } from "@anori/utils/grid/types";
 import type { EmptyObject, ID, Mapping } from "@anori/utils/types";
 import type { ComponentType } from "react";
 
@@ -14,7 +14,7 @@ export type PluginConfigurationScreenProps<T extends Mapping> = {
   saveConfiguration: (config: T) => void;
 };
 
-export type WidgetRenderProps<T extends Mapping = Record<string, unknown>> = {
+export type WidgetRenderProps<T extends Mapping = Mapping> = {
   config: T;
   instanceId: string;
 };
@@ -22,8 +22,8 @@ export type WidgetRenderProps<T extends Mapping = Record<string, unknown>> = {
 export type WidgetResizable =
   | boolean
   | {
-      min?: LayoutItemSize;
-      max?: LayoutItemSize;
+      min?: GridItemSize;
+      max?: GridItemSize;
     };
 
 export type WidgetDescriptor<I extends ID = ID, T extends Mapping = Mapping | EmptyObject> = {
@@ -35,7 +35,7 @@ export type WidgetDescriptor<I extends ID = ID, T extends Mapping = Mapping | Em
   appearance: {
     withHoverAnimation?: boolean;
     withoutPadding?: boolean;
-    size: LayoutItemSize;
+    size: GridItemSize;
     resizable: WidgetResizable;
   };
 };

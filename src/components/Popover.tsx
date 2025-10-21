@@ -32,6 +32,7 @@ import {
 } from "react";
 import { mergeRefs } from "react-merge-refs";
 import "./Popover.scss";
+import type { Mapping } from "@anori/utils/types";
 import classNames from "clsx";
 
 export type PopoverProps<D = undefined> = {
@@ -67,7 +68,7 @@ export const Popover = <D = undefined>({
     throw new Error("Popover children should be single element");
   }
 
-  const childrenReactElement = children as ReactElement<Record<string, unknown>>;
+  const childrenReactElement = children as ReactElement<Mapping>;
 
   const [open, setOpen] = useState(false);
 

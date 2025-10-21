@@ -4,7 +4,8 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
-import { type LayoutItemSize, type Position, positionToPixelPosition, snapToSector } from "@anori/utils/grid";
+import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
+import { positionToPixelPosition, snapToSector } from "@anori/utils/grid/utils";
 import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
 import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
@@ -72,13 +73,13 @@ type WidgetCardProps<WD extends WidgetDescriptor[], W extends WD[number]> = {
       type: "widget";
       config: ConfigFromWidgetDescriptor<W>;
       instanceId: string;
-      size: LayoutItemSize;
-      position: Position;
+      size: GridItemSize;
+      position: GridPosition;
       onUpdateConfig: (config: Partial<ConfigFromWidgetDescriptor<W>>) => void;
       onRemove?: () => void;
       onEdit?: () => void;
       onResize?: (newWidth: number, newHeight: number) => boolean | undefined;
-      onPositionChange?: (newPosition: Position) => void;
+      onPositionChange?: (newPosition: GridPosition) => void;
       onMoveToFolder?: (folderId: string) => void;
     }
 ) &

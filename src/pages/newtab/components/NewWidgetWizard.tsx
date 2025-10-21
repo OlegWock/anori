@@ -8,7 +8,8 @@ import { WidgetCard } from "@anori/components/WidgetCard";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
-import { type GridDimensions, type Layout, findPositionForItemInGrid } from "@anori/utils/grid";
+import type { GridContent, GridDimensions } from "@anori/utils/grid/types";
+import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
 import { isWidgetNonConfigurable } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
@@ -21,7 +22,7 @@ import { useTranslation } from "react-i18next";
 export type NewWidgetWizardProps = {
   folder: Folder;
   gridDimensions: GridDimensions;
-  layout: Layout;
+  layout: GridContent;
   onClose: () => void;
 };
 
