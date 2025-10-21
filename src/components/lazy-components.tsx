@@ -17,7 +17,7 @@ const loaders = {
   NewWidgetWizard: cachedPromiseFunc(() =>
     import("../pages/newtab/components/NewWidgetWizard").then((m) => m.NewWidgetWizard),
   ),
-} satisfies Record<string, () => CachedPromiseFuncReturn<ComponentType<any>>>;
+} as const;
 
 export const scheduleLazyComponentsPreload = () => {
   const triggerPreload = () => {

@@ -1,3 +1,4 @@
+import type { Mapping } from "@anori/utils/types";
 import { type RefObject, useCallback, useLayoutEffect, useState } from "react";
 import { useMirrorStateToRef } from "./hooks";
 
@@ -24,8 +25,8 @@ export type PixelPosition = {
   y: number;
 };
 
-export type LayoutItem<T extends {} = Record<string, unknown>> = Position & LayoutItemSize & T;
-export type Layout<T extends {} = Record<string, unknown>> = LayoutItem<T>[];
+export type LayoutItem<T extends Mapping = Record<string, unknown>> = Position & LayoutItemSize & T;
+export type Layout<T extends Mapping = Record<string, unknown>> = LayoutItem<T>[];
 
 type Grid2DArray = boolean[][];
 
@@ -151,7 +152,7 @@ export const layoutTo2DArray = ({
   grid,
   layout,
   allowOverlay = false,
-}: { grid: Pick<GridDimensions, "columns" | "rows">; layout: Layout<any>; allowOverlay?: boolean }): Grid2DArray => {
+}: { grid: Pick<GridDimensions, "columns" | "rows">; layout: Layout; allowOverlay?: boolean }): Grid2DArray => {
   const arr = [...Array(grid.rows)].map(() => {
     return [...Array(grid.columns)].map(() => false);
   });
@@ -171,7 +172,7 @@ export const layoutTo2DArray = ({
   return arr;
 };
 
-export const findOverlapItems = <T extends {}>(layout: Layout<T>): LayoutItem<T>[] => {
+export const findOverlapItems = <T extends Mapping>(layout: Layout<T>): LayoutItem<T>[] => {
   const overlapItems: LayoutItem<T>[] = [];
   const arr: boolean[][] = [];
   for (const item of layout) {

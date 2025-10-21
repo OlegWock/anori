@@ -61,7 +61,7 @@
                 "useErrorMessage": "error",
                 "noConfusingVoidType": "off",
                 "noArrayIndexKey": "off",
-                "noExplicitAny": "off",
+                "noExplicitAny": "error",
                 "noThenProperty": "off"
             },
             "a11y": {

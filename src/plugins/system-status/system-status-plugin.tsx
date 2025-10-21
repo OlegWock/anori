@@ -1,28 +1,26 @@
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { translate } from "@anori/translations/index";
+import { isChromeLike } from "@anori/utils/browser";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { EmptyObject } from "@anori/utils/types";
 import { useState } from "react";
 import { useEffect } from "react";
 import browser from "webextension-polyfill";
-
-type CpuTime = {
-  idle: number;
-  kernel: number;
-  total: number;
-  user: number;
-};
 
 const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
 
 const avg = (arr: number[]) => (arr.length === 0 ? 0 : sum(arr) / arr.length);
 
-const CpuWidgetScreen = (_props: WidgetRenderProps) => {
+const CpuWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
   const [load, setLoad] = useState(0);
   useEffect(() => {
     const load = async () => {
-      // @ts-ignore I couldn't make proper declarations for system.* APIs and it's just one time usage...
-      const results = (await browser.system.cpu.getInfo()) as any;
-      const cpuTime: CpuTime[] = results.processors.map((t: any) => t.usage);
+      if (!isChromeLike(browser)) {
+        return;
+      }
+      const results = await browser.system.cpu.getInfo();
+      const cpuTime: CpuTime[] = results.processors.map((t) => t.usage);
       if (lastResults) {
         const load = lastResults.map((last, ind) => {
           const current = cpuTime[ind];
@@ -56,11 +54,13 @@ const CpuWidgetScreen = (_props: WidgetRenderProps) => {
   );
 };
 
-const MemoryWidgetScreen = (_props: WidgetRenderProps) => {
+const MemoryWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
   const [allocatedMemory, setAllocatedMemory] = useState(0);
   useEffect(() => {
     const load = async () => {
-      // @ts-ignore I couldn't make proper declarations for system.* APIs and it's just one time usage...
+      if (!isChromeLike(browser)) {
+        return;
+      }
       const results = await browser.system.memory.getInfo();
       const usedCapacity = results.capacity - results.availableCapacity;
       setAllocatedMemory(usedCapacity / results.capacity);
@@ -80,7 +80,7 @@ const MemoryWidgetScreen = (_props: WidgetRenderProps) => {
   );
 };
 
-const cpuWidgetDescriptor = {
+const cpuWidgetDescriptor = defineWidget({
   id: "cpu-load-status",
   get name() {
     return translate("system-status-plugin.cpuLoad");
@@ -95,9 +95,9 @@ const cpuWidgetDescriptor = {
   configurationScreen: null,
   mainScreen: CpuWidgetScreen,
   mock: () => <CpuWidgetScreen config={{}} instanceId="mock" />,
-} satisfies WidgetDescriptor;
+});
 
-const ramWidgetDescriptor = {
+const ramWidgetDescriptor = defineWidget({
   id: "ram-load-status",
   get name() {
     return translate("system-status-plugin.ramLoad");
@@ -112,13 +112,12 @@ const ramWidgetDescriptor = {
   configurationScreen: null,
   mainScreen: MemoryWidgetScreen,
   mock: () => <MemoryWidgetScreen config={{}} instanceId="mock" />,
-} satisfies WidgetDescriptor;
+});
 
-export const systemStatusPlugin = {
+export const systemStatusPlugin = definePlugin({
   id: "system-status-plugin",
   get name() {
     return translate("system-status-plugin.name");
   },
-  widgets: [cpuWidgetDescriptor, ramWidgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(cpuWidgetDescriptor, ramWidgetDescriptor);

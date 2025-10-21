@@ -15,6 +15,6 @@ export const mountPage = (element: ReactNode) => {
   };
 };
 
-export const combineRefs = (...args: (Ref<any> | undefined)[]) => {
+export const combineRefs = <T>(...args: (Ref<T> | undefined)[]) => {
   return mergeRefs(args.filter((a) => !!a));
 };

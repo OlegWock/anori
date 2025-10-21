@@ -3,7 +3,7 @@ export const loadTextAsset = async (url: string): Promise<string> => {
   return response.text();
 };
 
-export type IpInfo = {
+type IpInfoApiResponse = {
   ip: string;
   hostname: string;
   city: string;
@@ -14,13 +14,16 @@ export type IpInfo = {
   postal: string;
   timezone: string;
   readme: string;
+};
+
+export type IpInfo = IpInfoApiResponse & {
   lat: number | undefined;
   long: number | undefined;
 };
 
 export const getIpInfo = async (): Promise<IpInfo> => {
   const resp = await fetch("https://ipinfo.io/json");
-  const json = (await resp.json()) as any;
+  const json = (await resp.json()) as IpInfoApiResponse;
 
   const [lat, long] = json.loc.includes(",")
     ? json.loc.split(",").map((i: string) => Number.parseInt(i))

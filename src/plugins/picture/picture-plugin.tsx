@@ -1,24 +1,20 @@
 import { Button } from "@anori/components/Button";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Input } from "@anori/components/Input";
 import { translate } from "@anori/translations/index";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-type PicturePluginWidgetConfigType = {
+type PicturePluginWidgetConfig = {
   url: string;
 };
 
 const PictureConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<PicturePluginWidgetConfigType>) => {
+}: WidgetConfigurationScreenProps<PicturePluginWidgetConfig>) => {
   const { t } = useTranslation();
   const [url, setUrl] = useState(currentConfig?.url ?? "https://picsum.photos/800");
 
@@ -42,7 +38,7 @@ const PictureConfigScreen = ({
   );
 };
 
-const PicturePlugin = ({ config }: WidgetRenderProps<PicturePluginWidgetConfigType>) => {
+const PicturePlugin = ({ config }: WidgetRenderProps<PicturePluginWidgetConfig>) => {
   const { t } = useTranslation();
   return (
     <div className="PictureWidget">
@@ -51,7 +47,7 @@ const PicturePlugin = ({ config }: WidgetRenderProps<PicturePluginWidgetConfigTy
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "widget",
   get name() {
     return translate("picture-plugin.widgetName");
@@ -76,13 +72,12 @@ const widgetDescriptor = {
     },
     resizable: true,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-export const picturePlugin = {
+export const picturePlugin = definePlugin({
   id: "picture-plugin",
   get name() {
     return translate("picture-plugin.name");
   },
-  widgets: [widgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor);

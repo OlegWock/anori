@@ -1,9 +1,30 @@
-import { type Folder, type FolderDetailsInStorage, homeFolder } from "@anori/utils/user-data/types";
+import type { EmptyObject } from "@anori/utils/types";
+import {
+  type Folder,
+  type FolderDetailsInStorage,
+  type StorageContent,
+  homeFolder,
+} from "@anori/utils/user-data/types";
 import browser from "webextension-polyfill";
 
-export const globalStorageCache = {
-  loaded: false,
-  content: {} as any,
+// biome-ignore lint/suspicious/noExplicitAny: Since migration often works with data of shape that no longer matches our types, there is little sense in trying to type it properly
+type LegalAny = any;
+
+type GlobalStorageCache =
+  | {
+      loaded: false;
+      content: EmptyObject;
+    }
+  | {
+      loaded: true;
+      content: StorageContent;
+    };
+
+export const globalStorageCacheRef: { current: GlobalStorageCache } = {
+  current: {
+    loaded: false,
+    content: {},
+  },
 };
 
 export const loadAndMigrateStorage = async () => {
@@ -13,16 +34,24 @@ export const loadAndMigrateStorage = async () => {
     await browser.storage.local.set(storage);
   }
 
-  globalStorageCache.content = storage;
-  globalStorageCache.loaded = true;
+  globalStorageCacheRef.current = {
+    loaded: true,
+    content: storage,
+  };
+
   browser.storage.local.onChanged.addListener((changes) => {
     Object.entries(changes).forEach(([key, { newValue }]) => {
-      globalStorageCache.content[key] = newValue;
+      if (globalStorageCacheRef.current.loaded) {
+        // @ts-expect-error Can't properly type this without overriding webextension-polyfill types
+        globalStorageCacheRef.current.content[key] = newValue;
+      }
     });
   });
 };
 
-export const migrateStorage = (oldStorage: any): any => {
+export const migrateStorage = (
+  oldStorage: LegalAny,
+): { madeChanges: boolean; storage: StorageContent; version: number } => {
   const currentVersion: number = oldStorage.storageVersion ?? 0;
   const { version, storage } = migrations.reduce(
     ({ version, storage }, migration) => {
@@ -46,13 +75,13 @@ export const migrateStorage = (oldStorage: any): any => {
 
 type Migration = {
   v: number;
-  migrate: (storage: any) => Record<string, any>;
+  migrate: (storage: LegalAny) => Record<string, LegalAny>;
 };
 
 const migrations: Migration[] = [
   {
     v: 1,
-    migrate: (storage: any) => {
+    migrate: (storage: LegalAny) => {
       const customFolders = storage.folders || [];
       const folders: Folder[] = [homeFolder, ...customFolders];
       folders.map((folder) => {
@@ -81,12 +110,12 @@ const migrations: Migration[] = [
   },
   {
     v: 2,
-    migrate: (storage: any) => {
+    migrate: (storage: LegalAny) => {
       const customFolders = storage.folders || [];
       const folders: Folder[] = [homeFolder, ...customFolders];
       folders.map((folder) => {
         const details: FolderDetailsInStorage = storage[`Folder.${folder.id}`] || { widgets: [] };
-        details.widgets.forEach((w: any) => {
+        details.widgets.forEach((w: LegalAny) => {
           if (w.pluginId === "datetime-plugin" && ["HH:mm:ss a", "HH:mm:ss A"].includes(w.configutation.timeFormat)) {
             w.configutation.timeFormat = w.configutation.timeFormat.replace("HH", "hh");
           }
@@ -98,7 +127,7 @@ const migrations: Migration[] = [
   },
   {
     v: 3,
-    migrate: (storage: any) => {
+    migrate: (storage: LegalAny) => {
       const customFolders = storage.folders || [];
       const folders: Folder[] = [homeFolder, ...customFolders];
       folders.map((folder) => {
@@ -111,12 +140,12 @@ const migrations: Migration[] = [
   },
   {
     v: 4,
-    migrate: (storage: any) => {
+    migrate: (storage: LegalAny) => {
       const customFolders = storage.folders || [];
       const folders: Folder[] = [homeFolder, ...customFolders];
       folders.map((folder) => {
         const details: FolderDetailsInStorage = storage[`Folder.${folder.id}`] || { widgets: [] };
-        details.widgets.forEach((w: any) => {
+        details.widgets.forEach((w: LegalAny) => {
           w.configuration = w.configutation;
           // biome-ignore lint/performance/noDelete: We want to remove this prop from storage
           delete w.configutation;
@@ -128,7 +157,7 @@ const migrations: Migration[] = [
   },
   {
     v: 5,
-    migrate: (storage: any) => {
+    migrate: (storage: LegalAny) => {
       const customFolders = storage.folders || [];
       const folders: Folder[] = [homeFolder, ...customFolders];
       folders.map((folder) => {

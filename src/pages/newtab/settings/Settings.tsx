@@ -36,22 +36,24 @@ import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
-import { usePluginConfig } from "@anori/utils/plugin";
+import { usePluginConfig } from "@anori/utils/plugins/config";
+import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
 import { migrateStorage } from "@anori/utils/storage/migrations";
+import type { Mapping } from "@anori/utils/types";
 import {
   CUSTOM_THEMES_FOLDER_NAME,
   deleteAllThemeBackgrounds,
   getAllCustomThemeBackgroundFiles,
   saveThemeBackground,
 } from "@anori/utils/user-data/theme";
-import { type AnoriPlugin, homeFolder } from "@anori/utils/user-data/types";
+import { homeFolder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";
 import { atom, useAtom, useSetAtom } from "jotai";
 import JSZip from "jszip";
 import moment from "moment-timezone";
-import { type ComponentProps, useEffect, useMemo, useState } from "react";
+import { type ComponentProps, type ComponentType, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { FolderItem } from "./FolderItem";
 import { License } from "./License";
@@ -129,16 +131,20 @@ const MainScreen = (props: ComponentProps<typeof m.div>) => {
   );
 };
 
-const PluginConfigurationSection = <T extends {}>({ plugin }: { plugin: AnoriPlugin<T> }) => {
+const PluginConfigurationSection = <T extends Mapping>({ plugin }: { plugin: AnoriPlugin<string, T> }) => {
   const [config, setConfig, isLoaded] = usePluginConfig(plugin);
-  if (!plugin.configurationScreen || !isLoaded) return null;
+  if (plugin.configurationScreen && isLoaded) {
+    // TODO: repalace this type assertion with proper type guard
+    const ConfigScreen = plugin.configurationScreen as ComponentType<PluginConfigurationScreenProps<T>>;
+    return (
+      <section>
+        <h2>{plugin.name}</h2>
+        <ConfigScreen currentConfig={config} saveConfiguration={setConfig} />
+      </section>
+    );
+  }
 
-  return (
-    <section>
-      <h2>{plugin.name}</h2>
-      <plugin.configurationScreen currentConfig={config} saveConfiguration={setConfig} />
-    </section>
-  );
+  return null;
 };
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {

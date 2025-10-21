@@ -107,7 +107,7 @@ export const Tooltip = ({
     right: { translateX: -5 },
   }[placement.includes("-") ? placement.split("-")[0] : placement];
 
-  const refsToMerge: Ref<any>[] = [refs.setReference];
+  const refsToMerge: Ref<Element>[] = [refs.setReference];
   if (targetRef) refsToMerge.push(targetRef);
   const mergedRef = mergeRefs(refsToMerge);
   const content = typeof label === "function" ? label() : label;

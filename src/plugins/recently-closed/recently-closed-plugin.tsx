@@ -1,4 +1,3 @@
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { RelativeTime } from "@anori/components/RelativeTime";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
@@ -8,6 +7,9 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { wait } from "@anori/utils/misc";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { EmptyObject } from "@anori/utils/types";
 import { m, useAnimationControls } from "framer-motion";
 import moment from "moment-timezone";
 import { useMemo, useState } from "react";
@@ -73,7 +75,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   );
 };
 
-const WidgetScreen = ({ instanceId }: WidgetRenderProps) => {
+const WidgetScreen = ({ instanceId }: WidgetRenderProps<EmptyObject>) => {
   const [sessions, setSessions] = useState<browser.Sessions.Session[]>([]);
   const { t } = useTranslation();
 
@@ -117,7 +119,7 @@ const WidgetScreen = ({ instanceId }: WidgetRenderProps) => {
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "recently-closed-widget",
   get name() {
     return translate("recently-closed-plugin.name");
@@ -139,13 +141,12 @@ const widgetDescriptor = {
     </RequirePermissions>
   ),
   mock: () => <WidgetScreen config={{}} instanceId="mock" />,
-} satisfies WidgetDescriptor;
+});
 
-export const recentlyClosedPlugin = {
+export const recentlyClosedPlugin = definePlugin({
   id: "recently-closed-plugin",
   get name() {
     return translate("recently-closed-plugin.name");
   },
-  widgets: [widgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor);

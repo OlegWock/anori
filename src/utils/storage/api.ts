@@ -1,7 +1,8 @@
+import type { Mapping } from "@anori/utils/types";
 import { type SetStateAction, type WritableAtom, atom, getDefaultStore, useAtom } from "jotai";
 import browser, { type Storage } from "webextension-polyfill";
 import type { StorageContent } from "../user-data/types";
-import { globalStorageCache } from "./migrations";
+import { globalStorageCacheRef } from "./migrations";
 
 type StorageKey = keyof StorageContent;
 
@@ -24,12 +25,12 @@ export const storage = {
   get: async <T extends StorageKey>(query: StorageQueryForKeys<T>): Promise<Required<StorageQueryForKeys<T>>> => {
     return browser.storage.local.get(query) as Promise<Required<StorageQueryForKeys<T>>>;
   },
-  getDynamic: async <T extends Record<string, any>>(query: T): Promise<T> => {
+  getDynamic: async <T extends Record<string, unknown>>(query: T): Promise<T> => {
     return browser.storage.local.get(query) as Promise<T>;
   },
   getOne: async <K extends StorageKey>(key: K): Promise<StorageContent[K] | undefined> => {
-    if (globalStorageCache.loaded) {
-      return globalStorageCache.content[key] as StoageValue<K>;
+    if (globalStorageCacheRef.current.loaded) {
+      return globalStorageCacheRef.current.content[key] as StoageValue<K>;
     }
     const res = await browser.storage.local.get(key);
     return res[key];
@@ -68,7 +69,7 @@ export const storage = {
   },
 };
 
-const storageAtoms: Record<string, AtomWithBrowserStorage<any>> = {};
+const storageAtoms: Record<string, AtomWithBrowserStorage<unknown>> = {};
 
 export const useBrowserStorageValue = <K extends StorageKey>(name: K, defaultValue: StorageContent[K]) => {
   if (!storageAtoms[name]) {
@@ -131,13 +132,14 @@ export const atomWithBrowserStorage = <V>(
     currentValue: SYMBOL_NOT_LOADED,
   };
 
-  if (globalStorageCache.loaded) {
+  if (globalStorageCacheRef.current.loaded) {
     isLoaded = false;
+    const value = globalStorageCacheRef.current.content[key as StorageKey] as V;
     atomValue = {
       defaultValue,
-      currentValue: globalStorageCache.content[key] === undefined ? SYMBOL_NO_VALUE : globalStorageCache.content[key],
+      currentValue: value === undefined ? SYMBOL_NO_VALUE : value,
     };
-    if (onLoad) onLoad(globalStorageCache.content[key]);
+    if (onLoad) onLoad(value);
   }
 
   const baseAtom = atom<AtomWithBrowserStorageMeta<V>>(atomValue);
@@ -230,7 +232,7 @@ export const atomWithBrowserStorageStatic = <K extends StorageKey>(
   return atomWithBrowserStorage<StorageContent[K]>(key, initialValue, options);
 };
 
-export const focusAtomWithStorage = <T extends {}, K extends keyof T>(
+export const focusAtomWithStorage = <T extends Mapping, K extends keyof T>(
   storageAtom: AtomWithBrowserStorage<T>,
   key: K,
   defaultValue: Required<T>[K],

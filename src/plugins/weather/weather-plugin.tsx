@@ -1,10 +1,4 @@
 import { Button } from "@anori/components/Button";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import { useMemo, useState } from "react";
 import "./styles.scss";
 import { Combobox } from "@anori/components/Combobox";
@@ -15,7 +9,9 @@ import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
-import { useWidgetStorage } from "@anori/utils/plugin";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import { useWidgetStorage } from "@anori/utils/plugins/storage";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { capitalize } from "@anori/utils/strings";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import moment from "moment";
@@ -31,7 +27,7 @@ import {
   searchCity,
 } from "./api";
 
-type PluginWidgetConfigType = {
+type WeatherWidgetConfig = {
   location: City;
   temperatureUnit: Temperature;
   speedUnit: Speed;
@@ -107,7 +103,7 @@ const mockWeather = {
 const WidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<PluginWidgetConfigType>) => {
+}: WidgetConfigurationScreenProps<WeatherWidgetConfig>) => {
   const onConfirm = () => {
     if (!selectedCity) return;
     saveConfiguration({
@@ -183,7 +179,7 @@ const WidgetConfigScreen = ({
   );
 };
 
-const useCurrentWeather = (config: PluginWidgetConfigType) => {
+const useCurrentWeather = (config: WeatherWidgetConfig) => {
   const store = useWidgetStorage<{ weather: CurrentWeather & { lastUpdated: number } }>();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -224,7 +220,7 @@ const useCurrentWeather = (config: PluginWidgetConfigType) => {
   };
 };
 
-const useForecastWeather = (config: PluginWidgetConfigType) => {
+const useForecastWeather = (config: WeatherWidgetConfig) => {
   const store = useWidgetStorage<{ weather: { forecast: WeatherForecast[]; lastUpdated: number } }>();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -286,7 +282,7 @@ const useForecastWeather = (config: PluginWidgetConfigType) => {
   };
 };
 
-const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
+const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
   const { weather } = instanceId === "mock" ? mockWeather : useCurrentWeather(config);
   const { rem } = useSizeSettings();
   const { t } = useTranslation();
@@ -328,7 +324,7 @@ const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<PluginWidge
   );
 };
 
-const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfigType>) => {
+const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
   const mockForecast = useMemo(
     () => ({
       forecast: [
@@ -435,7 +431,7 @@ const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<PluginWidg
   );
 };
 
-export const weatherWidgetDescriptorCurrent = {
+export const weatherWidgetDescriptorCurrent = defineWidget({
   id: "weather-current",
   get name() {
     return translate("weather-plugin.currentWeather");
@@ -454,9 +450,9 @@ export const weatherWidgetDescriptorCurrent = {
       height: 1,
     },
   },
-} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
+});
 
-export const weatherWidgetDescriptorForecast = {
+export const weatherWidgetDescriptorForecast = defineWidget({
   id: "weather-forecast",
   get name() {
     return translate("weather-plugin.weatherForecast");
@@ -475,13 +471,12 @@ export const weatherWidgetDescriptorForecast = {
       height: 4,
     },
   },
-} as const satisfies WidgetDescriptor<PluginWidgetConfigType>;
+});
 
-export const weatherPlugin = {
+export const weatherPlugin = definePlugin({
   id: "weather-plugin",
   get name() {
     return translate("weather-plugin.name");
   },
-  widgets: [weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast);

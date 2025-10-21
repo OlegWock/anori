@@ -1,13 +1,27 @@
 import { type DndItemMeta, getCurrentDraggable, useCurrentDrop } from "@anori/utils/drag-and-drop";
-import { type JSXElementConstructor, type ReactElement, cloneElement, forwardRef } from "react";
+import {
+  type JSXElementConstructor,
+  type PointerEvent,
+  type ReactElement,
+  type Ref,
+  cloneElement,
+  forwardRef,
+} from "react";
 import { mergeRefs } from "react-merge-refs";
 
-type DropDestinationProps = {
+type ChildProps = {
+  ref?: Ref<HTMLElement>;
+  onPointerEnter?: (e: PointerEvent<HTMLElement>) => void;
+  onPointerLeave?: (e: PointerEvent<HTMLElement>) => void;
+  [key: string]: unknown;
+};
+
+type DropDestinationProps<T = unknown> = {
   type: string;
   id: string;
-  children: ReactElement<any, string | JSXElementConstructor<any>>;
+  children: ReactElement<ChildProps, string | JSXElementConstructor<ChildProps>>;
   filter?: string | string[];
-  data?: any;
+  data?: T;
   onDragEnter?: (info: DndItemMeta) => void;
   onDragLeave?: (info: DndItemMeta, reason: "move" | "drop") => void;
   onDrop?: (info: DndItemMeta) => void;
@@ -15,8 +29,8 @@ type DropDestinationProps = {
 
 export const DropDestination = forwardRef<HTMLElement, DropDestinationProps>(
   ({ type, data, filter, children, onDragEnter, onDragLeave, id, onDrop }, ref) => {
-    const mergeListeners = (...funcs: ((...args: any[]) => any | undefined)[]) => {
-      return (...args: any) => {
+    const mergeListeners = <T extends unknown[]>(...funcs: (((...args: T) => void) | undefined)[]) => {
+      return (...args: T) => {
         funcs.forEach((f) => {
           if (f) f(...args);
         });
@@ -35,7 +49,7 @@ export const DropDestination = forwardRef<HTMLElement, DropDestinationProps>(
       if (onDragLeave) onDragLeave(draggable, "drop");
     };
 
-    const onPointerEnter = () => {
+    const onPointerEnter = (_e: PointerEvent<HTMLElement>) => {
       const draggable = getCurrentDraggable();
       if (checkAgainstFilter(draggable)) {
         setCurrentDrop({
@@ -47,7 +61,7 @@ export const DropDestination = forwardRef<HTMLElement, DropDestinationProps>(
         if (onDragEnter) onDragEnter(draggable);
       }
     };
-    const onPointerLeave = () => {
+    const onPointerLeave = (_e: PointerEvent<HTMLElement>) => {
       const draggable = getCurrentDraggable();
       if (checkAgainstFilter(draggable)) {
         if (currentDrop?.id === id) setCurrentDrop(null);

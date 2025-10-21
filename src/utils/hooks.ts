@@ -177,7 +177,7 @@ export const useLazyRef = <T>(init: () => T): RefObject<T> => {
   return ref as RefObject<T>;
 };
 
-export const useAsyncEffect = (func: () => any, deps?: DependencyList | undefined) => {
+export const useAsyncEffect = (func: () => unknown, deps?: DependencyList | undefined) => {
   // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
   // biome-ignore lint/correctness/useExhaustiveDependencies: func is not in dependencies intentionally
   useEffect(() => {
@@ -185,7 +185,7 @@ export const useAsyncEffect = (func: () => any, deps?: DependencyList | undefine
   }, deps);
 };
 
-export const useAsyncLayoutEffect = (func: () => any, deps?: DependencyList | undefined) => {
+export const useAsyncLayoutEffect = (func: () => unknown, deps?: DependencyList | undefined) => {
   // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
   // biome-ignore lint/correctness/useExhaustiveDependencies: func is not in dependencies intentionally
   useLayoutEffect(() => {

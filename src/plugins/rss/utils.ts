@@ -1,6 +1,6 @@
 import { cachedFunc } from "@anori/utils/misc";
 import type { NamespacedStorage } from "@anori/utils/namespaced-storage";
-import { useWidgetStorage } from "@anori/utils/plugin";
+import { useWidgetStorage } from "@anori/utils/plugins/storage";
 import moment from "moment-timezone";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

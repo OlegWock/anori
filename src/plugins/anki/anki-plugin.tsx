@@ -3,24 +3,31 @@ import { Button } from "@anori/components/Button";
 import { Icon } from "@anori/components/icon/Icon";
 import { translate } from "@anori/translations/index";
 import { useAsyncEffect } from "@anori/utils/hooks";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./styles.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { Mapping } from "@anori/utils/types";
 
 type AnkiPluginWidgetConfigType = {
   deckName: string;
 };
 
-const callAnkiConnectApi = async <T = void>(action: string, version: number, params?: any): Promise<T> => {
+type AnkiCardInfo = {
+  question: string;
+  answer: string;
+  cardId: number;
+  deckName: string;
+  fields: Record<string, { value: string; order: number }>;
+  modelName: string;
+  note: number;
+};
+
+const callAnkiConnectApi = async <T = void>(action: string, version: number, params?: Mapping): Promise<T> => {
   try {
     const response = await fetch("http://127.0.0.1:8765", {
       method: "POST",
@@ -70,8 +77,8 @@ const wrapCardHtml = (html: string) => {
     </div>`;
 };
 
-const getCardInfo = async (cardId: number) => {
-  const data = await callAnkiConnectApi<any>("cardsInfo", 6, {
+const getCardInfo = async (cardId: number): Promise<AnkiCardInfo> => {
+  const data = await callAnkiConnectApi<AnkiCardInfo[]>("cardsInfo", 6, {
     cards: [cardId],
   });
   return data[0];
@@ -137,7 +144,7 @@ const WidgetConfigScreen = ({
 const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
   const { t } = useTranslation();
 
-  const [currentCard, setCurrentCard] = useState<any>({});
+  const [currentCard, setCurrentCard] = useState<AnkiCardInfo | null>(null);
   const [cardsToLearn, setCardsToLearn] = useState<number[]>([]);
   const [currentScreen, setCurrentScreen] = useState<"question" | "answer">("question");
   const [reachable, setReachable] = useState(true);
@@ -204,7 +211,7 @@ const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) =
             </div>
           </div>
 
-          {currentCard[currentScreen] ? (
+          {currentCard?.[currentScreen] ? (
             <iframe srcDoc={wrapCardHtml(currentCard[currentScreen])} title="Anki card" />
           ) : (
             <div className="spacer" />
@@ -268,7 +275,7 @@ const MockScreen = () => {
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "anki-widget",
   get name() {
     return translate("anki-plugin.widgetName");
@@ -292,13 +299,12 @@ const widgetDescriptor = {
       },
     },
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-export const ankiPlugin = {
+export const ankiPlugin = definePlugin({
   id: "anki-plugin",
   get name() {
     return translate("anki-plugin.name");
   },
-  widgets: [widgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor);

@@ -20,9 +20,10 @@ import { type GridDimensions, type LayoutItemSize, type Position, canPlaceItemIn
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
+import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
 import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
-import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
 import { type ComponentProps, forwardRef, useEffect, useState } from "react";
@@ -54,16 +55,16 @@ const navigationButtonVariants = {
 
 export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions }) => {
   const applyPreset = async () => {
-    const addIfPossible = <T extends {}>({
+    const addIfPossible = <WD extends WidgetDescriptor[], W extends WD[number]>({
       plugin,
       widget,
       config,
       position,
       size,
     }: {
-      widget: WidgetDescriptor<T>;
-      plugin: AnoriPlugin<any, T>;
-      config: T;
+      plugin: AnoriPlugin<string, Mapping, WD>;
+      widget: W;
+      config: ConfigFromWidgetDescriptor<W>;
       position: Position;
       size?: LayoutItemSize;
     }) => {
@@ -180,7 +181,6 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
     });
 
     addIfPossible({
-      // @ts-ignore Need to figure out better typing to allow plugins with multiple widets with different config types
       plugin: rssPlugin,
       widget: rssFeedDescriptor,
       config: {

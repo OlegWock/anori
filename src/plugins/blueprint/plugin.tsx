@@ -1,12 +1,8 @@
 import { Button } from "@anori/components/Button";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { translate } from "@anori/translations/index";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useTranslation } from "react-i18next";
 
 type PluginWidgetConfigType = {
@@ -46,7 +42,7 @@ const MainScreen = ({ config, instanceId }: WidgetRenderProps<PluginWidgetConfig
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "widget",
   get name() {
     return translate("blueprint-plugin.widgetName");
@@ -63,13 +59,12 @@ const widgetDescriptor = {
     },
     resizable: false,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-export const pluginnamePlugin = {
+export const pluginnamePlugin = definePlugin({
   id: "pluginname-plugin",
   get name() {
     return translate("blueprint-plugin.name");
   },
-  widgets: [widgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor);

@@ -5,6 +5,12 @@ import { type GridDimensions, type LayoutItemSize, type Position, findPositionFo
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
 import { NamespacedStorage } from "@anori/utils/namespaced-storage";
+import type {
+  AnoriPlugin,
+  ConfigFromWidgetDescriptor,
+  IDFromWidgetDescriptor,
+  WidgetDescriptor,
+} from "@anori/utils/plugins/types";
 import {
   type AtomWithBrowserStorage,
   atomWithBrowserStorage,
@@ -13,15 +19,13 @@ import {
   useAtomWithStorage,
   useBrowserStorageValue,
 } from "@anori/utils/storage/api";
+import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 import {
-  type AnoriPlugin,
   type Folder,
   type FolderDetailsInStorage,
-  type ID,
-  type WidgetDescriptor,
   type WidgetInFolder,
   type WidgetInFolderWithMeta,
   homeFolder,
@@ -133,24 +137,24 @@ export const setFolderDetails = async (id: ID, details: FolderDetailsInStorage) 
 };
 
 export const useFolderWidgets = (folder: Folder) => {
-  const addWidget = <T extends {}>({
+  const addWidget = <WD extends WidgetDescriptor[], W extends WD[number]>({
     plugin,
     widget,
     config,
     position,
     size,
   }: {
-    widget: WidgetDescriptor<T>;
-    plugin: AnoriPlugin<any, T>;
-    config: T;
+    widget: W;
+    plugin: AnoriPlugin<string, Mapping, WD>;
+    config: ConfigFromWidgetDescriptor<W>;
     position: Position;
     size?: LayoutItemSize;
   }) => {
     const instanceId = guid();
 
-    const data: WidgetInFolder<T> = {
+    const data: WidgetInFolder<ID, WD, W> = {
       pluginId: plugin.id,
-      widgetId: widget.id,
+      widgetId: widget.id as IDFromWidgetDescriptor<W>,
       instanceId,
       configuration: config,
       ...(size ? size : widget.appearance.size),
@@ -172,8 +176,7 @@ export const useFolderWidgets = (folder: Folder) => {
     return data;
   };
 
-  const removeWidget = (widgetOrId: WidgetInFolder<any> | ID) => {
-    const id = typeof widgetOrId === "string" ? widgetOrId : widgetOrId.instanceId;
+  const removeWidget = (id: ID) => {
     NamespacedStorage.get(`WidgetStorage.${id}`).clear();
     const removedWidget = details.widgets.find((w) => w.instanceId === id);
     if (removedWidget) {
@@ -191,8 +194,7 @@ export const useFolderWidgets = (folder: Folder) => {
     });
   };
 
-  const moveWidget = (widgetOrId: WidgetInFolder<any> | ID, position: Position) => {
-    const id = typeof widgetOrId === "string" ? widgetOrId : widgetOrId.instanceId;
+  const moveWidget = (id: ID, position: Position) => {
     const movedWidget = details.widgets.find((w) => w.instanceId === id);
     if (movedWidget) {
       trackEvent("Widget moved", {
@@ -218,8 +220,7 @@ export const useFolderWidgets = (folder: Folder) => {
     });
   };
 
-  const resizeWidget = (widgetOrId: WidgetInFolder<any> | ID, size: LayoutItemSize) => {
-    const id = typeof widgetOrId === "string" ? widgetOrId : widgetOrId.instanceId;
+  const resizeWidget = (id: ID, size: LayoutItemSize) => {
     const resizedWidget = details.widgets.find((w) => w.instanceId === id);
     if (resizedWidget) {
       trackEvent("Widget resized", {
@@ -245,8 +246,7 @@ export const useFolderWidgets = (folder: Folder) => {
     });
   };
 
-  const updateWidgetConfig = <T extends {}>(widgetOrId: WidgetInFolder<T> | ID, newConfig: T) => {
-    const id = typeof widgetOrId === "string" ? widgetOrId : widgetOrId.instanceId;
+  const updateWidgetConfig = (id: ID, newConfig: Mapping) => {
     const updatedWidget = details.widgets.find((w) => w.instanceId === id);
     if (updatedWidget) {
       trackEvent("Widget configuration edited", {
@@ -277,7 +277,7 @@ export const useFolderWidgets = (folder: Folder) => {
   const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
   const [details, setDetails, meta] = useAtomWithStorage(atom);
 
-  const widgets: WidgetInFolderWithMeta<any, any, any>[] = useMemo(
+  const widgets: WidgetInFolderWithMeta[] = useMemo(
     () =>
       details.widgets
         .filter((w) => {
@@ -312,7 +312,7 @@ export const useFolderWidgets = (folder: Folder) => {
 export const tryMoveWidgetToFolder = async (
   folderIdFrom: Folder["id"],
   folderIdTo: Folder["id"],
-  widgetInstanceId: WidgetInFolderWithMeta<any, any, any>["instanceId"],
+  widgetInstanceId: WidgetInFolderWithMeta["instanceId"],
   currentGrid: GridDimensions,
 ) => {
   const fromFolderDetails = await getFolderDetails(folderIdFrom);

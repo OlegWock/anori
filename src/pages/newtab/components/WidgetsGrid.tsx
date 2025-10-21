@@ -11,18 +11,19 @@ import {
   positionToPixelPosition,
   willItemOverlay,
 } from "@anori/utils/grid";
-import type { AnoriPlugin, WidgetDescriptor, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
+import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
+import type { Mapping } from "@anori/utils/types";
+import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
 import type { Ref } from "react";
 
-type LayoutArg = {
+type LayoutArg<WD extends WidgetDescriptor[] = WidgetDescriptor[], W extends WD[number] = WD[number]> = {
   pluginId: string;
   widgetId: string;
   instanceId: string;
-  configuration: any;
-} & {
-  plugin: AnoriPlugin<any, any>;
-  widget: WidgetDescriptor<any>;
+  plugin: AnoriPlugin<string, Mapping, WD>;
+  widget: W;
+  configuration: ConfigFromWidgetDescriptor<W>;
 };
 
 export type LayoutChange =
@@ -53,7 +54,7 @@ export type WidgetsGridProps = {
   gapSize: number;
   layout: Layout<LayoutArg>;
   onEditWidget: (w: LayoutItem<LayoutArg>) => void;
-  onUpdateWidgetConfig: (instaceId: string, config: Partial<Record<string, any>>) => void;
+  onUpdateWidgetConfig: (instaceId: string, config: Partial<Mapping>) => void;
   onLayoutUpdate?: (changes: LayoutChange[]) => void;
   showOnboarding?: boolean;
   gridRef?: Ref<HTMLDivElement>;
@@ -72,7 +73,7 @@ export const WidgetsGrid = ({
   gridRef,
   scrollAreaRef,
 }: WidgetsGridProps) => {
-  const tryRepositionWidget = (widget: WidgetInFolderWithMeta<any, any, any>, position: Position) => {
+  const tryRepositionWidget = (widget: WidgetInFolderWithMeta, position: Position) => {
     const canPlaceThere = canPlaceItemInGrid({
       grid: gridDimensions,
       item: widget,
@@ -85,11 +86,7 @@ export const WidgetsGrid = ({
     }
   };
 
-  const tryResizeWidget = (
-    widget: WidgetInFolderWithMeta<any, any, any>,
-    widthInBoxes: number,
-    heightInBoxes: number,
-  ) => {
+  const tryResizeWidget = (widget: WidgetInFolderWithMeta, widthInBoxes: number, heightInBoxes: number) => {
     console.log("Trying to resize widget", widget, `to ${widthInBoxes}x${heightInBoxes}`);
 
     if (widget.x + widthInBoxes > gridDimensions.columns) widthInBoxes = gridDimensions.columns - widget.x;

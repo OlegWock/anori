@@ -1,3 +1,4 @@
+import type { EmptyObject, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import browser from "webextension-polyfill";
 import {
@@ -9,13 +10,13 @@ import {
   useAtomWithStorage,
 } from "./storage/api";
 
-export class NamespacedStorage<T extends {} = Record<string, never>> {
+export class NamespacedStorage<T extends Mapping = Record<string, unknown>> {
   ns: string;
   atom: AtomWithBrowserStorage<Partial<T>>;
   loaded: boolean;
   private _loadingPromise: Promise<void>;
 
-  static get<T extends {} = Record<string, never>>(ns: string): NamespacedStorage<T> {
+  static get<T extends Mapping = EmptyObject>(ns: string): NamespacedStorage<T> {
     const inCache = cache.get(ns);
     if (inCache) {
       return inCache as NamespacedStorage<T>;
