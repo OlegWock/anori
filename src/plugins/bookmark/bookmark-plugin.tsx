@@ -1,13 +1,5 @@
 import { Button } from "@anori/components/Button";
 import { Input } from "@anori/components/Input";
-import type {
-  AnoriPlugin,
-  ID,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetInFolderWithMeta,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import { type MouseEvent, type MouseEventHandler, useRef, useState } from "react";
 import "./styles.scss";
 import { Checkbox } from "@anori/components/Checkbox";
@@ -23,7 +15,6 @@ import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { listItemAnimation } from "@anori/components/animations";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { isChromeLike } from "@anori/utils/browser";
@@ -32,14 +23,14 @@ import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useAsyncEffect, useLinkNavigationState } from "@anori/utils/hooks";
 import { guid, normalizeUrl, parseHost } from "@anori/utils/misc";
 import { usePermissionsQuery } from "@anori/utils/permissions";
-import {
-  createOnMessageHandlers,
-  getAllWidgetsByPlugin,
-  getWidgetStorage,
-  useWidgetMetadata,
-  useWidgetStorage,
-} from "@anori/utils/plugin";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/utils/plugins/dnr";
+import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
+import { getWidgetStorage, useWidgetStorage } from "@anori/utils/plugins/storage";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
+import { getAllWidgetsByPlugin, useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { isMacLike } from "@anori/utils/shortcuts";
+import type { ID } from "@anori/utils/types";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
@@ -47,7 +38,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 
-type BookmarkWidgetConfigType = {
+type BookmarkWidgetConfig = {
   url: string;
   title: string;
   icon: string;
@@ -55,13 +46,13 @@ type BookmarkWidgetConfigType = {
   openInNewTab?: boolean;
 };
 
-type BookmarkWidgetStorageType = {
+type BookmarkWidgetStorage = {
   status: "up" | "down" | "loading";
   lastCheck?: number;
   lastStatusChange?: number;
 };
 
-type BookmarkGroupWidgetConfigType = {
+type BookmarkGroupWidgetConfig = {
   title: string;
   icon: string;
   openInTabGroup: boolean;
@@ -93,17 +84,17 @@ const getPageStatus = async (url: string): Promise<"up" | "down"> => {
 
 const updateStatusesForTrackedPages = async () => {
   const widgets = await getAllWidgetsByPlugin(bookmarkPlugin);
-  const widgetsToCheck = widgets.filter((w) => {
-    return w.widgetId === bookmarkWidgetDescriptor.id && (w.configuration as BookmarkWidgetConfigType).checkStatus;
-  }) as WidgetInFolderWithMeta<BookmarkWidgetConfigType, Record<string, never>, BookmarkWidgetConfigType>[];
+  const widgetsToCheck = widgets
+    .filter((w) => w.widgetId === bookmarkWidgetDescriptor.id)
+    .filter((w) => w.configuration.checkStatus);
 
   const promises = widgetsToCheck.map(async (w) => {
-    const store = getWidgetStorage<BookmarkWidgetStorageType>(w.instanceId);
+    const store = getWidgetStorage<BookmarkWidgetStorage>(w.instanceId);
     await store.waitForLoad();
     const currentStatus = store.get("status");
     store.set("status", "loading");
     const newStatus = await getPageStatus(normalizeUrl(w.configuration.url));
-    const updatePayload: Partial<BookmarkWidgetStorageType> = {
+    const updatePayload: Partial<BookmarkWidgetStorage> = {
       lastCheck: Date.now(),
       status: newStatus,
     };
@@ -118,12 +109,12 @@ const updateStatusesForTrackedPages = async () => {
 };
 
 const updatePageStatusForWidget = async (instaceId: ID, url: string) => {
-  const store = getWidgetStorage<BookmarkWidgetStorageType>(instaceId);
+  const store = getWidgetStorage<BookmarkWidgetStorage>(instaceId);
   await store.waitForLoad();
   const currentStatus = store.get("status");
   store.set("status", "loading");
   const newStatus = await getPageStatus(normalizeUrl(url));
-  const updatePayload: Partial<BookmarkWidgetStorageType> = {
+  const updatePayload: Partial<BookmarkWidgetStorage> = {
     lastCheck: Date.now(),
     status: newStatus,
   };
@@ -139,7 +130,7 @@ const STATUS_CHECK_INTERVAL_MINUTES = 10;
 const BookmarGroupkWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<BookmarkGroupWidgetConfigType>) => {
+}: WidgetConfigurationScreenProps<BookmarkGroupWidgetConfig>) => {
   const onConfirm = () => {
     const cleanedUrls = urls.map((u) => u.url).filter((u) => !!u);
     if (!title || urls.length === 0) return;
@@ -243,7 +234,7 @@ const BookmarGroupkWidgetConfigScreen = ({
   );
 };
 
-const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetConfigType> & { isMock?: boolean }) => {
+const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetConfig> & { isMock?: boolean }) => {
   const openGroup: MouseEventHandler<HTMLElement> = (e) => {
     trackInteraction("Open group");
     e.preventDefault();
@@ -303,7 +294,7 @@ const BookmarkGroupWidget = ({ config }: WidgetRenderProps<BookmarkGroupWidgetCo
 const BookmarkWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<BookmarkWidgetConfigType>) => {
+}: WidgetConfigurationScreenProps<BookmarkWidgetConfig>) => {
   const onConfirm = () => {
     if (!title || !url) return;
 
@@ -382,7 +373,7 @@ const BookmarkWidget = ({
   config,
   isMock,
   instanceId,
-}: WidgetRenderProps<BookmarkWidgetConfigType> & { isMock?: boolean }) => {
+}: WidgetRenderProps<BookmarkWidgetConfig> & { isMock?: boolean }) => {
   const openIframe = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -413,7 +404,7 @@ const BookmarkWidget = ({
   const [showIframe, setShowIframe] = useState(false);
 
   const { rem } = useSizeSettings();
-  const store = useWidgetStorage<BookmarkWidgetStorageType>();
+  const store = useWidgetStorage<BookmarkWidgetStorage>();
   const { t, i18n } = useTranslation();
   const trackInteraction = useWidgetInteractionTracker();
 
@@ -540,13 +531,13 @@ const BookmarkWidget = ({
   );
 };
 
-export const bookmarkWidgetDescriptor = {
+export const bookmarkWidgetDescriptor = defineWidget({
   id: "bookmark",
   get name() {
     return translate("bookmark-plugin.widgetName");
   },
   configurationScreen: BookmarkWidgetConfigScreen,
-  mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfigType>) => {
+  mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkWidgetConfig>) => {
     const { t } = useTranslation();
     return (
       <RequirePermissions
@@ -586,15 +577,15 @@ export const bookmarkWidgetDescriptor = {
     withHoverAnimation: true,
     withoutPadding: true,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-export const bookmarkGroupWidgetDescriptor = {
+export const bookmarkGroupWidgetDescriptor = defineWidget({
   id: "bookmark-group",
   get name() {
     return translate("bookmark-plugin.groupWidgetName");
   },
   configurationScreen: BookmarGroupkWidgetConfigScreen,
-  mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkGroupWidgetConfigType>) => {
+  mainScreen: ({ config, instanceId }: WidgetRenderProps<BookmarkGroupWidgetConfig>) => {
     return <BookmarkGroupWidget instanceId={instanceId} config={config} isMock={false} />;
   },
   mock: () => {
@@ -624,7 +615,7 @@ export const bookmarkGroupWidgetDescriptor = {
     withHoverAnimation: true,
     withoutPadding: true,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
 const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandlers>("bookmark-plugin", {
   openGroup: async (args, senderTabId) => {
@@ -647,15 +638,11 @@ const { handlers, sendMessage } = createOnMessageHandlers<BookmarksMessageHandle
   },
 });
 
-export const bookmarkPlugin: AnoriPlugin<
-  Record<string, never>,
-  BookmarkWidgetConfigType | BookmarkGroupWidgetConfigType
-> = {
+export const bookmarkPlugin = definePlugin({
   id: "bookmark-plugin",
   get name() {
     return translate("bookmark-plugin.name");
   },
-  widgets: [bookmarkWidgetDescriptor, bookmarkGroupWidgetDescriptor],
   configurationScreen: null,
   onMessage: handlers,
   scheduledCallback: {
@@ -665,4 +652,4 @@ export const bookmarkPlugin: AnoriPlugin<
   onStart: () => {
     plantWebRequestHandler();
   },
-};
+}).withWidgets(bookmarkWidgetDescriptor, bookmarkGroupWidgetDescriptor);

@@ -1,6 +1,7 @@
+import type { EmptyObject } from "@anori/utils/types";
 import type { StorageContent } from "@anori/utils/user-data/types";
 
-type NoParams = Record<string, never>;
+type NoParams = EmptyObject;
 
 export type WidgetsCount = Record<`${"Home" | "Custom"} folder widgets / ${string} / ${string}`, number>;
 

@@ -20,6 +20,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { type ReactElement, type ReactNode, type Ref, cloneElement, useId, useState } from "react";
 import "./Tooltip.scss";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
+import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
 import { mergeRefs } from "react-merge-refs";
 
@@ -30,7 +31,7 @@ interface Props {
   placement?: Placement;
   strategy?: Strategy;
   maxWidth?: number;
-  children: ReactElement<Record<string, unknown>>;
+  children: ReactElement<Mapping>;
   targetRef?: Ref<HTMLElement>;
   hasClickableContent?: boolean;
   ignoreFocus?: boolean;
@@ -107,7 +108,7 @@ export const Tooltip = ({
     right: { translateX: -5 },
   }[placement.includes("-") ? placement.split("-")[0] : placement];
 
-  const refsToMerge: Ref<any>[] = [refs.setReference];
+  const refsToMerge: Ref<Element>[] = [refs.setReference];
   if (targetRef) refsToMerge.push(targetRef);
   const mergedRef = mergeRefs(refsToMerge);
   const content = typeof label === "function" ? label() : label;

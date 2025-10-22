@@ -4,12 +4,14 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
-import { type LayoutItemSize, type Position, positionToPixelPosition, snapToSector } from "@anori/utils/grid";
+import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
+import { positionToPixelPosition, snapToSector } from "@anori/utils/grid/utils";
 import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
 import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
-import { WidgetMetadataContext } from "@anori/utils/plugin";
-import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/user-data/types";
+import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
+import { WidgetMetadataContext } from "@anori/utils/plugins/widget";
+import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
 import { type PanInfo, m, useMotionValue } from "framer-motion";
 import type { ReactNode } from "react";
@@ -27,7 +29,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
     return { hasError: true };
   }
 
-  componentDidCatch(error: any) {
+  componentDidCatch(error: unknown) {
     console.error("Error happened inside widget");
     console.error(error);
   }
@@ -50,9 +52,9 @@ const WidgetCardContext = createContext({
   cardRef: createRef<HTMLDivElement>(),
 });
 
-type WidgetCardProps<T extends {}, PT extends T> = {
-  widget: WidgetDescriptor<T>;
-  plugin: AnoriPlugin<any, PT>;
+type WidgetCardProps<WD extends WidgetDescriptor[], W extends WD[number]> = {
+  widget: W;
+  plugin: AnoriPlugin<string, Mapping, WD>;
 } & (
   | {
       type: "mock";
@@ -69,21 +71,21 @@ type WidgetCardProps<T extends {}, PT extends T> = {
     }
   | {
       type: "widget";
-      config: T;
+      config: ConfigFromWidgetDescriptor<W>;
       instanceId: string;
-      size: LayoutItemSize;
-      position: Position;
-      onUpdateConfig: (config: Partial<T>) => void;
+      size: GridItemSize;
+      position: GridPosition;
+      onUpdateConfig: (config: Partial<ConfigFromWidgetDescriptor<W>>) => void;
       onRemove?: () => void;
       onEdit?: () => void;
       onResize?: (newWidth: number, newHeight: number) => boolean | undefined;
-      onPositionChange?: (newPosition: Position) => void;
+      onPositionChange?: (newPosition: GridPosition) => void;
       onMoveToFolder?: (folderId: string) => void;
     }
 ) &
   Omit<ComponentProps<typeof m.div>, "children" | "onDragEnd" | "onResize">;
 
-export const WidgetCard = <T extends {}, PT extends T>({
+export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>({
   className,
   style,
   widget,
@@ -100,7 +102,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
   onPositionChange,
   onMoveToFolder,
   ...props
-}: WidgetCardProps<T, PT>) => {
+}: WidgetCardProps<WD, W>) => {
   const startResize = () => {
     setIsResizing(true);
   };
@@ -312,7 +314,7 @@ export const WidgetCard = <T extends {}, PT extends T>({
           instanceId: instanceId ?? "mock",
           size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
           config: config ?? {},
-          updateConfig: (newConf) => onUpdateConfig?.(newConf as Partial<T>),
+          updateConfig: (newConf) => onUpdateConfig?.(newConf as Partial<ConfigFromWidgetDescriptor<W>>),
         }}
       >
         {isDragging ? createPortal(card, document.body, `card-${instanceId}`) : card}

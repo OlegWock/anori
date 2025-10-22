@@ -1,10 +1,4 @@
 import { Button } from "@anori/components/Button";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import { useState } from "react";
 import "./styles.scss";
 import { Icon } from "@anori/components/icon/Icon";
@@ -13,6 +7,8 @@ import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { usePrevious } from "@anori/utils/hooks";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { capitalize } from "@anori/utils/strings";
 import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
@@ -224,7 +220,7 @@ const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => 
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "calendar-m",
   get name() {
     return translate("calendar-plugin.widgetName");
@@ -241,13 +237,12 @@ const widgetDescriptor = {
       height: 2,
     },
   },
-} as const satisfies WidgetDescriptor;
+});
 
-export const calendarPlugin = {
+export const calendarPlugin = definePlugin({
   id: "calendar-plugin",
   get name() {
     return translate("calendar-plugin.name");
   },
-  widgets: [widgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor);

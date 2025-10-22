@@ -88,7 +88,7 @@ export const cachedPromiseFunc = <T>(func: () => Promise<T>) => {
   };
 };
 
-const namedCallOnceCache: Map<string, ReturnType<typeof cachedFunc<any>>> = new Map();
+const namedCallOnceCache: Map<string, ReturnType<typeof cachedFunc<unknown>>> = new Map();
 export const globalCallOnce = <T>(name: string, func: () => T) => {
   const fromCache = namedCallOnceCache.get(name);
   if (fromCache) return fromCache;

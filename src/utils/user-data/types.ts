@@ -1,7 +1,13 @@
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { type Language, translate } from "@anori/translations/index";
-import type { LayoutItem, LayoutItemSize } from "@anori/utils/grid";
-import type { ComponentType } from "react";
+import type { GridItem } from "@anori/utils/grid/types";
+import type {
+  AnoriPlugin,
+  ConfigFromWidgetDescriptor,
+  IDFromWidgetDescriptor,
+  WidgetDescriptor,
+} from "@anori/utils/plugins/types";
+import type { ID, Mapping } from "@anori/utils/types";
 import type { CustomTheme, Theme } from "./theme";
 
 type UsageQuantifiableMetrics =
@@ -44,29 +50,42 @@ export type StorageContent = {
   storageVersion: number;
 };
 
-export type ID = string;
-
 export type Folder = {
   id: ID;
   name: string;
   icon: string;
 };
 
-export type FolderDetailsInStorage<WT extends {} = Record<string, any>> = {
-  widgets: WidgetInFolder<WT>[];
+export type FolderDetailsInStorage = {
+  widgets: WidgetInFolder[];
 };
 
-export type WidgetInFolder<T extends {}> = {
-  pluginId: ID;
-  widgetId: ID;
+export type WidgetInFolder<
+  PID extends ID = ID,
+  WD extends WidgetDescriptor[] = WidgetDescriptor[],
+  W extends WD[number] = WD[number],
+  WID extends IDFromWidgetDescriptor<W> = IDFromWidgetDescriptor<W>,
+> = {
+  pluginId: PID;
+  widgetId: WID;
   instanceId: ID;
-  configuration: T;
-} & LayoutItem;
+  configuration: ConfigFromWidgetDescriptor<W>;
+} & GridItem;
 
-export type WidgetInFolderWithMeta<T extends WT, P extends {}, WT extends {}> = WidgetInFolder<T> & {
-  plugin: AnoriPlugin<P, WT>;
-  widget: WidgetDescriptor<T>;
+export type WidgetInFolderWithMeta<
+  PID extends ID = ID,
+  WD extends WidgetDescriptor[] = WidgetDescriptor[],
+  W extends WD[number] = WD[number],
+  WID extends IDFromWidgetDescriptor<W> = IDFromWidgetDescriptor<W>,
+> = WidgetInFolder<PID, WD, W, WID> & {
+  plugin: AnoriPlugin<PID, Mapping, WD>;
+  widget: W;
 };
+
+export type DistributedWidgetInFolderWithMeta<
+  PID extends ID = ID,
+  WD extends WidgetDescriptor[] = WidgetDescriptor[],
+> = WD extends (infer W)[] ? (W extends WD[number] ? WidgetInFolderWithMeta<PID, WD, W> : never) : never;
 
 export const homeFolder = {
   id: "home",
@@ -75,70 +94,3 @@ export const homeFolder = {
   },
   icon: builtinIcons.home,
 } satisfies Folder;
-
-// ------ Plugins
-
-export type AnoriPlugin<T extends {} = Record<string, unknown>, WT extends {} = Record<string, any>> = {
-  id: ID;
-  name: string;
-  widgets: Array<WidgetDescriptor<WT> | WidgetDescriptor<WT>[]>;
-  configurationScreen: ComponentType<PluginConfigurationScreenProps<T>> | null;
-  onStart?: () => void;
-  onMessage?: Record<string, (args: any, senderTab?: number) => any>;
-  scheduledCallback?: {
-    intervalInMinutes: number;
-    callback: () => void;
-  };
-};
-
-export type WidgetConfigurationScreenProps<T extends {}> = {
-  widgetId: ID;
-  instanceId?: ID;
-  currentConfig?: T;
-  saveConfiguration: (config: T) => void;
-};
-
-export type PluginConfigurationScreenProps<T extends {}> = {
-  currentConfig?: T;
-  saveConfiguration: (config: T) => void;
-};
-
-export type WidgetRenderProps<T extends {} = Record<string, unknown>> = {
-  config: T;
-  instanceId: string;
-};
-
-export type WidgetResizable =
-  | boolean
-  | {
-      min?: LayoutItemSize;
-      max?: LayoutItemSize;
-    };
-
-export type WidgetDescriptor<T extends {} = Record<string, unknown>> = {
-  id: ID;
-  name: string;
-  mock: ComponentType<Record<string, never>>;
-  appearance: {
-    withHoverAnimation?: boolean;
-    withoutPadding?: boolean;
-    size: LayoutItemSize;
-    resizable: WidgetResizable;
-  };
-} & (
-  | {
-      configurationScreen: ComponentType<WidgetConfigurationScreenProps<T>>;
-      mainScreen: ComponentType<WidgetRenderProps<T>>;
-    }
-  | {
-      configurationScreen: null;
-      mainScreen: ComponentType<WidgetRenderProps<Record<string, never>>>;
-    }
-);
-
-export type OnMessageDescriptor<I extends {}, O> = {
-  args: I;
-  result: O;
-};
-
-export type OnMessageHandler<I extends {}, O> = (args: I) => O;

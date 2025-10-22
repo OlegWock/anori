@@ -7,14 +7,12 @@ import { initTranslation, languageDirections } from "@anori/translations/index";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
-import { findOverlapItems, findPositionForItemInGrid } from "@anori/utils/grid";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
 import { storage, useBrowserStorageValue } from "@anori/utils/storage/api";
 import { loadAndMigrateStorage } from "@anori/utils/storage/migrations";
-import { getFolderDetails, setFolderDetails, useFolders } from "@anori/utils/user-data/hooks";
-import { type Folder, homeFolder } from "@anori/utils/user-data/types";
+import { useFolders } from "@anori/utils/user-data/hooks";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
@@ -167,51 +165,6 @@ getAllCustomIcons();
 
 loadAndMigrateStorage()
   .then(() => initTranslation())
-  .then(async (): Promise<void> => {
-    let folders: Folder[] = [];
-    const foldersFromStorage = await storage.getOne("folders");
-    if (!foldersFromStorage) {
-      folders = [];
-    } else {
-      folders = [...foldersFromStorage];
-    }
-    folders.unshift(homeFolder);
-    // TODO: not sure if we still need this overlay handling code
-    for (const folder of folders) {
-      const { widgets } = await getFolderDetails(folder.id);
-      const reversedWidgets = [...widgets].reverse();
-      const overlapItems = findOverlapItems(reversedWidgets);
-      if (overlapItems.length) {
-        console.log("Found ovelap:", overlapItems);
-        const overlapItemIds = overlapItems.map((i) => i.instanceId);
-        const layoutWithoutOverlay = widgets.filter((w) => {
-          return !overlapItemIds.includes(w.instanceId);
-        });
-        overlapItems.map((item) => {
-          const columns = Math.max(...layoutWithoutOverlay.map((i) => i.x + i.width), 0);
-          const rows = Math.max(...layoutWithoutOverlay.map((i) => i.y + i.height), 0);
-          let position = findPositionForItemInGrid({
-            grid: { rows, columns },
-            layout: layoutWithoutOverlay,
-            item,
-          });
-          if (!position) {
-            position = {
-              x: columns,
-              y: 0,
-            };
-          }
-          layoutWithoutOverlay.push({
-            ...item,
-            ...position,
-          });
-        });
-        setFolderDetails(folder.id, {
-          widgets: layoutWithoutOverlay,
-        });
-      }
-    }
-  })
   .then(() => {
     scheduleLazyComponentsPreload();
     incrementDailyUsageMetric("Times new tab opened");

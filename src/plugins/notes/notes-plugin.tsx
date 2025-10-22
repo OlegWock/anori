@@ -1,9 +1,8 @@
 import { Input, Textarea } from "@anori/components/Input";
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import "./styles.scss";
 import { translate } from "@anori/translations/index";
-import { useWidgetStorage } from "@anori/utils/plugin";
+import { useWidgetStorage } from "@anori/utils/plugins/storage";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "@anori/components/Link";
@@ -11,6 +10,9 @@ import { ScrollArea } from "@anori/components/ScrollArea";
 import { ReactMarkdown } from "@anori/components/lazy-components";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { EmptyObject } from "@anori/utils/types";
 import type { Options } from "react-markdown";
 import { sequentialNewlinesPlugin } from "./utils";
 
@@ -28,7 +30,7 @@ const LinkWithoutPropagation = (props: ComponentProps<typeof Link>) => {
   return <Link onClick={(e) => e.stopPropagation()} onFocus={(e) => e.stopPropagation()} {...props} />;
 };
 
-const MainScreen = (_props: WidgetRenderProps) => {
+const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
   const switchEditing = (newIsEditing: boolean) => {
     if (newIsEditing) {
       runAfterNextRender(() => {
@@ -121,7 +123,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
   );
 };
 
-export const notesWidgetDescriptor = {
+export const notesWidgetDescriptor = defineWidget({
   id: "notes-widget",
   get name() {
     return translate("notes-plugin.name");
@@ -138,13 +140,12 @@ export const notesWidgetDescriptor = {
       height: 1,
     },
   },
-} as const satisfies WidgetDescriptor;
+});
 
-export const notesPlugin = {
+export const notesPlugin = definePlugin({
   id: "notes-plugin",
   get name() {
     return translate("notes-plugin.name");
   },
-  widgets: [notesWidgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(notesWidgetDescriptor);

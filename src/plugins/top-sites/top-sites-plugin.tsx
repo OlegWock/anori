@@ -1,5 +1,4 @@
 import { Button } from "@anori/components/Button";
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Link } from "@anori/components/Link";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
@@ -12,7 +11,11 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { useLinkNavigationState } from "@anori/utils/hooks";
 import { parseHost } from "@anori/utils/misc";
 import type { CorrectPermission } from "@anori/utils/permissions";
-import { useWidgetMetadata, useWidgetStorage } from "@anori/utils/plugin";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import { useWidgetStorage } from "@anori/utils/plugins/storage";
+import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import { useWidgetMetadata } from "@anori/utils/plugins/widget";
+import type { EmptyObject } from "@anori/utils/types";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import browser from "webextension-polyfill";
@@ -60,7 +63,7 @@ const LinkPlate = ({
   );
 };
 
-const MainScreen = ({ type }: WidgetRenderProps & { type: "horizontal" | "vertical" }) => {
+const MainScreen = ({ type }: WidgetRenderProps<EmptyObject> & { type: "horizontal" | "vertical" }) => {
   const addToBlacklist = (url: string) => {
     setBlacklist((b) => [...b, url]);
   };
@@ -150,7 +153,7 @@ const Mock = ({ type }: { type: "horizontal" | "vertical" }) => {
   );
 };
 
-export const topSitesWidgetDescriptorHorizontal = {
+export const topSitesWidgetDescriptorHorizontal = defineWidget({
   id: "top-sites-horizontal",
   get name() {
     return translate("top-sites-plugin.widgetHorizontal");
@@ -178,9 +181,9 @@ export const topSitesWidgetDescriptorHorizontal = {
       },
     },
   },
-} as const satisfies WidgetDescriptor;
+});
 
-export const topSitesWidgetDescriptorVertical = {
+export const topSitesWidgetDescriptorVertical = defineWidget({
   id: "top-sites-vertical",
   get name() {
     return translate("top-sites-plugin.widgetVertical");
@@ -208,13 +211,12 @@ export const topSitesWidgetDescriptorVertical = {
       },
     },
   },
-} as const satisfies WidgetDescriptor;
+});
 
-export const topSitesPlugin = {
+export const topSitesPlugin = definePlugin({
   id: "top-sites-plugin",
   get name() {
     return translate("top-sites-plugin.name");
   },
-  widgets: [topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical);

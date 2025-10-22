@@ -1,3 +1,4 @@
+import type { Mapping } from "@anori/utils/types";
 import type React from "react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { mergeRefs } from "react-merge-refs";
@@ -11,15 +12,15 @@ type AsProp<C extends React.ElementType> = {
 
 type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
 
-type PolymorphicComponentProp<C extends React.ElementType, Props = Record<string, any>> = React.PropsWithChildren<
+type PolymorphicComponentProp<C extends React.ElementType, Props = Mapping> = React.PropsWithChildren<
   Props & AsProp<C>
 > &
   Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
 
-type PolymorphicComponentPropWithRef<
-  C extends React.ElementType,
-  Props = Record<string, any>,
-> = PolymorphicComponentProp<C, Props> & {
+type PolymorphicComponentPropWithRef<C extends React.ElementType, Props = Mapping> = PolymorphicComponentProp<
+  C,
+  Props
+> & {
   ref?: PolymorphicRef<C>;
 };
 

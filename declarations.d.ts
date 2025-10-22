@@ -80,8 +80,43 @@ declare global {
     }) => Promise<number>;
   }
 
+  type CpuTime = {
+    idle: number;
+    kernel: number;
+    total: number;
+    user: number;
+  };
+
+  type ProcessorInfo = {
+    usage: CpuTime;
+  };
+
+  type CpuInfo = {
+    archName: string;
+    features: ("mmx" | "sse" | "sse2" | "sse3" | "ssse3" | "sse4_1" | "sse4_2" | "avx")[];
+    modelName: string;
+    numOfProcessors: number;
+    processors: ProcessorInfo[];
+    temperatures: number[];
+  };
+
+  interface MemoryInfo {
+    availableCapacity: number;
+    capacity: number;
+  }
+
+  interface ChromeSystemStatic {
+    cpu: {
+      getInfo: () => Promise<CpuInfo>;
+    };
+    memory: {
+      getInfo: () => Promise<MemoryInfo>;
+    };
+  }
+
   type ChromeBrowserAdditions = {
     tabGroups: ChromeTabGroupsStatic;
     tabs: ChromeTabsStatic;
+    system: ChromeSystemStatic;
   };
 }

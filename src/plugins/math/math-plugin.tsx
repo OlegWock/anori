@@ -1,5 +1,4 @@
 import { Button } from "@anori/components/Button";
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Input } from "@anori/components/Input";
 import { ScrollArea } from "@anori/components/ScrollArea";
@@ -11,7 +10,10 @@ import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { cachedFunc, guid } from "@anori/utils/misc";
-import { useWidgetMetadata } from "@anori/utils/plugin";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import { useWidgetMetadata } from "@anori/utils/plugins/widget";
+import type { EmptyObject } from "@anori/utils/types";
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import type { MathJsInstance } from "mathjs";
@@ -209,7 +211,7 @@ const Calculator = ({
   );
 };
 
-const MainScreen = (_props: WidgetRenderProps) => {
+const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
   const meta = useWidgetMetadata();
 
   return (
@@ -219,7 +221,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
   );
 };
 
-const MainScreenExpandable = (_props: WidgetRenderProps) => {
+const MainScreenExpandable = (_props: WidgetRenderProps<EmptyObject>) => {
   const [show, setShow] = useState(false);
   const { rem } = useSizeSettings();
   const runAfterRender = useRunAfterNextRender();
@@ -260,7 +262,7 @@ const MainScreenExpandable = (_props: WidgetRenderProps) => {
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "calc-widget",
   get name() {
     return translate("math-plugin.calculator");
@@ -286,9 +288,9 @@ const widgetDescriptor = {
       },
     },
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-const expandableWidgetDescriptor = {
+const expandableWidgetDescriptor = defineWidget({
   id: "calc-widget-expandable",
   get name() {
     return translate("math-plugin.expandWidgetName");
@@ -307,13 +309,12 @@ const expandableWidgetDescriptor = {
     withoutPadding: true,
     withHoverAnimation: true,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-export const mathPlugin = {
+export const mathPlugin = definePlugin({
   id: "math-plugin",
   get name() {
     return translate("math-plugin.name");
   },
-  widgets: [widgetDescriptor, expandableWidgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor, expandableWidgetDescriptor);

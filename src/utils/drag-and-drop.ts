@@ -6,7 +6,7 @@ import { useMirrorStateToRef } from "./hooks";
 export type DndItemMeta<T extends string = string> = {
   type: T;
   id: string;
-  data?: any;
+  data?: unknown;
 };
 
 export type DropDestinationMeta = DndItemMeta & {

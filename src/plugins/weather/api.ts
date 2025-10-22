@@ -1,5 +1,32 @@
 import moment, { type Moment } from "moment-timezone";
 
+export type GeocodingResult = {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  elevation?: number;
+  feature_code?: string;
+  country_code?: string;
+  country?: string;
+  country_id?: number;
+  timezone?: string;
+  population?: number;
+  postcodes?: string[];
+  admin1?: string;
+  admin2?: string;
+  admin3?: string;
+  admin4?: string;
+  admin1_id?: number;
+  admin2_id?: number;
+  admin3_id?: number;
+  admin4_id?: number;
+};
+
+export type GeocodingResponse = {
+  results?: GeocodingResult[];
+};
+
 export type City = {
   id: number;
   country: string;
@@ -34,15 +61,39 @@ export type Temperature = "c" | "f";
 
 export type Speed = "km/h" | "m/s" | "mph";
 
+type CurrentWeatherAPIResponse = {
+  current_weather: {
+    temperature: number;
+    windspeed: number;
+    winddirection: number;
+    weathercode: number;
+  };
+};
+
+type ForecastAPIResponse = {
+  daily: {
+    time: string[];
+    temperature_2m_min: number[];
+    temperature_2m_max: number[];
+    windspeed_10m_max: number[];
+    winddirection_10m_dominant: number[];
+    weathercode: number[];
+  };
+};
+
 export const searchCity = async (query: string): Promise<City[]> => {
   const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}`);
-  const json = (await response.json()) as { results: any[] };
+  const json = (await response.json()) as GeocodingResponse;
+
+  if (!json.results) {
+    return [];
+  }
 
   return json.results.map((r) => {
     return {
       id: r.id,
       name: r.name,
-      country: r.country,
+      country: r.country || "",
       latitude: r.latitude,
       longitude: r.longitude,
       admin1: r.admin1,
@@ -62,7 +113,7 @@ export const gerCurrentWeather = async (city: City): Promise<CurrentWeather> => 
       `&longitude=${encodeURIComponent(city.longitude)}` +
       `&current_weather=true`,
   );
-  const json = (await response.json()) as any;
+  const json = (await response.json()) as CurrentWeatherAPIResponse;
   return {
     temperature: json.current_weather.temperature,
     windSpeed: json.current_weather.windspeed,
@@ -81,9 +132,9 @@ export const getForecast = async (city: City): Promise<WeatherForecast[]> => {
       `&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,winddirection_10m_dominant` +
       `&timezone=${encodeURIComponent(tz)}`,
   );
-  const json = (await response.json()) as any;
+  const json = (await response.json()) as ForecastAPIResponse;
 
-  const results = (json.daily.time as any[]).slice(0, 5).map((dateRaw, i) => {
+  const results = json.daily.time.slice(0, 5).map((dateRaw, i) => {
     const date = moment(dateRaw);
 
     return {

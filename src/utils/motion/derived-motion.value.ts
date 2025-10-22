@@ -1,18 +1,17 @@
 import { useLazyRef } from "@anori/utils/hooks";
 import { MotionValue, frame } from "framer-motion";
 
-const getCurrentDerivedValue = <I, V>(deps: MotionValue<any>[], depsTransformer: (deps: I[]) => V) => {
+const getCurrentDerivedValue = <I, V>(deps: MotionValue[], depsTransformer: (deps: I[]) => V) => {
   const newVal = depsTransformer(deps.map((d) => d.get()));
   return newVal;
 };
 
-export class DerivedMotionValue<I = any, V = any> extends MotionValue<V> {
-  private deps: MotionValue<any>[];
-  private depsTransformer: (deps: any[]) => V;
+export class DerivedMotionValue<I, O> extends MotionValue<O> {
+  private deps: MotionValue[];
+  private depsTransformer: (deps: unknown[]) => O;
 
-  constructor(deps: MotionValue<I>[], transformer: (deps: I[]) => V) {
+  constructor(deps: MotionValue<I>[], transformer: (deps: I[]) => O) {
     const val = getCurrentDerivedValue(deps, transformer);
-    // @ts-ignore framer motion doesnt expose constructor in provided types
     super(val);
     this.deps = [...deps];
     this.depsTransformer = transformer;
@@ -20,7 +19,7 @@ export class DerivedMotionValue<I = any, V = any> extends MotionValue<V> {
     this.deriveCurrentValue();
   }
 
-  deriveFrom<T>(deps: MotionValue<T>[], transformer: (deps: T[]) => V) {
+  deriveFrom<T>(deps: MotionValue<T>[], transformer: (deps: T[]) => O) {
     this.detach();
     this.deps = [...deps];
     this.depsTransformer = transformer;
@@ -48,24 +47,27 @@ export class DerivedMotionValue<I = any, V = any> extends MotionValue<V> {
     this.detach();
   }
 
-  set(_v: V, _render?: boolean | undefined): void {
+  set(_v: O, _render?: boolean | undefined): void {
     return;
   }
 
-  jump(_v: V): void {
+  jump(_v: O): void {
     return;
   }
 }
 
-export function useDerivedMotionValue<I, O>(value: MotionValue<I>, transformer: (val: I) => O): DerivedMotionValue<O>;
+export function useDerivedMotionValue<I, O>(
+  value: MotionValue<I>,
+  transformer: (val: I) => O,
+): DerivedMotionValue<I, O>;
 export function useDerivedMotionValue<I, O>(
   values: MotionValue<I>[],
   transformer: (val: I[]) => O,
-): DerivedMotionValue<O>;
+): DerivedMotionValue<I, O>;
 export function useDerivedMotionValue<I, O>(
   values: MotionValue<I> | MotionValue<I>[],
   transformer: (val: I | I[]) => O,
-): DerivedMotionValue<O> {
+): DerivedMotionValue<I, O> {
   if (!Array.isArray(values)) {
     values = [values];
     const origTransformer = transformer as (val: I) => O;

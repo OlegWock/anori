@@ -1,10 +1,4 @@
 import { Button } from "@anori/components/Button";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Alert } from "@anori/components/Alert";
 import { Checkbox } from "@anori/components/Checkbox";
@@ -21,7 +15,11 @@ import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { guid, parseHost, wait } from "@anori/utils/misc";
-import { createOnMessageHandlers, getAllWidgetsByPlugin, getWidgetStorage } from "@anori/utils/plugin";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
+import { getWidgetStorage } from "@anori/utils/plugins/storage";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
+import { getAllWidgetsByPlugin } from "@anori/utils/plugins/widget";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
@@ -88,16 +86,13 @@ const Post = ({
   );
 };
 
-type RssFeedConfigType = {
+type RssFeedConfig = {
   title: string;
   feedUrls: string[];
   compactView?: boolean;
 };
 
-const RssFeedConfigScreen = ({
-  saveConfiguration,
-  currentConfig,
-}: WidgetConfigurationScreenProps<RssFeedConfigType>) => {
+const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<RssFeedConfig>) => {
   const onConfirm = () => {
     const cleanedUrls = urls.map((u) => u.url).filter((u) => !!u);
     if (cleanedUrls.length) {
@@ -226,7 +221,7 @@ const RssFeedConfigScreen = ({
   );
 };
 
-const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfigType>) => {
+const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
   const { t } = useTranslation();
   const { rem } = useSizeSettings();
   const { feed, isRefreshing, refresh, lastUpdated } = useRssFeeds(config.feedUrls, (url) =>
@@ -346,14 +341,14 @@ const RssFeedMock = () => {
   );
 };
 
-type RssLatestPostConfigType = {
+type RssLatestPostConfig = {
   feedUrl: string;
 };
 
 const RssLatestPostConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<RssLatestPostConfigType>) => {
+}: WidgetConfigurationScreenProps<RssLatestPostConfig>) => {
   const onConfirm = async () => {
     saveConfiguration({ feedUrl });
   };
@@ -375,7 +370,7 @@ const RssLatestPostConfigScreen = ({
   );
 };
 
-const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfigType>) => {
+const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>) => {
   const { t } = useTranslation();
   const feeds = useMemo(() => [config.feedUrl], [config.feedUrl]);
   const { feed, isRefreshing } = useRssFeeds(feeds, (url) => sendMessage("getFeedText", { url }));
@@ -431,9 +426,7 @@ const { handlers, sendMessage } = createOnMessageHandlers<RssMessageHandlers>("r
 
 const rssScheduledCallback = async () => {
   console.log("Updating feeds in background");
-  const widgets = await getAllWidgetsByPlugin<Record<string, never>, RssFeedConfigType | RssLatestPostConfigType>(
-    rssPlugin,
-  );
+  const widgets = await getAllWidgetsByPlugin(rssPlugin);
   const promises = widgets.map(async (w) => {
     const storage = getWidgetStorage<WidgetStorage>(w.instanceId);
     await storage.waitForLoad();
@@ -447,13 +440,13 @@ const rssScheduledCallback = async () => {
   console.log("Updated all RSS feeds in background");
 };
 
-export const rssFeedDescriptor = {
+export const rssFeedDescriptor = defineWidget({
   id: "rss-feed",
   get name() {
     return translate("rss-plugin.widgetFeedName");
   },
   configurationScreen: RssFeedConfigScreen,
-  mainScreen: (props: WidgetRenderProps<RssFeedConfigType>) => (
+  mainScreen: (props: WidgetRenderProps<RssFeedConfig>) => (
     <RequirePermissions hosts={props.config.feedUrls.map((u) => parseHost(u))}>
       <RssFeed {...props} />
     </RequirePermissions>
@@ -468,15 +461,15 @@ export const rssFeedDescriptor = {
       height: 3,
     },
   },
-} as const satisfies WidgetDescriptor<RssFeedConfigType>;
+});
 
-export const rssLastestPostDescriptor = {
+export const rssLastestPostDescriptor = defineWidget({
   id: "rss-latest-post",
   get name() {
     return translate("rss-plugin.widgetLatestPostName");
   },
   configurationScreen: RssLatestPostConfigScreen,
-  mainScreen: (props: WidgetRenderProps<RssLatestPostConfigType>) => (
+  mainScreen: (props: WidgetRenderProps<RssLatestPostConfig>) => (
     <RequirePermissions compact hosts={[parseHost(props.config.feedUrl)]} permissions={["tabs"]}>
       <RssLatestPost {...props} />
     </RequirePermissions>
@@ -490,18 +483,17 @@ export const rssLastestPostDescriptor = {
       height: 1,
     },
   },
-} as const satisfies WidgetDescriptor<RssLatestPostConfigType>;
+});
 
-export const rssPlugin = {
+export const rssPlugin = definePlugin({
   id: "rss-plugin",
   get name() {
     return translate("rss-plugin.name");
   },
-  widgets: [rssFeedDescriptor, rssLastestPostDescriptor],
   onMessage: handlers,
   scheduledCallback: {
     intervalInMinutes: 30,
     callback: rssScheduledCallback,
   },
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(rssFeedDescriptor, rssLastestPostDescriptor);

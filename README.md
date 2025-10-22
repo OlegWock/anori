@@ -48,10 +48,31 @@ You can support development of Anori with small donation, more info [here](https
 
 Currently, only pull requests for bug fixes and translations are accepted. If you want to add a new feature, please create an issue describing your idea first. Feature requests or proposals should not be submitted as pull requests; instead, open an issue to discuss your suggestion.
 
-# Building from sources and extending
+# Building from sources
 
-All details about building from sources and extending app with your own widgets are in [separate document](/DEVELOPMENT_AND_EXTENDING.md). If you wan't to contribute to the project, please read [contribution guidelines](CONTRIBUTING.md) first.
+To build extension from sources, you need, first of all, install dependencies:
 
+```
+pnpm install
+```
+
+To compile extension you can use either `dev` or `production` command with optional suffix:
+
+```
+pnpm dev # Development Chrome
+pnpm dev:ff # Development version for Firefox
+```
+
+Compiled code will be placed under `dist` folder.
+
+To install extension from disk refer to instructions for [Chrome](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked) and [Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing).
+
+For easier development, there is also `watch` command which will compile changes as you code:
+
+```
+pnpm watch
+pnpm watch:ff
+```
 
 # License
 

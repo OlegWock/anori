@@ -1,9 +1,3 @@
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import moment from "moment-timezone";
 import "./styles.scss";
 import { Button } from "@anori/components/Button";
@@ -12,6 +6,8 @@ import { Input } from "@anori/components/Input";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useForceRerender, useLazyRef } from "@anori/utils/hooks";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { capitalize } from "@anori/utils/strings";
 import clsx from "clsx";
 import { m } from "framer-motion";
@@ -20,7 +16,7 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-type WidgetConfig = {
+type DatetimeWidgetConfig = {
   tz: string;
   title: string;
   timeFormat: string;
@@ -31,7 +27,7 @@ const ConfigScreen = ({
   currentConfig,
   saveConfiguration,
   size,
-}: WidgetConfigurationScreenProps<WidgetConfig> & { size: "s" | "m" }) => {
+}: WidgetConfigurationScreenProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
   const { t } = useTranslation();
 
   const date = moment({
@@ -130,7 +126,7 @@ const ConfigScreen = ({
   );
 };
 
-const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size: "s" | "m" }) => {
+const WidgetScreen = ({ config, size }: WidgetRenderProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
   const { i18n } = useTranslation();
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
@@ -204,7 +200,7 @@ const WidgetScreen = ({ config, size }: WidgetRenderProps<WidgetConfig> & { size
   );
 };
 
-export const datetimeWidgetDescriptorS = {
+export const datetimeWidgetDescriptorS = defineWidget({
   id: "datetime-widget",
   get name() {
     return translate("datetime-plugin.widgetNameS");
@@ -216,8 +212,10 @@ export const datetimeWidgetDescriptorS = {
       height: 1,
     },
   },
-  configurationScreen: (props: WidgetConfigurationScreenProps<WidgetConfig>) => <ConfigScreen size="s" {...props} />,
-  mainScreen: (props: WidgetRenderProps<WidgetConfig>) => <WidgetScreen size="s" {...props} />,
+  configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
+    <ConfigScreen size="s" {...props} />
+  ),
+  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <WidgetScreen size="s" {...props} />,
   mock: () => (
     <WidgetScreen
       config={{
@@ -230,9 +228,9 @@ export const datetimeWidgetDescriptorS = {
       size="s"
     />
   ),
-} satisfies WidgetDescriptor<WidgetConfig>;
+});
 
-export const datetimeWidgetDescriptorM = {
+export const datetimeWidgetDescriptorM = defineWidget({
   id: "datetime-widget-m",
   get name() {
     return translate("datetime-plugin.widgetNameM");
@@ -244,8 +242,10 @@ export const datetimeWidgetDescriptorM = {
       height: 2,
     },
   },
-  configurationScreen: (props: WidgetConfigurationScreenProps<WidgetConfig>) => <ConfigScreen size="m" {...props} />,
-  mainScreen: (props: WidgetRenderProps<WidgetConfig>) => <WidgetScreen size="m" {...props} />,
+  configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
+    <ConfigScreen size="m" {...props} />
+  ),
+  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <WidgetScreen size="m" {...props} />,
   mock: () => (
     <WidgetScreen
       config={{
@@ -258,13 +258,12 @@ export const datetimeWidgetDescriptorM = {
       size="m"
     />
   ),
-} satisfies WidgetDescriptor<WidgetConfig>;
+});
 
-export const datetimePlugin = {
+export const datetimePlugin = definePlugin({
   id: "datetime-plugin",
   get name() {
     return translate("datetime-plugin.name");
   },
-  widgets: [datetimeWidgetDescriptorS, datetimeWidgetDescriptorM],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(datetimeWidgetDescriptorS, datetimeWidgetDescriptorM);

@@ -27,6 +27,7 @@ import "moment/locale/it";
 import "moment/locale/ar";
 import "moment/locale/zh-cn";
 import "moment/locale/pt-br";
+import type { Mapping } from "@anori/utils/types";
 moment.locale("en");
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
@@ -77,7 +78,7 @@ const resources = {
   ru: ruTranslation,
   ar: arTranslation,
   "pt-BR": ptBrTranslation,
-} satisfies Record<Language, any>;
+} satisfies Record<Language, Mapping>;
 
 export const languageDirections = {
   en: "ltr",
@@ -104,7 +105,7 @@ export const initTranslation = async () => {
   // Arabic locale in moment uses Arabic-Indic numerals, while we in app use ordinary Arabic numerals
   // So we patch postformat to return string as-is, without replacing numbers
   moment.updateLocale("ar", {
-    postformat: (x: any) => x,
+    postformat: (x: unknown) => x,
   });
 
   moment.locale(lang);

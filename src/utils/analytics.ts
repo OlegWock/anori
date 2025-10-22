@@ -1,7 +1,8 @@
 import { allPlugins } from "@anori/plugins/all";
 import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
 import { detectBrowser } from "@anori/utils/browser";
-import { useWidgetMetadata } from "@anori/utils/plugin";
+import { useWidgetMetadata } from "@anori/utils/plugins/widget";
+import type { EmptyObject } from "@anori/utils/types";
 import { themes } from "@anori/utils/user-data/theme";
 import type { FolderDetailsInStorage, StorageContent } from "@anori/utils/user-data/types";
 import { useCallback } from "react";
@@ -119,11 +120,7 @@ const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
   const widgetsCount: WidgetsCount = {};
 
   allPlugins.forEach((plugin) => {
-    const widgets = plugin.widgets.flatMap((widgetOrGroup) =>
-      Array.isArray(widgetOrGroup) ? widgetOrGroup : [widgetOrGroup],
-    );
-
-    widgets.forEach((wd) => {
+    plugin.widgets.forEach((wd) => {
       widgetsCount[`Home folder widgets / ${plugin.id} / ${wd.id}`] = 0;
       widgetsCount[`Custom folder widgets / ${plugin.id} / ${wd.id}`] = 0;
     });
@@ -229,7 +226,7 @@ export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
   });
 };
 
-type TrackEventParams<K extends keyof AnalyticEvents> = AnalyticEvents[K] extends Record<string, never>
+type TrackEventParams<K extends keyof AnalyticEvents> = AnalyticEvents[K] extends EmptyObject
   ? [eventName: K]
   : [eventName: K, props: AnalyticEvents[K]];
 export async function trackEvent<K extends keyof AnalyticEvents>(...params: TrackEventParams<K>): Promise<void>;

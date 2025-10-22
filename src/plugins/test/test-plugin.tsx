@@ -1,14 +1,16 @@
 import { Button } from "@anori/components/Button";
-import type { AnoriPlugin, WidgetDescriptor, WidgetRenderProps } from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { EmptyObject } from "@anori/utils/types";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-const MainScreen = (_props: WidgetRenderProps) => {
+const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
   const { rem } = useSizeSettings();
   const [showExpandableArea, setShowExpandableArea] = useState(false);
 
@@ -94,7 +96,7 @@ const MainScreen = (_props: WidgetRenderProps) => {
   );
 };
 
-const MainScreen2 = (_Props: WidgetRenderProps) => {
+const MainScreen2 = (_Props: WidgetRenderProps<EmptyObject>) => {
   const { rem } = useSizeSettings();
 
   return (
@@ -104,7 +106,7 @@ const MainScreen2 = (_Props: WidgetRenderProps) => {
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "widget",
   get name() {
     return "Expandable widget";
@@ -123,9 +125,9 @@ const widgetDescriptor = {
     withHoverAnimation: true,
     withoutPadding: true,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-const widgetDescriptor2 = {
+const widgetDescriptor2 = defineWidget({
   id: "widget-2",
   get name() {
     return "Resizable widget";
@@ -153,13 +155,12 @@ const widgetDescriptor2 = {
     withHoverAnimation: false,
     withoutPadding: true,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-export const testPlugin = {
+export const testPlugin = definePlugin({
   id: "test-plugin",
   get name() {
     return "Test plugin";
   },
-  widgets: [widgetDescriptor, widgetDescriptor2],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor, widgetDescriptor2);

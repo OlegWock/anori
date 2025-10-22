@@ -1,10 +1,4 @@
 import { Button } from "@anori/components/Button";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
 import "./styles.scss";
 import { Alert } from "@anori/components/Alert";
 import { Checkbox } from "@anori/components/Checkbox";
@@ -17,12 +11,14 @@ import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/plugins/shared/dnr";
 import { translate } from "@anori/translations/index";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/utils/plugins/dnr";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,13 +27,13 @@ import { useTranslation } from "react-i18next";
 // it's not available for JS (not sent at all?) if opened in iframe. Sites need to explicitly set SameSite=None to allow
 // those cookies to function
 
-type IframePluginWidgetConfigType = {
+type IframePluginWidgetConfig = {
   title: string;
   url: string;
   showLinkToPage: boolean;
 };
 
-type IframePluginExpandableWidgetConfigType = {
+type IframePluginExpandableWidgetConfig = {
   title: string;
   icon: string;
   url: string;
@@ -47,7 +43,7 @@ type IframePluginExpandableWidgetConfigType = {
 const MainWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<IframePluginWidgetConfigType>) => {
+}: WidgetConfigurationScreenProps<IframePluginWidgetConfig>) => {
   const onConfirm = () => {
     saveConfiguration({ url, title, showLinkToPage });
   };
@@ -96,7 +92,7 @@ const MainWidgetConfigScreen = ({
   );
 };
 
-const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfigType>) => {
+const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfig>) => {
   const [canRenderIframe, setCanRenderIframe] = useState(false);
   const { rem } = useSizeSettings();
   const { t } = useTranslation();
@@ -146,7 +142,7 @@ const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfigType>)
 const ExpandableWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<IframePluginExpandableWidgetConfigType>) => {
+}: WidgetConfigurationScreenProps<IframePluginExpandableWidgetConfig>) => {
   const onConfirm = () => {
     saveConfiguration({ url, title, icon, showLinkToPage });
   };
@@ -213,7 +209,7 @@ const ExpandableWidgetConfigScreen = ({
   );
 };
 
-const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWidgetConfigType>) => {
+const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWidgetConfig>) => {
   const [open, setOpen] = useState(false);
   const { rem } = useSizeSettings();
   const { t } = useTranslation();
@@ -271,13 +267,13 @@ const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWi
   );
 };
 
-const widgetDescriptor = {
+const widgetDescriptor = defineWidget({
   id: "iframe-widget",
   get name() {
     return translate("iframe-plugin.name");
   },
   configurationScreen: MainWidgetConfigScreen,
-  mainScreen: (props: WidgetRenderProps<IframePluginWidgetConfigType>) => {
+  mainScreen: (props: WidgetRenderProps<IframePluginWidgetConfig>) => {
     return (
       <RequirePermissions hosts={[parseHost(props.config.url)]} permissions={dnrPermissions}>
         <MainWidget {...props} />
@@ -296,15 +292,15 @@ const widgetDescriptor = {
       min: { width: 2, height: 2 },
     },
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-const widgetDescriptorExpandable = {
+const widgetDescriptorExpandable = defineWidget({
   id: "iframe-widget-expandable",
   get name() {
     return translate("iframe-plugin.expandWidgetName");
   },
   configurationScreen: ExpandableWidgetConfigScreen,
-  mainScreen: (props: WidgetRenderProps<IframePluginExpandableWidgetConfigType>) => {
+  mainScreen: (props: WidgetRenderProps<IframePluginExpandableWidgetConfig>) => {
     return (
       <RequirePermissions
         compact
@@ -334,16 +330,15 @@ const widgetDescriptorExpandable = {
     withoutPadding: true,
     resizable: false,
   },
-} as const satisfies WidgetDescriptor<any>;
+});
 
-export const iframePlugin = {
+export const iframePlugin = definePlugin({
   id: "iframe-plugin",
   get name() {
     return translate("iframe-plugin.name");
   },
-  widgets: [widgetDescriptor, widgetDescriptorExpandable],
   configurationScreen: null,
   onStart: () => {
     plantWebRequestHandler();
   },
-} satisfies AnoriPlugin;
+}).withWidgets(widgetDescriptor, widgetDescriptorExpandable);

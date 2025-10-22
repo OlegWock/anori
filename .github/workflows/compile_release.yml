@@ -14,13 +14,13 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
-                  cache: 'yarn'
-            - run: yarn install --frozen-lockfile
+                  cache: 'pnpm'
+            - run: pnpm install --frozen-lockfile
             - name: get-version
               id: package-version
               uses: martinbeentjes/npm-get-version-action@v1.3.1
-            - run: yarn run production
-            - run: yarn run production:ff
+            - run: pnpm run production
+            - run: pnpm run production:ff
             - name: Release
               uses: softprops/action-gh-release@v2
               with:

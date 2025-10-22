@@ -1,0 +1,146 @@
+---
+alwaysApply: true
+---
+
+Main building block on Anori start page is widget. Widgets are narrow in function. They are organized in folders, and each folder's widgets can be organized in grid. All widgets in Anori are provided by plugins. One plugin can provide multiple widgets.
+
+# Plugins
+
+All plugins are stored in `src/plugins` folder.
+
+To create a plugin, you need to invoke `definePlugin` function. This will return plugin descriptor which then can be added to `src/plugins/all.ts` to make it available in the extension.
+
+```ts
+export const pluginnamePlugin = definePlugin({
+  id: "pluginname-plugin",
+  get name() {
+    return translate("blueprint-plugin.name");
+  },
+  configurationScreen: null,
+}).withWidgets(widgetDescriptor);
+```
+
+Plugin needs to define at least those fields: `id` (unique identificator), `name` (human-readable name, translatable), `configurationScreen` (null if plugin doesn't have plugin-wide configuration, otherwise React component which accepts `PluginConfigurationScreenProps<T>` props, where `T` is plugin configuration type).
+
+Optionally, plugin can define those fields:
+
+* `onStart?: () => void` — callback which will be invoked in background worker/page on extension start. It's intended for extension to register any listeners for `browser.*` API.
+
+* `onMessage?: Record<string, (args: unknown, senderTab?: number) => unknown>` — mapping of message type -> message handler. Plugin messages are isolated between plugins (i.e. plugin can't handle message from another plugin). This is intended for cases when plugin needs to invoke API available only to background page/worker. You should always prefer strongly-typed message definitions and handlers. They can be created with `createOnMessageHandlers` function.
+  
+* ```
+  scheduledCallback?: {
+    intervalInMinutes: number;
+    callback: () => void;
+  };
+  ```
+  Allows plguin to setup callback which will be invoked every n minutes in context of background worker/page. Example use case is background refresh of data from remote API. To limit impact on laptop battery, Anori checks for due callbacks every 5 minutes, so values less than 5 minutes doesn't make much sense. Also, because of this it's not guaranted that your callback will be executed __precisely__ every `intervalInMinutes`.
+
+To finish plugin definition process, you need to call `.withWidgets(...args)` on object returned by `definePlguin`. This function accepts variable number or argument, each of which is widget descriptor. 
+
+# Widgets
+
+Example widget descriptor:
+
+```ts
+const widgetDescriptor = defineWidget({
+  id: "widget", // Unique identificator
+  get name() { // User-facing name
+    return translate("blueprint-plugin.widgetName");
+  },
+  configurationScreen: WidgetConfigScreen, // Configuration screen for widget, can be null
+  mainScreen: MainScreen, // Actual widget
+  // Mock screen is rendered on "New widget" screen and is intended for user to get an idea 
+  // how widget will look before adding and configuring it
+  mock: () => {
+    return <MainScreen instanceId="mock" config={{ exampleConfigProp: "hey!" }} />;
+  },
+  appearance: {
+    // Widget size and whether it can be resized (and min/max size if resizable)
+    // Size is always set in "boxes". Its size depends on user screen size, but they
+    // are usually around 150px
+    size: {
+      width: 1,
+      height: 1,
+    },
+    resizable: false,
+  },
+});
+```
+
+If widget allows for configuration, it should provide `configurationScreen` component (`ComponentType<WidgetConfigurationScreenProps<T>>`). User will be presented with config screen when adding widget to a folder. Configuration in then persisted per-widget and passed as `config` prop to `mainScreen` component.
+
+# Widgets and plugins API
+
+Widgets and plugins have access to set of useful APIs.
+
+## `<RequirePermissions />` component
+
+This components allows you easily handle optional permissions. Select which permissions are required for your widget and wrap it in `<RequirePermissions />`. Component will present user a message requesting missing permissions and will render your widget only if all permissions are acquired. Thus, inside component itself you can use those permissions without any additional checks.
+
+## `<ScrollArea />` component
+
+Across the extension we use `<ScrollArea />` instead of normal `overflow: scroll`. This allows us to change styling of scrollbars reliably across different browser.
+
+## Other components
+
+There is also a bunch of more common UI element like `<Alert />`, `<Button />`, `<Checkbox />`, `<Hint />`, `<Input />`, `<Modal />`, `<Popover />` and `<Select />`. They are pretty much same you can find in any other frontend project, you can see examples of usage across extensions ui and/in plugins. 
+
+## `useParentFolder()`
+
+This hook exposes info about parent folder of current widget. Info includes folder name, is user currently in edit mode as well as details about grid and ref to grid element.
+
+## `useSizeSettings()`
+
+This hook exposes info about current mode: compact/normal and font size, ideal and minimal block sizes (to get actual value, use `useParentFolder()`) and gap size in that mode. As well as helper `rem` function which converts rems (preferrable stylng unit) into pixels.
+
+## `getPluginConfig(pluginDescriptor)` and `usePluginConfig(pluginDescriptor)`
+
+Those functions provide a way to load plugin configuration. Function is imperative and hook is reactive.
+
+## `getPluginStorage<StorageT>(pluginId)` and `usePluginStorage<StorageT>()`
+
+Each plugin can have separate storage dedicated to it. This functions allows you to get instance of [`NamespacedStorage`](/src/utils/namespaced-storage.ts) linked to plugin. Hook can be used in widgets and doesn't require manually providing plugin ID.
+
+## `getWidgetStorage<StorageT>(instanceId)` and `useWidgetStorage<StorageT>()`
+
+Same as previous, but for widget instances. I.e. each widget instance will have it's separate storage.
+
+## `useWidgetMetadata()`
+
+This hook exposes metadata about current widget: configuration, function to update configuration, instance id, widget id, plugin id and current size. Size is updated in real time as user resizes widget. Will throw if called outside widget.
+
+## `getAllWidgetsByPlugin(pluginDescriptor)`
+
+This function loads all widget instances from selected plugin. Might be useful to loop over all widgets in background task.
+
+## CSS
+
+> `--widget-box-size`
+> `--widget-box-size-px`
+> `--widget-box-percent`
+
+Those CSS variables set on folder's root element and thus are available for use in widget styles. `--widget-box-size` exposes current box size as number (without unit), `--widget-box-size-px` holds same value, but with `px`, and  `--widget-box-percent` contains value between 0 and 1 (inclusive), where 0 means current box size is smallest possible and 1 is biggest possible.
+
+> `.compact-mode-active`
+> `.is-touch-device`
+> `.is-android`
+
+Those classes applied to `body` and allow you to apply particular styles only in compact mode or target touch devices or Android. To make life easier, there are also mixin versions of those:
+
+```scss
+@use "@anori/components/utils.scss" as utils;
+
+.foo {
+    padding: 2rem;
+    @include utils.compact { 
+        padding: 1rem;
+    }
+}
+
+// Same with 
+// @include utils.touch {}
+// @include utils.android {}
+```
+
+Also, it's recommended to use `hover` mixin from `utils.scss` instead of `:hover` pseudo-class. This ensures that hover styles will be applied only on devices with mouse and won't be applied on touch devices.

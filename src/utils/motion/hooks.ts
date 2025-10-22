@@ -3,17 +3,17 @@ import { type AnimationOptions, type MotionValue, animate, useMotionValue } from
 import { useEffect, useRef } from "react";
 
 // Source: https://github.com/framer/motion/issues/218#issuecomment-766101845
-export const useMotionTransition = <T extends {}>(
+export const useMotionTransition = <T>(
   source: MotionValue<T>,
   { ignoreInitial, ...config }: AnimationOptions & { ignoreInitial?: boolean } = {},
 ) => {
   const animatedMotionValue = useMotionValue(source.get());
   const prevValue = useRef<undefined | T>(undefined);
-  const animation = useRef<undefined | ReturnType<typeof animate<T>>>(undefined);
+  const animation = useRef<undefined | ReturnType<typeof animate<NonNullable<T>>>>(undefined);
   const configRef = useMirrorStateToRef(config);
 
   useEffect(() => {
-    return source.on("change", (newValue: T) => {
+    return source.on("change", (newValue: NonNullable<T>) => {
       if (prevValue.current === undefined && ignoreInitial) {
         prevValue.current = newValue;
         animatedMotionValue.jump(newValue);

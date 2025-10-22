@@ -1,4 +1,4 @@
-import type { AnoriPlugin, Folder, WidgetDescriptor } from "@anori/utils/user-data/types";
+import type { Folder } from "@anori/utils/user-data/types";
 import "./NewWidgetWizard.scss";
 import { Button } from "@anori/components/Button";
 import { Input } from "@anori/components/Input";
@@ -8,7 +8,11 @@ import { WidgetCard } from "@anori/components/WidgetCard";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
-import { type GridDimensions, type Layout, findPositionForItemInGrid } from "@anori/utils/grid";
+import type { GridContent, GridDimensions } from "@anori/utils/grid/types";
+import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
+import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
+import { isWidgetNonConfigurable } from "@anori/utils/plugins/widget";
+import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, m } from "framer-motion";
@@ -18,12 +22,16 @@ import { useTranslation } from "react-i18next";
 export type NewWidgetWizardProps = {
   folder: Folder;
   gridDimensions: GridDimensions;
-  layout: Layout;
+  layout: GridContent;
   onClose: () => void;
 };
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
-  const tryAddWidget = (plugin: AnoriPlugin, widget: WidgetDescriptor<any>, config: any) => {
+  const tryAddWidget = <WD extends WidgetDescriptor[], W extends WD[number]>(
+    plugin: AnoriPlugin<string, Mapping, WD>,
+    widget: W,
+    config: ConfigFromWidgetDescriptor<W>,
+  ) => {
     console.log({ gridDimensions, layout });
     let position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
     if (!position) {
@@ -44,12 +52,15 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
     onClose();
   };
 
-  const onWidgetClick = (widget: WidgetDescriptor<any>, plugin: AnoriPlugin) => {
-    if (widget.configurationScreen) {
+  const onWidgetClick = <WD extends WidgetDescriptor[], W extends WD[number]>(
+    widget: W,
+    plugin: AnoriPlugin<string, Mapping, WD>,
+  ) => {
+    if (isWidgetNonConfigurable(widget)) {
+      tryAddWidget(plugin, widget, {} as ConfigFromWidgetDescriptor<typeof widget>);
+    } else {
       setSelectedPlugin(plugin);
       setSelectedWidget(widget);
-    } else {
-      tryAddWidget(plugin, widget, {});
     }
   };
 
@@ -57,7 +68,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
   const [_searchQuery, setSearchQuery] = useState("");
   const searchQuery = _searchQuery.toLowerCase();
   const [selectedPlugin, setSelectedPlugin] = useState<AnoriPlugin | undefined>(undefined);
-  const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor<any> | undefined>(undefined);
+  const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor | undefined>(undefined);
   const { t } = useTranslation();
   const dir = useDirection();
 
@@ -67,10 +78,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
   const pluginsList = availablePluginsWithWidgets.filter((plugin) => {
     return (
       plugin.name.toLowerCase().includes(searchQuery) ||
-      plugin.widgets.some((widget) => {
-        if (Array.isArray(widget)) return widget.some((w) => w.name.toLowerCase().includes(searchQuery));
-        return widget.name.toLowerCase().includes(searchQuery);
-      })
+      plugin.widgets.some((widget) => widget.name.toLowerCase().includes(searchQuery))
     );
   });
 
@@ -133,42 +141,22 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                       <h2>{plugin.name}</h2>
                       <div className="widgets-mock-background">
                         <div className="widgets-mocks">
-                          {plugin.widgets.map((widgetOrGroup, ind) => {
-                            if (Array.isArray(widgetOrGroup)) {
-                              return (
-                                <div className="widgets-group" key={`group-${ind}`}>
-                                  {widgetOrGroup.map((widget) => {
-                                    return (
-                                      <button
-                                        type="button"
-                                        key={widget.id}
-                                        onClick={() => onWidgetClick(widget, plugin)}
-                                      >
-                                        <WidgetCard type="mock" widget={widget} plugin={plugin} />
-                                        <div className="widget-name">{widget.name}</div>
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              );
-                            }
-                            return (
-                              <div
-                                role="button"
-                                tabIndex={0}
-                                key={widgetOrGroup.id}
-                                onClick={() => onWidgetClick(widgetOrGroup, plugin)}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter" || e.key === " ") {
-                                    onWidgetClick(widgetOrGroup, plugin);
-                                  }
-                                }}
-                              >
-                                <WidgetCard type="mock" widget={widgetOrGroup} plugin={plugin} />
-                                <div className="widget-name">{widgetOrGroup.name}</div>
-                              </div>
-                            );
-                          })}
+                          {plugin.widgets.map((widget) => (
+                            <div
+                              role="button"
+                              tabIndex={0}
+                              key={widget.id}
+                              onClick={() => onWidgetClick(widget, plugin)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  onWidgetClick(widget, plugin);
+                                }
+                              }}
+                            >
+                              <WidgetCard type="mock" widget={widget} plugin={plugin} />
+                              <div className="widget-name">{widget.name}</div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </section>

@@ -1,11 +1,6 @@
 import { Button } from "@anori/components/Button";
 import { Input, Textarea } from "@anori/components/Input";
-import type {
-  AnoriPlugin,
-  WidgetConfigurationScreenProps,
-  WidgetDescriptor,
-  WidgetRenderProps,
-} from "@anori/utils/user-data/types";
+
 import { forwardRef, useRef, useState } from "react";
 import "./styles.scss";
 import { Checkbox } from "@anori/components/Checkbox";
@@ -19,7 +14,9 @@ import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
-import { useWidgetStorage } from "@anori/utils/plugin";
+import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
+import { useWidgetStorage } from "@anori/utils/plugins/storage";
+import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { combineRefs } from "@anori/utils/react";
 import { useDirection } from "@radix-ui/react-direction";
 import {
@@ -35,7 +32,7 @@ import {
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
-type TaskWidgetConfigType = {
+type TaskWidgetConfig = {
   title: string;
 };
 
@@ -104,10 +101,7 @@ const Scribble = ({ progress }: { progress: MotionValue<number> }) => {
   );
 };
 
-const WidgetConfigScreen = ({
-  saveConfiguration,
-  currentConfig,
-}: WidgetConfigurationScreenProps<TaskWidgetConfigType>) => {
+const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigurationScreenProps<TaskWidgetConfig>) => {
   const onConfirm = () => {
     saveConfiguration({ title });
   };
@@ -223,7 +217,7 @@ const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, 
   );
 });
 
-const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfigType>) => {
+const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
   const addTask = () => {
     const id = guid();
     trackInteraction("Add task");
@@ -326,7 +320,7 @@ const Mock = () => {
   );
 };
 
-export const tasksWidgetDescriptor = {
+export const tasksWidgetDescriptor = defineWidget({
   id: "tasks-widget",
   get name() {
     return translate("tasks-plugin.name");
@@ -343,13 +337,12 @@ export const tasksWidgetDescriptor = {
       height: 2,
     },
   },
-} as const satisfies WidgetDescriptor<TaskWidgetConfigType>;
+});
 
-export const tasksPlugin = {
+export const tasksPlugin = definePlugin({
   id: "tasks-plugin",
   get name() {
     return translate("tasks-plugin.name");
   },
-  widgets: [tasksWidgetDescriptor],
   configurationScreen: null,
-} satisfies AnoriPlugin;
+}).withWidgets(tasksWidgetDescriptor);

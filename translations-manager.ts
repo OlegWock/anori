@@ -88,7 +88,7 @@ const main = async () => {
       }
     });
     if (exitWithError) {
-      console.log("🚨 Problems with files were detected, run `yarn translations:extract` to fix them.");
+      console.log("🚨 Problems with files were detected, run `pnpm translations:extract` to fix them.");
       process.exit(1);
     }
   } else if (args[0] === "remove-excessive") {
@@ -117,7 +117,7 @@ const main = async () => {
   } else if (args[0] === "merge-back") {
     const langToMerge = args[1];
     if (!langToMerge) {
-      console.log("❌ Specify which language file to merge: yarn translations:merge <lang>");
+      console.log("❌ Specify which language file to merge: pnpm translations:merge <lang>");
       process.exit(1);
     }
     const filesToMerge = translationFiles.filter((fn) => fn === `${langToMerge}-missing.json`);
