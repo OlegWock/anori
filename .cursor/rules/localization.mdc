@@ -1,0 +1,41 @@
+---
+description: When working with localization and/or translations
+alwaysApply: false
+---
+# Localization
+
+* Anori supports multiple languages. 
+
+* We use `i18next` and `react-i18next` libraries for translations.
+
+* When translating string in context of React component, use `useTranslation` hook from `react-i18next`. It returns object which contains function `t` which can be invoked with nested string key (e.g. `onboarding.presets.title`) and returns translated string.
+
+* When translating string outside of React components, use function `translate` from `@anori/translations/index`, it has same signature as `t` from `useTranslation`.
+
+* Translation files for those languages are located in `src/translations`.
+
+* `src/translations/index.ts` holds list of avilable translations and utility functions.
+
+* `en` is considered as main language and its translation file is used as source of truth.
+
+* When adding new translation, it should also be added to `rspack.config.ts` file in `MomentLocalesPlugin` settings, as well as in `translation-manager.ts` file in `FINISHED_TRANSLATIONS` list.
+
+* There are couple of helper commands available to manage translations (all implemented in `translation-manager.ts`)
+    * `pnpm translations:missing` — checks if translations state is up-to-date. Doesn't write anythin.
+    * `pnpm translations:extract` — checks all translations against `en` and extracts any untranslated strings into `<lang-code>-missing.json` files.
+    * `pnpm translations:clean` — removes keys no longer found in `en` from other translations. Used after removing strings from `en` translation.
+    * `pnpm translations:merge <lang-code>` — merges back strings from `<lang-code>-missing.json` files into translation files. It should be run after strings in `<lang-code>-missing.json` files were translated from english into `<lang-code>` language.
+    * `pnpm translations:locales` — generates files in `src/_locales` folder. Those are used by browser and extension stores to show extension name and description in prefered user language. They shouldn't be edited manually.
+
+* General flow when working with translations is as follows
+    * When adding new strings:
+        1. Add them to `en` translation.
+        2. Run `pnpm translations:extract`.
+        3. Translate strings in `<lang-code>-missing.json` file(s).
+        4. Run `pnpm translations:merge <lang-code>` for each language
+    * When removing strings
+        1. Remove them from `en` translation.
+        2. Run `pnpm translations:clean`
+    * When significantly changing strings
+        1. Update string(s) in `en`
+        2. Manually update them in translation files
