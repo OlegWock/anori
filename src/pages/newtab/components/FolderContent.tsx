@@ -81,7 +81,7 @@ const actionButtonAnimations = {
     translateY: "50%",
     opacity: 0,
   },
-};
+} as const;
 
 const isEditingModeActiveAtom = atom(false);
 

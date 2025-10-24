@@ -1,7 +1,7 @@
 import type { Select as SelectType } from "@anori/components/Select";
 import { type CachedPromiseFuncReturn, cachedPromiseFunc } from "@anori/utils/misc";
 import type { ReorderGroup as ReorderGroupType } from "@anori/utils/motion/lazy-load-reorder";
-import { type ComponentType, type ReactNode, Suspense, lazy, useMemo } from "react";
+import { type ComponentType, type JSX, type ReactNode, Suspense, lazy, useMemo } from "react";
 
 const loaders = {
   Select: cachedPromiseFunc(() => import("@anori/components/Select").then((m) => m.Select)),

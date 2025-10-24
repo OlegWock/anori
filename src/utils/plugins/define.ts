@@ -19,10 +19,9 @@ export const definePlugin = <const I extends ID = string, const T extends Mappin
     withWidgets: <const W extends WidgetDescriptor<ID, Mapping | EmptyObject>[]>(
       ...widgets: W
     ): AnoriPlugin<I, T, W> => {
-      return {
-        ...descriptor,
-        widgets,
-      };
+      // Use Object.defineProperties instead of single spread, as it evaluate getters on copy instead of copying whole
+      // accessor, which breaks plugin name translation
+      return Object.defineProperties({ widgets }, Object.getOwnPropertyDescriptors(descriptor)) as AnoriPlugin<I, T, W>;
     },
   };
 };
