@@ -47,7 +47,7 @@ interface IconifyCollectionEndpointResponse {
 
 const getRemoteIcons = async ({ set, searchQuery }: GetRemoteIconsOptions): Promise<string[]> => {
   if (searchQuery) {
-    const params = new URLSearchParams({ query: searchQuery, limit: "100" });
+    const params = new URLSearchParams({ query: searchQuery, limit: "500" });
     if (set) {
       params.set("prefix", set);
     }
