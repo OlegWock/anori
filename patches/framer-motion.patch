@@ -1,7 +1,7 @@
-diff --git a/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs b/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+diff --git a/dist/es/gestures/drag/VisualElementDragControls.mjs b/dist/es/gestures/drag/VisualElementDragControls.mjs
 index f0be609..4601f35 100644
---- a/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
-+++ b/node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+--- a/dist/es/gestures/drag/VisualElementDragControls.mjs
++++ b/dist/es/gestures/drag/VisualElementDragControls.mjs
 @@ -156,7 +156,13 @@ class VisualElementDragControls {
          this.startAnimation(velocity);
          const { onDragEnd } = this.getProps();
