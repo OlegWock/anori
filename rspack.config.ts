@@ -65,6 +65,9 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     mode,
     devtool: false,
     entry: entries,
+    experiments: {
+      incremental: "safe",
+    },
     performance: {
       maxAssetSize: 1024 * 1024 * 20,
       maxEntrypointSize: 1024 * 1024 * 20,
