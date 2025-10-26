@@ -218,5 +218,6 @@ export const topSitesPlugin = definePlugin({
   get name() {
     return translate("top-sites-plugin.name");
   },
+  icon: builtinIcons.listOl,
   configurationScreen: null,
 }).withWidgets(topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical);

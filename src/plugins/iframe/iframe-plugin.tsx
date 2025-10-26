@@ -337,6 +337,7 @@ export const iframePlugin = definePlugin({
   get name() {
     return translate("iframe-plugin.name");
   },
+  icon: builtinIcons.pip,
   configurationScreen: null,
   onStart: () => {
     plantWebRequestHandler();

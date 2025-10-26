@@ -490,6 +490,7 @@ export const rssPlugin = definePlugin({
   get name() {
     return translate("rss-plugin.name");
   },
+  icon: builtinIcons.rssIcon,
   onMessage: handlers,
   scheduledCallback: {
     intervalInMinutes: 30,

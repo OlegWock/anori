@@ -316,5 +316,6 @@ export const mathPlugin = definePlugin({
   get name() {
     return translate("math-plugin.name");
   },
+  icon: builtinIcons.calculator,
   configurationScreen: null,
 }).withWidgets(widgetDescriptor, expandableWidgetDescriptor);

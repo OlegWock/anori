@@ -3,6 +3,7 @@ import "./styles.scss";
 import { Button } from "@anori/components/Button";
 import { Combobox } from "@anori/components/Combobox";
 import { Input } from "@anori/components/Input";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/index";
 import { useForceRerender, useLazyRef } from "@anori/utils/hooks";
@@ -265,5 +266,6 @@ export const datetimePlugin = definePlugin({
   get name() {
     return translate("datetime-plugin.name");
   },
+  icon: builtinIcons.clock,
   configurationScreen: null,
 }).withWidgets(datetimeWidgetDescriptorS, datetimeWidgetDescriptorM);

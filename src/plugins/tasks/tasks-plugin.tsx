@@ -344,5 +344,6 @@ export const tasksPlugin = definePlugin({
   get name() {
     return translate("tasks-plugin.name");
   },
+  icon: builtinIcons.checklist,
   configurationScreen: null,
 }).withWidgets(tasksWidgetDescriptor);

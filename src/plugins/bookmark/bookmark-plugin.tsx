@@ -643,6 +643,7 @@ export const bookmarkPlugin = definePlugin({
   get name() {
     return translate("bookmark-plugin.name");
   },
+  icon: builtinIcons.bookmark,
   configurationScreen: null,
   onMessage: handlers,
   scheduledCallback: {

@@ -1,5 +1,6 @@
 import { Button } from "@anori/components/Button";
 import "./styles.scss";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
@@ -66,5 +67,6 @@ export const pluginnamePlugin = definePlugin({
   get name() {
     return translate("blueprint-plugin.name");
   },
+  icon: builtinIcons.plugin,
   configurationScreen: null,
 }).withWidgets(widgetDescriptor);

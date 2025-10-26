@@ -1,15 +1,84 @@
 .NewWidgetWizard {
-    width: min(80vw, 800px);
+    width: min(80vw, 1100px);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .search-input {
+        margin: 2px;
+        width: 100%;
+    }
+
+    .two-column-content {
+        display: flex;
+        height: 60vh;
+        min-height: 400px;
+        gap: 1rem;
+        overflow: hidden;
+    }
+
+    .plugins-sidebar {
+        width: 220px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+
+        .plugins-list {
+            flex: 1;
+
+            .plugin-item {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 10px 12px;
+                border: none;
+                background: transparent;
+                color: var(--text);
+                border-radius: 8px;
+                cursor: pointer;
+                text-align: left;
+                transition: background-color 0.15s ease;
+                font-size: 14px;
+
+                &:hover {
+                    background-color: var(--background-lighter);
+                }
+
+                &.active {
+                    background-color: var(--accent-subtle);
+                    font-weight: 600;
+                }
+
+                .plugin-icon {
+                    color: var(--icon-color);
+                }
+
+                span {
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    .divider {
+        height: 100%;
+        border-right: 1px solid var(--background-lighter);
+    }
+
+    .widgets-area {
+        flex: 1;
+        padding-right: 1rem;
+    }
 
     .new-widget-content {
         display: flex;
         flex-direction: column;
         gap: 24px;
-
-        .search-input {
-            margin: 2px;
-        }
 
         section {
             display: flex;
@@ -45,8 +114,6 @@
             }
         }
     }
-
-
 }
 
 .NewWidgetWizard-wrapper {

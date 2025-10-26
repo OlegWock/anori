@@ -1,6 +1,7 @@
 import { Button } from "@anori/components/Button";
 import "./styles.scss";
 import { Input } from "@anori/components/Input";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
@@ -79,5 +80,6 @@ export const picturePlugin = definePlugin({
   get name() {
     return translate("picture-plugin.name");
   },
+  icon: builtinIcons.picture,
   configurationScreen: null,
 }).withWidgets(widgetDescriptor);

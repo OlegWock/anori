@@ -244,5 +244,6 @@ export const calendarPlugin = definePlugin({
   get name() {
     return translate("calendar-plugin.name");
   },
+  icon: builtinIcons.calendar,
   configurationScreen: null,
 }).withWidgets(widgetDescriptor);

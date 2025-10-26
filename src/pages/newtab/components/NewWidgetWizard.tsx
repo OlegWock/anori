@@ -3,7 +3,7 @@ import "./NewWidgetWizard.scss";
 import { Button } from "@anori/components/Button";
 import { Input } from "@anori/components/Input";
 import { Modal } from "@anori/components/Modal";
-import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
+import { ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetCard } from "@anori/components/WidgetCard";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
@@ -16,7 +16,7 @@ import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, m } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export type NewWidgetWizardProps = {
@@ -71,6 +71,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
   const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor | undefined>(undefined);
   const { t } = useTranslation();
   const dir = useDirection();
+  const pluginSectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   console.log("Render NewWidgetWizard", { selectedPlugin, selectedWidget });
   const inConfigurationStage = !!(selectedPlugin && selectedWidget);
@@ -81,6 +82,13 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
       plugin.widgets.some((widget) => widget.name.toLowerCase().includes(searchQuery))
     );
   });
+
+  const scrollToPlugin = (pluginId: string) => {
+    const section = pluginSectionRefs.current[pluginId];
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <Modal
@@ -125,7 +133,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
           )}
 
           {!inConfigurationStage && (
-            <MotionScrollArea
+            <m.div
               key="select"
               className="NewWidgetWizard"
               transition={{ duration: 0.18 }}
@@ -133,37 +141,71 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
               animate={{ translateX: "0%", opacity: 1 }}
               exit={{ translateX: "50%", opacity: 0 }}
             >
-              <div className="new-widget-content">
-                <Input className="search-input" value={_searchQuery} onValueChange={setSearchQuery} autoFocus />
-                {pluginsList.map((plugin) => {
-                  return (
-                    <section key={plugin.id}>
-                      <h2>{plugin.name}</h2>
-                      <div className="widgets-mock-background">
-                        <div className="widgets-mocks">
-                          {plugin.widgets.map((widget) => (
-                            <div
-                              role="button"
-                              tabIndex={0}
-                              key={widget.id}
-                              onClick={() => onWidgetClick(widget, plugin)}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  onWidgetClick(widget, plugin);
-                                }
-                              }}
-                            >
-                              <WidgetCard type="mock" widget={widget} plugin={plugin} />
-                              <div className="widget-name">{widget.name}</div>
+              <Input
+                className="search-input"
+                value={_searchQuery}
+                onValueChange={setSearchQuery}
+                placeholder={t("search")}
+                autoFocus
+              />
+
+              <div className="two-column-content">
+                <div className="plugins-sidebar">
+                  <ScrollArea className="plugins-list">
+                    {pluginsList.map((plugin) => (
+                      <button
+                        key={plugin.id}
+                        type="button"
+                        className="plugin-item"
+                        onClick={() => scrollToPlugin(plugin.id)}
+                      >
+                        <Icon icon={plugin.icon} className="plugin-icon" width={20} height={20} />
+                        <span>{plugin.name}</span>
+                      </button>
+                    ))}
+                  </ScrollArea>
+                </div>
+
+                <div className="divider" />
+
+                <ScrollArea className="widgets-area">
+                  <div className="new-widget-content">
+                    {pluginsList.map((plugin) => {
+                      return (
+                        <section
+                          key={plugin.id}
+                          ref={(el) => {
+                            pluginSectionRefs.current[plugin.id] = el;
+                          }}
+                        >
+                          <h2>{plugin.name}</h2>
+                          <div className="widgets-mock-background">
+                            <div className="widgets-mocks">
+                              {plugin.widgets.map((widget) => (
+                                <div
+                                  role="button"
+                                  tabIndex={0}
+                                  key={widget.id}
+                                  onClick={() => onWidgetClick(widget, plugin)}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                      onWidgetClick(widget, plugin);
+                                    }
+                                  }}
+                                >
+                                  <WidgetCard type="mock" widget={widget} plugin={plugin} />
+                                  <div className="widget-name">{widget.name}</div>
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    </section>
-                  );
-                })}
+                          </div>
+                        </section>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
               </div>
-            </MotionScrollArea>
+            </m.div>
           )}
         </AnimatePresence>
       </ScrollArea>

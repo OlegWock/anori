@@ -306,5 +306,6 @@ export const ankiPlugin = definePlugin({
   get name() {
     return translate("anki-plugin.name");
   },
+  icon: builtinIcons.albums,
   configurationScreen: null,
 }).withWidgets(widgetDescriptor);

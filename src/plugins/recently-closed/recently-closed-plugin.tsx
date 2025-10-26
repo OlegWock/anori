@@ -148,5 +148,6 @@ export const recentlyClosedPlugin = definePlugin({
   get name() {
     return translate("recently-closed-plugin.name");
   },
+  icon: builtinIcons.tabsFill,
   configurationScreen: null,
 }).withWidgets(widgetDescriptor);

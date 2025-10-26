@@ -1,4 +1,5 @@
 import "./styles.scss";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/index";
 import { isChromeLike } from "@anori/utils/browser";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
@@ -119,5 +120,6 @@ export const systemStatusPlugin = definePlugin({
   get name() {
     return translate("system-status-plugin.name");
   },
+  icon: builtinIcons.speedometer,
   configurationScreen: null,
 }).withWidgets(cpuWidgetDescriptor, ramWidgetDescriptor);

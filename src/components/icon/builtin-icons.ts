@@ -1,3 +1,6 @@
+import BiPip from "~icons/bi/pip?raw";
+import ClarityPictureSolid from "~icons/clarity/picture-solid?raw";
+import FaSolidListOl from "~icons/fa-solid/list-ol?raw";
 import FluentSpinnerIos20Regular from "~icons/fluent/spinner-ios-20-regular?raw";
 import IcBaselineDragIndicator from "~icons/ic/baseline-drag-indicator?raw";
 import IcBaselineTab from "~icons/ic/baseline-tab?raw";
@@ -7,13 +10,16 @@ import IonAlbums from "~icons/ion/albums?raw";
 import IonArchiveSharp from "~icons/ion/archive-sharp?raw";
 import IonArrowBack from "~icons/ion/arrow-back?raw";
 import IonArrowForward from "~icons/ion/arrow-forward?raw";
+import IonBookmark from "~icons/ion/bookmark?raw";
 import IonCalculator from "~icons/ion/calculator?raw";
+import IonCalendar from "~icons/ion/calendar?raw";
 import IonCheckmarkSharp from "~icons/ion/checkmark-sharp?raw";
 import IonCheckmark from "~icons/ion/checkmark?raw";
 import IonChevronBack from "~icons/ion/chevron-back?raw";
 import IonChevronDown from "~icons/ion/chevron-down?raw";
 import IonChevronForward from "~icons/ion/chevron-forward?raw";
 import IonChevronUp from "~icons/ion/chevron-up?raw";
+import IonClock from "~icons/ion/clock?raw";
 import IonClose from "~icons/ion/close?raw";
 import IonCloud from "~icons/ion/cloud?raw";
 import IonCodeSlashSharp from "~icons/ion/code-slash-sharp?raw";
@@ -33,6 +39,7 @@ import IonOpenOutline from "~icons/ion/open-outline?raw";
 import IonPencil from "~icons/ion/pencil?raw";
 import IonResize from "~icons/ion/resize?raw";
 import IonSettingsSharp from "~icons/ion/settings-sharp?raw";
+import IonSpeedometer from "~icons/ion/speedometer?raw";
 import IonTimeOutline from "~icons/ion/time-outline?raw";
 import JamRefresh from "~icons/jam/refresh?raw";
 import LogosFacebook from "~icons/logos/facebook?raw";
@@ -41,6 +48,9 @@ import LogosJira from "~icons/logos/jira?raw";
 import LogosNotionIcon from "~icons/logos/notion-icon?raw";
 import LogosTwitter from "~icons/logos/twitter?raw";
 import LogosWhatsappIcon from "~icons/logos/whatsapp-icon?raw";
+import MingcutePlguinFill from "~icons/mingcute/plugin-2-fill?raw";
+import PhTabsFill from "~icons/ph/tabs-fill?raw";
+import SolarChecklistBold from "~icons/solar/checklist-bold?raw";
 import WiCloud from "~icons/wi/cloud?raw";
 import WiDaySunnyOvercast from "~icons/wi/day-sunny-overcast?raw";
 import WiDaySunny from "~icons/wi/day-sunny?raw";
@@ -71,6 +81,7 @@ const builtinIconSvgsBySourceId = {
   "ic:baseline-drag-indicator": IcBaselineDragIndicator,
   "ion:pencil": IonPencil,
   "ion:resize": IonResize,
+  "ion:bookmark": IonBookmark,
   "ion:checkmark": IonCheckmark,
   "ion:checkmark-sharp": IonCheckmarkSharp,
   "ion:help-circle": IonHelpCircle,
@@ -88,6 +99,8 @@ const builtinIconSvgsBySourceId = {
   "ion:cloud": IonCloud,
   "ion:compass": IonCompass,
   "ion:dice": IonDice,
+
+  "mingcute:plugin-2-fill": MingcutePlguinFill,
 
   "logos:facebook": LogosFacebook,
   "logos:github-icon": LogosGithubIcon,
@@ -107,6 +120,14 @@ const builtinIconSvgsBySourceId = {
   "wi:snow": WiSnow,
   "wi:thunderstorm": WiThunderstorm,
   "wi:cloud": WiCloud,
+  "ion:calendar": IonCalendar,
+  "ion:clock": IonClock,
+  "bi:pip": BiPip,
+  "clarity:picture-solid": ClarityPictureSolid,
+  "ph:tabs-fill": PhTabsFill,
+  "ion:speedometer": IonSpeedometer,
+  "solar:checklist-bold": SolarChecklistBold,
+  "fa-solid:list-ol": FaSolidListOl,
 } as const satisfies Record<string, string>;
 
 export type BuiltInIconId = keyof typeof builtinIconSvgsBySourceId;
@@ -148,6 +169,16 @@ export const builtinIcons = {
   newspaper: "ion:newspaper-outline",
   expand: "ion:expand",
   rssIcon: "ion:logo-rss",
+  plugin: "mingcute:plugin-2-fill",
+  bookmark: "ion:bookmark",
+  calendar: "ion:calendar",
+  clock: "ion:clock",
+  pip: "bi:pip",
+  picture: "clarity:picture-solid",
+  tabsFill: "ph:tabs-fill",
+  speedometer: "ion:speedometer",
+  checklist: "solar:checklist-bold",
+  listOl: "fa-solid:list-ol",
 
   logos: {
     facebook: "logos:facebook",

@@ -72,6 +72,7 @@ export type AnoriPlugin<
 > = {
   id: I;
   name: string;
+  icon: string;
   widgets: W;
   configurationScreen: T extends EmptyObject ? null : ComponentType<PluginConfigurationScreenProps<T>>;
   onStart?: () => void;
