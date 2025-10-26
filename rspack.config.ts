@@ -101,12 +101,6 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         "@anori/assets": path.resolve(__dirname, paths.src.assets),
         "@anori/plugins": path.resolve(__dirname, paths.src.plugins),
         "@anori/translations": path.resolve(__dirname, paths.src.translations),
-
-        // This by default resolves to version for browser, which then breaks background worker
-        "decode-named-character-reference": path.resolve(
-          __dirname,
-          "node_modules/decode-named-character-reference/index.js",
-        ),
       },
       aliasFields: ["browser", "worker"],
 
