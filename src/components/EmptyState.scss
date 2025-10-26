@@ -1,0 +1,29 @@
+.EmptyState {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 24px;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    color: var(--text-subtle-2);
+
+    .empty-icon {
+        opacity: 0.6;
+    }
+
+    .empty-title {
+        font-size: 1.25rem;
+        font-weight: 400;
+        color: var(--text);
+        margin: 0;
+    }
+
+    .empty-description {
+        font-size: 0.9rem;
+        max-width: 400px;
+        line-height: 1.5;
+        margin: 0;
+    }
+}
+

@@ -1,3 +1,4 @@
+import BiInboxFill from "~icons/bi/inbox-fill?raw";
 import BiPip from "~icons/bi/pip?raw";
 import ClarityPictureSolid from "~icons/clarity/picture-solid?raw";
 import FaSolidListOl from "~icons/fa-solid/list-ol?raw";
@@ -128,6 +129,7 @@ const builtinIconSvgsBySourceId = {
   "ion:speedometer": IonSpeedometer,
   "solar:checklist-bold": SolarChecklistBold,
   "fa-solid:list-ol": FaSolidListOl,
+  "bi:inbox-fill": BiInboxFill,
 } as const satisfies Record<string, string>;
 
 export type BuiltInIconId = keyof typeof builtinIconSvgsBySourceId;
@@ -179,6 +181,7 @@ export const builtinIcons = {
   speedometer: "ion:speedometer",
   checklist: "solar:checklist-bold",
   listOl: "fa-solid:list-ol",
+  empty: "bi:inbox-fill",
 
   logos: {
     facebook: "logos:facebook",

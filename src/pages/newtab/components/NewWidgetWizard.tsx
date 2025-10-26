@@ -1,9 +1,10 @@
 import type { Folder } from "@anori/utils/user-data/types";
 import "./NewWidgetWizard.scss";
 import { Button } from "@anori/components/Button";
+import { EmptyState } from "@anori/components/EmptyState";
 import { Input } from "@anori/components/Input";
 import { Modal } from "@anori/components/Modal";
-import { ScrollArea } from "@anori/components/ScrollArea";
+import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetCard } from "@anori/components/WidgetCard";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
@@ -114,41 +115,43 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
       onClose={onClose}
       className="NewWidgetWizard-wrapper"
     >
-      <ScrollArea className="NewWidgetWizard-scrollarea">
-        <AnimatePresence initial={false} mode="wait">
-          {inConfigurationStage && !!selectedWidget.configurationScreen && (
-            <m.div
-              key="configuration"
-              className="NewWidgetWizard"
-              transition={{ duration: 0.18 }}
-              initial={{ translateX: "-50%", opacity: 0 }}
-              animate={{ translateX: "0%", opacity: 1 }}
-              exit={{ translateX: "-50%", opacity: 0 }}
-            >
-              <selectedWidget.configurationScreen
-                widgetId={selectedWidget.id}
-                saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config)}
-              />
-            </m.div>
-          )}
+      <AnimatePresence initial={false} mode="wait">
+        {inConfigurationStage && !!selectedWidget.configurationScreen && (
+          <MotionScrollArea
+            key="configuration"
+            className="NewWidgetWizard"
+            transition={{ duration: 0.18 }}
+            initial={{ translateX: "-50%", opacity: 0 }}
+            animate={{ translateX: "0%", opacity: 1 }}
+            exit={{ translateX: "-50%", opacity: 0 }}
+          >
+            <selectedWidget.configurationScreen
+              widgetId={selectedWidget.id}
+              saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config)}
+            />
+          </MotionScrollArea>
+        )}
 
-          {!inConfigurationStage && (
-            <m.div
-              key="select"
-              className="NewWidgetWizard"
-              transition={{ duration: 0.18 }}
-              initial={{ translateX: "50%", opacity: 0 }}
-              animate={{ translateX: "0%", opacity: 1 }}
-              exit={{ translateX: "50%", opacity: 0 }}
-            >
-              <Input
-                className="search-input"
-                value={_searchQuery}
-                onValueChange={setSearchQuery}
-                placeholder={t("search")}
-                autoFocus
-              />
+        {!inConfigurationStage && (
+          <m.div
+            key="select"
+            className="NewWidgetWizard"
+            transition={{ duration: 0.18 }}
+            initial={{ translateX: "50%", opacity: 0 }}
+            animate={{ translateX: "0%", opacity: 1 }}
+            exit={{ translateX: "50%", opacity: 0 }}
+          >
+            <Input
+              className="search-input"
+              value={_searchQuery}
+              onValueChange={setSearchQuery}
+              placeholder={t("search")}
+              autoFocus
+            />
 
+            {pluginsList.length === 0 ? (
+              <EmptyState title={t("noResults")} />
+            ) : (
               <div className="two-column-content">
                 <div className="plugins-sidebar">
                   <ScrollArea className="plugins-list">
@@ -205,10 +208,10 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                   </div>
                 </ScrollArea>
               </div>
-            </m.div>
-          )}
-        </AnimatePresence>
-      </ScrollArea>
+            )}
+          </m.div>
+        )}
+      </AnimatePresence>
     </Modal>
   );
 };
