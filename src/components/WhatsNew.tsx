@@ -17,6 +17,13 @@ export const WhatsNew = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
+            <h2>1.25.0</h2>
+            <ul>
+              <li>New design of "Add widget" modal.</li>
+              <li>Fixed some bugs.</li>
+              <li>Added couple of new bugs probably.</li>
+            </ul>
+
             <h2>1.24.0</h2>
             <ul>
               <li>Top sites widget is now resizable.</li>
