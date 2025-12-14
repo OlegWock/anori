@@ -19,6 +19,12 @@ importers:
 
   .:
     dependencies:
+      '@anori-app/api-client':
+        specifier: ^1.0.13
+        version: 1.0.13(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
+      '@anori-app/api-types':
+        specifier: ^1.0.13
+        version: 1.0.13
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
@@ -261,6 +267,12 @@ importers:
         version: 2.1.3(webpack@5.101.3)
 
 packages:
+
+  '@anori-app/api-client@1.0.13':
+    resolution: {integrity: sha512-xJ3cjN6kaX9Ji6LttvZlqdfvD5jXlWiCId77MkokKDz+2IjrVhiv+s3oB/sZgpj/14/pRdqw4oDXOMSdhvJdrA==}
+
+  '@anori-app/api-types@1.0.13':
+    resolution: {integrity: sha512-2+8v0L8GAe/cKNpqjHOGM4i2jtrHkvLOzesUvMvOAy7yddFpbULOpywMMzi0CbC/Qh5Hs/axQbw4k0rrKcoeTQ==}
 
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
@@ -1245,6 +1257,27 @@ packages:
 
   '@total-typescript/ts-reset@0.6.1':
     resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
+
+  '@trpc/client@11.8.0':
+    resolution: {integrity: sha512-imJQeESX1hAapDaC4JB91yvXg41AZfBuTh/scnEiN/hAubZa5s/ikp0n+w29q2GCf+hREkr3WptUFKFJoDAIug==}
+    peerDependencies:
+      '@trpc/server': 11.8.0
+      typescript: '>=5.7.2'
+
+  '@trpc/react-query@11.8.0':
+    resolution: {integrity: sha512-zJG22PqhGUBq6ke58McGxRBGWGDTHlmsgpxp/rQx8iT2yi0Ja1H2/UcSsjZ/MG65DhCfpKvMVH0OVivTn9FWwA==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.80.3
+      '@trpc/client': 11.8.0
+      '@trpc/server': 11.8.0
+      react: '>=18.2.0'
+      react-dom: '>=18.2.0'
+      typescript: '>=5.7.2'
+
+  '@trpc/server@11.8.0':
+    resolution: {integrity: sha512-DphyQnLuyX2nwJCQGWQ9zYz4hZGvRhSBqDhQ0SH3tDhQ3PU4u68xofA0pJ741Ir4InEAFD+TtJVLAQy+wVOkiQ==}
+    peerDependencies:
+      typescript: '>=5.7.2'
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -4917,10 +4950,29 @@ packages:
     resolution: {integrity: sha512-zshzwQW7gG7hjpBlgeQP9RuyPGNxvJdzR8SUM3QhxCnLjWN2E7j3dOvpeDcQoETfHx0urRS7EtmVToql7YpU4A==}
     engines: {node: '>= 10'}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
 snapshots:
+
+  '@anori-app/api-client@1.0.13(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
+    dependencies:
+      '@anori-app/api-types': 1.0.13
+      '@tanstack/react-query': 5.87.4(react@19.1.0)
+      '@trpc/client': 11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2)
+      '@trpc/react-query': 11.8.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.8.0(typescript@5.9.2))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
+      '@trpc/server': 11.8.0(typescript@5.9.2)
+    transitivePeerDependencies:
+      - react
+      - react-dom
+      - typescript
+
+  '@anori-app/api-types@1.0.13':
+    dependencies:
+      zod: 3.25.76
 
   '@antfu/install-pkg@1.1.0':
     dependencies:
@@ -6043,6 +6095,24 @@ snapshots:
   '@tanstack/virtual-core@3.13.9': {}
 
   '@total-typescript/ts-reset@0.6.1': {}
+
+  '@trpc/client@11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2)':
+    dependencies:
+      '@trpc/server': 11.8.0(typescript@5.9.2)
+      typescript: 5.9.2
+
+  '@trpc/react-query@11.8.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.8.0(typescript@5.9.2))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
+    dependencies:
+      '@tanstack/react-query': 5.87.4(react@19.1.0)
+      '@trpc/client': 11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2)
+      '@trpc/server': 11.8.0(typescript@5.9.2)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      typescript: 5.9.2
+
+  '@trpc/server@11.8.0(typescript@5.9.2)':
+    dependencies:
+      typescript: 5.9.2
 
   '@trysound/sax@0.2.0': {}
 
@@ -10096,5 +10166,7 @@ snapshots:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.2
+
+  zod@3.25.76: {}
 
   zwitch@2.0.4: {}

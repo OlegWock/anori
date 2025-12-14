@@ -9,7 +9,8 @@
             "@anori/components/*": ["./src/components/*"],
             "@anori/assets/*": ["./src/assets/*"],
             "@anori/plugins/*": ["./src/plugins/*"],
-            "@anori/translations/*": ["./src/translations/*"]
+            "@anori/translations/*": ["./src/translations/*"],
+            "@anori/cloud-integration/*": ["./src/cloud-integration/*"]
         },
         "outDir": "dist",
         "noImplicitAny": true,

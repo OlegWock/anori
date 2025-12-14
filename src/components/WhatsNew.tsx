@@ -23,7 +23,8 @@ export const WhatsNew = () => {
               <li>Fixed some bugs.</li>
               <li>Added couple of new bugs probably.</li>
             </ul>
-
+          </section>
+          <section>
             <h2>1.24.0</h2>
             <ul>
               <li>Top sites widget is now resizable.</li>

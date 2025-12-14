@@ -38,6 +38,7 @@ import IonLogoRss from "~icons/ion/logo-rss?raw";
 import IonNewspaperOutline from "~icons/ion/newspaper-outline?raw";
 import IonOpenOutline from "~icons/ion/open-outline?raw";
 import IonPencil from "~icons/ion/pencil?raw";
+import IonPersonCircle from "~icons/ion/person-circle?raw";
 import IonResize from "~icons/ion/resize?raw";
 import IonSettingsSharp from "~icons/ion/settings-sharp?raw";
 import IonSpeedometer from "~icons/ion/speedometer?raw";
@@ -81,6 +82,7 @@ const builtinIconSvgsBySourceId = {
   "ion:chevron-up": IonChevronUp,
   "ic:baseline-drag-indicator": IcBaselineDragIndicator,
   "ion:pencil": IonPencil,
+  "ion:person-circle": IonPersonCircle,
   "ion:resize": IonResize,
   "ion:bookmark": IonBookmark,
   "ion:checkmark": IonCheckmark,
@@ -157,6 +159,7 @@ export const builtinIcons = {
   chevronUp: "ion:chevron-up",
   dragHandle: "ic:baseline-drag-indicator",
   pencil: "ion:pencil",
+  personCircle: "ion:person-circle",
   resize: "ion:resize",
   check: "ion:checkmark",
   checkSharp: "ion:checkmark-sharp",

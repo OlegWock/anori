@@ -48,6 +48,12 @@ export type StorageContent = {
   performanceRawInp: number[];
 
   storageVersion: number;
+
+  cloudAccount: {
+    sessionToken: string;
+    email: string;
+    userId: string;
+  } | null;
 };
 
 export type Folder = {

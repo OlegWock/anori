@@ -17,6 +17,9 @@ const loaders = {
   NewWidgetWizard: cachedPromiseFunc(() =>
     import("../pages/newtab/components/NewWidgetWizard").then((m) => m.NewWidgetWizard),
   ),
+  CloudAccountModal: cachedPromiseFunc(() =>
+    import("@anori/cloud-integration/components/CloudAccountModal").then((m) => m.CloudAccountModal),
+  ),
 } as const;
 
 export const scheduleLazyComponentsPreload = () => {
@@ -87,3 +90,4 @@ export const BookmarksBar = createLazyComponentWithSuspense(loaders.BookmarksBar
 export const WhatsNew = createLazyComponentWithSuspense(loaders.WhatsNew);
 export const SettingsModal = createLazyComponentWithSuspense(loaders.SettingsModal, { name: "SettingLazyWrapper" });
 export const NewWidgetWizard = createLazyComponentWithSuspense(loaders.NewWidgetWizard);
+export const CloudAccountModal = createLazyComponentWithSuspense(loaders.CloudAccountModal);

@@ -1,3 +1,4 @@
+import { TRPCProvider } from "@anori/cloud-integration/components/TRPCProvider";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
@@ -24,7 +25,7 @@ export const QueryClientProvider = ({ children }: { children?: ReactNode }) => {
       client={queryClient}
       persistOptions={{ persister: queryPersister, buster: browser.runtime.getManifest().version }}
     >
-      {children}
+      <TRPCProvider queryClient={queryClient}>{children}</TRPCProvider>
     </PersistQueryClientProvider>
   );
 };
