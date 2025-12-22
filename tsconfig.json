@@ -3,6 +3,7 @@
     "exclude": ["node_modules", "dist"],
     "compilerOptions": {
         "lib": ["es6", "es2023", "dom", "dom.iterable", "WebWorker"],
+        "types": ["vitest/globals"],
         "baseUrl": ".",
         "paths": {
             "@anori/utils/*": ["./src/utils/*"],
