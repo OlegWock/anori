@@ -6,8 +6,17 @@ import {
   isCollectionAllQuery,
   isCollectionByIdQuery,
 } from "./schema/collection";
+import {
+  type FileCollectionAllQuery,
+  type FileCollectionByIdQuery,
+  type FileCollectionQuery,
+  type FileDescriptor,
+  isFileCollectionAllQuery,
+  isFileCollectionByIdQuery,
+  isFileDescriptor,
+} from "./schema/file";
 
-export type Query = CellDescriptor | CollectionQuery;
+export type Query = CellDescriptor | CollectionQuery | FileDescriptor | FileCollectionQuery;
 
 export type ResolvedCellQuery = {
   type: "cell";
@@ -29,11 +38,21 @@ export type ResolvedCollectionByIdQuery = {
 export type ResolvedQuery = ResolvedCellQuery | ResolvedCollectionAllQuery | ResolvedCollectionByIdQuery;
 
 export function resolveQuery(query: CellDescriptor): ResolvedCellQuery;
+export function resolveQuery(query: FileDescriptor): ResolvedCellQuery;
 export function resolveQuery(query: CollectionAllQuery): ResolvedCollectionAllQuery;
+export function resolveQuery(query: FileCollectionAllQuery): ResolvedCollectionAllQuery;
 export function resolveQuery(query: CollectionByIdQuery): ResolvedCollectionByIdQuery;
+export function resolveQuery(query: FileCollectionByIdQuery): ResolvedCollectionByIdQuery;
 export function resolveQuery(query: Query): ResolvedQuery;
 export function resolveQuery(query: Query): ResolvedQuery {
   if (isCellDescriptor(query)) {
+    return {
+      type: "cell",
+      key: query.key,
+    };
+  }
+
+  if (isFileDescriptor(query)) {
     return {
       type: "cell",
       key: query.key,
@@ -48,6 +67,13 @@ export function resolveQuery(query: Query): ResolvedQuery {
     };
   }
 
+  if (isFileCollectionAllQuery(query)) {
+    return {
+      type: "collectionAll",
+      keyPrefix: query.keyPrefix,
+    };
+  }
+
   if (isCollectionByIdQuery(query)) {
     return {
       type: "collectionById",
@@ -56,14 +82,23 @@ export function resolveQuery(query: Query): ResolvedQuery {
     };
   }
 
+  if (isFileCollectionByIdQuery(query)) {
+    return {
+      type: "collectionById",
+      key: `${query.keyPrefix}:${query.id}`,
+    };
+  }
+
   throw new Error("Unknown query type");
 }
 
-export function getStorageKey(query: CellDescriptor | CollectionByIdQuery): string {
-  if (isCellDescriptor(query)) {
+export function getStorageKey(
+  query: CellDescriptor | CollectionByIdQuery | FileDescriptor | FileCollectionByIdQuery,
+): string {
+  if (isCellDescriptor(query) || isFileDescriptor(query)) {
     return query.key;
   }
-  if (isCollectionByIdQuery(query)) {
+  if (isCollectionByIdQuery(query) || isFileCollectionByIdQuery(query)) {
     return `${query.keyPrefix}:${query.id}`;
   }
   throw new Error("Cannot get single storage key for collection.all() query");

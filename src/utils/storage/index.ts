@@ -9,7 +9,7 @@ export {
   deserializeHlc,
 } from "./hlc";
 
-export type { StorageRecord, FileMetaRecord } from "./types";
+export type { StorageRecord, FileMetaValue } from "./types";
 
 export {
   type Query,
@@ -24,6 +24,17 @@ export {
 } from "./query";
 
 export { type Storage, type CreateStorageOptions, type OutboxEntry, createStorage } from "./storage";
+
+export type { FilesStorage, FileQuery, SingleFileQuery, FileWithMeta } from "./files";
+
+export {
+  generateFilePath,
+  writeFile,
+  readFile,
+  deleteFile,
+  listFiles,
+  fileExists,
+} from "./opfs";
 
 export {
   // Cell
@@ -63,4 +74,19 @@ export {
   createMigration,
   defineVersionedSchema,
   getMigrationPath,
+  // File
+  type FileOptions,
+  type FileDescriptor,
+  type FileCollectionOptions,
+  type FileCollectionDescriptor,
+  type FileCollectionQuery,
+  type FileCollectionAllQuery,
+  type FileCollectionByIdQuery,
+  file,
+  fileCollection,
+  isFileDescriptor,
+  isFileCollectionDescriptor,
+  isFileQuery,
+  isFileCollectionAllQuery,
+  isFileCollectionByIdQuery,
 } from "./schema";

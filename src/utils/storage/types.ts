@@ -7,9 +7,7 @@ export type StorageRecord<T> = {
   value: T | null;
 };
 
-export type FileMetaRecord<P = unknown> = {
-  hlc: HlcTimestamp;
-  deleted?: boolean;
-  properties?: P;
+export type FileMetaValue<P = unknown> = {
   path: string;
+  properties?: P;
 };

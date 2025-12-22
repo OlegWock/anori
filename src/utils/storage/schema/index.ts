@@ -28,3 +28,20 @@ export {
   defineVersionedSchema,
   getMigrationPath,
 } from "./versioned";
+
+export {
+  type FileOptions,
+  type FileDescriptor,
+  type FileCollectionOptions,
+  type FileCollectionDescriptor,
+  type FileCollectionQuery,
+  type FileCollectionAllQuery,
+  type FileCollectionByIdQuery,
+  file,
+  fileCollection,
+  isFileDescriptor,
+  isFileCollectionDescriptor,
+  isFileQuery,
+  isFileCollectionAllQuery,
+  isFileCollectionByIdQuery,
+} from "./file";

@@ -1,8 +1,15 @@
 import browser from "webextension-polyfill";
+import { type FilesStorage, createFilesStorage } from "./files";
 import { type Hlc, type HlcState, type HlcTimestamp, compareHlc, createHlc, generateNodeId } from "./hlc";
 import { type Query, type ResolvedQuery, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
 import { type CellDescriptor, isCellDescriptor } from "./schema/cell";
 import { type CollectionAllQuery, type CollectionByIdQuery, isCollectionDescriptor } from "./schema/collection";
+import {
+  isFileCollectionAllQuery,
+  isFileCollectionByIdQuery,
+  isFileCollectionDescriptor,
+  isFileDescriptor,
+} from "./schema/file";
 import type { VersionedSchema } from "./schema/versioned";
 import type { StorageRecord } from "./types";
 
@@ -54,6 +61,8 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = {
       changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
     ): Promise<{ applied: string[]; skipped: string[] }>;
   };
+
+  files: FilesStorage;
 };
 
 export type CreateStorageOptions<S extends VersionedSchema = VersionedSchema> = {
@@ -81,11 +90,11 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
   function isKeyTracked(key: string): boolean {
     for (const descriptor of Object.values(latestSchema.definition)) {
-      if (isCellDescriptor(descriptor)) {
+      if (isCellDescriptor(descriptor) || isFileDescriptor(descriptor)) {
         if (descriptor.key === key && descriptor.tracked) {
           return true;
         }
-      } else if (isCollectionDescriptor(descriptor)) {
+      } else if (isCollectionDescriptor(descriptor) || isFileCollectionDescriptor(descriptor)) {
         if (isKeyMatchingPrefix(key, descriptor.keyPrefix) && descriptor.tracked) {
           return true;
         }
@@ -202,6 +211,106 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     });
   }
 
+  async function setInternal<T>(query: Query, value: T): Promise<void> {
+    const resolved = resolveQuery(query);
+
+    if (resolved.type === "collectionAll") {
+      throw new Error("Cannot set value for collection.all() query. Use byId() instead.");
+    }
+
+    const hlcTs = getHlc().tick();
+
+    const record: StorageRecord<T> = {
+      hlc: hlcTs,
+      value,
+    };
+
+    if (resolved.type === "collectionById" && resolved.brand) {
+      record.brand = resolved.brand;
+    }
+
+    await persistRecord(resolved.key, record as StorageRecord<unknown>);
+    await persistHlcState();
+
+    if ("tracked" in query && query.tracked) {
+      await addToOutbox(resolved.key, "kv", hlcTs);
+    }
+  }
+
+  async function deleteInternal(query: Query): Promise<void> {
+    const resolved = resolveQuery(query);
+
+    if (resolved.type === "collectionAll") {
+      throw new Error("Cannot delete with collection.all() query. Use byId() instead.");
+    }
+
+    const existingValue = cache[resolved.key];
+    const existingRecord = isStorageRecord(existingValue) ? existingValue : undefined;
+
+    const hlcTs = getHlc().tick();
+
+    const record: StorageRecord<null> = {
+      hlc: hlcTs,
+      deleted: true,
+      value: null,
+    };
+
+    if (existingRecord?.brand) {
+      record.brand = existingRecord.brand;
+    }
+
+    await persistRecord(resolved.key, record);
+    await persistHlcState();
+
+    if ("tracked" in query && query.tracked) {
+      await addToOutbox(resolved.key, "kv", hlcTs);
+    }
+  }
+
+  function getInternal<T>(query: Query): T | undefined | Record<string, T> {
+    const resolved = resolveQuery(query);
+
+    if (resolved.type === "cell" || resolved.type === "collectionById") {
+      const cachedValue = cache[resolved.key];
+      const record = isStorageRecord(cachedValue) ? cachedValue : undefined;
+
+      if (!record || record.deleted) {
+        if (resolved.type === "cell" && "defaultValue" in query) {
+          return (query as CellDescriptor<T>).defaultValue;
+        }
+        return undefined;
+      }
+
+      if (resolved.type === "collectionById" && resolved.brand && record.brand !== resolved.brand) {
+        return undefined;
+      }
+
+      return (record.value as T) ?? undefined;
+    }
+
+    return getCollectionAll<T>(resolved.keyPrefix, resolved.brand);
+  }
+
+  function subscribeInternal<T>(
+    query: Query,
+    callback: ChangeCallback<T> | ChangeCallback<Record<string, T>>,
+  ): () => void {
+    const resolved = resolveQuery(query);
+    const subscription: Subscription = {
+      query: resolved,
+      callback: callback as ChangeCallback,
+    };
+
+    subscriptions.push(subscription);
+
+    return () => {
+      const index = subscriptions.indexOf(subscription);
+      if (index >= 0) {
+        subscriptions.splice(index, 1);
+      }
+    };
+  }
+
   const storage: Storage<S> = {
     schema: latestSchema.definition,
 
@@ -236,113 +345,45 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
     ): T | undefined | Record<string, T> {
       ensureInitialized();
-      const resolved = resolveQuery(query);
 
-      if (resolved.type === "cell" || resolved.type === "collectionById") {
-        const cachedValue = cache[resolved.key];
-        const record = isStorageRecord(cachedValue) ? cachedValue : undefined;
-
-        if (!record || record.deleted) {
-          if (resolved.type === "cell" && "defaultValue" in query) {
-            return (query as CellDescriptor<T>).defaultValue;
-          }
-          return undefined;
-        }
-
-        // Validate brand for collection queries
-        if (resolved.type === "collectionById" && resolved.brand && record.brand !== resolved.brand) {
-          return undefined;
-        }
-
-        return (record.value as T) ?? undefined;
+      if (isFileDescriptor(query) || isFileCollectionByIdQuery(query) || isFileCollectionAllQuery(query)) {
+        throw new Error(
+          "Cannot use storage.get() with file queries. Use filesStorage.get() or filesStorage.getMeta() instead.",
+        );
       }
 
-      // Collection all query
-      return getCollectionAll<T>(resolved.keyPrefix, resolved.brand);
+      return getInternal<T>(query);
     },
 
     async set<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>, value: T): Promise<void> {
       ensureInitialized();
-      const resolved = resolveQuery(query as Query);
 
-      if (resolved.type === "collectionAll") {
-        throw new Error("Cannot set value for collection.all() query. Use byId() instead.");
+      if (isFileDescriptor(query) || isFileCollectionByIdQuery(query)) {
+        throw new Error("Cannot use storage.set() with file queries. Use filesStorage.set() instead.");
       }
 
-      const hlcTs = getHlc().tick();
-
-      const record: StorageRecord<T> = {
-        hlc: hlcTs,
-        value,
-      };
-
-      // Add brand for collection items
-      if (resolved.type === "collectionById" && resolved.brand) {
-        record.brand = resolved.brand;
-      }
-
-      await persistRecord(resolved.key, record as StorageRecord<unknown>);
-      await persistHlcState();
-
-      // Add to outbox if tracked
-
-      if (query.tracked) {
-        await addToOutbox(resolved.key, "kv", hlcTs);
-      }
+      await setInternal(query, value);
     },
 
     async delete(query: CellDescriptor | CollectionByIdQuery): Promise<void> {
       ensureInitialized();
-      const resolved = resolveQuery(query as Query);
 
-      if (resolved.type === "collectionAll") {
-        throw new Error("Cannot delete with collection.all() query. Use byId() instead.");
+      if (isFileDescriptor(query) || isFileCollectionByIdQuery(query)) {
+        throw new Error("Cannot use storage.delete() with file queries. Use filesStorage.delete() instead.");
       }
 
-      // Get existing record to preserve brand
-      const existingValue = cache[resolved.key];
-      const existingRecord = isStorageRecord(existingValue) ? existingValue : undefined;
-
-      const hlcTs = getHlc().tick();
-
-      const record: StorageRecord<null> = {
-        hlc: hlcTs,
-        deleted: true,
-        value: null,
-      };
-
-      // Preserve brand for collection items
-      if (existingRecord?.brand) {
-        record.brand = existingRecord.brand;
-      }
-
-      await persistRecord(resolved.key, record);
-      await persistHlcState();
-
-      // Add to outbox if tracked
-      if (query.tracked) {
-        await addToOutbox(resolved.key, "kv", hlcTs);
-      }
+      await deleteInternal(query);
     },
 
     subscribe<T>(
       query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
       callback: ChangeCallback<T> | ChangeCallback<Record<string, T>>,
     ): () => void {
-      const resolved = resolveQuery(query as Query);
-      const subscription: Subscription = {
-        query: resolved,
-        callback: callback as ChangeCallback,
-      };
+      if (isFileDescriptor(query) || isFileCollectionByIdQuery(query) || isFileCollectionAllQuery(query)) {
+        throw new Error("Cannot use storage.subscribe() with file queries. Use filesStorage for file operations.");
+      }
 
-      subscriptions.push(subscription);
-
-      return () => {
-        const index = subscriptions.indexOf(subscription);
-        if (index >= 0) {
-          subscriptions.splice(index, 1);
-        }
-      };
+      return subscribeInternal(query, callback);
     },
 
     sync: {
@@ -428,6 +469,21 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
         return { applied, skipped };
       },
     },
+
+    files: createFilesStorage({
+      getMeta(query) {
+        ensureInitialized();
+        return getInternal(query);
+      },
+      async setMeta(query, value) {
+        ensureInitialized();
+        await setInternal(query, value);
+      },
+      async deleteMeta(query) {
+        ensureInitialized();
+        await deleteInternal(query);
+      },
+    }),
   };
 
   return storage;
