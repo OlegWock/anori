@@ -22,7 +22,7 @@ import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
 import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";

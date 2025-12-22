@@ -1,4 +1,4 @@
-import { atomWithBrowserStorageStatic, getAtomWithStorageValue } from "@anori/utils/storage/api";
+import { atomWithBrowserStorageStatic, getAtomWithStorageValue } from "@anori/utils/storage-legacy/api";
 
 export const cloudAccountAtom = atomWithBrowserStorageStatic("cloudAccount", null);
 

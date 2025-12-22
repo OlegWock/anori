@@ -3,7 +3,7 @@ import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { useHotkeys } from "@anori/utils/hooks";
-import { useBrowserStorageValue } from "@anori/utils/storage/api";
+import { useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
 import type { Folder } from "@anori/utils/user-data/types";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import { AnimatePresence } from "framer-motion";

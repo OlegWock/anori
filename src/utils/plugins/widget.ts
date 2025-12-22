@@ -1,6 +1,6 @@
 import type { GridItemSize } from "@anori/utils/grid/types";
 import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { storage } from "@anori/utils/storage/api";
+import { storage } from "@anori/utils/storage-legacy/api";
 import type { EmptyObject, ID, Mapping } from "@anori/utils/types";
 import {
   type DistributedWidgetInFolderWithMeta,

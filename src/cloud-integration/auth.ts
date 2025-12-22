@@ -1,4 +1,4 @@
-import { setAtomWithStorageValue } from "@anori/utils/storage/api";
+import { setAtomWithStorageValue } from "@anori/utils/storage-legacy/api";
 import { getApiClient, updateApiClientToken } from "./api-client";
 import { cloudAccountAtom } from "./storage";
 

@@ -3,7 +3,7 @@ import { ShortcutHint } from "./ShortcutHint";
 import "./WhatsNew.scss";
 import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
 import { analyticsEnabledAtom } from "@anori/utils/analytics";
-import { useAtomWithStorage } from "@anori/utils/storage/api";
+import { useAtomWithStorage } from "@anori/utils/storage-legacy/api";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "./Checkbox";
 

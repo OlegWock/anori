@@ -1,4 +1,4 @@
-import { useAtomWithStorage } from "@anori/utils/storage/api";
+import { useAtomWithStorage } from "@anori/utils/storage-legacy/api";
 import { getApiClient } from "./api-client";
 import { cloudAccountAtom } from "./storage";
 

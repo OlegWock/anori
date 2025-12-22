@@ -1,7 +1,7 @@
 import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { IS_TOUCH_DEVICE } from "./device";
 import { useMirrorStateToRef } from "./hooks";
-import { useBrowserStorageValue } from "./storage/api";
+import { useBrowserStorageValue } from "./storage-legacy/api";
 
 const CompactModeContext = createContext(false);
 

@@ -19,7 +19,7 @@ import {
   storage,
   useAtomWithStorage,
   useBrowserStorageValue,
-} from "@anori/utils/storage/api";
+} from "@anori/utils/storage-legacy/api";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

@@ -10,7 +10,7 @@ import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
 import { getAllCustomIconNames } from "../components/icon/custom-icons";
 import { guid, wait } from "./misc";
-import { atomWithBrowserStorageStatic, storage } from "./storage/api";
+import { atomWithBrowserStorageStatic, storage } from "./storage-legacy/api";
 
 export const analyticsEnabledAtom = atomWithBrowserStorageStatic("analyticsEnabled", false);
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;

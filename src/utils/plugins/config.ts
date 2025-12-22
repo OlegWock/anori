@@ -4,7 +4,7 @@ import {
   atomWithBrowserStorage,
   storage,
   useAtomWithStorage,
-} from "@anori/utils/storage/api";
+} from "@anori/utils/storage-legacy/api";
 import type { ID, Mapping } from "@anori/utils/types";
 import type { SetStateAction } from "react";
 

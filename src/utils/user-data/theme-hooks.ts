@@ -1,4 +1,4 @@
-import { useBrowserStorageValue } from "@anori/utils/storage/api";
+import { useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
 import { defaultTheme, themes } from "./theme";
 
 export const useCurrentTheme = () => {

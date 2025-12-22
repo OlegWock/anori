@@ -8,7 +8,7 @@ import {
   getAtomWithStorageValue,
   setAtomWithStorageValue,
   useAtomWithStorage,
-} from "./storage/api";
+} from "./storage-legacy/api";
 
 export class NamespacedStorage<T extends Mapping = Mapping> {
   ns: string;

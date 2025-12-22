@@ -1,6 +1,6 @@
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
-import { storage } from "@anori/utils/storage/api";
+import { storage } from "@anori/utils/storage-legacy/api";
 import browser from "webextension-polyfill";
 import { type Language, availableTranslations } from "./translations";
 

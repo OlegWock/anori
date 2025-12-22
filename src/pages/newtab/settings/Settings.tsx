@@ -38,8 +38,8 @@ import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
-import { migrateStorage } from "@anori/utils/storage/migrations";
+import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
+import { migrateStorage } from "@anori/utils/storage-legacy/migrations";
 import type { Mapping } from "@anori/utils/types";
 import {
   CUSTOM_THEMES_FOLDER_NAME,

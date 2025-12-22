@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from "@anori/components/Button";
 import { toCss } from "@anori/utils/color";
-import { storage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import { storage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
 import {
   type CustomTheme,
   type PartialCustomTheme,
