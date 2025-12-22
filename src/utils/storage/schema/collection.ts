@@ -21,6 +21,7 @@ export type CollectionAllQuery<T = unknown> = {
   readonly queryType: "all";
   readonly keyPrefix: string;
   readonly brand?: string;
+  readonly tracked: boolean;
 };
 
 export type CollectionByIdQuery<T = unknown> = {
@@ -30,6 +31,7 @@ export type CollectionByIdQuery<T = unknown> = {
   readonly keyPrefix: string;
   readonly id: string;
   readonly brand?: string;
+  readonly tracked: boolean;
 };
 
 export type CollectionQuery<T = unknown> = CollectionAllQuery<T> | CollectionByIdQuery<T>;
@@ -65,6 +67,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
   const keyPrefix = options.keyPrefix;
 
   const entityAccessors = {} as { [K in keyof E]: EntityAccessor<E[K]["_valueType"]> };
+  const tracked = options.tracked;
 
   for (const [name, entityDesc] of Object.entries(options.entities)) {
     entityAccessors[name as keyof E] = {
@@ -75,6 +78,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
           queryType: "all",
           keyPrefix,
           brand: entityDesc.brand,
+          tracked,
         };
       },
       byId(id: string): CollectionByIdQuery<E[keyof E]["_valueType"]> {
@@ -85,6 +89,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
           keyPrefix,
           id,
           brand: entityDesc.brand,
+          tracked,
         };
       },
     };
@@ -103,6 +108,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
         _valueType: undefined as unknown as UnionOfValues<EntityValueTypes<E>>,
         queryType: "all",
         keyPrefix,
+        tracked,
       };
     },
 
@@ -113,6 +119,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
         queryType: "byId",
         keyPrefix,
         id,
+        tracked,
       };
     },
 

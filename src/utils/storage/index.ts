@@ -12,6 +12,20 @@ export {
 export type { StorageRecord, FileMetaRecord } from "./types";
 
 export {
+  type Query,
+  type ResolvedQuery,
+  type ResolvedCellQuery,
+  type ResolvedCollectionAllQuery,
+  type ResolvedCollectionByIdQuery,
+  resolveQuery,
+  getStorageKey,
+  isKeyMatchingPrefix,
+  extractIdFromKey,
+} from "./query";
+
+export { type Storage, type CreateStorageOptions, type OutboxEntry, createStorage } from "./storage";
+
+export {
   // Cell
   type CellOptions,
   type CellDescriptor,

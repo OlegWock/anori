@@ -80,6 +80,10 @@ export function createHlc(nodeId: string, lastTimestamp?: HlcTimestamp): Hlc {
   return hlc;
 }
 
+/**
+ * Compares two HLC timestamps.
+ * @returns 1 if `a` is newer than `b`, -1 if `a` is older than `b`, 0 if equal
+ */
 export function compareHlc(a: HlcTimestamp, b: HlcTimestamp): -1 | 0 | 1 {
   if (a.pt !== b.pt) {
     return a.pt > b.pt ? 1 : -1;
