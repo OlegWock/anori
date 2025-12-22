@@ -5,11 +5,13 @@ import { getAllCustomIcons } from "@anori/components/icon/custom-icons";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { initTranslation, languageDirections } from "@anori/translations/index";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
+import { assertValue } from "@anori/utils/asserts";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
+import { anoriSchema, initializeAnoriStorage } from "@anori/utils/storage";
 import { storage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
 import { loadAndMigrateStorage } from "@anori/utils/storage-legacy/migrations";
 import { useFolders } from "@anori/utils/user-data/hooks";
@@ -139,9 +141,7 @@ plantPerformanceMetricsListeners();
 
 watchForPermissionChanges();
 
-storage.getOne("newTabTitle").then((title) => {
-  setPageTitle(title || "Anori new tab");
-});
+getAllCustomIcons();
 
 storage.getOne("showBookmarksBar").then((showBookmarksBar) => {
   if (showBookmarksBar) {
@@ -161,11 +161,24 @@ storage.getOne("showLoadAnimation").then((showLoadAnimation) => {
   div.classList.add("active");
 });
 
-getAllCustomIcons();
+initializeAnoriStorage()
+  .then((result) => {
+    if (!result.success) {
+      console.error("[Storage] Initialization failed:", result.error);
+      return;
+    }
 
-loadAndMigrateStorage()
-  .then(() => initTranslation())
+    assertValue(result.storage, "Storage should be defined after successful initialization");
+    const storage = result.storage;
+
+    // Set page title from storage
+    const title = storage.get(anoriSchema.latestSchema.definition.newTabTitle);
+    setPageTitle(title || "Anori new tab");
+
+    return loadAndMigrateStorage();
+  })
   .then(() => {
+    initTranslation();
     scheduleLazyComponentsPreload();
     incrementDailyUsageMetric("Times new tab opened");
     mountPage(

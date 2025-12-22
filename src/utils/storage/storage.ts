@@ -28,26 +28,32 @@ type ChangeCallback<T = unknown> = (value: T | undefined, oldValue: T | undefine
 type Subscription = {
   query: ResolvedQuery;
   callback: ChangeCallback;
+  sourceId?: string;
 };
 
-export type Storage<S extends VersionedSchema = VersionedSchema> = {
+type StorageQueryInterface = {
+  get<T>(query: CellDescriptor<T>): T | undefined;
+  get<T>(query: CollectionByIdQuery<T>): T | undefined;
+  get<T>(query: CollectionAllQuery<T>): Record<string, T>;
+  set<T>(query: CellDescriptor<T>, value: T): Promise<void>;
+  set<T>(query: CollectionByIdQuery<T>, value: T): Promise<void>;
+  delete(query: CellDescriptor): Promise<void>;
+  delete(query: CollectionByIdQuery): Promise<void>;
+  subscribe<T>(query: CellDescriptor<T>, callback: ChangeCallback<T>): () => void;
+  subscribe<T>(query: CollectionByIdQuery<T>, callback: ChangeCallback<T>): () => void;
+  subscribe<T>(query: CollectionAllQuery<T>, callback: ChangeCallback<Record<string, T>>): () => void;
+};
+
+export type StorageFork = StorageQueryInterface & {
+  readonly id: string;
+};
+
+export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryInterface & {
   readonly schema: S["latestSchema"]["definition"];
 
   initialize(): Promise<void>;
 
-  get<T>(query: CellDescriptor<T>): T | undefined;
-  get<T>(query: CollectionByIdQuery<T>): T | undefined;
-  get<T>(query: CollectionAllQuery<T>): Record<string, T>;
-
-  set<T>(query: CellDescriptor<T>, value: T): Promise<void>;
-  set<T>(query: CollectionByIdQuery<T>, value: T): Promise<void>;
-
-  delete(query: CellDescriptor): Promise<void>;
-  delete(query: CollectionByIdQuery): Promise<void>;
-
-  subscribe<T>(query: CellDescriptor<T>, callback: ChangeCallback<T>): () => void;
-  subscribe<T>(query: CollectionByIdQuery<T>, callback: ChangeCallback<T>): () => void;
-  subscribe<T>(query: CollectionAllQuery<T>, callback: ChangeCallback<Record<string, T>>): () => void;
+  fork(): StorageFork;
 
   sync: {
     getOutbox(): Outbox;
@@ -70,6 +76,7 @@ export type CreateStorageOptions<S extends VersionedSchema = VersionedSchema> = 
 export function createStorage<S extends VersionedSchema>(options: CreateStorageOptions<S>): Storage<S> {
   const versionedSchema = options.schema;
   const latestSchema = versionedSchema.latestSchema;
+  const storageId = generateNodeId();
 
   let hlc: Hlc | null = null;
   let initialized = false;
@@ -147,8 +154,13 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     await persistOutbox(outbox);
   }
 
-  function notifySubscribers(key: string, newValue: unknown, oldValue: unknown): void {
+  function notifySubscribers(key: string, newValue: unknown, oldValue: unknown, sourceId?: string): void {
     for (const sub of subscriptions) {
+      // Skip if subscription's sourceId matches write sourceId (it's the fork's own echo)
+      if (sub.sourceId && sourceId && sub.sourceId === sourceId) {
+        continue;
+      }
+
       if (sub.query.type === "cell" && sub.query.key === key) {
         sub.callback(newValue, oldValue);
       } else if (sub.query.type === "collectionById" && sub.query.key === key) {
@@ -182,19 +194,31 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
   function setupChangeListener(): void {
     browser.storage.local.onChanged.addListener((changes) => {
       for (const [key, change] of Object.entries(changes)) {
-        // Update cache
+        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) {
+          // Just update cache for internal keys
+          if (change.newValue === undefined) {
+            delete cache[key];
+          } else {
+            cache[key] = change.newValue;
+          }
+          continue;
+        }
+
+        const newRecord = isStorageRecord(change.newValue) ? change.newValue : undefined;
+
+        // Skip events from this storage instance - we already handled them synchronously
+        if (newRecord?.writerId === storageId) {
+          continue;
+        }
+
+        // Update cache for external changes
         if (change.newValue === undefined) {
           delete cache[key];
         } else {
           cache[key] = change.newValue;
         }
 
-        // Skip internal keys for subscriber notifications
-        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
-
         const oldRecord = isStorageRecord(change.oldValue) ? change.oldValue : undefined;
-        const newRecord = isStorageRecord(change.newValue) ? change.newValue : undefined;
-
         const oldValue = oldRecord?.deleted ? undefined : oldRecord?.value;
         const newValue = newRecord?.deleted ? undefined : newRecord?.value;
 
@@ -205,25 +229,33 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     });
   }
 
-  async function setInternal<T>(query: Query, value: T): Promise<void> {
+  async function setInternal<T>(query: Query, value: T, sourceId?: string): Promise<void> {
     const resolved = resolveQuery(query);
 
     if (resolved.type === "collectionAll") {
       throw new Error("Cannot set value for collection.all() query. Use byId() instead.");
     }
 
+    const oldCachedValue = cache[resolved.key];
+    const oldRecord = isStorageRecord(oldCachedValue) ? oldCachedValue : undefined;
+    const oldValue = oldRecord?.deleted ? undefined : oldRecord?.value;
+
     const hlcTs = getHlc().tick();
 
     const record: StorageRecord<T> = {
       hlc: hlcTs,
       value,
+      writerId: storageId,
     };
 
     if (resolved.type === "collectionById" && resolved.brand) {
       record.brand = resolved.brand;
     }
 
-    await persistRecord(resolved.key, record as StorageRecord<unknown>);
+    cache[resolved.key] = record;
+    notifySubscribers(resolved.key, value, oldValue, sourceId);
+
+    await browser.storage.local.set({ [resolved.key]: record });
     await persistHlcState();
 
     if ("tracked" in query && query.tracked) {
@@ -231,7 +263,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
   }
 
-  async function deleteInternal(query: Query): Promise<void> {
+  async function deleteInternal(query: Query, sourceId?: string): Promise<void> {
     const resolved = resolveQuery(query);
 
     if (resolved.type === "collectionAll") {
@@ -240,6 +272,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
     const existingValue = cache[resolved.key];
     const existingRecord = isStorageRecord(existingValue) ? existingValue : undefined;
+    const oldValue = existingRecord?.deleted ? undefined : existingRecord?.value;
 
     const hlcTs = getHlc().tick();
 
@@ -247,13 +280,16 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       hlc: hlcTs,
       deleted: true,
       value: null,
+      writerId: storageId,
     };
 
     if (existingRecord?.brand) {
       record.brand = existingRecord.brand;
     }
 
-    await persistRecord(resolved.key, record);
+    cache[resolved.key] = record;
+    notifySubscribers(resolved.key, undefined, oldValue, sourceId);
+    await browser.storage.local.set({ [resolved.key]: record });
     await persistHlcState();
 
     if ("tracked" in query && query.tracked) {
@@ -288,11 +324,13 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
   function subscribeInternal<T>(
     query: Query,
     callback: ChangeCallback<T> | ChangeCallback<Record<string, T>>,
+    sourceId?: string,
   ): () => void {
     const resolved = resolveQuery(query);
     const subscription: Subscription = {
       query: resolved,
       callback: callback as ChangeCallback,
+      sourceId,
     };
 
     subscriptions.push(subscription);
@@ -302,6 +340,57 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       if (index >= 0) {
         subscriptions.splice(index, 1);
       }
+    };
+  }
+
+  function createFork(): StorageFork {
+    const forkId = generateNodeId();
+
+    return {
+      id: forkId,
+
+      get<T>(
+        query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
+      ): T | undefined | Record<string, T> {
+        ensureInitialized();
+
+        if (isFileDescriptor(query) || isFileCollectionByIdQuery(query) || isFileCollectionAllQuery(query)) {
+          throw new Error("Cannot use fork.get() with file queries.");
+        }
+
+        return getInternal<T>(query);
+      },
+
+      async set<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>, value: T): Promise<void> {
+        ensureInitialized();
+
+        if (isFileDescriptor(query) || isFileCollectionByIdQuery(query)) {
+          throw new Error("Cannot use fork.set() with file queries.");
+        }
+
+        await setInternal(query, value, forkId);
+      },
+
+      async delete(query: CellDescriptor | CollectionByIdQuery): Promise<void> {
+        ensureInitialized();
+
+        if (isFileDescriptor(query) || isFileCollectionByIdQuery(query)) {
+          throw new Error("Cannot use fork.delete() with file queries.");
+        }
+
+        await deleteInternal(query, forkId);
+      },
+
+      subscribe<T>(
+        query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
+        callback: ChangeCallback<T> | ChangeCallback<Record<string, T>>,
+      ): () => void {
+        if (isFileDescriptor(query) || isFileCollectionByIdQuery(query) || isFileCollectionAllQuery(query)) {
+          throw new Error("Cannot use fork.subscribe() with file queries.");
+        }
+
+        return subscribeInternal(query, callback, forkId);
+      },
     };
   }
 
@@ -378,6 +467,10 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       }
 
       return subscribeInternal(query, callback);
+    },
+
+    fork(): StorageFork {
+      return createFork();
     },
 
     sync: {

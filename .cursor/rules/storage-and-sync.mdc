@@ -1,0 +1,107 @@
+---
+alwaysApply: true
+---
+
+# Storage System
+
+The new storage system (`src/utils/storage/`) provides schema-based, type-safe storage with HLC-based conflict resolution for cloud sync.
+
+## Core Concepts
+
+* **Cells** — single values (e.g., `newTabTitle`)
+* **Collections** — keyed records with entities (e.g., `folderDetails` with `Folder:{id}` keys)
+* **StorageRecord** — internal wrapper with `hlc`, `value`, `deleted`, `brand`, `writerId`
+* **HLC (Hybrid Logical Clock)** — timestamps for Last-Write-Wins conflict resolution
+
+## Schema Definition
+
+```ts
+const schemaV1 = defineSchemaVersion(1, {
+  myCell: cell({ key: "myCell", schema: z.string(), defaultValue: "", tracked: true }),
+  myCollection: collection({
+    keyPrefix: "MyItem",
+    entities: { item: entity({ brand: "MyItem", schema: MyItemSchema }) },
+    tracked: true,
+  }),
+});
+
+const mySchema = defineVersionedSchema({ versions: [schemaV1], migrations: [] });
+```
+
+* `key`/`keyPrefix` are **required** — prevents accidental data loss on property rename
+* `tracked: true` — adds changes to outbox for sync
+
+## Using Storage
+
+```ts
+// Reading (synchronous - data cached in memory)
+const value = storage.get(schema.myCell);
+const item = storage.get(schema.myCollection.item.byId("id"));
+const allItems = storage.get(schema.myCollection.item.all());
+
+// Writing (async - persists to browser.storage.local)
+await storage.set(schema.myCell, "new value");
+await storage.set(schema.myCollection.item.byId("id"), { ... });
+await storage.delete(schema.myCollection.item.byId("id"));
+
+// Subscriptions
+const unsubscribe = storage.subscribe(schema.myCell, (newVal, oldVal) => { ... });
+```
+
+## React Hooks
+
+```ts
+// Read-only
+const [value, meta] = useStorageValue(schema.myCell);
+
+// Read-write with optimistic updates
+const [value, setValue, meta] = useWritableStorageValue(schema.myCell);
+await setValue("new value");
+```
+
+Hooks use **forked storage** internally — writes don't trigger the fork's own subscription (prevents echo).
+
+## Storage Forks
+
+Each `storage.fork()` creates a lightweight wrapper with its own ID:
+* Writes tag records with `writerId`
+* Change listener filters out events with matching `writerId`
+* Prevents duplicate notifications from own writes
+
+## File Storage
+
+```ts
+// Files are stored in OPFS with metadata in KV
+await storage.files.set(schema.myFile, blob, { customProp: "value" });
+const { blob, meta } = await storage.files.get(schema.myFile);
+```
+
+## Migrations
+
+```ts
+const migration = createMigration(schemaV1, schemaV2, async (ctx) => {
+  const oldValue = ctx.from.get(schemaV1.definition.oldCell);
+  ctx.to.set(schemaV2.definition.newCell, transform(oldValue));
+});
+```
+
+* Migrations run on in-memory snapshot
+* Only persist on full success (atomic)
+* Removed tracked keys get tombstones
+
+## Initialization
+
+```ts
+const result = await initializeAnoriStorage();
+assertValue(result.storage);
+// Storage is now globally available via getGlobalStorage()
+```
+
+## Sync Integration
+
+```ts
+storage.sync.getOutbox();           // Pending changes
+storage.sync.exportForFullSync();   // All tracked data
+storage.sync.exportOutbox();        // Only outbox entries
+storage.sync.mergeRemoteChanges([...]); // Apply remote changes with LWW
+```

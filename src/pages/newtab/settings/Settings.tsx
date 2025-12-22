@@ -38,6 +38,7 @@ import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
+import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
 import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
 import { migrateStorage } from "@anori/utils/storage-legacy/migrations";
 import type { Mapping } from "@anori/utils/types";
@@ -158,7 +159,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
   const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue("showLoadAnimation", false);
   const [rememberLastFolder, setRememberLastFolder] = useBrowserStorageValue("rememberLastFolder", false);
   const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue("showBookmarksBar", false);
-  const [newTabTitle, setNewTabTitle] = useBrowserStorageValue("newTabTitle", "Anori new tab");
+  const [newTabTitle, setNewTabTitle] = useWritableStorageValue(anoriSchema.latestSchema.definition.newTabTitle);
   const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue("sidebarOrientation", "auto");
   const [autoHideSidebar, setAutoHideSidebar] = useBrowserStorageValue("autoHideSidebar", false);
   const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
@@ -174,7 +175,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
   );
 
   useEffect(() => {
-    setPageTitle(newTabTitle);
+    setPageTitle(newTabTitle ?? "Anori");
   }, [newTabTitle]);
 
   return (
@@ -214,7 +215,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       </div>
       <div className="input-wrapper">
         <label>{t("settings.general.newTabTitle")}: </label>
-        <Input value={newTabTitle} onValueChange={setNewTabTitle} />
+        <Input value={newTabTitle ?? ""} onValueChange={setNewTabTitle} />
       </div>
 
       <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>

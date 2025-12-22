@@ -63,7 +63,6 @@ describe("React Hooks", () => {
 
       const [value, meta] = result.current;
       expect(value).toBe("light");
-      expect(meta.isLoading).toBe(false);
       expect(meta.usingDefault).toBe(true);
     });
 

@@ -5,6 +5,7 @@ export type StorageRecord<T> = {
   hlc: HlcTimestamp;
   deleted?: boolean;
   value: T | null;
+  writerId?: string;
 };
 
 export type FileMetaValue<P = unknown> = {

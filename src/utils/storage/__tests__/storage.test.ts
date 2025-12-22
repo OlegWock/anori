@@ -471,4 +471,91 @@ describe("Storage", () => {
       expect(result.skipped).toContain("theme");
     });
   });
+
+  describe("fork", () => {
+    it("should create a fork with unique id", async () => {
+      const schema = createTestSchema();
+      const storage = createStorage({ schema });
+      await storage.initialize();
+
+      const fork1 = storage.fork();
+      const fork2 = storage.fork();
+
+      expect(fork1.id).toBeDefined();
+      expect(fork2.id).toBeDefined();
+      expect(fork1.id).not.toBe(fork2.id);
+    });
+
+    it("fork subscription should not receive its own writes", async () => {
+      const schema = createTestSchema();
+      const storage = createStorage({ schema });
+      await storage.initialize();
+
+      const fork = storage.fork();
+      const callback = vi.fn();
+
+      fork.subscribe(schema.latestSchema.definition.theme, callback);
+
+      // Write through the fork
+      await fork.set(schema.latestSchema.definition.theme, "dark");
+
+      // Callback should NOT be called for own write
+      expect(callback).toHaveBeenCalledTimes(0);
+    });
+
+    it("fork subscription should receive writes from other forks", async () => {
+      const schema = createTestSchema();
+      const storage = createStorage({ schema });
+      await storage.initialize();
+
+      const fork1 = storage.fork();
+      const fork2 = storage.fork();
+      const callback = vi.fn();
+
+      fork1.subscribe(schema.latestSchema.definition.theme, callback);
+
+      // Write through fork2
+      await fork2.set(schema.latestSchema.definition.theme, "dark");
+
+      // Fork1's callback should be called
+      expect(callback).toHaveBeenCalledTimes(1);
+      expect(callback).toHaveBeenCalledWith("dark", undefined);
+    });
+
+    it("fork subscription should receive writes from main storage", async () => {
+      const schema = createTestSchema();
+      const storage = createStorage({ schema });
+      await storage.initialize();
+
+      const fork = storage.fork();
+      const callback = vi.fn();
+
+      fork.subscribe(schema.latestSchema.definition.theme, callback);
+
+      // Write through main storage (no source ID)
+      await storage.set(schema.latestSchema.definition.theme, "dark");
+
+      // Fork's callback should be called
+      expect(callback).toHaveBeenCalledTimes(1);
+      expect(callback).toHaveBeenCalledWith("dark", undefined);
+    });
+
+    it("main storage subscription should receive writes from forks", async () => {
+      const schema = createTestSchema();
+      const storage = createStorage({ schema });
+      await storage.initialize();
+
+      const fork = storage.fork();
+      const callback = vi.fn();
+
+      storage.subscribe(schema.latestSchema.definition.theme, callback);
+
+      // Write through fork
+      await fork.set(schema.latestSchema.definition.theme, "dark");
+
+      // Main storage callback should be called
+      expect(callback).toHaveBeenCalledTimes(1);
+      expect(callback).toHaveBeenCalledWith("dark", undefined);
+    });
+  });
 });

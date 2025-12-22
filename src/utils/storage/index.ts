@@ -23,11 +23,18 @@ export {
   extractIdFromKey,
 } from "./query";
 
-export { type Storage, type CreateStorageOptions, type OutboxEntry, createStorage } from "./storage";
+export { type Storage, type StorageFork, type CreateStorageOptions, type OutboxEntry, createStorage } from "./storage";
 
 export type { FilesStorage, FileQuery, SingleFileQuery, FileWithMeta } from "./files";
 
-export { useStorageValue, atomWithStorageQuery, setGlobalStorage, getGlobalStorage } from "./react";
+export {
+  useStorageValue,
+  useWritableStorageValue,
+  atomWithStorageQuery,
+  setGlobalStorage,
+  getGlobalStorage,
+  isStorageInitialized,
+} from "./react";
 
 export {
   generateFilePath,
@@ -102,3 +109,6 @@ export {
   getStoredSchemaVersion,
   setStoredSchemaVersion,
 } from "./migrations";
+
+export { anoriSchema, schemaV1, type AnoriSchemaV1, type Folder, type FolderDetails } from "./anori-schema";
+export { initializeAnoriStorage, type AnoriStorage, type StorageInitResult } from "./anori-init";
