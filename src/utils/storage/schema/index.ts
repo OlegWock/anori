@@ -20,6 +20,8 @@ export {
 export { type SchemaDefinition, type SchemaVersion, defineSchemaVersion } from "./version";
 
 export {
+  type MigrationFromAccessor,
+  type MigrationToAccessor,
   type MigrationContext,
   type MigrationFn,
   type Migration,

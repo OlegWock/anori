@@ -9,7 +9,7 @@ export {
   deserializeHlc,
 } from "./hlc";
 
-export type { StorageRecord, FileMetaValue } from "./types";
+export { type StorageRecord, type FileMetaValue, isStorageRecord } from "./types";
 
 export {
   type Query,
@@ -26,6 +26,8 @@ export {
 export { type Storage, type CreateStorageOptions, type OutboxEntry, createStorage } from "./storage";
 
 export type { FilesStorage, FileQuery, SingleFileQuery, FileWithMeta } from "./files";
+
+export { useStorageValue, atomWithStorageQuery, setGlobalStorage, getGlobalStorage } from "./react";
 
 export {
   generateFilePath,
@@ -90,3 +92,13 @@ export {
   isFileCollectionAllQuery,
   isFileCollectionByIdQuery,
 } from "./schema";
+
+export {
+  type MigrationResult,
+  createFromAccessor,
+  createToAccessor,
+  runMigrations,
+  needsMigration,
+  getStoredSchemaVersion,
+  setStoredSchemaVersion,
+} from "./migrations";

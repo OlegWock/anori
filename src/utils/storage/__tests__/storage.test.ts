@@ -1,63 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
+import { type MockBrowserStorageState, createMockBrowserStorage, resetMockBrowserStorage } from "./test-utils";
 
-// Mock browser before importing storage
-const mockStorage: Record<string, unknown> = {};
-const mockListeners: Array<(changes: Record<string, { oldValue?: unknown; newValue?: unknown }>) => void> = [];
+const browserState = vi.hoisted<MockBrowserStorageState>(() => ({ storage: {}, changeListeners: [] }));
 
-vi.mock("webextension-polyfill", () => ({
-  default: {
-    storage: {
-      local: {
-        get: vi.fn(async (keys: string | string[] | null) => {
-          if (keys === null) {
-            return { ...mockStorage };
-          }
-          if (typeof keys === "string") {
-            return { [keys]: mockStorage[keys] };
-          }
-          const result: Record<string, unknown> = {};
-          for (const key of keys) {
-            result[key] = mockStorage[key];
-          }
-          return result;
-        }),
-        set: vi.fn(async (items: Record<string, unknown>) => {
-          const changes: Record<string, { oldValue?: unknown; newValue?: unknown }> = {};
-          for (const [key, value] of Object.entries(items)) {
-            changes[key] = { oldValue: mockStorage[key], newValue: value };
-            mockStorage[key] = value;
-          }
-          for (const listener of mockListeners) {
-            listener(changes);
-          }
-        }),
-        onChanged: {
-          addListener: vi.fn((callback) => {
-            mockListeners.push(callback);
-          }),
-          removeListener: vi.fn((callback) => {
-            const index = mockListeners.indexOf(callback);
-            if (index >= 0) {
-              mockListeners.splice(index, 1);
-            }
-          }),
-        },
-      },
-    },
-  },
-}));
+vi.mock("webextension-polyfill", () => createMockBrowserStorage(browserState));
 
 import { cell, collection, defineSchemaVersion, defineVersionedSchema, entity } from "../schema";
 import { createStorage } from "../storage";
 
 describe("Storage", () => {
   beforeEach(() => {
-    // Clear mock storage
-    for (const key of Object.keys(mockStorage)) {
-      delete mockStorage[key];
-    }
-    mockListeners.length = 0;
+    resetMockBrowserStorage(browserState);
     vi.useFakeTimers();
   });
 
@@ -96,13 +50,13 @@ describe("Storage", () => {
 
       await storage.initialize();
 
-      expect(mockStorage.__hlc_state).toBeDefined();
-      const hlcState = mockStorage.__hlc_state as { nodeId: string; last: unknown };
+      expect(browserState.storage.__hlc_state).toBeDefined();
+      const hlcState = browserState.storage.__hlc_state as { nodeId: string; last: unknown };
       expect(hlcState.nodeId).toMatch(/^[0-9a-f]{16}$/);
     });
 
     it("should restore existing HLC state", async () => {
-      mockStorage.__hlc_state = {
+      browserState.storage.__hlc_state = {
         nodeId: "existing123456789",
         last: { pt: 1000, lc: 5, node: "existing123456789" },
       };
@@ -112,7 +66,7 @@ describe("Storage", () => {
 
       await storage.initialize();
 
-      const hlcState = mockStorage.__hlc_state as { nodeId: string };
+      const hlcState = browserState.storage.__hlc_state as { nodeId: string };
       expect(hlcState.nodeId).toBe("existing123456789");
     });
 
@@ -146,7 +100,7 @@ describe("Storage", () => {
     });
 
     it("should return stored cell value", async () => {
-      mockStorage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -158,7 +112,7 @@ describe("Storage", () => {
     });
 
     it("should return undefined for deleted cell", async () => {
-      mockStorage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, deleted: true, value: null };
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, deleted: true, value: null };
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -171,7 +125,7 @@ describe("Storage", () => {
     });
 
     it("should get collection item by id", async () => {
-      mockStorage["Folder:home"] = {
+      browserState.storage["Folder:home"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "FolderDetails",
         value: { name: "Home", color: "blue" },
@@ -197,17 +151,17 @@ describe("Storage", () => {
     });
 
     it("should get all collection items", async () => {
-      mockStorage["Folder:home"] = {
+      browserState.storage["Folder:home"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "FolderDetails",
         value: { name: "Home", color: "blue" },
       };
-      mockStorage["Folder:work"] = {
+      browserState.storage["Folder:work"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "FolderDetails",
         value: { name: "Work", color: "green" },
       };
-      mockStorage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -222,12 +176,12 @@ describe("Storage", () => {
     });
 
     it("should filter collection items by brand", async () => {
-      mockStorage["Widget:1"] = {
+      browserState.storage["Widget:1"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "NotesWidget",
         value: { content: "Note 1" },
       };
-      mockStorage["Widget:2"] = {
+      browserState.storage["Widget:2"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "TodoWidget",
         value: { items: ["Task 1"] },
@@ -245,12 +199,12 @@ describe("Storage", () => {
     });
 
     it("should exclude deleted items from collection.all", async () => {
-      mockStorage["Folder:home"] = {
+      browserState.storage["Folder:home"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "FolderDetails",
         value: { name: "Home", color: "blue" },
       };
-      mockStorage["Folder:deleted"] = {
+      browserState.storage["Folder:deleted"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "FolderDetails",
         deleted: true,
@@ -279,7 +233,7 @@ describe("Storage", () => {
 
       await storage.set(storage.schema.theme, "Ocean");
 
-      const record = mockStorage.theme as { value: string; hlc: { pt: number } };
+      const record = browserState.storage.theme as { value: string; hlc: { pt: number } };
       expect(record.value).toBe("Ocean");
       expect(record.hlc.pt).toBe(5000);
     });
@@ -291,7 +245,7 @@ describe("Storage", () => {
 
       await storage.set(storage.schema.theme, "Ocean");
 
-      const outbox = mockStorage.__outbox as Array<{ key: string }>;
+      const outbox = browserState.storage.__outbox as Array<{ key: string }>;
       expect(outbox).toContainEqual(expect.objectContaining({ key: "theme" }));
     });
 
@@ -302,7 +256,7 @@ describe("Storage", () => {
 
       await storage.set(storage.schema.counter, 42);
 
-      const outbox = (mockStorage.__outbox as Array<{ key: string }>) || [];
+      const outbox = (browserState.storage.__outbox as Array<{ key: string }>) || [];
       expect(outbox.find((e) => e.key === "counter")).toBeUndefined();
     });
 
@@ -315,7 +269,7 @@ describe("Storage", () => {
 
       await storage.set(storage.schema.folders.byId("home"), { name: "Home", color: "blue" });
 
-      const record = mockStorage["Folder:home"] as { value: { name: string }; brand: string };
+      const record = browserState.storage["Folder:home"] as { value: { name: string }; brand: string };
       expect(record.value).toEqual({ name: "Home", color: "blue" });
       expect(record.brand).toBeUndefined(); // No brand for generic byId
     });
@@ -327,7 +281,7 @@ describe("Storage", () => {
 
       await storage.set(storage.schema.widgets.notes.byId("1"), { content: "Hello" });
 
-      const record = mockStorage["Widget:1"] as { value: { content: string }; brand: string };
+      const record = browserState.storage["Widget:1"] as { value: { content: string }; brand: string };
       expect(record.value).toEqual({ content: "Hello" });
       expect(record.brand).toBe("NotesWidget");
     });
@@ -341,7 +295,7 @@ describe("Storage", () => {
       await storage.set(storage.schema.theme, "Forest");
       await storage.set(storage.schema.theme, "Lake");
 
-      const outbox = mockStorage.__outbox as Array<{ key: string }>;
+      const outbox = browserState.storage.__outbox as Array<{ key: string }>;
       const themeEntries = outbox.filter((e) => e.key === "theme");
       expect(themeEntries).toHaveLength(1);
     });
@@ -349,7 +303,7 @@ describe("Storage", () => {
 
   describe("delete", () => {
     it("should soft delete cell", async () => {
-      mockStorage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -357,13 +311,13 @@ describe("Storage", () => {
 
       await storage.delete(storage.schema.theme);
 
-      const record = mockStorage.theme as { deleted: boolean; value: null };
+      const record = browserState.storage.theme as { deleted: boolean; value: null };
       expect(record.deleted).toBe(true);
       expect(record.value).toBeNull();
     });
 
     it("should soft delete collection item", async () => {
-      mockStorage["Folder:home"] = {
+      browserState.storage["Folder:home"] = {
         hlc: { pt: 1000, lc: 0, node: "test" },
         brand: "FolderDetails",
         value: { name: "Home", color: "blue" },
@@ -375,13 +329,13 @@ describe("Storage", () => {
 
       await storage.delete(storage.schema.folders.byId("home"));
 
-      const record = mockStorage["Folder:home"] as { deleted: boolean; brand: string };
+      const record = browserState.storage["Folder:home"] as { deleted: boolean; brand: string };
       expect(record.deleted).toBe(true);
       expect(record.brand).toBe("FolderDetails"); // Brand preserved
     });
 
     it("should add deleted item to outbox", async () => {
-      mockStorage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -389,14 +343,16 @@ describe("Storage", () => {
 
       await storage.delete(storage.schema.theme);
 
-      const outbox = mockStorage.__outbox as Array<{ key: string }>;
+      const outbox = browserState.storage.__outbox as Array<{ key: string }>;
       expect(outbox).toContainEqual(expect.objectContaining({ key: "theme" }));
     });
   });
 
   describe("sync", () => {
     it("should get outbox", async () => {
-      mockStorage.__outbox = [{ key: "theme", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 }];
+      browserState.storage.__outbox = [
+        { key: "theme", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 },
+      ];
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -409,7 +365,7 @@ describe("Storage", () => {
     });
 
     it("should remove from outbox", async () => {
-      mockStorage.__outbox = [
+      browserState.storage.__outbox = [
         { key: "theme", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 },
         { key: "counter", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 },
       ];
@@ -420,13 +376,13 @@ describe("Storage", () => {
 
       await storage.sync.removeFromOutbox(["theme"]);
 
-      const outbox = mockStorage.__outbox as Array<{ key: string }>;
+      const outbox = browserState.storage.__outbox as Array<{ key: string }>;
       expect(outbox).toHaveLength(1);
       expect(outbox[0].key).toBe("counter");
     });
 
     it("should clear outbox", async () => {
-      mockStorage.__outbox = [
+      browserState.storage.__outbox = [
         { key: "theme", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 },
         { key: "counter", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 },
       ];
@@ -437,15 +393,15 @@ describe("Storage", () => {
 
       await storage.sync.clearOutbox();
 
-      const outbox = mockStorage.__outbox as Array<unknown>;
+      const outbox = browserState.storage.__outbox as Array<unknown>;
       expect(outbox).toHaveLength(0);
     });
 
     it("should export for full sync", async () => {
-      mockStorage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
-      mockStorage["Folder:home"] = { hlc: { pt: 1000, lc: 0, node: "test" }, value: { name: "Home" } };
-      mockStorage.__hlc_state = { nodeId: "test", last: { pt: 1000, lc: 0, node: "test" } };
-      mockStorage.__outbox = [];
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "test" }, value: "Ocean" };
+      browserState.storage["Folder:home"] = { hlc: { pt: 1000, lc: 0, node: "test" }, value: { name: "Home" } };
+      browserState.storage.__hlc_state = { nodeId: "test", last: { pt: 1000, lc: 0, node: "test" } };
+      browserState.storage.__outbox = [];
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -460,7 +416,7 @@ describe("Storage", () => {
     });
 
     it("should merge remote changes - apply newer", async () => {
-      mockStorage.theme = { hlc: { pt: 1000, lc: 0, node: "local" }, value: "Local" };
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "local" }, value: "Local" };
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -475,12 +431,12 @@ describe("Storage", () => {
       ]);
 
       expect(result.applied).toContain("theme");
-      const record = mockStorage.theme as { value: string };
+      const record = browserState.storage.theme as { value: string };
       expect(record.value).toBe("Remote");
     });
 
     it("should merge remote changes - skip older", async () => {
-      mockStorage.theme = { hlc: { pt: 2000, lc: 0, node: "local" }, value: "Local" };
+      browserState.storage.theme = { hlc: { pt: 2000, lc: 0, node: "local" }, value: "Local" };
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
@@ -495,7 +451,7 @@ describe("Storage", () => {
       ]);
 
       expect(result.skipped).toContain("theme");
-      const record = mockStorage.theme as { value: string };
+      const record = browserState.storage.theme as { value: string };
       expect(record.value).toBe("Local");
     });
 

@@ -249,7 +249,7 @@ describe("Schema Definition", () => {
       });
 
       const migration = createMigration(v1, v2, async ({ to }) => {
-        to.set("color", "blue");
+        to.set(to.schema.color, "blue");
       });
 
       expect(migration.fromVersion).toBe(1);

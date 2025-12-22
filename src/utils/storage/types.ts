@@ -11,3 +11,7 @@ export type FileMetaValue<P = unknown> = {
   path: string;
   properties?: P;
 };
+
+export function isStorageRecord(value: unknown): value is StorageRecord<unknown> {
+  return typeof value === "object" && value !== null && "hlc" in value && "value" in value;
+}

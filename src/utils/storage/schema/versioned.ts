@@ -1,14 +1,25 @@
+import type { CellDescriptor } from "./cell";
+import type { CollectionAllQuery, CollectionByIdQuery } from "./collection";
 import type { SchemaDefinition, SchemaVersion } from "./version";
 
+export type MigrationFromAccessor<S extends SchemaDefinition> = {
+  readonly schema: S;
+  get<T>(query: CellDescriptor<T>): T | undefined;
+  get<T>(query: CollectionByIdQuery<T>): T | undefined;
+  get<T>(query: CollectionAllQuery<T>): Record<string, T>;
+};
+
+export type MigrationToAccessor<S extends SchemaDefinition> = {
+  readonly schema: S;
+  set<T>(query: CellDescriptor<T>, value: T): void;
+  set<T>(query: CollectionByIdQuery<T>, value: T): void;
+  delete(query: CellDescriptor): void;
+  delete(query: CollectionByIdQuery): void;
+};
+
 export type MigrationContext<From extends SchemaDefinition, To extends SchemaDefinition> = {
-  from: {
-    schema: From;
-    get: <K extends keyof From>(key: K) => Promise<unknown>;
-  };
-  to: {
-    schema: To;
-    set: <K extends keyof To>(key: K, value: unknown) => void;
-  };
+  from: MigrationFromAccessor<From>;
+  to: MigrationToAccessor<To>;
 };
 
 export type MigrationFn<From extends SchemaDefinition, To extends SchemaDefinition> = (

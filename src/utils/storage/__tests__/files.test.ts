@@ -1,49 +1,10 @@
 import { z } from "zod";
+import { type MockBrowserStorageState, createMockBrowserStorage, resetMockBrowserStorage } from "./test-utils";
 
-let mockStorage: Record<string, unknown> = {};
+const browserState = vi.hoisted<MockBrowserStorageState>(() => ({ storage: {}, changeListeners: [] }));
 let mockOpfsFiles: Record<string, Blob> = {};
-const changeListeners: Array<(changes: Record<string, { oldValue?: unknown; newValue?: unknown }>) => void> = [];
 
-vi.mock("webextension-polyfill", () => ({
-  default: {
-    storage: {
-      local: {
-        get: vi.fn(async (keys: string | string[] | null) => {
-          if (keys === null) {
-            return { ...mockStorage };
-          }
-          if (typeof keys === "string") {
-            return { [keys]: mockStorage[keys] };
-          }
-          const result: Record<string, unknown> = {};
-          for (const key of keys) {
-            if (key in mockStorage) {
-              result[key] = mockStorage[key];
-            }
-          }
-          return result;
-        }),
-        set: vi.fn(async (items: Record<string, unknown>) => {
-          const changes: Record<string, { oldValue?: unknown; newValue?: unknown }> = {};
-          for (const [key, value] of Object.entries(items)) {
-            changes[key] = { oldValue: mockStorage[key], newValue: value };
-            mockStorage[key] = value;
-          }
-          for (const listener of changeListeners) {
-            listener(changes);
-          }
-        }),
-        onChanged: {
-          addListener: vi.fn(
-            (callback: (changes: Record<string, { oldValue?: unknown; newValue?: unknown }>) => void) => {
-              changeListeners.push(callback);
-            },
-          ),
-        },
-      },
-    },
-  },
-}));
+vi.mock("webextension-polyfill", () => createMockBrowserStorage(browserState));
 
 let pathCounter = 0;
 vi.mock("../opfs", () => ({
@@ -88,9 +49,8 @@ function createTestSchema() {
 
 describe("FilesStorage", () => {
   beforeEach(() => {
-    mockStorage = {};
+    resetMockBrowserStorage(browserState);
     mockOpfsFiles = {};
-    changeListeners.length = 0;
     pathCounter = 0;
   });
 
@@ -229,8 +189,8 @@ describe("FilesStorage", () => {
       await filesStorage.set(schema.latestSchema.definition.profileImage, blob);
 
       const meta = filesStorage.getMeta(schema.latestSchema.definition.profileImage);
-      assert(meta?.path);
-
+      expect(meta?.path).toBeDefined();
+      if (!meta?.path) throw new Error("working around TS issues");
       const loadedBlob = await filesStorage.getBlob(meta.path);
       expect(loadedBlob).toBeDefined();
     });

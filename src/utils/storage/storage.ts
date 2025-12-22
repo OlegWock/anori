@@ -1,6 +1,7 @@
 import browser from "webextension-polyfill";
 import { type FilesStorage, createFilesStorage } from "./files";
 import { type Hlc, type HlcState, type HlcTimestamp, compareHlc, createHlc, generateNodeId } from "./hlc";
+import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
 import { type Query, type ResolvedQuery, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
 import { type CellDescriptor, isCellDescriptor } from "./schema/cell";
 import { type CollectionAllQuery, type CollectionByIdQuery, isCollectionDescriptor } from "./schema/collection";
@@ -11,10 +12,7 @@ import {
   isFileDescriptor,
 } from "./schema/file";
 import type { VersionedSchema } from "./schema/versioned";
-import type { StorageRecord } from "./types";
-
-const HLC_STATE_KEY = "__hlc_state";
-const OUTBOX_KEY = "__outbox";
+import { type StorageRecord, isStorageRecord } from "./types";
 
 export type OutboxEntry = {
   key: string;
@@ -82,10 +80,6 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     if (!initialized) {
       throw new Error("Storage not initialized. Call initialize() first.");
     }
-  }
-
-  function isStorageRecord(value: unknown): value is StorageRecord<unknown> {
-    return value !== null && typeof value === "object" && "hlc" in value && "value" in value;
   }
 
   function isKeyTracked(key: string): boolean {

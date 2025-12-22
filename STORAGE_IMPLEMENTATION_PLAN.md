@@ -364,12 +364,6 @@ function useStorageValue<T>(query: Query<T>): [
   value: T | undefined,
   meta: { isLoading: boolean; usingDefault: boolean }
 ];
-
-function useStorageMutation<T>(query: Query<T>): {
-  set: (value: T) => Promise<void>;
-  delete: () => Promise<void>;
-  isPending: boolean;
-};
 ```
 
 **Implementation:**
