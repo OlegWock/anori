@@ -1,7 +1,8 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import { storage } from "@anori/utils/storage-legacy/api";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import type { Mapping } from "@anori/utils/types";
 import moment from "moment";
 import arTranslation from "./ar.json";
 import deTranslation from "./de.json";
@@ -27,7 +28,6 @@ import "moment/locale/it";
 import "moment/locale/ar";
 import "moment/locale/zh-cn";
 import "moment/locale/pt-br";
-import type { Mapping } from "@anori/utils/types";
 moment.locale("en");
 
 export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
@@ -96,7 +96,9 @@ export const languageDirections = {
 } satisfies Record<Language, "rtl" | "ltr">;
 
 export const initTranslation = async () => {
-  const lang = (await storage.getOne("language")) || "en";
+  const storage = await getAnoriStorage();
+  const lang = storage.get(anoriSchema.latestSchema.definition.language) ?? "en";
+
   const html = document.querySelector("html");
   if (html) {
     html.setAttribute("lang", lang);

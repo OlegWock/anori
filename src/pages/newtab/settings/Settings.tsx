@@ -1,3 +1,4 @@
+import { migrateStorage } from "@anori/utils/storage-legacy/migrations";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import browser from "webextension-polyfill";
 import "./Settings.scss";
@@ -30,7 +31,7 @@ import {
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
 } from "@anori/translations/index";
-import { analyticsEnabledAtom, trackEvent } from "@anori/utils/analytics";
+import { trackEvent } from "@anori/utils/analytics";
 import { useScreenWidth } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
@@ -39,8 +40,6 @@ import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
-import { migrateStorage } from "@anori/utils/storage-legacy/migrations";
 import type { Mapping } from "@anori/utils/types";
 import {
   CUSTOM_THEMES_FOLDER_NAME,
@@ -133,8 +132,8 @@ const MainScreen = (props: ComponentProps<typeof m.div>) => {
 };
 
 const PluginConfigurationSection = <T extends Mapping>({ plugin }: { plugin: AnoriPlugin<string, T> }) => {
-  const [config, setConfig, isLoaded] = usePluginConfig(plugin);
-  if (plugin.configurationScreen && isLoaded) {
+  const [config, setConfig] = usePluginConfig(plugin);
+  if (plugin.configurationScreen) {
     // TODO: repalace this type assertion with proper type guard
     const ConfigScreen = plugin.configurationScreen as ComponentType<PluginConfigurationScreenProps<T>>;
     return (
@@ -149,20 +148,21 @@ const PluginConfigurationSection = <T extends Mapping>({ plugin }: { plugin: Ano
 };
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
-  const [language, setLanguage] = useBrowserStorageValue("language", "en");
-  const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue("automaticCompactMode", !IS_TOUCH_DEVICE);
-  const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue(
-    "automaticCompactModeThreshold",
-    1500,
+  const def = anoriSchema.latestSchema.definition;
+  const [language, setLanguage] = useWritableStorageValue(def.language);
+  const [isAutomaticCompact, setAutomaticCompact] = useWritableStorageValue(def.automaticCompactMode);
+  const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useWritableStorageValue(
+    def.automaticCompactModeThreshold,
   );
-  const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue("compactMode", IS_TOUCH_DEVICE);
-  const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue("showLoadAnimation", false);
-  const [rememberLastFolder, setRememberLastFolder] = useBrowserStorageValue("rememberLastFolder", false);
-  const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue("showBookmarksBar", false);
-  const [newTabTitle, setNewTabTitle] = useWritableStorageValue(anoriSchema.latestSchema.definition.newTabTitle);
-  const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue("sidebarOrientation", "auto");
-  const [autoHideSidebar, setAutoHideSidebar] = useBrowserStorageValue("autoHideSidebar", false);
-  const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+  const [manualCompactMode, setManualCompactMode] = useWritableStorageValue(def.compactMode);
+  const [showLoadAnimation, setShowLoadAnimation] = useWritableStorageValue(def.showLoadAnimation);
+  const [rememberLastFolder, setRememberLastFolder] = useWritableStorageValue(def.rememberLastFolder);
+  const [showBookmarksBar, setShowBookmarksBar] = useWritableStorageValue(def.showBookmarksBar);
+  const [newTabTitle, setNewTabTitle] = useWritableStorageValue(def.newTabTitle);
+  const [sidebarOrientation, setSidebarOrientation] = useWritableStorageValue(def.sidebarOrientation);
+  const [autoHideSidebar, setAutoHideSidebar] = useWritableStorageValue(def.autoHideSidebar);
+  const [analyticsEnabled, setAnalyticsEnabled] = useWritableStorageValue(def.analyticsEnabled);
+  const [, setLastFolder] = useWritableStorageValue(def.lastFolder);
   const screenWidth = useScreenWidth();
   const { t } = useTranslation();
 
@@ -184,13 +184,13 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         <div className="input-wrapper">
           <label>{t("settings.general.language")}:</label>
           <Select<Language>
-            value={language}
+            value={language ?? "en"}
             onChange={(newLang) => {
               console.log("Saving new language", newLang);
               setLanguage(newLang);
               switchTranslationLanguage(newLang);
             }}
-            options={availableTranslations}
+            options={[...availableTranslations]}
             getOptionKey={(o) => o}
             getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
           />
@@ -205,8 +205,8 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       )}
       <div className="input-wrapper">
         <label>{t("settings.general.sidebarOrientation")}:</label>
-        <Select<typeof sidebarOrientation>
-          value={sidebarOrientation}
+        <Select<"auto" | "vertical" | "horizontal">
+          value={sidebarOrientation ?? "auto"}
           onChange={setSidebarOrientation}
           options={["auto", "vertical", "horizontal"]}
           getOptionKey={(o) => o}
@@ -218,7 +218,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         <Input value={newTabTitle ?? ""} onValueChange={setNewTabTitle} />
       </div>
 
-      <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
+      <Checkbox checked={analyticsEnabled ?? false} onChange={setAnalyticsEnabled}>
         {t("settings.general.enableAnalytics")}
         <Hint
           hasClickableContent
@@ -238,16 +238,16 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       </Checkbox>
 
       <Checkbox
-        checked={rememberLastFolder}
+        checked={rememberLastFolder ?? false}
         onChange={(v) => {
           setRememberLastFolder(v);
-          if (!v) storage.setOne("lastFolder", undefined);
+          if (!v) setLastFolder(undefined);
         }}
       >
         {t("settings.general.rememberLastFolder")}
       </Checkbox>
 
-      <Checkbox checked={autoHideSidebar} onChange={setAutoHideSidebar}>
+      <Checkbox checked={autoHideSidebar ?? false} onChange={setAutoHideSidebar}>
         {t("settings.general.autoHideSidebar")}
       </Checkbox>
 
@@ -262,20 +262,24 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         </CheckboxWithPermission>
       )}
 
-      <Checkbox checked={manualCompactMode} onChange={setManualCompactMode} disabled={isAutomaticCompact}>
+      <Checkbox
+        checked={manualCompactMode ?? IS_TOUCH_DEVICE}
+        onChange={setManualCompactMode}
+        disabled={isAutomaticCompact ?? !IS_TOUCH_DEVICE}
+      >
         {t("settings.general.useCompact")}
       </Checkbox>
-      <Checkbox checked={isAutomaticCompact} onChange={setAutomaticCompact}>
+      <Checkbox checked={isAutomaticCompact ?? !IS_TOUCH_DEVICE} onChange={setAutomaticCompact}>
         {t("settings.general.automaticCompact")}
       </Checkbox>
-      {isAutomaticCompact && (
+      {(isAutomaticCompact ?? !IS_TOUCH_DEVICE) && (
         <div>
           <label>{t("settings.general.automaticCompactModeThreshold")}</label>
           <Select<number>
             options={screenSizeBreakpoints}
             getOptionKey={(o) => o.toString()}
             getOptionLabel={(o) => `< ${o}${t("px")}`}
-            value={automaticCompactModeThreshold}
+            value={automaticCompactModeThreshold ?? 1500}
             onChange={setAutomaticCompactModeThreshold}
           />
           <div className="screen-size-hint">
@@ -283,7 +287,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           </div>
         </div>
       )}
-      <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
+      <Checkbox checked={showLoadAnimation ?? false} onChange={setShowLoadAnimation}>
         {t("settings.general.showAnimationOnOpen")}
         <Hint content={t("settings.general.showAnimationOnOpenHint")} />
       </Checkbox>

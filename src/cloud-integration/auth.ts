@@ -1,6 +1,5 @@
-import { setAtomWithStorageValue } from "@anori/utils/storage-legacy/api";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { getApiClient, updateApiClientToken } from "./api-client";
-import { cloudAccountAtom } from "./storage";
 
 export const login = async (email: string, password: string) => {
   const client = getApiClient();
@@ -10,7 +9,8 @@ export const login = async (email: string, password: string) => {
 
   const me = await client.auth.me.query();
 
-  await setAtomWithStorageValue(cloudAccountAtom, {
+  const storage = await getAnoriStorage();
+  await storage.set(anoriSchema.latestSchema.definition.cloudAccount, {
     sessionToken: result.sessionToken,
     email: me.email,
     userId: me.id,
@@ -28,7 +28,8 @@ export const logout = async () => {
     // Ignore errors during logout
   }
 
-  await setAtomWithStorageValue(cloudAccountAtom, null);
+  const storage = await getAnoriStorage();
+  await storage.set(anoriSchema.latestSchema.definition.cloudAccount, null);
   updateApiClientToken(undefined);
 };
 
@@ -40,7 +41,8 @@ export const register = async (email: string, password: string) => {
 
   const me = await client.auth.me.query();
 
-  await setAtomWithStorageValue(cloudAccountAtom, {
+  const storage = await getAnoriStorage();
+  await storage.set(anoriSchema.latestSchema.definition.cloudAccount, {
     sessionToken: result.sessionToken,
     email: me.email,
     userId: me.id,

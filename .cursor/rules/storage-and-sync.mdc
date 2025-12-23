@@ -92,9 +92,7 @@ const migration = createMigration(schemaV1, schemaV2, async (ctx) => {
 ## Initialization
 
 ```ts
-const result = await initializeAnoriStorage();
-assertValue(result.storage);
-// Storage is now globally available via getGlobalStorage()
+const storage = await getAnoriStorage();
 ```
 
 ## Sync Integration

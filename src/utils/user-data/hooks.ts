@@ -5,20 +5,14 @@ import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/gr
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
-import { NamespacedStorage } from "@anori/utils/namespaced-storage";
+import { getWidgetStorage } from "@anori/utils/plugins/storage";
 import type {
   AnoriPlugin,
   ConfigFromWidgetDescriptor,
   IDFromWidgetDescriptor,
   WidgetDescriptor,
 } from "@anori/utils/plugins/types";
-import {
-  type AnoriStorage,
-  type FolderDetails,
-  anoriSchema,
-  getGlobalStorage,
-  useWritableStorageValue,
-} from "@anori/utils/storage";
+import { type FolderDetails, anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,7 +36,7 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   };
 
   const removeFolder = async (id: ID) => {
-    const storage = getGlobalStorage() as AnoriStorage;
+    const storage = await getAnoriStorage();
     await storage.delete(anoriSchema.latestSchema.definition.folderDetails.folder.byId(id));
     trackEvent("Folder deleted");
     await setFolders((p) => p.filter((f) => f.id !== id));
@@ -108,13 +102,13 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   };
 };
 
-export const getFolderDetails = (id: ID): FolderDetails => {
-  const storage = getGlobalStorage() as AnoriStorage;
+export const getFolderDetails = async (id: ID): Promise<FolderDetails> => {
+  const storage = await getAnoriStorage();
   return storage.get(anoriSchema.latestSchema.definition.folderDetails.folder.byId(id)) ?? { widgets: [] };
 };
 
 export const setFolderDetails = async (id: ID, details: FolderDetails): Promise<void> => {
-  const storage = getGlobalStorage() as AnoriStorage;
+  const storage = await getAnoriStorage();
   await storage.set(anoriSchema.latestSchema.definition.folderDetails.folder.byId(id), details);
 };
 
@@ -162,7 +156,7 @@ export const useFolderWidgets = (folder: Folder) => {
   };
 
   const removeWidget = async (id: ID) => {
-    NamespacedStorage.get(`WidgetStorage.${id}`).clear();
+    getWidgetStorage(id).clear();
     const removedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
     if (removedWidget) {
       trackEvent("Widget removed", {
@@ -289,8 +283,8 @@ export const tryMoveWidgetToFolder = async (
   widgetInstanceId: WidgetInFolderWithMeta["instanceId"],
   currentGrid: GridDimensions,
 ) => {
-  const fromFolderDetails = getFolderDetails(folderIdFrom);
-  const toFolderDetails = getFolderDetails(folderIdTo);
+  const fromFolderDetails = await getFolderDetails(folderIdFrom);
+  const toFolderDetails = await getFolderDetails(folderIdTo);
   const widgetInfo = fromFolderDetails.widgets.find((w) => w.instanceId === widgetInstanceId);
   if (!widgetInfo) return false;
 

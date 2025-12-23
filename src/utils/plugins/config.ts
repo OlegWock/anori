@@ -1,38 +1,28 @@
 import type { AnoriPlugin } from "@anori/utils/plugins/types";
-import {
-  type AtomWithBrowserStorage,
-  atomWithBrowserStorage,
-  storage,
-  useAtomWithStorage,
-} from "@anori/utils/storage-legacy/api";
-import type { ID, Mapping } from "@anori/utils/types";
+import { anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
+import type { Mapping } from "@anori/utils/types";
 import type { SetStateAction } from "react";
-
-const pluginConfigAtoms: Record<ID, AtomWithBrowserStorage<unknown>> = {};
-const getPluginConfigAtom = <T extends Mapping>(plugin: AnoriPlugin<string, T>) => {
-  if (!pluginConfigAtoms[plugin.id]) {
-    pluginConfigAtoms[plugin.id] = atomWithBrowserStorage<T | undefined>(`PluginConfig.${plugin.id}`, undefined);
-  }
-
-  return pluginConfigAtoms[plugin.id] as AtomWithBrowserStorage<T | undefined>;
-};
 
 export function usePluginConfig<T extends Mapping>(
   plugin: AnoriPlugin<string, T>,
-): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isLoaded: boolean];
+): readonly [value: T | undefined, setValue: (val: SetStateAction<T | undefined>) => Promise<void>];
 export function usePluginConfig<T extends Mapping>(
   plugin: AnoriPlugin<string, T>,
   defaultConfig: T,
-): readonly [value: T, setValue: (val: SetStateAction<T>) => void, isLoaded: boolean];
+): readonly [value: T, setValue: (val: SetStateAction<T | undefined>) => Promise<void>];
 export function usePluginConfig<T extends Mapping>(
   plugin: AnoriPlugin<string, T>,
   defaultConfig?: T,
-): readonly [value: T | undefined, setValue: (val: SetStateAction<T>) => void, isLoaded: boolean] {
-  const [val, setVal, meta] = useAtomWithStorage(getPluginConfigAtom<T>(plugin));
+): readonly [value: T | undefined, setValue: (val: SetStateAction<T | undefined>) => Promise<void>] {
+  const query = anoriSchema.latestSchema.definition.pluginConfig.config.byId(plugin.id);
+  const [val, setVal, meta] = useWritableStorageValue(query);
 
-  return [meta.usingDefaultValue ? defaultConfig : val, setVal, ["loaded", "empty"].includes(meta.status)] as const;
+  const finalValue = meta.usingDefault ? defaultConfig : (val as T | undefined);
+
+  return [finalValue, setVal as (val: SetStateAction<T | undefined>) => Promise<void>] as const;
 }
 
-export const getPluginConfig = <T extends Mapping>(plugin: AnoriPlugin<string, T>) => {
-  return storage.getOneDynamic<T>(`PluginConfig.${plugin.id}`);
+export const getPluginConfig = async <T extends Mapping>(plugin: AnoriPlugin<string, T>): Promise<T | undefined> => {
+  const storage = await getAnoriStorage();
+  return storage.get(anoriSchema.latestSchema.definition.pluginConfig.config.byId(plugin.id)) as T | undefined;
 };

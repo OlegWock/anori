@@ -5,7 +5,7 @@ const browserState = vi.hoisted<MockBrowserStorageState>(() => ({ storage: {}, c
 
 vi.mock("webextension-polyfill", () => createMockBrowserStorage(browserState));
 
-import { getStoredSchemaVersion, needsMigration, runMigrations, setStoredSchemaVersion } from "../migrations";
+import { getStoredSchemaVersion, needsMigration, runMigrations, setStoredSchemaVersion } from "../migrations/runner";
 import { cell, collection, createMigration, defineSchemaVersion, defineVersionedSchema, entity } from "../schema";
 
 describe("Migration System", () => {

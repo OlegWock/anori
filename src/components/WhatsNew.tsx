@@ -2,13 +2,14 @@ import { ScrollArea } from "./ScrollArea";
 import { ShortcutHint } from "./ShortcutHint";
 import "./WhatsNew.scss";
 import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
-import { analyticsEnabledAtom } from "@anori/utils/analytics";
-import { useAtomWithStorage } from "@anori/utils/storage-legacy/api";
+import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "./Checkbox";
 
 export const WhatsNew = () => {
-  const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+  const [analyticsEnabled, setAnalyticsEnabled] = useWritableStorageValue(
+    anoriSchema.latestSchema.definition.analyticsEnabled,
+  );
   const { t, i18n } = useTranslation();
   return (
     <div className="WhatsNew">
@@ -340,7 +341,7 @@ export const WhatsNew = () => {
               change your choice in settings.
             </p>
 
-            <Checkbox className="analytics-checkbox" checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
+            <Checkbox className="analytics-checkbox" checked={analyticsEnabled ?? false} onChange={setAnalyticsEnabled}>
               Enable sending analytics
             </Checkbox>
           </section>

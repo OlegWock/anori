@@ -1,10 +1,10 @@
-import { useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
-import { defaultTheme, themes } from "./theme";
+import { anoriSchema, useStorageValue, useWritableStorageValue } from "@anori/utils/storage";
+import { themes } from "./theme";
 
 export const useCurrentTheme = () => {
-  const [themeName, setThemeName] = useBrowserStorageValue("theme", defaultTheme.name);
-  const [customThemes] = useBrowserStorageValue("customThemes", []);
+  const [themeName, setThemeName] = useWritableStorageValue(anoriSchema.latestSchema.definition.theme);
+  const [customThemes] = useStorageValue(anoriSchema.latestSchema.definition.customThemes);
 
-  const theme = [...themes, ...customThemes].find((t) => t.name === themeName) ?? themes[0];
+  const theme = [...themes, ...(customThemes ?? [])].find((t) => t.name === themeName) ?? themes[0];
   return [theme, setThemeName] as const;
 };

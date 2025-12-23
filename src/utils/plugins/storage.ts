@@ -1,10 +1,11 @@
 import { NamespacedStorage } from "@anori/utils/namespaced-storage";
+import { anoriSchema } from "@anori/utils/storage";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useWidgetMetadata } from "./widget";
 
 export const getWidgetStorage = <StorageT extends Mapping>(instanceId: ID) => {
-  return NamespacedStorage.get<StorageT>(`WidgetStorage.${instanceId}`);
+  return NamespacedStorage.get<StorageT>(anoriSchema.latestSchema.definition.widgetStorage.byId(instanceId));
 };
 
 export const useWidgetStorage = <StorageT extends Mapping>() => {
@@ -14,7 +15,7 @@ export const useWidgetStorage = <StorageT extends Mapping>() => {
 };
 
 export const getPluginStorage = <StorageT extends Mapping>(pluginId: ID) => {
-  return NamespacedStorage.get<StorageT>(`PluginStorage.${pluginId}`);
+  return NamespacedStorage.get<StorageT>(anoriSchema.latestSchema.definition.pluginStorage.byId(pluginId));
 };
 
 export const usePluginStorage = <StorageT extends Mapping>() => {

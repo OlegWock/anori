@@ -31,9 +31,6 @@ export {
   useStorageValue,
   useWritableStorageValue,
   atomWithStorageQuery,
-  setGlobalStorage,
-  getGlobalStorage,
-  isStorageInitialized,
 } from "./react";
 
 export {
@@ -61,7 +58,6 @@ export {
   // Collection
   type CollectionOptions,
   type CollectionDescriptor,
-  type CollectionDescriptorBase,
   type CollectionQuery,
   type CollectionAllQuery,
   type CollectionByIdQuery,
@@ -101,14 +97,11 @@ export {
 } from "./schema";
 
 export {
-  type MigrationResult,
-  createFromAccessor,
-  createToAccessor,
-  runMigrations,
-  needsMigration,
-  getStoredSchemaVersion,
-  setStoredSchemaVersion,
-} from "./migrations";
-
-export { anoriSchema, schemaV1, type AnoriSchemaV1, type Folder, type FolderDetails } from "./anori-schema";
-export { initializeAnoriStorage, type AnoriStorage, type StorageInitResult } from "./anori-init";
+  anoriSchema,
+  schemaV1,
+  type AnoriSchemaV1,
+  type Folder,
+  type FolderDetails,
+  type CustomTheme,
+} from "./anori-schema";
+export { getAnoriStorage, type AnoriStorage } from "./anori-init";

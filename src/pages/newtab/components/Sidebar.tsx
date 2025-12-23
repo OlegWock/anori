@@ -3,7 +3,7 @@ import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { useHotkeys } from "@anori/utils/hooks";
-import { useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
+import { anoriSchema, useStorageValue, useWritableStorageValue } from "@anori/utils/storage";
 import type { Folder } from "@anori/utils/user-data/types";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import { AnimatePresence } from "framer-motion";
@@ -26,8 +26,9 @@ export type SidebarProps = {
 
 export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: SidebarProps) => {
   const { t } = useTranslation();
-  const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useBrowserStorageValue("hasUnreadReleaseNotes", false);
-  const [autoHideSidebar] = useBrowserStorageValue("autoHideSidebar", false);
+  const def = anoriSchema.latestSchema.definition;
+  const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useWritableStorageValue(def.hasUnreadReleaseNotes);
+  const [autoHideSidebar] = useStorageValue(def.autoHideSidebar);
   const [settingsVisible, setSettingsVisible] = useState(false);
   const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
   const [whatsNewVisible, setWhatsNewVisible] = useState(false);
@@ -39,7 +40,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
 
   return (
     <>
-      <div className={clsx("sidebar-wrapper", autoHideSidebar && "sidebar-autohide")}>
+      <div className={clsx("sidebar-wrapper", (autoHideSidebar ?? false) && "sidebar-autohide")}>
         <ScrollArea
           className="sidebar"
           contentClassName="sidebar-viewport"
@@ -71,7 +72,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                 layoutId="whats-new"
                 icon={builtinIcons.newspaper}
                 name={t("whatsNew")}
-                withRedDot={hasUnreadReleaseNotes}
+                withRedDot={hasUnreadReleaseNotes ?? false}
                 onClick={() => {
                   setWhatsNewVisible(true);
                   setHasUnreadReleaseNotes(false);

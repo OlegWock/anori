@@ -5,7 +5,6 @@ export { type EntityOptions, type EntityDescriptor, entity, isEntityDescriptor }
 export {
   type CollectionOptions,
   type CollectionDescriptor,
-  type CollectionDescriptorBase,
   type CollectionQuery,
   type CollectionAllQuery,
   type CollectionByIdQuery,

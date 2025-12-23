@@ -1,7 +1,7 @@
 import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { IS_TOUCH_DEVICE } from "./device";
 import { useMirrorStateToRef } from "./hooks";
-import { useBrowserStorageValue } from "./storage-legacy/api";
+import { anoriSchema, useStorageValue } from "./storage";
 
 const CompactModeContext = createContext(false);
 
@@ -32,11 +32,16 @@ export const useScreenWidth = () => {
 };
 
 export const CompactModeProvider = ({ children }: { children: ReactNode }) => {
-  const [isAutomaticCompact] = useBrowserStorageValue("automaticCompactMode", !IS_TOUCH_DEVICE);
-  const [isManualCompact] = useBrowserStorageValue("compactMode", IS_TOUCH_DEVICE);
+  const [isAutomaticCompact] = useStorageValue(anoriSchema.latestSchema.definition.automaticCompactMode);
+  const [isManualCompact] = useStorageValue(anoriSchema.latestSchema.definition.compactMode);
   const screenWidth = useScreenWidth();
-  const [automaticCompactModeThreshold] = useBrowserStorageValue("automaticCompactModeThreshold", 1500);
-  const isCompact = isAutomaticCompact ? screenWidth < automaticCompactModeThreshold : isManualCompact;
+  const [automaticCompactModeThreshold] = useStorageValue(
+    anoriSchema.latestSchema.definition.automaticCompactModeThreshold,
+  );
+  const isCompact =
+    (isAutomaticCompact ?? !IS_TOUCH_DEVICE)
+      ? screenWidth < (automaticCompactModeThreshold ?? 1500)
+      : (isManualCompact ?? IS_TOUCH_DEVICE);
 
   useEffect(() => {
     applyCompactMode(isCompact);

@@ -15,14 +15,14 @@ import {
   availableTranslationsPrettyNames,
   switchTranslationLanguage,
 } from "@anori/translations/index";
-import { analyticsEnabledAtom } from "@anori/utils/analytics";
 import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid } from "@anori/utils/grid/utils";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
+import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
+import { getAnoriStorageNoWait } from "@anori/utils/storage/anori-init";
 import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
@@ -238,8 +238,10 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
   };
 
   const { t } = useTranslation();
-  const [language, setLanguage] = useBrowserStorageValue("language", "en");
-  const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+  const def = anoriSchema.latestSchema.definition;
+  const [language, setLanguage] = useWritableStorageValue(def.language);
+  const [analyticsEnabled, setAnalyticsEnabled] = useWritableStorageValue(def.analyticsEnabled);
+  const [, setFinishedOnboarding] = useWritableStorageValue(def.finishedOnboarding);
 
   const [screenIndex, setScreenIndex] = useState<number>(0);
   const prevScreen = usePrevious(screenIndex) || 0;
@@ -276,21 +278,18 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
   );
 
   useEffect(() => {
-    const main = async () => {
-      const finishedOnboarding = await storage.getOne("finishedOnboarding");
-      if (finishedOnboarding) {
-        setScreenIndex(screens.length - 1);
-      }
-    };
-
-    main();
+    const storage = getAnoriStorageNoWait();
+    const finishedOnboarding = storage.get(anoriSchema.latestSchema.definition.finishedOnboarding);
+    if (finishedOnboarding) {
+      setScreenIndex(screens.length - 1);
+    }
   }, []);
 
   useEffect(() => {
     if (screenIndex === screens.length - 1) {
-      storage.setOne("finishedOnboarding", true);
+      setFinishedOnboarding(true);
     }
-  }, [screenIndex]);
+  }, [screenIndex, setFinishedOnboarding]);
 
   // Need this to avoid initial flash when animatedHeight is 0
   const animatedHeightCorrected = useTransform(animatedHeight, (val) => (val === 0 ? undefined : val));
@@ -317,7 +316,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   </p>
 
                   <Select<Language>
-                    value={language}
+                    value={language ?? "en"}
                     onChange={(newLang) => {
                       console.log("Saving new language", newLang);
                       setLanguage(newLang);
@@ -362,7 +361,11 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                     </Trans>
                   </p>
 
-                  <Checkbox className="analytics-checkbox" checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
+                  <Checkbox
+                    className="analytics-checkbox"
+                    checked={analyticsEnabled ?? false}
+                    onChange={setAnalyticsEnabled}
+                  >
                     {t("settings.general.enableAnalytics")}
                   </Checkbox>
                 </Section>

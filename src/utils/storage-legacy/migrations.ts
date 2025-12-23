@@ -1,54 +1,17 @@
-import type { EmptyObject } from "@anori/utils/types";
 import {
   type Folder,
   type FolderDetailsInStorage,
   type StorageContent,
   homeFolder,
 } from "@anori/utils/user-data/types";
-import browser from "webextension-polyfill";
 
 // biome-ignore lint/suspicious/noExplicitAny: Since migration often works with data of shape that no longer matches our types, there is little sense in trying to type it properly
 type LegalAny = any;
 
-type GlobalStorageCache =
-  | {
-      loaded: false;
-      content: EmptyObject;
-    }
-  | {
-      loaded: true;
-      content: StorageContent;
-    };
-
-export const globalStorageCacheRef: { current: GlobalStorageCache } = {
-  current: {
-    loaded: false,
-    content: {},
-  },
-};
-
-export const loadAndMigrateStorage = async () => {
-  const currentStorage = await browser.storage.local.get(null);
-  const { madeChanges, storage } = migrateStorage(currentStorage);
-  if (madeChanges) {
-    await browser.storage.local.set(storage);
-  }
-
-  globalStorageCacheRef.current = {
-    loaded: true,
-    content: storage,
-  };
-
-  browser.storage.local.onChanged.addListener((changes) => {
-    Object.entries(changes).forEach(([key, { newValue }]) => {
-      if (globalStorageCacheRef.current.loaded) {
-        // @ts-expect-error Can't properly type this without overriding webextension-polyfill types
-        globalStorageCacheRef.current.content[key] = newValue;
-      }
-    });
-  });
-};
-
+/**
+ * Migrates legacy storage data format.
+ * This is still used for importing backups from older versions.
+ */
 export const migrateStorage = (
   oldStorage: LegalAny,
 ): { madeChanges: boolean; storage: StorageContent; version: number } => {

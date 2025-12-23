@@ -1,8 +1,7 @@
 import { Button, type ButtonProps } from "@anori/components/Button";
 import { toCss } from "@anori/utils/color";
-import { storage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
+import { type CustomTheme, anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
 import {
-  type CustomTheme,
   type PartialCustomTheme,
   type Theme,
   applyTheme,
@@ -164,16 +163,17 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     saveThemeBackground(`${id}-original`, originalBackgroundBlob.current);
     saveThemeBackground(`${id}-blurred`, blurredBackgroundBlob.current);
 
-    let customThemes = (await storage.getOne("customThemes")) ?? [];
+    const storage = await getAnoriStorage();
+    let customThemes = storage.get(anoriSchema.latestSchema.definition.customThemes) ?? [];
     if (themeFromProps) {
       customThemes = customThemes.map((t) => {
-        if (t.name === id) return theme;
+        if (t.name === id) return theme as CustomTheme;
         return t;
       });
     } else {
-      customThemes.push(theme);
+      customThemes.push(theme as CustomTheme);
     }
-    await storage.setOne("customThemes", customThemes);
+    await storage.set(anoriSchema.latestSchema.definition.customThemes, customThemes);
     setCurrentTheme(theme.name);
     onClose();
   };
@@ -317,8 +317,9 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
 
 export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
-  const [customThemes, setCustomThemes] = useBrowserStorageValue("customThemes", []);
-  const [currentTheme, setTheme] = useBrowserStorageValue("theme", defaultTheme.name);
+  const def = anoriSchema.latestSchema.definition;
+  const [customThemes, setCustomThemes] = useWritableStorageValue(def.customThemes);
+  const [currentTheme, setTheme] = useWritableStorageValue(def.theme);
   const [editorActive, setEditorActive] = useState(false);
   const [editorTheme, setEditorTheme] = useState<CustomTheme | undefined>(undefined);
 
@@ -331,7 +332,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
       ) : (
         <>
           <div className="themes-grid">
-            {[...themes, ...customThemes].map((theme) => {
+            {[...themes, ...(customThemes ?? [])].map((theme) => {
               return (
                 <ThemePlate
                   theme={theme}
@@ -351,7 +352,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
                   onDelete={
                     theme.type === "custom"
                       ? () => {
-                          setCustomThemes((prev) => prev.filter((t) => t.name !== theme.name));
+                          setCustomThemes((prev) => (prev ?? []).filter((t) => t.name !== theme.name));
                           deleteThemeBackgrounds(theme.name);
                           if (currentTheme === theme.name) {
                             setTheme(defaultTheme.name);

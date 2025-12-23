@@ -134,7 +134,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [feeds, setFeeds] = storage.useValue("feeds", {});
-  const [lastUpdated, setLastUpdated, _lastUpdatedMeta] = storage.useValue("lastUpdated", null);
+  const [lastUpdated, setLastUpdated] = storage.useValue("lastUpdated", null);
 
   const consolidatedFeed = useMemo(() => {
     return Object.values(feeds)

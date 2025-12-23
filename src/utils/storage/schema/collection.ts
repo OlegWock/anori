@@ -47,8 +47,6 @@ export type CollectionDescriptorBase = {
   readonly keyPrefix: string;
   readonly entities: Record<string, EntityDescriptor>;
   readonly tracked: boolean;
-  all(): CollectionAllQuery;
-  byId(id: string): CollectionByIdQuery;
 };
 
 export type CollectionDescriptor<E extends Record<string, EntityDescriptor> = Record<string, EntityDescriptor>> =

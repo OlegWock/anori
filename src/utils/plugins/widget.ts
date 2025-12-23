@@ -1,37 +1,33 @@
 import type { GridItemSize } from "@anori/utils/grid/types";
 import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { storage } from "@anori/utils/storage-legacy/api";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import type { EmptyObject, ID, Mapping } from "@anori/utils/types";
 import {
   type DistributedWidgetInFolderWithMeta,
-  type FolderDetailsInStorage,
   type WidgetInFolder,
   type WidgetInFolderWithMeta,
   homeFolder,
 } from "@anori/utils/user-data/types";
 import { createContext, useContext } from "react";
-import browser from "webextension-polyfill";
 
 export const getAllWidgetsByPlugin = async <PID extends ID, WD extends WidgetDescriptor[]>(
   plugin: AnoriPlugin<PID, Mapping, WD>,
 ) => {
-  const foldersFromStorage = await storage.getOne("folders");
+  const storage = await getAnoriStorage();
+  const def = anoriSchema.latestSchema.definition;
+
+  const foldersFromStorage = storage.get(def.folders);
   const folders = [homeFolder, ...(foldersFromStorage || [])];
 
-  const folderDetails = (await Promise.all(
-    folders.map((f) => {
-      return browser.storage.local
-        .get({
-          [`Folder.${f.id}`]: {
-            widgets: [],
-          } satisfies FolderDetailsInStorage,
-        })
-        .then((r) => r[`Folder.${f.id}`]);
-    }),
-  )) as FolderDetailsInStorage[];
+  const allWidgets: WidgetInFolder[] = [];
+  for (const folder of folders) {
+    const details = storage.get(def.folderDetails.folder.byId(folder.id));
+    if (details?.widgets) {
+      allWidgets.push(...details.widgets);
+    }
+  }
 
-  const widgets = folderDetails.flatMap((details) => details.widgets);
-  return widgets
+  return allWidgets
     .filter((w): w is WidgetInFolder<PID, WD> => w.pluginId === plugin.id)
     .map((w) => {
       const widget = plugin.widgets.find((d) => d.id === w.widgetId);

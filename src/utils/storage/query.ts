@@ -18,6 +18,8 @@ import {
 
 export type Query = CellDescriptor | CollectionQuery | FileDescriptor | FileCollectionQuery;
 
+export type KvQuery = CellDescriptor | CollectionQuery;
+
 export type ResolvedCellQuery = {
   type: "cell";
   key: string;
@@ -113,4 +115,17 @@ export function extractIdFromKey(key: string, prefix: string): string | null {
     return null;
   }
   return key.slice(prefix.length + 1);
+}
+
+export function getQueryId(query: Query): string {
+  if ("key" in query) {
+    return `cell:${query.key}`;
+  }
+  if ("queryType" in query) {
+    if (query.queryType === "all") {
+      return `collection:${query.keyPrefix}:all`;
+    }
+    return `collection:${query.keyPrefix}:${query.id}`;
+  }
+  return `unknown:${JSON.stringify(query)}`;
 }

@@ -5,15 +5,13 @@ import { getAllCustomIcons } from "@anori/components/icon/custom-icons";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { initTranslation, languageDirections } from "@anori/translations/index";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
-import { assertValue } from "@anori/utils/asserts";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
-import { anoriSchema, initializeAnoriStorage } from "@anori/utils/storage";
-import { storage, useBrowserStorageValue } from "@anori/utils/storage-legacy/api";
-import { loadAndMigrateStorage } from "@anori/utils/storage-legacy/migrations";
+import { anoriSchema, useStorageValue, useWritableStorageValue } from "@anori/utils/storage";
+import { getAnoriStorage } from "@anori/utils/storage/anori-init";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import clsx from "clsx";
@@ -25,16 +23,21 @@ import { Sidebar } from "./components/Sidebar";
 const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
 
 const useSidebarOrientation = () => {
-  const [sidebarOrientation] = useBrowserStorageValue("sidebarOrientation", "auto");
+  const [sidebarOrientation] = useStorageValue(anoriSchema.latestSchema.definition.sidebarOrientation);
   const [winOrientation, setWinOrientation] = useState<"landscape" | "portrait">(() =>
     window.innerWidth >= window.innerHeight ? "landscape" : "portrait",
   );
   const winOrientationRef = useMirrorStateToRef(winOrientation);
+  const effectiveSidebarOrientation = sidebarOrientation ?? "auto";
   const computedSidebarOrientation =
-    sidebarOrientation === "auto" ? (winOrientation === "landscape" ? "vertical" : "horizontal") : sidebarOrientation;
+    effectiveSidebarOrientation === "auto"
+      ? winOrientation === "landscape"
+        ? "vertical"
+        : "horizontal"
+      : effectiveSidebarOrientation;
 
   useEffect(() => {
-    if (sidebarOrientation === "auto") {
+    if (effectiveSidebarOrientation === "auto") {
       const handler = () => {
         const newOrientation = window.innerWidth >= window.innerHeight ? "landscape" : "portrait";
         if (newOrientation !== winOrientationRef.current) {
@@ -46,7 +49,7 @@ const useSidebarOrientation = () => {
       handler();
       return () => window.removeEventListener("resize", handler);
     }
-  }, [sidebarOrientation]);
+  }, [effectiveSidebarOrientation]);
 
   return computedSidebarOrientation;
 };
@@ -65,11 +68,12 @@ const Start = () => {
     setActiveFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
   };
 
+  const def = anoriSchema.latestSchema.definition;
   const sidebarOrientation = useSidebarOrientation();
-  const [rememberLastFolder] = useBrowserStorageValue("rememberLastFolder", false);
-  const [lastFolder, setLastFolder] = useBrowserStorageValue("lastFolder", "home");
-  const [language] = useBrowserStorageValue("language", "en");
-  const dir = useMemo(() => languageDirections[language], [language]);
+  const [rememberLastFolder] = useWritableStorageValue(def.rememberLastFolder);
+  const [lastFolder, setLastFolder] = useWritableStorageValue(def.lastFolder);
+  const [language] = useWritableStorageValue(def.language);
+  const dir = useMemo(() => languageDirections[language ?? "en"], [language]);
   const { folders, activeFolder, setActiveFolder } = useFolders({
     includeHome: true,
     defaultFolderId: rememberLastFolder ? lastFolder : undefined,
@@ -87,7 +91,7 @@ const Start = () => {
           ? "up"
           : "left";
 
-  const [showBookmarksBar] = useBrowserStorageValue("showBookmarksBar", false);
+  const [showBookmarksBar] = useWritableStorageValue(def.showBookmarksBar);
 
   useHotkeys("meta+up, alt+up", () => swithFolderUp());
   useHotkeys("meta+left, alt+left", () => swithFolderUp());
@@ -137,61 +141,48 @@ const Start = () => {
   );
 };
 
-plantPerformanceMetricsListeners();
-
 watchForPermissionChanges();
 
 getAllCustomIcons();
 
-storage.getOne("showBookmarksBar").then((showBookmarksBar) => {
+getAnoriStorage().then((storage) => {
+  const def = anoriSchema.latestSchema.definition;
+
+  initTranslation();
+
+  const showBookmarksBar = storage.get(def.showBookmarksBar);
   if (showBookmarksBar) {
     BookmarksBar.preload();
   }
-});
 
-storage.getOne("showLoadAnimation").then((showLoadAnimation) => {
+  const showLoadAnimation = storage.get(def.showLoadAnimation);
   const div = document.querySelector(".loading-cover");
-  if (!div) return;
-  if (!showLoadAnimation) {
-    div.remove();
-    return;
+  if (div) {
+    if (!showLoadAnimation) {
+      div.remove();
+    } else {
+      div.addEventListener("animationend", () => div.remove());
+      div.classList.add("active");
+    }
   }
 
-  div.addEventListener("animationend", () => div.remove());
-  div.classList.add("active");
+  const title = storage.get(def.newTabTitle);
+  setPageTitle(title ?? "Anori new tab");
+
+  plantPerformanceMetricsListeners();
+  scheduleLazyComponentsPreload();
+  incrementDailyUsageMetric("Times new tab opened");
+  mountPage(
+    <QueryClientProvider>
+      <CompactModeProvider>
+        {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
+        <LazyMotion features={loadMotionFeatures}>
+          <Start />
+        </LazyMotion>
+      </CompactModeProvider>
+    </QueryClientProvider>,
+  );
 });
-
-initializeAnoriStorage()
-  .then((result) => {
-    if (!result.success) {
-      console.error("[Storage] Initialization failed:", result.error);
-      return;
-    }
-
-    assertValue(result.storage, "Storage should be defined after successful initialization");
-    const storage = result.storage;
-
-    // Set page title from storage
-    const title = storage.get(anoriSchema.latestSchema.definition.newTabTitle);
-    setPageTitle(title || "Anori new tab");
-
-    return loadAndMigrateStorage();
-  })
-  .then(() => {
-    initTranslation();
-    scheduleLazyComponentsPreload();
-    incrementDailyUsageMetric("Times new tab opened");
-    mountPage(
-      <QueryClientProvider>
-        <CompactModeProvider>
-          {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
-          <LazyMotion features={loadMotionFeatures}>
-            <Start />
-          </LazyMotion>
-        </CompactModeProvider>
-      </QueryClientProvider>,
-    );
-  });
 
 if (IS_TOUCH_DEVICE) document.body.classList.add("is-touch-device");
 if (IS_ANDROID) document.body.classList.add("is-android");
