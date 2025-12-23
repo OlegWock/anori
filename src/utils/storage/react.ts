@@ -85,8 +85,7 @@ export function useStorageValue<T>(query: CollectionAllQuery<T>): StorageValueRe
 export function useStorageValue<T>(
   query: StorageQuery<T>,
 ): StorageValueResult<T> | StorageValueResult<Record<string, T>> {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: query is object and can be re-created on each render
-  const valueAtom = useMemo(() => atomWithStorageQuery(query as CellDescriptor<T>), [getQueryId(query)]);
+  const valueAtom = atomWithStorageQuery(query as CellDescriptor<T>);
   const value = useAtomValue(valueAtom);
 
   const usingDefault = useMemo(() => {
@@ -106,10 +105,7 @@ export function useStorageValue<T>(
 export function useWritableStorageValue<T>(query: CellDescriptor<T>): WritableStorageValueResult<T>;
 export function useWritableStorageValue<T>(query: CollectionByIdQuery<T>): WritableStorageValueResult<T>;
 export function useWritableStorageValue<T>(query: WritableStorageQuery<T>): WritableStorageValueResult<T> {
-  const queryKey = getQueryId(query);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: query is object and can be re-created on each render
-  const storageAtom = useMemo(() => atomWithStorageQuery(query as CellDescriptor<T>), [queryKey]);
+  const storageAtom = atomWithStorageQuery(query as CellDescriptor<T>);
   const [value, setValue] = useAtom(storageAtom);
 
   // TODO: better detection for usingDefault, ideally baked into storage itself

@@ -224,6 +224,8 @@ export async function migrateFromLegacy(): Promise<void> {
   await browser.storage.local.set(newData);
   await browser.storage.local.remove([...keysToDelete]);
 
+  // TODO: should we check relationships here and purge dangling records? E.g. orphanes Folder:id records not associated with folder in `folders`
+
   console.log(
     `[Storage] Migrated from legacy storage (v${allData.storageVersion ?? 0}) to schema v${anoriSchema.currentVersion}`,
   );

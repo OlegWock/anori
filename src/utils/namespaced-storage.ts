@@ -72,10 +72,16 @@ export class NamespacedStorage<T extends Mapping = Mapping> {
   useValue<K extends keyof T>(name: K, defaultValue: T[K]) {
     const [data, setData] = useWritableStorageValue(this.query);
     const val = (data as Partial<T> | undefined)?.[name] ?? defaultValue;
-    const setValue = useCallback((newValue: SetStateAction<T[K]>) => {
-      // @ts-ignore I know what I'm doing, this code will be rewritted probably anyway
-      setData((prev) => ({ ...prev, [name]: typeof newValue === "function" ? newValue(val) : newValue }));
-    }, []);
+    const setValue = useCallback(
+      (newValue: SetStateAction<T[K]>) => {
+        setData((prevData) => {
+          const prevValue = (prevData as Partial<T> | undefined)?.[name] ?? defaultValue;
+          // @ts-ignore I know what I'm doing, this code will be rewritted probably anyway
+          return { ...prevData, [name]: typeof newValue === "function" ? newValue(prevValue) : newValue };
+        });
+      },
+      [val, setData],
+    );
 
     return [val, setValue] as const;
   }
