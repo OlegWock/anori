@@ -139,6 +139,7 @@ export async function migrateFromLegacy(): Promise<void> {
   }
 
   const keysToDelete = new Set<string>();
+  keysToDelete.add(LEGACY_STORAGE_VERSION_KEY);
 
   // ============================================================================
   // Migrate folder details collection (Folder.{id} -> Folder:{id})
@@ -221,6 +222,7 @@ export async function migrateFromLegacy(): Promise<void> {
   newData[SCHEMA_VERSION_KEY] = anoriSchema.currentVersion;
 
   await browser.storage.local.set(newData);
+  await browser.storage.local.remove([...keysToDelete]);
 
   console.log(
     `[Storage] Migrated from legacy storage (v${allData.storageVersion ?? 0}) to schema v${anoriSchema.currentVersion}`,
