@@ -4,7 +4,7 @@ import { Link } from "@anori/components/Link";
 import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";

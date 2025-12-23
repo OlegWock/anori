@@ -6,7 +6,7 @@ import { Tooltip } from "@anori/components/Tooltip";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";

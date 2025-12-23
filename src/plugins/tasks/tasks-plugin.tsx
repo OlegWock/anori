@@ -9,7 +9,7 @@ import { listItemAnimation } from "@anori/components/animations";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";

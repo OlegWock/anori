@@ -11,7 +11,7 @@ import { Tooltip } from "@anori/components/Tooltip";
 import { listItemAnimation } from "@anori/components/animations";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { guid, parseHost, wait } from "@anori/utils/misc";

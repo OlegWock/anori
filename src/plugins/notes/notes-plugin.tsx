@@ -2,7 +2,7 @@ import { Input, Textarea } from "@anori/components/Input";
 import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import "./styles.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useWidgetStorage } from "@anori/utils/plugins/storage";
 import { useTranslation } from "react-i18next";
 

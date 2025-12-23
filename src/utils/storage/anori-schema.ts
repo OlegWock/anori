@@ -1,4 +1,4 @@
-import { type Language, availableTranslations } from "@anori/translations/index";
+import { type Language, availableTranslations } from "@anori/translations/metadata";
 import type { Color } from "@anori/utils/color";
 import { z } from "zod";
 import { cell, collection, defineSchemaVersion, defineVersionedSchema, entity } from "./schema";

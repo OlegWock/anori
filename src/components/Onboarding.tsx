@@ -9,12 +9,8 @@ import { rssFeedDescriptor, rssPlugin } from "@anori/plugins/rss/rss-plugin";
 import { tasksPlugin, tasksWidgetDescriptor } from "@anori/plugins/tasks/tasks-plugin";
 import { topSitesPlugin, topSitesWidgetDescriptorVertical } from "@anori/plugins/top-sites/top-sites-plugin";
 import { weatherPlugin, weatherWidgetDescriptorCurrent } from "@anori/plugins/weather/weather-plugin";
-import {
-  type Language,
-  availableTranslations,
-  availableTranslationsPrettyNames,
-  switchTranslationLanguage,
-} from "@anori/translations/index";
+import { type Language, availableTranslations, availableTranslationsPrettyNames } from "@anori/translations/metadata";
+import { switchTranslationLanguage } from "@anori/translations/utils";
 import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid } from "@anori/utils/grid/utils";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";

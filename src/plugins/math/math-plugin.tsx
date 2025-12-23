@@ -5,7 +5,7 @@ import { ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";

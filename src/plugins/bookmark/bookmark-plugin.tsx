@@ -15,7 +15,7 @@ import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { listItemAnimation } from "@anori/components/animations";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { isChromeLike } from "@anori/utils/browser";
 import { useSizeSettings } from "@anori/utils/compact";

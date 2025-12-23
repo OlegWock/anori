@@ -1,6 +1,6 @@
 import "./styles.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { isChromeLike } from "@anori/utils/browser";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";

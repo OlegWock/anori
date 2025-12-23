@@ -3,7 +3,7 @@ import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@
 import { anoriSchema } from "@anori/utils/storage";
 import { getAnoriStorage } from "@anori/utils/storage/anori-init";
 import browser from "webextension-polyfill";
-import { type Language, availableTranslations } from "./translations";
+import { type Language, availableTranslations } from "./translations/metadata";
 
 console.log("Background init");
 

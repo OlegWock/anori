@@ -24,13 +24,8 @@ import {
 } from "@anori/components/icon/custom-icons";
 import { ReorderGroup, Select } from "@anori/components/lazy-components";
 import { availablePlugins } from "@anori/plugins/all";
-import {
-  type Language,
-  SHOW_LANGUAGE_SELECT_IN_SETTINGS,
-  availableTranslations,
-  availableTranslationsPrettyNames,
-  switchTranslationLanguage,
-} from "@anori/translations/index";
+import { type Language, availableTranslations, availableTranslationsPrettyNames } from "@anori/translations/metadata";
+import { switchTranslationLanguage } from "@anori/translations/utils";
 import { trackEvent } from "@anori/utils/analytics";
 import { useScreenWidth } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
@@ -180,29 +175,27 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="GeneralSettingsScreen">
-      {SHOW_LANGUAGE_SELECT_IN_SETTINGS && (
-        <div className="input-wrapper">
-          <label>{t("settings.general.language")}:</label>
-          <Select<Language>
-            value={language ?? "en"}
-            onChange={(newLang) => {
-              console.log("Saving new language", newLang);
-              setLanguage(newLang);
-              switchTranslationLanguage(newLang);
-            }}
-            options={[...availableTranslations]}
-            getOptionKey={(o) => o}
-            getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
-          />
+      <div className="input-wrapper">
+        <label>{t("settings.general.language")}:</label>
+        <Select<Language>
+          value={language ?? "en"}
+          onChange={(newLang) => {
+            console.log("Saving new language", newLang);
+            setLanguage(newLang);
+            switchTranslationLanguage(newLang);
+          }}
+          options={[...availableTranslations]}
+          getOptionKey={(o) => o}
+          getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
+        />
 
-          <Alert level="info" className="translation-alert">
-            <Trans t={t} i18nKey="settings.general.translationInfo">
-              {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
-              <a href="https://github.com/OlegWock/anori/issues/104" />
-            </Trans>
-          </Alert>
-        </div>
-      )}
+        <Alert level="info" className="translation-alert">
+          <Trans t={t} i18nKey="settings.general.translationInfo">
+            {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
+            <a href="https://github.com/OlegWock/anori/issues/104" />
+          </Trans>
+        </Alert>
+      </div>
       <div className="input-wrapper">
         <label>{t("settings.general.sidebarOrientation")}:</label>
         <Select<"auto" | "vertical" | "horizontal">

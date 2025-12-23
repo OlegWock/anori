@@ -1,4 +1,4 @@
-import type { Language } from "@anori/translations/index";
+import type { Language } from "@anori/translations/metadata";
 import browser from "webextension-polyfill";
 import { type CustomTheme, type Folder, type FolderDetails, anoriSchema } from "../anori-schema";
 import { type HlcTimestamp, createHlc, generateNodeId } from "../hlc";
@@ -138,6 +138,8 @@ export async function migrateFromLegacy(): Promise<void> {
     newData.cloudAccount = wrapValue(allData.cloudAccount, hlc.tick());
   }
 
+  const keysToDelete = new Set<string>();
+
   // ============================================================================
   // Migrate folder details collection (Folder.{id} -> Folder:{id})
   // ============================================================================
@@ -152,6 +154,7 @@ export async function migrateFromLegacy(): Promise<void> {
 
   for (const key of Object.keys(allData)) {
     if (key.startsWith("Folder.")) {
+      keysToDelete.add(key);
       const id = key.substring("Folder.".length);
       folderIds.add(id);
     }
@@ -187,6 +190,7 @@ export async function migrateFromLegacy(): Promise<void> {
 
   for (const key of Object.keys(allData)) {
     if (key.startsWith("WidgetStorage.")) {
+      keysToDelete.add(key);
       const id = key.substring("WidgetStorage.".length);
       const newKey = `WidgetStorage:${id}`;
       newData[newKey] = wrapValue(allData[key], hlc.tick(), "WidgetStorage");
@@ -199,6 +203,7 @@ export async function migrateFromLegacy(): Promise<void> {
 
   for (const key of Object.keys(allData)) {
     if (key.startsWith("PluginStorage.")) {
+      keysToDelete.add(key);
       const id = key.substring("PluginStorage.".length);
       const newKey = `PluginStorage:${id}`;
       newData[newKey] = wrapValue(allData[key], hlc.tick(), "PluginStorage");
