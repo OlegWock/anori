@@ -17,19 +17,6 @@ export const addUniversalDnrRules = async () => {
     return;
   }
 
-  const currentRules = await browser.declarativeNetRequest.getDynamicRules();
-
-  const requestRule = currentRules.find((r) => r.id === MODIFY_REQUEST_RULE_ID);
-  const responseRule = currentRules.find((r) => r.id === MODIFY_RESPONSE_RULE_ID);
-  const shouldUpdate =
-    !requestRule ||
-    !responseRule ||
-    !requestRule.condition.initiatorDomains?.includes(browser.runtime.id) ||
-    !responseRule.condition.initiatorDomains?.includes(browser.runtime.id);
-  if (!shouldUpdate) {
-    // return;
-  }
-
   const actionModifyResponse = {
     type: "modifyHeaders",
     responseHeaders: [
