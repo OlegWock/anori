@@ -15,9 +15,10 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
-import { useWidgetStorage } from "@anori/utils/plugins/storage";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { combineRefs } from "@anori/utils/react";
+import { createScopedStoreFactories } from "@anori/utils/scoped-store";
+import { type Task, type TasksWidgetStore, anoriSchema } from "@anori/utils/storage";
 import { useDirection } from "@radix-ui/react-direction";
 import {
   AnimatePresence,
@@ -36,12 +37,9 @@ type TaskWidgetConfig = {
   title: string;
 };
 
-type Task = {
-  id: string;
-  text: string;
-};
-
-type TaskWidgetStorageType = { tasks: Task[] };
+const { useStore: useTasksStore } = createScopedStoreFactories<TasksWidgetStore>(
+  anoriSchema.latestSchema.definition.tasksWidgetStore.store,
+);
 
 const devOnlyMockTasks = [
   `Buy groceries: Eggs, milk, bread, and fruits.`,
@@ -123,99 +121,101 @@ const WidgetConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigur
   );
 };
 
-type TaskProps = {
+type TaskComponentProps = {
   task: Task;
   onEdit: (newText: string) => void;
   onComplete: () => void;
   onEnterKeyPress: () => void;
 };
 
-const Task = forwardRef<HTMLDivElement, TaskProps>(({ task, onEdit, onComplete, onEnterKeyPress }, ref) => {
-  const onCheckboxChange = (checked: boolean) => {
-    setChecked(checked);
-    if (checked) {
-      if (animationRef.current) animationRef.current.stop();
+const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
+  ({ task, onEdit, onComplete, onEnterKeyPress }, ref) => {
+    const onCheckboxChange = (checked: boolean) => {
+      setChecked(checked);
+      if (checked) {
+        if (animationRef.current) animationRef.current.stop();
 
-      animationRef.current = animate(completionProgress, 1, { duration: 0.95, ease: "easeInOut" });
-      animationRef.current.then(() => {
-        onComplete();
-      });
-    } else {
-      if (animationRef.current) {
-        animationRef.current.stop();
-        animationRef.current = animate(completionProgress, 0, { duration: 0.5, ease: "easeInOut" });
+        animationRef.current = animate(completionProgress, 1, { duration: 0.95, ease: "easeInOut" });
+        animationRef.current.then(() => {
+          onComplete();
+        });
+      } else {
+        if (animationRef.current) {
+          animationRef.current.stop();
+          animationRef.current = animate(completionProgress, 0, { duration: 0.5, ease: "easeInOut" });
+        }
       }
-    }
-  };
+    };
 
-  const controls = useDragControls();
-  const { rem } = useSizeSettings();
-  const { t } = useTranslation();
-  const [checked, setChecked] = useState(false);
-  const [scope, animate] = useAnimate();
-  const mergedRef = combineRefs(ref, scope);
-  const animationRef = useRef<AnimationPlaybackControlsWithThen | null>(null);
-  const checkboxRef = useRef<HTMLDivElement>(null);
+    const controls = useDragControls();
+    const { rem } = useSizeSettings();
+    const { t } = useTranslation();
+    const [checked, setChecked] = useState(false);
+    const [scope, animate] = useAnimate();
+    const mergedRef = combineRefs(ref, scope);
+    const animationRef = useRef<AnimationPlaybackControlsWithThen | null>(null);
+    const checkboxRef = useRef<HTMLDivElement>(null);
 
-  const completionProgress = useMotionValue(0);
+    const completionProgress = useMotionValue(0);
 
-  return (
-    <ReorderItem
-      key={task.id}
-      value={task}
-      className="task"
-      layout="position"
-      initial={{ y: 20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ opacity: 0 }}
-      dragListener={false}
-      dragControls={controls}
-      ref={mergedRef}
-      data-task-id={task.id}
-    >
-      <div className="drag-control">
-        <Icon
-          icon={builtinIcons.dragHandle}
-          width={rem(1)}
-          onPointerDown={(e) => {
-            e.preventDefault();
-            controls.start(e);
-          }}
-        />
-      </div>
-      <Checkbox
-        ref={checkboxRef}
-        checked={checked}
-        onChange={onCheckboxChange}
-        transition={{
-          duration: 0.15,
-        }}
-        variants={{
-          checked: {
-            scale: [null, 1.3, 1],
-          },
-        }}
-      />
-      <m.div className="input-wrapper">
-        <Scribble progress={completionProgress} />
-
-        <Textarea
-          value={task.text}
-          onValueChange={(v) => onEdit(v)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.metaKey && !e.shiftKey && !e.altKey) {
+    return (
+      <ReorderItem
+        key={task.id}
+        value={task}
+        className="task"
+        layout="position"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ opacity: 0 }}
+        dragListener={false}
+        dragControls={controls}
+        ref={mergedRef}
+        data-task-id={task.id}
+      >
+        <div className="drag-control">
+          <Icon
+            icon={builtinIcons.dragHandle}
+            width={rem(1)}
+            onPointerDown={(e) => {
               e.preventDefault();
-              onEnterKeyPress();
-            }
+              controls.start(e);
+            }}
+          />
+        </div>
+        <Checkbox
+          ref={checkboxRef}
+          checked={checked}
+          onChange={onCheckboxChange}
+          transition={{
+            duration: 0.15,
           }}
-          placeholder={t("tasks-plugin.taskDescription")}
-          maxRows={4}
-          spellCheck={false}
+          variants={{
+            checked: {
+              scale: [null, 1.3, 1],
+            },
+          }}
         />
-      </m.div>
-    </ReorderItem>
-  );
-});
+        <m.div className="input-wrapper">
+          <Scribble progress={completionProgress} />
+
+          <Textarea
+            value={task.text}
+            onValueChange={(v) => onEdit(v)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.metaKey && !e.shiftKey && !e.altKey) {
+                e.preventDefault();
+                onEnterKeyPress();
+              }
+            }}
+            placeholder={t("tasks-plugin.taskDescription")}
+            maxRows={4}
+            spellCheck={false}
+          />
+        </m.div>
+      </ReorderItem>
+    );
+  },
+);
 
 const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
   const addTask = () => {
@@ -243,8 +243,8 @@ const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
     );
   };
 
-  const storage = useWidgetStorage<TaskWidgetStorageType>();
-  const [tasks, setTasks] = storage.useValue("tasks", []);
+  const store = useTasksStore();
+  const [tasks, setTasks] = store.useValue("tasks", []);
   const { t } = useTranslation();
   const runAfterRender = useRunAfterNextRender();
   const trackInteraction = useWidgetInteractionTracker();
@@ -263,7 +263,7 @@ const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
             <AnimatePresence initial={false}>
               {tasks.map((t) => {
                 return (
-                  <Task
+                  <TaskComponent
                     task={t}
                     key={t.id}
                     onComplete={() => completeTask(t.id)}

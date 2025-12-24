@@ -10,15 +10,15 @@ import { translate } from "@anori/translations/utils";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
-import { useWidgetStorage } from "@anori/utils/plugins/storage";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
+import { createScopedStoreFactories } from "@anori/utils/scoped-store";
+import { type WeatherCurrentWidgetStore, anoriSchema } from "@anori/utils/storage";
 import { capitalize } from "@anori/utils/strings";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import {
   type City,
-  type CurrentWeather,
   type Speed,
   type Temperature,
   type WeatherForecast,
@@ -26,6 +26,14 @@ import {
   getForecast,
   searchCity,
 } from "./api";
+
+const { useStore: useCurrentWeatherStore } = createScopedStoreFactories(
+  anoriSchema.latestSchema.definition.weatherCurrentWidgetStore.store,
+);
+
+const { useStore: useForecastWeatherStore } = createScopedStoreFactories(
+  anoriSchema.latestSchema.definition.weatherForecastWidgetStore.store,
+);
 
 type WeatherWidgetConfig = {
   location: City;
@@ -180,10 +188,10 @@ const WidgetConfigScreen = ({
 };
 
 const useCurrentWeather = (config: WeatherWidgetConfig) => {
-  const store = useWidgetStorage<{ weather: CurrentWeather & { lastUpdated: number } }>();
+  const store = useCurrentWeatherStore();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [weather, setWeather] = useState<(CurrentWeather & { lastUpdated: number }) | null>(null);
+  const [weather, setWeather] = useState<WeatherCurrentWidgetStore["weather"] | null>(null);
 
   useAsyncEffect(async () => {
     await store.waitForLoad();
@@ -199,12 +207,10 @@ const useCurrentWeather = (config: WeatherWidgetConfig) => {
       setWeather(null);
     }
     try {
-      const weather = await gerCurrentWeather(config.location);
-      store.set("weather", { lastUpdated: Date.now(), ...weather });
-      setWeather({
-        ...weather,
-        lastUpdated: Date.now(),
-      });
+      const fetched = await gerCurrentWeather(config.location);
+      const newWeather = { ...fetched, lastUpdated: Date.now() };
+      store.set("weather", newWeather);
+      setWeather(newWeather);
     } catch (err) {
       console.error(err);
     } finally {
@@ -221,7 +227,7 @@ const useCurrentWeather = (config: WeatherWidgetConfig) => {
 };
 
 const useForecastWeather = (config: WeatherWidgetConfig) => {
-  const store = useWidgetStorage<{ weather: { forecast: WeatherForecast[]; lastUpdated: number } }>();
+  const store = useForecastWeatherStore();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [forecast, setForecast] = useState<WeatherForecast[] | null>(null);
@@ -232,10 +238,11 @@ const useForecastWeather = (config: WeatherWidgetConfig) => {
     await store.waitForLoad();
     const fromStorage = store.get("weather");
     if (fromStorage) {
-      fromStorage.forecast.forEach((r) => {
-        r.date = moment(r.dateRaw);
-      });
-      setForecast(fromStorage.forecast);
+      const forecastWithDates = fromStorage.forecast.map((r) => ({
+        ...r,
+        date: moment(r.dateRaw),
+      }));
+      setForecast(forecastWithDates);
       setLastUpdated(fromStorage.lastUpdated);
       if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
       setIsLoading(false);
@@ -248,7 +255,7 @@ const useForecastWeather = (config: WeatherWidgetConfig) => {
     try {
       const weather = await getForecast(config.location);
       store.set("weather", {
-        forecast: weather.map(({ date, ...rest }) => rest as WeatherForecast),
+        forecast: weather.map(({ date, ...rest }) => rest),
         lastUpdated: Date.now(),
       });
       setForecast(weather);

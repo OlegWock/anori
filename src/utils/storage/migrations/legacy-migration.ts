@@ -188,15 +188,48 @@ export async function migrateFromLegacy(): Promise<void> {
   }
 
   // ============================================================================
-  // Migrate widget storage collection (WidgetStorage.{id} -> WidgetStorage:{id})
+  // Migrate widget storage to typed collections
   // ============================================================================
+
+  // Build a map of instanceId -> widgetId from all folder details
+  const widgetIdByInstanceId = new Map<string, string>();
+  for (const folderId of folderIds) {
+    const legacyKey = `Folder.${folderId}`;
+    const legacyDetails = allData[legacyKey] as LegacyFolderDetails | undefined;
+    if (legacyDetails?.widgets) {
+      for (const widget of legacyDetails.widgets as Array<{ instanceId?: string; widgetId?: string }>) {
+        if (widget.instanceId && widget.widgetId) {
+          widgetIdByInstanceId.set(widget.instanceId, widget.widgetId);
+        }
+      }
+    }
+  }
+
+  // Widget ID to collection key prefix and brand mapping
+  const widgetStoreMapping: Record<string, { keyPrefix: string; brand: string }> = {
+    "tasks-widget": { keyPrefix: "TasksWidgetStore", brand: "TasksWidgetStore" },
+    "notes-widget": { keyPrefix: "NotesWidgetStore", brand: "NotesWidgetStore" },
+    "weather-current": { keyPrefix: "WeatherCurrentWidgetStore", brand: "WeatherCurrentWidgetStore" },
+    "weather-forecast": { keyPrefix: "WeatherForecastWidgetStore", brand: "WeatherForecastWidgetStore" },
+    "top-sites-horizontal": { keyPrefix: "TopSitesWidgetStore", brand: "TopSitesWidgetStore" },
+    "top-sites-vertical": { keyPrefix: "TopSitesWidgetStore", brand: "TopSitesWidgetStore" },
+    "rss-feed": { keyPrefix: "RssWidgetStore", brand: "RssWidgetStore" },
+    "rss-latest-post": { keyPrefix: "RssWidgetStore", brand: "RssWidgetStore" },
+    bookmark: { keyPrefix: "BookmarkWidgetStore", brand: "BookmarkWidgetStore" },
+  };
 
   for (const key of Object.keys(allData)) {
     if (key.startsWith("WidgetStorage.")) {
       keysToDelete.add(key);
-      const id = key.substring("WidgetStorage.".length);
-      const newKey = `WidgetStorage:${id}`;
-      newData[newKey] = wrapValue(allData[key], hlc.tick(), "WidgetStorage");
+      const instanceId = key.substring("WidgetStorage.".length);
+      const widgetId = widgetIdByInstanceId.get(instanceId);
+      const mapping = widgetId ? widgetStoreMapping[widgetId] : undefined;
+
+      if (mapping) {
+        // Migrate to typed collection
+        const newKey = `${mapping.keyPrefix}:${instanceId}`;
+        newData[newKey] = wrapValue(allData[key], hlc.tick(), mapping.brand);
+      }
     }
   }
 
@@ -306,6 +339,69 @@ export async function migrateFromLegacy(): Promise<void> {
   }
 
   // ============================================================================
+  // Purge orphaned records
+  // ============================================================================
+
+  // Collect all valid widget instanceIds from migrated folder details
+  const validInstanceIds = new Set<string>();
+  for (const folderId of folderIds) {
+    const legacyKey = `Folder.${folderId}`;
+    const legacyDetails = allData[legacyKey] as LegacyFolderDetails | undefined;
+    if (legacyDetails?.widgets) {
+      for (const widget of legacyDetails.widgets as Array<{ instanceId?: string }>) {
+        if (widget.instanceId) {
+          validInstanceIds.add(widget.instanceId);
+        }
+      }
+    }
+  }
+
+  // Valid folder IDs are: "home" + all folders in the folders array
+  const validFolderIds = new Set<string>(["home"]);
+  for (const folder of folders) {
+    validFolderIds.add(folder.id);
+  }
+
+  // Remove orphaned records from newData
+  const widgetStorePrefixes = [
+    "TasksWidgetStore:",
+    "NotesWidgetStore:",
+    "WeatherCurrentWidgetStore:",
+    "WeatherForecastWidgetStore:",
+    "TopSitesWidgetStore:",
+    "RssWidgetStore:",
+    "BookmarkWidgetStore:",
+  ];
+
+  let orphanedCount = 0;
+  for (const key of Object.keys(newData)) {
+    // Check for orphaned widget storage
+    for (const prefix of widgetStorePrefixes) {
+      if (key.startsWith(prefix)) {
+        const instanceId = key.substring(prefix.length);
+        if (!validInstanceIds.has(instanceId)) {
+          delete newData[key];
+          orphanedCount++;
+        }
+        break;
+      }
+    }
+
+    // Check for orphaned folder details
+    if (key.startsWith("Folder:")) {
+      const folderId = key.substring("Folder:".length);
+      if (!validFolderIds.has(folderId)) {
+        delete newData[key];
+        orphanedCount++;
+      }
+    }
+  }
+
+  if (orphanedCount > 0) {
+    console.log(`[Storage] Purged ${orphanedCount} orphaned records during migration`);
+  }
+
+  // ============================================================================
   // Finalize migration
   // ============================================================================
 
@@ -329,8 +425,6 @@ export async function migrateFromLegacy(): Promise<void> {
   } catch {
     // Directory doesn't exist, ignore
   }
-
-  // TODO: should we check relationships here and purge dangling records? E.g. orphanes Folder:id records not associated with folder in `folders`
 
   console.log(
     `[Storage] Migrated from legacy storage (v${allData.storageVersion ?? 0}) to schema v${anoriSchema.currentVersion}`,

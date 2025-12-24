@@ -12,17 +12,18 @@ import { useLinkNavigationState } from "@anori/utils/hooks";
 import { parseHost } from "@anori/utils/misc";
 import type { CorrectPermission } from "@anori/utils/permissions";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
-import { useWidgetStorage } from "@anori/utils/plugins/storage";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
+import { createScopedStoreFactories } from "@anori/utils/scoped-store";
+import { anoriSchema } from "@anori/utils/storage";
 import type { EmptyObject } from "@anori/utils/types";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import browser from "webextension-polyfill";
 
-type WidgetStorageType = {
-  blacklist: string[];
-};
+const { useStore: useTopSitesStore } = createScopedStoreFactories(
+  anoriSchema.latestSchema.definition.topSitesWidgetStore.store,
+);
 
 const REQUIRED_PERMISSIONS: CorrectPermission[] = X_BROWSER === "firefox" ? ["topSites"] : ["topSites", "favicon"];
 
@@ -68,7 +69,7 @@ const MainScreen = ({ type }: WidgetRenderProps<EmptyObject> & { type: "horizont
     setBlacklist((b) => [...b, url]);
   };
 
-  const store = useWidgetStorage<WidgetStorageType>();
+  const store = useTopSitesStore();
   const [blacklist, setBlacklist] = store.useValue("blacklist", []);
 
   const [sites, setSites] = useState<browser.TopSites.MostVisitedURL[]>([]);

@@ -5,13 +5,13 @@ import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/gr
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
-import { getWidgetStorage } from "@anori/utils/plugins/storage";
 import type {
   AnoriPlugin,
   ConfigFromWidgetDescriptor,
   IDFromWidgetDescriptor,
   WidgetDescriptor,
 } from "@anori/utils/plugins/types";
+import { clearWidgetStorage } from "@anori/utils/scoped-store";
 import { type FolderDetails, anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
@@ -156,9 +156,7 @@ export const useFolderWidgets = (folder: Folder) => {
   };
 
   const removeWidget = async (id: ID) => {
-    getWidgetStorage(id)
-      .waitForLoad()
-      .then((s) => s.clear());
+    clearWidgetStorage(id);
     const removedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
     if (removedWidget) {
       trackEvent("Widget removed", {

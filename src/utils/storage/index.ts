@@ -103,5 +103,15 @@ export {
   type Folder,
   type FolderDetails,
   type CustomTheme,
+  type Task,
+  type TasksWidgetStore,
+  type NotesWidgetStore,
+  type WeatherCurrentWidgetStore,
+  type WeatherForecastWidgetStore,
+  type TopSitesWidgetStore,
+  type RssWidgetStore,
+  type RssFeed,
+  type RssPost,
+  type BookmarkWidgetStore,
 } from "./anori-schema";
 export { getAnoriStorage, type AnoriStorage } from "./anori-init";

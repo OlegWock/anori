@@ -3,7 +3,8 @@ import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useS
 import "./styles.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
-import { useWidgetStorage } from "@anori/utils/plugins/storage";
+import { createScopedStoreFactories } from "@anori/utils/scoped-store";
+import { type NotesWidgetStore, anoriSchema } from "@anori/utils/storage";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "@anori/components/Link";
@@ -16,6 +17,10 @@ import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import type { EmptyObject } from "@anori/utils/types";
 import type { Options } from "react-markdown";
 import { sequentialNewlinesPlugin } from "./utils";
+
+const { useStore: useNotesStore } = createScopedStoreFactories<NotesWidgetStore>(
+  anoriSchema.latestSchema.definition.notesWidgetStore.store,
+);
 
 const Mock = () => {
   const { t } = useTranslation();
@@ -52,9 +57,9 @@ const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
     setBody(value);
   };
 
-  const storage = useWidgetStorage<{ title: string; body: string }>();
-  const [title, setTitle] = storage.useValue("title", "");
-  const [body, setBody] = storage.useValue("body", "");
+  const store = useNotesStore();
+  const [title, setTitle] = store.useValue("title", "");
+  const [body, setBody] = store.useValue("body", "");
   const [isEditing, setIsEditing] = useState(false);
   const [titleFocused, setTitleFocused] = useState(false);
   const bodyEditorRef = useRef<HTMLTextAreaElement>(null);

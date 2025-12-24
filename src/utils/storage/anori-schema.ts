@@ -13,6 +13,104 @@ const FolderSchema = z.object({
   icon: z.string(),
 });
 
+// ============================================================================
+// Widget Store Schemas
+// ============================================================================
+
+const TaskSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+});
+
+export type Task = z.infer<typeof TaskSchema>;
+
+const TasksWidgetStoreSchema = z.object({
+  tasks: z.array(TaskSchema),
+});
+
+export type TasksWidgetStore = z.infer<typeof TasksWidgetStoreSchema>;
+
+const NotesWidgetStoreSchema = z.object({
+  title: z.string(),
+  body: z.string(),
+});
+
+export type NotesWidgetStore = z.infer<typeof NotesWidgetStoreSchema>;
+
+const WeatherCurrentWidgetStoreSchema = z.object({
+  weather: z.object({
+    temperature: z.number(),
+    windSpeed: z.number(),
+    windDirection: z.number(),
+    weatherCode: z.number(),
+    lastUpdated: z.number(),
+  }),
+});
+
+export type WeatherCurrentWidgetStore = z.infer<typeof WeatherCurrentWidgetStoreSchema>;
+
+const WeatherForecastItemSchema = z.object({
+  dateRaw: z.string(),
+  windSpeed: z.number(),
+  windDirection: z.number(),
+  weatherCode: z.number(),
+  temperatureMin: z.number(),
+  temperatureMax: z.number(),
+});
+
+const WeatherForecastWidgetStoreSchema = z.object({
+  weather: z.object({
+    forecast: z.array(WeatherForecastItemSchema),
+    lastUpdated: z.number(),
+  }),
+});
+
+export type WeatherForecastWidgetStore = z.infer<typeof WeatherForecastWidgetStoreSchema>;
+
+const TopSitesWidgetStoreSchema = z.object({
+  blacklist: z.array(z.string()),
+});
+
+export type TopSitesWidgetStore = z.infer<typeof TopSitesWidgetStoreSchema>;
+
+const RssFeedSchema = z.object({
+  title: z.string(),
+  url: z.string(),
+  description: z.string(),
+});
+
+const RssPostSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  url: z.string(),
+  timestamp: z.number(),
+  feed: RssFeedSchema,
+});
+
+const RssWidgetStoreSchema = z.object({
+  feeds: z.record(
+    z.string(),
+    z.object({
+      feed: RssFeedSchema,
+      posts: z.array(RssPostSchema),
+    }),
+  ),
+  feedUrls: z.array(z.string()),
+  lastUpdated: z.number().nullable(),
+});
+
+export type RssWidgetStore = z.infer<typeof RssWidgetStoreSchema>;
+export type RssFeed = z.infer<typeof RssFeedSchema>;
+export type RssPost = z.infer<typeof RssPostSchema>;
+
+const BookmarkWidgetStoreSchema = z.object({
+  status: z.enum(["up", "down", "loading"]),
+  lastCheck: z.number().optional(),
+  lastStatusChange: z.number().optional(),
+});
+
+export type BookmarkWidgetStore = z.infer<typeof BookmarkWidgetStoreSchema>;
+
 export type Folder = z.infer<typeof FolderSchema>;
 
 const WidgetInFolderSchema = z.object({
@@ -242,22 +340,12 @@ export const schemaV1 = defineSchemaVersion(1, {
     tracked: false,
   }),
 
-  // Plugin/Widget storage collections
+  // Plugin storage collections
   pluginConfig: collection({
     keyPrefix: "PluginConfig",
     entities: {
       config: entity({
         brand: "PluginConfig",
-        schema: z.record(z.string(), z.unknown()),
-      }),
-    },
-    tracked: true,
-  }),
-  widgetStorage: collection({
-    keyPrefix: "WidgetStorage",
-    entities: {
-      storage: entity({
-        brand: "WidgetStorage",
         schema: z.record(z.string(), z.unknown()),
       }),
     },
@@ -269,6 +357,78 @@ export const schemaV1 = defineSchemaVersion(1, {
       storage: entity({
         brand: "PluginStorage",
         schema: z.record(z.string(), z.unknown()),
+      }),
+    },
+    tracked: true,
+  }),
+
+  // Widget-specific stores
+  tasksWidgetStore: collection({
+    keyPrefix: "TasksWidgetStore",
+    entities: {
+      store: entity({
+        brand: "TasksWidgetStore",
+        schema: TasksWidgetStoreSchema,
+      }),
+    },
+    tracked: true,
+  }),
+  notesWidgetStore: collection({
+    keyPrefix: "NotesWidgetStore",
+    entities: {
+      store: entity({
+        brand: "NotesWidgetStore",
+        schema: NotesWidgetStoreSchema,
+      }),
+    },
+    tracked: true,
+  }),
+  weatherCurrentWidgetStore: collection({
+    keyPrefix: "WeatherCurrentWidgetStore",
+    entities: {
+      store: entity({
+        brand: "WeatherCurrentWidgetStore",
+        schema: WeatherCurrentWidgetStoreSchema,
+      }),
+    },
+    tracked: true,
+  }),
+  weatherForecastWidgetStore: collection({
+    keyPrefix: "WeatherForecastWidgetStore",
+    entities: {
+      store: entity({
+        brand: "WeatherForecastWidgetStore",
+        schema: WeatherForecastWidgetStoreSchema,
+      }),
+    },
+    tracked: true,
+  }),
+  topSitesWidgetStore: collection({
+    keyPrefix: "TopSitesWidgetStore",
+    entities: {
+      store: entity({
+        brand: "TopSitesWidgetStore",
+        schema: TopSitesWidgetStoreSchema,
+      }),
+    },
+    tracked: true,
+  }),
+  rssWidgetStore: collection({
+    keyPrefix: "RssWidgetStore",
+    entities: {
+      store: entity({
+        brand: "RssWidgetStore",
+        schema: RssWidgetStoreSchema,
+      }),
+    },
+    tracked: true,
+  }),
+  bookmarkWidgetStore: collection({
+    keyPrefix: "BookmarkWidgetStore",
+    entities: {
+      store: entity({
+        brand: "BookmarkWidgetStore",
+        schema: BookmarkWidgetStoreSchema,
       }),
     },
     tracked: true,

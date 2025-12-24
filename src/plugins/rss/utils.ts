@@ -1,43 +1,26 @@
 import { cachedFunc } from "@anori/utils/misc";
-import type { NamespacedStorage } from "@anori/utils/namespaced-storage";
-import { useWidgetStorage } from "@anori/utils/plugins/storage";
+import type { ScopedStore } from "@anori/utils/scoped-store";
+import { createScopedStoreFactories } from "@anori/utils/scoped-store";
+import { type RssFeed, type RssPost, type RssWidgetStore, anoriSchema } from "@anori/utils/storage";
 import moment from "moment-timezone";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type Parser from "rss-parser";
 
+export type { RssFeed, RssPost };
+
 const getParser = cachedFunc<Promise<Parser>>(() => import("rss-parser").then((m) => new m.default()));
 
-export type RssFeed = {
-  title: string;
-  url: string;
-  description: string;
-};
+const { getStore: getRssStore, useStore: useRssStore } = createScopedStoreFactories(
+  anoriSchema.latestSchema.definition.rssWidgetStore.store,
+);
 
-export type RssPost = {
-  title: string;
-  description: string;
-  url: string;
-  timestamp: number;
-  feed: RssFeed;
-};
+export { getRssStore };
 
 const UPDATE_EVERY = 1000 * 60 * 30;
 const CHECK_INTERVAL = 1000 * 60;
 
-type FeedsInStorage = Record<
-  string,
-  {
-    feed: RssFeed;
-    posts: RssPost[];
-  }
->;
-
-export type WidgetStorage = {
-  feeds: FeedsInStorage;
-  feedUrls: string[];
-  lastUpdated: null | number;
-};
+type FeedsInStorage = RssWidgetStore["feeds"];
 
 const arraysAreEqual = (arr1: string[], arr2: string[]) => {
   if (arr1.length !== arr2.length) return false;
@@ -120,7 +103,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
     try {
       const newFeeds = await loadAndParseFeeds(feedUrls, fetchFeed);
       setFeeds(newFeeds);
-      storage.set("feedUrls", feedUrls);
+      store.set("feedUrls", feedUrls);
       setLastUpdated(Date.now());
     } catch (err) {
       console.log("Error while parsing rss feeds", err);
@@ -129,12 +112,12 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
     }
   }, [feedUrls, fetchFeed]);
 
-  const storage = useWidgetStorage<WidgetStorage>();
+  const store = useRssStore();
   const { i18n } = useTranslation();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const [feeds, setFeeds] = storage.useValue("feeds", {});
-  const [lastUpdated, setLastUpdated] = storage.useValue("lastUpdated", null);
+  const [feeds, setFeeds] = store.useValue("feeds", {});
+  const [lastUpdated, setLastUpdated] = store.useValue("lastUpdated", null);
 
   const consolidatedFeed = useMemo(() => {
     return Object.values(feeds)
@@ -158,9 +141,9 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
 
   useEffect(() => {
     const main = async () => {
-      await storage.waitForLoad();
-      const cachedFeedsUrls = storage.get("feedUrls");
-      const lastUpdated = storage.get("lastUpdated");
+      await store.waitForLoad();
+      const cachedFeedsUrls = store.get("feedUrls");
+      const lastUpdated = store.get("lastUpdated");
 
       if (
         !lastUpdated ||
@@ -173,7 +156,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
     };
 
     main();
-  }, [feedUrls, refresh, storage]);
+  }, [feedUrls, refresh, store]);
 
   return {
     feed: consolidatedFeed,
@@ -183,7 +166,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
   };
 };
 
-export const updateFeedsForWidget = async (feeds: string[], widgetStorage: NamespacedStorage<WidgetStorage>) => {
+export const updateFeedsForWidget = async (feeds: string[], widgetStorage: ScopedStore<RssWidgetStore>) => {
   const newFeeds = await loadAndParseFeeds(feeds, fetchFeed);
   widgetStorage.set("feeds", newFeeds);
   widgetStorage.set("feedUrls", feeds);

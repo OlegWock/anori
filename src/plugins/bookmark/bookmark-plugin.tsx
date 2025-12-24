@@ -26,10 +26,11 @@ import { usePermissionsQuery } from "@anori/utils/permissions";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import { dnrPermissions, ensureDnrRules, plantWebRequestHandler } from "@anori/utils/plugins/dnr";
 import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
-import { getWidgetStorage, useWidgetStorage } from "@anori/utils/plugins/storage";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { getAllWidgetsByPlugin, useWidgetMetadata } from "@anori/utils/plugins/widget";
+import { createScopedStoreFactories } from "@anori/utils/scoped-store";
 import { isMacLike } from "@anori/utils/shortcuts";
+import { type BookmarkWidgetStore, anoriSchema } from "@anori/utils/storage";
 import type { ID } from "@anori/utils/types";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
@@ -38,18 +39,16 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 
+const { getStore: getBookmarkStore, useStore: useBookmarkStore } = createScopedStoreFactories(
+  anoriSchema.latestSchema.definition.bookmarkWidgetStore.store,
+);
+
 type BookmarkWidgetConfig = {
   url: string;
   title: string;
   icon: string;
   checkStatus?: boolean;
   openInNewTab?: boolean;
-};
-
-type BookmarkWidgetStorage = {
-  status: "up" | "down" | "loading";
-  lastCheck?: number;
-  lastStatusChange?: number;
 };
 
 type BookmarkGroupWidgetConfig = {
@@ -89,12 +88,12 @@ const updateStatusesForTrackedPages = async () => {
     .filter((w) => w.configuration.checkStatus);
 
   const promises = widgetsToCheck.map(async (w) => {
-    const store = getWidgetStorage<BookmarkWidgetStorage>(w.instanceId);
+    const store = getBookmarkStore(w.instanceId);
     await store.waitForLoad();
     const currentStatus = store.get("status");
     store.set("status", "loading");
     const newStatus = await getPageStatus(normalizeUrl(w.configuration.url));
-    const updatePayload: Partial<BookmarkWidgetStorage> = {
+    const updatePayload: Partial<BookmarkWidgetStore> = {
       lastCheck: Date.now(),
       status: newStatus,
     };
@@ -109,12 +108,12 @@ const updateStatusesForTrackedPages = async () => {
 };
 
 const updatePageStatusForWidget = async (instaceId: ID, url: string) => {
-  const store = getWidgetStorage<BookmarkWidgetStorage>(instaceId);
+  const store = getBookmarkStore(instaceId);
   await store.waitForLoad();
   const currentStatus = store.get("status");
   store.set("status", "loading");
   const newStatus = await getPageStatus(normalizeUrl(url));
-  const updatePayload: Partial<BookmarkWidgetStorage> = {
+  const updatePayload: Partial<BookmarkWidgetStore> = {
     lastCheck: Date.now(),
     status: newStatus,
   };
@@ -404,7 +403,7 @@ const BookmarkWidget = ({
   const [showIframe, setShowIframe] = useState(false);
 
   const { rem } = useSizeSettings();
-  const store = useWidgetStorage<BookmarkWidgetStorage>();
+  const store = useBookmarkStore();
   const { t, i18n } = useTranslation();
   const trackInteraction = useWidgetInteractionTracker();
 
