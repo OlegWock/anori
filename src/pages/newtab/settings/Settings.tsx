@@ -15,13 +15,7 @@ import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { Tooltip } from "@anori/components/Tooltip";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import {
-  CUSTOM_ICONS_FOLDER_NAME,
-  deleteAllCustomIcons,
-  getAllCustomIconFiles,
-  isValidCustomIconName,
-  useCustomIcons,
-} from "@anori/components/icon/custom-icons";
+import { deleteAllCustomIcons, isValidCustomIconName, useCustomIcons } from "@anori/components/icon/custom-icons";
 import { ReorderGroup, Select } from "@anori/components/lazy-components";
 import { availablePlugins } from "@anori/plugins/all";
 import { type Language, availableTranslations, availableTranslationsPrettyNames } from "@anori/translations/metadata";
@@ -34,14 +28,9 @@ import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
-import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
+import { anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
 import type { Mapping } from "@anori/utils/types";
-import {
-  CUSTOM_THEMES_FOLDER_NAME,
-  deleteAllThemeBackgrounds,
-  getAllCustomThemeBackgroundFiles,
-  saveThemeBackground,
-} from "@anori/utils/user-data/theme";
+import { deleteAllThemeBackgrounds, saveThemeBackground } from "@anori/utils/user-data/theme";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";
@@ -481,14 +470,14 @@ const PluginsScreen = (props: ComponentProps<typeof m.div>) => {
 const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
   const exportSettings = async () => {
     const zip = new JSZip();
-    const storage = await browser.storage.local.get(null);
-    zip.file("storage.json", JSON.stringify(storage, null, 4), { compression: "DEFLATE" });
+    const rawStorage = await browser.storage.local.get(null);
+    zip.file("storage.json", JSON.stringify(rawStorage, null, 4), { compression: "DEFLATE" });
     zip.file(
       "meta.json",
       JSON.stringify(
         {
           extensionVersion: browser.runtime.getManifest().version,
-          storageVersion: storage.storageVersion ?? 0,
+          storageFormat: "v2", // New format indicator
           date: moment().toString(),
         },
         null,
@@ -497,17 +486,23 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       { compression: "DEFLATE" },
     );
 
-    const customIconFiles = await getAllCustomIconFiles();
-    customIconFiles.forEach((handle) =>
-      zip.file(`opfs/${CUSTOM_ICONS_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
-    );
-    const customThemeFiles = await getAllCustomThemeBackgroundFiles();
-    customThemeFiles.forEach((handle) =>
-      zip.file(`opfs/${CUSTOM_THEMES_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
-    );
-    const blob = await zip.generateAsync({ type: "blob" });
+    // Export custom icons from new storage
+    const storage = await getAnoriStorage();
+    const customIcons = await storage.files.get(anoriSchema.latestSchema.definition.customIcons.all());
+    for (const [name, { blob }] of Object.entries(customIcons)) {
+      zip.file(`files/custom-icons/${name}`, blob, { compression: "DEFLATE" });
+    }
+
+    // Export theme backgrounds from new storage
+    const themeBackgrounds = await storage.files.get(anoriSchema.latestSchema.definition.themeBackgrounds.all());
+    for (const [key, { blob, meta }] of Object.entries(themeBackgrounds)) {
+      const filename = `${meta.properties?.themeName ?? key}-${meta.properties?.variant ?? "blurred"}`;
+      zip.file(`files/theme-backgrounds/${filename}`, blob, { compression: "DEFLATE" });
+    }
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
     const datetime = moment().format("yyyy-MM-DD_HH-mm");
-    downloadBlob(`anori-backup-${datetime}.zip`, blob);
+    downloadBlob(`anori-backup-${datetime}.zip`, zipBlob);
     trackEvent("Configuration exported");
   };
 
@@ -527,23 +522,61 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
     await deleteAllCustomIcons();
     await deleteAllThemeBackgrounds();
+
     const promises: Promise<void>[] = [];
-    zip.folder(`opfs/${CUSTOM_ICONS_FOLDER_NAME}`)?.forEach((path, file) => {
-      console.log("Importing", { file, path });
-      promises.push(
-        file.async("arraybuffer").then((ab) => {
-          return addNewCustomIcon(path, ab);
-        }),
-      );
-    });
-    zip.folder(`opfs/${CUSTOM_THEMES_FOLDER_NAME}`)?.forEach((path, file) => {
-      console.log("Importing", { file, path });
-      promises.push(
-        file.async("arraybuffer").then((ab) => {
-          return saveThemeBackground(path, ab);
-        }),
-      );
-    });
+
+    // Check for new format (files/ folder) or legacy format (opfs/ folder)
+    const hasNewFormat = zip.folder("files")?.file(/./).length;
+
+    if (hasNewFormat) {
+      // New format: files/custom-icons/ and files/theme-backgrounds/
+      zip.folder("files/custom-icons")?.forEach((path, zipFile) => {
+        console.log("Importing custom icon", { path });
+        promises.push(
+          zipFile.async("arraybuffer").then((ab) => {
+            return addNewCustomIcon(path, ab);
+          }),
+        );
+      });
+
+      zip.folder("files/theme-backgrounds")?.forEach((path, zipFile) => {
+        console.log("Importing theme background", { path });
+        // Parse filename: {themeName}-{variant}
+        const match = path.match(/^(.+)-(original|blurred)$/);
+        if (match) {
+          const [, themeName, variant] = match;
+          promises.push(
+            zipFile.async("arraybuffer").then((ab) => {
+              return saveThemeBackground(themeName, variant as "original" | "blurred", ab);
+            }),
+          );
+        }
+      });
+    } else {
+      // Legacy format: opfs/custom-icons/ and opfs/custom-themes/
+      zip.folder("opfs/custom-icons")?.forEach((path, zipFile) => {
+        console.log("Importing legacy custom icon", { path });
+        promises.push(
+          zipFile.async("arraybuffer").then((ab) => {
+            return addNewCustomIcon(path, ab);
+          }),
+        );
+      });
+
+      zip.folder("opfs/custom-themes")?.forEach((path, zipFile) => {
+        console.log("Importing legacy theme background", { path });
+        // Parse legacy filename: {themeName}-original or {themeName}-blurred
+        const match = path.match(/^(.+)-(original|blurred)$/);
+        if (match) {
+          const [, themeName, variant] = match;
+          promises.push(
+            zipFile.async("arraybuffer").then((ab) => {
+              return saveThemeBackground(themeName, variant as "original" | "blurred", ab);
+            }),
+          );
+        }
+      });
+    }
 
     await Promise.all(promises);
     await trackEvent("Configuration imported");

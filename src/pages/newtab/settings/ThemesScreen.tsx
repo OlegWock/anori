@@ -160,8 +160,8 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     if (!originalBackgroundBlob.current || !blurredBackgroundBlob.current) return;
 
     const id = theme.name;
-    saveThemeBackground(`${id}-original`, originalBackgroundBlob.current);
-    saveThemeBackground(`${id}-blurred`, blurredBackgroundBlob.current);
+    await saveThemeBackground(id, "original", originalBackgroundBlob.current);
+    await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
 
     const storage = await getAnoriStorage();
     let customThemes = storage.get(anoriSchema.latestSchema.definition.customThemes) ?? [];

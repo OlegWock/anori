@@ -1,9 +1,11 @@
 import type { Language } from "@anori/translations/metadata";
+import { asyncIterableToArray } from "@anori/utils/misc";
 import browser from "webextension-polyfill";
 import { type CustomTheme, type Folder, type FolderDetails, anoriSchema } from "../anori-schema";
 import { type HlcTimestamp, createHlc, generateNodeId } from "../hlc";
 import { HLC_STATE_KEY, SCHEMA_VERSION_KEY } from "../keys";
-import type { StorageRecord } from "../types";
+import { generateFilePath, writeFile } from "../opfs";
+import type { FileMetaValue, StorageRecord } from "../types";
 
 const LEGACY_STORAGE_VERSION_KEY = "storageVersion";
 
@@ -212,6 +214,98 @@ export async function migrateFromLegacy(): Promise<void> {
   }
 
   // ============================================================================
+  // Migrate custom icons from OPFS (custom-icons/ -> anori-managed-storage/)
+  // ============================================================================
+
+  const opfsRoot = await navigator.storage.getDirectory();
+
+  try {
+    const iconsDir = await opfsRoot.getDirectoryHandle("custom-icons");
+    const iconFiles = await asyncIterableToArray(iconsDir.values());
+
+    for (const handle of iconFiles) {
+      if (handle.kind !== "file") continue;
+      const fileHandle = handle as FileSystemFileHandle;
+      const file = await fileHandle.getFile();
+      const blob = new Blob([file], { type: getMimeFromFilename(fileHandle.name) });
+
+      const path = generateFilePath();
+      await writeFile(path, blob);
+
+      const metaKey = `CustomIcon:${fileHandle.name}`;
+      const meta: FileMetaValue<{ name: string; mimeType?: string }> = {
+        path,
+        properties: {
+          name: fileHandle.name, // TODO: maybe this needs to remove the extension?
+          mimeType: blob.type || undefined,
+        },
+      };
+      newData[metaKey] = wrapValue(meta, hlc.tick(), "CustomIcon");
+    }
+
+    console.log("[Storage] Migrated custom icons to new storage");
+  } catch (err) {
+    if (!(err instanceof DOMException) || err.name !== "NotFoundError") {
+      console.error("[Storage] Error migrating custom icons:", err);
+    }
+    // No custom-icons folder exists, skip
+  }
+
+  // ============================================================================
+  // Migrate theme backgrounds from OPFS (custom-themes/ -> anori-managed-storage/)
+  // ============================================================================
+
+  try {
+    const themesDir = await opfsRoot.getDirectoryHandle("custom-themes");
+    const themeFiles = await asyncIterableToArray(themesDir.values());
+
+    for (const handle of themeFiles) {
+      if (handle.kind !== "file") continue;
+      const fileHandle = handle as FileSystemFileHandle;
+      const filename = fileHandle.name;
+
+      // Parse filename: {themeName}-original or {themeName}-blurred
+      let themeName: string;
+      let variant: "original" | "blurred";
+
+      if (filename.endsWith("-original")) {
+        themeName = filename.slice(0, -"-original".length);
+        variant = "original";
+      } else if (filename.endsWith("-blurred")) {
+        themeName = filename.slice(0, -"-blurred".length);
+        variant = "blurred";
+      } else {
+        console.warn(`[Storage] Skipping unknown theme background file: ${filename}`);
+        continue;
+      }
+
+      const file = await fileHandle.getFile();
+      const blob = new Blob([file]);
+
+      const path = generateFilePath();
+      await writeFile(path, blob);
+
+      // Use a composite key: ThemeBackground:{themeName}:{variant}
+      const metaKey = `ThemeBackground:${themeName}:${variant}`;
+      const meta: FileMetaValue<{ themeName: string; variant: "original" | "blurred" }> = {
+        path,
+        properties: {
+          themeName,
+          variant,
+        },
+      };
+      newData[metaKey] = wrapValue(meta, hlc.tick(), "ThemeBackground");
+    }
+
+    console.log("[Storage] Migrated theme backgrounds to new storage");
+  } catch (err) {
+    if (!(err instanceof DOMException) || err.name !== "NotFoundError") {
+      console.error("[Storage] Error migrating theme backgrounds:", err);
+    }
+    // No custom-themes folder exists, skip
+  }
+
+  // ============================================================================
   // Finalize migration
   // ============================================================================
 
@@ -224,9 +318,34 @@ export async function migrateFromLegacy(): Promise<void> {
   await browser.storage.local.set(newData);
   await browser.storage.local.remove([...keysToDelete]);
 
+  // Clean up old OPFS directories after KV storage is persisted
+  try {
+    await opfsRoot.removeEntry("custom-icons", { recursive: true });
+  } catch {
+    // Directory doesn't exist, ignore
+  }
+  try {
+    await opfsRoot.removeEntry("custom-themes", { recursive: true });
+  } catch {
+    // Directory doesn't exist, ignore
+  }
+
   // TODO: should we check relationships here and purge dangling records? E.g. orphanes Folder:id records not associated with folder in `folders`
 
   console.log(
     `[Storage] Migrated from legacy storage (v${allData.storageVersion ?? 0}) to schema v${anoriSchema.currentVersion}`,
   );
+}
+
+/**
+ * Gets MIME type from filename for proper blob handling
+ */
+function getMimeFromFilename(filename: string): string {
+  const name = filename.toLowerCase();
+  if (name.endsWith(".svg")) return "image/svg+xml";
+  if (name.endsWith(".png")) return "image/png";
+  if (name.endsWith(".jpg") || name.endsWith(".jpeg")) return "image/jpeg";
+  if (name.endsWith(".gif")) return "image/gif";
+  if (name.endsWith(".webp")) return "image/webp";
+  return "";
 }

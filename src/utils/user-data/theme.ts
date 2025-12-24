@@ -1,7 +1,6 @@
 import { type Color, darken, fromHsl, lighten, toCss, toCssHslValues, transparentize } from "@anori/utils/color";
-import { asyncIterableToArray } from "@anori/utils/misc";
-import { getDirectoryInRoot } from "@anori/utils/opfs";
 import { setPageBackground } from "@anori/utils/page";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import browser from "webextension-polyfill";
 
 export type BuiltinTheme = {
@@ -126,54 +125,80 @@ export const themes: Theme[] = [
 
 export const defaultTheme = themes[0];
 
-export const CUSTOM_THEMES_FOLDER_NAME = "custom-themes";
-
-export const saveThemeBackground = async (filename: string, content: ArrayBuffer | Blob) => {
-  const dir = await getDirectoryInRoot(CUSTOM_THEMES_FOLDER_NAME);
-  const fileHandle = await dir.getFileHandle(filename, { create: true });
-  const writeHandle = await fileHandle.createWritable();
-  await writeHandle.write(content);
-  await writeHandle.close();
+/**
+ * Creates the composite key for theme background files.
+ * Format: {themeName}:{variant}
+ */
+const getThemeBackgroundKey = (themeName: string, variant: "original" | "blurred"): string => {
+  return `${themeName}:${variant}`;
 };
 
-export const getThemeBackground = async (id: CustomTheme["name"]) => {
-  const root = await getDirectoryInRoot(CUSTOM_THEMES_FOLDER_NAME);
-  const fileHandle = await root.getFileHandle(`${id}-blurred`);
-  const file = await fileHandle.getFile();
-  const blob = new Blob([file]);
-  return blob;
+export const saveThemeBackground = async (
+  themeName: string,
+  variant: "original" | "blurred",
+  content: ArrayBuffer | Blob,
+) => {
+  const storage = await getAnoriStorage();
+  const blob = content instanceof Blob ? content : new Blob([content]);
+  const key = getThemeBackgroundKey(themeName, variant);
+
+  await storage.files.set(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key), blob, {
+    themeName,
+    variant,
+  });
 };
 
-export const getThemeBackgroundOriginal = async (id: CustomTheme["name"]) => {
-  const root = await getDirectoryInRoot(CUSTOM_THEMES_FOLDER_NAME);
-  const fileHandle = await root.getFileHandle(`${id}-original`);
-  const file = await fileHandle.getFile();
-  const blob = new Blob([file]);
-  return blob;
+export const getThemeBackground = async (themeName: string): Promise<Blob> => {
+  const storage = await getAnoriStorage();
+  const key = getThemeBackgroundKey(themeName, "blurred");
+  const result = await storage.files.get(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key));
+
+  if (!result) {
+    throw new Error(`Theme background not found: ${themeName}`);
+  }
+
+  return result.blob;
 };
 
-export const deleteThemeBackgrounds = async (id: CustomTheme["name"]) => {
-  const root = await getDirectoryInRoot(CUSTOM_THEMES_FOLDER_NAME);
-  await root.removeEntry(`${id}-original`);
-  await root.removeEntry(`${id}-blurred`);
+export const getThemeBackgroundOriginal = async (themeName: string): Promise<Blob> => {
+  const storage = await getAnoriStorage();
+  const key = getThemeBackgroundKey(themeName, "original");
+  const result = await storage.files.get(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key));
+
+  if (!result) {
+    throw new Error(`Original theme background not found: ${themeName}`);
+  }
+
+  return result.blob;
+};
+
+export const deleteThemeBackgrounds = async (themeName: string) => {
+  const storage = await getAnoriStorage();
+  const def = anoriSchema.latestSchema.definition.themeBackgrounds;
+
+  await storage.files.delete(def.byId(getThemeBackgroundKey(themeName, "original")));
+  await storage.files.delete(def.byId(getThemeBackgroundKey(themeName, "blurred")));
 };
 
 export const deleteAllThemeBackgrounds = async () => {
-  const opfsRoot = await navigator.storage.getDirectory();
-  try {
-    await opfsRoot.removeEntry(CUSTOM_THEMES_FOLDER_NAME, { recursive: true });
-  } catch (err) {
-    if (!(err instanceof DOMException) || err.name !== "NotFoundError") {
-      // Rethrow only if this IS NOT 'not found' error
-      throw err;
-    }
+  const storage = await getAnoriStorage();
+  const allMeta = storage.files.getMeta(anoriSchema.latestSchema.definition.themeBackgrounds.all());
+
+  for (const key of Object.keys(allMeta)) {
+    await storage.files.delete(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key));
   }
 };
 
-export const getAllCustomThemeBackgroundFiles = async () => {
-  const iconsDir = await getDirectoryInRoot(CUSTOM_THEMES_FOLDER_NAME);
-  const files = await asyncIterableToArray(iconsDir.values());
-  return files.filter((h) => h.kind === "file") as FileSystemFileHandle[];
+export const getAllCustomThemeBackgroundFiles = async (): Promise<
+  Array<{ themeName: string; variant: "original" | "blurred" }>
+> => {
+  const storage = await getAnoriStorage();
+  const allMeta = storage.files.getMeta(anoriSchema.latestSchema.definition.themeBackgrounds.all());
+
+  return Object.values(allMeta).map((meta) => ({
+    themeName: meta.properties?.themeName ?? "",
+    variant: meta.properties?.variant ?? "blurred",
+  }));
 };
 
 export const applyBuiltinTheme = (themeName: Theme["name"]) => {

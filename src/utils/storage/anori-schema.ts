@@ -1,7 +1,7 @@
 import { type Language, availableTranslations } from "@anori/translations/metadata";
 import type { Color } from "@anori/utils/color";
 import { z } from "zod";
-import { cell, collection, defineSchemaVersion, defineVersionedSchema, entity } from "./schema";
+import { cell, collection, defineSchemaVersion, defineVersionedSchema, entity, fileCollection } from "./schema";
 
 // ============================================================================
 // Zod Schemas
@@ -272,6 +272,24 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+  }),
+
+  // File collections
+  customIcons: fileCollection({
+    keyPrefix: "CustomIcon",
+    tracked: true,
+    propertiesSchema: z.object({
+      name: z.string(),
+      mimeType: z.string().optional(),
+    }),
+  }),
+  themeBackgrounds: fileCollection({
+    keyPrefix: "ThemeBackground",
+    tracked: true,
+    propertiesSchema: z.object({
+      themeName: z.string(), // TODO: check if we really need this property
+      variant: z.enum(["original", "blurred"]),
+    }),
   }),
 });
 
