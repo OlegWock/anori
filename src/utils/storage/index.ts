@@ -115,3 +115,4 @@ export {
   type BookmarkWidgetStore,
 } from "./anori-schema";
 export { getAnoriStorage, type AnoriStorage } from "./anori-init";
+export { HLC_STATE_KEY, OUTBOX_KEY, SCHEMA_VERSION_KEY } from "./keys";

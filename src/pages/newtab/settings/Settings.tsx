@@ -1,4 +1,3 @@
-import { migrateStorage } from "@anori/utils/storage-legacy/migrations";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import browser from "webextension-polyfill";
 import "./Settings.scss";
@@ -15,7 +14,7 @@ import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { Tooltip } from "@anori/components/Tooltip";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { deleteAllCustomIcons, isValidCustomIconName, useCustomIcons } from "@anori/components/icon/custom-icons";
+import { isValidCustomIconName, useCustomIcons } from "@anori/components/icon/custom-icons";
 import { ReorderGroup, Select } from "@anori/components/lazy-components";
 import { availablePlugins } from "@anori/plugins/all";
 import { type Language, availableTranslations, availableTranslationsPrettyNames } from "@anori/translations/metadata";
@@ -28,9 +27,18 @@ import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
-import { anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
+import {
+  HLC_STATE_KEY,
+  OUTBOX_KEY,
+  SCHEMA_VERSION_KEY,
+  anoriSchema,
+  deleteFile,
+  listFiles,
+  readFile,
+  useWritableStorageValue,
+  writeFile,
+} from "@anori/utils/storage";
 import type { Mapping } from "@anori/utils/types";
-import { deleteAllThemeBackgrounds, saveThemeBackground } from "@anori/utils/user-data/theme";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";
@@ -467,37 +475,46 @@ const PluginsScreen = (props: ComponentProps<typeof m.div>) => {
   );
 };
 
+const BACKUP_FORMAT_VERSION = 1;
+const INTERNAL_STORAGE_KEYS = [HLC_STATE_KEY, OUTBOX_KEY, SCHEMA_VERSION_KEY];
+
 const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
+  const { t } = useTranslation();
+
   const exportSettings = async () => {
     const zip = new JSZip();
     const rawStorage = await browser.storage.local.get(null);
-    zip.file("storage.json", JSON.stringify(rawStorage, null, 4), { compression: "DEFLATE" });
+
+    // Filter out internal keys that shouldn't be in backup
+    const exportableStorage: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(rawStorage)) {
+      if (!INTERNAL_STORAGE_KEYS.includes(key)) {
+        exportableStorage[key] = value;
+      }
+    }
+
+    zip.file("storage.json", JSON.stringify(exportableStorage, null, 2), { compression: "DEFLATE" });
     zip.file(
       "meta.json",
       JSON.stringify(
         {
+          formatVersion: BACKUP_FORMAT_VERSION,
           extensionVersion: browser.runtime.getManifest().version,
-          storageFormat: "v2", // New format indicator
-          date: moment().toString(),
+          schemaVersion: anoriSchema.currentVersion,
+          date: moment().toISOString(),
         },
         null,
-        4,
+        2,
       ),
       { compression: "DEFLATE" },
     );
 
-    // Export custom icons from new storage
-    const storage = await getAnoriStorage();
-    const customIcons = await storage.files.get(anoriSchema.latestSchema.definition.customIcons.all());
-    for (const [name, { blob }] of Object.entries(customIcons)) {
-      zip.file(`files/custom-icons/${name}`, blob, { compression: "DEFLATE" });
-    }
-
-    // Export theme backgrounds from new storage
-    const themeBackgrounds = await storage.files.get(anoriSchema.latestSchema.definition.themeBackgrounds.all());
-    for (const [key, { blob, meta }] of Object.entries(themeBackgrounds)) {
-      const filename = `${meta.properties?.themeName ?? key}-${meta.properties?.variant ?? "blurred"}`;
-      zip.file(`files/theme-backgrounds/${filename}`, blob, { compression: "DEFLATE" });
+    const opfsFiles = await listFiles();
+    for (const filename of opfsFiles) {
+      const blob = await readFile(filename);
+      if (blob) {
+        zip.file(`opfs/${filename}`, blob, { compression: "DEFLATE" });
+      }
     }
 
     const zipBlob = await zip.generateAsync({ type: "blob" });
@@ -510,82 +527,44 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const files = await showOpenFilePicker(false, ".zip");
     const file = files[0];
     const zip = await JSZip.loadAsync(file);
-    const storageJsonFile = zip.file("storage.json");
-    if (!storageJsonFile) {
-      throw new Error(`couldn't find storage.json in backup`);
+
+    const metaJsonFile = zip.file("meta.json");
+    if (!metaJsonFile) {
+      throw new Error("Invalid backup: missing meta.json");
     }
-    const storageJsonString = await storageJsonFile.async("string");
-    const storageContent = JSON.parse(storageJsonString);
-    const { storage: migratedStorage } = migrateStorage(storageContent);
+    const backupMeta = JSON.parse(await metaJsonFile.async("string")) as { formatVersion?: number };
+    if (backupMeta.formatVersion !== BACKUP_FORMAT_VERSION) {
+      throw new Error(
+        `Unsupported backup format version: ${backupMeta.formatVersion}. Expected ${BACKUP_FORMAT_VERSION}. This backup was created with a different version of Anori.`,
+      );
+    }
+
+    const storageFile = zip.file("storage.json");
+    if (!storageFile) {
+      throw new Error("Invalid backup: missing storage.json");
+    }
+    const storageData = JSON.parse(await storageFile.async("string")) as Record<string, unknown>;
+
+    const existingFiles = await listFiles();
+    await Promise.all(existingFiles.map((filename) => deleteFile(filename)));
+
+    // Import OPFS files first
+    const opfsFolder = zip.folder("opfs");
+    if (opfsFolder) {
+      const opfsFiles = opfsFolder.filter(() => true);
+      for (const opfsFile of opfsFiles) {
+        const filename = opfsFile.name.replace(/^opfs\//, "");
+        const blob = await opfsFile.async("blob");
+        await writeFile(filename, blob);
+      }
+    }
+
     await browser.storage.local.clear();
-    await browser.storage.local.set(migratedStorage);
+    await browser.storage.local.set(storageData);
 
-    await deleteAllCustomIcons();
-    await deleteAllThemeBackgrounds();
-
-    const promises: Promise<void>[] = [];
-
-    // Check for new format (files/ folder) or legacy format (opfs/ folder)
-    const hasNewFormat = zip.folder("files")?.file(/./).length;
-
-    if (hasNewFormat) {
-      // New format: files/custom-icons/ and files/theme-backgrounds/
-      zip.folder("files/custom-icons")?.forEach((path, zipFile) => {
-        console.log("Importing custom icon", { path });
-        promises.push(
-          zipFile.async("arraybuffer").then((ab) => {
-            return addNewCustomIcon(path, ab);
-          }),
-        );
-      });
-
-      zip.folder("files/theme-backgrounds")?.forEach((path, zipFile) => {
-        console.log("Importing theme background", { path });
-        // Parse filename: {themeName}-{variant}
-        const match = path.match(/^(.+)-(original|blurred)$/);
-        if (match) {
-          const [, themeName, variant] = match;
-          promises.push(
-            zipFile.async("arraybuffer").then((ab) => {
-              return saveThemeBackground(themeName, variant as "original" | "blurred", ab);
-            }),
-          );
-        }
-      });
-    } else {
-      // Legacy format: opfs/custom-icons/ and opfs/custom-themes/
-      zip.folder("opfs/custom-icons")?.forEach((path, zipFile) => {
-        console.log("Importing legacy custom icon", { path });
-        promises.push(
-          zipFile.async("arraybuffer").then((ab) => {
-            return addNewCustomIcon(path, ab);
-          }),
-        );
-      });
-
-      zip.folder("opfs/custom-themes")?.forEach((path, zipFile) => {
-        console.log("Importing legacy theme background", { path });
-        // Parse legacy filename: {themeName}-original or {themeName}-blurred
-        const match = path.match(/^(.+)-(original|blurred)$/);
-        if (match) {
-          const [, themeName, variant] = match;
-          promises.push(
-            zipFile.async("arraybuffer").then((ab) => {
-              return saveThemeBackground(themeName, variant as "original" | "blurred", ab);
-            }),
-          );
-        }
-      });
-    }
-
-    await Promise.all(promises);
-    await trackEvent("Configuration imported");
+    trackEvent("Configuration imported");
     window.location.reload();
   };
-
-  const { t } = useTranslation();
-
-  const { addNewCustomIcon } = useCustomIcons();
 
   return (
     <m.div {...props} className="ImportExportScreen">
