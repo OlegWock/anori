@@ -47,7 +47,7 @@ export class NamespacedStorage<T extends Mapping = Mapping> {
   }
 
   waitForLoad() {
-    return this._loadingPromise;
+    return this._loadingPromise.then(() => this);
   }
 
   get<K extends keyof T>(name: K): T[K] | undefined {

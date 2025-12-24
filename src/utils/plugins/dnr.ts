@@ -60,8 +60,8 @@ export const addUniversalDnrRules = async () => {
       {
         id: MODIFY_REQUEST_RULE_ID,
         condition: {
-          resourceTypes: ["sub_frame"],
           initiatorDomains: [browser.runtime.id],
+          resourceTypes: ["sub_frame"],
         },
         action: actionModifyRequest,
       },
@@ -140,3 +140,6 @@ export const ensureDnrRules = async (url: string) => {
     console.log("Err while registering rule", err);
   }
 };
+
+// @ts-ignore
+self.ensureDnrRules = ensureDnrRules;

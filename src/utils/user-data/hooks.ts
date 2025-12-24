@@ -156,7 +156,9 @@ export const useFolderWidgets = (folder: Folder) => {
   };
 
   const removeWidget = async (id: ID) => {
-    getWidgetStorage(id).clear();
+    getWidgetStorage(id)
+      .waitForLoad()
+      .then((s) => s.clear());
     const removedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
     if (removedWidget) {
       trackEvent("Widget removed", {
