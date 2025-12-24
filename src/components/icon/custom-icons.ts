@@ -23,14 +23,20 @@ const getMimeFromFilename = (filename: string): string => {
   return "";
 };
 
+const stripExtension = (filename: string): string => {
+  const lastDot = filename.lastIndexOf(".");
+  if (lastDot === -1) return filename;
+  return filename.slice(0, lastDot);
+};
+
 export const getAllCustomIconNames = async (): Promise<string[]> => {
   const storage = await getAnoriStorage();
   const allMeta = storage.files.getMeta(anoriSchema.latestSchema.definition.customIcons.all());
   return Object.keys(allMeta);
 };
 
-const createCustomIconFromBlob = async (name: string, blob: Blob): Promise<CustomIcon> => {
-  const isSvg = name.toLowerCase().endsWith(".svg");
+const createCustomIconFromBlob = async (name: string, blob: Blob, mimeType?: string): Promise<CustomIcon> => {
+  const isSvg = mimeType === "image/svg+xml";
   const urlObject = URL.createObjectURL(blob);
   const svgContent = isSvg ? await blob.text() : null;
 
@@ -48,11 +54,11 @@ export const getAllCustomIcons = async (): Promise<CustomIcon[]> => {
   const icons: CustomIcon[] = await Promise.all(
     Object.entries(allFiles)
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(async ([name, { blob }]) => {
+      .map(async ([name, { blob, meta }]) => {
         if (iconsCache[name]) {
           return iconsCache[name];
         }
-        const icon = await createCustomIconFromBlob(name, blob);
+        const icon = await createCustomIconFromBlob(name, blob, meta.properties?.mimeType);
         iconsCache[name] = icon;
         return icon;
       }),
@@ -89,7 +95,7 @@ export const getCustomIcon = async (name: string): Promise<CustomIcon | null> =>
     return null;
   }
 
-  const icon = await createCustomIconFromBlob(name, result.blob);
+  const icon = await createCustomIconFromBlob(name, result.blob, result.meta.properties?.mimeType);
   iconsCache[name] = icon;
   return icon;
 };
@@ -106,35 +112,38 @@ export const useCustomIcon = (name: string) => {
 export const useCustomIcons = () => {
   const addNewCustomIcon = async (filename: string, content: ArrayBuffer, urlObj?: string) => {
     const storage = await getAnoriStorage();
-    const blob = new Blob([content], { type: getMimeFromFilename(filename) });
+    const mimeType = getMimeFromFilename(filename);
+    const blob = new Blob([content], { type: mimeType });
 
-    await storage.files.set(anoriSchema.latestSchema.definition.customIcons.byId(filename), blob, {
-      name: filename,
-      mimeType: blob.type || undefined,
+    const name = stripExtension(filename);
+
+    await storage.files.set(anoriSchema.latestSchema.definition.customIcons.byId(name), blob, {
+      name,
+      mimeType: mimeType || undefined,
     });
 
-    const isSvg = filename.toLowerCase().endsWith(".svg");
+    const isSvg = mimeType === "image/svg+xml";
     const svgContent = isSvg ? new TextDecoder().decode(content) : null;
     const urlObjFinal = urlObj || URL.createObjectURL(blob);
 
     const icon: CustomIcon = {
-      name: filename,
+      name,
       urlObject: urlObjFinal,
       svgContent,
     };
 
-    iconsCache[filename] = icon;
-    setIcons((p) => [...p.filter((i) => i.name !== filename), icon].sort((a, b) => a.name.localeCompare(b.name)));
+    iconsCache[name] = icon;
+    setIcons((p) => [...p.filter((i) => i.name !== name), icon].sort((a, b) => a.name.localeCompare(b.name)));
   };
 
-  const removeCustomIcon = async (filename: string) => {
+  const removeCustomIcon = async (name: string) => {
     const storage = await getAnoriStorage();
-    await storage.files.delete(anoriSchema.latestSchema.definition.customIcons.byId(filename));
+    await storage.files.delete(anoriSchema.latestSchema.definition.customIcons.byId(name));
 
-    setIcons((p) => p.filter((icon) => icon.name !== filename));
-    if (iconsCache[filename]) {
-      URL.revokeObjectURL(iconsCache[filename].urlObject);
-      delete iconsCache[filename];
+    setIcons((p) => p.filter((icon) => icon.name !== name));
+    if (iconsCache[name]) {
+      URL.revokeObjectURL(iconsCache[name].urlObject);
+      delete iconsCache[name];
     }
   };
 

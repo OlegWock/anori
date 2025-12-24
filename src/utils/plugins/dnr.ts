@@ -27,7 +27,7 @@ export const addUniversalDnrRules = async () => {
     !requestRule.condition.initiatorDomains?.includes(browser.runtime.id) ||
     !responseRule.condition.initiatorDomains?.includes(browser.runtime.id);
   if (!shouldUpdate) {
-    return;
+    // return;
   }
 
   const actionModifyResponse = {
