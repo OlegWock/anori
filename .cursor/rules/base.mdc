@@ -36,7 +36,7 @@ Current project name is Anori. It's browser extension (web extension) which enab
 * Project uses `pnpm`, use it to install dependencies or execute commands. Do not use `yarn` or `npm`.
 
 * Useful commands
-    * `pnpm format` — to format files
+    * `pnpm fmt` — to format files
     * `pnpm typecheck` — to typecheck the whole project
     * `pnpm lint` — to lint (with autofix) the whole project
     * You don't need to run them manually every time. They are run as part of git hooks. Invoke only if asked by user.
@@ -53,6 +53,10 @@ Current project name is Anori. It's browser extension (web extension) which enab
     * `scripts` — static code which shouldn't be compiled by rspack and instead if copied into dist as is. Should be JavaScrpt, not TypeScript.
     * `translations` — stores translations files. More in "Localization" section.
     * `utils` — catch-all folder for reusable code.
+
+# Code patterns
+
+* Use `assertValue(value, message?)` from `@anori/utils/asserts` instead of non-null assertions (`!`). It provides runtime validation while narrowing TypeScript types.
 
 # Git
 

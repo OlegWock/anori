@@ -5,32 +5,19 @@ import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/gr
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
-import { NamespacedStorage } from "@anori/utils/namespaced-storage";
 import type {
   AnoriPlugin,
   ConfigFromWidgetDescriptor,
   IDFromWidgetDescriptor,
   WidgetDescriptor,
 } from "@anori/utils/plugins/types";
-import {
-  type AtomWithBrowserStorage,
-  atomWithBrowserStorage,
-  setAtomWithStorageValue,
-  storage,
-  useAtomWithStorage,
-  useBrowserStorageValue,
-} from "@anori/utils/storage/api";
+import { clearWidgetStorage } from "@anori/utils/scoped-store";
+import { type FolderDetails, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { useStorageValue } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import browser from "webextension-polyfill";
-import {
-  type Folder,
-  type FolderDetailsInStorage,
-  type WidgetInFolder,
-  type WidgetInFolderWithMeta,
-  homeFolder,
-} from "./types";
+import { type Folder, type WidgetInFolder, type WidgetInFolderWithMeta, homeFolder } from "./types";
 
 type UseFoldersOptions = {
   includeHome?: boolean;
@@ -38,29 +25,26 @@ type UseFoldersOptions = {
 };
 
 export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersOptions = {}) => {
-  const createFolder = (name = "", icon = builtinIcons.folder) => {
+  const createFolder = async (name = "", icon = builtinIcons.folder) => {
     const newFolder = {
       id: guid(),
       name: name || t("settings.folders.defaultName"),
       icon,
     };
-    setFolders((p) => [...p, newFolder]);
+    await setFolders((p) => [...p, newFolder]);
     trackEvent("Folder created");
     return newFolder;
   };
 
-  const removeFolder = (id: ID) => {
-    const atom = getFolderDetailsAtom(id);
-    setAtomWithStorageValue(atom, { widgets: [] });
-    setTimeout(() => {
-      browser.storage.local.remove(`Folder.${id}`);
-    }, 0);
+  const removeFolder = async (id: ID) => {
+    const storage = await getAnoriStorage();
+    await storage.delete(anoriSchema.folderDetails.folder.byId(id));
     trackEvent("Folder deleted");
-    setFolders((p) => p.filter((f) => f.id !== id));
+    await setFolders((p) => p.filter((f) => f.id !== id));
   };
 
-  const updateFolder = (id: ID, update: Partial<Omit<Folder, "id">>) => {
-    setFolders((p) =>
+  const updateFolder = async (id: ID, update: Partial<Omit<Folder, "id">>) => {
+    await setFolders((p) =>
       p.map((f) => {
         if (f.id === id) {
           return {
@@ -73,8 +57,8 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
     );
   };
 
-  const changeFolderPosition = (id: ID, moveTo: number) => {
-    setFolders((p) => {
+  const changeFolderPosition = async (id: ID, moveTo: number) => {
+    await setFolders((p) => {
       const copy = [...p];
       const currentIndex = copy.findIndex((f) => f.id === id);
       if (currentIndex === -1 || moveTo === currentIndex) return copy;
@@ -97,7 +81,7 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
 
   const activeId = folderIdFromHash ?? defaultFolderId ?? homeFolder.id;
-  const [folders, setFolders] = useBrowserStorageValue("folders", []);
+  const [folders, setFolders] = useStorageValue(anoriSchema.folders);
   const { t } = useTranslation();
   const foldersFinal = [...folders];
   if (includeHome) {
@@ -118,27 +102,21 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   };
 };
 
-const folderDetailsAtoms: Record<ID, AtomWithBrowserStorage<FolderDetailsInStorage>> = {};
-const getFolderDetailsAtom = (id: ID) => {
-  if (!folderDetailsAtoms[id]) {
-    folderDetailsAtoms[id] = atomWithBrowserStorage<FolderDetailsInStorage>(`Folder.${id}`, {
-      widgets: [],
-    } satisfies FolderDetailsInStorage);
-  }
-
-  return folderDetailsAtoms[id];
+export const getFolderDetails = async (id: ID): Promise<FolderDetails> => {
+  const storage = await getAnoriStorage();
+  return storage.get(anoriSchema.folderDetails.folder.byId(id)) ?? { widgets: [] };
 };
 
-export const getFolderDetails = async (id: ID) => {
-  return (await storage.getOneDynamic<FolderDetailsInStorage>(`Folder.${id}`)) || { widgets: [] };
-};
-
-export const setFolderDetails = async (id: ID, details: FolderDetailsInStorage) => {
-  return await storage.setOneDynamic<FolderDetailsInStorage>(`Folder.${id}`, details);
+export const setFolderDetails = async (id: ID, details: FolderDetails): Promise<void> => {
+  const storage = await getAnoriStorage();
+  await storage.set(anoriSchema.folderDetails.folder.byId(id), details);
 };
 
 export const useFolderWidgets = (folder: Folder) => {
-  const addWidget = <WD extends WidgetDescriptor[], W extends WD[number]>({
+  const [details, setDetails] = useStorageValue(anoriSchema.folderDetails.folder.byId(folder.id));
+  const currentDetails = details ?? { widgets: [] };
+
+  const addWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>({
     plugin,
     widget,
     config,
@@ -162,12 +140,10 @@ export const useFolderWidgets = (folder: Folder) => {
       ...position,
     };
 
-    setDetails((p) => {
-      return {
-        ...p,
-        widgets: [...p.widgets, data],
-      };
-    });
+    await setDetails((p) => ({
+      ...p,
+      widgets: [...p.widgets, data],
+    }));
     trackEvent("Widget added", {
       "Folder": folder.id === "home" ? "home" : "other",
       "Plugin ID": plugin.id,
@@ -177,9 +153,9 @@ export const useFolderWidgets = (folder: Folder) => {
     return data;
   };
 
-  const removeWidget = (id: ID) => {
-    NamespacedStorage.get(`WidgetStorage.${id}`).clear();
-    const removedWidget = details.widgets.find((w) => w.instanceId === id);
+  const removeWidget = async (id: ID) => {
+    clearWidgetStorage(id);
+    const removedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
     if (removedWidget) {
       trackEvent("Widget removed", {
         "Folder": folder.id === "home" ? "home" : "other",
@@ -187,16 +163,14 @@ export const useFolderWidgets = (folder: Folder) => {
         "Widget ID": removedWidget.widgetId,
       });
     }
-    setDetails((p) => {
-      return {
-        ...p,
-        widgets: p.widgets.filter((w) => w.instanceId !== id),
-      };
-    });
+    await setDetails((p) => ({
+      ...p,
+      widgets: p.widgets.filter((w) => w.instanceId !== id),
+    }));
   };
 
-  const moveWidget = (id: ID, position: GridPosition) => {
-    const movedWidget = details.widgets.find((w) => w.instanceId === id);
+  const moveWidget = async (id: ID, position: GridPosition) => {
+    const movedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
     if (movedWidget) {
       trackEvent("Widget moved", {
         "Folder": folder.id === "home" ? "home" : "other",
@@ -205,24 +179,22 @@ export const useFolderWidgets = (folder: Folder) => {
         "Widget ID": movedWidget.widgetId,
       });
     }
-    setDetails((p) => {
-      return {
-        ...p,
-        widgets: p.widgets.map((w) => {
-          if (w.instanceId === id) {
-            return {
-              ...w,
-              ...position,
-            };
-          }
-          return w;
-        }),
-      };
-    });
+    await setDetails((p) => ({
+      ...p,
+      widgets: p.widgets.map((w) => {
+        if (w.instanceId === id) {
+          return {
+            ...w,
+            ...position,
+          };
+        }
+        return w;
+      }),
+    }));
   };
 
-  const resizeWidget = (id: ID, size: GridItemSize) => {
-    const resizedWidget = details.widgets.find((w) => w.instanceId === id);
+  const resizeWidget = async (id: ID, size: GridItemSize) => {
+    const resizedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
     if (resizedWidget) {
       trackEvent("Widget resized", {
         "Folder": folder.id === "home" ? "home" : "other",
@@ -230,25 +202,23 @@ export const useFolderWidgets = (folder: Folder) => {
         "Widget ID": resizedWidget.widgetId,
       });
     }
-    setDetails((p) => {
-      return {
-        ...p,
-        widgets: p.widgets.map((w) => {
-          if (w.instanceId === id) {
-            return {
-              ...w,
-              width: size.width,
-              height: size.height,
-            };
-          }
-          return w;
-        }),
-      };
-    });
+    await setDetails((p) => ({
+      ...p,
+      widgets: p.widgets.map((w) => {
+        if (w.instanceId === id) {
+          return {
+            ...w,
+            width: size.width,
+            height: size.height,
+          };
+        }
+        return w;
+      }),
+    }));
   };
 
-  const updateWidgetConfig = (id: ID, newConfig: Mapping) => {
-    const updatedWidget = details.widgets.find((w) => w.instanceId === id);
+  const updateWidgetConfig = async (id: ID, newConfig: Mapping) => {
+    const updatedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
     if (updatedWidget) {
       trackEvent("Widget configuration edited", {
         "Folder": folder.id === "home" ? "home" : "other",
@@ -256,31 +226,26 @@ export const useFolderWidgets = (folder: Folder) => {
         "Widget ID": updatedWidget.widgetId,
       });
     }
-    setDetails((p) => {
-      return {
-        ...p,
-        widgets: p.widgets.map((w) => {
-          if (w.instanceId === id) {
-            return {
-              ...w,
-              configuration: {
-                ...w.configuration,
-                ...newConfig,
-              },
-            };
-          }
-          return w;
-        }),
-      };
-    });
+    await setDetails((p) => ({
+      ...p,
+      widgets: p.widgets.map((w) => {
+        if (w.instanceId === id) {
+          return {
+            ...w,
+            configuration: {
+              ...w.configuration,
+              ...newConfig,
+            },
+          };
+        }
+        return w;
+      }),
+    }));
   };
-
-  const atom = useMemo(() => getFolderDetailsAtom(folder.id), [folder]);
-  const [details, setDetails, meta] = useAtomWithStorage(atom);
 
   const widgets: WidgetInFolderWithMeta[] = useMemo(
     () =>
-      details.widgets
+      currentDetails.widgets
         .filter((w) => {
           const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId);
           if (!plugin) return false;
@@ -296,7 +261,7 @@ export const useFolderWidgets = (folder: Folder) => {
             plugin,
           };
         }),
-    [details.widgets],
+    [currentDetails.widgets],
   );
 
   return {
@@ -306,7 +271,7 @@ export const useFolderWidgets = (folder: Folder) => {
     moveWidget,
     resizeWidget,
     updateWidgetConfig,
-    folderDataLoaded: meta.status !== "notLoaded",
+    folderDataLoaded: details !== undefined,
   };
 };
 
@@ -331,17 +296,23 @@ export const tryMoveWidgetToFolder = async (
     };
   }
 
-  fromFolderDetails.widgets = fromFolderDetails.widgets.filter((w) => w.instanceId !== widgetInstanceId);
-  toFolderDetails.widgets = [
-    ...toFolderDetails.widgets,
-    {
-      ...widgetInfo,
-      ...newPosition,
-    },
-  ];
+  const updatedFromDetails = {
+    ...fromFolderDetails,
+    widgets: fromFolderDetails.widgets.filter((w) => w.instanceId !== widgetInstanceId),
+  };
+  const updatedToDetails = {
+    ...toFolderDetails,
+    widgets: [
+      ...toFolderDetails.widgets,
+      {
+        ...widgetInfo,
+        ...newPosition,
+      },
+    ],
+  };
 
-  await setFolderDetails(folderIdTo, toFolderDetails);
-  await setFolderDetails(folderIdFrom, fromFolderDetails);
+  await setFolderDetails(folderIdTo, updatedToDetails);
+  await setFolderDetails(folderIdFrom, updatedFromDetails);
 
   trackEvent("Widget moved", {
     "Folder": folderIdFrom === "home" ? "home" : "other",

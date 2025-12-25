@@ -14,39 +14,31 @@ import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { Tooltip } from "@anori/components/Tooltip";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import {
-  CUSTOM_ICONS_FOLDER_NAME,
-  deleteAllCustomIcons,
-  getAllCustomIconFiles,
-  isValidCustomIconName,
-  useCustomIcons,
-} from "@anori/components/icon/custom-icons";
+import { isValidCustomIconName, useCustomIcons } from "@anori/components/icon/custom-icons";
 import { ReorderGroup, Select } from "@anori/components/lazy-components";
 import { availablePlugins } from "@anori/plugins/all";
-import {
-  type Language,
-  SHOW_LANGUAGE_SELECT_IN_SETTINGS,
-  availableTranslations,
-  availableTranslationsPrettyNames,
-  switchTranslationLanguage,
-} from "@anori/translations/index";
-import { analyticsEnabledAtom, trackEvent } from "@anori/utils/analytics";
+import { type Language, availableTranslations, availableTranslationsPrettyNames } from "@anori/translations/metadata";
+import { switchTranslationLanguage } from "@anori/translations/utils";
+import { trackEvent } from "@anori/utils/analytics";
 import { useScreenWidth } from "@anori/utils/compact";
-import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
-import { migrateStorage } from "@anori/utils/storage/migrations";
-import type { Mapping } from "@anori/utils/types";
+import { anoriSchema } from "@anori/utils/storage";
+import { anoriVersionedSchema } from "@anori/utils/storage";
 import {
-  CUSTOM_THEMES_FOLDER_NAME,
-  deleteAllThemeBackgrounds,
-  getAllCustomThemeBackgroundFiles,
-  saveThemeBackground,
-} from "@anori/utils/user-data/theme";
+  HLC_STATE_KEY,
+  OUTBOX_KEY,
+  SCHEMA_VERSION_KEY,
+  deleteFile,
+  listFiles,
+  readFile,
+  useStorageValue,
+  writeFile,
+} from "@anori/utils/storage-lib";
+import type { Mapping } from "@anori/utils/types";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";
@@ -132,8 +124,8 @@ const MainScreen = (props: ComponentProps<typeof m.div>) => {
 };
 
 const PluginConfigurationSection = <T extends Mapping>({ plugin }: { plugin: AnoriPlugin<string, T> }) => {
-  const [config, setConfig, isLoaded] = usePluginConfig(plugin);
-  if (plugin.configurationScreen && isLoaded) {
+  const [config, setConfig] = usePluginConfig(plugin);
+  if (plugin.configurationScreen) {
     // TODO: repalace this type assertion with proper type guard
     const ConfigScreen = plugin.configurationScreen as ComponentType<PluginConfigurationScreenProps<T>>;
     return (
@@ -148,20 +140,20 @@ const PluginConfigurationSection = <T extends Mapping>({ plugin }: { plugin: Ano
 };
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
-  const [language, setLanguage] = useBrowserStorageValue("language", "en");
-  const [isAutomaticCompact, setAutomaticCompact] = useBrowserStorageValue("automaticCompactMode", !IS_TOUCH_DEVICE);
-  const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useBrowserStorageValue(
-    "automaticCompactModeThreshold",
-    1500,
+  const [language, setLanguage] = useStorageValue(anoriSchema.language);
+  const [isAutomaticCompact, setAutomaticCompact] = useStorageValue(anoriSchema.automaticCompactMode);
+  const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useStorageValue(
+    anoriSchema.automaticCompactModeThreshold,
   );
-  const [manualCompactMode, setManualCompactMode] = useBrowserStorageValue("compactMode", IS_TOUCH_DEVICE);
-  const [showLoadAnimation, setShowLoadAnimation] = useBrowserStorageValue("showLoadAnimation", false);
-  const [rememberLastFolder, setRememberLastFolder] = useBrowserStorageValue("rememberLastFolder", false);
-  const [showBookmarksBar, setShowBookmarksBar] = useBrowserStorageValue("showBookmarksBar", false);
-  const [newTabTitle, setNewTabTitle] = useBrowserStorageValue("newTabTitle", "Anori new tab");
-  const [sidebarOrientation, setSidebarOrientation] = useBrowserStorageValue("sidebarOrientation", "auto");
-  const [autoHideSidebar, setAutoHideSidebar] = useBrowserStorageValue("autoHideSidebar", false);
-  const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+  const [manualCompactMode, setManualCompactMode] = useStorageValue(anoriSchema.compactMode);
+  const [showLoadAnimation, setShowLoadAnimation] = useStorageValue(anoriSchema.showLoadAnimation);
+  const [rememberLastFolder, setRememberLastFolder] = useStorageValue(anoriSchema.rememberLastFolder);
+  const [showBookmarksBar, setShowBookmarksBar] = useStorageValue(anoriSchema.showBookmarksBar);
+  const [newTabTitle, setNewTabTitle] = useStorageValue(anoriSchema.newTabTitle);
+  const [sidebarOrientation, setSidebarOrientation] = useStorageValue(anoriSchema.sidebarOrientation);
+  const [autoHideSidebar, setAutoHideSidebar] = useStorageValue(anoriSchema.autoHideSidebar);
+  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(anoriSchema.analyticsEnabled);
+  const [, setLastFolder] = useStorageValue(anoriSchema.lastFolder);
   const screenWidth = useScreenWidth();
   const { t } = useTranslation();
 
@@ -179,32 +171,30 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="GeneralSettingsScreen">
-      {SHOW_LANGUAGE_SELECT_IN_SETTINGS && (
-        <div className="input-wrapper">
-          <label>{t("settings.general.language")}:</label>
-          <Select<Language>
-            value={language}
-            onChange={(newLang) => {
-              console.log("Saving new language", newLang);
-              setLanguage(newLang);
-              switchTranslationLanguage(newLang);
-            }}
-            options={availableTranslations}
-            getOptionKey={(o) => o}
-            getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
-          />
+      <div className="input-wrapper">
+        <label>{t("settings.general.language")}:</label>
+        <Select<Language>
+          value={language}
+          onChange={(newLang) => {
+            console.log("Saving new language", newLang);
+            setLanguage(newLang);
+            switchTranslationLanguage(newLang);
+          }}
+          options={[...availableTranslations]}
+          getOptionKey={(o) => o}
+          getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
+        />
 
-          <Alert level="info" className="translation-alert">
-            <Trans t={t} i18nKey="settings.general.translationInfo">
-              {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
-              <a href="https://github.com/OlegWock/anori/issues/104" />
-            </Trans>
-          </Alert>
-        </div>
-      )}
+        <Alert level="info" className="translation-alert">
+          <Trans t={t} i18nKey="settings.general.translationInfo">
+            {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
+            <a href="https://github.com/OlegWock/anori/issues/104" />
+          </Trans>
+        </Alert>
+      </div>
       <div className="input-wrapper">
         <label>{t("settings.general.sidebarOrientation")}:</label>
-        <Select<typeof sidebarOrientation>
+        <Select<"auto" | "vertical" | "horizontal">
           value={sidebarOrientation}
           onChange={setSidebarOrientation}
           options={["auto", "vertical", "horizontal"]}
@@ -240,7 +230,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         checked={rememberLastFolder}
         onChange={(v) => {
           setRememberLastFolder(v);
-          if (!v) storage.setOne("lastFolder", undefined);
+          if (!v) setLastFolder(undefined);
         }}
       >
         {t("settings.general.rememberLastFolder")}
@@ -292,7 +282,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
 const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
   const importCustomIcons = async () => {
-    const files = await showOpenFilePicker(true, ".jpg,.jpeg,.png,.gif,.svg");
+    const files = await showOpenFilePicker(true, ".jpg,.jpeg,.png,.svg");
     let hasErrors = false;
     const importedFiles: DraftCustomIcon[] = await Promise.all(
       files.map(async (file) => {
@@ -328,7 +318,8 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
     await Promise.all(
       draftCustomIcons.map((draftCustomIcon) =>
         addNewCustomIcon(
-          `${draftCustomIcon.name}.${draftCustomIcon.extension}`,
+          draftCustomIcon.name,
+          draftCustomIcon.extension,
           draftCustomIcon.content,
           draftCustomIcon.preview,
         ),
@@ -480,36 +471,51 @@ const PluginsScreen = (props: ComponentProps<typeof m.div>) => {
   );
 };
 
+const BACKUP_FORMAT_VERSION = 1;
+const INTERNAL_STORAGE_KEYS = [HLC_STATE_KEY, OUTBOX_KEY, SCHEMA_VERSION_KEY];
+
 const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
+  const { t } = useTranslation();
+
   const exportSettings = async () => {
     const zip = new JSZip();
-    const storage = await browser.storage.local.get(null);
-    zip.file("storage.json", JSON.stringify(storage, null, 4), { compression: "DEFLATE" });
+    const rawStorage = await browser.storage.local.get(null);
+
+    // Filter out internal keys that shouldn't be in backup
+    const exportableStorage: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(rawStorage)) {
+      if (!INTERNAL_STORAGE_KEYS.includes(key)) {
+        exportableStorage[key] = value;
+      }
+    }
+
+    zip.file("storage.json", JSON.stringify(exportableStorage, null, 2), { compression: "DEFLATE" });
     zip.file(
       "meta.json",
       JSON.stringify(
         {
+          formatVersion: BACKUP_FORMAT_VERSION,
           extensionVersion: browser.runtime.getManifest().version,
-          storageVersion: storage.storageVersion ?? 0,
-          date: moment().toString(),
+          schemaVersion: anoriVersionedSchema.currentVersion,
+          date: moment().toISOString(),
         },
         null,
-        4,
+        2,
       ),
       { compression: "DEFLATE" },
     );
 
-    const customIconFiles = await getAllCustomIconFiles();
-    customIconFiles.forEach((handle) =>
-      zip.file(`opfs/${CUSTOM_ICONS_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
-    );
-    const customThemeFiles = await getAllCustomThemeBackgroundFiles();
-    customThemeFiles.forEach((handle) =>
-      zip.file(`opfs/${CUSTOM_THEMES_FOLDER_NAME}/${handle.name}`, handle.getFile(), { compression: "DEFLATE" }),
-    );
-    const blob = await zip.generateAsync({ type: "blob" });
+    const opfsFiles = await listFiles();
+    for (const filename of opfsFiles) {
+      const blob = await readFile(filename);
+      if (blob) {
+        zip.file(`opfs/${filename}`, blob, { compression: "DEFLATE" });
+      }
+    }
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
     const datetime = moment().format("yyyy-MM-DD_HH-mm");
-    downloadBlob(`anori-backup-${datetime}.zip`, blob);
+    downloadBlob(`anori-backup-${datetime}.zip`, zipBlob);
     trackEvent("Configuration exported");
   };
 
@@ -517,44 +523,43 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const files = await showOpenFilePicker(false, ".zip");
     const file = files[0];
     const zip = await JSZip.loadAsync(file);
-    const storageJsonFile = zip.file("storage.json");
-    if (!storageJsonFile) {
-      throw new Error(`couldn't find storage.json in backup`);
+
+    const metaJsonFile = zip.file("meta.json");
+    if (!metaJsonFile) {
+      throw new Error("Invalid backup: missing meta.json");
     }
-    const storageJsonString = await storageJsonFile.async("string");
-    const storageContent = JSON.parse(storageJsonString);
-    const { storage: migratedStorage } = migrateStorage(storageContent);
+    const backupMeta = JSON.parse(await metaJsonFile.async("string")) as { formatVersion?: number };
+    if (backupMeta.formatVersion !== BACKUP_FORMAT_VERSION) {
+      throw new Error(
+        `Unsupported backup format version: ${backupMeta.formatVersion}. Expected ${BACKUP_FORMAT_VERSION}. This backup was created with a different version of Anori.`,
+      );
+    }
+
+    const storageFile = zip.file("storage.json");
+    if (!storageFile) {
+      throw new Error("Invalid backup: missing storage.json");
+    }
+    const storageData = JSON.parse(await storageFile.async("string")) as Record<string, unknown>;
+
+    const existingFiles = await listFiles();
+    await Promise.all(existingFiles.map((filename) => deleteFile(filename)));
+
+    const opfsFolder = zip.folder("opfs");
+    if (opfsFolder) {
+      const opfsFiles = opfsFolder.filter(() => true);
+      for (const opfsFile of opfsFiles) {
+        const filename = opfsFile.name.replace(/^opfs\//, "");
+        const blob = await opfsFile.async("blob");
+        await writeFile(filename, blob);
+      }
+    }
+
     await browser.storage.local.clear();
-    await browser.storage.local.set(migratedStorage);
+    await browser.storage.local.set(storageData);
 
-    await deleteAllCustomIcons();
-    await deleteAllThemeBackgrounds();
-    const promises: Promise<void>[] = [];
-    zip.folder(`opfs/${CUSTOM_ICONS_FOLDER_NAME}`)?.forEach((path, file) => {
-      console.log("Importing", { file, path });
-      promises.push(
-        file.async("arraybuffer").then((ab) => {
-          return addNewCustomIcon(path, ab);
-        }),
-      );
-    });
-    zip.folder(`opfs/${CUSTOM_THEMES_FOLDER_NAME}`)?.forEach((path, file) => {
-      console.log("Importing", { file, path });
-      promises.push(
-        file.async("arraybuffer").then((ab) => {
-          return saveThemeBackground(path, ab);
-        }),
-      );
-    });
-
-    await Promise.all(promises);
-    await trackEvent("Configuration imported");
+    trackEvent("Configuration imported");
     window.location.reload();
   };
-
-  const { t } = useTranslation();
-
-  const { addNewCustomIcon } = useCustomIcons();
 
   return (
     <m.div {...props} className="ImportExportScreen">

@@ -3,15 +3,16 @@ import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
 import { getAllCustomIcons } from "@anori/components/icon/custom-icons";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
-import { initTranslation, languageDirections } from "@anori/translations/index";
+import { languageDirections } from "@anori/translations/metadata";
+import { initTranslation } from "@anori/translations/utils";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
-import { storage, useBrowserStorageValue } from "@anori/utils/storage/api";
-import { loadAndMigrateStorage } from "@anori/utils/storage/migrations";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import clsx from "clsx";
@@ -23,7 +24,7 @@ import { Sidebar } from "./components/Sidebar";
 const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
 
 const useSidebarOrientation = () => {
-  const [sidebarOrientation] = useBrowserStorageValue("sidebarOrientation", "auto");
+  const [sidebarOrientation] = useStorageValue(anoriSchema.sidebarOrientation);
   const [winOrientation, setWinOrientation] = useState<"landscape" | "portrait">(() =>
     window.innerWidth >= window.innerHeight ? "landscape" : "portrait",
   );
@@ -64,9 +65,9 @@ const Start = () => {
   };
 
   const sidebarOrientation = useSidebarOrientation();
-  const [rememberLastFolder] = useBrowserStorageValue("rememberLastFolder", false);
-  const [lastFolder, setLastFolder] = useBrowserStorageValue("lastFolder", "home");
-  const [language] = useBrowserStorageValue("language", "en");
+  const [rememberLastFolder] = useStorageValue(anoriSchema.rememberLastFolder);
+  const [lastFolder, setLastFolder] = useStorageValue(anoriSchema.lastFolder);
+  const [language] = useStorageValue(anoriSchema.language);
   const dir = useMemo(() => languageDirections[language], [language]);
   const { folders, activeFolder, setActiveFolder } = useFolders({
     includeHome: true,
@@ -85,7 +86,7 @@ const Start = () => {
           ? "up"
           : "left";
 
-  const [showBookmarksBar] = useBrowserStorageValue("showBookmarksBar", false);
+  const [showBookmarksBar] = useStorageValue(anoriSchema.showBookmarksBar);
 
   useHotkeys("meta+up, alt+up", () => swithFolderUp());
   useHotkeys("meta+left, alt+left", () => swithFolderUp());
@@ -135,40 +136,37 @@ const Start = () => {
   );
 };
 
-plantPerformanceMetricsListeners();
-
 watchForPermissionChanges();
 
-storage.getOne("newTabTitle").then((title) => {
-  setPageTitle(title || "Anori new tab");
-});
+getAnoriStorage().then((storage) => {
+  initTranslation();
+  const title = storage.get(anoriSchema.newTabTitle);
+  setPageTitle(title);
 
-storage.getOne("showBookmarksBar").then((showBookmarksBar) => {
+  // Preload custom icons as early as possible
+  getAllCustomIcons();
+
+  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
   if (showBookmarksBar) {
     BookmarksBar.preload();
   }
-});
 
-storage.getOne("showLoadAnimation").then((showLoadAnimation) => {
+  const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation);
   const div = document.querySelector(".loading-cover");
-  if (!div) return;
-  if (!showLoadAnimation) {
-    div.remove();
-    return;
+  if (div) {
+    if (!showLoadAnimation) {
+      div.remove();
+    } else {
+      div.addEventListener("animationend", () => div.remove());
+      div.classList.add("active");
+    }
   }
 
-  div.addEventListener("animationend", () => div.remove());
-  div.classList.add("active");
-});
-
-getAllCustomIcons();
-
-loadAndMigrateStorage()
-  .then(() => initTranslation())
-  .then(() => {
-    scheduleLazyComponentsPreload();
-    incrementDailyUsageMetric("Times new tab opened");
-    mountPage(
+  plantPerformanceMetricsListeners();
+  scheduleLazyComponentsPreload();
+  incrementDailyUsageMetric("Times new tab opened");
+  mountPage(
+    <StorageContext.Provider value={storage}>
       <QueryClientProvider>
         <CompactModeProvider>
           {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
@@ -176,9 +174,11 @@ loadAndMigrateStorage()
             <Start />
           </LazyMotion>
         </CompactModeProvider>
-      </QueryClientProvider>,
-    );
-  });
+      </QueryClientProvider>
+      ,
+    </StorageContext.Provider>,
+  );
+});
 
 if (IS_TOUCH_DEVICE) document.body.classList.add("is-touch-device");
 if (IS_ANDROID) document.body.classList.add("is-android");

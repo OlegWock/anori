@@ -1,8 +1,8 @@
 import { Button, type ButtonProps } from "@anori/components/Button";
 import { toCss } from "@anori/utils/color";
-import { storage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import { type CustomTheme, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { useStorageValue } from "@anori/utils/storage-lib";
 import {
-  type CustomTheme,
   type PartialCustomTheme,
   type Theme,
   applyTheme,
@@ -161,10 +161,11 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     if (!originalBackgroundBlob.current || !blurredBackgroundBlob.current) return;
 
     const id = theme.name;
-    saveThemeBackground(`${id}-original`, originalBackgroundBlob.current);
-    saveThemeBackground(`${id}-blurred`, blurredBackgroundBlob.current);
+    await saveThemeBackground(id, "original", originalBackgroundBlob.current);
+    await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
 
-    let customThemes = (await storage.getOne("customThemes")) ?? [];
+    const storage = await getAnoriStorage();
+    let customThemes = storage.get(anoriSchema.customThemes);
     if (themeFromProps) {
       customThemes = customThemes.map((t) => {
         if (t.name === id) return theme;
@@ -173,7 +174,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     } else {
       customThemes.push(theme);
     }
-    await storage.setOne("customThemes", customThemes);
+    await storage.set(anoriSchema.customThemes, customThemes);
     setCurrentTheme(theme.name);
     onClose();
   };
@@ -317,8 +318,8 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
 
 export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
-  const [customThemes, setCustomThemes] = useBrowserStorageValue("customThemes", []);
-  const [currentTheme, setTheme] = useBrowserStorageValue("theme", defaultTheme.name);
+  const [customThemes, setCustomThemes] = useStorageValue(anoriSchema.customThemes);
+  const [currentTheme, setTheme] = useStorageValue(anoriSchema.theme);
   const [editorActive, setEditorActive] = useState(false);
   const [editorTheme, setEditorTheme] = useState<CustomTheme | undefined>(undefined);
 

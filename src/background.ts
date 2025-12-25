@@ -1,8 +1,8 @@
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
-import { storage } from "@anori/utils/storage/api";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import browser from "webextension-polyfill";
-import { type Language, availableTranslations } from "./translations";
+import { type Language, availableTranslations } from "./translations/metadata";
 
 console.log("Background init");
 
@@ -26,6 +26,7 @@ const VERSIONS_WITH_CHANGES = [
   "1.21.0",
   "1.22.0",
   "1.24.0",
+  "1.26.0",
 ];
 
 const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
@@ -43,6 +44,8 @@ const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
 };
 
 browser.runtime.onInstalled.addListener(async (details) => {
+  const storage = await getAnoriStorage();
+
   if (details.reason === "update" && details.previousVersion) {
     const { previousVersion } = details;
     const currentVersion = browser.runtime.getManifest().version;
@@ -54,7 +57,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
     });
     console.log("Has important updates:", hasImportantUpdates);
     if (hasImportantUpdates) {
-      storage.setOne("hasUnreadReleaseNotes", true);
+      storage.set(anoriSchema.hasUnreadReleaseNotes, true);
     }
   }
 
@@ -78,7 +81,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
         break;
       }
     }
-    storage.setOne("language", bestCandidate as Language);
+    storage.set(anoriSchema.language, bestCandidate as Language);
   }
 });
 

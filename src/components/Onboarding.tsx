@@ -9,20 +9,17 @@ import { rssFeedDescriptor, rssPlugin } from "@anori/plugins/rss/rss-plugin";
 import { tasksPlugin, tasksWidgetDescriptor } from "@anori/plugins/tasks/tasks-plugin";
 import { topSitesPlugin, topSitesWidgetDescriptorVertical } from "@anori/plugins/top-sites/top-sites-plugin";
 import { weatherPlugin, weatherWidgetDescriptorCurrent } from "@anori/plugins/weather/weather-plugin";
-import {
-  type Language,
-  availableTranslations,
-  availableTranslationsPrettyNames,
-  switchTranslationLanguage,
-} from "@anori/translations/index";
-import { analyticsEnabledAtom } from "@anori/utils/analytics";
+import { type Language, availableTranslations, availableTranslationsPrettyNames } from "@anori/translations/metadata";
+import { switchTranslationLanguage } from "@anori/translations/utils";
 import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid } from "@anori/utils/grid/utils";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { storage, useAtomWithStorage, useBrowserStorageValue } from "@anori/utils/storage/api";
+import { anoriSchema } from "@anori/utils/storage";
+import { useStorageValue } from "@anori/utils/storage-lib";
+import { useAnoriStorage } from "@anori/utils/storage/hooks";
 import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
@@ -238,8 +235,10 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
   };
 
   const { t } = useTranslation();
-  const [language, setLanguage] = useBrowserStorageValue("language", "en");
-  const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+  const storage = useAnoriStorage();
+  const [language, setLanguage] = useStorageValue(anoriSchema.language);
+  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(anoriSchema.analyticsEnabled);
+  const [, setFinishedOnboarding] = useStorageValue(anoriSchema.finishedOnboarding);
 
   const [screenIndex, setScreenIndex] = useState<number>(0);
   const prevScreen = usePrevious(screenIndex) || 0;
@@ -276,21 +275,17 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
   );
 
   useEffect(() => {
-    const main = async () => {
-      const finishedOnboarding = await storage.getOne("finishedOnboarding");
-      if (finishedOnboarding) {
-        setScreenIndex(screens.length - 1);
-      }
-    };
-
-    main();
-  }, []);
+    const finishedOnboarding = storage.get(anoriSchema.finishedOnboarding);
+    if (finishedOnboarding) {
+      setScreenIndex(screens.length - 1);
+    }
+  }, [storage]);
 
   useEffect(() => {
     if (screenIndex === screens.length - 1) {
-      storage.setOne("finishedOnboarding", true);
+      setFinishedOnboarding(true);
     }
-  }, [screenIndex]);
+  }, [screenIndex, setFinishedOnboarding]);
 
   // Need this to avoid initial flash when animatedHeight is 0
   const animatedHeightCorrected = useTransform(animatedHeight, (val) => (val === 0 ? undefined : val));

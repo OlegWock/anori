@@ -1,7 +1,7 @@
 import { Button } from "@anori/components/Button";
 import "./styles.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useTranslation } from "react-i18next";

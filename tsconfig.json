@@ -3,13 +3,15 @@
     "exclude": ["node_modules", "dist"],
     "compilerOptions": {
         "lib": ["es6", "es2023", "dom", "dom.iterable", "WebWorker"],
+        "types": ["vitest/globals"],
         "baseUrl": ".",
         "paths": {
             "@anori/utils/*": ["./src/utils/*"],
             "@anori/components/*": ["./src/components/*"],
             "@anori/assets/*": ["./src/assets/*"],
             "@anori/plugins/*": ["./src/plugins/*"],
-            "@anori/translations/*": ["./src/translations/*"]
+            "@anori/translations/*": ["./src/translations/*"],
+            "@anori/cloud-integration/*": ["./src/cloud-integration/*"]
         },
         "outDir": "dist",
         "noImplicitAny": true,

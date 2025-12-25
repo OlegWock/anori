@@ -4,7 +4,7 @@ import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { wait } from "@anori/utils/misc";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";

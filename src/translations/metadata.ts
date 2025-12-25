@@ -1,8 +1,6 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-
-import { storage } from "@anori/utils/storage/api";
+import type { Mapping } from "@anori/utils/types";
 import moment from "moment";
+
 import arTranslation from "./ar.json";
 import deTranslation from "./de.json";
 import enTranslation from "./en.json";
@@ -27,10 +25,7 @@ import "moment/locale/it";
 import "moment/locale/ar";
 import "moment/locale/zh-cn";
 import "moment/locale/pt-br";
-import type { Mapping } from "@anori/utils/types";
 moment.locale("en");
-
-export const SHOW_LANGUAGE_SELECT_IN_SETTINGS = true;
 
 export const availableTranslations = [
   "en",
@@ -65,7 +60,7 @@ export const availableTranslationsPrettyNames = {
   // 'zh-TW': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
-const resources = {
+export const resources = {
   en: enTranslation,
   de: deTranslation,
   fr: frTranslation,
@@ -94,41 +89,3 @@ export const languageDirections = {
   "pt-BR": "ltr",
   ar: "rtl",
 } satisfies Record<Language, "rtl" | "ltr">;
-
-export const initTranslation = async () => {
-  const lang = (await storage.getOne("language")) || "en";
-  const html = document.querySelector("html");
-  if (html) {
-    html.setAttribute("lang", lang);
-    html.setAttribute("dir", languageDirections[lang]);
-  }
-  // Arabic locale in moment uses Arabic-Indic numerals, while we in app use ordinary Arabic numerals
-  // So we patch postformat to return string as-is, without replacing numbers
-  moment.updateLocale("ar", {
-    postformat: (x: unknown) => x,
-  });
-
-  moment.locale(lang);
-  i18n.use(initReactI18next).init({
-    debug: true,
-    returnNull: false,
-    fallbackLng: "en",
-    lng: lang,
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
-    },
-    resources,
-  });
-};
-
-export const switchTranslationLanguage = (lang: Language) => {
-  i18n.changeLanguage(lang);
-  moment.locale(lang.toLowerCase()); // Moment uses lowecase locales (e.g. zh-cn), but i18next requires them to be like zh-CN
-  const html = document.querySelector("html");
-  if (html) {
-    html.setAttribute("lang", lang);
-    html.setAttribute("dir", languageDirections[lang]);
-  }
-};
-
-export const translate = i18n.t;

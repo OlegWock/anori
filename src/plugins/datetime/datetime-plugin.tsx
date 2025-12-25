@@ -5,7 +5,7 @@ import { Combobox } from "@anori/components/Combobox";
 import { Input } from "@anori/components/Input";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useForceRerender, useLazyRef } from "@anori/utils/hooks";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";

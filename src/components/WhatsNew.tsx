@@ -2,13 +2,13 @@ import { ScrollArea } from "./ScrollArea";
 import { ShortcutHint } from "./ShortcutHint";
 import "./WhatsNew.scss";
 import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
-import { analyticsEnabledAtom } from "@anori/utils/analytics";
-import { useAtomWithStorage } from "@anori/utils/storage/api";
+import { anoriSchema } from "@anori/utils/storage";
+import { useStorageValue } from "@anori/utils/storage-lib";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "./Checkbox";
 
 export const WhatsNew = () => {
-  const [analyticsEnabled, setAnalyticsEnabled] = useAtomWithStorage(analyticsEnabledAtom);
+  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(anoriSchema.analyticsEnabled);
   const { t, i18n } = useTranslation();
   return (
     <div className="WhatsNew">
@@ -17,13 +17,25 @@ export const WhatsNew = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
+            <h2>1.26.0</h2>
+            <ul>
+              <li>
+                <strong>If you use backups you need to export fresh backup now.</strong> Internals of storage system
+                were significantly reworked in this release. This also affects backup format, as older backups won't be
+                compatible with this version.
+              </li>
+            </ul>
+          </section>
+
+          <section>
             <h2>1.25.0</h2>
             <ul>
               <li>New design of "Add widget" modal.</li>
               <li>Fixed some bugs.</li>
               <li>Added couple of new bugs probably.</li>
             </ul>
-
+          </section>
+          <section>
             <h2>1.24.0</h2>
             <ul>
               <li>Top sites widget is now resizable.</li>

@@ -16,6 +16,7 @@
     gap: 6px;
     user-select: none;
     -webkit-user-select: none;
+    position: relative;
 
     &.with-border {
         border: 2px solid hsla(var(--text-hsl) /  0.1);
@@ -49,6 +50,34 @@
 
     &-block {
         width: 100%;
+    }
+
+    &-loading {
+        cursor: wait;
+    }
+
+    &-content {
+        display: contents;
+
+        &-hidden {
+            visibility: hidden;
+        }
+    }
+
+    &-spinner {
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        border: 2px solid hsla(var(--text-hsl) / 0.2);
+        border-top-color: var(--text);
+        border-radius: 50%;
+        animation: button-spinner-spin 0.6s linear infinite;
+    }
+}
+
+@keyframes button-spinner-spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 

@@ -1,0 +1,110 @@
+Cloud integration allows connecting Anori to backend services. It's guarded by `CLOUD_INTEGRATION_ENABLED` flag (development only).
+
+The app uses tRPC with React Query integration. The tRPC client is automatically provided through `TRPCProvider` which wraps `QueryClientProvider`.
+
+# Feature Flag
+
+```ts
+import { CLOUD_INTEGRATION_ENABLED } from '@anori/cloud-integration/consts';
+
+// Use to conditionally render UI
+{CLOUD_INTEGRATION_ENABLED && <CloudFeature />}
+```
+
+# Check Connection Status
+
+## In React Components
+
+```ts
+import { useCloudAccount } from '@anori/cloud-integration/hooks';
+
+const MyComponent = () => {
+  const { account, isConnected, isLoading, status } = useCloudAccount();
+  
+  // account: { sessionToken, email, userId } | null
+  // isConnected: boolean
+  // isLoading: boolean (initial load state)
+  // status: 'connected' | 'not-connected'
+  
+  if (isConnected && account) {
+    return <div>Logged in as {account.email}</div>;
+  }
+  return <div>Not connected</div>;
+};
+```
+
+## Outside React (Imperative)
+
+```ts
+import { getCloudAccount } from '@anori/cloud-integration/storage';
+
+const account = getCloudAccount(); // { sessionToken, email, userId } | null
+const token = account?.sessionToken; // string | undefined
+```
+
+# Using the API Client
+
+## With React Query (Recommended)
+
+Use tRPC hooks from `@anori/cloud-integration/api-client`. The client is automatically configured with authentication:
+
+```ts
+import { trpc } from '@anori/cloud-integration/api-client';
+
+const MyComponent = () => {
+  // Queries automatically use React Query
+  const { data, isLoading, error } = trpc.user.profile.useQuery();
+  
+  // Mutations work the same way
+  const updateProfile = trpc.user.updateProfile.useMutation({
+    onSuccess: () => {
+      console.log('Profile updated!');
+    },
+  });
+  
+  const handleUpdate = () => {
+    updateProfile.mutate({ name: 'New Name' });
+  };
+  
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  
+  return <div>Hello {data.name}</div>;
+};
+```
+
+**Benefits**: Automatic caching, refetching, optimistic updates, and error handling through React Query.
+
+## Imperative API Calls (Outside React or Special Cases)
+
+```ts
+import { getApiClient } from '@anori/cloud-integration/api-client';
+
+const client = getApiClient();
+const data = await client.user.profile.query();
+```
+
+Use imperative calls only when you can't use hooks (background scripts, utilities, etc.).
+
+# Error Handling
+
+Cloud API uses typed errors from `@anori-app/api-types`. Check error types with `isAppErrorOfType`:
+
+```ts
+import { isAppErrorOfType } from '@anori-app/api-client';
+import { InvalidCredentialsError, RateLimitError } from '@anori-app/api-types';
+
+try {
+  await client.auth.login.mutate({ email, password });
+} catch (e) {
+  if (isAppErrorOfType(e, InvalidCredentialsError)) {
+    // Handle invalid credentials
+  } else if (isAppErrorOfType(e, RateLimitError)) {
+    // Handle rate limit
+  } else {
+    // Handle unknown error
+  }
+}
+```
+
+**Never** use `instanceof` or check `error.name` - always use `isAppErrorOfType`.

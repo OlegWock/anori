@@ -28,7 +28,7 @@ export type NewWidgetWizardProps = {
 };
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
-  const tryAddWidget = <WD extends WidgetDescriptor[], W extends WD[number]>(
+  const tryAddWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>(
     plugin: AnoriPlugin<string, Mapping, WD>,
     widget: W,
     config: ConfigFromWidgetDescriptor<W>,
@@ -42,7 +42,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         y: 0,
       };
     }
-    const { instanceId } = addWidget({ plugin, widget, config, position });
+    const { instanceId } = await addWidget({ plugin, widget, config, position });
     setTimeout(() => {
       document.querySelector(`#WidgetCard-${instanceId}`)?.scrollIntoView({
         behavior: "smooth",

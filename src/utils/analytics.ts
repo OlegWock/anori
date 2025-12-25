@@ -2,17 +2,16 @@ import { allPlugins } from "@anori/plugins/all";
 import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
 import { detectBrowser } from "@anori/utils/browser";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import type { EmptyObject } from "@anori/utils/types";
 import { themes } from "@anori/utils/user-data/theme";
-import type { FolderDetailsInStorage, StorageContent } from "@anori/utils/user-data/types";
+import type { StorageContent } from "@anori/utils/user-data/types";
 import { useCallback } from "react";
 import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
 import { getAllCustomIconNames } from "../components/icon/custom-icons";
 import { guid, wait } from "./misc";
-import { atomWithBrowserStorageStatic, storage } from "./storage/api";
 
-export const analyticsEnabledAtom = atomWithBrowserStorageStatic("analyticsEnabled", false);
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
 
 const POSTHOG_ENDPOINT_URL = "https://eu.i.posthog.com/i/v0/e/";
@@ -22,17 +21,19 @@ const AMPLITUDE_ENDPOINT_URL = "https://api.eu.amplitude.com/2/httpapi";
 const AMPLITUDE_API_KEY = "72ae9510d3106a53608bae9afbb2e8ba";
 
 const getUserId = async () => {
-  let userId = await storage.getOne("userId");
+  const storage = await getAnoriStorage();
+  let userId = storage.get(anoriSchema.userId);
   if (!userId) {
     userId = guid();
-    await storage.setOne("userId", userId);
+    await storage.set(anoriSchema.userId, userId);
   }
 
   return userId;
 };
 
 export const plantPerformanceMetricsListeners = async () => {
-  const { analyticsEnabled } = await storage.get({ analyticsEnabled: false });
+  const storage = await getAnoriStorage();
+  const analyticsEnabled = storage.get(anoriSchema.analyticsEnabled);
   if (!analyticsEnabled) {
     return;
   }
@@ -43,15 +44,13 @@ export const plantPerformanceMetricsListeners = async () => {
     console.log("LCP entry", lcpEntry?.renderTime);
     if (lcpEntry) {
       perfObserver.disconnect();
-      const { performanceAvgLcp } = await storage.get({ performanceAvgLcp: { n: 0, avg: 0 } });
-      const n = performanceAvgLcp.n ?? 0;
-      const avg = performanceAvgLcp.avg ?? 0;
+      const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp);
+      const n = performanceAvgLcp.n;
+      const avg = performanceAvgLcp.avg;
       // Rolling average
-      await storage.set({
-        performanceAvgLcp: {
-          n: n + 1,
-          avg: avg + (lcpEntry.startTime - avg) / (n + 1),
-        },
+      await storage.set(anoriSchema.performanceAvgLcp, {
+        n: n + 1,
+        avg: avg + (lcpEntry.startTime - avg) / (n + 1),
       });
     }
   });
@@ -75,8 +74,8 @@ export const plantPerformanceMetricsListeners = async () => {
       const values = [...latest.values()];
       if (values.length) {
         console.log("INP entries", values);
-        const { performanceRawInp } = await storage.get({ performanceRawInp: [] });
-        await storage.set({ performanceRawInp: [...performanceRawInp, ...values] });
+        const performanceRawInp = storage.get(anoriSchema.performanceRawInp);
+        await storage.set(anoriSchema.performanceRawInp, [...performanceRawInp, ...values]);
         latest.clear();
       }
     }, 200);
@@ -86,36 +85,22 @@ export const plantPerformanceMetricsListeners = async () => {
 
 export const incrementDailyUsageMetric = async (name: keyof StorageContent["dailyUsageMetrics"]) => {
   if (isBackground()) {
-    const { dailyUsageMetrics, analyticsEnabled } = await storage.get({
-      dailyUsageMetrics: {},
-      analyticsEnabled: false,
-    });
+    const storage = await getAnoriStorage();
+    const analyticsEnabled = storage.get(anoriSchema.analyticsEnabled);
     if (!analyticsEnabled) {
       return;
     }
+    const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics);
     dailyUsageMetrics[name] = (dailyUsageMetrics[name] ?? 0) + 1;
-    await storage.setOne("dailyUsageMetrics", dailyUsageMetrics);
+    await storage.set(anoriSchema.dailyUsageMetrics, dailyUsageMetrics);
   } else {
     return browser.runtime.sendMessage({ type: "increment-daily-usage-metric", name });
   }
 };
 
 const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
-  const { folders } = await storage.get({ folders: [] });
-
-  const foldersQuery: Record<string, FolderDetailsInStorage> = Object.fromEntries(
-    folders.map((f) => [
-      f.name,
-      {
-        widgets: [],
-      },
-    ]),
-  );
-
-  const folderDetails = await storage.getDynamic<Record<string, FolderDetailsInStorage>>({
-    ...foldersQuery,
-    "Folder.home": { widgets: [] },
-  });
+  const storage = await getAnoriStorage();
+  const folders = storage.get(anoriSchema.folders);
 
   const widgetsCount: WidgetsCount = {};
 
@@ -126,13 +111,18 @@ const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
     });
   });
 
-  Object.entries(folderDetails).forEach(([key, { widgets }]) => {
-    const isHome = key === "Folder.home";
+  const allFolderIds = ["home", ...folders.map((f) => f.id)];
+
+  for (const folderId of allFolderIds) {
+    const isHome = folderId === "home";
+    const details = storage.get(anoriSchema.folderDetails.folder.byId(folderId));
+    const widgets = details?.widgets ?? [];
+
     widgets.forEach((wd) => {
       const propName = `${isHome ? "Home" : "Custom"} folder widgets / ${wd.pluginId} / ${wd.widgetId}` as const;
       widgetsCount[propName] += 1;
     });
-  });
+  }
 
   return widgetsCount;
 };
@@ -150,37 +140,25 @@ const aggregateInp = (values: number[]) => {
 };
 
 const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"]> => {
-  const folders = (await storage.getOne("folders")) || [];
+  const storage = await getAnoriStorage();
+
+  const folders = storage.get(anoriSchema.folders);
   const numberOfCustomFolders = folders.length;
 
   const customIcons = await getAllCustomIconNames();
   const numberOfCustomIcons = customIcons.length;
 
-  const {
-    sidebarOrientation,
-    autoHideSidebar,
-    theme: usedTheme,
-    language,
-    showBookmarksBar,
-    compactMode,
-    automaticCompactMode,
-    showLoadAnimation,
-    dailyUsageMetrics,
-    performanceAvgLcp,
-    performanceRawInp,
-  } = await storage.get({
-    sidebarOrientation: "auto",
-    autoHideSidebar: false,
-    theme: "Greenery",
-    language: "en",
-    showBookmarksBar: false,
-    compactMode: false,
-    automaticCompactMode: false,
-    showLoadAnimation: false,
-    dailyUsageMetrics: {},
-    performanceAvgLcp: { avg: 0, n: 0 },
-    performanceRawInp: [],
-  });
+  const sidebarOrientation = storage.get(anoriSchema.sidebarOrientation);
+  const autoHideSidebar = storage.get(anoriSchema.autoHideSidebar);
+  const usedTheme = storage.get(anoriSchema.theme);
+  const language = storage.get(anoriSchema.language);
+  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
+  const compactMode = storage.get(anoriSchema.compactMode);
+  const automaticCompactMode = storage.get(anoriSchema.automaticCompactMode);
+  const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation);
+  const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics);
+  const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp);
+  const performanceRawInp = storage.get(anoriSchema.performanceRawInp);
 
   const { os } = await browser.runtime.getPlatformInfo();
   const extVersion = browser.runtime.getManifest().version;
@@ -209,21 +187,21 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
 self.gatherDailyUsageData = gatherDailyUsageData;
 
 export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
-  const enabled = await storage.getOne("analyticsEnabled");
+  const storage = await getAnoriStorage();
+
+  const enabled = storage.get(anoriSchema.analyticsEnabled);
   if (!enabled) return;
 
-  const lastSend = await storage.getOne("analyticsLastSend");
+  const lastSend = storage.get(anoriSchema.analyticsLastSend);
   if (lastSend && lastSend + ANALYTICS_TIMEOUT > Date.now() && !skipTimeout) return;
 
   const data = await gatherDailyUsageData();
 
   await trackEvent("Usage statistics", data);
-  await storage.set({
-    analyticsLastSend: Date.now(),
-    dailyUsageMetrics: {},
-    performanceAvgLcp: { n: 0, avg: 0 },
-    performanceRawInp: [],
-  });
+  await storage.set(anoriSchema.analyticsLastSend, Date.now());
+  await storage.set(anoriSchema.dailyUsageMetrics, {});
+  await storage.set(anoriSchema.performanceAvgLcp, { n: 0, avg: 0 });
+  await storage.set(anoriSchema.performanceRawInp, []);
 };
 
 type TrackEventParams<K extends keyof AnalyticEvents> = AnalyticEvents[K] extends EmptyObject
@@ -237,7 +215,8 @@ export async function trackEvent<K extends keyof AnalyticEvents>(eventName: K, p
       return;
     }
 
-    const enabled = await storage.getOne("analyticsEnabled");
+    const storage = await getAnoriStorage();
+    const enabled = storage.get(anoriSchema.analyticsEnabled);
     if (!enabled) return;
     const userId = await getUserId();
 

@@ -1,5 +1,6 @@
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { type Language, translate } from "@anori/translations/index";
+import type { Language } from "@anori/translations/metadata";
+import { translate } from "@anori/translations/utils";
 import type { GridItem } from "@anori/utils/grid/types";
 import type {
   AnoriPlugin,
@@ -48,6 +49,12 @@ export type StorageContent = {
   performanceRawInp: number[];
 
   storageVersion: number;
+
+  cloudAccount: {
+    sessionToken: string;
+    email: string;
+    userId: string;
+  } | null;
 };
 
 export type Folder = {

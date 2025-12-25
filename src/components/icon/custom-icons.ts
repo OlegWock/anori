@@ -1,10 +1,8 @@
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { atom, getDefaultStore, useAtom } from "jotai";
 import { useEffect } from "react";
-import { asyncIterableToArray } from "../../utils/misc";
-import { getDirectoryInRoot } from "../../utils/opfs";
 
 export const CUSTOM_ICONS_SET_NAME = "custom";
-export const CUSTOM_ICONS_FOLDER_NAME = "custom-icons";
 
 export type CustomIcon = {
   name: string;
@@ -15,61 +13,66 @@ export type CustomIcon = {
 const iconsCache: Record<string, CustomIcon> = {};
 const iconsAtom = atom<CustomIcon[]>([]);
 
-const getMimeFromFile = (f: FileSystemFileHandle) => {
-  const name = f.name.toLowerCase();
-  // SVG requires special treatment because of Firefox which doesn't display it unsless correct mime type is set
-  if (name.endsWith(".svg")) return "image/svg+xml";
-
+const getMimeFromFileExtension = (extension: string): string => {
+  if (extension === "png") return "image/png";
+  if (extension === "svg") return "image/svg+xml";
+  if (extension === "jpg" || extension === "jpeg") return "image/jpeg";
+  if (extension === "webp") return "image/webp";
   return "";
 };
 
-export const getIconsDirHandle = () => getDirectoryInRoot(CUSTOM_ICONS_FOLDER_NAME);
-
 export const getAllCustomIconNames = async (): Promise<string[]> => {
-  const files = await getAllCustomIconFiles();
-  return files.map((f) => f.name);
+  const storage = await getAnoriStorage();
+  const allMeta = storage.files.getMeta(anoriSchema.customIcons.all());
+  return Object.keys(allMeta);
 };
 
-const createCustomIconFromFileHandle = async (fileHandle: FileSystemFileHandle): Promise<CustomIcon> => {
-  const file = await fileHandle.getFile();
-  const blob = new Blob([file], { type: getMimeFromFile(fileHandle) });
-  const isSvg = fileHandle.name.toLowerCase().endsWith(".svg");
+const createCustomIconFromBlob = async (name: string, blob: Blob, mimeType?: string): Promise<CustomIcon> => {
+  const isSvg = mimeType === "image/svg+xml";
   const urlObject = URL.createObjectURL(blob);
-  const svgContent = isSvg ? await file.text() : null;
+  const svgContent = isSvg ? await blob.text() : null;
+
   return {
-    name: fileHandle.name,
+    name,
     urlObject,
     svgContent,
   };
 };
 
 export const getAllCustomIcons = async (): Promise<CustomIcon[]> => {
-  const files = await getAllCustomIconFiles();
+  const storage = await getAnoriStorage();
+  const allFiles = await storage.files.get(anoriSchema.customIcons.all());
+
   const icons: CustomIcon[] = await Promise.all(
-    files
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map(async (handle) => {
-        if (iconsCache[handle.name]) {
-          return iconsCache[handle.name];
+    Object.entries(allFiles)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(async ([name, { blob, meta }]) => {
+        if (iconsCache[name]) {
+          return iconsCache[name];
         }
-        const icon = await createCustomIconFromFileHandle(handle);
-        iconsCache[handle.name] = icon;
+        const icon = await createCustomIconFromBlob(name, blob, meta.properties?.mimeType);
+        iconsCache[name] = icon;
         return icon;
       }),
   );
+
   getDefaultStore().set(iconsAtom, icons);
   return icons;
 };
 
-export const getAllCustomIconFiles = async () => {
-  const iconsDir = await getIconsDirHandle();
-  const files = await asyncIterableToArray(iconsDir.values());
-  return files.filter((h) => h.kind === "file") as FileSystemFileHandle[];
-};
-
 export const deleteAllCustomIcons = async () => {
-  const opfsRoot = await navigator.storage.getDirectory();
-  await opfsRoot.removeEntry(CUSTOM_ICONS_FOLDER_NAME, { recursive: true });
+  const storage = await getAnoriStorage();
+  const allMeta = storage.files.getMeta(anoriSchema.customIcons.all());
+
+  for (const name of Object.keys(allMeta)) {
+    await storage.files.delete(anoriSchema.customIcons.byId(name));
+    if (iconsCache[name]) {
+      URL.revokeObjectURL(iconsCache[name].urlObject);
+      delete iconsCache[name];
+    }
+  }
+
+  getDefaultStore().set(iconsAtom, []);
 };
 
 export const getCustomIcon = async (name: string): Promise<CustomIcon | null> => {
@@ -77,15 +80,16 @@ export const getCustomIcon = async (name: string): Promise<CustomIcon | null> =>
     return iconsCache[name];
   }
 
-  const iconsDir = await getIconsDirHandle();
-  try {
-    const fileHandle = await iconsDir.getFileHandle(name);
-    const icon = await createCustomIconFromFileHandle(fileHandle);
-    iconsCache[name] = icon;
-    return icon;
-  } catch (_err) {
+  const storage = await getAnoriStorage();
+  const result = await storage.files.get(anoriSchema.customIcons.byId(name));
+
+  if (!result) {
     return null;
   }
+
+  const icon = await createCustomIconFromBlob(name, result.blob, result.meta.properties?.mimeType);
+  iconsCache[name] = icon;
+  return icon;
 };
 
 export const getCustomIconFromCache = (name: string): CustomIcon | null => {
@@ -94,37 +98,41 @@ export const getCustomIconFromCache = (name: string): CustomIcon | null => {
 
 export const useCustomIcon = (name: string) => {
   const { customIcons } = useCustomIcons();
-
   return customIcons.find((i) => i.name === name);
 };
 
 export const useCustomIcons = () => {
-  const addNewCustomIcon = async (filename: string, content: ArrayBuffer, urlObj?: string) => {
-    const iconsDir = await getIconsDirHandle();
-    const fileHandle = await iconsDir.getFileHandle(filename, { create: true });
-    const writeHandle = await fileHandle.createWritable();
-    await writeHandle.write(content);
-    await writeHandle.close();
+  const addNewCustomIcon = async (name: string, fileExtension: string, content: ArrayBuffer, urlObj?: string) => {
+    const storage = await getAnoriStorage();
+    const mimeType = getMimeFromFileExtension(fileExtension);
+    const blob = new Blob([content], { type: mimeType });
 
-    const urlObjFinal = urlObj || URL.createObjectURL(new Blob([content]));
-    const isSvg = filename.toLowerCase().endsWith(".svg");
+    await storage.files.set(anoriSchema.customIcons.byId(name), blob, {
+      mimeType: mimeType || undefined,
+    });
+
+    const isSvg = mimeType === "image/svg+xml";
     const svgContent = isSvg ? new TextDecoder().decode(content) : null;
-    const icon = {
-      name: filename,
+    const urlObjFinal = urlObj || URL.createObjectURL(blob);
+
+    const icon: CustomIcon = {
+      name,
       urlObject: urlObjFinal,
       svgContent,
     };
-    iconsCache[filename] = icon;
-    setIcons((p) => [...p.filter((i) => i.name !== filename), icon].sort((a, b) => a.name.localeCompare(b.name)));
+
+    iconsCache[name] = icon;
+    setIcons((p) => [...p.filter((i) => i.name !== name), icon].sort((a, b) => a.name.localeCompare(b.name)));
   };
 
-  const removeCustomIcon = async (filename: string) => {
-    const iconsDir = await getIconsDirHandle();
-    await iconsDir.removeEntry(filename);
-    setIcons((p) => p.filter((icon) => icon.name !== filename));
-    if (iconsCache[filename]) {
-      URL.revokeObjectURL(iconsCache[filename].urlObject);
-      delete iconsCache[filename];
+  const removeCustomIcon = async (name: string) => {
+    const storage = await getAnoriStorage();
+    await storage.files.delete(anoriSchema.customIcons.byId(name));
+
+    setIcons((p) => p.filter((icon) => icon.name !== name));
+    if (iconsCache[name]) {
+      URL.revokeObjectURL(iconsCache[name].urlObject);
+      delete iconsCache[name];
     }
   };
 

@@ -1,7 +1,7 @@
 import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
 import { Icon } from "@anori/components/icon/Icon";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useAsyncEffect } from "@anori/utils/hooks";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

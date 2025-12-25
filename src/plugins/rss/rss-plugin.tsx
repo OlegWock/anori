@@ -11,13 +11,12 @@ import { Tooltip } from "@anori/components/Tooltip";
 import { listItemAnimation } from "@anori/components/animations";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { translate } from "@anori/translations/index";
+import { translate } from "@anori/translations/utils";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { guid, parseHost, wait } from "@anori/utils/misc";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
-import { getWidgetStorage } from "@anori/utils/plugins/storage";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { getAllWidgetsByPlugin } from "@anori/utils/plugins/widget";
 import clsx from "clsx";
@@ -25,7 +24,7 @@ import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
 import { Fragment, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { type RssPost, type WidgetStorage, fetchFeed, updateFeedsForWidget, useRssFeeds } from "./utils";
+import { type RssPost, fetchFeed, getRssStore, updateFeedsForWidget, useRssFeeds } from "./utils";
 
 const parser = (typeof DOMParser === "undefined" ? null : new DOMParser()) as DOMParser;
 
@@ -428,12 +427,12 @@ const rssScheduledCallback = async () => {
   console.log("Updating feeds in background");
   const widgets = await getAllWidgetsByPlugin(rssPlugin);
   const promises = widgets.map(async (w) => {
-    const storage = getWidgetStorage<WidgetStorage>(w.instanceId);
-    await storage.waitForLoad();
+    const store = getRssStore(w.instanceId);
+    await store.waitForLoad();
     if ("feedUrl" in w.configuration) {
-      return updateFeedsForWidget([w.configuration.feedUrl], storage);
+      return updateFeedsForWidget([w.configuration.feedUrl], store);
     }
-    return updateFeedsForWidget(w.configuration.feedUrls, storage);
+    return updateFeedsForWidget(w.configuration.feedUrls, store);
   });
   await Promise.all(promises);
   await wait(1000); // Make sure widget storage synced to the disk
