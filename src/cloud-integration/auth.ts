@@ -10,7 +10,7 @@ export const login = async (email: string, password: string) => {
   const me = await client.auth.me.query();
 
   const storage = await getAnoriStorage();
-  await storage.set(anoriSchema.latestSchema.definition.cloudAccount, {
+  await storage.set(anoriSchema.cloudAccount, {
     sessionToken: result.sessionToken,
     email: me.email,
     userId: me.id,
@@ -29,7 +29,7 @@ export const logout = async () => {
   }
 
   const storage = await getAnoriStorage();
-  await storage.set(anoriSchema.latestSchema.definition.cloudAccount, null);
+  await storage.set(anoriSchema.cloudAccount, null);
   updateApiClientToken(undefined);
 };
 
@@ -42,7 +42,7 @@ export const register = async (email: string, password: string) => {
   const me = await client.auth.me.query();
 
   const storage = await getAnoriStorage();
-  await storage.set(anoriSchema.latestSchema.definition.cloudAccount, {
+  await storage.set(anoriSchema.cloudAccount, {
     sessionToken: result.sessionToken,
     email: me.email,
     userId: me.id,

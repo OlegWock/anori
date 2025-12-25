@@ -11,9 +11,7 @@ export type { RssFeed, RssPost };
 
 const getParser = cachedFunc<Promise<Parser>>(() => import("rss-parser").then((m) => new m.default()));
 
-const { getStore: getRssStore, useStore: useRssStore } = createScopedStoreFactories(
-  anoriSchema.latestSchema.definition.rssWidgetStore.store,
-);
+const { getStore: getRssStore, useStore: useRssStore } = createScopedStoreFactories(anoriSchema.rssWidgetStore.store);
 
 export { getRssStore };
 

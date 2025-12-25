@@ -11,8 +11,8 @@ import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
-import { anoriSchema, useStorageValue } from "@anori/utils/storage";
-import { getAnoriStorage } from "@anori/utils/storage/anori-init";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import clsx from "clsx";
@@ -24,7 +24,7 @@ import { Sidebar } from "./components/Sidebar";
 const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
 
 const useSidebarOrientation = () => {
-  const [sidebarOrientation] = useStorageValue(anoriSchema.latestSchema.definition.sidebarOrientation);
+  const [sidebarOrientation] = useStorageValue(anoriSchema.sidebarOrientation);
   const [winOrientation, setWinOrientation] = useState<"landscape" | "portrait">(() =>
     window.innerWidth >= window.innerHeight ? "landscape" : "portrait",
   );
@@ -69,11 +69,10 @@ const Start = () => {
     setActiveFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
   };
 
-  const def = anoriSchema.latestSchema.definition;
   const sidebarOrientation = useSidebarOrientation();
-  const [rememberLastFolder] = useStorageValue(def.rememberLastFolder);
-  const [lastFolder, setLastFolder] = useStorageValue(def.lastFolder);
-  const [language] = useStorageValue(def.language);
+  const [rememberLastFolder] = useStorageValue(anoriSchema.rememberLastFolder);
+  const [lastFolder, setLastFolder] = useStorageValue(anoriSchema.lastFolder);
+  const [language] = useStorageValue(anoriSchema.language);
   const dir = useMemo(() => languageDirections[language ?? "en"], [language]);
   const { folders, activeFolder, setActiveFolder } = useFolders({
     includeHome: true,
@@ -92,7 +91,7 @@ const Start = () => {
           ? "up"
           : "left";
 
-  const [showBookmarksBar] = useStorageValue(def.showBookmarksBar);
+  const [showBookmarksBar] = useStorageValue(anoriSchema.showBookmarksBar);
 
   useHotkeys("meta+up, alt+up", () => swithFolderUp());
   useHotkeys("meta+left, alt+left", () => swithFolderUp());
@@ -147,16 +146,14 @@ watchForPermissionChanges();
 getAllCustomIcons();
 
 getAnoriStorage().then((storage) => {
-  const def = anoriSchema.latestSchema.definition;
-
   initTranslation();
 
-  const showBookmarksBar = storage.get(def.showBookmarksBar);
+  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
   if (showBookmarksBar) {
     BookmarksBar.preload();
   }
 
-  const showLoadAnimation = storage.get(def.showLoadAnimation);
+  const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation);
   const div = document.querySelector(".loading-cover");
   if (div) {
     if (!showLoadAnimation) {
@@ -167,21 +164,24 @@ getAnoriStorage().then((storage) => {
     }
   }
 
-  const title = storage.get(def.newTabTitle);
+  const title = storage.get(anoriSchema.newTabTitle);
   setPageTitle(title ?? "Anori new tab");
 
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();
   incrementDailyUsageMetric("Times new tab opened");
   mountPage(
-    <QueryClientProvider>
-      <CompactModeProvider>
-        {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
-        <LazyMotion features={loadMotionFeatures}>
-          <Start />
-        </LazyMotion>
-      </CompactModeProvider>
-    </QueryClientProvider>,
+    <StorageContext.Provider value={storage}>
+      <QueryClientProvider>
+        <CompactModeProvider>
+          {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
+          <LazyMotion features={loadMotionFeatures}>
+            <Start />
+          </LazyMotion>
+        </CompactModeProvider>
+      </QueryClientProvider>
+      ,
+    </StorageContext.Provider>,
   );
 });
 

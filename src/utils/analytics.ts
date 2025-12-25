@@ -22,10 +22,10 @@ const AMPLITUDE_API_KEY = "72ae9510d3106a53608bae9afbb2e8ba";
 
 const getUserId = async () => {
   const storage = await getAnoriStorage();
-  let userId = storage.get(anoriSchema.latestSchema.definition.userId);
+  let userId = storage.get(anoriSchema.userId);
   if (!userId) {
     userId = guid();
-    await storage.set(anoriSchema.latestSchema.definition.userId, userId);
+    await storage.set(anoriSchema.userId, userId);
   }
 
   return userId;
@@ -33,7 +33,7 @@ const getUserId = async () => {
 
 export const plantPerformanceMetricsListeners = async () => {
   const storage = await getAnoriStorage();
-  const analyticsEnabled = storage.get(anoriSchema.latestSchema.definition.analyticsEnabled);
+  const analyticsEnabled = storage.get(anoriSchema.analyticsEnabled);
   if (!analyticsEnabled) {
     return;
   }
@@ -44,11 +44,11 @@ export const plantPerformanceMetricsListeners = async () => {
     console.log("LCP entry", lcpEntry?.renderTime);
     if (lcpEntry) {
       perfObserver.disconnect();
-      const performanceAvgLcp = storage.get(anoriSchema.latestSchema.definition.performanceAvgLcp) ?? { n: 0, avg: 0 };
+      const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp) ?? { n: 0, avg: 0 };
       const n = performanceAvgLcp.n ?? 0;
       const avg = performanceAvgLcp.avg ?? 0;
       // Rolling average
-      await storage.set(anoriSchema.latestSchema.definition.performanceAvgLcp, {
+      await storage.set(anoriSchema.performanceAvgLcp, {
         n: n + 1,
         avg: avg + (lcpEntry.startTime - avg) / (n + 1),
       });
@@ -74,8 +74,8 @@ export const plantPerformanceMetricsListeners = async () => {
       const values = [...latest.values()];
       if (values.length) {
         console.log("INP entries", values);
-        const performanceRawInp = storage.get(anoriSchema.latestSchema.definition.performanceRawInp) ?? [];
-        await storage.set(anoriSchema.latestSchema.definition.performanceRawInp, [...performanceRawInp, ...values]);
+        const performanceRawInp = storage.get(anoriSchema.performanceRawInp) ?? [];
+        await storage.set(anoriSchema.performanceRawInp, [...performanceRawInp, ...values]);
         latest.clear();
       }
     }, 200);
@@ -86,13 +86,13 @@ export const plantPerformanceMetricsListeners = async () => {
 export const incrementDailyUsageMetric = async (name: keyof StorageContent["dailyUsageMetrics"]) => {
   if (isBackground()) {
     const storage = await getAnoriStorage();
-    const analyticsEnabled = storage.get(anoriSchema.latestSchema.definition.analyticsEnabled);
+    const analyticsEnabled = storage.get(anoriSchema.analyticsEnabled);
     if (!analyticsEnabled) {
       return;
     }
-    const dailyUsageMetrics = storage.get(anoriSchema.latestSchema.definition.dailyUsageMetrics) ?? {};
+    const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics) ?? {};
     dailyUsageMetrics[name] = (dailyUsageMetrics[name] ?? 0) + 1;
-    await storage.set(anoriSchema.latestSchema.definition.dailyUsageMetrics, dailyUsageMetrics);
+    await storage.set(anoriSchema.dailyUsageMetrics, dailyUsageMetrics);
   } else {
     return browser.runtime.sendMessage({ type: "increment-daily-usage-metric", name });
   }
@@ -100,7 +100,7 @@ export const incrementDailyUsageMetric = async (name: keyof StorageContent["dail
 
 const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
   const storage = await getAnoriStorage();
-  const folders = storage.get(anoriSchema.latestSchema.definition.folders) ?? [];
+  const folders = storage.get(anoriSchema.folders) ?? [];
 
   const widgetsCount: WidgetsCount = {};
 
@@ -115,7 +115,7 @@ const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
 
   for (const folderId of allFolderIds) {
     const isHome = folderId === "home";
-    const details = storage.get(anoriSchema.latestSchema.definition.folderDetails.folder.byId(folderId));
+    const details = storage.get(anoriSchema.folderDetails.folder.byId(folderId));
     const widgets = details?.widgets ?? [];
 
     widgets.forEach((wd) => {
@@ -141,25 +141,24 @@ const aggregateInp = (values: number[]) => {
 
 const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"]> => {
   const storage = await getAnoriStorage();
-  const def = anoriSchema.latestSchema.definition;
 
-  const folders = storage.get(def.folders) ?? [];
+  const folders = storage.get(anoriSchema.folders) ?? [];
   const numberOfCustomFolders = folders.length;
 
   const customIcons = await getAllCustomIconNames();
   const numberOfCustomIcons = customIcons.length;
 
-  const sidebarOrientation = storage.get(def.sidebarOrientation) ?? "auto";
-  const autoHideSidebar = storage.get(def.autoHideSidebar) ?? false;
-  const usedTheme = storage.get(def.theme) ?? "Greenery";
-  const language = storage.get(def.language) ?? "en";
-  const showBookmarksBar = storage.get(def.showBookmarksBar) ?? false;
-  const compactMode = storage.get(def.compactMode) ?? false;
-  const automaticCompactMode = storage.get(def.automaticCompactMode) ?? false;
-  const showLoadAnimation = storage.get(def.showLoadAnimation) ?? false;
-  const dailyUsageMetrics = storage.get(def.dailyUsageMetrics) ?? {};
-  const performanceAvgLcp = storage.get(def.performanceAvgLcp) ?? { avg: 0, n: 0 };
-  const performanceRawInp = storage.get(def.performanceRawInp) ?? [];
+  const sidebarOrientation = storage.get(anoriSchema.sidebarOrientation) ?? "auto";
+  const autoHideSidebar = storage.get(anoriSchema.autoHideSidebar) ?? false;
+  const usedTheme = storage.get(anoriSchema.theme) ?? "Greenery";
+  const language = storage.get(anoriSchema.language) ?? "en";
+  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar) ?? false;
+  const compactMode = storage.get(anoriSchema.compactMode) ?? false;
+  const automaticCompactMode = storage.get(anoriSchema.automaticCompactMode) ?? false;
+  const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation) ?? false;
+  const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics) ?? {};
+  const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp) ?? { avg: 0, n: 0 };
+  const performanceRawInp = storage.get(anoriSchema.performanceRawInp) ?? [];
 
   const { os } = await browser.runtime.getPlatformInfo();
   const extVersion = browser.runtime.getManifest().version;
@@ -189,21 +188,20 @@ self.gatherDailyUsageData = gatherDailyUsageData;
 
 export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
   const storage = await getAnoriStorage();
-  const def = anoriSchema.latestSchema.definition;
 
-  const enabled = storage.get(def.analyticsEnabled);
+  const enabled = storage.get(anoriSchema.analyticsEnabled);
   if (!enabled) return;
 
-  const lastSend = storage.get(def.analyticsLastSend);
+  const lastSend = storage.get(anoriSchema.analyticsLastSend);
   if (lastSend && lastSend + ANALYTICS_TIMEOUT > Date.now() && !skipTimeout) return;
 
   const data = await gatherDailyUsageData();
 
   await trackEvent("Usage statistics", data);
-  await storage.set(def.analyticsLastSend, Date.now());
-  await storage.set(def.dailyUsageMetrics, {});
-  await storage.set(def.performanceAvgLcp, { n: 0, avg: 0 });
-  await storage.set(def.performanceRawInp, []);
+  await storage.set(anoriSchema.analyticsLastSend, Date.now());
+  await storage.set(anoriSchema.dailyUsageMetrics, {});
+  await storage.set(anoriSchema.performanceAvgLcp, { n: 0, avg: 0 });
+  await storage.set(anoriSchema.performanceRawInp, []);
 };
 
 type TrackEventParams<K extends keyof AnalyticEvents> = AnalyticEvents[K] extends EmptyObject
@@ -218,7 +216,7 @@ export async function trackEvent<K extends keyof AnalyticEvents>(eventName: K, p
     }
 
     const storage = await getAnoriStorage();
-    const enabled = storage.get(anoriSchema.latestSchema.definition.analyticsEnabled);
+    const enabled = storage.get(anoriSchema.analyticsEnabled);
     if (!enabled) return;
     const userId = await getUserId();
 

@@ -21,9 +21,7 @@ import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import browser from "webextension-polyfill";
 
-const { useStore: useTopSitesStore } = createScopedStoreFactories(
-  anoriSchema.latestSchema.definition.topSitesWidgetStore.store,
-);
+const { useStore: useTopSitesStore } = createScopedStoreFactories(anoriSchema.topSitesWidgetStore.store);
 
 const REQUIRED_PERMISSIONS: CorrectPermission[] = X_BROWSER === "firefox" ? ["topSites"] : ["topSites", "favicon"];
 

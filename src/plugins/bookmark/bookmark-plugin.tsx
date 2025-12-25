@@ -40,7 +40,7 @@ import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 
 const { getStore: getBookmarkStore, useStore: useBookmarkStore } = createScopedStoreFactories(
-  anoriSchema.latestSchema.definition.bookmarkWidgetStore.store,
+  anoriSchema.bookmarkWidgetStore.store,
 );
 
 type BookmarkWidgetConfig = {

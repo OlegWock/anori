@@ -12,7 +12,8 @@ import type {
   WidgetDescriptor,
 } from "@anori/utils/plugins/types";
 import { clearWidgetStorage } from "@anori/utils/scoped-store";
-import { type FolderDetails, anoriSchema, getAnoriStorage, useStorageValue } from "@anori/utils/storage";
+import { type FolderDetails, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { useStorageValue } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -37,7 +38,7 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
 
   const removeFolder = async (id: ID) => {
     const storage = await getAnoriStorage();
-    await storage.delete(anoriSchema.latestSchema.definition.folderDetails.folder.byId(id));
+    await storage.delete(anoriSchema.folderDetails.folder.byId(id));
     trackEvent("Folder deleted");
     await setFolders((p) => p.filter((f) => f.id !== id));
   };
@@ -80,7 +81,7 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
 
   const activeId = folderIdFromHash ?? defaultFolderId ?? homeFolder.id;
-  const [folders, setFolders] = useStorageValue(anoriSchema.latestSchema.definition.folders);
+  const [folders, setFolders] = useStorageValue(anoriSchema.folders);
   const { t } = useTranslation();
   const foldersFinal = [...(folders ?? [])];
   if (includeHome) {
@@ -104,18 +105,16 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
 
 export const getFolderDetails = async (id: ID): Promise<FolderDetails> => {
   const storage = await getAnoriStorage();
-  return storage.get(anoriSchema.latestSchema.definition.folderDetails.folder.byId(id)) ?? { widgets: [] };
+  return storage.get(anoriSchema.folderDetails.folder.byId(id)) ?? { widgets: [] };
 };
 
 export const setFolderDetails = async (id: ID, details: FolderDetails): Promise<void> => {
   const storage = await getAnoriStorage();
-  await storage.set(anoriSchema.latestSchema.definition.folderDetails.folder.byId(id), details);
+  await storage.set(anoriSchema.folderDetails.folder.byId(id), details);
 };
 
 export const useFolderWidgets = (folder: Folder) => {
-  const [details, setDetails] = useStorageValue(
-    anoriSchema.latestSchema.definition.folderDetails.folder.byId(folder.id),
-  );
+  const [details, setDetails] = useStorageValue(anoriSchema.folderDetails.folder.byId(folder.id));
   const currentDetails = details ?? { widgets: [] };
 
   const addWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>({

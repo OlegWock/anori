@@ -31,7 +31,7 @@ const stripExtension = (filename: string): string => {
 
 export const getAllCustomIconNames = async (): Promise<string[]> => {
   const storage = await getAnoriStorage();
-  const allMeta = storage.files.getMeta(anoriSchema.latestSchema.definition.customIcons.all());
+  const allMeta = storage.files.getMeta(anoriSchema.customIcons.all());
   return Object.keys(allMeta);
 };
 
@@ -49,7 +49,7 @@ const createCustomIconFromBlob = async (name: string, blob: Blob, mimeType?: str
 
 export const getAllCustomIcons = async (): Promise<CustomIcon[]> => {
   const storage = await getAnoriStorage();
-  const allFiles = await storage.files.get(anoriSchema.latestSchema.definition.customIcons.all());
+  const allFiles = await storage.files.get(anoriSchema.customIcons.all());
 
   const icons: CustomIcon[] = await Promise.all(
     Object.entries(allFiles)
@@ -70,10 +70,10 @@ export const getAllCustomIcons = async (): Promise<CustomIcon[]> => {
 
 export const deleteAllCustomIcons = async () => {
   const storage = await getAnoriStorage();
-  const allMeta = storage.files.getMeta(anoriSchema.latestSchema.definition.customIcons.all());
+  const allMeta = storage.files.getMeta(anoriSchema.customIcons.all());
 
   for (const name of Object.keys(allMeta)) {
-    await storage.files.delete(anoriSchema.latestSchema.definition.customIcons.byId(name));
+    await storage.files.delete(anoriSchema.customIcons.byId(name));
     if (iconsCache[name]) {
       URL.revokeObjectURL(iconsCache[name].urlObject);
       delete iconsCache[name];
@@ -89,7 +89,7 @@ export const getCustomIcon = async (name: string): Promise<CustomIcon | null> =>
   }
 
   const storage = await getAnoriStorage();
-  const result = await storage.files.get(anoriSchema.latestSchema.definition.customIcons.byId(name));
+  const result = await storage.files.get(anoriSchema.customIcons.byId(name));
 
   if (!result) {
     return null;
@@ -117,7 +117,7 @@ export const useCustomIcons = () => {
 
     const name = stripExtension(filename);
 
-    await storage.files.set(anoriSchema.latestSchema.definition.customIcons.byId(name), blob, {
+    await storage.files.set(anoriSchema.customIcons.byId(name), blob, {
       mimeType: mimeType || undefined,
     });
 
@@ -137,7 +137,7 @@ export const useCustomIcons = () => {
 
   const removeCustomIcon = async (name: string) => {
     const storage = await getAnoriStorage();
-    await storage.files.delete(anoriSchema.latestSchema.definition.customIcons.byId(name));
+    await storage.files.delete(anoriSchema.customIcons.byId(name));
 
     setIcons((p) => p.filter((icon) => icon.name !== name));
     if (iconsCache[name]) {

@@ -14,14 +14,13 @@ export const getAllWidgetsByPlugin = async <PID extends ID, WD extends WidgetDes
   plugin: AnoriPlugin<PID, Mapping, WD>,
 ) => {
   const storage = await getAnoriStorage();
-  const def = anoriSchema.latestSchema.definition;
 
-  const foldersFromStorage = storage.get(def.folders);
+  const foldersFromStorage = storage.get(anoriSchema.folders);
   const folders = [homeFolder, ...(foldersFromStorage || [])];
 
   const allWidgets: WidgetInFolder[] = [];
   for (const folder of folders) {
-    const details = storage.get(def.folderDetails.folder.byId(folder.id));
+    const details = storage.get(anoriSchema.folderDetails.folder.byId(folder.id));
     if (details?.widgets) {
       allWidgets.push(...details.widgets);
     }

@@ -1,7 +1,8 @@
+import { anoriSchema } from "@anori/utils/storage";
 import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { IS_TOUCH_DEVICE } from "./device";
 import { useMirrorStateToRef } from "./hooks";
-import { anoriSchema, useStorageValue } from "./storage";
+import { useStorageValue } from "./storage-lib";
 
 const CompactModeContext = createContext(false);
 
@@ -32,12 +33,10 @@ export const useScreenWidth = () => {
 };
 
 export const CompactModeProvider = ({ children }: { children: ReactNode }) => {
-  const [isAutomaticCompact] = useStorageValue(anoriSchema.latestSchema.definition.automaticCompactMode);
-  const [isManualCompact] = useStorageValue(anoriSchema.latestSchema.definition.compactMode);
+  const [isAutomaticCompact] = useStorageValue(anoriSchema.automaticCompactMode);
+  const [isManualCompact] = useStorageValue(anoriSchema.compactMode);
   const screenWidth = useScreenWidth();
-  const [automaticCompactModeThreshold] = useStorageValue(
-    anoriSchema.latestSchema.definition.automaticCompactModeThreshold,
-  );
+  const [automaticCompactModeThreshold] = useStorageValue(anoriSchema.automaticCompactModeThreshold);
   const isCompact =
     (isAutomaticCompact ?? !IS_TOUCH_DEVICE)
       ? screenWidth < (automaticCompactModeThreshold ?? 1500)

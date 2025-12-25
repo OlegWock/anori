@@ -3,7 +3,8 @@ import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { useHotkeys } from "@anori/utils/hooks";
-import { anoriSchema, useStorageValue } from "@anori/utils/storage";
+import { useStorageValue } from "@anori/utils/storage-lib";
+
 import type { Folder } from "@anori/utils/user-data/types";
 import { FloatingDelayGroup } from "@floating-ui/react";
 import { AnimatePresence } from "framer-motion";
@@ -15,6 +16,7 @@ import { useCloudAccount } from "@anori/cloud-integration/hooks";
 import { WhatsNew } from "@anori/components/WhatsNew";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { CloudAccountModal, SettingsModal } from "@anori/components/lazy-components";
+import { anoriSchema } from "@anori/utils/storage";
 import clsx from "clsx";
 
 export type SidebarProps = {
@@ -26,9 +28,8 @@ export type SidebarProps = {
 
 export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: SidebarProps) => {
   const { t } = useTranslation();
-  const def = anoriSchema.latestSchema.definition;
-  const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useStorageValue(def.hasUnreadReleaseNotes);
-  const [autoHideSidebar] = useStorageValue(def.autoHideSidebar);
+  const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useStorageValue(anoriSchema.hasUnreadReleaseNotes);
+  const [autoHideSidebar] = useStorageValue(anoriSchema.autoHideSidebar);
   const [settingsVisible, setSettingsVisible] = useState(false);
   const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
   const [whatsNewVisible, setWhatsNewVisible] = useState(false);

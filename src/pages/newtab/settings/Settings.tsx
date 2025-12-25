@@ -27,17 +27,18 @@ import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
+import { anoriSchema } from "@anori/utils/storage";
+import { anoriVersionedSchema } from "@anori/utils/storage";
 import {
   HLC_STATE_KEY,
   OUTBOX_KEY,
   SCHEMA_VERSION_KEY,
-  anoriSchema,
   deleteFile,
   listFiles,
   readFile,
   useStorageValue,
   writeFile,
-} from "@anori/utils/storage";
+} from "@anori/utils/storage-lib";
 import type { Mapping } from "@anori/utils/types";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
@@ -140,21 +141,20 @@ const PluginConfigurationSection = <T extends Mapping>({ plugin }: { plugin: Ano
 };
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
-  const def = anoriSchema.latestSchema.definition;
-  const [language, setLanguage] = useStorageValue(def.language);
-  const [isAutomaticCompact, setAutomaticCompact] = useStorageValue(def.automaticCompactMode);
+  const [language, setLanguage] = useStorageValue(anoriSchema.language);
+  const [isAutomaticCompact, setAutomaticCompact] = useStorageValue(anoriSchema.automaticCompactMode);
   const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useStorageValue(
-    def.automaticCompactModeThreshold,
+    anoriSchema.automaticCompactModeThreshold,
   );
-  const [manualCompactMode, setManualCompactMode] = useStorageValue(def.compactMode);
-  const [showLoadAnimation, setShowLoadAnimation] = useStorageValue(def.showLoadAnimation);
-  const [rememberLastFolder, setRememberLastFolder] = useStorageValue(def.rememberLastFolder);
-  const [showBookmarksBar, setShowBookmarksBar] = useStorageValue(def.showBookmarksBar);
-  const [newTabTitle, setNewTabTitle] = useStorageValue(def.newTabTitle);
-  const [sidebarOrientation, setSidebarOrientation] = useStorageValue(def.sidebarOrientation);
-  const [autoHideSidebar, setAutoHideSidebar] = useStorageValue(def.autoHideSidebar);
-  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(def.analyticsEnabled);
-  const [, setLastFolder] = useStorageValue(def.lastFolder);
+  const [manualCompactMode, setManualCompactMode] = useStorageValue(anoriSchema.compactMode);
+  const [showLoadAnimation, setShowLoadAnimation] = useStorageValue(anoriSchema.showLoadAnimation);
+  const [rememberLastFolder, setRememberLastFolder] = useStorageValue(anoriSchema.rememberLastFolder);
+  const [showBookmarksBar, setShowBookmarksBar] = useStorageValue(anoriSchema.showBookmarksBar);
+  const [newTabTitle, setNewTabTitle] = useStorageValue(anoriSchema.newTabTitle);
+  const [sidebarOrientation, setSidebarOrientation] = useStorageValue(anoriSchema.sidebarOrientation);
+  const [autoHideSidebar, setAutoHideSidebar] = useStorageValue(anoriSchema.autoHideSidebar);
+  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(anoriSchema.analyticsEnabled);
+  const [, setLastFolder] = useStorageValue(anoriSchema.lastFolder);
   const screenWidth = useScreenWidth();
   const { t } = useTranslation();
 
@@ -500,7 +500,7 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
         {
           formatVersion: BACKUP_FORMAT_VERSION,
           extensionVersion: browser.runtime.getManifest().version,
-          schemaVersion: anoriSchema.currentVersion,
+          schemaVersion: anoriVersionedSchema.currentVersion,
           date: moment().toISOString(),
         },
         null,

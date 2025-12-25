@@ -1,7 +1,6 @@
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
-import { anoriSchema } from "@anori/utils/storage";
-import { getAnoriStorage } from "@anori/utils/storage/anori-init";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import browser from "webextension-polyfill";
 import { type Language, availableTranslations } from "./translations/metadata";
 
@@ -57,7 +56,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
     });
     console.log("Has important updates:", hasImportantUpdates);
     if (hasImportantUpdates) {
-      storage.set(anoriSchema.latestSchema.definition.hasUnreadReleaseNotes, true);
+      storage.set(anoriSchema.hasUnreadReleaseNotes, true);
     }
   }
 
@@ -81,7 +80,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
         break;
       }
     }
-    storage.set(anoriSchema.latestSchema.definition.language, bestCandidate as Language);
+    storage.set(anoriSchema.language, bestCandidate as Language);
   }
 });
 

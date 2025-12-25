@@ -27,13 +27,9 @@ import {
   searchCity,
 } from "./api";
 
-const { useStore: useCurrentWeatherStore } = createScopedStoreFactories(
-  anoriSchema.latestSchema.definition.weatherCurrentWidgetStore.store,
-);
+const { useStore: useCurrentWeatherStore } = createScopedStoreFactories(anoriSchema.weatherCurrentWidgetStore.store);
 
-const { useStore: useForecastWeatherStore } = createScopedStoreFactories(
-  anoriSchema.latestSchema.definition.weatherForecastWidgetStore.store,
-);
+const { useStore: useForecastWeatherStore } = createScopedStoreFactories(anoriSchema.weatherForecastWidgetStore.store);
 
 type WeatherWidgetConfig = {
   location: City;

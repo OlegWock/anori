@@ -142,7 +142,7 @@ export const saveThemeBackground = async (
   const blob = content instanceof Blob ? content : new Blob([content]);
   const key = getThemeBackgroundKey(themeName, variant);
 
-  await storage.files.set(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key), blob, {
+  await storage.files.set(anoriSchema.themeBackgrounds.byId(key), blob, {
     themeName,
     variant,
   });
@@ -151,7 +151,7 @@ export const saveThemeBackground = async (
 export const getThemeBackground = async (themeName: string): Promise<Blob> => {
   const storage = await getAnoriStorage();
   const key = getThemeBackgroundKey(themeName, "blurred");
-  const result = await storage.files.get(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key));
+  const result = await storage.files.get(anoriSchema.themeBackgrounds.byId(key));
 
   if (!result) {
     throw new Error(`Theme background not found: ${themeName}`);
@@ -163,7 +163,7 @@ export const getThemeBackground = async (themeName: string): Promise<Blob> => {
 export const getThemeBackgroundOriginal = async (themeName: string): Promise<Blob> => {
   const storage = await getAnoriStorage();
   const key = getThemeBackgroundKey(themeName, "original");
-  const result = await storage.files.get(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key));
+  const result = await storage.files.get(anoriSchema.themeBackgrounds.byId(key));
 
   if (!result) {
     throw new Error(`Original theme background not found: ${themeName}`);
@@ -174,18 +174,17 @@ export const getThemeBackgroundOriginal = async (themeName: string): Promise<Blo
 
 export const deleteThemeBackgrounds = async (themeName: string) => {
   const storage = await getAnoriStorage();
-  const def = anoriSchema.latestSchema.definition.themeBackgrounds;
 
-  await storage.files.delete(def.byId(getThemeBackgroundKey(themeName, "original")));
-  await storage.files.delete(def.byId(getThemeBackgroundKey(themeName, "blurred")));
+  await storage.files.delete(anoriSchema.themeBackgrounds.byId(getThemeBackgroundKey(themeName, "original")));
+  await storage.files.delete(anoriSchema.themeBackgrounds.byId(getThemeBackgroundKey(themeName, "blurred")));
 };
 
 export const deleteAllThemeBackgrounds = async () => {
   const storage = await getAnoriStorage();
-  const allMeta = storage.files.getMeta(anoriSchema.latestSchema.definition.themeBackgrounds.all());
+  const allMeta = storage.files.getMeta(anoriSchema.themeBackgrounds.all());
 
   for (const key of Object.keys(allMeta)) {
-    await storage.files.delete(anoriSchema.latestSchema.definition.themeBackgrounds.byId(key));
+    await storage.files.delete(anoriSchema.themeBackgrounds.byId(key));
   }
 };
 
@@ -193,7 +192,7 @@ export const getAllCustomThemeBackgroundFiles = async (): Promise<
   Array<{ themeName: string; variant: "original" | "blurred" }>
 > => {
   const storage = await getAnoriStorage();
-  const allMeta = storage.files.getMeta(anoriSchema.latestSchema.definition.themeBackgrounds.all());
+  const allMeta = storage.files.getMeta(anoriSchema.themeBackgrounds.all());
 
   return Object.values(allMeta).map((meta) => ({
     themeName: meta.properties?.themeName ?? "",

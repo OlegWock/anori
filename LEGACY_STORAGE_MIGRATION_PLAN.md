@@ -88,16 +88,16 @@ widgetStore.set("someKey", value);
 
 ```ts
 // NEW: useWritableStorageValue hook
-const [theme, setTheme] = useWritableStorageValue(anoriSchema.latestSchema.definition.theme);
+const [theme, setTheme] = useWritableStorageValue(anoriSchema.theme);
 
 // NEW: Direct storage access (after initialization)
 const storage = getGlobalStorage();
-await storage.set(anoriSchema.latestSchema.definition.language, "en");
-const lang = storage.get(anoriSchema.latestSchema.definition.language); // Sync read!
+await storage.set(anoriSchema.language, "en");
+const lang = storage.get(anoriSchema.language); // Sync read!
 
 // NEW: Collection access for widgets/plugins
-const data = storage.get(anoriSchema.latestSchema.definition.widgetStorage.storage.byId(instanceId));
-await storage.set(anoriSchema.latestSchema.definition.widgetStorage.storage.byId(instanceId), newData);
+const data = storage.get(anoriSchema.widgetStorage.storage.byId(instanceId));
+await storage.set(anoriSchema.widgetStorage.storage.byId(instanceId), newData);
 ```
 
 ### Storage Initialization Flow
@@ -485,7 +485,7 @@ const [theme, setTheme] = useBrowserStorageValue("theme", "Greenery");
 // AFTER
 import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
 const [theme, setTheme] = useWritableStorageValue(
-  anoriSchema.latestSchema.definition.theme
+  anoriSchema.theme
 );
 ```
 
@@ -500,8 +500,8 @@ await storage.setOne("language", "en");
 // AFTER
 import { anoriSchema, getGlobalStorage } from "@anori/utils/storage";
 const storage = getGlobalStorage();
-const lang = storage.get(anoriSchema.latestSchema.definition.language);  // Sync!
-await storage.set(anoriSchema.latestSchema.definition.language, "en");
+const lang = storage.get(anoriSchema.language);  // Sync!
+await storage.set(anoriSchema.language, "en");
 ```
 
 ### Replacing `NamespacedStorage` for Widgets
@@ -516,7 +516,7 @@ store.set("someKey", newValue);
 // AFTER
 import { anoriSchema, getGlobalStorage } from "@anori/utils/storage";
 const storage = getGlobalStorage();
-const query = anoriSchema.latestSchema.definition.widgetStorage.storage.byId(instanceId);
+const query = anoriSchema.widgetStorage.storage.byId(instanceId);
 const allData = storage.get(query) ?? {};
 const value = allData.someKey;
 await storage.set(query, { ...allData, someKey: newValue });

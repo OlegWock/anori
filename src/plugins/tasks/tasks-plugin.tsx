@@ -37,9 +37,7 @@ type TaskWidgetConfig = {
   title: string;
 };
 
-const { useStore: useTasksStore } = createScopedStoreFactories<TasksWidgetStore>(
-  anoriSchema.latestSchema.definition.tasksWidgetStore.store,
-);
+const { useStore: useTasksStore } = createScopedStoreFactories<TasksWidgetStore>(anoriSchema.tasksWidgetStore.store);
 
 const devOnlyMockTasks = [
   `Buy groceries: Eggs, milk, bread, and fruits.`,

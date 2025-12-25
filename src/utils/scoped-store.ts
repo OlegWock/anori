@@ -1,12 +1,7 @@
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
-import {
-  type AnoriStorage,
-  type CollectionByIdQuery,
-  anoriSchema,
-  getAnoriStorage,
-  useStorageValue,
-} from "@anori/utils/storage";
-import { getQueryId } from "@anori/utils/storage/query";
+import { type AnoriStorage, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { type CollectionByIdQuery, useStorageValue } from "@anori/utils/storage-lib";
+import { getQueryId } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
 import { type SetStateAction, useCallback, useMemo } from "react";
 
@@ -101,7 +96,7 @@ export class ScopedStore<T extends Mapping> {
  * @example
  * ```ts
  * const { getStore: getTasksStore, useStore: useTasksStore } = createScopedStoreFactories(
- *   anoriSchema.latestSchema.definition.tasksWidgetStore.store
+ *   anoriSchema.tasksWidgetStore.store
  * );
  *
  * // Imperative usage:
@@ -138,7 +133,7 @@ export async function clearWidgetStorage(instanceId: ID): Promise<void> {
   // TODO: not entirely happy with this setup cuz it will be easy to add new store here and then it will be dangled
   // Maybe it will be better to have some kind of "on remove" callback for widgets
   const storage = await getAnoriStorage();
-  const schema = anoriSchema.latestSchema.definition;
+  const schema = anoriSchema;
 
   // All widget store collections
   const queries = [

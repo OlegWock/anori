@@ -18,9 +18,7 @@ import type { EmptyObject } from "@anori/utils/types";
 import type { Options } from "react-markdown";
 import { sequentialNewlinesPlugin } from "./utils";
 
-const { useStore: useNotesStore } = createScopedStoreFactories<NotesWidgetStore>(
-  anoriSchema.latestSchema.definition.notesWidgetStore.store,
-);
+const { useStore: useNotesStore } = createScopedStoreFactories<NotesWidgetStore>(anoriSchema.notesWidgetStore.store);
 
 const Mock = () => {
   const { t } = useTranslation();
