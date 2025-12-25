@@ -17,6 +17,17 @@ export const WhatsNew = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
+            <h2>1.26.0</h2>
+            <ul>
+              <li>
+                <strong>If you use backups you need to export fresh backup now.</strong> Internals of storage system
+                were significantly reworked in this release. This also affects backup format, as older backups won't be
+                compatible with this version.
+              </li>
+            </ul>
+          </section>
+
+          <section>
             <h2>1.25.0</h2>
             <ul>
               <li>New design of "Add widget" modal.</li>
