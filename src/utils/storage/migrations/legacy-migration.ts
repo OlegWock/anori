@@ -7,6 +7,10 @@ import { HLC_STATE_KEY, SCHEMA_VERSION_KEY } from "../keys";
 import { generateFilePath, writeFile } from "../opfs";
 import type { FileMetaValue, StorageRecord } from "../types";
 
+// =============================================================================================================================
+// ===== TODO: this file here only for couple of releases to update all users to new storage. After that it can be removed =====
+// =============================================================================================================================
+
 const LEGACY_STORAGE_VERSION_KEY = "storageVersion";
 
 type LegacyFolderDetails = { widgets: unknown[] };
@@ -266,10 +270,9 @@ export async function migrateFromLegacy(): Promise<void> {
       await writeFile(path, blob);
 
       const metaKey = `CustomIcon:${fileHandle.name}`;
-      const meta: FileMetaValue<{ name: string; mimeType?: string }> = {
+      const meta: FileMetaValue<{ mimeType?: string }> = {
         path,
         properties: {
-          name: fileHandle.name, // TODO: maybe this needs to remove the extension?
           mimeType: blob.type || undefined,
         },
       };

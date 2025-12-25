@@ -118,7 +118,6 @@ export const useCustomIcons = () => {
     const name = stripExtension(filename);
 
     await storage.files.set(anoriSchema.latestSchema.definition.customIcons.byId(name), blob, {
-      name,
       mimeType: mimeType || undefined,
     });
 

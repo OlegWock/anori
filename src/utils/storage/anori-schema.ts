@@ -439,17 +439,12 @@ export const schemaV1 = defineSchemaVersion(1, {
     keyPrefix: "CustomIcon",
     tracked: true,
     propertiesSchema: z.object({
-      name: z.string(),
       mimeType: z.string().optional(),
     }),
   }),
   themeBackgrounds: fileCollection({
     keyPrefix: "ThemeBackground",
     tracked: true,
-    propertiesSchema: z.object({
-      themeName: z.string(), // TODO: check if we really need this property
-      variant: z.enum(["original", "blurred"]),
-    }),
   }),
 });
 
