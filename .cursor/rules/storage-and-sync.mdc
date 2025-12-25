@@ -4,7 +4,7 @@ alwaysApply: true
 
 # Storage System
 
-The new storage system (`src/utils/storage/`) provides schema-based, type-safe storage with HLC-based conflict resolution for cloud sync.
+The new storage system (`src/utils/storage-lib/` and `src/utils/storage`) provides schema-based, type-safe storage with HLC-based conflict resolution for cloud sync.
 
 ## Core Concepts
 
