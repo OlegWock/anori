@@ -1,11 +1,11 @@
 import type { z } from "zod";
 import type { FileMetaValue } from "../types";
 
-export const FILE_TYPE = Symbol("file");
-export const FILE_COLLECTION_TYPE = Symbol("fileCollection");
-export const FILE_QUERY_TYPE = Symbol("fileQuery");
+const FILE_TYPE = Symbol("file");
+const FILE_COLLECTION_TYPE = Symbol("fileCollection");
+const FILE_QUERY_TYPE = Symbol("fileQuery");
 
-export type FileOptions<P> = {
+type FileOptions<P> = {
   key: string;
   tracked: boolean;
   propertiesSchema?: z.ZodType<P>;
@@ -20,7 +20,7 @@ export type FileDescriptor<P = unknown> = {
   readonly propertiesSchema?: z.ZodType<P>;
 };
 
-export type FileCollectionOptions<P> = {
+type FileCollectionOptions<P> = {
   keyPrefix: string;
   tracked: boolean;
   propertiesSchema?: z.ZodType<P>;

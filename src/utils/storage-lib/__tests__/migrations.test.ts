@@ -221,10 +221,10 @@ describe("Migration System", () => {
       });
 
       const v1 = defineSchemaVersion(1, {
-        items: collection({ keyPrefix: "Item:", entities: { item: itemEntity }, tracked: true }),
+        items: collection({ keyPrefix: "Item", entities: { item: itemEntity }, tracked: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        items: collection({ keyPrefix: "Item:", entities: { item: newItemEntity }, tracked: true }),
+        items: collection({ keyPrefix: "Item", entities: { item: newItemEntity }, tracked: true }),
       });
 
       const schema = defineVersionedSchema({

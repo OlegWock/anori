@@ -127,6 +127,3 @@ export const ensureDnrRules = async (url: string) => {
     console.log("Err while registering rule", err);
   }
 };
-
-// @ts-ignore
-self.ensureDnrRules = ensureDnrRules;

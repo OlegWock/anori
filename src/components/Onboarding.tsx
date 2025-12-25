@@ -17,8 +17,9 @@ import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { anoriSchema, getAnoriStorageNoWait } from "@anori/utils/storage";
+import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
+import { useAnoriStorage } from "@anori/utils/storage/hooks";
 import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
@@ -234,6 +235,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
   };
 
   const { t } = useTranslation();
+  const storage = useAnoriStorage();
   const [language, setLanguage] = useStorageValue(anoriSchema.language);
   const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(anoriSchema.analyticsEnabled);
   const [, setFinishedOnboarding] = useStorageValue(anoriSchema.finishedOnboarding);
@@ -273,12 +275,11 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
   );
 
   useEffect(() => {
-    const storage = getAnoriStorageNoWait();
     const finishedOnboarding = storage.get(anoriSchema.finishedOnboarding);
     if (finishedOnboarding) {
       setScreenIndex(screens.length - 1);
     }
-  }, []);
+  }, [storage]);
 
   useEffect(() => {
     if (screenIndex === screens.length - 1) {

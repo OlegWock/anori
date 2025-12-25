@@ -168,11 +168,11 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     let customThemes = storage.get(anoriSchema.customThemes);
     if (themeFromProps) {
       customThemes = customThemes.map((t) => {
-        if (t.name === id) return theme as CustomTheme;
+        if (t.name === id) return theme;
         return t;
       });
     } else {
-      customThemes.push(theme as CustomTheme);
+      customThemes.push(theme);
     }
     await storage.set(anoriSchema.customThemes, customThemes);
     setCurrentTheme(theme.name);

@@ -29,16 +29,11 @@ const useSidebarOrientation = () => {
     window.innerWidth >= window.innerHeight ? "landscape" : "portrait",
   );
   const winOrientationRef = useMirrorStateToRef(winOrientation);
-  const effectiveSidebarOrientation = sidebarOrientation;
   const computedSidebarOrientation =
-    effectiveSidebarOrientation === "auto"
-      ? winOrientation === "landscape"
-        ? "vertical"
-        : "horizontal"
-      : effectiveSidebarOrientation;
+    sidebarOrientation === "auto" ? (winOrientation === "landscape" ? "vertical" : "horizontal") : sidebarOrientation;
 
   useEffect(() => {
-    if (effectiveSidebarOrientation === "auto") {
+    if (sidebarOrientation === "auto") {
       const handler = () => {
         const newOrientation = window.innerWidth >= window.innerHeight ? "landscape" : "portrait";
         if (newOrientation !== winOrientationRef.current) {
@@ -50,7 +45,7 @@ const useSidebarOrientation = () => {
       handler();
       return () => window.removeEventListener("resize", handler);
     }
-  }, [effectiveSidebarOrientation]);
+  }, [sidebarOrientation]);
 
   return computedSidebarOrientation;
 };
@@ -143,10 +138,13 @@ const Start = () => {
 
 watchForPermissionChanges();
 
-getAllCustomIcons();
-
 getAnoriStorage().then((storage) => {
   initTranslation();
+  const title = storage.get(anoriSchema.newTabTitle);
+  setPageTitle(title);
+
+  // Preload custom icons as early as possible
+  getAllCustomIcons();
 
   const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
   if (showBookmarksBar) {
@@ -163,9 +161,6 @@ getAnoriStorage().then((storage) => {
       div.classList.add("active");
     }
   }
-
-  const title = storage.get(anoriSchema.newTabTitle);
-  setPageTitle(title);
 
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();

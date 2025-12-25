@@ -18,12 +18,13 @@ export function createFromAccessor<S extends SchemaDefinition>(
 
   function getCollectionAll<T>(keyPrefix: string, brand?: string): Record<string, T> {
     const result: Record<string, T> = {};
+    const prefixWithColon = `${keyPrefix}:`;
     for (const [key, value] of Object.entries(snapshot)) {
-      if (!key.startsWith(keyPrefix)) continue;
+      if (!key.startsWith(prefixWithColon)) continue;
       if (!isStorageRecord(value) || value.deleted) continue;
       if (brand && value.brand !== brand) continue;
 
-      const id = key.slice(keyPrefix.length);
+      const id = key.slice(prefixWithColon.length);
       result[id] = value.value as T;
     }
     return result;
@@ -46,7 +47,7 @@ export function createFromAccessor<S extends SchemaDefinition>(
         if (query.queryType === "all") {
           return getCollectionAll<T>(query.keyPrefix, query.brand);
         }
-        return getValue<T>(`${query.keyPrefix}${query.id}`);
+        return getValue<T>(`${query.keyPrefix}:${query.id}`);
       }
 
       return undefined;
@@ -68,7 +69,7 @@ export function createToAccessor<S extends SchemaDefinition>(
       if ("key" in query) {
         key = query.key;
       } else if ("queryType" in query && query.queryType === "byId") {
-        key = `${query.keyPrefix}${query.id}`;
+        key = `${query.keyPrefix}:${query.id}`;
         brand = query.brand;
       } else {
         throw new Error("Cannot set with collection.all() query");
@@ -93,7 +94,7 @@ export function createToAccessor<S extends SchemaDefinition>(
       if ("key" in query) {
         key = query.key;
       } else if ("queryType" in query && query.queryType === "byId") {
-        key = `${query.keyPrefix}${query.id}`;
+        key = `${query.keyPrefix}:${query.id}`;
         brand = query.brand;
       } else {
         throw new Error("Cannot delete with collection.all() query");

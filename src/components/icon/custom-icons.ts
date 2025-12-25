@@ -13,20 +13,12 @@ export type CustomIcon = {
 const iconsCache: Record<string, CustomIcon> = {};
 const iconsAtom = atom<CustomIcon[]>([]);
 
-const getMimeFromFilename = (filename: string): string => {
-  const name = filename.toLowerCase();
-  if (name.endsWith(".svg")) return "image/svg+xml";
-  if (name.endsWith(".png")) return "image/png";
-  if (name.endsWith(".jpg") || name.endsWith(".jpeg")) return "image/jpeg";
-  if (name.endsWith(".gif")) return "image/gif";
-  if (name.endsWith(".webp")) return "image/webp";
+const getMimeFromFileExtension = (extension: string): string => {
+  if (extension === "png") return "image/png";
+  if (extension === "svg") return "image/svg+xml";
+  if (extension === "jpg" || extension === "jpeg") return "image/jpeg";
+  if (extension === "webp") return "image/webp";
   return "";
-};
-
-const stripExtension = (filename: string): string => {
-  const lastDot = filename.lastIndexOf(".");
-  if (lastDot === -1) return filename;
-  return filename.slice(0, lastDot);
 };
 
 export const getAllCustomIconNames = async (): Promise<string[]> => {
@@ -110,12 +102,10 @@ export const useCustomIcon = (name: string) => {
 };
 
 export const useCustomIcons = () => {
-  const addNewCustomIcon = async (filename: string, content: ArrayBuffer, urlObj?: string) => {
+  const addNewCustomIcon = async (name: string, fileExtension: string, content: ArrayBuffer, urlObj?: string) => {
     const storage = await getAnoriStorage();
-    const mimeType = getMimeFromFilename(filename);
+    const mimeType = getMimeFromFileExtension(fileExtension);
     const blob = new Blob([content], { type: mimeType });
-
-    const name = stripExtension(filename);
 
     await storage.files.set(anoriSchema.customIcons.byId(name), blob, {
       mimeType: mimeType || undefined,

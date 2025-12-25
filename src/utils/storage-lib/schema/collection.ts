@@ -3,7 +3,7 @@ import type { EntityDescriptor } from "./entity";
 export const COLLECTION_TYPE = Symbol("collection");
 export const COLLECTION_QUERY_TYPE = Symbol("collectionQuery");
 
-export type CollectionOptions<E extends Record<string, EntityDescriptor>> = {
+type CollectionOptions<E extends Record<string, EntityDescriptor>> = {
   keyPrefix: string;
   entities: E;
   tracked: boolean;

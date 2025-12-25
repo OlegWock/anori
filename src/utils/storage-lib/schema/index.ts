@@ -1,7 +1,4 @@
 export {
-  type CellOptions,
-  type CellOptionsWithDefault,
-  type CellOptionsWithoutDefault,
   type CellDescriptor,
   type CellQuery,
   cell,
@@ -9,15 +6,13 @@ export {
   isCellQuery,
 } from "./cell";
 
-export { type EntityOptions, type EntityDescriptor, entity, isEntityDescriptor } from "./entity";
+export { type EntityDescriptor, entity, isEntityDescriptor } from "./entity";
 
 export {
-  type CollectionOptions,
   type CollectionDescriptor,
   type CollectionQuery,
   type CollectionAllQuery,
   type CollectionByIdQuery,
-  type EntityAccessor,
   collection,
   isCollectionDescriptor,
   isCollectionQuery,
@@ -28,21 +23,12 @@ export {
 export { type SchemaDefinition, type SchemaVersion, defineSchemaVersion } from "./version";
 
 export {
-  type MigrationFromAccessor,
-  type MigrationToAccessor,
-  type MigrationContext,
-  type MigrationFn,
-  type Migration,
-  type VersionedSchema,
   createMigration,
   defineVersionedSchema,
-  getMigrationPath,
 } from "./versioned";
 
 export {
-  type FileOptions,
   type FileDescriptor,
-  type FileCollectionOptions,
   type FileCollectionDescriptor,
   type FileCollectionQuery,
   type FileCollectionAllQuery,

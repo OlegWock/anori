@@ -36,7 +36,7 @@ export {
 
 export type { FilesStorage, FileQuery, SingleFileQuery, FileWithMeta } from "./files";
 
-export { useStorageValue, atomWithStorageQuery, StorageContext } from "./react";
+export { useStorageValue, atomWithStorageQuery, StorageContext, useStorage } from "./react";
 
 export {
   generateFilePath,
@@ -49,26 +49,20 @@ export {
 
 export {
   // Cell
-  type CellOptions,
-  type CellOptionsWithDefault,
-  type CellOptionsWithoutDefault,
   type CellDescriptor,
   type CellQuery,
   cell,
   isCellDescriptor,
   isCellQuery,
   // Entity
-  type EntityOptions,
   type EntityDescriptor,
   entity,
   isEntityDescriptor,
   // Collection
-  type CollectionOptions,
   type CollectionDescriptor,
   type CollectionQuery,
   type CollectionAllQuery,
   type CollectionByIdQuery,
-  type EntityAccessor,
   collection,
   isCollectionDescriptor,
   isCollectionQuery,
@@ -79,17 +73,10 @@ export {
   type SchemaVersion,
   defineSchemaVersion,
   // Versioned Schema
-  type MigrationContext,
-  type MigrationFn,
-  type Migration,
-  type VersionedSchema,
   createMigration,
   defineVersionedSchema,
-  getMigrationPath,
   // File
-  type FileOptions,
   type FileDescriptor,
-  type FileCollectionOptions,
   type FileCollectionDescriptor,
   type FileCollectionQuery,
   type FileCollectionAllQuery,

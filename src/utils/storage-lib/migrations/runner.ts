@@ -11,7 +11,7 @@ function isKeyTrackedInSchema(key: string, schema: SchemaDefinition): boolean {
     if ("key" in descriptor && descriptor.key === key) {
       return "tracked" in descriptor && descriptor.tracked === true;
     }
-    if ("keyPrefix" in descriptor && key.startsWith(descriptor.keyPrefix)) {
+    if ("keyPrefix" in descriptor && key.startsWith(`${descriptor.keyPrefix}:`)) {
       return "tracked" in descriptor && descriptor.tracked === true;
     }
   }
@@ -138,9 +138,9 @@ async function runSingleMigration(schema: VersionedSchema, migration: Migration)
         snapshot[key] = allData[key];
       }
     } else if ("keyPrefix" in descriptor) {
-      const prefix = descriptor.keyPrefix;
+      const prefixWithColon = `${descriptor.keyPrefix}:`;
       for (const [key, value] of Object.entries(allData)) {
-        if (key.startsWith(prefix)) {
+        if (key.startsWith(prefixWithColon)) {
           snapshot[key] = value;
         }
       }

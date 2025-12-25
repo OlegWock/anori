@@ -1,22 +1,22 @@
 import type { z } from "zod";
 
-export const CELL_TYPE = Symbol("cell");
+const CELL_TYPE = Symbol("cell");
 
-export type CellOptionsWithDefault<T> = {
+type CellOptionsWithDefault<T> = {
   key: string;
   schema: z.ZodType<T>;
   defaultValue: T;
   tracked: boolean;
 };
 
-export type CellOptionsWithoutDefault<T> = {
+type CellOptionsWithoutDefault<T> = {
   key: string;
   schema: z.ZodType<T>;
   defaultValue?: undefined;
   tracked: boolean;
 };
 
-export type CellOptions<T> = CellOptionsWithDefault<T> | CellOptionsWithoutDefault<T>;
+type CellOptions<T> = CellOptionsWithDefault<T> | CellOptionsWithoutDefault<T>;
 
 export type CellDescriptor<T = unknown, HasDefault extends boolean = boolean> = {
   readonly _type: typeof CELL_TYPE;

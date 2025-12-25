@@ -7,7 +7,6 @@ import {
   defineSchemaVersion,
   defineVersionedSchema,
   entity,
-  getMigrationPath,
   isCellDescriptor,
   isCellQuery,
   isCollectionAllQuery,
@@ -16,6 +15,7 @@ import {
   isCollectionQuery,
   isEntityDescriptor,
 } from "../schema";
+import { getMigrationPath } from "../schema/versioned";
 
 describe("Schema Definition", () => {
   describe("cell", () => {

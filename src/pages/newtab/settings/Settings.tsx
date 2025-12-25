@@ -282,7 +282,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
 const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
   const importCustomIcons = async () => {
-    const files = await showOpenFilePicker(true, ".jpg,.jpeg,.png,.gif,.svg");
+    const files = await showOpenFilePicker(true, ".jpg,.jpeg,.png,.svg");
     let hasErrors = false;
     const importedFiles: DraftCustomIcon[] = await Promise.all(
       files.map(async (file) => {
@@ -318,7 +318,8 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
     await Promise.all(
       draftCustomIcons.map((draftCustomIcon) =>
         addNewCustomIcon(
-          `${draftCustomIcon.name}.${draftCustomIcon.extension}`,
+          draftCustomIcon.name,
+          draftCustomIcon.extension,
           draftCustomIcon.content,
           draftCustomIcon.preview,
         ),
@@ -543,7 +544,6 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     const existingFiles = await listFiles();
     await Promise.all(existingFiles.map((filename) => deleteFile(filename)));
 
-    // Import OPFS files first
     const opfsFolder = zip.folder("opfs");
     if (opfsFolder) {
       const opfsFiles = opfsFolder.filter(() => true);

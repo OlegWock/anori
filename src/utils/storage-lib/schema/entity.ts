@@ -2,7 +2,7 @@ import type { z } from "zod";
 
 export const ENTITY_TYPE = Symbol("entity");
 
-export type EntityOptions<T> = {
+type EntityOptions<T> = {
   brand: string;
   schema: z.ZodType<T>;
 };

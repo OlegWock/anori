@@ -340,7 +340,7 @@ export const WhatsNew = () => {
               change your choice in settings.
             </p>
 
-            <Checkbox className="analytics-checkbox" checked={analyticsEnabled ?? false} onChange={setAnalyticsEnabled}>
+            <Checkbox className="analytics-checkbox" checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
               Enable sending analytics
             </Checkbox>
           </section>

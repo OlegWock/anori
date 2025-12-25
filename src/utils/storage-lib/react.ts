@@ -92,15 +92,21 @@ export function atomWithStorageQuery<T>(
 
 export const StorageContext = createContext<Storage | null>(null);
 
+export function useStorage() {
+  const storage = useContext(StorageContext);
+  if (!storage) {
+    throw new Error("useStorageValue should be used inside StorageContext.Provider");
+  }
+
+  return storage;
+}
+
 export function useStorageValue<T>(query: CellDescriptor<T, true>): WritableStorageValueResult<T, T>;
 export function useStorageValue<T>(query: CellDescriptor<T, false>): WritableStorageValueResult<T, T | undefined>;
 export function useStorageValue<T>(query: CellDescriptor<T, boolean>): WritableStorageValueResult<T, T | undefined>;
 export function useStorageValue<T>(query: CollectionByIdQuery<T>): WritableStorageValueResult<T, T | undefined>;
 export function useStorageValue<T>(query: WritableStorageQuery<T>): WritableStorageValueResult<T, T | undefined> {
-  const storage = useContext(StorageContext);
-  if (!storage) {
-    throw new Error("useStorageValue should be used inside StorageContext.Provider");
-  }
+  const storage = useStorage();
   const storageAtom = atomWithStorageQuery(query as CellDescriptor<T>, storage);
   const [state, setValue] = useAtom(storageAtom);
 
