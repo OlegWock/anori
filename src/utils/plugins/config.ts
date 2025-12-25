@@ -17,7 +17,7 @@ export function usePluginConfig<T extends Mapping>(
   const query = anoriSchema.latestSchema.definition.pluginConfig.config.byId(plugin.id);
   const [val, setVal, meta] = useWritableStorageValue(query);
 
-  const finalValue = meta.usingDefault ? defaultConfig : (val as T | undefined);
+  const finalValue = meta.isDefault ? defaultConfig : (val as T | undefined);
 
   return [finalValue, setVal as (val: SetStateAction<T | undefined>) => Promise<void>] as const;
 }

@@ -31,10 +31,22 @@ type Subscription = {
   sourceId?: string;
 };
 
+export type ValueMeta = {
+  isDefault: boolean;
+};
+
+export type ValueWithMeta<T> = {
+  value: T;
+  meta: ValueMeta;
+};
+
 type StorageQueryInterface = {
   get<T>(query: CellDescriptor<T>): T | undefined;
   get<T>(query: CollectionByIdQuery<T>): T | undefined;
   get<T>(query: CollectionAllQuery<T>): Record<string, T>;
+  getWithMeta<T>(query: CellDescriptor<T>): ValueWithMeta<T | undefined>;
+  getWithMeta<T>(query: CollectionByIdQuery<T>): ValueWithMeta<T | undefined>;
+  getWithMeta<T>(query: CollectionAllQuery<T>): ValueWithMeta<Record<string, T>>;
   set<T>(query: CellDescriptor<T>, value: T): Promise<void>;
   set<T>(query: CollectionByIdQuery<T>, value: T): Promise<void>;
   delete(query: CellDescriptor): Promise<void>;
@@ -297,7 +309,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
   }
 
-  function getInternal<T>(query: Query): T | undefined | Record<string, T> {
+  function getWithMetaInternal<T>(query: Query): ValueWithMeta<T | undefined> | ValueWithMeta<Record<string, T>> {
     const resolved = resolveQuery(query);
 
     if (resolved.type === "cell" || resolved.type === "collectionById") {
@@ -306,19 +318,28 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
       if (!record || record.deleted) {
         if (resolved.type === "cell" && "defaultValue" in query) {
-          return (query as CellDescriptor<T>).defaultValue;
+          return {
+            value: (query as CellDescriptor<T>).defaultValue,
+            meta: { isDefault: true },
+          };
         }
-        return undefined;
+        return { value: undefined, meta: { isDefault: false } };
       }
 
       if (resolved.type === "collectionById" && resolved.brand && record.brand !== resolved.brand) {
-        return undefined;
+        return { value: undefined, meta: { isDefault: false } };
       }
 
-      return (record.value as T) ?? undefined;
+      return {
+        value: (record.value as T) ?? undefined,
+        meta: { isDefault: false },
+      };
     }
 
-    return getCollectionAll<T>(resolved.keyPrefix, resolved.brand);
+    return {
+      value: getCollectionAll<T>(resolved.keyPrefix, resolved.brand),
+      meta: { isDefault: false },
+    };
   }
 
   function subscribeInternal<T>(
@@ -349,6 +370,18 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     return {
       id: forkId,
 
+      getWithMeta<T>(
+        query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
+      ): ValueWithMeta<T | undefined> | ValueWithMeta<Record<string, T>> {
+        ensureInitialized();
+
+        if (isFileDescriptor(query) || isFileCollectionByIdQuery(query) || isFileCollectionAllQuery(query)) {
+          throw new Error("Cannot use fork.getWithMeta() with file queries.");
+        }
+
+        return getWithMetaInternal<T>(query);
+      },
+
       get<T>(
         query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
       ): T | undefined | Record<string, T> {
@@ -358,7 +391,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
           throw new Error("Cannot use fork.get() with file queries.");
         }
 
-        return getInternal<T>(query);
+        return getWithMetaInternal<T>(query).value;
       },
 
       async set<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>, value: T): Promise<void> {
@@ -424,6 +457,20 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       initialized = true;
     },
 
+    getWithMeta<T>(
+      query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
+    ): ValueWithMeta<T | undefined> | ValueWithMeta<Record<string, T>> {
+      ensureInitialized();
+
+      if (isFileDescriptor(query) || isFileCollectionByIdQuery(query) || isFileCollectionAllQuery(query)) {
+        throw new Error(
+          "Cannot use storage.getWithMeta() with file queries. Use filesStorage.get() or filesStorage.getMeta() instead.",
+        );
+      }
+
+      return getWithMetaInternal<T>(query);
+    },
+
     get<T>(
       query: CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>,
     ): T | undefined | Record<string, T> {
@@ -435,7 +482,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
         );
       }
 
-      return getInternal<T>(query);
+      return getWithMetaInternal<T>(query).value;
     },
 
     async set<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>, value: T): Promise<void> {
@@ -560,7 +607,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     files: createFilesStorage({
       getMeta(query) {
         ensureInitialized();
-        return getInternal(query);
+        return getWithMetaInternal(query).value;
       },
       async setMeta(query, value) {
         ensureInitialized();

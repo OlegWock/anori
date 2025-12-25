@@ -1,16 +1,15 @@
 import { getAnoriStorageNoWait } from "@anori/utils/storage/anori-init";
 import { getQueryId } from "@anori/utils/storage/query";
+import type { ValueMeta } from "@anori/utils/storage/storage";
 import { type WritableAtom, atom, useAtom, useAtomValue } from "jotai";
-import { type SetStateAction, useMemo } from "react";
+import type { SetStateAction } from "react";
 import type { CellDescriptor } from "./schema/cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "./schema/collection";
 
 type StorageQuery<T> = CellDescriptor<T> | CollectionByIdQuery<T> | CollectionAllQuery<T>;
 type WritableStorageQuery<T> = CellDescriptor<T> | CollectionByIdQuery<T>;
 
-type StorageValueMeta = {
-  usingDefault: boolean;
-};
+type StorageValueMeta = ValueMeta;
 
 type StorageValueResult<T> = [value: T | undefined, meta: StorageValueMeta];
 type WritableStorageValueResult<T> = [
@@ -19,7 +18,12 @@ type WritableStorageValueResult<T> = [
   meta: StorageValueMeta,
 ];
 
-type StorageAtom<T> = WritableAtom<T, [SetStateAction<T>], Promise<void>>;
+type AtomState<T> = {
+  value: T;
+  meta: ValueMeta;
+};
+
+type StorageAtom<T> = WritableAtom<AtomState<T>, [SetStateAction<T>], Promise<void>>;
 
 const storageAtoms = new Map<string, StorageAtom<unknown>>();
 
@@ -41,16 +45,17 @@ export function atomWithStorageQuery<T>(query: StorageQuery<T>): StorageAtom<T |
   // Create a fork for this atom - writes through this fork won't trigger its own subscription
   const fork = getAnoriStorageNoWait().fork();
 
-  const initialValue = fork.get(query as CellDescriptor<T>);
+  const initialState = fork.getWithMeta(query as CellDescriptor<T>) as AtomState<T | undefined | Record<string, T>>;
 
-  const baseAtom = atom<T | undefined | Record<string, T>>(initialValue);
+  const baseAtom = atom<AtomState<T | undefined | Record<string, T>>>(initialState);
 
   baseAtom.onMount = (setAtom) => {
-    const currentValue = fork.get(query as CellDescriptor<T>);
-    setAtom(currentValue as T | undefined | Record<string, T>);
+    const currentState = fork.getWithMeta(query as CellDescriptor<T>) as AtomState<T | undefined | Record<string, T>>;
+    setAtom(currentState);
 
-    const unsubscribe = fork.subscribe(query as CellDescriptor<T>, (newValue) => {
-      setAtom(newValue as T | undefined | Record<string, T>);
+    const unsubscribe = fork.subscribe(query as CellDescriptor<T>, () => {
+      const newState = fork.getWithMeta(query as CellDescriptor<T>) as AtomState<T | undefined | Record<string, T>>;
+      setAtom(newState);
     });
 
     return unsubscribe;
@@ -59,16 +64,16 @@ export function atomWithStorageQuery<T>(query: StorageQuery<T>): StorageAtom<T |
   const writableAtom = atom(
     (get) => get(baseAtom),
     async (get, set, newValueOrFn: SetStateAction<T | undefined | Record<string, T>>) => {
-      const currentValue = get(baseAtom);
+      const currentState = get(baseAtom);
       const newValue =
         typeof newValueOrFn === "function"
           ? (newValueOrFn as (prev: T | undefined | Record<string, T>) => T | undefined | Record<string, T>)(
-              currentValue,
+              currentState.value,
             )
           : newValueOrFn;
 
-      // Optimistic update
-      set(baseAtom, newValue);
+      // Optimistic update - mark as not default since user is explicitly setting
+      set(baseAtom, { value: newValue, meta: { isDefault: false } });
 
       // Persist through fork - the fork's subscription will ignore this write's echo
       await fork.set(query as CellDescriptor<T>, newValue as T);
@@ -85,40 +90,17 @@ export function useStorageValue<T>(query: CollectionAllQuery<T>): StorageValueRe
 export function useStorageValue<T>(
   query: StorageQuery<T>,
 ): StorageValueResult<T> | StorageValueResult<Record<string, T>> {
-  const valueAtom = atomWithStorageQuery(query as CellDescriptor<T>);
-  const value = useAtomValue(valueAtom);
+  const storageAtom = atomWithStorageQuery(query as CellDescriptor<T>);
+  const state = useAtomValue(storageAtom);
 
-  const usingDefault = useMemo(() => {
-    if ("defaultValue" in query && value === query.defaultValue) {
-      return true;
-    }
-    return false;
-  }, [query, value]);
-
-  const meta: StorageValueMeta = {
-    usingDefault,
-  };
-
-  return [value, meta] as StorageValueResult<T> | StorageValueResult<Record<string, T>>;
+  return [state.value, state.meta] as StorageValueResult<T> | StorageValueResult<Record<string, T>>;
 }
 
 export function useWritableStorageValue<T>(query: CellDescriptor<T>): WritableStorageValueResult<T>;
 export function useWritableStorageValue<T>(query: CollectionByIdQuery<T>): WritableStorageValueResult<T>;
 export function useWritableStorageValue<T>(query: WritableStorageQuery<T>): WritableStorageValueResult<T> {
   const storageAtom = atomWithStorageQuery(query as CellDescriptor<T>);
-  const [value, setValue] = useAtom(storageAtom);
+  const [state, setValue] = useAtom(storageAtom);
 
-  // TODO: better detection for usingDefault, ideally baked into storage itself
-  const usingDefault = useMemo(() => {
-    if ("defaultValue" in query && value === query.defaultValue) {
-      return true;
-    }
-    return false;
-  }, [query, value]);
-
-  const meta: StorageValueMeta = {
-    usingDefault,
-  };
-
-  return [value, setValue as (value: SetStateAction<T>) => Promise<void>, meta];
+  return [state.value, setValue as (value: SetStateAction<T>) => Promise<void>, state.meta];
 }

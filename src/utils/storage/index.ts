@@ -23,7 +23,15 @@ export {
   extractIdFromKey,
 } from "./query";
 
-export { type Storage, type StorageFork, type CreateStorageOptions, type OutboxEntry, createStorage } from "./storage";
+export {
+  type Storage,
+  type StorageFork,
+  type CreateStorageOptions,
+  type OutboxEntry,
+  type ValueMeta,
+  type ValueWithMeta,
+  createStorage,
+} from "./storage";
 
 export type { FilesStorage, FileQuery, SingleFileQuery, FileWithMeta } from "./files";
 
