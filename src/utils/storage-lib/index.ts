@@ -50,6 +50,8 @@ export {
 export {
   // Cell
   type CellOptions,
+  type CellOptionsWithDefault,
+  type CellOptionsWithoutDefault,
   type CellDescriptor,
   type CellQuery,
   cell,

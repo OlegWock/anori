@@ -41,17 +41,23 @@ export type ValueWithMeta<T> = {
 };
 
 type StorageQueryInterface = {
-  get<T>(query: CellDescriptor<T>): T | undefined;
+  get<T>(query: CellDescriptor<T, true>): T;
+  get<T>(query: CellDescriptor<T, false>): T | undefined;
+  get<T>(query: CellDescriptor<T, boolean>): T | undefined;
   get<T>(query: CollectionByIdQuery<T>): T | undefined;
   get<T>(query: CollectionAllQuery<T>): Record<string, T>;
-  getWithMeta<T>(query: CellDescriptor<T>): ValueWithMeta<T | undefined>;
+  getWithMeta<T>(query: CellDescriptor<T, true>): ValueWithMeta<T>;
+  getWithMeta<T>(query: CellDescriptor<T, false>): ValueWithMeta<T | undefined>;
+  getWithMeta<T>(query: CellDescriptor<T, boolean>): ValueWithMeta<T | undefined>;
   getWithMeta<T>(query: CollectionByIdQuery<T>): ValueWithMeta<T | undefined>;
   getWithMeta<T>(query: CollectionAllQuery<T>): ValueWithMeta<Record<string, T>>;
   set<T>(query: CellDescriptor<T>, value: T): Promise<void>;
   set<T>(query: CollectionByIdQuery<T>, value: T): Promise<void>;
   delete(query: CellDescriptor): Promise<void>;
   delete(query: CollectionByIdQuery): Promise<void>;
-  subscribe<T>(query: CellDescriptor<T>, callback: ChangeCallback<T>): () => void;
+  subscribe<T>(query: CellDescriptor<T, true>, callback: ChangeCallback<T>): () => void;
+  subscribe<T>(query: CellDescriptor<T, false>, callback: ChangeCallback<T | undefined>): () => void;
+  subscribe<T>(query: CellDescriptor<T, boolean>, callback: ChangeCallback<T | undefined>): () => void;
   subscribe<T>(query: CollectionByIdQuery<T>, callback: ChangeCallback<T>): () => void;
   subscribe<T>(query: CollectionAllQuery<T>, callback: ChangeCallback<Record<string, T>>): () => void;
 };

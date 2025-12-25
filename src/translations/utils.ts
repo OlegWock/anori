@@ -7,7 +7,7 @@ import moment from "moment";
 
 export const initTranslation = async () => {
   const storage = await getAnoriStorage();
-  const lang = storage.get(anoriSchema.language) ?? "en";
+  const lang = storage.get(anoriSchema.language);
 
   const html = document.querySelector("html");
   if (html) {

@@ -29,7 +29,7 @@ const useSidebarOrientation = () => {
     window.innerWidth >= window.innerHeight ? "landscape" : "portrait",
   );
   const winOrientationRef = useMirrorStateToRef(winOrientation);
-  const effectiveSidebarOrientation = sidebarOrientation ?? "auto";
+  const effectiveSidebarOrientation = sidebarOrientation;
   const computedSidebarOrientation =
     effectiveSidebarOrientation === "auto"
       ? winOrientation === "landscape"
@@ -73,7 +73,7 @@ const Start = () => {
   const [rememberLastFolder] = useStorageValue(anoriSchema.rememberLastFolder);
   const [lastFolder, setLastFolder] = useStorageValue(anoriSchema.lastFolder);
   const [language] = useStorageValue(anoriSchema.language);
-  const dir = useMemo(() => languageDirections[language ?? "en"], [language]);
+  const dir = useMemo(() => languageDirections[language], [language]);
   const { folders, activeFolder, setActiveFolder } = useFolders({
     includeHome: true,
     defaultFolderId: rememberLastFolder ? lastFolder : undefined,
@@ -165,7 +165,7 @@ getAnoriStorage().then((storage) => {
   }
 
   const title = storage.get(anoriSchema.newTabTitle);
-  setPageTitle(title ?? "Anori new tab");
+  setPageTitle(title);
 
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();

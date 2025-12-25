@@ -1,4 +1,13 @@
-export { type CellOptions, type CellDescriptor, type CellQuery, cell, isCellDescriptor, isCellQuery } from "./cell";
+export {
+  type CellOptions,
+  type CellOptionsWithDefault,
+  type CellOptionsWithoutDefault,
+  type CellDescriptor,
+  type CellQuery,
+  cell,
+  isCellDescriptor,
+  isCellQuery,
+} from "./cell";
 
 export { type EntityOptions, type EntityDescriptor, entity, isEntityDescriptor } from "./entity";
 

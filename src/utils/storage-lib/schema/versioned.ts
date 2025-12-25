@@ -4,7 +4,9 @@ import type { SchemaDefinition, SchemaVersion } from "./version";
 
 export type MigrationFromAccessor<S extends SchemaDefinition> = {
   readonly schema: S;
-  get<T>(query: CellDescriptor<T>): T | undefined;
+  get<T>(query: CellDescriptor<T, true>): T;
+  get<T>(query: CellDescriptor<T, false>): T | undefined;
+  get<T>(query: CellDescriptor<T, boolean>): T | undefined;
   get<T>(query: CollectionByIdQuery<T>): T | undefined;
   get<T>(query: CollectionAllQuery<T>): Record<string, T>;
 };

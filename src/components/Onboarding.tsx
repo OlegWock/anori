@@ -311,7 +311,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   </p>
 
                   <Select<Language>
-                    value={language ?? "en"}
+                    value={language}
                     onChange={(newLang) => {
                       console.log("Saving new language", newLang);
                       setLanguage(newLang);
@@ -356,11 +356,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                     </Trans>
                   </p>
 
-                  <Checkbox
-                    className="analytics-checkbox"
-                    checked={analyticsEnabled ?? false}
-                    onChange={setAnalyticsEnabled}
-                  >
+                  <Checkbox className="analytics-checkbox" checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
                     {t("settings.general.enableAnalytics")}
                   </Checkbox>
                 </Section>

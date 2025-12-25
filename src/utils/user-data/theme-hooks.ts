@@ -6,6 +6,6 @@ export const useCurrentTheme = () => {
   const [themeName, setThemeName] = useStorageValue(anoriSchema.theme);
   const [customThemes] = useStorageValue(anoriSchema.customThemes);
 
-  const theme = [...themes, ...(customThemes ?? [])].find((t) => t.name === themeName) ?? themes[0];
+  const theme = [...themes, ...customThemes].find((t) => t.name === themeName) ?? themes[0];
   return [theme, setThemeName] as const;
 };

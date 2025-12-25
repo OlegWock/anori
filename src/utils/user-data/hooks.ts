@@ -83,13 +83,12 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   const activeId = folderIdFromHash ?? defaultFolderId ?? homeFolder.id;
   const [folders, setFolders] = useStorageValue(anoriSchema.folders);
   const { t } = useTranslation();
-  const foldersFinal = [...(folders ?? [])];
+  const foldersFinal = [...folders];
   if (includeHome) {
     foldersFinal.unshift(homeFolder);
   }
 
-  const activeFolder =
-    (activeId === homeFolder.id ? homeFolder : (folders ?? []).find((f) => f.id === activeId)) || homeFolder;
+  const activeFolder = (activeId === homeFolder.id ? homeFolder : folders.find((f) => f.id === activeId)) || homeFolder;
 
   return {
     folders: foldersFinal,

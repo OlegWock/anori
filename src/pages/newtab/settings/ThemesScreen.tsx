@@ -165,7 +165,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
 
     const storage = await getAnoriStorage();
-    let customThemes = storage.get(anoriSchema.customThemes) ?? [];
+    let customThemes = storage.get(anoriSchema.customThemes);
     if (themeFromProps) {
       customThemes = customThemes.map((t) => {
         if (t.name === id) return theme as CustomTheme;
@@ -332,7 +332,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
       ) : (
         <>
           <div className="themes-grid">
-            {[...themes, ...(customThemes ?? [])].map((theme) => {
+            {[...themes, ...customThemes].map((theme) => {
               return (
                 <ThemePlate
                   theme={theme}
@@ -352,7 +352,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
                   onDelete={
                     theme.type === "custom"
                       ? () => {
-                          setCustomThemes((prev) => (prev ?? []).filter((t) => t.name !== theme.name));
+                          setCustomThemes((prev) => prev.filter((t) => t.name !== theme.name));
                           deleteThemeBackgrounds(theme.name);
                           if (currentTheme === theme.name) {
                             setTheme(defaultTheme.name);

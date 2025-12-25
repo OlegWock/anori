@@ -10,8 +10,8 @@ type WritableStorageQuery<T> = CellDescriptor<T> | CollectionByIdQuery<T>;
 
 type StorageValueMeta = ValueMeta;
 
-type WritableStorageValueResult<T> = [
-  value: T | undefined,
+type WritableStorageValueResult<T, V = T | undefined> = [
+  value: V,
   setValue: (value: SetStateAction<T>) => Promise<void>,
   meta: StorageValueMeta,
 ];
@@ -30,7 +30,12 @@ export function clearAtomCache(): void {
   storageAtoms.clear();
 }
 
-export function atomWithStorageQuery<T>(query: CellDescriptor<T>, storage: Storage): StorageAtom<T | undefined>;
+export function atomWithStorageQuery<T>(query: CellDescriptor<T, true>, storage: Storage): StorageAtom<T>;
+export function atomWithStorageQuery<T>(query: CellDescriptor<T, false>, storage: Storage): StorageAtom<T | undefined>;
+export function atomWithStorageQuery<T>(
+  query: CellDescriptor<T, boolean>,
+  storage: Storage,
+): StorageAtom<T | undefined>;
 export function atomWithStorageQuery<T>(query: CollectionByIdQuery<T>, storage: Storage): StorageAtom<T | undefined>;
 export function atomWithStorageQuery<T>(query: CollectionAllQuery<T>, storage: Storage): StorageAtom<Record<string, T>>;
 export function atomWithStorageQuery<T>(
@@ -87,9 +92,11 @@ export function atomWithStorageQuery<T>(
 
 export const StorageContext = createContext<Storage | null>(null);
 
-export function useStorageValue<T>(query: CellDescriptor<T>): WritableStorageValueResult<T>;
-export function useStorageValue<T>(query: CollectionByIdQuery<T>): WritableStorageValueResult<T>;
-export function useStorageValue<T>(query: WritableStorageQuery<T>): WritableStorageValueResult<T> {
+export function useStorageValue<T>(query: CellDescriptor<T, true>): WritableStorageValueResult<T, T>;
+export function useStorageValue<T>(query: CellDescriptor<T, false>): WritableStorageValueResult<T, T | undefined>;
+export function useStorageValue<T>(query: CellDescriptor<T, boolean>): WritableStorageValueResult<T, T | undefined>;
+export function useStorageValue<T>(query: CollectionByIdQuery<T>): WritableStorageValueResult<T, T | undefined>;
+export function useStorageValue<T>(query: WritableStorageQuery<T>): WritableStorageValueResult<T, T | undefined> {
   const storage = useContext(StorageContext);
   if (!storage) {
     throw new Error("useStorageValue should be used inside StorageContext.Provider");

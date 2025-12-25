@@ -21,7 +21,6 @@ import { type Language, availableTranslations, availableTranslationsPrettyNames 
 import { switchTranslationLanguage } from "@anori/translations/utils";
 import { trackEvent } from "@anori/utils/analytics";
 import { useScreenWidth } from "@anori/utils/compact";
-import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
 import { setPageTitle } from "@anori/utils/page";
@@ -167,7 +166,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
   );
 
   useEffect(() => {
-    setPageTitle(newTabTitle ?? "Anori");
+    setPageTitle(newTabTitle);
   }, [newTabTitle]);
 
   return (
@@ -175,7 +174,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       <div className="input-wrapper">
         <label>{t("settings.general.language")}:</label>
         <Select<Language>
-          value={language ?? "en"}
+          value={language}
           onChange={(newLang) => {
             console.log("Saving new language", newLang);
             setLanguage(newLang);
@@ -196,7 +195,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       <div className="input-wrapper">
         <label>{t("settings.general.sidebarOrientation")}:</label>
         <Select<"auto" | "vertical" | "horizontal">
-          value={sidebarOrientation ?? "auto"}
+          value={sidebarOrientation}
           onChange={setSidebarOrientation}
           options={["auto", "vertical", "horizontal"]}
           getOptionKey={(o) => o}
@@ -205,10 +204,10 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       </div>
       <div className="input-wrapper">
         <label>{t("settings.general.newTabTitle")}: </label>
-        <Input value={newTabTitle ?? ""} onValueChange={setNewTabTitle} />
+        <Input value={newTabTitle} onValueChange={setNewTabTitle} />
       </div>
 
-      <Checkbox checked={analyticsEnabled ?? false} onChange={setAnalyticsEnabled}>
+      <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
         {t("settings.general.enableAnalytics")}
         <Hint
           hasClickableContent
@@ -228,7 +227,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       </Checkbox>
 
       <Checkbox
-        checked={rememberLastFolder ?? false}
+        checked={rememberLastFolder}
         onChange={(v) => {
           setRememberLastFolder(v);
           if (!v) setLastFolder(undefined);
@@ -237,7 +236,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         {t("settings.general.rememberLastFolder")}
       </Checkbox>
 
-      <Checkbox checked={autoHideSidebar ?? false} onChange={setAutoHideSidebar}>
+      <Checkbox checked={autoHideSidebar} onChange={setAutoHideSidebar}>
         {t("settings.general.autoHideSidebar")}
       </Checkbox>
 
@@ -252,24 +251,20 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         </CheckboxWithPermission>
       )}
 
-      <Checkbox
-        checked={manualCompactMode ?? IS_TOUCH_DEVICE}
-        onChange={setManualCompactMode}
-        disabled={isAutomaticCompact ?? !IS_TOUCH_DEVICE}
-      >
+      <Checkbox checked={manualCompactMode} onChange={setManualCompactMode} disabled={isAutomaticCompact}>
         {t("settings.general.useCompact")}
       </Checkbox>
-      <Checkbox checked={isAutomaticCompact ?? !IS_TOUCH_DEVICE} onChange={setAutomaticCompact}>
+      <Checkbox checked={isAutomaticCompact} onChange={setAutomaticCompact}>
         {t("settings.general.automaticCompact")}
       </Checkbox>
-      {(isAutomaticCompact ?? !IS_TOUCH_DEVICE) && (
+      {isAutomaticCompact && (
         <div>
           <label>{t("settings.general.automaticCompactModeThreshold")}</label>
           <Select<number>
             options={screenSizeBreakpoints}
             getOptionKey={(o) => o.toString()}
             getOptionLabel={(o) => `< ${o}${t("px")}`}
-            value={automaticCompactModeThreshold ?? 1500}
+            value={automaticCompactModeThreshold}
             onChange={setAutomaticCompactModeThreshold}
           />
           <div className="screen-size-hint">
@@ -277,7 +272,7 @@ const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           </div>
         </div>
       )}
-      <Checkbox checked={showLoadAnimation ?? false} onChange={setShowLoadAnimation}>
+      <Checkbox checked={showLoadAnimation} onChange={setShowLoadAnimation}>
         {t("settings.general.showAnimationOnOpen")}
         <Hint content={t("settings.general.showAnimationOnOpenHint")} />
       </Checkbox>

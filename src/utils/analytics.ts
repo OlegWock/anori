@@ -44,9 +44,9 @@ export const plantPerformanceMetricsListeners = async () => {
     console.log("LCP entry", lcpEntry?.renderTime);
     if (lcpEntry) {
       perfObserver.disconnect();
-      const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp) ?? { n: 0, avg: 0 };
-      const n = performanceAvgLcp.n ?? 0;
-      const avg = performanceAvgLcp.avg ?? 0;
+      const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp);
+      const n = performanceAvgLcp.n;
+      const avg = performanceAvgLcp.avg;
       // Rolling average
       await storage.set(anoriSchema.performanceAvgLcp, {
         n: n + 1,
@@ -74,7 +74,7 @@ export const plantPerformanceMetricsListeners = async () => {
       const values = [...latest.values()];
       if (values.length) {
         console.log("INP entries", values);
-        const performanceRawInp = storage.get(anoriSchema.performanceRawInp) ?? [];
+        const performanceRawInp = storage.get(anoriSchema.performanceRawInp);
         await storage.set(anoriSchema.performanceRawInp, [...performanceRawInp, ...values]);
         latest.clear();
       }
@@ -90,7 +90,7 @@ export const incrementDailyUsageMetric = async (name: keyof StorageContent["dail
     if (!analyticsEnabled) {
       return;
     }
-    const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics) ?? {};
+    const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics);
     dailyUsageMetrics[name] = (dailyUsageMetrics[name] ?? 0) + 1;
     await storage.set(anoriSchema.dailyUsageMetrics, dailyUsageMetrics);
   } else {
@@ -100,7 +100,7 @@ export const incrementDailyUsageMetric = async (name: keyof StorageContent["dail
 
 const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
   const storage = await getAnoriStorage();
-  const folders = storage.get(anoriSchema.folders) ?? [];
+  const folders = storage.get(anoriSchema.folders);
 
   const widgetsCount: WidgetsCount = {};
 
@@ -142,23 +142,23 @@ const aggregateInp = (values: number[]) => {
 const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"]> => {
   const storage = await getAnoriStorage();
 
-  const folders = storage.get(anoriSchema.folders) ?? [];
+  const folders = storage.get(anoriSchema.folders);
   const numberOfCustomFolders = folders.length;
 
   const customIcons = await getAllCustomIconNames();
   const numberOfCustomIcons = customIcons.length;
 
-  const sidebarOrientation = storage.get(anoriSchema.sidebarOrientation) ?? "auto";
-  const autoHideSidebar = storage.get(anoriSchema.autoHideSidebar) ?? false;
-  const usedTheme = storage.get(anoriSchema.theme) ?? "Greenery";
-  const language = storage.get(anoriSchema.language) ?? "en";
-  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar) ?? false;
-  const compactMode = storage.get(anoriSchema.compactMode) ?? false;
-  const automaticCompactMode = storage.get(anoriSchema.automaticCompactMode) ?? false;
-  const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation) ?? false;
-  const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics) ?? {};
-  const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp) ?? { avg: 0, n: 0 };
-  const performanceRawInp = storage.get(anoriSchema.performanceRawInp) ?? [];
+  const sidebarOrientation = storage.get(anoriSchema.sidebarOrientation);
+  const autoHideSidebar = storage.get(anoriSchema.autoHideSidebar);
+  const usedTheme = storage.get(anoriSchema.theme);
+  const language = storage.get(anoriSchema.language);
+  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
+  const compactMode = storage.get(anoriSchema.compactMode);
+  const automaticCompactMode = storage.get(anoriSchema.automaticCompactMode);
+  const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation);
+  const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics);
+  const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp);
+  const performanceRawInp = storage.get(anoriSchema.performanceRawInp);
 
   const { os } = await browser.runtime.getPlatformInfo();
   const extVersion = browser.runtime.getManifest().version;
