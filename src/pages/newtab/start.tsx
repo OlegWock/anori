@@ -11,7 +11,7 @@ import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
-import { anoriSchema, useStorageValue, useWritableStorageValue } from "@anori/utils/storage";
+import { anoriSchema, useStorageValue } from "@anori/utils/storage";
 import { getAnoriStorage } from "@anori/utils/storage/anori-init";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { DirectionProvider } from "@radix-ui/react-direction";
@@ -71,9 +71,9 @@ const Start = () => {
 
   const def = anoriSchema.latestSchema.definition;
   const sidebarOrientation = useSidebarOrientation();
-  const [rememberLastFolder] = useWritableStorageValue(def.rememberLastFolder);
-  const [lastFolder, setLastFolder] = useWritableStorageValue(def.lastFolder);
-  const [language] = useWritableStorageValue(def.language);
+  const [rememberLastFolder] = useStorageValue(def.rememberLastFolder);
+  const [lastFolder, setLastFolder] = useStorageValue(def.lastFolder);
+  const [language] = useStorageValue(def.language);
   const dir = useMemo(() => languageDirections[language ?? "en"], [language]);
   const { folders, activeFolder, setActiveFolder } = useFolders({
     includeHome: true,
@@ -92,7 +92,7 @@ const Start = () => {
           ? "up"
           : "left";
 
-  const [showBookmarksBar] = useWritableStorageValue(def.showBookmarksBar);
+  const [showBookmarksBar] = useStorageValue(def.showBookmarksBar);
 
   useHotkeys("meta+up, alt+up", () => swithFolderUp());
   useHotkeys("meta+left, alt+left", () => swithFolderUp());

@@ -1,7 +1,7 @@
 import { getAnoriStorageNoWait } from "@anori/utils/storage/anori-init";
 import { getQueryId } from "@anori/utils/storage/query";
 import type { ValueMeta } from "@anori/utils/storage/storage";
-import { type WritableAtom, atom, useAtom, useAtomValue } from "jotai";
+import { type WritableAtom, atom, useAtom } from "jotai";
 import type { SetStateAction } from "react";
 import type { CellDescriptor } from "./schema/cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "./schema/collection";
@@ -11,7 +11,6 @@ type WritableStorageQuery<T> = CellDescriptor<T> | CollectionByIdQuery<T>;
 
 type StorageValueMeta = ValueMeta;
 
-type StorageValueResult<T> = [value: T | undefined, meta: StorageValueMeta];
 type WritableStorageValueResult<T> = [
   value: T | undefined,
   setValue: (value: SetStateAction<T>) => Promise<void>,
@@ -84,21 +83,9 @@ export function atomWithStorageQuery<T>(query: StorageQuery<T>): StorageAtom<T |
   return writableAtom as StorageAtom<T | undefined | Record<string, T>>;
 }
 
-export function useStorageValue<T>(query: CellDescriptor<T>): StorageValueResult<T>;
-export function useStorageValue<T>(query: CollectionByIdQuery<T>): StorageValueResult<T>;
-export function useStorageValue<T>(query: CollectionAllQuery<T>): StorageValueResult<Record<string, T>>;
-export function useStorageValue<T>(
-  query: StorageQuery<T>,
-): StorageValueResult<T> | StorageValueResult<Record<string, T>> {
-  const storageAtom = atomWithStorageQuery(query as CellDescriptor<T>);
-  const state = useAtomValue(storageAtom);
-
-  return [state.value, state.meta] as StorageValueResult<T> | StorageValueResult<Record<string, T>>;
-}
-
-export function useWritableStorageValue<T>(query: CellDescriptor<T>): WritableStorageValueResult<T>;
-export function useWritableStorageValue<T>(query: CollectionByIdQuery<T>): WritableStorageValueResult<T>;
-export function useWritableStorageValue<T>(query: WritableStorageQuery<T>): WritableStorageValueResult<T> {
+export function useStorageValue<T>(query: CellDescriptor<T>): WritableStorageValueResult<T>;
+export function useStorageValue<T>(query: CollectionByIdQuery<T>): WritableStorageValueResult<T>;
+export function useStorageValue<T>(query: WritableStorageQuery<T>): WritableStorageValueResult<T> {
   const storageAtom = atomWithStorageQuery(query as CellDescriptor<T>);
   const [state, setValue] = useAtom(storageAtom);
 

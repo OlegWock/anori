@@ -35,7 +35,7 @@ import {
   deleteFile,
   listFiles,
   readFile,
-  useWritableStorageValue,
+  useStorageValue,
   writeFile,
 } from "@anori/utils/storage";
 import type { Mapping } from "@anori/utils/types";
@@ -141,20 +141,20 @@ const PluginConfigurationSection = <T extends Mapping>({ plugin }: { plugin: Ano
 
 const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
   const def = anoriSchema.latestSchema.definition;
-  const [language, setLanguage] = useWritableStorageValue(def.language);
-  const [isAutomaticCompact, setAutomaticCompact] = useWritableStorageValue(def.automaticCompactMode);
-  const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useWritableStorageValue(
+  const [language, setLanguage] = useStorageValue(def.language);
+  const [isAutomaticCompact, setAutomaticCompact] = useStorageValue(def.automaticCompactMode);
+  const [automaticCompactModeThreshold, setAutomaticCompactModeThreshold] = useStorageValue(
     def.automaticCompactModeThreshold,
   );
-  const [manualCompactMode, setManualCompactMode] = useWritableStorageValue(def.compactMode);
-  const [showLoadAnimation, setShowLoadAnimation] = useWritableStorageValue(def.showLoadAnimation);
-  const [rememberLastFolder, setRememberLastFolder] = useWritableStorageValue(def.rememberLastFolder);
-  const [showBookmarksBar, setShowBookmarksBar] = useWritableStorageValue(def.showBookmarksBar);
-  const [newTabTitle, setNewTabTitle] = useWritableStorageValue(def.newTabTitle);
-  const [sidebarOrientation, setSidebarOrientation] = useWritableStorageValue(def.sidebarOrientation);
-  const [autoHideSidebar, setAutoHideSidebar] = useWritableStorageValue(def.autoHideSidebar);
-  const [analyticsEnabled, setAnalyticsEnabled] = useWritableStorageValue(def.analyticsEnabled);
-  const [, setLastFolder] = useWritableStorageValue(def.lastFolder);
+  const [manualCompactMode, setManualCompactMode] = useStorageValue(def.compactMode);
+  const [showLoadAnimation, setShowLoadAnimation] = useStorageValue(def.showLoadAnimation);
+  const [rememberLastFolder, setRememberLastFolder] = useStorageValue(def.rememberLastFolder);
+  const [showBookmarksBar, setShowBookmarksBar] = useStorageValue(def.showBookmarksBar);
+  const [newTabTitle, setNewTabTitle] = useStorageValue(def.newTabTitle);
+  const [sidebarOrientation, setSidebarOrientation] = useStorageValue(def.sidebarOrientation);
+  const [autoHideSidebar, setAutoHideSidebar] = useStorageValue(def.autoHideSidebar);
+  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(def.analyticsEnabled);
+  const [, setLastFolder] = useStorageValue(def.lastFolder);
   const screenWidth = useScreenWidth();
   const { t } = useTranslation();
 

@@ -35,11 +35,7 @@ export {
 
 export type { FilesStorage, FileQuery, SingleFileQuery, FileWithMeta } from "./files";
 
-export {
-  useStorageValue,
-  useWritableStorageValue,
-  atomWithStorageQuery,
-} from "./react";
+export { useStorageValue, atomWithStorageQuery } from "./react";
 
 export {
   generateFilePath,

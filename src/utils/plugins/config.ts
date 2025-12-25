@@ -1,5 +1,5 @@
 import type { AnoriPlugin } from "@anori/utils/plugins/types";
-import { anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
+import { anoriSchema, getAnoriStorage, useStorageValue } from "@anori/utils/storage";
 import type { Mapping } from "@anori/utils/types";
 import type { SetStateAction } from "react";
 
@@ -15,7 +15,7 @@ export function usePluginConfig<T extends Mapping>(
   defaultConfig?: T,
 ): readonly [value: T | undefined, setValue: (val: SetStateAction<T | undefined>) => Promise<void>] {
   const query = anoriSchema.latestSchema.definition.pluginConfig.config.byId(plugin.id);
-  const [val, setVal, meta] = useWritableStorageValue(query);
+  const [val, setVal, meta] = useStorageValue(query);
 
   const finalValue = meta.isDefault ? defaultConfig : (val as T | undefined);
 

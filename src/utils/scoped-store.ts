@@ -4,7 +4,7 @@ import {
   type CollectionByIdQuery,
   anoriSchema,
   getAnoriStorage,
-  useWritableStorageValue,
+  useStorageValue,
 } from "@anori/utils/storage";
 import { getQueryId } from "@anori/utils/storage/query";
 import type { ID, Mapping } from "@anori/utils/types";
@@ -76,7 +76,7 @@ export class ScopedStore<T extends Mapping> {
   }
 
   useValue<K extends keyof T>(key: K, defaultValue: T[K]): [T[K], (value: SetStateAction<T[K]>) => void] {
-    const [data, setData] = useWritableStorageValue(this.query);
+    const [data, setData] = useStorageValue(this.query);
     const value = (data as Partial<T> | undefined)?.[key] ?? defaultValue;
 
     const setValue = useCallback(

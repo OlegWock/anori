@@ -2,14 +2,12 @@ import { ScrollArea } from "./ScrollArea";
 import { ShortcutHint } from "./ShortcutHint";
 import "./WhatsNew.scss";
 import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
-import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
+import { anoriSchema, useStorageValue } from "@anori/utils/storage";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "./Checkbox";
 
 export const WhatsNew = () => {
-  const [analyticsEnabled, setAnalyticsEnabled] = useWritableStorageValue(
-    anoriSchema.latestSchema.definition.analyticsEnabled,
-  );
+  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(anoriSchema.latestSchema.definition.analyticsEnabled);
   const { t, i18n } = useTranslation();
   return (
     <div className="WhatsNew">

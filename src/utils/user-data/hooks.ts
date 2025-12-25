@@ -12,7 +12,7 @@ import type {
   WidgetDescriptor,
 } from "@anori/utils/plugins/types";
 import { clearWidgetStorage } from "@anori/utils/scoped-store";
-import { type FolderDetails, anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
+import { type FolderDetails, anoriSchema, getAnoriStorage, useStorageValue } from "@anori/utils/storage";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -80,7 +80,7 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
   const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
 
   const activeId = folderIdFromHash ?? defaultFolderId ?? homeFolder.id;
-  const [folders, setFolders] = useWritableStorageValue(anoriSchema.latestSchema.definition.folders);
+  const [folders, setFolders] = useStorageValue(anoriSchema.latestSchema.definition.folders);
   const { t } = useTranslation();
   const foldersFinal = [...(folders ?? [])];
   if (includeHome) {
@@ -113,7 +113,7 @@ export const setFolderDetails = async (id: ID, details: FolderDetails): Promise<
 };
 
 export const useFolderWidgets = (folder: Folder) => {
-  const [details, setDetails] = useWritableStorageValue(
+  const [details, setDetails] = useStorageValue(
     anoriSchema.latestSchema.definition.folderDetails.folder.byId(folder.id),
   );
   const currentDetails = details ?? { widgets: [] };

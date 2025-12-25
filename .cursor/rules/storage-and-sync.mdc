@@ -55,7 +55,7 @@ const unsubscribe = storage.subscribe(schema.myCell, (newVal, oldVal) => { ... }
 const [value, meta] = useStorageValue(schema.myCell);
 
 // Read-write with optimistic updates
-const [value, setValue, meta] = useWritableStorageValue(schema.myCell);
+const [value, setValue, meta] = useStorageValue(schema.myCell);
 await setValue("new value");
 ```
 

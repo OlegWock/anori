@@ -17,7 +17,7 @@ import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import { getIpInfo } from "@anori/utils/network";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { anoriSchema, useWritableStorageValue } from "@anori/utils/storage";
+import { anoriSchema, useStorageValue } from "@anori/utils/storage";
 import { getAnoriStorageNoWait } from "@anori/utils/storage/anori-init";
 import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets, useFolders } from "@anori/utils/user-data/hooks";
@@ -235,9 +235,9 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
 
   const { t } = useTranslation();
   const def = anoriSchema.latestSchema.definition;
-  const [language, setLanguage] = useWritableStorageValue(def.language);
-  const [analyticsEnabled, setAnalyticsEnabled] = useWritableStorageValue(def.analyticsEnabled);
-  const [, setFinishedOnboarding] = useWritableStorageValue(def.finishedOnboarding);
+  const [language, setLanguage] = useStorageValue(def.language);
+  const [analyticsEnabled, setAnalyticsEnabled] = useStorageValue(def.analyticsEnabled);
+  const [, setFinishedOnboarding] = useStorageValue(def.finishedOnboarding);
 
   const [screenIndex, setScreenIndex] = useState<number>(0);
   const prevScreen = usePrevious(screenIndex) || 0;

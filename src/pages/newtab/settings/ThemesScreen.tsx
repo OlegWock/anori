@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from "@anori/components/Button";
 import { toCss } from "@anori/utils/color";
-import { type CustomTheme, anoriSchema, getAnoriStorage, useWritableStorageValue } from "@anori/utils/storage";
+import { type CustomTheme, anoriSchema, getAnoriStorage, useStorageValue } from "@anori/utils/storage";
 import {
   type PartialCustomTheme,
   type Theme,
@@ -318,8 +318,8 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
 export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
   const def = anoriSchema.latestSchema.definition;
-  const [customThemes, setCustomThemes] = useWritableStorageValue(def.customThemes);
-  const [currentTheme, setTheme] = useWritableStorageValue(def.theme);
+  const [customThemes, setCustomThemes] = useStorageValue(def.customThemes);
+  const [currentTheme, setTheme] = useStorageValue(def.theme);
   const [editorActive, setEditorActive] = useState(false);
   const [editorTheme, setEditorTheme] = useState<CustomTheme | undefined>(undefined);
 
