@@ -178,7 +178,7 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "automaticCompactModeThreshold",
     schema: z.number(),
     defaultValue: 1500,
-    tracked: true,
+    tracked: false,
   }),
   showLoadAnimation: cell({
     key: "showLoadAnimation",
@@ -251,6 +251,17 @@ export const schemaV1 = defineSchemaVersion(1, {
   cloudAccount: cell({
     key: "cloudAccount",
     schema: CloudAccountSchema,
+    defaultValue: null,
+    tracked: false,
+  }),
+  cloudSyncSettings: cell({
+    key: "cloudSyncSettings",
+    schema: z
+      .object({
+        profileId: z.string(),
+        latestSeq: z.number(),
+      })
+      .nullable(),
     defaultValue: null,
     tracked: false,
   }),

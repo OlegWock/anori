@@ -69,6 +69,7 @@ export {
   isCollectionAllQuery,
   isCollectionByIdQuery,
   // Schema Version
+  type SchemaEntry,
   type SchemaDefinition,
   type SchemaVersion,
   defineSchemaVersion,

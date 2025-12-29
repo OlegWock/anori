@@ -1,0 +1,141 @@
+---
+alwaysApply: true
+---
+
+# Styling Guidelines
+
+All styles in Anori use SCSS. Follow these guidelines for consistency and maintainability.
+
+## File Organization
+
+* Each component should have its own `.scss` file alongside the component file.
+* Base styles are defined in `src/components/base.scss` (global resets, CSS variables).
+* Shared utilities are in `src/components/utils.scss` (mixins, variables).
+
+## Module System
+
+Always use `@use` instead of `@import`:
+
+```scss
+@use "@anori/components/utils.scss" as utils;
+@use "@anori/components/base.scss";
+```
+
+## CSS Variables & Theming
+
+Theme variables are defined in `:root` in `base.scss`:
+
+* Colors: `--accent`, `--accent-subtle`, `--background`, `--background-lighter`, `--text`, `--text-hsl`, `--text-subtle-1`, `--text-subtle-2`, `--text-disabled`, `--icon-color`, `--error-color`
+* Widget sizing: `--widget-box-size`, `--widget-box-size-px`, `--widget-box-percent` (available on folder root elements)
+
+Use HSL-based colors with opacity: `hsla(var(--text-hsl) / 0.1)` for semi-transparent colors.
+
+## Naming Conventions
+
+Use BEM-like naming: `.ComponentName` for root class, `.ComponentName-modifier` for variants.
+
+Examples: `.Button`, `.Button-size-compact`, `.Button-loading`, `.Modal-backdrop`
+
+### Child Elements
+
+Child element classes use kebab-case and are nested within the component root:
+
+```scss
+.Modal {
+    padding: 24px;
+
+    .modal-header {
+        display: flex;
+        gap: 16px;
+
+        .close-button {
+            border: none;
+            cursor: pointer;
+        }
+    }
+}
+```
+
+For major child components that might be reused or need clear identification, use full component prefix: `.ComponentName-childName` (e.g., `.WidgetExpandArea-content`, `.WidgetExpandArea-backdrop`).
+
+* **Nesting depth**: Keep nesting to 2-3 levels maximum. If deeper nesting is needed, consider extracting to a separate class or component.
+
+## Responsive Design Mixins
+
+Use mixins from `utils.scss` for responsive/device-specific styles:
+
+```scss
+@use "@anori/components/utils.scss" as utils;
+
+.foo {
+    padding: 2rem;
+    
+    @include utils.compact { 
+        padding: 1rem;
+    }
+    
+    @include utils.hover {
+        background: var(--background-lighter);
+    }
+    
+    @include utils.touch {
+        padding: 1.5rem;
+    }
+    
+    @include utils.android {
+        font-size: 0.9rem;
+    }
+    
+    @include utils.rtl {
+        padding-left: 0;
+        padding-right: 1rem;
+    }
+}
+```
+
+* `utils.compact` — styles for compact mode
+* `utils.hover` — hover styles only on non-touch devices (preferred over `:hover`)
+* `utils.touch` — styles for touch devices
+* `utils.android` — Android-specific styles
+* `utils.rtl` — RTL language support
+
+## Units & Sizing
+
+* Prefer `rem` for typography and spacing (scalable, accessible).
+* Use `px` for precise values (borders, scrollbars, fixed dimensions).
+* Use CSS variables for dynamic sizing.
+* Use `100dvh`/`100dvw` instead of `100vh`/`100vw` for viewport units (handles mobile browser UI).
+
+Common spacing values: `0.5rem`, `0.75rem`, `1rem`, `1.5rem`, `2rem`, `24px`.
+
+Common border-radius values: `8px`, `12px`, `24px`, `36px`.
+
+## Layout Patterns
+
+* Use Flexbox for layouts (`display: flex`, `flex-direction: column/row`).
+* Use `gap` property for spacing between flex items.
+* Prefer semantic HTML and CSS Grid only when flexbox is insufficient.
+
+## Scrollbars
+
+* Use `<ScrollArea />` component instead of native `overflow: scroll`.
+* Custom scrollbar styling is handled via `scroll-mixin` and `scroll-mixin-darker` in `utils.scss` if needed.
+
+## Color Usage Patterns
+
+* Text hierarchy: `var(--text)` → `var(--text-subtle-1)` → `var(--text-subtle-2)` → `var(--text-disabled)`
+* Backgrounds: `var(--background)` → `var(--background-lighter)`
+* Borders: `hsla(var(--text-hsl) / 0.1)` for subtle borders
+* Icons: `var(--icon-color)` (defaults to `hsla(var(--text-hsl) / 0.4)`)
+
+## Component-Specific Patterns
+
+* **Modals**: `border-radius: 24px`, backdrop blur, fixed positioning with `100dvw`/`100dvh`
+* **Buttons**: Transparent default, border variant with `border-radius: 24px`, use `utils.hover` mixin
+* **Inputs**: `border-radius: 8px`, `var(--background-lighter)` background, `var(--accent)` focus outline
+* **Widget cards**: `border-radius: 12px`, `var(--background-lighter)` background, padding via `.with-padding` modifier
+
+## Accessibility & Touch
+
+* Use `user-select: none` for interactive elements that shouldn't be selectable.
+* Always use `utils.hover` mixin instead of `:hover` to avoid hover styles on touch devices.

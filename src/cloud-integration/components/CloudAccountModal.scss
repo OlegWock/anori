@@ -1,13 +1,17 @@
+.CloudAccountModal {
+  width: 600px;
+}
+
 .CloudAccountModal-connected {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  min-width: 400px;
+  gap: 1.5rem;
+  min-width: 25rem;
 
   .account-info {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
 
     .label {
       font-size: 0.875rem;
@@ -19,15 +23,121 @@
       font-weight: 500;
     }
   }
+
+  .profiles-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .profiles-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .label {
+      font-size: 0.875rem;
+      opacity: 0.7;
+    }
+
+    .profiles-loading {
+      font-size: 0.875rem;
+      opacity: 0.7;
+      padding: 0.5rem 0;
+    }
+
+    .profiles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      overflow-y: auto;
+    }
+
+    .profiles-empty {
+      font-size: 0.875rem;
+      opacity: 0.7;
+      padding: 0.5rem 0;
+    }
+
+    .profile-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--background-lighter);
+      border-radius: 0.5rem;
+
+      .profile-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .profile-name {
+        font-size: 0.9375rem;
+        font-weight: 500;
+      }
+
+      .profile-meta {
+        font-size: 0.8125rem;
+        opacity: 0.6;
+      }
+
+      .profile-connected {
+        font-size: 0.875rem;
+        opacity: 0.7;
+        font-weight: 500;
+      }
+    }
+
+    .create-profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--background-lighter);
+      border-radius: 0.5rem;
+
+      .create-profile-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: flex-end;
+      }
+    }
+
+    .profile-confirmation {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      background: var(--background-lighter);
+      border-radius: 0.5rem;
+
+      .confirmation-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: flex-end;
+      }
+    }
+  }
 }
 
 .CloudAccountModal-auth {
-  min-width: 400px;
+  min-width: 25rem;
 
   .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
 
     .register-link {
       text-align: center;
@@ -46,3 +156,4 @@
     }
   }
 }
+

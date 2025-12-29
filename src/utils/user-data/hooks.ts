@@ -12,7 +12,7 @@ import type {
   WidgetDescriptor,
 } from "@anori/utils/plugins/types";
 import { clearWidgetStorage } from "@anori/utils/scoped-store";
-import { type FolderDetails, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { type FolderDetails, anoriSchema, getAnoriStorage, getAnoriStorageNoWait } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
@@ -114,6 +114,13 @@ export const setFolderDetails = async (id: ID, details: FolderDetails): Promise<
 
 export const useFolderWidgets = (folder: Folder) => {
   const [details, setDetails] = useStorageValue(anoriSchema.folderDetails.folder.byId(folder.id));
+  console.log(
+    "Folder",
+    folder.id,
+    folder.name,
+    "details",
+    getAnoriStorageNoWait().get(anoriSchema.folderDetails.folder.byId(folder.id)),
+  );
   const currentDetails = details ?? { widgets: [] };
 
   const addWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>({

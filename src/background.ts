@@ -1,3 +1,4 @@
+import { performBackgroundSync } from "@anori/cloud-integration/sync-manager";
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
@@ -163,6 +164,9 @@ browser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "sendAnalytics") {
     sendAnalyticsIfEnabled();
   }
+  if (alarm.name === "backgroundSync") {
+    getAnoriStorage().then((storage) => performBackgroundSync(storage));
+  }
 });
 
 browser.alarms.create("scheduledCallbacks", {
@@ -172,6 +176,10 @@ browser.alarms.create("scheduledCallbacks", {
 
 browser.alarms.create("sendAnalytics", {
   periodInMinutes: 60,
+});
+
+browser.alarms.create("backgroundSync", {
+  periodInMinutes: 15,
 });
 
 browser.runtime.setUninstallURL(`https://anori.app/goodbye`);

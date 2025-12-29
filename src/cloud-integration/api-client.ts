@@ -14,6 +14,9 @@ export const getApiClient = () => {
   return apiClient.client;
 };
 
+// @ts-ignore for debug
+self.getApiClient = getApiClient;
+
 export const updateApiClientToken = (token: string | undefined) => {
   if (apiClient) {
     apiClient.setToken(token);

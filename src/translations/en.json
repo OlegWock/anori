@@ -35,7 +35,10 @@
         "canBeEmpty": "can be empty",
 
         "cloud": {
-            "connect": "Connect to cloud",
+            "connect": "Connect",
+            "connected": "Connected",
+            "disconnect": "Disconnect",
+            "cancel": "Cancel",
             "account": "Cloud account",
             "login": "Log in",
             "logout": "Log out",
@@ -44,9 +47,21 @@
             "connectedAs": "Connected as",
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
+            "profiles": "Profiles",
+            "noProfiles": "No profiles found",
+            "createProfile": "Create profile",
+            "profileName": "Profile name",
+            "create": "Create",
+            "confirm": "Confirm",
+            "connectConfirmation": {
+                "message": "Connecting to profile \"{{profileName}}\" will overwrite your current local configuration with the one stored in the profile. Do you want to continue?"
+            },
             "error": {
                 "invalidCredentials": "Invalid email or password",
-                "unknown": "Something went wrong. Please try again."
+                "unknown": "Something went wrong. Please try again.",
+                "failedToLoadProfiles": "Failed to load profiles",
+                "profileNameRequired": "Profile name is required",
+                "failedToCreateProfile": "Failed to create profile"
             }
         },
 

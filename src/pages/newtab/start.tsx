@@ -162,6 +162,10 @@ getAnoriStorage().then((storage) => {
     }
   }
 
+  storage.subscribe(anoriSchema.theme, (newTheme) => {
+    console.log("Theme changed to", newTheme);
+  });
+
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();
   incrementDailyUsageMetric("Times new tab opened");

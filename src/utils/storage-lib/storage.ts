@@ -12,7 +12,7 @@ import {
   isFileDescriptor,
 } from "./schema/file";
 import type { VersionedSchema } from "./schema/versioned";
-import { type StorageRecord, isStorageRecord } from "./types";
+import { type FileMetaValue, type StorageRecord, isStorageRecord } from "./types";
 
 export type OutboxEntry = {
   key: string;
@@ -29,6 +29,16 @@ type Subscription = {
   query: ResolvedQuery;
   callback: ChangeCallback;
   sourceId?: string;
+};
+
+export type OutboxChangeCallback = (data: {
+  key: string;
+  record: StorageRecord<unknown>;
+  type: "kv" | "file";
+}) => void;
+
+type OutboxSubscription = {
+  callback: OutboxChangeCallback;
 };
 
 export type ValueMeta = {
@@ -74,12 +84,22 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
   fork(): StorageFork;
 
   sync: {
+    isOutboxEnabled(): boolean;
+    enableOutbox(): void;
+    disableOutbox(): void;
     getOutbox(): Outbox;
-    removeFromOutbox(keys: string[]): Promise<void>;
+    removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void>;
     clearOutbox(): Promise<void>;
-    exportForFullSync(): Record<string, StorageRecord<unknown>>;
-    exportOutbox(): Record<string, StorageRecord<unknown>>;
+    subscribeToOutbox(callback: OutboxChangeCallback): () => void;
+    exportForFullSync(): {
+      kv: Record<string, StorageRecord<unknown>>;
+      files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
+    };
+    exportOutbox(): Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }>;
     mergeRemoteChanges(
+      changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
+    ): Promise<{ applied: string[]; skipped: string[] }>;
+    applyRemoteChangesIgnoringHlc(
       changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
     ): Promise<{ applied: string[]; skipped: string[] }>;
   };
@@ -98,8 +118,10 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
   let hlc: Hlc | null = null;
   let initialized = false;
+  let outboxEnabled = false;
   let cache: Record<string, unknown> = {};
   const subscriptions: Subscription[] = [];
+  const outboxSubscriptions: OutboxSubscription[] = [];
 
   function ensureInitialized(): void {
     if (!initialized) {
@@ -120,6 +142,29 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       }
     }
     return false;
+  }
+
+  function isFileKey(key: string): boolean {
+    for (const descriptor of Object.values(latestSchema.definition)) {
+      if (isFileDescriptor(descriptor) && descriptor.key === key) {
+        return true;
+      }
+
+      if (isFileCollectionDescriptor(descriptor) && isKeyMatchingPrefix(key, descriptor.keyPrefix)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function notifyOutboxSubscribers(key: string, type: "kv" | "file", record: StorageRecord<unknown>): void {
+    for (const sub of outboxSubscriptions) {
+      sub.callback({
+        key,
+        record,
+        type,
+      });
+    }
   }
 
   function getHlc(): Hlc {
@@ -170,6 +215,11 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
 
     await persistOutbox(outbox);
+
+    const record = cache[key];
+    if (isStorageRecord(record)) {
+      notifyOutboxSubscribers(key, type, record);
+    }
   }
 
   function notifySubscribers(key: string, newValue: unknown, oldValue: unknown, sourceId?: string): void {
@@ -276,8 +326,9 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     await browser.storage.local.set({ [resolved.key]: record });
     await persistHlcState();
 
-    if ("tracked" in query && query.tracked) {
-      await addToOutbox(resolved.key, "kv", hlcTs);
+    if (outboxEnabled && "tracked" in query && query.tracked) {
+      const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
+      await addToOutbox(resolved.key, type, hlcTs);
     }
   }
 
@@ -310,8 +361,9 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     await browser.storage.local.set({ [resolved.key]: record });
     await persistHlcState();
 
-    if ("tracked" in query && query.tracked) {
-      await addToOutbox(resolved.key, "kv", hlcTs);
+    if (outboxEnabled && "tracked" in query && query.tracked) {
+      const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
+      await addToOutbox(resolved.key, type, hlcTs);
     }
   }
 
@@ -527,15 +579,32 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     },
 
     sync: {
+      isOutboxEnabled(): boolean {
+        return outboxEnabled;
+      },
+
+      enableOutbox(): void {
+        outboxEnabled = true;
+      },
+
+      disableOutbox(): void {
+        outboxEnabled = false;
+      },
+
       getOutbox(): Outbox {
         ensureInitialized();
         return getOutboxFromCache();
       },
 
-      async removeFromOutbox(keys: string[]): Promise<void> {
+      async removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void> {
         ensureInitialized();
         const outbox = getOutboxFromCache();
-        const filtered = outbox.filter((e) => !keys.includes(e.key));
+        const filtered = outbox.filter((outboxEntry) => {
+          const matchingEntry = entries.find(
+            (e) => e.key === outboxEntry.key && compareHlc(e.hlc, outboxEntry.hlc) === 0,
+          );
+          return !matchingEntry;
+        });
         await persistOutbox(filtered);
       },
 
@@ -544,28 +613,53 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
         await persistOutbox([]);
       },
 
-      exportForFullSync(): Record<string, StorageRecord<unknown>> {
+      subscribeToOutbox(callback: OutboxChangeCallback): () => void {
+        const subscription: OutboxSubscription = { callback };
+        outboxSubscriptions.push(subscription);
+
+        return () => {
+          const index = outboxSubscriptions.indexOf(subscription);
+          if (index >= 0) {
+            outboxSubscriptions.splice(index, 1);
+          }
+        };
+      },
+
+      exportForFullSync(): {
+        kv: Record<string, StorageRecord<unknown>>;
+        files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
+      } {
         ensureInitialized();
-        const result: Record<string, StorageRecord<unknown>> = {};
+        const kv: Record<string, StorageRecord<unknown>> = {};
+        const files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }> = {};
 
         for (const [key, value] of Object.entries(cache)) {
           if (!isStorageRecord(value)) continue;
           if (!isKeyTracked(key)) continue;
-          result[key] = value;
+
+          if (isFileKey(key)) {
+            const fileRecord = value as StorageRecord<FileMetaValue<unknown>>;
+            const fileMeta = fileRecord.value;
+            if (fileMeta?.path) {
+              files[key] = { record: fileRecord, path: fileMeta.path };
+            }
+          } else {
+            kv[key] = value;
+          }
         }
 
-        return result;
+        return { kv, files };
       },
 
-      exportOutbox(): Record<string, StorageRecord<unknown>> {
+      exportOutbox() {
         ensureInitialized();
         const outbox = getOutboxFromCache();
-        const result: Record<string, StorageRecord<unknown>> = {};
+        const result: Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }> = [];
 
         for (const entry of outbox) {
-          const value = cache[entry.key];
-          if (isStorageRecord(value)) {
-            result[entry.key] = value;
+          const record = cache[entry.key];
+          if (isStorageRecord(record)) {
+            result.push({ key: entry.key, type: entry.type, record });
           }
         }
 
@@ -602,6 +696,30 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
           }
 
           // Update local HLC with remote timestamp (even if not applied)
+          getHlc().receive(record.hlc);
+        }
+
+        await persistHlcState();
+        return { applied, skipped };
+      },
+
+      async applyRemoteChangesIgnoringHlc(
+        changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
+      ): Promise<{ applied: string[]; skipped: string[] }> {
+        ensureInitialized();
+        const applied: string[] = [];
+        const skipped: string[] = [];
+        const currentSchemaVersion = versionedSchema.currentVersion;
+
+        for (const { key, record, schemaVersion } of changes) {
+          if (schemaVersion !== currentSchemaVersion) {
+            skipped.push(key);
+            continue;
+          }
+
+          await persistRecord(key, record);
+          applied.push(key);
+
           getHlc().receive(record.hlc);
         }
 

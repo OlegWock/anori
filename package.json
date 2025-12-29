@@ -34,8 +34,8 @@
         "*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true --write"]
     },
     "dependencies": {
-        "@anori-app/api-client": "^1.0.13",
-        "@anori-app/api-types": "^1.0.13",
+        "@anori-app/api-client": "^1.0.15",
+        "@anori-app/api-types": "^1.0.15",
         "@biomejs/biome": "^1.9.4",
         "@floating-ui/react": "^0.27.16",
         "@iconify/json": "^2.2.341",

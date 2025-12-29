@@ -1,5 +1,6 @@
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { getApiClient, updateApiClientToken } from "./api-client";
+import { disconnectFromProfile } from "./sync-manager";
 
 export const login = async (email: string, password: string) => {
   const client = getApiClient();
@@ -29,6 +30,7 @@ export const logout = async () => {
   }
 
   const storage = await getAnoriStorage();
+  await disconnectFromProfile(storage);
   await storage.set(anoriSchema.cloudAccount, null);
   updateApiClientToken(undefined);
 };

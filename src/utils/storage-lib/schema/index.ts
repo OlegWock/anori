@@ -20,7 +20,7 @@ export {
   isCollectionByIdQuery,
 } from "./collection";
 
-export { type SchemaDefinition, type SchemaVersion, defineSchemaVersion } from "./version";
+export { type SchemaEntry, type SchemaDefinition, type SchemaVersion, defineSchemaVersion } from "./version";
 
 export {
   createMigration,

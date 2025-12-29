@@ -1,3 +1,4 @@
+import { startSync } from "@anori/cloud-integration/sync-manager";
 import { anoriVersionedSchema } from "@anori/utils/storage";
 import { isLegacyStorage, migrateFromLegacy } from "@anori/utils/storage-lib/migrations/legacy-migration";
 import {
@@ -51,7 +52,7 @@ async function initAnoriStorage(): Promise<AnoriStorage> {
     await migrateFromLegacy();
     const storage = createStorage({ schema: anoriVersionedSchema });
     await storage.initialize();
-
+    startSync(storage);
     return storage;
   }
 
@@ -62,7 +63,7 @@ async function initAnoriStorage(): Promise<AnoriStorage> {
     await setStoredSchemaVersion(anoriVersionedSchema.currentVersion);
     const storage = createStorage({ schema: anoriVersionedSchema });
     await storage.initialize();
-
+    startSync(storage);
     return storage;
   }
 
@@ -76,5 +77,6 @@ async function initAnoriStorage(): Promise<AnoriStorage> {
 
   const storage = createStorage({ schema: anoriVersionedSchema });
   await storage.initialize();
+  startSync(storage);
   return storage;
 }
