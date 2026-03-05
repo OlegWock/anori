@@ -1,3 +1,5 @@
+@use "@anori/components/utils.scss" as utils;
+
 .CloudAccountModal {
   width: 600px;
 }
@@ -9,9 +11,13 @@
   min-width: 25rem;
 
   .account-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    .account-info-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
 
     .label {
       font-size: 0.875rem;
@@ -61,15 +67,28 @@
       padding: 0.5rem 0;
     }
 
+    .profile-card {
+      background: var(--background-lighter);
+      border-radius: 8px;
+      padding: 0.75rem;
+
+      &-connected {
+        outline: 1px solid hsla(var(--text-hsl) / 0.15);
+      }
+    }
+
     .profile-item {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      background: var(--background-lighter);
-      border-radius: 0.5rem;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .profile-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
 
       .profile-info {
         display: flex;
@@ -82,6 +101,15 @@
       .profile-name {
         font-size: 0.9375rem;
         font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .profile-connected-badge {
+        font-size: 0.75rem;
+        font-weight: 400;
+        opacity: 0.6;
       }
 
       .profile-meta {
@@ -89,10 +117,23 @@
         opacity: 0.6;
       }
 
-      .profile-connected {
-        font-size: 0.875rem;
-        opacity: 0.7;
-        font-weight: 500;
+      .profile-actions {
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      .profile-rename-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: 1;
+
+        .profile-rename-actions {
+          display: flex;
+          flex-direction: row;
+          gap: 0.5rem;
+          justify-content: flex-end;
+        }
       }
     }
 
@@ -102,7 +143,7 @@
       gap: 0.75rem;
       padding: 0.75rem;
       background: var(--background-lighter);
-      border-radius: 0.5rem;
+      border-radius: 8px;
 
       .create-profile-actions {
         display: flex;
@@ -116,10 +157,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      padding: 0.75rem;
-      margin-top: 0.5rem;
-      background: var(--background-lighter);
-      border-radius: 0.5rem;
+      padding-top: 0.75rem;
 
       .confirmation-actions {
         display: flex;
@@ -148,12 +186,11 @@
       a {
         color: var(--text);
         text-decoration: underline;
-        
-        &:hover {
+
+        @include utils.hover {
           opacity: 0.7;
         }
       }
     }
   }
 }
-

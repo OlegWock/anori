@@ -51,8 +51,13 @@
             "noProfiles": "No profiles found",
             "createProfile": "Create profile",
             "profileName": "Profile name",
+            "createdAt": "Created {{date}}",
+            "lastSyncedAt": "Last used {{date}}",
             "create": "Create",
             "confirm": "Confirm",
+            "rename": "Rename",
+            "delete": "Delete",
+            "deleteConfirmation": "Are you sure you want to delete profile \"{{profileName}}\"? This action cannot be undone.",
             "connectConfirmation": {
                 "message": "Connecting to profile \"{{profileName}}\" will overwrite your current local configuration with the one stored in the profile. Do you want to continue?"
             },

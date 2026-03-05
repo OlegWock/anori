@@ -6,6 +6,7 @@ import { Input } from "@anori/components/Input";
 import { Modal } from "@anori/components/Modal";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
+import moment from "moment";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trpc } from "../api-client";
@@ -47,6 +48,10 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
   const [isPushingProfile, setIsPushingProfile] = useState(false);
   const [newProfileName, setNewProfileName] = useState("");
   const [createProfileError, setCreateProfileError] = useState<string | null>(null);
+  const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
+  const [editingProfileName, setEditingProfileName] = useState("");
+  const [deletingProfileId, setDeletingProfileId] = useState<string | null>(null);
+  const [confirmDeleteProfileId, setConfirmDeleteProfileId] = useState<string | null>(null);
   const {
     data: profilesData,
     isLoading: isLoadingProfiles,
@@ -54,13 +59,19 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
     refetch: refetchProfiles,
   } = trpc.sync.listProfiles.useQuery();
   const createProfileMutation = trpc.sync.createProfile.useMutation();
+  const updateProfileMutation = trpc.sync.updateProfile.useMutation();
+  const deleteProfileMutation = trpc.sync.deleteProfile.useMutation();
   const [syncSettings] = useStorageValue(anoriSchema.cloudSyncSettings);
   const connectedProfileId = syncSettings?.profileId ?? null;
 
   const sortedProfiles = useMemo(() => {
     if (!profilesData) return [];
-    return [...profilesData.profiles].sort((a, b) => a.name.localeCompare(b.name));
-  }, [profilesData]);
+    return [...profilesData.profiles].sort((a, b) => {
+      if (a.id === connectedProfileId) return -1;
+      if (b.id === connectedProfileId) return 1;
+      return a.name.localeCompare(b.name);
+    });
+  }, [profilesData, connectedProfileId]);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -123,11 +134,46 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
     }
   };
 
+  const handleRenameProfile = async (profileId: string) => {
+    if (!editingProfileName.trim()) return;
+    try {
+      await updateProfileMutation.mutateAsync({ profileId, name: editingProfileName.trim() });
+      setEditingProfileId(null);
+      setEditingProfileName("");
+      await refetchProfiles();
+    } catch (error) {
+      console.error("Failed to rename profile:", error);
+    }
+  };
+
+  const handleDeleteProfile = async (profileId: string) => {
+    setDeletingProfileId(profileId);
+    try {
+      if (connectedProfileId === profileId) {
+        await disconnectFromProfile(storage);
+      }
+      await deleteProfileMutation.mutateAsync({ profileId });
+      setConfirmDeleteProfileId(null);
+      await refetchProfiles();
+    } catch (error) {
+      console.error("Failed to delete profile:", error);
+    } finally {
+      setDeletingProfileId(null);
+    }
+  };
+
   return (
     <div className="CloudAccountModal-connected">
       <div className="account-info">
-        <div className="label">{t("cloud.connectedAs")}</div>
-        <div className="email">{account.email}</div>
+        <div className="account-info-row">
+          <div>
+            <div className="label">{t("cloud.connectedAs")}</div>
+            <div className="email">{account.email}</div>
+          </div>
+          <Button onClick={handleLogout} loading={isLoggingOut} size="compact">
+            {t("cloud.logout")}
+          </Button>
+        </div>
       </div>
 
       <div className="profiles-section">
@@ -179,25 +225,87 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                 const isConnecting = connectingProfileId === profile.id;
                 const isDisconnecting = disconnectingProfileId === profile.id;
                 const showConfirmation = confirmingProfileId === profile.id;
+                const isEditing = editingProfileId === profile.id;
+                const showDeleteConfirm = confirmDeleteProfileId === profile.id;
+                const isDeleting = deletingProfileId === profile.id;
                 return (
-                  <div key={profile.id}>
+                  <div
+                    key={profile.id}
+                    className={isConnected ? "profile-card profile-card-connected" : "profile-card"}
+                  >
                     <div className="profile-item">
-                      <div className="profile-info">
-                        <div className="profile-name">{profile.name}</div>
-                        <div className="profile-meta">{new Date(profile.createdAt).toLocaleDateString()}</div>
-                      </div>
-                      {isConnected ? (
-                        <Button onClick={handleDisconnect} loading={isDisconnecting} size="compact">
-                          {t("cloud.disconnect")}
-                        </Button>
-                      ) : showConfirmation ? (
-                        <Button onClick={() => setConfirmingProfileId(null)} size="compact" disabled={isConnecting}>
-                          {t("cloud.cancel")}
-                        </Button>
+                      {isEditing ? (
+                        <div className="profile-rename-form">
+                          <Input
+                            value={editingProfileName}
+                            onValueChange={setEditingProfileName}
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") handleRenameProfile(profile.id);
+                              if (e.key === "Escape") setEditingProfileId(null);
+                            }}
+                          />
+                          <div className="profile-rename-actions">
+                            <Button onClick={() => setEditingProfileId(null)} size="compact">
+                              {t("cloud.cancel")}
+                            </Button>
+                            <Button
+                              onClick={() => handleRenameProfile(profile.id)}
+                              size="compact"
+                              loading={updateProfileMutation.isPending}
+                              disabled={!editingProfileName.trim()}
+                            >
+                              {t("save")}
+                            </Button>
+                          </div>
+                        </div>
                       ) : (
-                        <Button onClick={() => handleConnectClick(profile.id)} loading={isConnecting} size="compact">
-                          {t("cloud.connect")}
-                        </Button>
+                        <>
+                          <div className="profile-header">
+                            <div className="profile-info">
+                              <div className="profile-name">
+                                {profile.name}
+                                {isConnected && <span className="profile-connected-badge">{t("cloud.connected")}</span>}
+                              </div>
+                              <div className="profile-meta">
+                                {t("cloud.createdAt", { date: moment(profile.createdAt).format("ll") })}
+                                {profile.lastWriteAt && (
+                                  <>
+                                    {" · "}
+                                    {t("cloud.lastSyncedAt", { date: moment(profile.lastWriteAt).fromNow() })}
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="profile-actions">
+                            {isConnected ? (
+                              <Button onClick={handleDisconnect} loading={isDisconnecting} size="compact">
+                                {t("cloud.disconnect")}
+                              </Button>
+                            ) : (
+                              <Button
+                                onClick={() => handleConnectClick(profile.id)}
+                                loading={isConnecting}
+                                size="compact"
+                              >
+                                {t("cloud.connect")}
+                              </Button>
+                            )}
+                            <Button
+                              onClick={() => {
+                                setEditingProfileId(profile.id);
+                                setEditingProfileName(profile.name);
+                              }}
+                              size="compact"
+                            >
+                              {t("cloud.rename")}
+                            </Button>
+                            <Button onClick={() => setConfirmDeleteProfileId(profile.id)} size="compact">
+                              {t("cloud.delete")}
+                            </Button>
+                          </div>
+                        </>
                       )}
                     </div>
                     {showConfirmation && (
@@ -215,6 +323,19 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                         </div>
                       </div>
                     )}
+                    {showDeleteConfirm && (
+                      <div className="profile-confirmation">
+                        <Alert level="attention">{t("cloud.deleteConfirmation", { profileName: profile.name })}</Alert>
+                        <div className="confirmation-actions">
+                          <Button onClick={() => handleDeleteProfile(profile.id)} loading={isDeleting}>
+                            {t("cloud.confirm")}
+                          </Button>
+                          <Button onClick={() => setConfirmDeleteProfileId(null)} disabled={isDeleting}>
+                            {t("cloud.cancel")}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })
@@ -222,10 +343,6 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
           </div>
         )}
       </div>
-
-      <Button onClick={handleLogout} loading={isLoggingOut}>
-        {t("cloud.logout")}
-      </Button>
     </div>
   );
 };

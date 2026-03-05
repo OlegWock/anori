@@ -6,13 +6,13 @@ settings:
 
 patchedDependencies:
   '@radix-ui/react-scroll-area':
-    hash: dtw47zwr7szbdhk4nveamratr4
+    hash: 6310ba17553bd13cc38804ced8e179bb99163082282b07db23b4f8207336fda2
     path: patches/@radix-ui__react-scroll-area.patch
   framer-motion:
-    hash: ty3dj24gqoqvqpkq3ifh2bq5jm
+    hash: bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad
     path: patches/framer-motion.patch
   react-textarea-autosize:
-    hash: e64rfebehqbcmaw4cwezgkmzju
+    hash: 72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2
     path: patches/react-textarea-autosize.patch
 
 importers:
@@ -20,11 +20,11 @@ importers:
   .:
     dependencies:
       '@anori-app/api-client':
-        specifier: ^1.0.15
-        version: 1.0.15(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
+        specifier: ^1.0.17
+        version: 1.0.17(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
       '@anori-app/api-types':
-        specifier: ^1.0.15
-        version: 1.0.15
+        specifier: ^1.0.17
+        version: 1.0.17
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
@@ -54,7 +54,7 @@ importers:
         version: 1.1.15(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-scroll-area':
         specifier: ^1.2.9
-        version: 1.2.9(patch_hash=dtw47zwr7szbdhk4nveamratr4)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 1.2.9(patch_hash=6310ba17553bd13cc38804ced8e179bb99163082282b07db23b4f8207336fda2)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-select':
         specifier: ^2.2.5
         version: 2.2.5(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -132,7 +132,7 @@ importers:
         version: 7.0.0(webpack@5.101.3)
       framer-motion:
         specifier: ^12.17.0
-        version: 12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       generate-file-webpack-plugin:
         specifier: ^1.0.1
         version: 1.0.1
@@ -195,10 +195,10 @@ importers:
         version: 3.0.2(react@19.1.0)
       react-textarea-autosize:
         specifier: ^8.5.9
-        version: 8.5.9(patch_hash=e64rfebehqbcmaw4cwezgkmzju)(@types/react@19.1.5)(react@19.1.0)
+        version: 8.5.9(patch_hash=72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2)(@types/react@19.1.5)(react@19.1.0)
       react-use-motion-measure:
         specifier: ^3.0.0
-        version: 3.0.0(framer-motion@12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-window:
         specifier: ^1.8.11
         version: 1.8.11(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -284,11 +284,11 @@ packages:
   '@acemir/cssom@0.9.29':
     resolution: {integrity: sha512-G90x0VW+9nW4dFajtjCoT+NM0scAfH9Mb08IcjgFHYbfiL/lU04dTF9JuVOi3/OH+DJCQdcIseSXkdCB9Ky6JA==}
 
-  '@anori-app/api-client@1.0.15':
-    resolution: {integrity: sha512-Q4dW/0lpBUz5Hc3bAoNCoUwWjr/bBSBpCviKdWskc0ffw7ktrPL3CDfASWvobfzTRhHnqJQVuWmoVchDBtr8uw==}
+  '@anori-app/api-client@1.0.17':
+    resolution: {integrity: sha512-Tx5Yd6NCn25vKvZO82t0JdSgFcGmYcWlhHvbmLpRVcOBpCZYJFqk7Lc+Wpd5iflnyK9O4ExoD5N7NaMhYuwXrQ==}
 
-  '@anori-app/api-types@1.0.15':
-    resolution: {integrity: sha512-vlGb4fiDq4xhNWc9kTnUe9MslTSkg4YopFFCXSaBte16ViEbSFKeXmFcIQJCX4fJOb45I2udC1QR27JB0c4G5A==}
+  '@anori-app/api-types@1.0.17':
+    resolution: {integrity: sha512-qWsF2IQMijnladCe0XTJXbufSX3le3zEqJw3xkJS+/CGJ+0Dr2d9Q9l0ZDYEMoR27tJ+jL7fNhHaaPEWUfAE5g==}
 
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
@@ -314,6 +314,10 @@ packages:
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/code-frame@7.29.0':
+    resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/compat-data@7.28.4':
@@ -5629,9 +5633,9 @@ snapshots:
 
   '@acemir/cssom@0.9.29': {}
 
-  '@anori-app/api-client@1.0.15(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
+  '@anori-app/api-client@1.0.17(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
     dependencies:
-      '@anori-app/api-types': 1.0.15
+      '@anori-app/api-types': 1.0.17
       '@tanstack/react-query': 5.87.4(react@19.1.0)
       '@trpc/client': 11.8.1(@trpc/server@11.8.1(typescript@5.9.2))(typescript@5.9.2)
       '@trpc/react-query': 11.8.1(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.8.1(@trpc/server@11.8.1(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.8.1(typescript@5.9.2))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
@@ -5641,7 +5645,7 @@ snapshots:
       - react-dom
       - typescript
 
-  '@anori-app/api-types@1.0.15':
+  '@anori-app/api-types@1.0.17':
     dependencies:
       zod: 3.25.76
 
@@ -5681,6 +5685,12 @@ snapshots:
   '@babel/code-frame@7.27.1':
     dependencies:
       '@babel/helper-validator-identifier': 7.27.1
+      js-tokens: 4.0.0
+      picocolors: 1.1.1
+
+  '@babel/code-frame@7.29.0':
+    dependencies:
+      '@babel/helper-validator-identifier': 7.28.5
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
@@ -6428,7 +6438,7 @@ snapshots:
       '@types/react': 19.1.5
       '@types/react-dom': 19.1.5(@types/react@19.1.5)
 
-  '@radix-ui/react-scroll-area@1.2.9(patch_hash=dtw47zwr7szbdhk4nveamratr4)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@radix-ui/react-scroll-area@1.2.9(patch_hash=6310ba17553bd13cc38804ced8e179bb99163082282b07db23b4f8207336fda2)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/number': 1.1.1
       '@radix-ui/primitive': 1.1.2
@@ -6953,7 +6963,7 @@ snapshots:
 
   '@testing-library/dom@10.4.1':
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.29.0
       '@babel/runtime': 7.28.4
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
@@ -8572,7 +8582,7 @@ snapshots:
 
   fraction.js@5.2.2: {}
 
-  framer-motion@12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       motion-dom: 12.17.0
       motion-utils: 12.12.1
@@ -10196,7 +10206,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.5
 
-  react-textarea-autosize@8.5.9(patch_hash=e64rfebehqbcmaw4cwezgkmzju)(@types/react@19.1.5)(react@19.1.0):
+  react-textarea-autosize@8.5.9(patch_hash=72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2)(@types/react@19.1.5)(react@19.1.0):
     dependencies:
       '@babel/runtime': 7.28.4
       react: 19.1.0
@@ -10205,10 +10215,10 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  react-use-motion-measure@3.0.0(framer-motion@12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-use-motion-measure@3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       debounce: 1.2.1
-      framer-motion: 12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      framer-motion: 12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
