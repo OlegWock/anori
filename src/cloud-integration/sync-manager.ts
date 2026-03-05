@@ -5,6 +5,7 @@ import type { HlcTimestamp } from "@anori/utils/storage-lib/hlc";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
 import { getApiClient } from "./api-client";
+import { clearSession, isSessionError } from "./auth";
 import { API_BASE_URL } from "./consts";
 import { getCloudAccount } from "./storage";
 
@@ -614,7 +615,12 @@ export async function performSync(storage: AnoriStorage): Promise<void> {
   try {
     await manager.performSync();
   } catch (error) {
-    console.error("Background sync failed:", error);
+    if (isSessionError(error)) {
+      console.warn("Sync failed due to invalid session, clearing session");
+      await clearSession();
+      return;
+    }
+    console.error("Sync failed:", error);
   }
 }
 

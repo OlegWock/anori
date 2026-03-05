@@ -1,3 +1,5 @@
+import { isAppErrorOfType } from "@anori-app/api-client";
+import { SessionExpiredError, UnauthorizedError } from "@anori-app/api-types";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { getApiClient, updateApiClientToken } from "./api-client";
 import { disconnectFromProfile } from "./sync-manager";
@@ -33,6 +35,21 @@ export const logout = async () => {
   await disconnectFromProfile(storage);
   await storage.set(anoriSchema.cloudAccount, null);
   updateApiClientToken(undefined);
+};
+
+/**
+ * Clears the local session without calling the backend.
+ * Use when the session is already invalid (expired/unauthorized).
+ */
+export const clearSession = async () => {
+  const storage = await getAnoriStorage();
+  await disconnectFromProfile(storage);
+  await storage.set(anoriSchema.cloudAccount, null);
+  updateApiClientToken(undefined);
+};
+
+export const isSessionError = (error: unknown): boolean => {
+  return isAppErrorOfType(error, SessionExpiredError) || isAppErrorOfType(error, UnauthorizedError);
 };
 
 export const register = async (email: string, password: string) => {

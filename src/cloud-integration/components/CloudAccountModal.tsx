@@ -1,4 +1,4 @@
-import { isAppErrorOfType } from "@anori-app/api-client";
+import { getAppError, isAppErrorOfType } from "@anori-app/api-client";
 import { InvalidCredentialsError } from "@anori-app/api-types";
 import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
@@ -138,7 +138,11 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
           </Button>
         </div>
         {isLoadingProfiles && <div className="profiles-loading">{t("loading")}</div>}
-        {profilesError && <Alert level="attention">{t("cloud.error.failedToLoadProfiles")}</Alert>}
+        {profilesError && (
+          <Alert level="attention">
+            {getAppError(profilesError)?.message ?? t("cloud.error.failedToLoadProfiles")}
+          </Alert>
+        )}
         {isCreatingProfile && (
           <div className="create-profile-form">
             {createProfileError && <Alert level="attention">{createProfileError}</Alert>}
@@ -149,9 +153,6 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
               autoFocus
             />
             <div className="create-profile-actions">
-              <Button onClick={handleCreateProfile} loading={isPushingProfile} disabled={!newProfileName.trim()}>
-                {t("cloud.create")}
-              </Button>
               <Button
                 onClick={() => {
                   setIsCreatingProfile(false);
@@ -161,6 +162,9 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                 disabled={isPushingProfile}
               >
                 {t("cloud.cancel")}
+              </Button>
+              <Button onClick={handleCreateProfile} loading={isPushingProfile} disabled={!newProfileName.trim()}>
+                {t("cloud.create")}
               </Button>
             </div>
           </div>
@@ -252,13 +256,19 @@ const AuthView = () => {
 
   return (
     <div className="CloudAccountModal-auth">
-      <div className="auth-form">
+      <form
+        className="auth-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin();
+        }}
+      >
         {error && <Alert level="attention">{error}</Alert>}
 
         <Input type="email" placeholder={t("cloud.email")} value={email} onValueChange={setEmail} />
         <Input type="password" placeholder={t("cloud.password")} value={password} onValueChange={setPassword} />
 
-        <Button onClick={handleLogin} loading={isLoading} block>
+        <Button loading={isLoading} block>
           {t("cloud.login")}
         </Button>
 
@@ -268,7 +278,7 @@ const AuthView = () => {
             {t("cloud.createAccount")}
           </a>
         </p>
-      </div>
+      </form>
     </div>
   );
 };
