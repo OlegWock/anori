@@ -81,11 +81,11 @@ export class SyncManager {
   }
 
   /**
-   * Performs a full background sync cycle:
+   * Performs a sync cycle:
    * 1. Flushes all pending outbox items to backend
    * 2. Pulls remote changes (delta if possible, full sync as fallback)
    */
-  async performBackgroundSync(): Promise<void> {
+  async performSync(): Promise<void> {
     const syncSettings = this.storage.get(anoriSchema.cloudSyncSettings);
     if (!syncSettings) {
       return;
@@ -607,12 +607,12 @@ export function stopSync(storage: AnoriStorage): void {
 }
 
 /**
- * Performs a background sync cycle.
+ * Performs sync cycle: flushes outbox then pulls remote changes.
  */
-export async function performBackgroundSync(storage: AnoriStorage): Promise<void> {
+export async function performSync(storage: AnoriStorage): Promise<void> {
   const manager = getSyncManager(storage);
   try {
-    await manager.performBackgroundSync();
+    await manager.performSync();
   } catch (error) {
     console.error("Background sync failed:", error);
   }

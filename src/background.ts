@@ -1,4 +1,4 @@
-import { performBackgroundSync } from "@anori/cloud-integration/sync-manager";
+import { performSync } from "@anori/cloud-integration/sync-manager";
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
@@ -165,7 +165,7 @@ browser.alarms.onAlarm.addListener((alarm) => {
     sendAnalyticsIfEnabled();
   }
   if (alarm.name === "backgroundSync") {
-    getAnoriStorage().then((storage) => performBackgroundSync(storage));
+    getAnoriStorage().then((storage) => performSync(storage));
   }
 });
 

@@ -1,6 +1,7 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
+import { performSync } from "@anori/cloud-integration/sync-manager";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { languageDirections } from "@anori/translations/metadata";
 import { initTranslation } from "@anori/translations/utils";
@@ -162,6 +163,8 @@ getAnoriStorage().then((storage) => {
   }
 
   watchForThemeUpdates(storage);
+
+  performSync(storage);
 
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();
