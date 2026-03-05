@@ -2,6 +2,7 @@ import browser from "webextension-polyfill";
 import { type FilesStorage, createFilesStorage } from "./files";
 import { type Hlc, type HlcState, type HlcTimestamp, compareHlc, createHlc, generateNodeId } from "./hlc";
 import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
+import { deleteFile, writeFile } from "./opfs";
 import { type Query, type ResolvedQuery, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
 import { type CellDescriptor, isCellDescriptor } from "./schema/cell";
 import { type CollectionAllQuery, type CollectionByIdQuery, isCollectionDescriptor } from "./schema/collection";
@@ -23,7 +24,17 @@ export type OutboxEntry = {
 
 type Outbox = OutboxEntry[];
 
-type ChangeCallback<T = unknown> = (value: T | undefined, oldValue: T | undefined) => void;
+export type ChangeSource =
+  | "remote" // Changes from cloud sync
+  | "external" // Changes from other tabs/background via browser.storage.local.onChanged
+  | "local" // Changes from this storage instance
+  | "fork"; // Changes from a fork of this storage
+
+export type ChangeInfo = {
+  source: ChangeSource;
+};
+
+type ChangeCallback<T = unknown> = (value: T | undefined, oldValue: T | undefined, info: ChangeInfo) => void;
 
 type Subscription = {
   query: ResolvedQuery;
@@ -98,9 +109,11 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     exportOutbox(): Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }>;
     mergeRemoteChanges(
       changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
+      fileBlobs?: Map<string, Blob>,
     ): Promise<{ applied: string[]; skipped: string[] }>;
     applyRemoteChangesIgnoringHlc(
       changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
+      fileBlobs?: Map<string, Blob>,
     ): Promise<{ applied: string[]; skipped: string[] }>;
   };
 
@@ -122,6 +135,8 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
   let cache: Record<string, unknown> = {};
   const subscriptions: Subscription[] = [];
   const outboxSubscriptions: OutboxSubscription[] = [];
+  // Track HLCs of records we've already notified about (to skip duplicate onChanged events)
+  const pendingNotifications = new Map<string, HlcTimestamp>();
 
   function ensureInitialized(): void {
     if (!initialized) {
@@ -188,9 +203,27 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     await browser.storage.local.set({ [HLC_STATE_KEY]: state });
   }
 
-  async function persistRecord(key: string, record: StorageRecord<unknown>): Promise<void> {
+  async function persistRecord(
+    key: string,
+    record: StorageRecord<unknown>,
+    options?: { notifyAs?: ChangeSource },
+  ): Promise<void> {
+    const oldCachedValue = cache[key];
+    const oldRecord = isStorageRecord(oldCachedValue) ? oldCachedValue : undefined;
+    const oldValue = oldRecord?.deleted ? undefined : oldRecord?.value;
+    const newValue = record.deleted ? undefined : record.value;
+
+    // Mark this HLC as pending BEFORE writing, so onChanged can skip it
+    if (options?.notifyAs) {
+      pendingNotifications.set(key, record.hlc);
+    }
+
     cache[key] = record;
     await browser.storage.local.set({ [key]: record });
+
+    if (options?.notifyAs && (oldValue !== undefined || newValue !== undefined)) {
+      notifySubscribers(key, newValue, oldValue, options.notifyAs);
+    }
   }
 
   async function persistOutbox(outbox: Outbox): Promise<void> {
@@ -222,7 +255,15 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
   }
 
-  function notifySubscribers(key: string, newValue: unknown, oldValue: unknown, sourceId?: string): void {
+  function notifySubscribers(
+    key: string,
+    newValue: unknown,
+    oldValue: unknown,
+    source: ChangeSource,
+    sourceId?: string,
+  ): void {
+    const info: ChangeInfo = { source };
+
     for (const sub of subscriptions) {
       // Skip if subscription's sourceId matches write sourceId (it's the fork's own echo)
       if (sub.sourceId && sourceId && sub.sourceId === sourceId) {
@@ -230,13 +271,13 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       }
 
       if (sub.query.type === "cell" && sub.query.key === key) {
-        sub.callback(newValue, oldValue);
+        sub.callback(newValue, oldValue, info);
       } else if (sub.query.type === "collectionById" && sub.query.key === key) {
-        sub.callback(newValue, oldValue);
+        sub.callback(newValue, oldValue, info);
       } else if (sub.query.type === "collectionAll" && isKeyMatchingPrefix(key, sub.query.keyPrefix)) {
         // For collection.all(), rebuild the full record and notify
         const allRecords = getCollectionAll(sub.query.keyPrefix, sub.query.brand);
-        sub.callback(allRecords, undefined);
+        sub.callback(allRecords, undefined, info);
       }
     }
   }
@@ -279,6 +320,15 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
           continue;
         }
 
+        // Skip if this is a write we already notified about (e.g., remote sync)
+        const pendingHlc = pendingNotifications.get(key);
+        if (newRecord && pendingHlc && compareHlc(newRecord.hlc, pendingHlc) === 0) {
+          pendingNotifications.delete(key);
+          // Still update cache
+          cache[key] = change.newValue;
+          continue;
+        }
+
         // Update cache for external changes
         if (change.newValue === undefined) {
           delete cache[key];
@@ -291,7 +341,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
         const newValue = newRecord?.deleted ? undefined : newRecord?.value;
 
         if (oldValue !== undefined || newValue !== undefined) {
-          notifySubscribers(key, newValue, oldValue);
+          notifySubscribers(key, newValue, oldValue, "external");
         }
       }
     });
@@ -321,7 +371,8 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
 
     cache[resolved.key] = record;
-    notifySubscribers(resolved.key, value, oldValue, sourceId);
+    const source: ChangeSource = sourceId ? "fork" : "local";
+    notifySubscribers(resolved.key, value, oldValue, source, sourceId);
 
     await browser.storage.local.set({ [resolved.key]: record });
     await persistHlcState();
@@ -357,7 +408,8 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
 
     cache[resolved.key] = record;
-    notifySubscribers(resolved.key, undefined, oldValue, sourceId);
+    const source: ChangeSource = sourceId ? "fork" : "local";
+    notifySubscribers(resolved.key, undefined, oldValue, source, sourceId);
     await browser.storage.local.set({ [resolved.key]: record });
     await persistHlcState();
 
@@ -668,6 +720,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
       async mergeRemoteChanges(
         changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
+        fileBlobs?: Map<string, Blob>,
       ): Promise<{ applied: string[]; skipped: string[] }> {
         ensureInitialized();
         const applied: string[] = [];
@@ -689,7 +742,42 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
           const shouldApply = !localRecord || compareHlc(record.hlc, localRecord.hlc) > 0;
 
           if (shouldApply) {
-            await persistRecord(key, record);
+            // Check if this is a file-related key
+            const isFile = isFileKey(key);
+
+            if (isFile) {
+              // Handle file operations
+              const oldFileMeta = localRecord?.value as FileMetaValue<unknown> | undefined;
+              const newFileMeta = record.value as FileMetaValue<unknown> | null;
+
+              // Delete old file if it exists and path is changing or file is being deleted
+              if (oldFileMeta?.path) {
+                const pathChanging = newFileMeta && newFileMeta.path !== oldFileMeta.path;
+                const fileDeleting = record.deleted;
+
+                if (pathChanging || fileDeleting) {
+                  try {
+                    await deleteFile(oldFileMeta.path);
+                  } catch (error) {
+                    console.error(`Failed to delete old file at ${oldFileMeta.path}:`, error);
+                  }
+                }
+              }
+
+              // Write new file if provided
+              if (!record.deleted && newFileMeta?.path && fileBlobs) {
+                const blob = fileBlobs.get(key);
+                if (blob) {
+                  try {
+                    await writeFile(newFileMeta.path, blob);
+                  } catch (error) {
+                    console.error(`Failed to write file at ${newFileMeta.path}:`, error);
+                  }
+                }
+              }
+            }
+
+            await persistRecord(key, record, { notifyAs: "remote" });
             applied.push(key);
           } else {
             skipped.push(key);
@@ -705,6 +793,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
       async applyRemoteChangesIgnoringHlc(
         changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
+        fileBlobs?: Map<string, Blob>,
       ): Promise<{ applied: string[]; skipped: string[] }> {
         ensureInitialized();
         const applied: string[] = [];
@@ -717,7 +806,44 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
             continue;
           }
 
-          await persistRecord(key, record);
+          // Check if this is a file-related key
+          const isFile = isFileKey(key);
+
+          if (isFile) {
+            // Handle file operations
+            const localValue = cache[key];
+            const localRecord = isStorageRecord(localValue) ? localValue : undefined;
+            const oldFileMeta = localRecord?.value as FileMetaValue<unknown> | undefined;
+            const newFileMeta = record.value as FileMetaValue<unknown> | null;
+
+            // Delete old file if it exists and path is changing or file is being deleted
+            if (oldFileMeta?.path) {
+              const pathChanging = newFileMeta && newFileMeta.path !== oldFileMeta.path;
+              const fileDeleting = record.deleted;
+
+              if (pathChanging || fileDeleting) {
+                try {
+                  await deleteFile(oldFileMeta.path);
+                } catch (error) {
+                  console.error(`Failed to delete old file at ${oldFileMeta.path}:`, error);
+                }
+              }
+            }
+
+            // Write new file if provided
+            if (!record.deleted && newFileMeta?.path && fileBlobs) {
+              const blob = fileBlobs.get(key);
+              if (blob) {
+                try {
+                  await writeFile(newFileMeta.path, blob);
+                } catch (error) {
+                  console.error(`Failed to write file at ${newFileMeta.path}:`, error);
+                }
+              }
+            }
+          }
+
+          await persistRecord(key, record, { notifyAs: "remote" });
           applied.push(key);
 
           getHlc().receive(record.hlc);
@@ -740,6 +866,9 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       async deleteMeta(query) {
         ensureInitialized();
         await deleteInternal(query);
+      },
+      subscribe(query, callback) {
+        return subscribeInternal(query, callback);
       },
     }),
   };

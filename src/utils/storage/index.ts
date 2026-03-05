@@ -15,4 +15,4 @@ export {
   type RssPost,
   type BookmarkWidgetStore,
 } from "./schema";
-export { getAnoriStorage, getAnoriStorageNoWait, type AnoriStorage } from "./init";
+export { getAnoriStorage, getAnoriStorageNoWait, type AnoriStorage, type AnoriStorageOptions } from "./init";

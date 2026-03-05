@@ -2,7 +2,6 @@ import { type ApiClientWithReconnect, createApiClient, isAppErrorOfType } from "
 import { CommitLogPrunedError } from "@anori-app/api-types";
 import { type AnoriStorage, anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
 import type { HlcTimestamp } from "@anori/utils/storage-lib/hlc";
-import { writeFile } from "@anori/utils/storage-lib/opfs";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
 import { getApiClient } from "./api-client";
@@ -147,7 +146,7 @@ export class SyncManager {
 
     const remoteData = await client.sync.fullSync.query({ profileId });
 
-    const kvChanges: Array<{
+    const changes: Array<{
       key: string;
       record: StorageRecord<unknown>;
       schemaVersion: number;
@@ -155,9 +154,6 @@ export class SyncManager {
     const fileDownloads: Array<{
       key: string;
       fileDownloadUrl: string;
-      fileMeta: { path: string; properties?: unknown };
-      record: StorageRecord<unknown>;
-      schemaVersion: number;
     }> = [];
 
     for (const cell of remoteData.cells) {
@@ -165,71 +161,42 @@ export class SyncManager {
         continue;
       }
 
-      if (cell.fileDownloadUrl !== null) {
-        if (cell.deleted) {
-          kvChanges.push({
-            key: cell.key,
-            record: {
-              hlc: cell.hlc,
-              value: null,
-              deleted: true,
-              brand: cell.brand,
-            },
-            schemaVersion: cell.schemaVersion,
-          });
-          continue;
-        }
+      changes.push({
+        key: cell.key,
+        record: {
+          hlc: cell.hlc,
+          value: cell.deleted ? null : cell.value,
+          deleted: cell.deleted,
+          brand: cell.brand,
+        },
+        schemaVersion: cell.schemaVersion,
+      });
 
-        const fileMeta = cell.value as { path: string; properties?: unknown } | null;
-        if (!fileMeta || !fileMeta.path) {
-          continue;
-        }
-
+      if (cell.fileDownloadUrl !== null && !cell.deleted) {
         fileDownloads.push({
           key: cell.key,
           fileDownloadUrl: cell.fileDownloadUrl,
-          fileMeta,
-          record: {
-            hlc: cell.hlc,
-            value: cell.value,
-            deleted: false,
-            brand: cell.brand,
-          },
-          schemaVersion: cell.schemaVersion,
-        });
-      } else {
-        kvChanges.push({
-          key: cell.key,
-          record: {
-            hlc: cell.hlc,
-            value: cell.deleted ? null : cell.value,
-            deleted: cell.deleted,
-            brand: cell.brand,
-          },
-          schemaVersion: cell.schemaVersion,
         });
       }
     }
 
+    const fileBlobs = new Map<string, Blob>();
     await Promise.all(
-      fileDownloads.map(async ({ key, fileDownloadUrl, fileMeta, record, schemaVersion }) => {
+      fileDownloads.map(async ({ key, fileDownloadUrl }) => {
         try {
           const response = await fetch(fileDownloadUrl);
           if (!response.ok) {
             throw new Error(`Failed to download file: ${response.statusText}`);
           }
-
           const blob = await response.blob();
-          await writeFile(fileMeta.path, blob);
-
-          kvChanges.push({ key, record, schemaVersion });
+          fileBlobs.set(key, blob);
         } catch (error) {
           console.error(`Failed to download file ${key}:`, error);
         }
       }),
     );
 
-    await this.storage.sync.applyRemoteChangesIgnoringHlc(kvChanges);
+    await this.storage.sync.applyRemoteChangesIgnoringHlc(changes, fileBlobs);
     await this.storage.sync.clearOutbox();
 
     await this.storage.set(anoriSchema.cloudSyncSettings, {
@@ -549,7 +516,7 @@ export class SyncManager {
   private async applyRemoteCells(cells: RemoteCell[]): Promise<void> {
     const currentSchemaVersion = anoriVersionedSchema.currentVersion;
 
-    const kvChanges: Array<{
+    const changes: Array<{
       key: string;
       record: StorageRecord<unknown>;
       schemaVersion: number;
@@ -557,9 +524,6 @@ export class SyncManager {
     const fileDownloads: Array<{
       key: string;
       fileDownloadUrl: string;
-      fileMeta: { path: string; properties?: unknown };
-      record: StorageRecord<unknown>;
-      schemaVersion: number;
     }> = [];
 
     for (const cell of cells) {
@@ -567,48 +531,21 @@ export class SyncManager {
         continue;
       }
 
-      if (cell.fileDownloadUrl !== null) {
-        if (cell.deleted) {
-          kvChanges.push({
-            key: cell.key,
-            record: {
-              hlc: cell.hlc,
-              value: null,
-              deleted: true,
-              brand: cell.brand,
-            },
-            schemaVersion: cell.schemaVersion,
-          });
-          continue;
-        }
+      changes.push({
+        key: cell.key,
+        record: {
+          hlc: cell.hlc,
+          value: cell.deleted ? null : cell.value,
+          deleted: cell.deleted,
+          brand: cell.brand,
+        },
+        schemaVersion: cell.schemaVersion,
+      });
 
-        const fileMeta = cell.value as { path: string; properties?: unknown } | null;
-        if (!fileMeta || !fileMeta.path) {
-          continue;
-        }
-
+      if (cell.fileDownloadUrl !== null && !cell.deleted) {
         fileDownloads.push({
           key: cell.key,
           fileDownloadUrl: cell.fileDownloadUrl,
-          fileMeta,
-          record: {
-            hlc: cell.hlc,
-            value: cell.value,
-            deleted: false,
-            brand: cell.brand,
-          },
-          schemaVersion: cell.schemaVersion,
-        });
-      } else {
-        kvChanges.push({
-          key: cell.key,
-          record: {
-            hlc: cell.hlc,
-            value: cell.deleted ? null : cell.value,
-            deleted: cell.deleted,
-            brand: cell.brand,
-          },
-          schemaVersion: cell.schemaVersion,
         });
       }
     }
@@ -629,18 +566,7 @@ export class SyncManager {
       }),
     );
 
-    const result = await this.storage.sync.mergeRemoteChanges(kvChanges);
-
-    await Promise.all(
-      fileDownloads.map(async ({ key, fileMeta }) => {
-        if (result.applied.includes(key)) {
-          const blob = fileBlobs.get(key);
-          if (blob) {
-            await writeFile(fileMeta.path, blob);
-          }
-        }
-      }),
-    );
+    await this.storage.sync.mergeRemoteChanges(changes, fileBlobs);
   }
 }
 

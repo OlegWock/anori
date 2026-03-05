@@ -10,6 +10,14 @@ import { type Storage, createStorage } from "@anori/utils/storage-lib/storage";
 
 export type AnoriStorage = Storage<typeof anoriVersionedSchema>;
 
+export type AnoriStorageOptions = {
+  /**
+   * Whether to enable cloud sync for this storage instance.
+   * @default true
+   */
+  sync?: boolean;
+};
+
 let globalStorage: Promise<AnoriStorage> | AnoriStorage | null = null;
 
 /**
@@ -23,14 +31,15 @@ let globalStorage: Promise<AnoriStorage> | AnoriStorage | null = null;
  * 3. If `__schema_version` is set but less than current → run schema migrations
  * 4. Create and initialize the storage instance
  *
+ * @param options - Configuration options for storage initialization
  * @returns The initialized storage instance on success
  */
-export async function getAnoriStorage(): Promise<AnoriStorage> {
+export async function getAnoriStorage(options: AnoriStorageOptions = {}): Promise<AnoriStorage> {
   if (globalStorage) {
     return globalStorage;
   }
 
-  const promise = initAnoriStorage();
+  const promise = initAnoriStorage(options);
   promise.then((storage) => {
     globalStorage = storage;
   });
@@ -45,14 +54,17 @@ export function getAnoriStorageNoWait(): AnoriStorage {
   throw new Error("Storage is not ready yet");
 }
 
-async function initAnoriStorage(): Promise<AnoriStorage> {
+async function initAnoriStorage(options: AnoriStorageOptions): Promise<AnoriStorage> {
+  const { sync = true } = options;
   const isLegacy = await isLegacyStorage();
 
   if (isLegacy) {
     await migrateFromLegacy();
     const storage = createStorage({ schema: anoriVersionedSchema });
     await storage.initialize();
-    startSync(storage);
+    if (sync) {
+      startSync(storage);
+    }
     return storage;
   }
 
@@ -63,7 +75,9 @@ async function initAnoriStorage(): Promise<AnoriStorage> {
     await setStoredSchemaVersion(anoriVersionedSchema.currentVersion);
     const storage = createStorage({ schema: anoriVersionedSchema });
     await storage.initialize();
-    startSync(storage);
+    if (sync) {
+      startSync(storage);
+    }
     return storage;
   }
 
@@ -77,6 +91,8 @@ async function initAnoriStorage(): Promise<AnoriStorage> {
 
   const storage = createStorage({ schema: anoriVersionedSchema });
   await storage.initialize();
-  startSync(storage);
+  if (sync) {
+    startSync(storage);
+  }
   return storage;
 }

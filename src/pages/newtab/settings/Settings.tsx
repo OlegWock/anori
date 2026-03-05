@@ -317,12 +317,7 @@ const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
   const saveDraftCustomIcons = async () => {
     await Promise.all(
       draftCustomIcons.map((draftCustomIcon) =>
-        addNewCustomIcon(
-          draftCustomIcon.name,
-          draftCustomIcon.extension,
-          draftCustomIcon.content,
-          draftCustomIcon.preview,
-        ),
+        addNewCustomIcon(draftCustomIcon.name, draftCustomIcon.extension, draftCustomIcon.content),
       ),
     );
     setDraftCustomIcons([]);

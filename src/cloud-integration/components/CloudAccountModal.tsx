@@ -44,6 +44,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
   const [disconnectingProfileId, setDisconnectingProfileId] = useState<string | null>(null);
   const [confirmingProfileId, setConfirmingProfileId] = useState<string | null>(null);
   const [isCreatingProfile, setIsCreatingProfile] = useState(false);
+  const [isPushingProfile, setIsPushingProfile] = useState(false);
   const [newProfileName, setNewProfileName] = useState("");
   const [createProfileError, setCreateProfileError] = useState<string | null>(null);
   const {
@@ -96,6 +97,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
 
     setCreateProfileError(null);
     setIsCreatingProfile(true);
+    setIsPushingProfile(true);
 
     try {
       const newProfile = await createProfileMutation.mutateAsync({ name: newProfileName.trim() });
@@ -106,6 +108,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
       console.error("Failed to create profile:", error);
       setCreateProfileError(t("cloud.error.failedToCreateProfile"));
     } finally {
+      setIsPushingProfile(false);
       setIsCreatingProfile(false);
     }
   };
@@ -146,11 +149,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
               autoFocus
             />
             <div className="create-profile-actions">
-              <Button
-                onClick={handleCreateProfile}
-                loading={createProfileMutation.isPending}
-                disabled={!newProfileName.trim()}
-              >
+              <Button onClick={handleCreateProfile} loading={isPushingProfile} disabled={!newProfileName.trim()}>
                 {t("cloud.create")}
               </Button>
               <Button
@@ -159,7 +158,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                   setNewProfileName("");
                   setCreateProfileError(null);
                 }}
-                disabled={createProfileMutation.isPending}
+                disabled={isPushingProfile}
               >
                 {t("cloud.cancel")}
               </Button>

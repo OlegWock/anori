@@ -7,13 +7,15 @@ import { type ComponentPropsWithRef, useEffect, useRef, useState } from "react";
 
 type SvgIconRenderedProps = {
   icon: string;
-  svgText: string;
+  src?: string;
+  svgText?: string;
   cache?: boolean;
 } & ComponentPropsWithRef<typeof m.svg>;
 
 export const SvgIconRenderer = ({
   icon,
-  svgText,
+  src,
+  svgText: svgTextFromProps,
   cache = true,
   width,
   height,
@@ -45,6 +47,15 @@ export const SvgIconRenderer = ({
       iconInfo = await fromCache;
     } else {
       const promise = iife(async () => {
+        let svgText: string;
+        if (src) {
+          const response = await fetch(src);
+          svgText = await response.text();
+        } else if (svgTextFromProps) {
+          svgText = svgTextFromProps;
+        } else {
+          throw new Error("either src or svgText prop should be set on SvgIconRenderer");
+        }
         const cachedIcon = parseSvgToIconInfo(svgText);
         if (!cachedIcon) {
           throw new Error(`Failed to parse SVG for icon ${icon}`);

@@ -1,6 +1,7 @@
 import { type Color, darken, fromHsl, lighten, toCss, toCssHslValues, transparentize } from "@anori/utils/color";
 import { setPageBackground } from "@anori/utils/page";
-import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { type AnoriStorage, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import isEqual from "lodash/isEqual";
 import browser from "webextension-polyfill";
 
 export type BuiltinTheme = {
@@ -149,7 +150,7 @@ export const saveThemeBackground = async (
 };
 
 export const getThemeBackground = async (themeName: string): Promise<Blob> => {
-  const storage = await getAnoriStorage();
+  const storage = await getAnoriStorage({ sync: false });
   const key = getThemeBackgroundKey(themeName, "blurred");
   const result = await storage.files.get(anoriSchema.themeBackgrounds.byId(key));
 
@@ -245,4 +246,59 @@ export const applyThemeColors = (colors: Theme["colors"]) => {
   const darkerText = colors.text.lightness > 0.5 ? darken(colors.text, 0.45) : lighten(colors.text, 0.45);
   root.style.setProperty("--background-lighter", toCss(lighterBg));
   root.style.setProperty("--text-disabled", toCss(darkerText));
+};
+
+export const watchForThemeUpdates = (storage: AnoriStorage) => {
+  const applyCurrentTheme = () => {
+    const themeName = storage.get(anoriSchema.theme);
+    const customThemes = storage.get(anoriSchema.customThemes);
+    const theme = [...themes, ...customThemes].find((t) => t.name === themeName);
+    if (theme) {
+      applyTheme(theme);
+    }
+  };
+
+  const subscribeToCurrentThemeParameters = () => {
+    const themeName = storage.get(anoriSchema.theme);
+
+    const unsubBackground = storage.files.subscribe(
+      anoriSchema.themeBackgrounds.byId(`${themeName}:blurred`),
+      async (meta, oldMeta, info) => {
+        if (info.source === "remote" || info.source === "external") {
+          if (meta && meta.path !== oldMeta?.path) {
+            applyCurrentTheme();
+          }
+        }
+      },
+    );
+    const unsubParameters = storage.subscribe(anoriSchema.customThemes, (newCustomThemes, oldCustomThemes, info) => {
+      if (info.source === "remote" || info.source === "external") {
+        const newCustomTheme = newCustomThemes?.find((t) => t.name === themeName);
+        const oldCustomTheme = oldCustomThemes?.find((t) => t.name === themeName);
+        if (!isEqual(newCustomTheme, oldCustomTheme)) {
+          applyCurrentTheme();
+        }
+      }
+    });
+
+    unsubCurrentThemeParameters?.();
+    unsubCurrentThemeParameters = () => {
+      unsubBackground();
+      unsubParameters();
+    };
+  };
+
+  let unsubCurrentThemeParameters: VoidFunction | null = null;
+
+  const unsubActiveTheme = storage.subscribe(anoriSchema.theme, (_newTheme, _oldTheme, info) => {
+    subscribeToCurrentThemeParameters();
+    if (info.source === "remote" || info.source === "external") {
+      applyCurrentTheme();
+    }
+  });
+
+  return () => {
+    unsubActiveTheme();
+    unsubCurrentThemeParameters?.();
+  };
 };

@@ -1,0 +1,47 @@
+# Anori
+
+Browser extension (Chrome MV3 + Firefox MV2) that lets users compose their own new tab page from widgets. Built with TypeScript, React, SCSS, and compiled with rspack.
+
+## Setup
+
+- Package manager: **pnpm** (not npm/yarn)
+- `pnpm fmt` — format, `pnpm typecheck` — typecheck, `pnpm lint` — lint (all run via git hooks, invoke manually only when asked)
+- Entry points: `src/pages/newtab/start.tsx` (new tab page), `src/background.ts` (service worker)
+
+## Project Structure
+
+- `src/plugins/` — all plugins, each provides widgets via `definePlugin().withWidgets()`
+- `src/components/` — shared React components
+- `src/pages/` — extension pages (auto-discovered by rspack)
+- `src/contentscripts/` — content scripts (auto-discovered)
+- `src/utils/` — reusable utilities
+- `src/translations/` — i18n files (i18next)
+- `src/assets/` — static assets
+
+## Key Rules
+
+Detailed rules live in `.cursor/rules/`. Summaries below:
+
+### General
+TypeScript only. Use `assertValue()` from `@anori/utils/asserts` instead of `!` non-null assertions. Before dangerous git operations, backup the branch.
+Full rules: @.cursor/rules/base.mdc
+
+### Plugins & Widgets
+Widgets are the main building block. Plugins provide widgets via `definePlugin`/`defineWidget` and are registered in `src/plugins/all.ts`. Plugins can have config screens, background callbacks, message handlers, and scheduled tasks. Widgets have access to hooks like `useWidgetMetadata()`, `useParentFolder()`, `useSizeSettings()`, and storage APIs (`usePluginStorage`, `useWidgetStorage`).
+Full rules: @.cursor/rules/plugins.mdc
+
+### Styling
+SCSS with BEM-like naming (`.ComponentName`, `.ComponentName-modifier`, nested kebab-case children). Use `@use` not `@import`. Theme via CSS variables (`--accent`, `--background`, `--text`, etc.). Use `utils.hover` mixin instead of `:hover`. Use `<ScrollArea />` instead of `overflow: scroll`. Prefer `rem` for spacing, `px` for borders. Use `100dvh`/`100dvw` for viewport units.
+Full rules: @.cursor/rules/styling.mdc
+
+### Localization
+i18next + react-i18next. `en` is source of truth. Use `useTranslation` hook in React, `translate()` outside. Translation management commands: `pnpm translations:extract`, `pnpm translations:merge <lang>`, `pnpm translations:clean`. New translations must also be added to `rspack.config.ts` (MomentLocalesPlugin) and `translation-manager.ts` (FINISHED_TRANSLATIONS).
+Full rules: @.cursor/rules/localization.mdc
+
+### Storage & Sync
+Schema-based type-safe storage in `src/utils/storage-lib/` and `src/utils/storage/`. Uses cells (single values) and collections (keyed records). HLC-based Last-Write-Wins conflict resolution for cloud sync. `tracked: true` adds changes to sync outbox. React hooks: `useStorageValue()`. Storage forks prevent echo on own writes. Migrations are atomic, run on in-memory snapshots.
+Full rules: @.cursor/rules/storage-and-sync.mdc
+
+### Cloud Integration
+tRPC + React Query for cloud API. Guarded by `CLOUD_INTEGRATION_ENABLED` flag (dev only). Use `useCloudAccount()` for connection status, `trpc.*` hooks for API calls, `getApiClient()` for imperative usage. Error handling via `isAppErrorOfType()` — never use `instanceof`.
+Full rules: @.cursor/rules/cloud-integration.mdc

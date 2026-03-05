@@ -1,7 +1,6 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
-import { getAllCustomIcons } from "@anori/components/icon/custom-icons";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { languageDirections } from "@anori/translations/metadata";
 import { initTranslation } from "@anori/translations/utils";
@@ -14,6 +13,7 @@ import { QueryClientProvider } from "@anori/utils/react-query";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
+import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
@@ -143,8 +143,7 @@ getAnoriStorage().then((storage) => {
   const title = storage.get(anoriSchema.newTabTitle);
   setPageTitle(title);
 
-  // Preload custom icons as early as possible
-  getAllCustomIcons();
+  // TODO: Preload custom icons as early as possible
 
   const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
   if (showBookmarksBar) {
@@ -162,9 +161,7 @@ getAnoriStorage().then((storage) => {
     }
   }
 
-  storage.subscribe(anoriSchema.theme, (newTheme) => {
-    console.log("Theme changed to", newTheme);
-  });
+  watchForThemeUpdates(storage);
 
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();
