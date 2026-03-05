@@ -1,5 +1,5 @@
 import { Button } from "@anori/components/Button";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import { Combobox } from "@anori/components/Combobox";
 import { Tooltip } from "@anori/components/Tooltip";
@@ -8,7 +8,7 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Select } from "@anori/components/lazy-components";
 import { translate } from "@anori/translations/utils";
 import { useSizeSettings } from "@anori/utils/compact";
-import { useAsyncEffect, useOnChangeEffect } from "@anori/utils/hooks";
+import { useAsyncEffect, useMirrorStateToRef, useOnChangeEffect } from "@anori/utils/hooks";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import { createScopedStoreFactories } from "@anori/utils/scoped-store";
@@ -84,6 +84,7 @@ const weatherCodeDescription = (code: number) => {
 };
 
 const CACHE_TIME = 1000 * 60 * 20;
+const CHECK_INTERVAL = 1000 * 60;
 
 const mockCity = {
   id: 3060972,
@@ -188,19 +189,13 @@ const useCurrentWeather = (config: WeatherWidgetConfig) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [weather, setWeather] = useState<WeatherCurrentWidgetStore["weather"] | null>(null);
+  const weatherRef = useMirrorStateToRef(weather);
 
-  useAsyncEffect(async () => {
-    await store.waitForLoad();
-    const fromStorage = store.get("weather");
-    if (fromStorage) {
-      setWeather(fromStorage);
-      if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
-      setIsLoading(false);
+  const refresh = useCallback(async () => {
+    if (weatherRef.current) {
       setIsRefreshing(true);
     } else {
       setIsLoading(true);
-      setIsRefreshing(false);
-      setWeather(null);
     }
     try {
       const fetched = await gerCurrentWeather(config.location);
@@ -215,6 +210,26 @@ const useCurrentWeather = (config: WeatherWidgetConfig) => {
     }
   }, [config.location, store]);
 
+  useAsyncEffect(async () => {
+    await store.waitForLoad();
+    const fromStorage = store.get("weather");
+    if (fromStorage) {
+      setWeather(fromStorage);
+      if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
+    }
+    refresh();
+  }, [config.location, store]);
+
+  useEffect(() => {
+    const tid = setInterval(() => {
+      const lastUpdated = weatherRef.current?.lastUpdated;
+      if (!lastUpdated || lastUpdated + CACHE_TIME < Date.now()) {
+        refresh();
+      }
+    }, CHECK_INTERVAL);
+    return () => clearInterval(tid);
+  }, [refresh]);
+
   return {
     isLoading,
     isRefreshing,
@@ -228,25 +243,14 @@ const useForecastWeather = (config: WeatherWidgetConfig) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [forecast, setForecast] = useState<WeatherForecast[] | null>(null);
   const [lastUpdated, setLastUpdated] = useState<number>(0);
+  const lastUpdatedRef = useMirrorStateToRef(lastUpdated);
   const { i18n } = useTranslation();
 
-  useAsyncEffect(async () => {
-    await store.waitForLoad();
-    const fromStorage = store.get("weather");
-    if (fromStorage) {
-      const forecastWithDates = fromStorage.forecast.map((r) => ({
-        ...r,
-        date: moment(r.dateRaw),
-      }));
-      setForecast(forecastWithDates);
-      setLastUpdated(fromStorage.lastUpdated);
-      if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
-      setIsLoading(false);
+  const refresh = useCallback(async () => {
+    if (lastUpdatedRef.current) {
       setIsRefreshing(true);
     } else {
       setIsLoading(true);
-      setIsRefreshing(false);
-      setForecast(null);
     }
     try {
       const weather = await getForecast(config.location);
@@ -263,6 +267,30 @@ const useForecastWeather = (config: WeatherWidgetConfig) => {
       setIsRefreshing(false);
     }
   }, [config.location, store]);
+
+  useAsyncEffect(async () => {
+    await store.waitForLoad();
+    const fromStorage = store.get("weather");
+    if (fromStorage) {
+      const forecastWithDates = fromStorage.forecast.map((r) => ({
+        ...r,
+        date: moment(r.dateRaw),
+      }));
+      setForecast(forecastWithDates);
+      setLastUpdated(fromStorage.lastUpdated);
+      if (fromStorage.lastUpdated + CACHE_TIME > Date.now()) return;
+    }
+    refresh();
+  }, [config.location, store]);
+
+  useEffect(() => {
+    const tid = setInterval(() => {
+      if (!lastUpdatedRef.current || lastUpdatedRef.current + CACHE_TIME < Date.now()) {
+        refresh();
+      }
+    }, CHECK_INTERVAL);
+    return () => clearInterval(tid);
+  }, [refresh]);
 
   useOnChangeEffect(() => {
     if (forecast) {

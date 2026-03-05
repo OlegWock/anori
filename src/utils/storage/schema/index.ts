@@ -357,7 +357,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: BookmarkWidgetStoreSchema,
       }),
     },
-    tracked: true,
+    tracked: false,
   }),
 
   // File collections
