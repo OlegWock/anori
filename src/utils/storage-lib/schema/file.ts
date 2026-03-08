@@ -8,6 +8,7 @@ const FILE_QUERY_TYPE = Symbol("fileQuery");
 type FileOptions<P> = {
   key: string;
   tracked: boolean;
+  includedInBackup: boolean;
   propertiesSchema?: z.ZodType<P>;
 };
 
@@ -17,12 +18,14 @@ export type FileDescriptor<P = unknown> = {
   readonly _valueType: FileMetaValue<P>;
   readonly key: string;
   readonly tracked: boolean;
+  readonly includedInBackup: boolean;
   readonly propertiesSchema?: z.ZodType<P>;
 };
 
 type FileCollectionOptions<P> = {
   keyPrefix: string;
   tracked: boolean;
+  includedInBackup: boolean;
   propertiesSchema?: z.ZodType<P>;
 };
 
@@ -53,6 +56,7 @@ export type FileCollectionDescriptor<P = unknown> = {
   readonly _valueType: FileMetaValue<P>;
   readonly keyPrefix: string;
   readonly tracked: boolean;
+  readonly includedInBackup: boolean;
   readonly propertiesSchema?: z.ZodType<P>;
   all(): FileCollectionAllQuery<P>;
   byId(id: string): FileCollectionByIdQuery<P>;
@@ -65,12 +69,14 @@ export function file<P = undefined>(options: FileOptions<P>): FileDescriptor<P> 
     _valueType: undefined as unknown as FileMetaValue<P>,
     key: options.key,
     tracked: options.tracked,
+    includedInBackup: options.includedInBackup,
     propertiesSchema: options.propertiesSchema,
   };
 }
 
 export function fileCollection<P = undefined>(options: FileCollectionOptions<P>): FileCollectionDescriptor<P> {
   const { keyPrefix, tracked, propertiesSchema } = options;
+  const includedInBackup = options.includedInBackup;
 
   return {
     _type: FILE_COLLECTION_TYPE,
@@ -78,6 +84,7 @@ export function fileCollection<P = undefined>(options: FileCollectionOptions<P>)
     _valueType: undefined as unknown as FileMetaValue<P>,
     keyPrefix,
     tracked,
+    includedInBackup,
     propertiesSchema,
 
     all(): FileCollectionAllQuery<P> {

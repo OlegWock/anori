@@ -25,6 +25,7 @@ describe("Schema Definition", () => {
         schema: z.string(),
         defaultValue: "Forest",
         tracked: true,
+        includedInBackup: true,
       });
 
       expect(isCellDescriptor(themeCell)).toBe(true);
@@ -38,6 +39,7 @@ describe("Schema Definition", () => {
         key: "myTheme",
         schema: z.string(),
         tracked: false,
+        includedInBackup: true,
       });
 
       expect(themeCell.key).toBe("myTheme");
@@ -67,6 +69,7 @@ describe("Schema Definition", () => {
           }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       expect(isCollectionDescriptor(folders)).toBe(true);
@@ -84,6 +87,7 @@ describe("Schema Definition", () => {
           }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       const allQuery = folders.all();
@@ -105,6 +109,7 @@ describe("Schema Definition", () => {
           }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       const byIdQuery = folders.byId("home");
@@ -130,6 +135,7 @@ describe("Schema Definition", () => {
           }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       const allNotes = widgets.notes.all();
@@ -151,6 +157,7 @@ describe("Schema Definition", () => {
           schema: z.string(),
           defaultValue: "Forest",
           tracked: true,
+          includedInBackup: true,
         }),
         folders: collection({
           keyPrefix: "Folder",
@@ -161,6 +168,7 @@ describe("Schema Definition", () => {
             }),
           },
           tracked: true,
+          includedInBackup: true,
         }),
       });
 
@@ -180,6 +188,7 @@ describe("Schema Definition", () => {
             }),
           },
           tracked: true,
+          includedInBackup: true,
         }),
       });
 
@@ -195,7 +204,7 @@ describe("Schema Definition", () => {
   describe("defineVersionedSchema", () => {
     it("should create a versioned schema", () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const schema = defineVersionedSchema({
@@ -210,12 +219,12 @@ describe("Schema Definition", () => {
 
     it("should identify latest version from multiple", () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const v2 = defineSchemaVersion(2, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
-        color: cell({ key: "color", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
+        color: cell({ key: "color", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const schema = defineVersionedSchema({
@@ -240,12 +249,12 @@ describe("Schema Definition", () => {
   describe("createMigration", () => {
     it("should create a migration descriptor", () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const v2 = defineSchemaVersion(2, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
-        color: cell({ key: "color", schema: z.string(), defaultValue: "blue", tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
+        color: cell({ key: "color", schema: z.string(), defaultValue: "blue", tracked: true, includedInBackup: true }),
       });
 
       const migration = createMigration(v1, v2, async ({ to }) => {
@@ -261,7 +270,7 @@ describe("Schema Definition", () => {
   describe("getMigrationPath", () => {
     it("should return empty array when already at target version", () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const schema = defineVersionedSchema({
@@ -274,15 +283,15 @@ describe("Schema Definition", () => {
 
     it("should return migration path for multiple steps", () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const v2 = defineSchemaVersion(2, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const v3 = defineSchemaVersion(3, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const m1to2 = createMigration(v1, v2, async () => {});
@@ -304,11 +313,11 @@ describe("Schema Definition", () => {
 
     it("should throw if migration not found", () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const v3 = defineSchemaVersion(3, {
-        theme: cell({ key: "theme", schema: z.string(), tracked: true }),
+        theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true }),
       });
 
       const schema = defineVersionedSchema({
@@ -322,12 +331,12 @@ describe("Schema Definition", () => {
 
   describe("type guards", () => {
     it("isCellQuery should identify cell descriptors as queries", () => {
-      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true });
+      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true });
       expect(isCellQuery(themeCell)).toBe(true);
     });
 
     it("isCollectionQuery should not match cell descriptors", () => {
-      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true });
+      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true });
       expect(isCollectionQuery(themeCell)).toBe(false);
     });
   });

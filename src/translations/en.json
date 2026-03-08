@@ -134,7 +134,8 @@
                 "title": "Import & export",
                 "info": "Here you can backup your settings or restore older backup.",
                 "import": "Import",
-                "export": "Export"
+                "export": "Export",
+                "cloudWarning": "You have cloud sync enabled. Importing a backup will disconnect you from your sync profile. You will need to reconnect after import. Continue?"
             },
             "aboutHelp": {
                 "title": "Help & about the extension",

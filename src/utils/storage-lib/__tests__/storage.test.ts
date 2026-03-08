@@ -21,14 +21,15 @@ describe("Storage", () => {
 
   function createTestSchema() {
     const v1 = defineSchemaVersion(1, {
-      theme: cell({ key: "theme", schema: z.string(), defaultValue: "Forest", tracked: true }),
-      counter: cell({ key: "counter", schema: z.number(), tracked: false }),
+      theme: cell({ key: "theme", schema: z.string(), defaultValue: "Forest", tracked: true, includedInBackup: true }),
+      counter: cell({ key: "counter", schema: z.number(), tracked: false, includedInBackup: true }),
       folders: collection({
         keyPrefix: "Folder",
         entities: {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string(), color: z.string() }) }),
         },
         tracked: true,
+        includedInBackup: true,
       }),
       widgets: collection({
         keyPrefix: "Widget",
@@ -37,6 +38,7 @@ describe("Storage", () => {
           todos: entity({ brand: "TodoWidget", schema: z.object({ items: z.array(z.string()) }) }),
         },
         tracked: true,
+        includedInBackup: true,
       }),
     });
 

@@ -28,16 +28,7 @@ import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { AnoriPlugin, PluginConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { anoriSchema } from "@anori/utils/storage";
 import { anoriVersionedSchema } from "@anori/utils/storage";
-import {
-  HLC_STATE_KEY,
-  OUTBOX_KEY,
-  SCHEMA_VERSION_KEY,
-  deleteFile,
-  listFiles,
-  readFile,
-  useStorageValue,
-  writeFile,
-} from "@anori/utils/storage-lib";
+import { readFile, useStorage, useStorageValue } from "@anori/utils/storage-lib";
 import type { Mapping } from "@anori/utils/types";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
@@ -467,21 +458,24 @@ const PluginsScreen = (props: ComponentProps<typeof m.div>) => {
 };
 
 const BACKUP_FORMAT_VERSION = 1;
-const INTERNAL_STORAGE_KEYS = [HLC_STATE_KEY, OUTBOX_KEY, SCHEMA_VERSION_KEY];
 
 const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
+  const storage = useStorage();
+  const [cloudAccount] = useStorageValue(anoriSchema.cloudAccount);
+  const [cloudSyncSettings] = useStorageValue(anoriSchema.cloudSyncSettings);
+  const isConnectedToCloud = cloudAccount !== null && cloudSyncSettings !== null;
 
   const exportSettings = async () => {
     const zip = new JSZip();
-    const rawStorage = await browser.storage.local.get(null);
+    const { kv, files } = storage.exportForBackup();
 
-    // Filter out internal keys that shouldn't be in backup
     const exportableStorage: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(rawStorage)) {
-      if (!INTERNAL_STORAGE_KEYS.includes(key)) {
-        exportableStorage[key] = value;
-      }
+    for (const [key, record] of Object.entries(kv)) {
+      exportableStorage[key] = record;
+    }
+    for (const [key, { record }] of Object.entries(files)) {
+      exportableStorage[key] = record;
     }
 
     zip.file("storage.json", JSON.stringify(exportableStorage, null, 2), { compression: "DEFLATE" });
@@ -500,11 +494,11 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       { compression: "DEFLATE" },
     );
 
-    const opfsFiles = await listFiles();
-    for (const filename of opfsFiles) {
-      const blob = await readFile(filename);
+    for (const { record, path } of Object.values(files)) {
+      if (record.deleted) continue;
+      const blob = await readFile(path);
       if (blob) {
-        zip.file(`opfs/${filename}`, blob, { compression: "DEFLATE" });
+        zip.file(`opfs/${path}`, blob, { compression: "DEFLATE" });
       }
     }
 
@@ -515,6 +509,11 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
   };
 
   const importSettings = async () => {
+    if (isConnectedToCloud) {
+      const confirmed = confirm(t("settings.importExport.cloudWarning"));
+      if (!confirmed) return;
+    }
+
     const files = await showOpenFilePicker(false, ".zip");
     const file = files[0];
     const zip = await JSZip.loadAsync(file);
@@ -536,21 +535,26 @@ const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
     }
     const storageData = JSON.parse(await storageFile.async("string")) as Record<string, unknown>;
 
-    const existingFiles = await listFiles();
-    await Promise.all(existingFiles.map((filename) => deleteFile(filename)));
-
+    // Extract OPFS file blobs from the zip
+    const fileBlobs = new Map<string, Blob>();
     const opfsFolder = zip.folder("opfs");
     if (opfsFolder) {
       const opfsFiles = opfsFolder.filter(() => true);
       for (const opfsFile of opfsFiles) {
-        const filename = opfsFile.name.replace(/^opfs\//, "");
+        const path = opfsFile.name.replace(/^opfs\//, "");
         const blob = await opfsFile.async("blob");
-        await writeFile(filename, blob);
+        fileBlobs.set(path, blob);
       }
     }
 
-    await browser.storage.local.clear();
-    await browser.storage.local.set(storageData);
+    // Preserve cloud account credentials so user stays logged in
+    const currentCloudAccount = storage.get(anoriSchema.cloudAccount);
+
+    await storage.importFromBackup({ kv: storageData, fileBlobs });
+
+    if (currentCloudAccount) {
+      await storage.set(anoriSchema.cloudAccount, currentCloudAccount);
+    }
 
     trackEvent("Configuration imported");
     window.location.reload();

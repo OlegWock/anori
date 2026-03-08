@@ -95,6 +95,7 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: z.array(FolderSchema),
     defaultValue: [],
     tracked: true,
+    includedInBackup: true,
   }),
   folderDetails: collection({
     keyPrefix: "Folder",
@@ -105,12 +106,14 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   newTabTitle: cell({
     key: "newTabTitle",
     schema: z.string(),
     defaultValue: "Anori",
     tracked: true,
+    includedInBackup: true,
   }),
 
   // Appearance settings
@@ -119,12 +122,14 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: z.string(),
     defaultValue: "Greenery",
     tracked: true,
+    includedInBackup: true,
   }),
   customThemes: cell({
     key: "customThemes",
     schema: z.array(CustomThemeSchema),
     defaultValue: [],
     tracked: true,
+    includedInBackup: true,
   }),
 
   // Layout settings
@@ -133,18 +138,21 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: SidebarOrientationSchema,
     defaultValue: "auto" as const,
     tracked: true,
+    includedInBackup: true,
   }),
   autoHideSidebar: cell({
     key: "autoHideSidebar",
     schema: z.boolean(),
     defaultValue: false,
     tracked: true,
+    includedInBackup: true,
   }),
   showBookmarksBar: cell({
     key: "showBookmarksBar",
     schema: z.boolean(),
     defaultValue: false,
     tracked: true,
+    includedInBackup: true,
   }),
 
   // Navigation settings
@@ -153,12 +161,14 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: z.boolean(),
     defaultValue: false,
     tracked: true,
+    includedInBackup: true,
   }),
   lastFolder: cell({
     key: "lastFolder",
     schema: z.string().optional(),
     defaultValue: undefined,
     tracked: false,
+    includedInBackup: true,
   }),
 
   // Display mode settings
@@ -167,24 +177,28 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: z.boolean(),
     defaultValue: false,
     tracked: true,
+    includedInBackup: true,
   }),
   automaticCompactMode: cell({
     key: "automaticCompactMode",
     schema: z.boolean(),
     defaultValue: true,
     tracked: true,
+    includedInBackup: true,
   }),
   automaticCompactModeThreshold: cell({
     key: "automaticCompactModeThreshold",
     schema: z.number(),
     defaultValue: 1500,
     tracked: false,
+    includedInBackup: true,
   }),
   showLoadAnimation: cell({
     key: "showLoadAnimation",
     schema: z.boolean(),
     defaultValue: false,
     tracked: true,
+    includedInBackup: true,
   }),
 
   // Localization
@@ -193,6 +207,7 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: LanguageSchema,
     defaultValue: "en" as Language,
     tracked: true,
+    includedInBackup: true,
   }),
 
   // User state (not synced)
@@ -201,12 +216,14 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: z.boolean(),
     defaultValue: false,
     tracked: false,
+    includedInBackup: true,
   }),
   finishedOnboarding: cell({
     key: "finishedOnboarding",
     schema: z.boolean(),
     defaultValue: false,
     tracked: false,
+    includedInBackup: true,
   }),
 
   // Analytics (not synced)
@@ -215,36 +232,42 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: z.string(),
     defaultValue: "",
     tracked: false,
+    includedInBackup: true,
   }),
   analyticsEnabled: cell({
     key: "analyticsEnabled",
     schema: z.boolean(),
     defaultValue: false,
     tracked: false,
+    includedInBackup: true,
   }),
   analyticsLastSend: cell({
     key: "analyticsLastSend",
     schema: z.number(),
     defaultValue: 0,
     tracked: false,
+    includedInBackup: true,
   }),
   dailyUsageMetrics: cell({
     key: "dailyUsageMetrics",
     schema: DailyUsageMetricsSchema,
     defaultValue: {},
     tracked: false,
+    includedInBackup: true,
   }),
   performanceAvgLcp: cell({
     key: "performanceAvgLcp",
     schema: PerformanceAvgLcpSchema,
     defaultValue: { avg: 0, n: 0 },
     tracked: false,
+    includedInBackup: true,
   }),
   performanceRawInp: cell({
     key: "performanceRawInp",
     schema: z.array(z.number()),
     defaultValue: [],
     tracked: false,
+    includedInBackup: true,
   }),
 
   // Cloud integration (not synced)
@@ -253,6 +276,7 @@ export const schemaV1 = defineSchemaVersion(1, {
     schema: CloudAccountSchema,
     defaultValue: null,
     tracked: false,
+    includedInBackup: false,
   }),
   cloudSyncSettings: cell({
     key: "cloudSyncSettings",
@@ -264,6 +288,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       .nullable(),
     defaultValue: null,
     tracked: false,
+    includedInBackup: false,
   }),
 
   // Plugin storage collections
@@ -276,6 +301,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   pluginStorage: collection({
     keyPrefix: "PluginStorage",
@@ -286,6 +312,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
 
   // Widget-specific stores
@@ -298,6 +325,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   notesWidgetStore: collection({
     keyPrefix: "NotesWidgetStore",
@@ -308,6 +336,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   weatherCurrentWidgetStore: collection({
     keyPrefix: "WeatherCurrentWidgetStore",
@@ -318,6 +347,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   weatherForecastWidgetStore: collection({
     keyPrefix: "WeatherForecastWidgetStore",
@@ -328,6 +358,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   topSitesWidgetStore: collection({
     keyPrefix: "TopSitesWidgetStore",
@@ -338,6 +369,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   rssWidgetStore: collection({
     keyPrefix: "RssWidgetStore",
@@ -348,6 +380,7 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: true,
+    includedInBackup: true,
   }),
   bookmarkWidgetStore: collection({
     keyPrefix: "BookmarkWidgetStore",
@@ -358,12 +391,14 @@ export const schemaV1 = defineSchemaVersion(1, {
       }),
     },
     tracked: false,
+    includedInBackup: true,
   }),
 
   // File collections
   customIcons: fileCollection({
     keyPrefix: "CustomIcon",
     tracked: true,
+    includedInBackup: true,
     propertiesSchema: z.object({
       mimeType: z.string().optional(),
     }),
@@ -371,6 +406,7 @@ export const schemaV1 = defineSchemaVersion(1, {
   themeBackgrounds: fileCollection({
     keyPrefix: "ThemeBackground",
     tracked: true,
+    includedInBackup: true,
   }),
 });
 

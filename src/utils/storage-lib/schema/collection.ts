@@ -7,6 +7,7 @@ type CollectionOptions<E extends Record<string, EntityDescriptor>> = {
   keyPrefix: string;
   entities: E;
   tracked: boolean;
+  includedInBackup: boolean;
 };
 
 type EntityValueTypes<E extends Record<string, EntityDescriptor>> = {
@@ -47,6 +48,7 @@ export type CollectionDescriptorBase = {
   readonly keyPrefix: string;
   readonly entities: Record<string, EntityDescriptor>;
   readonly tracked: boolean;
+  readonly includedInBackup: boolean;
 };
 
 export type CollectionDescriptor<E extends Record<string, EntityDescriptor> = Record<string, EntityDescriptor>> =
@@ -66,6 +68,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
 
   const entityAccessors = {} as { [K in keyof E]: EntityAccessor<E[K]["_valueType"]> };
   const tracked = options.tracked;
+  const includedInBackup = options.includedInBackup;
 
   for (const [name, entityDesc] of Object.entries(options.entities)) {
     entityAccessors[name as keyof E] = {
@@ -99,6 +102,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
     keyPrefix,
     entities: options.entities,
     tracked: options.tracked,
+    includedInBackup,
 
     all(): CollectionAllQuery<UnionOfValues<EntityValueTypes<E>>> {
       return {

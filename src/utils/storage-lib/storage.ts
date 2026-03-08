@@ -2,7 +2,7 @@ import browser from "webextension-polyfill";
 import { type FilesStorage, createFilesStorage } from "./files";
 import { type Hlc, type HlcState, type HlcTimestamp, compareHlc, createHlc, generateNodeId } from "./hlc";
 import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
-import { deleteFile, writeFile } from "./opfs";
+import { deleteFile, listFiles, writeFile } from "./opfs";
 import { type Query, type ResolvedQuery, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
 import { type CellDescriptor, isCellDescriptor } from "./schema/cell";
 import { type CollectionAllQuery, type CollectionByIdQuery, isCollectionDescriptor } from "./schema/collection";
@@ -117,6 +117,16 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     ): Promise<{ applied: string[]; skipped: string[] }>;
   };
 
+  exportForBackup(): {
+    kv: Record<string, StorageRecord<unknown>>;
+    files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
+  };
+
+  importFromBackup(data: {
+    kv: Record<string, unknown>;
+    fileBlobs: Map<string, Blob>;
+  }): Promise<void>;
+
   files: FilesStorage;
 };
 
@@ -157,6 +167,22 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       }
     }
     return false;
+  }
+
+  function isKeyBackupEligible(key: string): boolean {
+    for (const descriptor of Object.values(latestSchema.definition)) {
+      if (isCellDescriptor(descriptor) || isFileDescriptor(descriptor)) {
+        if (descriptor.key === key) {
+          return descriptor.includedInBackup;
+        }
+      } else if (isCollectionDescriptor(descriptor) || isFileCollectionDescriptor(descriptor)) {
+        if (isKeyMatchingPrefix(key, descriptor.keyPrefix)) {
+          return descriptor.includedInBackup;
+        }
+      }
+    }
+    // Unknown keys (not in schema) are included by default
+    return true;
   }
 
   function isFileKey(key: string): boolean {
@@ -852,6 +878,52 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
         await persistHlcState();
         return { applied, skipped };
       },
+    },
+
+    exportForBackup(): {
+      kv: Record<string, StorageRecord<unknown>>;
+      files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
+    } {
+      ensureInitialized();
+      const kv: Record<string, StorageRecord<unknown>> = {};
+      const files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }> = {};
+
+      for (const [key, value] of Object.entries(cache)) {
+        if (!isStorageRecord(value)) continue;
+        if (!isKeyBackupEligible(key)) continue;
+
+        if (isFileKey(key)) {
+          const fileRecord = value as StorageRecord<FileMetaValue<unknown>>;
+          const fileMeta = fileRecord.value;
+          if (fileMeta?.path) {
+            files[key] = { record: fileRecord, path: fileMeta.path };
+          }
+        } else {
+          kv[key] = value;
+        }
+      }
+
+      return { kv, files };
+    },
+
+    async importFromBackup(data: {
+      kv: Record<string, StorageRecord<unknown>>;
+      fileBlobs: Map<string, Blob>;
+    }): Promise<void> {
+      ensureInitialized();
+
+      // Clear existing OPFS files
+      const existingFiles = await listFiles();
+      await Promise.all(existingFiles.map((filename) => deleteFile(filename)));
+
+      // Write new OPFS files from backup
+      for (const [path, blob] of data.fileBlobs) {
+        await writeFile(path, blob);
+      }
+
+      // Replace all browser storage with backup data
+      await browser.storage.local.clear();
+      await browser.storage.local.set(data.kv);
     },
 
     files: createFilesStorage({

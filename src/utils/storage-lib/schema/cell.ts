@@ -7,6 +7,7 @@ type CellOptionsWithDefault<T> = {
   schema: z.ZodType<T>;
   defaultValue: T;
   tracked: boolean;
+  includedInBackup: boolean;
 };
 
 type CellOptionsWithoutDefault<T> = {
@@ -14,6 +15,7 @@ type CellOptionsWithoutDefault<T> = {
   schema: z.ZodType<T>;
   defaultValue?: undefined;
   tracked: boolean;
+  includedInBackup: boolean;
 };
 
 type CellOptions<T> = CellOptionsWithDefault<T> | CellOptionsWithoutDefault<T>;
@@ -26,6 +28,7 @@ export type CellDescriptor<T = unknown, HasDefault extends boolean = boolean> = 
   readonly schema: z.ZodType<T>;
   readonly defaultValue: HasDefault extends true ? T : undefined;
   readonly tracked: boolean;
+  readonly includedInBackup: boolean;
 };
 
 export type CellQuery<T> = {
@@ -46,6 +49,7 @@ export function cell<T>(options: CellOptions<T>): CellDescriptor<T, boolean> {
     schema: options.schema,
     defaultValue: options.defaultValue,
     tracked: options.tracked,
+    includedInBackup: options.includedInBackup,
   } as CellDescriptor<T, boolean>;
 }
 
