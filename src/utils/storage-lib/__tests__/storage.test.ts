@@ -244,6 +244,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.set(storage.schema.theme, "Ocean");
 
@@ -255,6 +256,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.set(storage.schema.counter, 42);
 
@@ -292,6 +294,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.set(storage.schema.theme, "Ocean");
       await storage.set(storage.schema.theme, "Forest");
@@ -342,6 +345,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.delete(storage.schema.theme);
 
@@ -528,7 +532,7 @@ describe("Storage", () => {
 
       // Fork1's callback should be called
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith("dark", undefined);
+      expect(callback).toHaveBeenCalledWith("dark", undefined, { source: "fork" });
     });
 
     it("fork subscription should receive writes from main storage", async () => {
@@ -546,7 +550,7 @@ describe("Storage", () => {
 
       // Fork's callback should be called
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith("dark", undefined);
+      expect(callback).toHaveBeenCalledWith("dark", undefined, { source: "local" });
     });
 
     it("main storage subscription should receive writes from forks", async () => {
@@ -564,7 +568,7 @@ describe("Storage", () => {
 
       // Main storage callback should be called
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith("dark", undefined);
+      expect(callback).toHaveBeenCalledWith("dark", undefined, { source: "fork" });
     });
   });
 });

@@ -223,7 +223,8 @@ describe("FilesStorage", () => {
       await filesStorage.updateBlob(imageFile, blob2);
 
       const meta = filesStorage.getMeta(imageFile);
-      expect(meta?.path).toBe(originalPath);
+      expect(meta?.path).toBeDefined();
+      expect(meta?.path).not.toBe(originalPath);
       expect(meta?.properties).toEqual({ width: 100 });
     });
 
@@ -368,6 +369,7 @@ describe("FilesStorage", () => {
 
     it("should add tracked files to outbox", async () => {
       const { storage, filesStorage, schema } = await createTestFilesStorage();
+      storage.sync.enableOutbox();
 
       const blob = new Blob(["test"]);
       await filesStorage.set(schema.latestSchema.definition.profileImage, blob);
