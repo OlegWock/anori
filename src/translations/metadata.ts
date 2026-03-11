@@ -7,6 +7,7 @@ import enTranslation from "./en.json";
 import esTranslation from "./es.json";
 import frTranslation from "./fr.json";
 import itTranslation from "./it.json";
+import jaTranslation from "./ja.json";
 import ptBrTranslation from "./pt-br.json";
 import ruTranslation from "./ru.json";
 import thTranslation from "./th.json";
@@ -24,6 +25,7 @@ import "moment/locale/tr";
 import "moment/locale/it";
 import "moment/locale/ar";
 import "moment/locale/zh-cn";
+import "moment/locale/ja";
 import "moment/locale/pt-br";
 moment.locale("en");
 
@@ -40,6 +42,7 @@ export const availableTranslations = [
   "zh-CN",
   "ru",
   "ar",
+  "ja",
 ] as const;
 
 export type Language = (typeof availableTranslations)[number];
@@ -57,6 +60,7 @@ export const availableTranslationsPrettyNames = {
   es: "Español",
   ar: "العربية",
   "pt-BR": "Português do Brasil",
+  ja: "日本語",
   // 'zh-TW': '中文 (繁體)',
 } satisfies Record<Language, string>;
 
@@ -73,6 +77,7 @@ export const resources = {
   ru: ruTranslation,
   ar: arTranslation,
   "pt-BR": ptBrTranslation,
+  ja: jaTranslation,
 } satisfies Record<Language, Mapping>;
 
 export const languageDirections = {
@@ -88,4 +93,5 @@ export const languageDirections = {
   ru: "ltr",
   "pt-BR": "ltr",
   ar: "rtl",
+  ja: "ltr",
 } satisfies Record<Language, "rtl" | "ltr">;
