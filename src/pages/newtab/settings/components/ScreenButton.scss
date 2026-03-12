@@ -1,0 +1,22 @@
+@use "@anori/components/utils.scss" as utils;
+
+.ScreenButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-4);
+    background: var(--background-lighter);
+    border-radius: var(--radius-lg);
+    color: var(--text);
+    gap: var(--spacing-4);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+
+    @include utils.hover {
+        background: var(--accent-subtle);
+    }
+
+    .icon {
+        opacity: 0.5;
+    }
+}

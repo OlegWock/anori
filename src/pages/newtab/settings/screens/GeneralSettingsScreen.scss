@@ -1,0 +1,31 @@
+.GeneralSettingsScreen {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+
+    .translation-alert {
+        margin-top: var(--spacing-4);
+    }
+
+    .screen-size-hint {
+        margin-left: var(--spacing-1);
+    }
+
+    .input-wrapper {
+        margin-bottom: var(--spacing-3);
+
+        label {
+            margin-bottom: var(--spacing-1);
+            display: flex;
+            align-items: center;
+        }
+
+        .Input {
+            width: 100%;
+        }
+    }
+
+    .SelectTrigger {
+        width: 100%;
+    }
+}

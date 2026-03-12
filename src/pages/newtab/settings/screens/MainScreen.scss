@@ -1,0 +1,6 @@
+.MainSettingsScreen {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    gap: var(--spacing-4);
+}

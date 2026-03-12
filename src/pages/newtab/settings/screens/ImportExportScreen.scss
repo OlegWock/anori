@@ -1,0 +1,11 @@
+.ImportExportScreen {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+
+    .import-export-button {
+        display: flex;
+        justify-content: space-around;
+        margin-top: var(--spacing-2);
+    }
+}
