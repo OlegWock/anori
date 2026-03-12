@@ -1,0 +1,335 @@
+{
+    "translation": {
+        "appName": "Anori: 生産性を高める新しいタブ",
+        "appDescription": "カスタマイズ可能な新しいタブ：ウィジェットで自分だけのページを作ろう",
+        "appActionTitle": "Anoriの新しいタブを開く",
+        "icon": "アイコン",
+        "title": "タイトル",
+        "url": "URL",
+        "urls": "URL",
+        "save": "保存",
+        "import": "インポート",
+        "add": "追加",
+        "reload": "再読み込み",
+        "noResults": "結果なし",
+        "example": "例",
+        "timezone": "タイムゾーン",
+        "refreshing": "更新中...",
+        "refresh": "更新",
+        "startTypingToSearch": "検索するには入力してください...",
+        "search": "検索...",
+        "loading": "読み込み中...",
+        "lastUpdatedAt": "最終更新：{{datetime}}",
+        "home": "ホーム",
+        "availableOnlyInEnglish": "英語のみ対応",
+        "px": "px",
+
+        "whatsNew": "新着情報",
+        "editWidget": "ウィジェットを編集",
+        "configureWidget": "ウィジェットを設定",
+        "addWidget": "ウィジェットを追加",
+        "next": "次へ",
+        "back": "戻る",
+        "icons": "アイコン",
+        "customIcons": "カスタムアイコン",
+        "canBeEmpty": "空にできます",
+
+        "cloud": {
+            "connect": "クラウドに接続",
+            "account": "クラウドアカウント",
+            "login": "ログイン",
+            "logout": "ログアウト",
+            "email": "メール",
+            "password": "パスワード",
+            "connectedAs": "接続中：",
+            "noAccount": "アカウントをお持ちでない方は",
+            "createAccount": "こちらから作成",
+            "error": {
+                "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
+                "unknown": "エラーが発生しました。もう一度お試しください。"
+            }
+        },
+
+        "iconsPicker": {
+            "customIconsInfo": "カスタムアイコンは、Anoriで使用するためにアップロードしたアイコンです。",
+            "customIconsAbsent": "カスタムアイコンがありません。最初のカスタムアイコンをアップロードするには設定をご覧ください。",
+            "iconFamily": "アイコンファミリー",
+            "allIcons": "すべてのアイコン",
+            "selectFamilyOrSearch": "アイコンファミリーを選択するか、検索してアイコン候補を表示してください。"
+        },
+
+        "settings": {
+            "title": "設定",
+            "general": {
+                "title": "一般",
+                "language": "言語",
+                "translationInfo": "英語とウクライナ語以外の翻訳はコミュニティによって提供されています。誤りや未翻訳の文字列を見つけたら、修正にご協力ください！参加方法は<0>こちら</0>をご覧ください。",
+                "sidebarOrientation": "サイドバーの向き",
+                "sidebarOrientationOption-auto": "ウィンドウの向きに合わせる",
+                "sidebarOrientationOption-vertical": "常に縦",
+                "sidebarOrientationOption-horizontal": "常に横",
+                "autoHideSidebar": "サイドバーを自動で非表示",
+                "newTabTitle": "新しいタブのタイトル",
+                "enableAnalytics": "アナリティクスの送信を有効にする",
+                "analyticsHintP1": "アナリティクスにより、ユーザーがAnoriをどのように使っているか、どの機能が最もよく使われているかを把握できます。メモの内容やブックマークのURLなどのプライベートな情報は送信されません。",
+                "analyticsHintP2": "より良いプロダクト開発のため、アナリティクスの送信を有効にしてください。<0>詳細はこちら。</0>",
+                "showBookmarksBar": "ブックマークバーを表示",
+                "automaticCompact": "画面サイズに応じてコンパクトモードに自動切り替え",
+                "automaticCompactModeThreshold": "画面サイズがこれより小さい場合にコンパクトモードに切り替え",
+                "automaticCompactModeThresholdHint": "現在の画面幅：{{screenWidth}}px",
+                "useCompact": "常にコンパクトモードを使用",
+                "showAnimationOnOpen": "起動時にアニメーションを表示",
+                "showAnimationOnOpenHint": "有効にすると、データ読み込み時の一瞬のちらつきを隠すローディングアニメーションが表示され、見た目がよくなります。",
+                "rememberLastFolder": "最後に開いたフォルダを記憶"
+            },
+            "customIcons": {
+                "title": "カスタムアイコン",
+                "incorrectFormat": "有効なファイルを選択してください。Anoriは .png、.jpg、.gif、.jpeg、.svg に対応しています",
+                "noIcons": "カスタムアイコンはまだありません。",
+                "iconName": "アイコン名",
+                "invalidNames": "無効な名前のアイコンがあります。保存前に名前を修正してください。",
+                "nameContainsInvalidChars": "名前に使用できない文字が含まれています。英数字、ハイフン(-)、アンダースコア(_)のみ使用できます。",
+                "saveIcons": "アイコンを保存",
+                "supportedFormats": "Anoriは .png、.jpg、.gif、.svg に対応しています。128〜256ピクセルの正方形画像を推奨します（.svg を除く）。",
+                "importIcons": "アイコンをインポート"
+            },
+            "folders": {
+                "title": "フォルダ",
+                "createNew": "新しいフォルダを作成",
+                "defaultName": "新しいフォルダ"
+            },
+            "pluginSettings": {
+                "title": "プラグイン設定"
+            },
+            "theme": {
+                "title": "テーマ",
+                "createCustom": "カスタムテーマを作成",
+                "selectBackground": "背景を選択",
+                "blur": "ぼかし",
+                "colorAccent": "アクセント",
+                "colorBackground": "背景",
+                "colorText": "テキスト"
+            },
+            "importExport": {
+                "title": "インポート＆エクスポート",
+                "info": "設定のバックアップや過去のバックアップの復元ができます。",
+                "import": "インポート",
+                "export": "エクスポート"
+            },
+            "aboutHelp": {
+                "title": "ヘルプと拡張機能について",
+                "onlyEnglishPlease": "私（開発者）は多くの言語を話せないため、Issueは英語でお願いします。ありがとうございます！",
+                "p1": "Anoriは無料のオープンソース拡張機能です。ソースコードは<0>GitHub</0>で公開しています。機能提案やバグ報告は<1>新しいIssue</1>を作成してください。感謝の気持ちはリポジトリへのスターで :)。",
+                "p2": "拡張機能のカスタマイズやプラグイン・ウィジェットの追加については、<0>readme</0>をご覧ください。",
+                "p3": "作者を<0>Twitter</0>でフォローして、<1>ウクライナを支援</1>しましょう。",
+                "p4": "Anoriの開発を支援したい方は<0>こちら</0>からどうぞ。暗号通貨とクレジットカードに対応しています。",
+                "license": "ライセンス"
+            }
+        },
+
+        "shortcuts": {
+            "title": "ショートカット",
+            "showCheatsheet": "ショートカット一覧の表示/非表示",
+            "toggleSettings": "設定の表示/非表示",
+            "closeMenuOrModal": "モーダルウィンドウを閉じる",
+            "switchToFolderAbove": "上のフォルダに切り替え",
+            "switchToFolderBelow": "下のフォルダに切り替え",
+            "switchToNFolder": "1番目のフォルダに切り替え（他の数字でも使えます！）",
+            "editCurrentFolder": "現在のフォルダを編集",
+            "addNewWidget": "現在のフォルダにウィジェットを追加"
+        },
+
+        "onboarding": {
+            "start": {
+                "title": "Anoriへようこそ！",
+                "p1": "ようこそ！このチュートリアルは{{languages}}でご利用いただけます。",
+                "p2": "理想の新しいタブを作る準備が整いました。Anoriのスタートページは、メモ、ブックマーク、ToDoリストなど、さまざまなウィジェットで構成されています。何を追加して、どう配置するかはあなた次第です。",
+                "p3": "右上の鉛筆アイコンをクリックすると、最初のウィジェットを追加できます。これで編集モードに切り替わり、ウィジェットの追加・移動・削除ができます。",
+                "p4": "ウィジェットを追加するにはプラスボタン、編集モードを終了するにはチェックマークをクリックしてください。最初のウィジェットを追加すると、このチュートリアルは消えます。今すぐウィジェットを追加して自分で探索することも、Anoriの機能についてもっと知りたい場合は「次へ」をクリックすることもできます。"
+            },
+            "folders": {
+                "title": "フォルダ",
+                "p1": "デフォルトでは、すべてのウィジェットは「ホーム」フォルダに追加されます。ただし、ウィジェットをフォルダに分けて整理することもできます。たとえば、仕事用とプライベート用のフォルダを分けたり、プロジェクトごとにフォルダを作ったりできます。",
+                "p2": "フォルダを管理するには、左下の歯車アイコンをクリックしてください。設定画面が開き、Anoriをお好みにカスタマイズできます。「フォルダ」をクリックするとフォルダマネージャーが開きます。"
+            },
+            "customization": {
+                "title": "カスタマイズ",
+                "p1": "Anoriはウィジェットを組み合わせてスタートページを作れるだけでなく、さらに細かくカスタマイズできます。",
+                "p2": "新しいタブのタイトル変更、カラースキームや背景画像の変更、ウィジェットで使うカスタムアイコンのアップロード（1万以上の組み込みアイコンに加えて）ができます。",
+                "p3": "これでもまだ半分にも満たない機能です。設定をチェックしてすべての項目を確認してみてください。"
+            },
+            "analytics": {
+                "title": "アナリティクス",
+                "p1": "もうすぐ完了です。最後に一つだけ。デフォルトでは、Anoriはトラッキングデータを収集せず、外部サーバーには何も送信しません。ただし、ユーザーが任意で送信するアナリティクスを使って、どの機能が最もよく使われているか、改善が必要な点はどこかを把握しています。",
+                "p2": "そのため、アナリティクスの送信を有効にしていただけると助かります。Anoriはプライベートなデータ（メモの内容やブックマークのURLなど）は一切送信せず、拡張機能の使い方に関するメトリクス（フォルダの数やショートカットの使用頻度など）のみ送信します。ただし、これは完全に任意です。アナリティクスを有効にしなくても、Anoriは通常通り動作します。",
+                "p3": "収集するデータの詳細については、<0>こちら</0>をクリックしてください。"
+            },
+            "presets": {
+                "title": "新しいスタート",
+                "p1": "以上です！Anoriの基本をマスターしたので、自分だけのスタートページを作る準備ができました。最初のウィジェットを追加して、最高のセットアップを作り始めましょう。",
+                "p2": "選択に疲れましたか？大丈夫です。最初から完璧なページを作る必要はありません。白紙から始める必要もありません。生産性の高いセットアップを用意しています。",
+                "p3": "すべてのニーズに合うとは限りませんが、これをベースに自分好みのセットアップを作ることができます。",
+                "cta": "🚀 生産性の高いセットアップを使う"
+            }
+        },
+
+        "requirePermissions": {
+            "eh": "えっ？",
+            "modalTitle": "追加の権限が必要です",
+            "compactText": "追加の権限が必要です。クリックして詳細を確認してください。",
+            "text": "このウィジェットには追加の権限が必要です：",
+            "apiPermissions": "API権限",
+            "hostPermissions": "ホスト権限",
+            "grant": "権限を付与"
+        },
+
+        "bookmark-plugin": {
+            "name": "ブックマーク",
+            "widgetName": "ブックマーク",
+            "groupWidgetName": "ブックマークグループ",
+            "openInGroup": "タブグループで開く",
+            "group": "グループ",
+            "searchBookmarks": "ブックマークを検索",
+            "checkStatus": "ページのステータスを確認",
+            "checkStatusHint": "Anoriは10〜15分ごとにバックグラウンドでページにリクエストを送り、稼働状況を確認します。サーバーに接続できない場合やHTTP 5xxエラーが返った場合はダウンとみなします。追加の権限が必要です。ブラウザを閉じているか、コンピューターがスリープ中はチェックされません。",
+            "checkingStatus": "ページのステータスを確認中...",
+            "status": "現在のページステータス：{{status}}、最終ステータス変更：{{lastChange}}、最終確認：{{lastCheck}}。",
+            "statusUp": "稼働中",
+            "statusDown": "停止中",
+            "permissionExplanation": "AnoriはCORSを回避するためにこの権限が必要です。ブラウザに表示される文言は少し難しく見えるかもしれませんが、Anoriはブックマークしたウェブサイトのデータを変更したり読み取ったりしません。",
+            "openInNewTab": "新しいタブで開く"
+        },
+        "calendar-plugin": {
+            "name": "カレンダー",
+            "widgetName": "カレンダー",
+            "firstDayOfWeek": "週の最初の曜日"
+        },
+        "datetime-plugin": {
+            "name": "日付と時刻",
+            "widgetNameS": "日付と時刻 - サイズS",
+            "widgetNameM": "日付と時刻 - サイズM",
+            "withoutDate": "日付なし",
+            "timeFormat": "時刻フォーマット",
+            "dateFormat": "日付フォーマット",
+            "24hours": "24時間"
+        },
+
+        "notes-plugin": {
+            "name": "メモ",
+            "noteTitle": "メモのタイトル",
+            "noteText": "メモの本文（Markdown対応）",
+            "exampleTitle": "買い物リスト",
+            "exampleText": "野菜、ケチャップ、チーズ、小麦粉、オリーブオイル"
+        },
+
+        "recently-closed-plugin": {
+            "name": "最近閉じたタブ",
+            "widgetTitle": "最近閉じたもの",
+            "tab": "タブ",
+            "window": "ウィンドウ"
+        },
+
+        "system-status-plugin": {
+            "name": "システム状態",
+            "ramLoad": "RAM使用率",
+            "cpuLoad": "CPU使用率"
+        },
+        "tasks-plugin": {
+            "name": "タスク",
+            "todo": "ToDo",
+            "completeTask": "「{{task}}」を完了",
+            "taskDescription": "タスクの説明...",
+            "noTasks": "タスクはまだありません",
+            "exampleTask0": "メンタルヘルスのためにふらっと散歩",
+            "exampleTask1": "ソファでだらける",
+            "exampleTask2": "床でだらける",
+            "exampleTask3": "泣かないようにする"
+        },
+
+        "top-sites-plugin": {
+            "name": "よく見るサイト",
+            "widgetHorizontal": "よく見るサイト - 横並び",
+            "widgetVertical": "よく見るサイト - 縦並び"
+        },
+
+        "weather-plugin": {
+            "name": "天気",
+            "weatherForecast": "天気予報",
+            "forecast": "予報",
+            "currentWeather": "現在の天気",
+            "kmh": "km/h",
+            "ms": "m/s",
+            "mph": "mph",
+            "clearSky": "快晴",
+            "partlyCloudy": "曇り時々晴れ",
+            "fog": "霧",
+            "drizzle": "霧雨",
+            "freezingDrizzle": "凍雨（霧雨）",
+            "rain": "雨",
+            "freezingRain": "凍雨",
+            "snow": "雪",
+            "rainShower": "にわか雨",
+            "thunderstorm": "雷雨",
+            "unknownCode": "不明な天気コード",
+            "selectCity": "都市を選択",
+            "temperatureUnit": "温度の単位",
+            "speedUnit": "風速の単位",
+            "weatherCode": "天気コード {{code}}"
+        },
+
+        "rss-plugin": {
+            "name": "RSS",
+            "widgetFeedName": "RSSフィード",
+            "widgetLatestPostName": "RSSフィードの最新投稿",
+            "feedUrl": "RSSフィードURL",
+            "feedUrls": "RSSフィードURL",
+            "noPosts": "このフィードにはまだ投稿がありません",
+            "compactView": "コンパクト表示",
+            "presetsTitle": "お気に入りのフィードを追加するか、プリセットから選択してください：",
+            "presetForDevelopers": "開発者向け",
+            "presetForDesigners": "デザイナー向け",
+            "presetInteresting": "興味深いコンテンツ",
+            "presetForDevelopersTitle": "開発",
+            "presetForDesignersTitle": "デザイン",
+            "presetInterestingTitle": "おすすめ",
+            "examplePostTitle1": "Anoriの新しいタブをプロのように整理する方法！",
+            "examplePostDescription1": "まずは定番のブックマークから始めて、あとは直感に従うだけ。ときには少し整理するだけで十分です...",
+            "exampleFeedTitle1": "Anoriブログ",
+            "examplePostTitle2": "最も便利なブラウザ拡張機能8選",
+            "examplePostDescription2": "必須拡張機能でブラウザを生産性ステーションに変える方法をご紹介します。主役はAnoriです。",
+            "exampleFeedTitle2": "生産性向上入門",
+            "examplePostTitle3": "ウィジェットで自分だけの新しいタブを作れる拡張機能！",
+            "examplePostDescription3": "タスク、メモ、ブックマークなどのウィジェットを組み合わせて新しいタブを作り、フォルダで整理できます。",
+            "exampleFeedTitle3": "Reddit"
+        },
+
+        "iframe-plugin": {
+            "name": "ウェブページを埋め込む",
+            "expandWidgetName": "ウェブページを埋め込む — 拡張可能",
+            "showLink": "元のページへのリンクを表示",
+            "limitations": "すべてのページを埋め込みできるわけではありません。一部のサイトは埋め込み表示を意図的にブロックしており、残念ながらAnoriではどうにもできない場合があります。これにより、ページが読み込まれなかったり（Gmailなど）、正常に動作しないことがあります。"
+        },
+
+        "math-plugin": {
+            "name": "計算",
+            "calculator": "電卓",
+            "expandWidgetName": "電卓 — 拡張可能",
+            "cantCalc": "計算できません"
+        },
+        "picture-plugin": {
+            "name": "画像",
+            "widgetName": "画像"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "デッキ",
+            "showAnswer": "答えを表示",
+            "easy": "簡単",
+            "again": "もう一度",
+            "good": "良い",
+            "hard": "難しい",
+            "error": "AnkiConnectに接続できません。Ankiが起動していて、AnkiConnectがインストールされているか確認してください。",
+            "widgetName": "Anki"
+        }
+    }
+}
