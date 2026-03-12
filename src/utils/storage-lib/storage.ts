@@ -1,143 +1,50 @@
 import browser from "webextension-polyfill";
-import { type FilesStorage, createFilesStorage } from "./files";
+import { createFilesStorage } from "./files";
 import { type Hlc, type HlcState, type HlcTimestamp, compareHlc, createHlc, generateNodeId } from "./hlc";
 import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
-import { deleteFile, listFiles, writeFile } from "./opfs";
-import { type Query, type ResolvedQuery, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
-import { type CellDescriptor, isCellDescriptor } from "./schema/cell";
-import { type CollectionAllQuery, type CollectionByIdQuery, isCollectionDescriptor } from "./schema/collection";
-import {
-  isFileCollectionAllQuery,
-  isFileCollectionByIdQuery,
-  isFileCollectionDescriptor,
-  isFileDescriptor,
-} from "./schema/file";
+import { type Query, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
+import type { CellDescriptor } from "./schema/cell";
+import type { CollectionAllQuery, CollectionByIdQuery } from "./schema/collection";
+import { isFileCollectionAllQuery, isFileCollectionByIdQuery, isFileDescriptor } from "./schema/file";
 import type { VersionedSchema } from "./schema/versioned";
-import { type FileMetaValue, type StorageRecord, isStorageRecord } from "./types";
+import { createBackupInterface } from "./storage-backup";
+import { createSchemaHelpers } from "./storage-helpers";
+import { createSyncInterface } from "./storage-sync";
+import type {
+  ChangeCallback,
+  ChangeInfo,
+  ChangeSource,
+  CreateStorageOptions,
+  Outbox,
+  OutboxEntry,
+  OutboxSubscription,
+  Storage,
+  StorageFork,
+  StorageInternalContext,
+  Subscription,
+  ValueWithMeta,
+} from "./storage-types";
+import { type StorageRecord, isStorageRecord } from "./types";
 
-export type OutboxEntry = {
-  key: string;
-  type: "kv" | "file";
-  hlc: HlcTimestamp;
-  addedAt: number;
-};
-
-type Outbox = OutboxEntry[];
-
-export type ChangeSource =
-  | "remote" // Changes from cloud sync
-  | "external" // Changes from other tabs/background via browser.storage.local.onChanged
-  | "local" // Changes from this storage instance
-  | "fork"; // Changes from a fork of this storage
-
-export type ChangeInfo = {
-  source: ChangeSource;
-};
-
-type ChangeCallback<T = unknown> = (value: T | undefined, oldValue: T | undefined, info: ChangeInfo) => void;
-
-type Subscription = {
-  query: ResolvedQuery;
-  callback: ChangeCallback;
-  sourceId?: string;
-};
-
-export type OutboxChangeCallback = (data: {
-  key: string;
-  record: StorageRecord<unknown>;
-  type: "kv" | "file";
-}) => void;
-
-type OutboxSubscription = {
-  callback: OutboxChangeCallback;
-};
-
-export type ValueMeta = {
-  isDefault: boolean;
-};
-
-export type ValueWithMeta<T> = {
-  value: T;
-  meta: ValueMeta;
-};
-
-type StorageQueryInterface = {
-  get<T>(query: CellDescriptor<T, true>): T;
-  get<T>(query: CellDescriptor<T, false>): T | undefined;
-  get<T>(query: CellDescriptor<T, boolean>): T | undefined;
-  get<T>(query: CollectionByIdQuery<T>): T | undefined;
-  get<T>(query: CollectionAllQuery<T>): Record<string, T>;
-  getWithMeta<T>(query: CellDescriptor<T, true>): ValueWithMeta<T>;
-  getWithMeta<T>(query: CellDescriptor<T, false>): ValueWithMeta<T | undefined>;
-  getWithMeta<T>(query: CellDescriptor<T, boolean>): ValueWithMeta<T | undefined>;
-  getWithMeta<T>(query: CollectionByIdQuery<T>): ValueWithMeta<T | undefined>;
-  getWithMeta<T>(query: CollectionAllQuery<T>): ValueWithMeta<Record<string, T>>;
-  set<T>(query: CellDescriptor<T>, value: T): Promise<void>;
-  set<T>(query: CollectionByIdQuery<T>, value: T): Promise<void>;
-  delete(query: CellDescriptor): Promise<void>;
-  delete(query: CollectionByIdQuery): Promise<void>;
-  subscribe<T>(query: CellDescriptor<T, true>, callback: ChangeCallback<T>): () => void;
-  subscribe<T>(query: CellDescriptor<T, false>, callback: ChangeCallback<T | undefined>): () => void;
-  subscribe<T>(query: CellDescriptor<T, boolean>, callback: ChangeCallback<T | undefined>): () => void;
-  subscribe<T>(query: CollectionByIdQuery<T>, callback: ChangeCallback<T>): () => void;
-  subscribe<T>(query: CollectionAllQuery<T>, callback: ChangeCallback<Record<string, T>>): () => void;
-};
-
-export type StorageFork = StorageQueryInterface & {
-  readonly id: string;
-};
-
-export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryInterface & {
-  readonly schema: S["latestSchema"]["definition"];
-
-  initialize(): Promise<void>;
-
-  fork(): StorageFork;
-
-  sync: {
-    isOutboxEnabled(): boolean;
-    enableOutbox(): void;
-    disableOutbox(): void;
-    getOutbox(): Outbox;
-    removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void>;
-    clearOutbox(): Promise<void>;
-    subscribeToOutbox(callback: OutboxChangeCallback): () => void;
-    exportForFullSync(): {
-      kv: Record<string, StorageRecord<unknown>>;
-      files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
-    };
-    exportOutbox(): Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }>;
-    mergeRemoteChanges(
-      changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
-      fileBlobs?: Map<string, Blob>,
-    ): Promise<{ applied: string[]; skipped: string[] }>;
-    applyRemoteChangesIgnoringHlc(
-      changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
-      fileBlobs?: Map<string, Blob>,
-    ): Promise<{ applied: string[]; skipped: string[] }>;
-  };
-
-  exportForBackup(): {
-    kv: Record<string, StorageRecord<unknown>>;
-    files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
-  };
-
-  importFromBackup(data: {
-    kv: Record<string, unknown>;
-    fileBlobs: Map<string, Blob>;
-  }): Promise<void>;
-
-  files: FilesStorage;
-};
-
-export type CreateStorageOptions<S extends VersionedSchema = VersionedSchema> = {
-  schema: S;
-};
+// Re-export types that external consumers import from this module
+export type {
+  OutboxEntry,
+  ChangeSource,
+  ChangeInfo,
+  ChangeCallback,
+  OutboxChangeCallback,
+  ValueMeta,
+  ValueWithMeta,
+  StorageFork,
+  Storage,
+  CreateStorageOptions,
+} from "./storage-types";
 
 export function createStorage<S extends VersionedSchema>(options: CreateStorageOptions<S>): Storage<S> {
   const versionedSchema = options.schema;
   const latestSchema = versionedSchema.latestSchema;
   const storageId = generateNodeId();
+  const { isKeyTracked, isKeyBackupEligible, isFileKey } = createSchemaHelpers(latestSchema.definition);
 
   let hlc: Hlc | null = null;
   let initialized = false;
@@ -152,50 +59,6 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     if (!initialized) {
       throw new Error("Storage not initialized. Call initialize() first.");
     }
-  }
-
-  function isKeyTracked(key: string): boolean {
-    for (const descriptor of Object.values(latestSchema.definition)) {
-      if (isCellDescriptor(descriptor) || isFileDescriptor(descriptor)) {
-        if (descriptor.key === key && descriptor.tracked) {
-          return true;
-        }
-      } else if (isCollectionDescriptor(descriptor) || isFileCollectionDescriptor(descriptor)) {
-        if (isKeyMatchingPrefix(key, descriptor.keyPrefix) && descriptor.tracked) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  function isKeyBackupEligible(key: string): boolean {
-    for (const descriptor of Object.values(latestSchema.definition)) {
-      if (isCellDescriptor(descriptor) || isFileDescriptor(descriptor)) {
-        if (descriptor.key === key) {
-          return descriptor.includedInBackup;
-        }
-      } else if (isCollectionDescriptor(descriptor) || isFileCollectionDescriptor(descriptor)) {
-        if (isKeyMatchingPrefix(key, descriptor.keyPrefix)) {
-          return descriptor.includedInBackup;
-        }
-      }
-    }
-    // Unknown keys (not in schema) are included by default
-    return true;
-  }
-
-  function isFileKey(key: string): boolean {
-    for (const descriptor of Object.values(latestSchema.definition)) {
-      if (isFileDescriptor(descriptor) && descriptor.key === key) {
-        return true;
-      }
-
-      if (isFileCollectionDescriptor(descriptor) && isKeyMatchingPrefix(key, descriptor.keyPrefix)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   function notifyOutboxSubscribers(key: string, type: "kv" | "file", record: StorageRecord<unknown>): void {
@@ -563,6 +426,27 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     };
   }
 
+  // Build internal context for extracted subsystems
+  const ctx: StorageInternalContext = {
+    cache,
+    getHlc,
+    ensureInitialized,
+    persistRecord,
+    persistHlcState,
+    persistOutbox,
+    getOutboxFromCache,
+    notifyOutboxSubscribers,
+    isKeyTracked,
+    isKeyBackupEligible,
+    isFileKey,
+    outboxSubscriptions,
+    getOutboxEnabled: () => outboxEnabled,
+    currentSchemaVersion: versionedSchema.currentVersion,
+  };
+
+  const syncInterface = createSyncInterface(ctx);
+  const backupInterface = createBackupInterface(ctx);
+
   const storage: Storage<S> = {
     schema: latestSchema.definition,
 
@@ -572,6 +456,8 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       // Load entire storage into memory
       const allData = await browser.storage.local.get(null);
       cache = { ...allData };
+      // Update ctx.cache reference since we reassigned cache
+      ctx.cache = cache;
 
       // Load or create HLC state
       const hlcState = allData[HLC_STATE_KEY] as HlcState | undefined;
@@ -657,274 +543,16 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     },
 
     sync: {
-      isOutboxEnabled(): boolean {
-        return outboxEnabled;
-      },
-
+      ...syncInterface,
       enableOutbox(): void {
         outboxEnabled = true;
       },
-
       disableOutbox(): void {
         outboxEnabled = false;
       },
-
-      getOutbox(): Outbox {
-        ensureInitialized();
-        return getOutboxFromCache();
-      },
-
-      async removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void> {
-        ensureInitialized();
-        const outbox = getOutboxFromCache();
-        const filtered = outbox.filter((outboxEntry) => {
-          const matchingEntry = entries.find(
-            (e) => e.key === outboxEntry.key && compareHlc(e.hlc, outboxEntry.hlc) === 0,
-          );
-          return !matchingEntry;
-        });
-        await persistOutbox(filtered);
-      },
-
-      async clearOutbox(): Promise<void> {
-        ensureInitialized();
-        await persistOutbox([]);
-      },
-
-      subscribeToOutbox(callback: OutboxChangeCallback): () => void {
-        const subscription: OutboxSubscription = { callback };
-        outboxSubscriptions.push(subscription);
-
-        return () => {
-          const index = outboxSubscriptions.indexOf(subscription);
-          if (index >= 0) {
-            outboxSubscriptions.splice(index, 1);
-          }
-        };
-      },
-
-      exportForFullSync(): {
-        kv: Record<string, StorageRecord<unknown>>;
-        files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
-      } {
-        ensureInitialized();
-        const kv: Record<string, StorageRecord<unknown>> = {};
-        const files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }> = {};
-
-        for (const [key, value] of Object.entries(cache)) {
-          if (!isStorageRecord(value)) continue;
-          if (!isKeyTracked(key)) continue;
-
-          if (isFileKey(key)) {
-            const fileRecord = value as StorageRecord<FileMetaValue<unknown>>;
-            const fileMeta = fileRecord.value;
-            if (fileMeta?.path) {
-              files[key] = { record: fileRecord, path: fileMeta.path };
-            }
-          } else {
-            kv[key] = value;
-          }
-        }
-
-        return { kv, files };
-      },
-
-      exportOutbox() {
-        ensureInitialized();
-        const outbox = getOutboxFromCache();
-        const result: Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }> = [];
-
-        for (const entry of outbox) {
-          const record = cache[entry.key];
-          if (isStorageRecord(record)) {
-            result.push({ key: entry.key, type: entry.type, record });
-          }
-        }
-
-        return result;
-      },
-
-      async mergeRemoteChanges(
-        changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
-        fileBlobs?: Map<string, Blob>,
-      ): Promise<{ applied: string[]; skipped: string[] }> {
-        ensureInitialized();
-        const applied: string[] = [];
-        const skipped: string[] = [];
-        const currentSchemaVersion = versionedSchema.currentVersion;
-
-        for (const { key, record, schemaVersion } of changes) {
-          // Skip if schema version doesn't match
-          if (schemaVersion !== currentSchemaVersion) {
-            skipped.push(key);
-            continue;
-          }
-
-          // Get local record
-          const localValue = cache[key];
-          const localRecord = isStorageRecord(localValue) ? localValue : undefined;
-
-          // Compare HLC - remote wins if newer
-          const shouldApply = !localRecord || compareHlc(record.hlc, localRecord.hlc) > 0;
-
-          if (shouldApply) {
-            // Check if this is a file-related key
-            const isFile = isFileKey(key);
-
-            if (isFile) {
-              // Handle file operations
-              const oldFileMeta = localRecord?.value as FileMetaValue<unknown> | undefined;
-              const newFileMeta = record.value as FileMetaValue<unknown> | null;
-
-              // Delete old file if it exists and path is changing or file is being deleted
-              if (oldFileMeta?.path) {
-                const pathChanging = newFileMeta && newFileMeta.path !== oldFileMeta.path;
-                const fileDeleting = record.deleted;
-
-                if (pathChanging || fileDeleting) {
-                  try {
-                    await deleteFile(oldFileMeta.path);
-                  } catch (error) {
-                    console.error(`Failed to delete old file at ${oldFileMeta.path}:`, error);
-                  }
-                }
-              }
-
-              // Write new file if provided
-              if (!record.deleted && newFileMeta?.path && fileBlobs) {
-                const blob = fileBlobs.get(key);
-                if (blob) {
-                  try {
-                    await writeFile(newFileMeta.path, blob);
-                  } catch (error) {
-                    console.error(`Failed to write file at ${newFileMeta.path}:`, error);
-                  }
-                }
-              }
-            }
-
-            await persistRecord(key, record, { notifyAs: "remote" });
-            applied.push(key);
-          } else {
-            skipped.push(key);
-          }
-
-          // Update local HLC with remote timestamp (even if not applied)
-          getHlc().receive(record.hlc);
-        }
-
-        await persistHlcState();
-        return { applied, skipped };
-      },
-
-      async applyRemoteChangesIgnoringHlc(
-        changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
-        fileBlobs?: Map<string, Blob>,
-      ): Promise<{ applied: string[]; skipped: string[] }> {
-        ensureInitialized();
-        const applied: string[] = [];
-        const skipped: string[] = [];
-        const currentSchemaVersion = versionedSchema.currentVersion;
-
-        for (const { key, record, schemaVersion } of changes) {
-          if (schemaVersion !== currentSchemaVersion) {
-            skipped.push(key);
-            continue;
-          }
-
-          // Check if this is a file-related key
-          const isFile = isFileKey(key);
-
-          if (isFile) {
-            // Handle file operations
-            const localValue = cache[key];
-            const localRecord = isStorageRecord(localValue) ? localValue : undefined;
-            const oldFileMeta = localRecord?.value as FileMetaValue<unknown> | undefined;
-            const newFileMeta = record.value as FileMetaValue<unknown> | null;
-
-            // Delete old file if it exists and path is changing or file is being deleted
-            if (oldFileMeta?.path) {
-              const pathChanging = newFileMeta && newFileMeta.path !== oldFileMeta.path;
-              const fileDeleting = record.deleted;
-
-              if (pathChanging || fileDeleting) {
-                try {
-                  await deleteFile(oldFileMeta.path);
-                } catch (error) {
-                  console.error(`Failed to delete old file at ${oldFileMeta.path}:`, error);
-                }
-              }
-            }
-
-            // Write new file if provided
-            if (!record.deleted && newFileMeta?.path && fileBlobs) {
-              const blob = fileBlobs.get(key);
-              if (blob) {
-                try {
-                  await writeFile(newFileMeta.path, blob);
-                } catch (error) {
-                  console.error(`Failed to write file at ${newFileMeta.path}:`, error);
-                }
-              }
-            }
-          }
-
-          await persistRecord(key, record, { notifyAs: "remote" });
-          applied.push(key);
-
-          getHlc().receive(record.hlc);
-        }
-
-        await persistHlcState();
-        return { applied, skipped };
-      },
     },
 
-    exportForBackup(): {
-      kv: Record<string, StorageRecord<unknown>>;
-      files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
-    } {
-      ensureInitialized();
-      const kv: Record<string, StorageRecord<unknown>> = {};
-      const files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }> = {};
-
-      for (const [key, value] of Object.entries(cache)) {
-        if (!isStorageRecord(value)) continue;
-        if (!isKeyBackupEligible(key)) continue;
-
-        if (isFileKey(key)) {
-          const fileRecord = value as StorageRecord<FileMetaValue<unknown>>;
-          const fileMeta = fileRecord.value;
-          if (fileMeta?.path) {
-            files[key] = { record: fileRecord, path: fileMeta.path };
-          }
-        } else {
-          kv[key] = value;
-        }
-      }
-
-      return { kv, files };
-    },
-
-    async importFromBackup(data: {
-      kv: Record<string, StorageRecord<unknown>>;
-      fileBlobs: Map<string, Blob>;
-    }): Promise<void> {
-      ensureInitialized();
-
-      // Clear existing OPFS files
-      const existingFiles = await listFiles();
-      await Promise.all(existingFiles.map((filename) => deleteFile(filename)));
-
-      // Write new OPFS files from backup
-      for (const [path, blob] of data.fileBlobs) {
-        await writeFile(path, blob);
-      }
-
-      // Replace all browser storage with backup data
-      await browser.storage.local.clear();
-      await browser.storage.local.set(data.kv);
-    },
+    ...backupInterface,
 
     files: createFilesStorage({
       getMeta(query) {
