@@ -3,7 +3,7 @@
 .RecentlyClosedWidget {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: utils.$spacing-1-5;
     overflow: hidden;
 
     .sessions-list {
@@ -16,11 +16,11 @@
     .Session {
         display: flex;
         align-items: center;
-        gap: 16px;
-        padding: 6px 6px;
+        gap: utils.$spacing-4;
+        padding: utils.$spacing-1-5 utils.$spacing-1-5;
         cursor: pointer;
         transition: 0.15s ease-in-out;
-        border-radius: 8px;
+        border-radius: utils.$radius-md;
 
         @include utils.hover {
             background: hsla(var(--text-hsl) / 0.1);
@@ -32,7 +32,7 @@
         }
         .fav-icon {
             width: 18px;
-            border-radius: 9px;
+            border-radius: utils.$radius-md;
         }
 
         .title {
@@ -41,11 +41,11 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
-            font-size: 0.85rem;
+            font-size: utils.$font-size-sm;
         }
 
         .last-modified {
-            font-size: 0.65rem;
+            font-size: utils.$font-size-2xs;
             color: var(--text-subtle-2);
             white-space: nowrap;
             min-width: 95px;

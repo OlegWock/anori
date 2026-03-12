@@ -1,8 +1,9 @@
+@use "./utils.scss" as utils;
 .Input {
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
+    border-radius: utils.$radius-md;
+    padding: utils.$spacing-2-5 utils.$spacing-4;
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: utils.$font-size-sm;
     line-height: 1;
     letter-spacing: inherit;
     min-width: 15rem;

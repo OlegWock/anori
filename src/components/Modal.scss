@@ -1,3 +1,4 @@
+@use "./utils.scss" as utils;
 .Modal-backdrop {
     position: fixed;
     top: 0;
@@ -11,17 +12,17 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
-    padding: 16px;
+    padding: utils.$spacing-4;
 }
 
 .Modal-wrapper {
-    border-radius: 24px;
+    border-radius: utils.$radius-xl;
     background: var(--background);
     overflow: hidden;
 }
 
 .Modal {
-    padding: 24px;
+    padding: utils.$spacing-6;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -30,9 +31,9 @@
 
     .modal-header {
         display: flex;
-        gap: 16px;
+        gap: utils.$spacing-4;
         align-items: center;
-        margin-bottom: 24px;
+        margin-bottom: utils.$spacing-6;
 
         h1 {
             flex-grow: 1;

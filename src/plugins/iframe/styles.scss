@@ -7,7 +7,7 @@
     align-items: flex-start;
     text-decoration: none;
     flex-grow: 1;
-    gap: 0.5rem;
+    gap: utils.$spacing-2;
 
     .header {
         display: flex;
@@ -19,7 +19,7 @@
     iframe {
         flex-grow: 1;
         align-self: stretch;
-        border-radius: 6px;
+        border-radius: utils.$radius-sm;
     }
 }
 
@@ -28,7 +28,7 @@
     align-items: stretch;
     flex: 1;
     line-height: inherit;
-    padding: 1rem;
+    padding: utils.$spacing-4;
     cursor: pointer;
 
     .iframe-widget-content {
@@ -45,15 +45,15 @@
             flex: 1;
 
             h2 {
-                margin-top: 12px;
-                margin-bottom: 4px;
+                margin-top: utils.$spacing-3;
+                margin-bottom: utils.$spacing-1;
                 line-height: 1;
                 white-space: nowrap;
             }
         }
 
         .host {
-            font-size: 0.75rem;
+            font-size: utils.$font-size-xs;
             color: var(--text-subtle-2);
         }
 
@@ -66,7 +66,7 @@
 .IframeWidget-config {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: utils.$spacing-3;
     align-items: stretch;
     min-width: 500px;
 
@@ -81,7 +81,7 @@
 
     .url-import-wrapper {
         display: flex;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
 
         .Input {
             flex-grow: 1;
@@ -90,7 +90,7 @@
 
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: utils.$spacing-4;
     }
 }
 
@@ -100,7 +100,7 @@
     iframe {
         flex-grow: 1;
         align-self: stretch;
-        border-radius: 12px;
+        border-radius: utils.$radius-lg;
     }
 }
 
@@ -110,7 +110,7 @@
         white-space: nowrap;
         color: var(--text);
         overflow: hidden;
-        border-radius: 24px;
+        border-radius: utils.$radius-xl;
 
         &.absolute {
             position: absolute;
@@ -120,7 +120,7 @@
     }
     
     .open-url-btn {
-        padding: 6px 18px;
+        padding: utils.$spacing-1-5 utils.$spacing-4-5;
         background: transparent;
         transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
         line-height: 1;
@@ -137,6 +137,6 @@
 }
 
 .rp-paddings {
-    padding: 1rem;
+    padding: utils.$spacing-4;
     justify-content: unset;
 }

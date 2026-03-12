@@ -1,5 +1,6 @@
+@use "@anori/components/utils.scss" as utils;
 .License {
     p {
-        margin-top: 0.5rem;
+        margin-top: utils.$spacing-2;
     }
 }

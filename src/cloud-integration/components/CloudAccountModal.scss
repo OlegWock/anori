@@ -7,7 +7,7 @@
 .CloudAccountModal-connected {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: utils.$spacing-6;
   min-width: 25rem;
 
   .account-info {
@@ -16,16 +16,16 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: utils.$spacing-4;
     }
 
     .label {
-      font-size: 0.875rem;
+      font-size: utils.$font-size-sm;
       opacity: 0.7;
     }
 
     .email {
-      font-size: 1rem;
+      font-size: utils.$font-size-base;
       font-weight: 500;
     }
   }
@@ -33,44 +33,44 @@
   .profiles-section {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: utils.$spacing-3;
 
     .profiles-header {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
+      gap: utils.$spacing-3;
     }
 
     .label {
-      font-size: 0.875rem;
+      font-size: utils.$font-size-sm;
       opacity: 0.7;
     }
 
     .profiles-loading {
-      font-size: 0.875rem;
+      font-size: utils.$font-size-sm;
       opacity: 0.7;
-      padding: 0.5rem 0;
+      padding: utils.$spacing-2 0;
     }
 
     .profiles-list {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: utils.$spacing-2;
       overflow-y: auto;
     }
 
     .profiles-empty {
-      font-size: 0.875rem;
+      font-size: utils.$font-size-sm;
       opacity: 0.7;
-      padding: 0.5rem 0;
+      padding: utils.$spacing-2 0;
     }
 
     .profile-card {
       background: var(--background-lighter);
-      border-radius: 8px;
-      padding: 0.75rem;
+      border-radius: utils.$radius-md;
+      padding: utils.$spacing-3;
 
       &-connected {
         outline: 1px solid hsla(var(--text-hsl) / 0.15);
@@ -80,58 +80,58 @@
     .profile-item {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: utils.$spacing-2;
 
       .profile-header {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        gap: 0.75rem;
+        gap: utils.$spacing-3;
       }
 
       .profile-info {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: utils.$spacing-1;
         flex: 1;
         min-width: 0;
       }
 
       .profile-name {
-        font-size: 0.9375rem;
+        font-size: utils.$font-size-sm;
         font-weight: 500;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
       }
 
       .profile-connected-badge {
-        font-size: 0.75rem;
+        font-size: utils.$font-size-xs;
         font-weight: 400;
         opacity: 0.6;
       }
 
       .profile-meta {
-        font-size: 0.8125rem;
+        font-size: utils.$font-size-xs;
         opacity: 0.6;
       }
 
       .profile-actions {
         display: flex;
-        gap: 0.25rem;
+        gap: utils.$spacing-1;
       }
 
       .profile-rename-form {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: utils.$spacing-3;
         flex: 1;
 
         .profile-rename-actions {
           display: flex;
           flex-direction: row;
-          gap: 0.5rem;
+          gap: utils.$spacing-2;
           justify-content: flex-end;
         }
       }
@@ -140,15 +140,15 @@
     .create-profile-form {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      padding: 0.75rem;
+      gap: utils.$spacing-3;
+      padding: utils.$spacing-3;
       background: var(--background-lighter);
-      border-radius: 8px;
+      border-radius: utils.$radius-md;
 
       .create-profile-actions {
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
         justify-content: flex-end;
       }
     }
@@ -156,13 +156,13 @@
     .profile-confirmation {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      padding-top: 0.75rem;
+      gap: utils.$spacing-3;
+      padding-top: utils.$spacing-3;
 
       .confirmation-actions {
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
         justify-content: flex-end;
       }
     }
@@ -175,11 +175,11 @@
   .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: utils.$spacing-4;
 
     .register-link {
       text-align: center;
-      font-size: 0.875rem;
+      font-size: utils.$font-size-sm;
       opacity: 0.8;
       margin: 0;
 

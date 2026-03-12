@@ -2,7 +2,7 @@
 @use './utils.scss' as utils;
 
 :root {
-    font-size: 16px;
+    font-size: utils.$font-size-base;
     // --background-image: url("/assets/images/backgrounds/greenery.jpg");
     --background-image: transparent;
     --accent: #{utils.$accent};
@@ -37,9 +37,9 @@ input {
 
 label {
     font-weight: 500;
-    margin-bottom: 6px;
+    margin-bottom: utils.$spacing-1-5;
     display: block;
-    margin-left: 4px;
+    margin-left: utils.$spacing-1;
 }
 
 h1,
@@ -52,27 +52,27 @@ h6 {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: utils.$font-size-2xl;
 }
 
 h2 {
-    font-size: 1.5rem;
+    font-size: utils.$font-size-xl;
 }
 
 h3 {
-    font-size: 1.25rem;
+    font-size: utils.$font-size-lg;
 }
 
 h4 {
-    font-size: 1rem;
+    font-size: utils.$font-size-base;
 }
 
 h5 {
-    font-size: 0.88rem;
+    font-size: utils.$font-size-sm;
 }
 
 h6 {
-    font-size: 0.75rem;
+    font-size: utils.$font-size-xs;
 }
 
 a,

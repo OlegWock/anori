@@ -2,18 +2,6 @@
 
 ## Styling: Design System Foundation
 
-### No spacing scale
-
-Padding, margin, and gap values are typed as raw numbers across 60+ SCSS files, mixing `px` and `rem` with no shared scale. There are ~15 distinct spacing values in use. Some files even mix units internally (e.g. `anki/styles.scss` uses both `gap: 1rem` and `gap: 12px`). This makes it impossible to adjust spacing globally and forces every author to pick a number from memory.
-
-### Border radius inconsistency
-
-61 `border-radius` declarations use 14 distinct values (3, 4, 6, 8, 9, 10, 12, 15, 16, 18, 24, 36, 9999, 9999999px). The style rules mention 8/12/24/36 as standard, but in practice many other values are used. There's no shared variable, so there's no way to know which value is "correct" for a given context. Also `datetime/styles.scss` has `border-radius: 9999999px` which is just a typo for `9999px`.
-
-### Font sizes are ad-hoc
-
-Components use ~12 different font-size values, many nearly identical but slightly different (0.8125rem, 0.85rem, 0.875rem, 0.9rem). There's no type scale, so each component picks its own value. Less impactful than spacing/radius since font sizes vary less across the app, but still adds cognitive load.
-
 ### A few hardcoded colors
 
 Most colors correctly use CSS variables, but `Button.scss` hardcodes `#2689e4` for LinkButton (the only blue in the design), `FolderButton.scss` hardcodes `rgb(247, 60, 60)` for a notification dot, and `ShortcutsHelp.scss` hardcodes a gray border. These can't be themed and will break if the palette ever changes. The general direction is to introduce CSS variables for these.

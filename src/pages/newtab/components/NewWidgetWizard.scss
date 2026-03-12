@@ -1,20 +1,21 @@
+@use "@anori/components/utils.scss" as utils;
 .NewWidgetWizard {
     width: min(80vw, 1100px);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 0 18px;
-    padding-bottom: 18px;
+    gap: utils.$spacing-4;
+    padding: 0 utils.$spacing-4-5;
+    padding-bottom: utils.$spacing-4-5;
 
     .search-input {
-        margin: 2px;
+        margin: utils.$spacing-0-5;
         width: 100%;
     }
 
     .two-column-content {
         display: flex;
-        gap: 1rem;
+        gap: utils.$spacing-4;
         overflow: hidden;
     }
 
@@ -31,16 +32,16 @@
                 width: 100%;
                 display: flex;
                 align-items: center;
-                gap: 12px;
-                padding: 10px 12px;
+                gap: utils.$spacing-3;
+                padding: utils.$spacing-2-5 utils.$spacing-3;
                 border: none;
                 background: transparent;
                 color: var(--text);
-                border-radius: 8px;
+                border-radius: utils.$radius-md;
                 cursor: pointer;
                 text-align: left;
                 transition: background-color 0.15s ease;
-                font-size: 14px;
+                font-size: utils.$font-size-sm;
 
                 &:hover {
                     background-color: var(--background-lighter);
@@ -72,13 +73,13 @@
 
     .widgets-area {
         flex: 1;
-        padding-right: 1rem;
+        padding-right: utils.$spacing-4;
     }
 
     .new-widget-content {
         display: flex;
         flex-direction: column;
-        gap: 24px;
+        gap: utils.$spacing-6;
 
         section {
             display: flex;
@@ -87,15 +88,15 @@
             .widgets-mock-background {
                 background-image: var(--background-image);
                 background-size: cover;
-                border-radius: 16px;
+                border-radius: utils.$radius-lg;
 
                 .widgets-mocks, .widgets-group {
                     display: flex;
                     flex-wrap: wrap;
                     align-items: flex-start;
-                    gap: 12px;
-                    padding: 12px;
-                    border-radius: 16px;
+                    gap: utils.$spacing-3;
+                    padding: utils.$spacing-3;
+                    border-radius: utils.$radius-lg;
 
                     button {
                         text-align: start;
@@ -106,8 +107,8 @@
                     }
 
                     .widget-name {
-                        margin-top: 6px;
-                        margin-left: 8px;
+                        margin-top: utils.$spacing-1-5;
+                        margin-left: utils.$spacing-2;
                         word-wrap: normal;
                     }
                 }
@@ -117,10 +118,10 @@
 }
 
 .NewWidgetWizard-wrapper {
-    padding: 0px !important;
+    padding: 0 !important;
 
     .modal-header {
-        padding: 24px;
-        padding-bottom: 0px;
+        padding: utils.$spacing-6;
+        padding-bottom: 0;
     }
 }

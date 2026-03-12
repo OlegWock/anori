@@ -9,16 +9,16 @@
     overflow: hidden;
 
     .Input {
-        margin: 2px;
+        margin: utils.$spacing-0-5;
         min-width: none;
-        padding: 4px 8px;
+        padding: utils.$spacing-1 utils.$spacing-2;
         height: auto;
 
         @include utils.scroll-mixin-darker();
     }
 
     .note-title {
-        font-size: 1.5rem; // h2
+        font-size: utils.$font-size-xl; // h2
     }
 
     .note-body-editor {
@@ -28,7 +28,7 @@
         font-size: inherit;
         line-height: inherit;
         letter-spacing: inherit;
-        padding-top: 0px;
+        padding-top: 0;
         color: inherit;
     }
 
@@ -39,7 +39,7 @@
         font-family: inherit;
         font-size: inherit;
         line-height: inherit;
-        margin: 0.125rem 0.625rem;
+        margin: utils.$spacing-0-5 utils.$spacing-2-5;
         cursor: text;
         text-align: start;
         display: flex;
@@ -53,7 +53,7 @@
 
         .note-body-rendered-content {
             p:not(:first-child) {
-                margin-top: 0.25rem;
+                margin-top: utils.$spacing-1;
             }
 
             ul,
@@ -62,19 +62,19 @@
             }
 
             blockquote {
-                padding-left: 0.75rem;
+                padding-left: utils.$spacing-3;
                 border-left: 0.15rem solid var(--text-subtle-2);
             }
 
             hr {
                 width: 100%;
                 border-bottom: 1px solid var(--text-border);
-                margin: 0.75rem 0;
+                margin: utils.$spacing-3 0;
             }
 
             &>* ul,
             &>* ol {
-                margin-left: 1.5rem;
+                margin-left: utils.$spacing-6;
             }
 
             li>p {
@@ -83,14 +83,14 @@
 
             code {
                 background: var(--background);
-                padding: 0.1rem 0.5rem;
-                border-radius: 0.25rem;
+                padding: utils.$spacing-0-5 utils.$spacing-2;
+                border-radius: utils.$radius-xs;
             }
 
             pre {
-                padding: 0.5rem;
+                padding: utils.$spacing-2;
                 background: var(--background);
-                border-radius: 0.5rem;
+                border-radius: utils.$radius-md;
 
                 code {
                     background: inherit;
@@ -110,7 +110,7 @@
             }
 
             td {
-                padding: 0.25rem 0.75rem;
+                padding: utils.$spacing-1 utils.$spacing-3;
             }
 
             img {

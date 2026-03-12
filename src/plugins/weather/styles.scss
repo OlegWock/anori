@@ -1,3 +1,4 @@
+@use "@anori/components/utils.scss" as utils;
 .WeatherWidget {
 
     &.current {
@@ -5,7 +6,7 @@
         align-items: center;
         text-decoration: none;
         flex-grow: 1;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
     }
 
     &.forecast {
@@ -14,13 +15,13 @@
         align-items: stretch;
         text-decoration: none;
         flex-grow: 1;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
 
         h2 {
             line-height: 1.15;
         }
         .location {
-            font-size: 0.9rem;
+            font-size: utils.$font-size-sm;
         }
 
         .day-row {
@@ -28,10 +29,10 @@
             align-items: center;
             text-decoration: none;
             flex-grow: 1;
-            gap: 0.5rem;
+            gap: utils.$spacing-2;
 
             .temperature {
-                font-size: 1.35rem;
+                font-size: utils.$font-size-lg;
             }
         }
     }
@@ -42,9 +43,9 @@
     }
 
     .temperature {
-        font-size: 2rem;
+        font-size: utils.$font-size-2xl;
         line-height: 1;
-        margin-bottom: 0.33rem;
+        margin-bottom: utils.$spacing-1-5;
     }
 
     .location,
@@ -53,7 +54,7 @@
     .temperature {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: utils.$spacing-1-5;
     }
 
     .last-update {
@@ -65,7 +66,7 @@
 .WeatherWidget-config {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: utils.$spacing-3;
     align-items: stretch;
 
     &>div {
@@ -77,6 +78,6 @@
 
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: utils.$spacing-4;
     }
 }

@@ -1,3 +1,4 @@
+@use "./utils.scss" as utils;
 .ShortcutsHelp {
     display: flex;
     flex-direction: column;
@@ -5,12 +6,12 @@
 
     .shortcut-row {
         display: flex;
-        gap: 12px;
+        gap: utils.$spacing-3;
 
         &:not(:last-child) {
-            padding-bottom: 14px;
+            padding-bottom: utils.$spacing-3;
             border-bottom: 1px solid rgba(174, 174, 174, 0.133);
-            margin-bottom: 12px;
+            margin-bottom: utils.$spacing-3;
         }
 
 
@@ -18,7 +19,7 @@
             align-items: center;
             min-width: 140px;
             display: flex;
-            gap: 8px;
+            gap: utils.$spacing-2;
         }
     }
 }

@@ -17,12 +17,12 @@
     }
 
     .additional-info {
-        margin-top: 1rem;
+        margin-top: utils.$spacing-4;
     }
 
     .grant-button {
         align-self: center;
-        margin-top: 36px;
+        margin-top: utils.$spacing-9;
         white-space: break-spaces;
     }
 }
@@ -32,10 +32,10 @@
 
     .grant-button {
         align-self: center;
-        margin-top: 36px;
+        margin-top: utils.$spacing-9;
     }
 
     .additional-info {
-        margin-top: 1rem;
+        margin-top: utils.$spacing-4;
     }
 }

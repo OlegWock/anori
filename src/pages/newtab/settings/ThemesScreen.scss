@@ -1,3 +1,4 @@
+@use "@anori/components/utils.scss" as utils;
 .BackgroundPlate {
     height: 140px;
     flex-grow: 1;
@@ -7,7 +8,7 @@
     .main-btn {
         position: absolute;
         inset: 0;
-        border-radius: 0.75rem;
+        border-radius: utils.$radius-lg;
         background-size: cover;
         background-clip: padding-box;
         border: 0.25rem solid transparent;        
@@ -26,7 +27,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
     }
 
     .color-cirles-wrapper {
@@ -35,13 +36,13 @@
         left: 0.5rem;
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
-        padding: 0.25rem;
+        gap: utils.$spacing-1;
+        padding: utils.$spacing-1;
 
         .color-circle {
             width: 30px;
             height: 30px;
-            border-radius: 15px;
+            border-radius: utils.$radius-lg;
         }
     }
 }
@@ -50,13 +51,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    padding-top: 4px;
+    gap: utils.$spacing-2;
+    padding-top: utils.$spacing-1;
 
     .themes-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+        gap: utils.$spacing-4;
         align-self: stretch;
     }
 
@@ -65,10 +66,10 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        gap: 1.25rem;
+        gap: utils.$spacing-5;
 
         .theme-preview {
-            border-radius: 0.75rem;
+            border-radius: utils.$radius-lg;
             background: repeating-conic-gradient(#c6c6c6 0% 25%, white 0% 50%) 50% / 20px 20px;
             height: 400px;
         }
@@ -80,7 +81,7 @@
         .blur-settings {
 
             .Slider {
-                margin-top: 4px;
+                margin-top: utils.$spacing-1;
             }
         }
 
@@ -88,19 +89,19 @@
         .swatches {
             display: flex;
             justify-content: center;
-            gap: 4rem;
+            gap: utils.$spacing-16;
 
             .swatch-wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 0.35rem;
+                gap: utils.$spacing-1-5;
             }
 
             button {
                 width: 2rem;
                 height: 2rem;
-                border-radius: 99999px;
+                border-radius: utils.$radius-full;
                 outline: 2px solid hsla(var(--text-hsl) / 0.2);
                 cursor: pointer;
             }
@@ -113,7 +114,7 @@
 
     .action-buttons {
         display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
+        gap: utils.$spacing-4;
+        margin-top: utils.$spacing-8;
     }
 }

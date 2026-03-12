@@ -1,3 +1,4 @@
+@use "@anori/components/utils.scss" as utils;
 .CalendarWidget {
     display: flex;
     align-items: center;
@@ -8,11 +9,11 @@
 
     .header {
         text-align: center;
-        margin-bottom: 6px;
-        font-size: 1.2rem;
+        margin-bottom: utils.$spacing-1-5;
+        font-size: utils.$font-size-lg;
         display: flex;
         justify-content: center;
-        gap: 16px;
+        gap: utils.$spacing-4;
 
         .month-name {
             width: 120px;
@@ -40,7 +41,7 @@
 
             &.weekdays {
                 flex-grow: unset;
-                padding: 0.25rem 0;
+                padding: utils.$spacing-1 0;
 
                 .calendar-cell {
                     color: var(--text);
@@ -54,7 +55,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 4px;
+                padding: utils.$spacing-1;
                 color: var(--text-subtle-2);
                 line-height: 1;
                 text-align: center;
@@ -65,7 +66,7 @@
 
                 &.today {
                     background: var(--accent);
-                    border-radius: 12px;
+                    border-radius: utils.$radius-lg;
                 }
             }
         }
@@ -76,7 +77,7 @@
 .CalendarWidget-config {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: utils.$spacing-3;
     align-items: stretch;
 
     &>div {
@@ -88,6 +89,6 @@
 
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: utils.$spacing-4;
     }
 }

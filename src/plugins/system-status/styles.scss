@@ -1,7 +1,8 @@
+@use "@anori/components/utils.scss" as utils;
 .SystemStatusWidget {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: utils.$spacing-1-5;
     flex-grow: 1;
 
 
@@ -10,7 +11,7 @@
     }
 
     .metric-value {
-        font-size: 2rem;
+        font-size: utils.$font-size-2xl;
     }
 
     .metric-name {
@@ -24,6 +25,6 @@
     
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: utils.$spacing-4;
     }
 }

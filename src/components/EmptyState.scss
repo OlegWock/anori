@@ -1,10 +1,11 @@
+@use "./utils.scss" as utils;
 .EmptyState {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 48px 24px;
+    padding: utils.$spacing-12 utils.$spacing-6;
     flex-direction: column;
-    gap: 16px;
+    gap: utils.$spacing-4;
     text-align: center;
     color: var(--text-subtle-2);
 
@@ -13,17 +14,16 @@
     }
 
     .empty-title {
-        font-size: 1.25rem;
+        font-size: utils.$font-size-lg;
         font-weight: 400;
         color: var(--text);
         margin: 0;
     }
 
     .empty-description {
-        font-size: 0.9rem;
+        font-size: utils.$font-size-sm;
         max-width: 400px;
         line-height: 1.5;
         margin: 0;
     }
 }
-

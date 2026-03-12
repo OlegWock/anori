@@ -1,8 +1,9 @@
+@use "@anori/components/utils.scss" as utils;
 .FolderItem {
     display: flex;
-    gap: 8px;
+    gap: utils.$spacing-2;
     align-items: center;
-    margin: 6px 0;
+    margin: utils.$spacing-1-5 0;
 
     .folder-drag-indicator {
         touch-action: none;
@@ -14,10 +15,10 @@
         background: none;
         display: flex;
         color: inherit;
-        padding: 6px 12px;
+        padding: utils.$spacing-1-5 utils.$spacing-3;
 
         &.static {
-            padding: 6px 14px;
+            padding: utils.$spacing-1-5 utils.$spacing-3;
             cursor: default;
         }
     }
@@ -28,7 +29,7 @@
         font-size: inherit;
         color: inherit;
         font-family: inherit;
-        border-radius: 6px;
+        border-radius: utils.$radius-sm;
 
         &:focus {
             outline: none;
@@ -37,7 +38,7 @@
     }
 
     .folder-name {
-        padding: 2px 8px;
+        padding: utils.$spacing-0-5 utils.$spacing-2;
         flex-grow: 1;
     }
 

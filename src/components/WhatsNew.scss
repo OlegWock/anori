@@ -1,10 +1,11 @@
+@use "./utils.scss" as utils;
 
 .WhatsNew-modal {
-    padding: 0px !important;
+    padding: 0 !important;
 
     .modal-header {
-        padding: 24px;
-        padding-bottom: 0px;
+        padding: utils.$spacing-6;
+        padding-bottom: 0;
     }
 
     .WhatsNew {
@@ -14,52 +15,52 @@
         flex-direction: column;
     
         &-scrollarea {
-            margin: 0 6px;
-            margin-bottom: 12px;
+            margin: 0 utils.$spacing-1-5;
+            margin-bottom: utils.$spacing-3;
         }
     
         &-content {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
-            padding: 0 18px;
+            gap: utils.$spacing-8;
+            padding: 0 utils.$spacing-4-5;
         }
 
         .margin-top {
-            margin-top: 1rem;
+            margin-top: utils.$spacing-4;
         }
     
         ul {
-            margin-left: 22px;
+            margin-left: utils.$spacing-6;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: utils.$spacing-3;
         }
     
         p:not(:last-child) {
-            margin-bottom: 1rem;
+            margin-bottom: utils.$spacing-4;
         }
 
         .donation-callout {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
+            margin-top: utils.$spacing-4;
+            padding: utils.$spacing-4;
+            border-radius: utils.$radius-md;
             background: var(--background-lighter);
         }
 
         .analytics-checkbox {
-            margin-top: 1rem;
-            font-size: 1.25rem;
+            margin-top: utils.$spacing-4;
+            font-size: utils.$font-size-lg;
             justify-content: center;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: utils.$spacing-4;
+            border-radius: utils.$radius-md;
             background: var(--background-lighter);
         }
 
         .logo-wrapper {
             display: flex;
             justify-content: center;
-            padding: 1rem;
+            padding: utils.$spacing-4;
 
             .logo {
                 width: 300px;

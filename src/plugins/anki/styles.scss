@@ -1,7 +1,8 @@
+@use "@anori/components/utils.scss" as utils;
 .AnkiWidget {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: utils.$spacing-4;
     flex-grow: 1;
     overflow: hidden;
 
@@ -12,7 +13,7 @@
         font-weight: 600;
         display: flex;
         justify-content: space-between;
-        gap: 1rem;
+        gap: utils.$spacing-4;
     }
 
     .set-name {
@@ -27,12 +28,12 @@
         line-height: 1;
         display: flex;
         align-items: center;
-        gap: 0.25rem;
+        gap: utils.$spacing-1;
     }
 
     iframe {
         flex-grow: 1;
-        border-radius: 0.25rem;
+        border-radius: utils.$radius-xs;
         overflow: hidden;
     }
 
@@ -42,7 +43,7 @@
 
     .actions {
         display: flex;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
         justify-content: center;
         flex-wrap: wrap;
     }
@@ -53,11 +54,11 @@
         background-color: white;
 
         flex-grow: 1;
-        border-radius: 0.25rem;
+        border-radius: utils.$radius-xs;
         overflow: auto;
 
         .big-kanji {
-            font-size: 3rem;
+            font-size: utils.$font-size-3xl;
         }
     }
 
@@ -69,7 +70,7 @@
 .AnkiWidget-config {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: utils.$spacing-3;
     align-items: stretch;
 
     & > div {
@@ -79,6 +80,6 @@
 
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: utils.$spacing-4;
     }
 }

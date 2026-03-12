@@ -1,3 +1,4 @@
+@use "@anori/components/utils.scss" as utils;
 .RssFeed {
     display: flex;
     flex-direction: column;
@@ -8,7 +9,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.25rem;
+        margin-bottom: utils.$spacing-1;
 
         svg {
             color: hsla(var(--text-hsl) / 0.6);
@@ -18,10 +19,10 @@
     .posts {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: utils.$spacing-3;
 
         &.compact {
-            gap: 0.25rem;
+            gap: utils.$spacing-1;
         }
     }
 
@@ -31,15 +32,15 @@
     }
 
     .Post {
-        padding: 0.25rem;
-        border-radius: 6px;
+        padding: utils.$spacing-1;
+        border-radius: utils.$radius-sm;
     }
 }
 
 .RssFeed-config {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: utils.$spacing-3;
     align-items: stretch;
 
     .Input {
@@ -54,8 +55,8 @@
     .presets {
         display: flex;
         justify-content: center;
-        gap: 1rem;
-        margin-top: 1rem;
+        gap: utils.$spacing-4;
+        margin-top: utils.$spacing-4;
 
         .preset {
 
@@ -63,15 +64,15 @@
     }
 
     .urls {
-        margin-top: 0.75rem;
+        margin-top: utils.$spacing-3;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: utils.$spacing-3;
     }
 
     .url-wrapper {
         display: flex;
-        gap: 0.5rem;
+        gap: utils.$spacing-2;
 
         .Input {
             flex-grow: 1;
@@ -84,7 +85,7 @@
     }
 
     .save-config {
-        margin-top: 16px;
+        margin-top: utils.$spacing-4;
     }
 }
 
@@ -106,7 +107,7 @@
 .RssLatestPost-config {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: utils.$spacing-3;
     align-items: stretch;
 
     &>div {
@@ -118,7 +119,7 @@
 
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: utils.$spacing-4;
     }
 }
 
@@ -130,7 +131,7 @@
 
     &.compact {
         .title {
-            font-size: 1.15rem;
+            font-size: utils.$font-size-lg;
         }
     }
 
@@ -141,13 +142,13 @@
 
         .compact-post-date {
             color: var(--text-subtle-1);
-            font-size: 0.85rem;
+            font-size: utils.$font-size-sm;
             font-weight: 200;
         }
     }
 
     .description {
-        margin-top: 4px;
+        margin-top: utils.$spacing-1;
         color: var(--text-subtle-2);
     }
 
@@ -156,9 +157,9 @@
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
-        column-gap: 12px;
-        row-gap: 8px;
-        margin-top: 8px;
+        column-gap: utils.$spacing-3;
+        row-gap: utils.$spacing-2;
+        margin-top: utils.$spacing-2;
 
         svg {
             color: var(--icon-color);
@@ -168,7 +169,7 @@
         .post-date {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: utils.$spacing-1-5;
             line-height: 1;
             color: var(--text-subtle-1);
         }

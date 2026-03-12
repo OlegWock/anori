@@ -1,5 +1,6 @@
+@use "./utils.scss" as utils;
 .Hint {
     color: hsla(var(--text-hsl) / 0.5);
     cursor: pointer;
-    margin-left: 12px;
+    margin-left: utils.$spacing-3;
 }

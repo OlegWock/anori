@@ -1,8 +1,9 @@
+@use "./utils.scss" as utils;
 .ShortcutHint {
     background: var(--accent);
     display: inline-flex;
-    border-radius: 4px;
-    padding: 0px 4px;
+    border-radius: utils.$radius-xs;
+    padding: 0 utils.$spacing-1;
     box-shadow: 0px 2px 0px 2px var(--accent-subtle);
     margin: 0 3px;
 }

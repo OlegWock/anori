@@ -1,5 +1,6 @@
+@use "./utils.scss" as utils;
 .ScrollAreaRoot {
-    border-radius: 4px;
+    border-radius: utils.$radius-xs;
     overflow: hidden;
     background-color: transparent;
     display: flex;
@@ -55,7 +56,7 @@
         -webkit-user-select: none;
         /* disable browser handling of all panning and zooming gestures on touch devices */
         touch-action: none;
-        padding: 2px;
+        padding: utils.$spacing-0-5;
         border-radius: var(--scrollbar-size);
         background: transparent;
         transition: background 160ms ease-out;
