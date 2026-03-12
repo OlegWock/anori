@@ -1,11 +1,5 @@
 # Backlog
 
-## Styling: Design System Foundation
-
-### Repeated layout patterns
-
-`display: flex; flex-direction: column; gap: X` appears 40+ times. Same for flex-row-centered, text-truncation (`white-space: nowrap; text-overflow: ellipsis; overflow: hidden`), and hover-background patterns. Not a bug, but a lot of boilerplate. Could be addressed with shared mixins in `utils.scss`.
-
 ## Split Large Files
 
 ### `Settings.tsx` (745 lines)
