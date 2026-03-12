@@ -1,5 +1,20 @@
 {
     "translation": {
+        "cloud": {
+            "connect": "Connect to cloud",
+            "account": "Cloud account",
+            "login": "Log in",
+            "logout": "Log out",
+            "email": "Email",
+            "password": "Password",
+            "connectedAs": "Connected as",
+            "noAccount": "Don't have an account?",
+            "createAccount": "Create one here",
+            "error": {
+                "invalidCredentials": "Invalid email or password",
+                "unknown": "Something went wrong. Please try again."
+            }
+        },
         "iconsPicker": {
             "selectFamilyOrSearch": "Select specific icon family or try searching to see icon suggestions."
         },

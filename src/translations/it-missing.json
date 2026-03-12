@@ -2,6 +2,21 @@
     "translation": {
         "reload": "Reload",
         "canBeEmpty": "can be empty",
+        "cloud": {
+            "connect": "Connect to cloud",
+            "account": "Cloud account",
+            "login": "Log in",
+            "logout": "Log out",
+            "email": "Email",
+            "password": "Password",
+            "connectedAs": "Connected as",
+            "noAccount": "Don't have an account?",
+            "createAccount": "Create one here",
+            "error": {
+                "invalidCredentials": "Invalid email or password",
+                "unknown": "Something went wrong. Please try again."
+            }
+        },
         "iframe-plugin": {
             "name": "Embed webpage",
             "expandWidgetName": "Embed webpage — expandable",

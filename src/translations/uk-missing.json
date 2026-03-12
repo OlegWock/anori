@@ -14,14 +14,6 @@
                 "invalidCredentials": "Invalid email or password",
                 "unknown": "Something went wrong. Please try again."
             }
-        },
-        "iconsPicker": {
-            "selectFamilyOrSearch": "Select specific icon family or try searching to see icon suggestions."
-        },
-        "settings": {
-            "aboutHelp": {
-                "license": "License"
-            }
         }
     }
 }
