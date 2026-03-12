@@ -37,9 +37,9 @@ Guidelines for when to extract into a separate file:
 * **widgets/** — each widget component and its config screen go into separate files; `descriptors.ts` holds all `defineWidget` calls and inline mock components
 * Utility/API files (e.g. `api.ts`, `utils.ts`) are fine as siblings when the plugin integrates with external services
 
-The main plugin file (`plugin-name-plugin.ts`) should remain a thin wiring file: it imports descriptors, messaging handlers, and background callbacks, then calls `definePlugin(...).withWidgets(...)`.
+The main plugin file (`plugin-name-plugin.ts`) should remain a thin wiring file: it imports descriptors, messaging handlers, and background callbacks, then chains them via the builder API.
 
-To create a plugin, you need to invoke `definePlugin` function. This will return plugin descriptor which then can be added to `src/plugins/all.ts` to make it available in the extension.
+To create a plugin, invoke `definePlugin` with static fields (`id`, `name`, `icon`, `configurationScreen`), then chain `.withWidgets(...)` and optional builder methods, and finalize with `.build()`. The `.build()` call is **required** — the builder type is intentionally incompatible with `AnoriPlugin` to enforce this. The result can then be added to `src/plugins/all.ts` to make it available in the extension.
 
 ```ts
 export const pluginnamePlugin = definePlugin({
@@ -47,27 +47,34 @@ export const pluginnamePlugin = definePlugin({
   get name() {
     return translate("blueprint-plugin.name");
   },
+  icon: builtinIcons.plugin,
   configurationScreen: null,
-}).withWidgets(widgetDescriptor);
+})
+  .withWidgets(widgetDescriptor)
+  .withOnMessage(handlers)
+  .withScheduledCallback({
+    intervalInMinutes: 15,
+    callback: (self) => updateAllWidgets(self),
+  })
+  .withOnStart((self) => {
+    plantWebRequestHandler();
+  })
+  .build();
 ```
 
 Plugin needs to define at least those fields: `id` (unique identificator), `name` (human-readable name, translatable), `configurationScreen` (null if plugin doesn't have plugin-wide configuration, otherwise React component which accepts `PluginConfigurationScreenProps<T>` props, where `T` is plugin configuration type).
 
-Optionally, plugin can define those fields:
+After calling `.withWidgets(...)`, the following builder methods are available. Each returns the builder so they can be chained in any order. All are optional.
 
-* `onStart?: () => void` — callback which will be invoked in background worker/page on extension start. It's intended for extension to register any listeners for `browser.*` API.
+* `.withOnStart(callback)` — registers a callback invoked in background worker/page on extension start. Intended for registering `browser.*` API listeners. The callback receives `self` (the fully-typed plugin instance).
 
-* `onMessage?: Record<string, (args: unknown, senderTab?: number) => unknown>` — mapping of message type -> message handler. Plugin messages are isolated between plugins (i.e. plugin can't handle message from another plugin). This is intended for cases when plugin needs to invoke API available only to background page/worker. You should always prefer strongly-typed message definitions and handlers. They can be created with `createOnMessageHandlers` function.
-  
-* ```
-  scheduledCallback?: {
-    intervalInMinutes: number;
-    callback: () => void;
-  };
-  ```
-  Allows plguin to setup callback which will be invoked every n minutes in context of background worker/page. Example use case is background refresh of data from remote API. To limit impact on laptop battery, Anori checks for due callbacks every 5 minutes, so values less than 5 minutes doesn't make much sense. Also, because of this it's not guaranted that your callback will be executed __precisely__ every `intervalInMinutes`.
+* `.withOnMessage(handlers)` — registers message handlers. Plugin messages are isolated between plugins (i.e. plugin can't handle message from another plugin). This is intended for cases when plugin needs to invoke API available only to background page/worker. You should always prefer strongly-typed message definitions and handlers. They can be created with `createOnMessageHandlers` function.
 
-To finish plugin definition process, you need to call `.withWidgets(...args)` on object returned by `definePlguin`. This function accepts variable number or argument, each of which is widget descriptor. 
+* `.withScheduledCallback({ intervalInMinutes, callback })` — registers a callback invoked every N minutes in the background worker/page. The callback receives `self` (the fully-typed plugin instance). Example use case is background refresh of data from remote API. To limit impact on laptop battery, Anori checks for due callbacks every 5 minutes, so values less than 5 minutes don't make much sense. Also, because of this it's not guaranteed that your callback will be executed __precisely__ every `intervalInMinutes`.
+
+* `.build()` — **required**. Finalizes the builder and returns the `AnoriPlugin` instance. Must be the last call in the chain.
+
+The `self` parameter passed to `withScheduledCallback` and `withOnStart` callbacks is the fully-typed plugin instance. This is the recommended way to access the plugin from background logic (e.g. passing it to `getAllWidgetsByPlugin(self)`) — it avoids circular imports when the plugin is split across multiple files.
 
 # Widgets
 

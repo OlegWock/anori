@@ -1,0 +1,17 @@
+.BlueprintWidget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    gap: var(--spacing-2);
+
+    .title {
+        font-weight: 600;
+    }
+
+    .instance-id {
+        font-size: var(--font-size-sm);
+        color: var(--text-subtle-2);
+    }
+}

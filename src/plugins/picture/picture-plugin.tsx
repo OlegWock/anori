@@ -82,4 +82,6 @@ export const picturePlugin = definePlugin({
   },
   icon: builtinIcons.picture,
   configurationScreen: null,
-}).withWidgets(widgetDescriptor);
+})
+  .withWidgets(widgetDescriptor)
+  .build();

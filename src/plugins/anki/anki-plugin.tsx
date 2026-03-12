@@ -308,4 +308,6 @@ export const ankiPlugin = definePlugin({
   },
   icon: builtinIcons.albums,
   configurationScreen: null,
-}).withWidgets(widgetDescriptor);
+})
+  .withWidgets(widgetDescriptor)
+  .build();

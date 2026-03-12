@@ -511,4 +511,6 @@ export const weatherPlugin = definePlugin({
   },
   icon: builtinIcons.weather.partlyCloudy,
   configurationScreen: null,
-}).withWidgets(weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast);
+})
+  .withWidgets(weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast)
+  .build();

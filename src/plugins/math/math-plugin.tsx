@@ -318,4 +318,6 @@ export const mathPlugin = definePlugin({
   },
   icon: builtinIcons.calculator,
   configurationScreen: null,
-}).withWidgets(widgetDescriptor, expandableWidgetDescriptor);
+})
+  .withWidgets(widgetDescriptor, expandableWidgetDescriptor)
+  .build();

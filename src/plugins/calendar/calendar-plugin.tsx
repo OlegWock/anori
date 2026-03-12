@@ -246,4 +246,6 @@ export const calendarPlugin = definePlugin({
   },
   icon: builtinIcons.calendar,
   configurationScreen: null,
-}).withWidgets(widgetDescriptor);
+})
+  .withWidgets(widgetDescriptor)
+  .build();

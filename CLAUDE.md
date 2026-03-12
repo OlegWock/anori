@@ -27,7 +27,7 @@ TypeScript only. Use `assertValue()` from `@anori/utils/asserts` instead of `!` 
 Full rules: @.cursor/rules/base.mdc
 
 ### Plugins & Widgets
-Widgets are the main building block. Plugins provide widgets via `definePlugin`/`defineWidget` and are registered in `src/plugins/all.ts`. Plugins can have config screens, background callbacks, message handlers, and scheduled tasks. Widgets have access to hooks like `useWidgetMetadata()`, `useParentFolder()`, `useSizeSettings()`, and storage APIs (`usePluginStorage`, `useWidgetStorage`). Small plugins live in a single file; larger ones split into `types.ts`, `storage.ts`, `messaging.ts`, `background.ts`, and a `widgets/` subfolder with per-widget components, config screens, and `descriptors.ts`.
+Widgets are the main building block. Plugins provide widgets via `definePlugin`/`defineWidget` and are registered in `src/plugins/all.ts`. `definePlugin` accepts static fields (id, name, icon, configurationScreen); after `.withWidgets()`, optional builder methods `.withOnMessage()`, `.withScheduledCallback()`, `.withOnStart()` can be chained in any order; `.build()` is required as the final call. `withScheduledCallback` and `withOnStart` callbacks receive `self` (the fully-typed plugin), avoiding circular imports in multi-file plugins. Widgets have access to hooks like `useWidgetMetadata()`, `useParentFolder()`, `useSizeSettings()`, and storage APIs (`usePluginStorage`, `useWidgetStorage`). Small plugins live in a single file; larger ones split into `types.ts`, `storage.ts`, `messaging.ts`, `background.ts`, and a `widgets/` subfolder with per-widget components, config screens, and `descriptors.ts`.
 Full rules: @.cursor/rules/plugins.mdc
 
 ### Styling

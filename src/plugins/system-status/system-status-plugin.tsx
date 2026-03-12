@@ -122,4 +122,6 @@ export const systemStatusPlugin = definePlugin({
   },
   icon: builtinIcons.speedometer,
   configurationScreen: null,
-}).withWidgets(cpuWidgetDescriptor, ramWidgetDescriptor);
+})
+  .withWidgets(cpuWidgetDescriptor, ramWidgetDescriptor)
+  .build();

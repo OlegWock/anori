@@ -150,4 +150,6 @@ export const recentlyClosedPlugin = definePlugin({
   },
   icon: builtinIcons.tabsFill,
   configurationScreen: null,
-}).withWidgets(widgetDescriptor);
+})
+  .withWidgets(widgetDescriptor)
+  .build();

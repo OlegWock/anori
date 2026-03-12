@@ -219,4 +219,6 @@ export const topSitesPlugin = definePlugin({
   },
   icon: builtinIcons.listOl,
   configurationScreen: null,
-}).withWidgets(topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical);
+})
+  .withWidgets(topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical)
+  .build();

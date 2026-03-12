@@ -153,4 +153,6 @@ export const notesPlugin = definePlugin({
   },
   icon: builtinIcons.pencil,
   configurationScreen: null,
-}).withWidgets(notesWidgetDescriptor);
+})
+  .withWidgets(notesWidgetDescriptor)
+  .build();

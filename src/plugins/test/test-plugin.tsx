@@ -164,4 +164,6 @@ export const testPlugin = definePlugin({
   },
   icon: builtinIcons.plugin,
   configurationScreen: null,
-}).withWidgets(widgetDescriptor, widgetDescriptor2);
+})
+  .withWidgets(widgetDescriptor, widgetDescriptor2)
+  .build();

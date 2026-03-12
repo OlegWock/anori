@@ -268,4 +268,6 @@ export const datetimePlugin = definePlugin({
   },
   icon: builtinIcons.clock,
   configurationScreen: null,
-}).withWidgets(datetimeWidgetDescriptorS, datetimeWidgetDescriptorM);
+})
+  .withWidgets(datetimeWidgetDescriptorS, datetimeWidgetDescriptorM)
+  .build();

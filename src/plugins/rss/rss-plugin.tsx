@@ -490,10 +490,12 @@ export const rssPlugin = definePlugin({
     return translate("rss-plugin.name");
   },
   icon: builtinIcons.rssIcon,
-  onMessage: handlers,
-  scheduledCallback: {
+  configurationScreen: null,
+})
+  .withWidgets(rssFeedDescriptor, rssLastestPostDescriptor)
+  .withOnMessage(handlers)
+  .withScheduledCallback({
     intervalInMinutes: 30,
     callback: rssScheduledCallback,
-  },
-  configurationScreen: null,
-}).withWidgets(rssFeedDescriptor, rssLastestPostDescriptor);
+  })
+  .build();

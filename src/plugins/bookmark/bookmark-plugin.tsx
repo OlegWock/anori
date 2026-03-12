@@ -644,12 +644,14 @@ export const bookmarkPlugin = definePlugin({
   },
   icon: builtinIcons.bookmark,
   configurationScreen: null,
-  onMessage: handlers,
-  scheduledCallback: {
+})
+  .withWidgets(bookmarkWidgetDescriptor, bookmarkGroupWidgetDescriptor)
+  .withOnMessage(handlers)
+  .withScheduledCallback({
     intervalInMinutes: STATUS_CHECK_INTERVAL_MINUTES,
     callback: updateStatusesForTrackedPages,
-  },
-  onStart: () => {
+  })
+  .withOnStart(() => {
     plantWebRequestHandler();
-  },
-}).withWidgets(bookmarkWidgetDescriptor, bookmarkGroupWidgetDescriptor);
+  })
+  .build();

@@ -344,4 +344,6 @@ export const tasksPlugin = definePlugin({
   },
   icon: builtinIcons.checklist,
   configurationScreen: null,
-}).withWidgets(tasksWidgetDescriptor);
+})
+  .withWidgets(tasksWidgetDescriptor)
+  .build();
