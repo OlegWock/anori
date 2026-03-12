@@ -8,7 +8,7 @@
 .Tabs-list {
     flex-shrink: 0;
     display: flex;
-    margin-bottom: utils.$spacing-3;
+    margin-bottom: var(--spacing-3);
 }
 
 .Tabs-trigger {
@@ -18,20 +18,20 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: utils.$font-size-base;
+    font-size: var(--font-size-base);
     white-space: nowrap;
     color: var(--text);
     font-family: inherit;
     transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
-    padding: utils.$spacing-0-5 0;
+    padding: var(--spacing-0-5) 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: utils.$spacing-1-5;
+    gap: var(--spacing-1-5);
     border: 2px solid hsla(var(--text-hsl) / 0.1);
     border-left-width: 0;
     border-right-width: 0;
-    padding: utils.$spacing-1-5 utils.$spacing-4-5;
+    padding: var(--spacing-1-5) var(--spacing-4-5);
 
     &:first-child {
         border-top-left-radius: 24px;

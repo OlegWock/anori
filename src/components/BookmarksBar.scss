@@ -1,16 +1,16 @@
 @use "@anori/components/utils.scss" as utils;
 
 .BookmarksBar {
-    border-radius: utils.$radius-lg;
+    border-radius: var(--radius-lg);
     background: hsla(var(--text-hsl) / 0.04);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 1;
     overflow: hidden;
-    margin: utils.$spacing-8;
-    margin-top: utils.$spacing-4;
+    margin: var(--spacing-8);
+    margin-top: var(--spacing-4);
     margin-bottom: 0;
-    padding: utils.$spacing-2;
+    padding: var(--spacing-2);
     display: flex;
     align-items: center;
 
@@ -27,19 +27,19 @@
     .bookmarks {
         display: flex;
         align-items: flex-start;
-        gap: utils.$spacing-4;
+        gap: var(--spacing-4);
         flex-grow: 1;
         overflow: hidden;
 
         .bookmarks-bar-wrapper {
             flex: 1;
             overflow: hidden;
-            padding-bottom: utils.$spacing-2;
+            padding-bottom: var(--spacing-2);
         }
 
         .bookmarks-bar {
             display: flex;
-            gap: utils.$spacing-3;
+            gap: var(--spacing-3);
             width: fit-content;
         }
 
@@ -49,8 +49,8 @@
     }
 
     .Bookmark {
-        padding: utils.$spacing-2;
-        border-radius: utils.$radius-md;
+        padding: var(--spacing-2);
+        border-radius: var(--radius-md);
         background: hsla(var(--text-hsl) / 0.04);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
@@ -61,11 +61,11 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
         text-decoration: none;
         transition: 0.1s ease-in-out;
         line-height: 1.2;
-        font-size: utils.$font-size-sm;
+        font-size: var(--font-size-sm);
         user-select: none;
         flex-shrink: 0;
 
@@ -96,8 +96,8 @@
     background: hsla(var(--text-hsl) / 0.1);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-    border-radius: utils.$radius-md;
-    padding: utils.$spacing-2;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-2);
     box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
     display: flex;
     flex-direction: column;
@@ -107,7 +107,7 @@
     }
 
     .ScrollAreaRoot {
-        padding-right: utils.$spacing-3;
+        padding-right: var(--spacing-3);
 
         &:has(.ScrollAreaScrollbar[data-state="hidden"]),
         &:not(:has(.ScrollAreaScrollbar)) {
@@ -117,19 +117,19 @@
 }
 
 .MenuBookmark {
-    padding: utils.$spacing-2;
-    border-radius: utils.$radius-md;
+    padding: var(--spacing-2);
+    border-radius: var(--radius-md);
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: utils.$spacing-2;
+    gap: var(--spacing-2);
     text-decoration: none;
     transition: 0.1s ease-in-out;
     line-height: 1.2;
-    font-size: utils.$font-size-sm;
+    font-size: var(--font-size-sm);
     user-select: none;
 
     .content {
@@ -137,7 +137,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
         overflow: hidden;
 
         span {

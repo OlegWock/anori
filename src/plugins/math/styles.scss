@@ -1,4 +1,3 @@
-@use "@anori/components/utils.scss" as utils;
 .CalculatorWidget {
     display: flex;
     flex-direction: column;
@@ -34,14 +33,14 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: utils.$spacing-2;
+    gap: var(--spacing-2);
 
     .history-wrapper {
         flex: 1 1 0;
         display: flex;
         flex-direction: column;
-        padding-bottom: utils.$spacing-4;
-        margin-bottom: utils.$spacing-4;
+        padding-bottom: var(--spacing-4);
+        margin-bottom: var(--spacing-4);
         border-bottom: 3px solid hsla(var(--text-hsl) / 0.1);
 
         .ScrollAreaRoot {
@@ -52,14 +51,14 @@
             text-align: right;
             display: flex;
             flex-direction: column;
-            gap: utils.$spacing-2;
+            gap: var(--spacing-2);
         }
 
         .history-record {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: utils.$spacing-2;
+            gap: var(--spacing-2);
 
             .expression-shaded {
                 opacity: 0.6;
@@ -84,7 +83,7 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 2rem);
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
 
         &.with-additional-buttons {
             grid-template-columns: repeat(7, 1fr);
@@ -101,11 +100,11 @@
             justify-content: center;
             align-items: center;
             line-height: 1;
-            padding: utils.$spacing-1;
+            padding: var(--spacing-1);
             gap: 0;
 
             sup {
-                font-size: utils.$font-size-2xs;
+                font-size: var(--font-size-2xs);
             }
         }
     }

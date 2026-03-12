@@ -5,22 +5,22 @@
 .Combobox-options {
     position: absolute;
     background-color: var(--background);
-    border-radius: utils.$radius-sm;
+    border-radius: var(--radius-sm);
     box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
     z-index: 9999;
     border: 2px solid var(--accent);
-    padding: utils.$spacing-1-5;
+    padding: var(--spacing-1-5);
     @include utils.scroll-mixin();
 
     .Combobox-option {
-        font-size: utils.$font-size-sm;
+        font-size: var(--font-size-sm);
         line-height: 1;
         color: var(--text);
-        border-radius: utils.$radius-xs;
+        border-radius: var(--radius-xs);
         display: flex;
         align-items: center;
         height: 30px;
-        padding: 0 utils.$spacing-4;
+        padding: 0 var(--spacing-4);
         position: relative;
         user-select: none;
         -webkit-user-select: none;
@@ -32,7 +32,7 @@
         .content {
             z-index: 1;
             display: flex;
-            gap: utils.$spacing-2;
+            gap: var(--spacing-2);
         }
 
         .check-icon {
@@ -55,14 +55,14 @@
     }
 
     .Combobox-no-results {
-        font-size: utils.$font-size-sm;
+        font-size: var(--font-size-sm);
         line-height: 1;
         color: var(--text);
-        border-radius: utils.$radius-xs;
+        border-radius: var(--radius-xs);
         display: flex;
         align-items: center;
         height: 30px;
-        padding: 0 utils.$spacing-9 0 utils.$spacing-6;
+        padding: 0 var(--spacing-9) 0 var(--spacing-6);
         position: relative;
         user-select: none;
     }

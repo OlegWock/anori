@@ -7,7 +7,7 @@
 
     &-size-s {
         .time {
-            font-size: utils.$font-size-2xl;
+            font-size: var(--font-size-2xl);
             line-height: 1.2;
 
             &.smaller-time {
@@ -21,7 +21,7 @@
 
         .date,
         .title {
-            font-size: utils.$font-size-sm;
+            font-size: var(--font-size-sm);
         }
     }
 
@@ -37,7 +37,7 @@
             height: 4rem;
             width: 4rem;
             border: 2px solid var(--text);
-            border-radius: utils.$radius-full;
+            border-radius: var(--radius-full);
 
             .hand {
                 width: 50%;
@@ -46,7 +46,7 @@
                 background: var(--text);
                 position: absolute;
                 top: 50%;
-                border-radius: utils.$radius-sm;
+                border-radius: var(--radius-sm);
                 transform-origin: 98%;
 
                 &.hour-hand {
@@ -62,7 +62,7 @@
         }
 
         .time {
-            font-size: utils.$font-size-display;
+            font-size: var(--font-size-display);
             line-height: 1.2;
 
             &.smaller-time {
@@ -75,13 +75,13 @@
         }
 
         .date {
-            font-size: utils.$font-size-xl;
+            font-size: var(--font-size-xl);
         }
 
         .title {
             // position: absolute;
             // bottom: 0;
-            font-size: utils.$font-size-xl;
+            font-size: var(--font-size-xl);
         }
     }
 
@@ -95,7 +95,7 @@
 .DateTimeWidget-config {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-3;
+    gap: var(--spacing-3);
     align-items: stretch;
 
     &>div {
@@ -105,6 +105,6 @@
 
     .save-config {
         align-self: center;
-        margin-top: utils.$spacing-4;
+        margin-top: var(--spacing-4);
     }
 }

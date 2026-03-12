@@ -1,14 +1,13 @@
-@use "./utils.scss" as utils;
 .SelectTrigger {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: utils.$radius-md;
-    padding: 0 utils.$spacing-4;
-    font-size: utils.$font-size-sm;
+    border-radius: var(--radius-md);
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-sm);
     line-height: 1;
     height: 35px;
-    gap: utils.$spacing-3;
+    gap: var(--spacing-3);
     min-width: 250px;
     border: 0px solid transparent;
     color: var(--text-subtle-1);
@@ -27,7 +26,7 @@
 .SelectContent {
     overflow: hidden;
     background-color: var(--background);
-    border-radius: utils.$radius-sm;
+    border-radius: var(--radius-sm);
     box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
     z-index: 9999;
     border: 2px solid var(--accent);
@@ -39,18 +38,18 @@
 }
 
 .SelectViewport {
-    padding: utils.$spacing-1-5;
+    padding: var(--spacing-1-5);
 }
 
 .SelectItem {
-    font-size: utils.$font-size-xs;
+    font-size: var(--font-size-xs);
     line-height: 1;
     color: var(--text);
-    border-radius: utils.$radius-xs;
+    border-radius: var(--radius-xs);
     display: flex;
     align-items: center;
     height: 1.5625rem;
-    padding: 0 utils.$spacing-9 0 utils.$spacing-6;
+    padding: 0 var(--spacing-9) 0 var(--spacing-6);
     position: relative;
     user-select: none;
     -webkit-user-select: none;
@@ -68,8 +67,8 @@
 }
 
 .SelectLabel {
-    padding: 0 utils.$spacing-6;
-    font-size: utils.$font-size-base;
+    padding: 0 var(--spacing-6);
+    font-size: var(--font-size-base);
     line-height: 2rem;
     color: var(--text-subtle-1);
     font-weight: 600;
@@ -78,7 +77,7 @@
 .SelectSeparator {
     height: 1px;
     background-color: var(--violet6);
-    margin: utils.$spacing-1-5;
+    margin: var(--spacing-1-5);
 }
 
 .SelectItemIndicator {

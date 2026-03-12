@@ -4,21 +4,21 @@
     padding: 0 !important;
 
     .modal-header {
-        padding: utils.$spacing-6;
+        padding: var(--spacing-6);
         padding-bottom: 0;
     }
 }
 
 .Settings {
-    margin: 0 utils.$spacing-1-5;
-    margin-bottom: utils.$spacing-1-5;
+    margin: 0 var(--spacing-1-5);
+    margin-bottom: var(--spacing-1-5);
 
     .settings-content {
-        padding: 0 utils.$spacing-4-5;
-        padding-bottom: utils.$spacing-4-5;
+        padding: 0 var(--spacing-4-5);
+        padding-bottom: var(--spacing-4-5);
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-6;
+        gap: var(--spacing-6);
         max-width: 600px;
         min-width: 600px;
     }
@@ -28,27 +28,27 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 1fr;
-    gap: utils.$spacing-4;
+    gap: var(--spacing-4);
 }
 
 .GeneralSettingsScreen {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-2-5;
+    gap: var(--spacing-2-5);
 
     .translation-alert {
-        margin-top: utils.$spacing-4;
+        margin-top: var(--spacing-4);
     }
 
     .screen-size-hint {
-        margin-left: utils.$spacing-1;
+        margin-left: var(--spacing-1);
     }
 
     .input-wrapper {
-        margin-bottom: utils.$spacing-2-5;
+        margin-bottom: var(--spacing-2-5);
 
         label {
-            margin-bottom: utils.$spacing-1;
+            margin-bottom: var(--spacing-1);
             display: flex;
             align-items: center;
         }
@@ -67,10 +67,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: utils.$spacing-2-5;
+    gap: var(--spacing-2-5);
 
     .no-custom-icons-alert {
-        padding: utils.$spacing-4;
+        padding: var(--spacing-4);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -80,22 +80,22 @@
     .custom-icons-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: utils.$spacing-3;
-        margin-bottom: utils.$spacing-2;
+        gap: var(--spacing-3);
+        margin-bottom: var(--spacing-2);
         align-self: stretch;
 
         .custom-icon-plate {
-            padding: utils.$spacing-3;
-            border-radius: utils.$radius-lg;
+            padding: var(--spacing-3);
+            border-radius: var(--radius-lg);
             background: var(--background-lighter);
             display: flex;
-            gap: utils.$spacing-3;
+            gap: var(--spacing-3);
             align-items: center;
 
             .custom-icon-name {
                 flex: 1;
                 text-overflow: ellipsis;
-                font-size: utils.$font-size-sm;
+                font-size: var(--font-size-sm);
                 overflow: hidden;
             }
         }
@@ -103,19 +103,19 @@
 
     .draft-icons-list {
         border: 3px solid var(--background-lighter);
-        border-radius: utils.$radius-lg;
-        margin-bottom: utils.$spacing-2;
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-2);
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-4;
-        padding: utils.$spacing-4;
+        gap: var(--spacing-4);
+        padding: var(--spacing-4);
         align-self: stretch;
     }
 
     .draft-icon-section {
         display: flex;
         align-items: center;
-        gap: utils.$spacing-8;
+        gap: var(--spacing-8);
 
         .draft-icon-preview {
             align-self: center;
@@ -125,7 +125,7 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: utils.$spacing-2;
+            gap: var(--spacing-2);
 
             .draft-icon-name {}
 
@@ -138,7 +138,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: utils.$spacing-2-5;
+    gap: var(--spacing-2-5);
 
     .add-folder-btn {
         align-self: center;
@@ -150,19 +150,19 @@
 .ImportExportScreen {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-2-5;
+    gap: var(--spacing-2-5);
 
     .import-export-button {
         display: flex;
         justify-content: space-around;
-        margin-top: utils.$spacing-2;
+        margin-top: var(--spacing-2);
     }
 }
 
 .HelpAboutScreen {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-5;
+    gap: var(--spacing-5);
 
     .logo {
         align-self: center;
@@ -173,14 +173,14 @@
     .shortcuts-section {
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
     }
 }
 
 .PluginsScreen {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-6;
+    gap: var(--spacing-6);
 
     section {
         display: flex;
@@ -193,11 +193,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: utils.$spacing-4;
+    padding: var(--spacing-4);
     background: var(--background-lighter);
-    border-radius: utils.$radius-lg;
+    border-radius: var(--radius-lg);
     color: var(--text);
-    gap: utils.$spacing-4;
+    gap: var(--spacing-4);
     cursor: pointer;
     transition: 0.2s ease-in-out;
 

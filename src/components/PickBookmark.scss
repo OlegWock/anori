@@ -7,17 +7,17 @@
     width: 600px;
 
     .Input {
-        margin-bottom: utils.$spacing-2;
+        margin-bottom: var(--spacing-2);
     }
 
     .bookmark {
         display: flex;
         align-items: center;
-        gap: utils.$spacing-4;
-        padding: utils.$spacing-1-5;
+        gap: var(--spacing-4);
+        padding: var(--spacing-1-5);
         cursor: pointer;
         transition: 0.15s ease-in-out;
-        border-radius: utils.$radius-md;
+        border-radius: var(--radius-md);
 
         @include utils.hover {
             background: hsla(var(--text-hsl) /  0.1);
@@ -30,7 +30,7 @@
 
         .fav-icon {
             width: 18px;
-            border-radius: utils.$radius-md;
+            border-radius: var(--radius-md);
         }
 
         .title {
@@ -39,7 +39,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
-            font-size: utils.$font-size-sm;
+            font-size: var(--font-size-sm);
         }
     }
 
@@ -47,6 +47,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: utils.$spacing-16;
+        padding: var(--spacing-16);
     }
 }

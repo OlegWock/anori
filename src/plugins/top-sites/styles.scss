@@ -2,7 +2,7 @@
 
 .TopSitesWidget {
     display: grid;
-    gap: utils.$spacing-2;
+    gap: var(--spacing-2);
     flex-grow: 1;
     align-self: stretch;
 
@@ -28,11 +28,11 @@
         text-decoration: none;
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
         align-items: center;
         justify-content: center;
-        padding: utils.$spacing-2;
-        border-radius: utils.$radius-md;
+        padding: var(--spacing-2);
+        border-radius: var(--radius-md);
         transition: 0.1s ease-in-out;
         width: 0;
         min-width: 100%;
@@ -53,7 +53,7 @@
             top: 0px;
             right: 0px;
             z-index: 1;
-            padding: utils.$spacing-0-5;
+            padding: var(--spacing-0-5);
             background: var(--background-lighter);
             color: var(--accent);
             border: 2px solid var(--accent);
@@ -62,7 +62,7 @@
 
     img,
     .loading {
-        margin: utils.$spacing-2;
+        margin: var(--spacing-2);
         width: 2rem;
     }
 
@@ -75,7 +75,7 @@
         text-overflow: ellipsis;
         overflow: hidden;
         align-self: stretch;
-        font-size: utils.$font-size-sm;
+        font-size: var(--font-size-sm);
         text-align: center;
     }
 }

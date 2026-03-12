@@ -1,10 +1,9 @@
-@use "./utils.scss" as utils;
 
 .WhatsNew-modal {
     padding: 0 !important;
 
     .modal-header {
-        padding: utils.$spacing-6;
+        padding: var(--spacing-6);
         padding-bottom: 0;
     }
 
@@ -15,52 +14,52 @@
         flex-direction: column;
     
         &-scrollarea {
-            margin: 0 utils.$spacing-1-5;
-            margin-bottom: utils.$spacing-3;
+            margin: 0 var(--spacing-1-5);
+            margin-bottom: var(--spacing-3);
         }
     
         &-content {
             display: flex;
             flex-direction: column;
-            gap: utils.$spacing-8;
-            padding: 0 utils.$spacing-4-5;
+            gap: var(--spacing-8);
+            padding: 0 var(--spacing-4-5);
         }
 
         .margin-top {
-            margin-top: utils.$spacing-4;
+            margin-top: var(--spacing-4);
         }
     
         ul {
-            margin-left: utils.$spacing-6;
+            margin-left: var(--spacing-6);
             display: flex;
             flex-direction: column;
-            gap: utils.$spacing-3;
+            gap: var(--spacing-3);
         }
     
         p:not(:last-child) {
-            margin-bottom: utils.$spacing-4;
+            margin-bottom: var(--spacing-4);
         }
 
         .donation-callout {
-            margin-top: utils.$spacing-4;
-            padding: utils.$spacing-4;
-            border-radius: utils.$radius-md;
+            margin-top: var(--spacing-4);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
             background: var(--background-lighter);
         }
 
         .analytics-checkbox {
-            margin-top: utils.$spacing-4;
-            font-size: utils.$font-size-lg;
+            margin-top: var(--spacing-4);
+            font-size: var(--font-size-lg);
             justify-content: center;
-            padding: utils.$spacing-4;
-            border-radius: utils.$radius-md;
+            padding: var(--spacing-4);
+            border-radius: var(--radius-md);
             background: var(--background-lighter);
         }
 
         .logo-wrapper {
             display: flex;
             justify-content: center;
-            padding: utils.$spacing-4;
+            padding: var(--spacing-4);
 
             .logo {
                 width: 300px;

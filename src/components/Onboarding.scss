@@ -1,8 +1,7 @@
-@use "./utils.scss" as utils;
 .Onboarding {
-    padding: utils.$spacing-6;
+    padding: var(--spacing-6);
     background: var(--background);
-    border-radius: utils.$radius-lg;
+    border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
     color: var(--text); 
@@ -11,7 +10,7 @@
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 6px 4px;
 
     .content-wrapper, .navigation-buttons {
-        padding: utils.$spacing-2;
+        padding: var(--spacing-2);
     }
 
     .content-wrapper {
@@ -22,19 +21,19 @@
     section {
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-4;
+        gap: var(--spacing-4);
         align-items: flex-start;
     }
 
     .preset {
         align-self: center;
-        margin-top: utils.$spacing-2;
+        margin-top: var(--spacing-2);
     }
 
     .navigation-buttons {
         display: flex;
         align-items: center;
-        margin-top: utils.$spacing-4;
+        margin-top: var(--spacing-4);
 
         svg {
             color: hsla(var(--text-hsl) / 0.6)

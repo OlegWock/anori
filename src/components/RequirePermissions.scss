@@ -17,12 +17,12 @@
     }
 
     .additional-info {
-        margin-top: utils.$spacing-4;
+        margin-top: var(--spacing-4);
     }
 
     .grant-button {
         align-self: center;
-        margin-top: utils.$spacing-9;
+        margin-top: var(--spacing-9);
         white-space: break-spaces;
     }
 }
@@ -32,10 +32,10 @@
 
     .grant-button {
         align-self: center;
-        margin-top: utils.$spacing-9;
+        margin-top: var(--spacing-9);
     }
 
     .additional-info {
-        margin-top: utils.$spacing-4;
+        margin-top: var(--spacing-4);
     }
 }

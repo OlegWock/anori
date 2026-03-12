@@ -1,7 +1,6 @@
-@use "./utils.scss" as utils;
 .Alert {
-    padding: utils.$spacing-4;
-    border-radius: utils.$radius-lg;
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
     background-color: var(--accent-subtle);
 
     &-info-darker {

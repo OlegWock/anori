@@ -4,24 +4,24 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: utils.$font-size-base;
+    font-size: var(--font-size-base);
     white-space: nowrap;
     color: var(--text);
     font-family: inherit;
     transition: 0.2s ease-in-out, box-shadow 0.35s ease-in-out;
-    padding: utils.$spacing-0-5 0;
+    padding: var(--spacing-0-5) 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: utils.$spacing-1-5;
+    gap: var(--spacing-1-5);
     user-select: none;
     -webkit-user-select: none;
     position: relative;
 
     &.with-border {
         border: 2px solid hsla(var(--text-hsl) /  0.1);
-        padding: utils.$spacing-1-5 utils.$spacing-4-5;
-        border-radius: utils.$radius-xl;
+        padding: var(--spacing-1-5) var(--spacing-4-5);
+        border-radius: var(--radius-xl);
 
         @include utils.hover {
             &:not(:disabled):not([aria-disabled="true"]) {
@@ -42,8 +42,8 @@
 
 
     &-size-compact {
-        font-size: utils.$font-size-sm;
-        padding: utils.$spacing-1 utils.$spacing-3 !important;
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-1) var(--spacing-3) !important;
         width: fit-content;
         min-width: auto;
     }

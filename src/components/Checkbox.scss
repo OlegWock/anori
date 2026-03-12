@@ -1,8 +1,7 @@
-@use "./utils.scss" as utils;
 .Checkbox {
     display: flex;
     align-items: center;
-    gap: utils.$spacing-3;
+    gap: var(--spacing-3);
 
     &:not([data-disabled]) {
         button,
@@ -25,7 +24,7 @@
         height: 20px;
         min-width: 20px;
         min-height: 20px;
-        border-radius: utils.$radius-xs;
+        border-radius: var(--radius-xs);
         display: flex;
         align-items: center;
         justify-content: center;

@@ -1,4 +1,3 @@
-@use "./utils.scss" as utils;
 .Slider {
     position: relative;
     display: flex;
@@ -11,14 +10,14 @@
         background-color: var(--background-lighter);
         position: relative;
         flex-grow: 1;
-        border-radius: utils.$radius-full;
+        border-radius: var(--radius-full);
         height: 3px;
     }
 
     .SliderRange {
         position: absolute;
         background-color: hsla(var(--text-hsl) / 0.2);
-        border-radius: utils.$radius-full;
+        border-radius: var(--radius-full);
         height: 100%;
     }
 
@@ -27,7 +26,7 @@
         width: 20px;
         height: 20px;
         background-color: var(--background-lighter);
-        border-radius: utils.$radius-md;
+        border-radius: var(--radius-md);
     }
 
     .SliderThumb:hover {

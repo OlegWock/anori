@@ -2,7 +2,7 @@
 @use './utils.scss' as utils;
 
 :root {
-    font-size: utils.$font-size-base;
+    font-size: 1rem;
     // --background-image: url("/assets/images/backgrounds/greenery.jpg");
     --background-image: transparent;
     --accent: #{utils.$accent};
@@ -17,6 +17,43 @@
     --text-disabled: #{color.scale(utils.$text, $blackness: +45%)};
     --icon-color: hsla(var(--text-hsl) /  0.4);
     --error-color: hsl(0, 87%, 60%);
+
+    // Spacing scale
+    --spacing-0-5: 0.125rem; // 2px
+    --spacing-1: 0.25rem;    // 4px
+    --spacing-1-5: 0.375rem; // 6px
+    --spacing-2: 0.5rem;     // 8px
+    --spacing-2-5: 0.625rem; // 10px
+    --spacing-3: 0.75rem;    // 12px
+    --spacing-4: 1rem;       // 16px
+    --spacing-4-5: 1.125rem; // 18px
+    --spacing-5: 1.25rem;    // 20px
+    --spacing-6: 1.5rem;     // 24px
+    --spacing-7: 1.75rem;    // 28px
+    --spacing-8: 2rem;       // 32px
+    --spacing-9: 2.25rem;    // 36px
+    --spacing-12: 3rem;      // 48px
+    --spacing-16: 4rem;      // 64px
+
+    // Border radius scale
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 24px;
+    --radius-2xl: 36px;
+    --radius-full: 9999px;
+
+    // Font size scale
+    --font-size-2xs: 0.65rem;    // ~10px
+    --font-size-xs: 0.75rem;     // 12px
+    --font-size-sm: 0.875rem;    // 14px
+    --font-size-base: 1rem;      // 16px
+    --font-size-lg: 1.25rem;     // 20px
+    --font-size-xl: 1.5rem;      // 24px
+    --font-size-2xl: 2rem;       // 32px
+    --font-size-3xl: 3rem;       // 48px
+    --font-size-display: 3.75rem; // 60px
 }
 
 * {
@@ -37,9 +74,9 @@ input {
 
 label {
     font-weight: 500;
-    margin-bottom: utils.$spacing-1-5;
+    margin-bottom: var(--spacing-1-5);
     display: block;
-    margin-left: utils.$spacing-1;
+    margin-left: var(--spacing-1);
 }
 
 h1,
@@ -52,27 +89,27 @@ h6 {
 }
 
 h1 {
-    font-size: utils.$font-size-2xl;
+    font-size: var(--font-size-2xl);
 }
 
 h2 {
-    font-size: utils.$font-size-xl;
+    font-size: var(--font-size-xl);
 }
 
 h3 {
-    font-size: utils.$font-size-lg;
+    font-size: var(--font-size-lg);
 }
 
 h4 {
-    font-size: utils.$font-size-base;
+    font-size: var(--font-size-base);
 }
 
 h5 {
-    font-size: utils.$font-size-sm;
+    font-size: var(--font-size-sm);
 }
 
 h6 {
-    font-size: utils.$font-size-xs;
+    font-size: var(--font-size-xs);
 }
 
 a,

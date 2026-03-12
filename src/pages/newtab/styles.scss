@@ -1,5 +1,4 @@
 @use "@anori/components/base.scss";
-@use '@anori/components/utils.scss' as utils;
 
 @font-face {
     font-family: 'Nunito';
@@ -26,7 +25,7 @@ body {
     background: var(--background-image);
     background-size: cover;
     overflow: hidden;
-    font-size: utils.$font-size-base;
+    font-size: var(--font-size-base);
 }
 
 #root {
@@ -72,7 +71,7 @@ body {
         }
 
         .sidebar-wrapper {
-            padding: utils.$spacing-4 utils.$spacing-6;
+            padding: var(--spacing-4) var(--spacing-6);
 
             .sidebar {
                 .sidebar-viewport {
@@ -81,7 +80,7 @@ body {
                         flex-direction: column;
                     }
                     .sidebar-content {
-                        padding: utils.$spacing-2-5;
+                        padding: var(--spacing-2-5);
                         flex-direction: row !important;
                     }
                 }
@@ -90,26 +89,26 @@ body {
         }
 
         .widgets-area {
-            margin: utils.$spacing-8;
+            margin: var(--spacing-8);
             margin-bottom: 0;
         }
     }
 
     &.with-bookmarks-bar {
         .widgets-area {
-            margin-top: utils.$spacing-1;
+            margin-top: var(--spacing-1);
         }
 
         &:not(.horizontal-sidebar) {
             .sidebar-wrapper {
-                padding-top: utils.$spacing-2 !important;
+                padding-top: var(--spacing-2) !important;
             }
         }
     }
 
     .bookmarks-bar-placeholder {
-        margin: utils.$spacing-8;
-        margin-top: utils.$spacing-4;
+        margin: var(--spacing-8);
+        margin-top: var(--spacing-4);
         margin-bottom: 0;
         height: calc(0.9rem * 1.2 + 1.55rem);
     }
@@ -118,10 +117,10 @@ body {
 
     .widgets-area {
         position: relative;
-        margin: utils.$spacing-8;
+        margin: var(--spacing-8);
         margin-inline-start: 0;
         flex: 1;
-        border-radius: utils.$radius-2xl;
+        border-radius: var(--radius-2xl);
         background: hsla(var(--text-hsl) / 0.04);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);

@@ -1,8 +1,7 @@
-@use "@anori/components/utils.scss" as utils;
 .AnkiWidget {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-4;
+    gap: var(--spacing-4);
     flex-grow: 1;
     overflow: hidden;
 
@@ -13,7 +12,7 @@
         font-weight: 600;
         display: flex;
         justify-content: space-between;
-        gap: utils.$spacing-4;
+        gap: var(--spacing-4);
     }
 
     .set-name {
@@ -28,12 +27,12 @@
         line-height: 1;
         display: flex;
         align-items: center;
-        gap: utils.$spacing-1;
+        gap: var(--spacing-1);
     }
 
     iframe {
         flex-grow: 1;
-        border-radius: utils.$radius-xs;
+        border-radius: var(--radius-xs);
         overflow: hidden;
     }
 
@@ -43,7 +42,7 @@
 
     .actions {
         display: flex;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
         justify-content: center;
         flex-wrap: wrap;
     }
@@ -54,11 +53,11 @@
         background-color: white;
 
         flex-grow: 1;
-        border-radius: utils.$radius-xs;
+        border-radius: var(--radius-xs);
         overflow: auto;
 
         .big-kanji {
-            font-size: utils.$font-size-3xl;
+            font-size: var(--font-size-3xl);
         }
     }
 
@@ -70,7 +69,7 @@
 .AnkiWidget-config {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-3;
+    gap: var(--spacing-3);
     align-items: stretch;
 
     & > div {
@@ -80,6 +79,6 @@
 
     .save-config {
         align-self: center;
-        margin-top: utils.$spacing-4;
+        margin-top: var(--spacing-4);
     }
 }

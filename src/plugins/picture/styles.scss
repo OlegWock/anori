@@ -1,4 +1,3 @@
-@use "@anori/components/utils.scss" as utils;
 .PictureWidget {
     display: flex;
     align-items: center;
@@ -12,7 +11,7 @@
 .PictureWidget-config {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-3;
+    gap: var(--spacing-3);
     align-items: stretch;
 
     &>div {
@@ -22,7 +21,7 @@
 
     .save-config {
         align-self: center;
-        margin-top: utils.$spacing-4;
+        margin-top: var(--spacing-4);
     }
 }
 

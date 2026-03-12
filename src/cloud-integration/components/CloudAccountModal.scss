@@ -7,7 +7,7 @@
 .CloudAccountModal-connected {
   display: flex;
   flex-direction: column;
-  gap: utils.$spacing-6;
+  gap: var(--spacing-6);
   min-width: 25rem;
 
   .account-info {
@@ -16,16 +16,16 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: utils.$spacing-4;
+      gap: var(--spacing-4);
     }
 
     .label {
-      font-size: utils.$font-size-sm;
+      font-size: var(--font-size-sm);
       opacity: 0.7;
     }
 
     .email {
-      font-size: utils.$font-size-base;
+      font-size: var(--font-size-base);
       font-weight: 500;
     }
   }
@@ -33,44 +33,44 @@
   .profiles-section {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-3;
+    gap: var(--spacing-3);
 
     .profiles-header {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: utils.$spacing-3;
+      gap: var(--spacing-3);
     }
 
     .label {
-      font-size: utils.$font-size-sm;
+      font-size: var(--font-size-sm);
       opacity: 0.7;
     }
 
     .profiles-loading {
-      font-size: utils.$font-size-sm;
+      font-size: var(--font-size-sm);
       opacity: 0.7;
-      padding: utils.$spacing-2 0;
+      padding: var(--spacing-2) 0;
     }
 
     .profiles-list {
       display: flex;
       flex-direction: column;
-      gap: utils.$spacing-2;
+      gap: var(--spacing-2);
       overflow-y: auto;
     }
 
     .profiles-empty {
-      font-size: utils.$font-size-sm;
+      font-size: var(--font-size-sm);
       opacity: 0.7;
-      padding: utils.$spacing-2 0;
+      padding: var(--spacing-2) 0;
     }
 
     .profile-card {
       background: var(--background-lighter);
-      border-radius: utils.$radius-md;
-      padding: utils.$spacing-3;
+      border-radius: var(--radius-md);
+      padding: var(--spacing-3);
 
       &-connected {
         outline: 1px solid hsla(var(--text-hsl) / 0.15);
@@ -80,58 +80,58 @@
     .profile-item {
       display: flex;
       flex-direction: column;
-      gap: utils.$spacing-2;
+      gap: var(--spacing-2);
 
       .profile-header {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        gap: utils.$spacing-3;
+        gap: var(--spacing-3);
       }
 
       .profile-info {
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-1;
+        gap: var(--spacing-1);
         flex: 1;
         min-width: 0;
       }
 
       .profile-name {
-        font-size: utils.$font-size-sm;
+        font-size: var(--font-size-sm);
         font-weight: 500;
         display: flex;
         align-items: center;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
       }
 
       .profile-connected-badge {
-        font-size: utils.$font-size-xs;
+        font-size: var(--font-size-xs);
         font-weight: 400;
         opacity: 0.6;
       }
 
       .profile-meta {
-        font-size: utils.$font-size-xs;
+        font-size: var(--font-size-xs);
         opacity: 0.6;
       }
 
       .profile-actions {
         display: flex;
-        gap: utils.$spacing-1;
+        gap: var(--spacing-1);
       }
 
       .profile-rename-form {
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-3;
+        gap: var(--spacing-3);
         flex: 1;
 
         .profile-rename-actions {
           display: flex;
           flex-direction: row;
-          gap: utils.$spacing-2;
+          gap: var(--spacing-2);
           justify-content: flex-end;
         }
       }
@@ -140,15 +140,15 @@
     .create-profile-form {
       display: flex;
       flex-direction: column;
-      gap: utils.$spacing-3;
-      padding: utils.$spacing-3;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
       background: var(--background-lighter);
-      border-radius: utils.$radius-md;
+      border-radius: var(--radius-md);
 
       .create-profile-actions {
         display: flex;
         flex-direction: row;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
         justify-content: flex-end;
       }
     }
@@ -156,13 +156,13 @@
     .profile-confirmation {
       display: flex;
       flex-direction: column;
-      gap: utils.$spacing-3;
-      padding-top: utils.$spacing-3;
+      gap: var(--spacing-3);
+      padding-top: var(--spacing-3);
 
       .confirmation-actions {
         display: flex;
         flex-direction: row;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
         justify-content: flex-end;
       }
     }
@@ -175,11 +175,11 @@
   .auth-form {
     display: flex;
     flex-direction: column;
-    gap: utils.$spacing-4;
+    gap: var(--spacing-4);
 
     .register-link {
       text-align: center;
-      font-size: utils.$font-size-sm;
+      font-size: var(--font-size-sm);
       opacity: 0.8;
       margin: 0;
 

@@ -1,4 +1,3 @@
-@use "@anori/components/utils.scss" as utils;
 .BackgroundPlate {
     height: 140px;
     flex-grow: 1;
@@ -8,7 +7,7 @@
     .main-btn {
         position: absolute;
         inset: 0;
-        border-radius: utils.$radius-lg;
+        border-radius: var(--radius-lg);
         background-size: cover;
         background-clip: padding-box;
         border: 0.25rem solid transparent;        
@@ -27,7 +26,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: utils.$spacing-2;
+        gap: var(--spacing-2);
     }
 
     .color-cirles-wrapper {
@@ -36,13 +35,13 @@
         left: 0.5rem;
         display: flex;
         flex-direction: column;
-        gap: utils.$spacing-1;
-        padding: utils.$spacing-1;
+        gap: var(--spacing-1);
+        padding: var(--spacing-1);
 
         .color-circle {
             width: 30px;
             height: 30px;
-            border-radius: utils.$radius-lg;
+            border-radius: var(--radius-lg);
         }
     }
 }
@@ -51,13 +50,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: utils.$spacing-2;
-    padding-top: utils.$spacing-1;
+    gap: var(--spacing-2);
+    padding-top: var(--spacing-1);
 
     .themes-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: utils.$spacing-4;
+        gap: var(--spacing-4);
         align-self: stretch;
     }
 
@@ -66,10 +65,10 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        gap: utils.$spacing-5;
+        gap: var(--spacing-5);
 
         .theme-preview {
-            border-radius: utils.$radius-lg;
+            border-radius: var(--radius-lg);
             background: repeating-conic-gradient(#c6c6c6 0% 25%, white 0% 50%) 50% / 20px 20px;
             height: 400px;
         }
@@ -81,7 +80,7 @@
         .blur-settings {
 
             .Slider {
-                margin-top: utils.$spacing-1;
+                margin-top: var(--spacing-1);
             }
         }
 
@@ -89,19 +88,19 @@
         .swatches {
             display: flex;
             justify-content: center;
-            gap: utils.$spacing-16;
+            gap: var(--spacing-16);
 
             .swatch-wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: utils.$spacing-1-5;
+                gap: var(--spacing-1-5);
             }
 
             button {
                 width: 2rem;
                 height: 2rem;
-                border-radius: utils.$radius-full;
+                border-radius: var(--radius-full);
                 outline: 2px solid hsla(var(--text-hsl) / 0.2);
                 cursor: pointer;
             }
@@ -114,7 +113,7 @@
 
     .action-buttons {
         display: flex;
-        gap: utils.$spacing-4;
-        margin-top: utils.$spacing-8;
+        gap: var(--spacing-4);
+        margin-top: var(--spacing-8);
     }
 }
