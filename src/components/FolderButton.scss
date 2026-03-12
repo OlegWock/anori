@@ -48,7 +48,7 @@
         right: 10%;
         width: 8px;
         height: 8px;
-        background: rgb(247, 60, 60);
+        background: var(--error-color);
         border-radius: var(--radius-xs);
     }
 }

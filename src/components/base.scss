@@ -17,6 +17,7 @@
     --text-disabled: #{color.scale(utils.$text, $blackness: +45%)};
     --icon-color: hsla(var(--text-hsl) /  0.4);
     --error-color: hsl(0, 87%, 60%);
+    --success-color: #2eb46a;
 
     // Spacing scale
     --spacing-0-5: 0.125rem; // 2px

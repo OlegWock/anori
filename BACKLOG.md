@@ -2,10 +2,6 @@
 
 ## Styling: Design System Foundation
 
-### A few hardcoded colors
-
-Most colors correctly use CSS variables, but `Button.scss` hardcodes `#2689e4` for LinkButton (the only blue in the design), `FolderButton.scss` hardcodes `rgb(247, 60, 60)` for a notification dot, and `ShortcutsHelp.scss` hardcodes a gray border. These can't be themed and will break if the palette ever changes. The general direction is to introduce CSS variables for these.
-
 ### Repeated layout patterns
 
 `display: flex; flex-direction: column; gap: X` appears 40+ times. Same for flex-row-centered, text-truncation (`white-space: nowrap; text-overflow: ellipsis; overflow: hidden`), and hover-background patterns. Not a bug, but a lot of boilerplate. Could be addressed with shared mixins in `utils.scss`.

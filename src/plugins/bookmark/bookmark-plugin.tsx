@@ -417,7 +417,7 @@ const BookmarkWidget = ({
   const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
   const statusColor = {
     loading: "var(--text-disabled)",
-    up: "#2eb46a",
+    up: "var(--success-color)",
     down: "var(--error-color)",
   }[status];
 

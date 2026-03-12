@@ -81,22 +81,3 @@
     }
 }
 
-.LinkButton {
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    display: inline;
-    color: #2689e4;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    font-size: inherit;
-    border-bottom: 1px dashed #2689e4;
-    font-family: inherit;
-    transition: 0.1s linear;
-
-    svg {
-        vertical-align: bottom;
-        font-size: 1.2em;
-    }
-}
