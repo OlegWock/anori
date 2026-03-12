@@ -24,6 +24,7 @@ export const WhatsNew = () => {
                 were significantly reworked in this release. This also affects backup format, as older backups won't be
                 compatible with this version.
               </li>
+              <li>Added Japanese translation. This was contribution from @monta-gh. Thanks!</li>
             </ul>
           </section>
 
