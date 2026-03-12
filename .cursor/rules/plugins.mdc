@@ -8,6 +8,37 @@ Main building block on Anori start page is widget. Widgets are narrow in functio
 
 All plugins are stored in `src/plugins` folder.
 
+## File structure
+
+Small plugins (under ~300 lines) can live in a single `plugin-name-plugin.tsx` file with a sibling SCSS file. Larger plugins should be split into multiple files:
+
+```
+src/plugins/plugin-name/
+├── plugin-name-plugin.ts       → definePlugin + wire widgets, messaging, scheduling
+├── types.ts                    → config types, message handler types, shared interfaces
+├── storage.ts                  → scoped store factories (createScopedStoreFactories)
+├── messaging.ts                → createOnMessageHandlers + sendMessage export
+├── background.ts               → scheduled callback logic
+├── widgets/
+│   ├── SomeWidget.tsx          → main screen component
+│   ├── SomeWidget.scss         → styles for that widget
+│   ├── SomeWidgetConfig.tsx    → configuration screen component
+│   ├── AnotherWidget.tsx       → second widget main screen
+│   ├── AnotherWidgetConfig.tsx → second widget config screen
+│   └── descriptors.ts          → defineWidget calls + mock components
+```
+
+Guidelines for when to extract into a separate file:
+
+* **types.ts** — when the plugin has multiple config types or types shared between widgets
+* **storage.ts** — when the plugin uses scoped stores with custom schemas
+* **messaging.ts** — when the plugin uses `createOnMessageHandlers`
+* **background.ts** — when the scheduled callback has non-trivial logic (e.g. iterating widgets, fetching data)
+* **widgets/** — each widget component and its config screen go into separate files; `descriptors.ts` holds all `defineWidget` calls and inline mock components
+* Utility/API files (e.g. `api.ts`, `utils.ts`) are fine as siblings when the plugin integrates with external services
+
+The main plugin file (`plugin-name-plugin.ts`) should remain a thin wiring file: it imports descriptors, messaging handlers, and background callbacks, then calls `definePlugin(...).withWidgets(...)`.
+
 To create a plugin, you need to invoke `definePlugin` function. This will return plugin descriptor which then can be added to `src/plugins/all.ts` to make it available in the extension.
 
 ```ts
