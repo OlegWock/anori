@@ -20,7 +20,7 @@
 
     &.with-border {
         border: 2px solid hsla(var(--text-hsl) /  0.1);
-        padding: var(--spacing-1-5) var(--spacing-4-5);
+        padding: var(--spacing-1-5) var(--spacing-4);
         border-radius: var(--radius-xl);
 
         @include utils.hover {

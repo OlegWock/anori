@@ -14,8 +14,8 @@
     margin-bottom: var(--spacing-1-5);
 
     .settings-content {
-        padding: 0 var(--spacing-4-5);
-        padding-bottom: var(--spacing-4-5);
+        padding: 0 var(--spacing-4);
+        padding-bottom: var(--spacing-4);
         display: flex;
         flex-direction: column;
         gap: var(--spacing-6);
@@ -34,7 +34,7 @@
 .GeneralSettingsScreen {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-2-5);
+    gap: var(--spacing-3);
 
     .translation-alert {
         margin-top: var(--spacing-4);
@@ -45,7 +45,7 @@
     }
 
     .input-wrapper {
-        margin-bottom: var(--spacing-2-5);
+        margin-bottom: var(--spacing-3);
 
         label {
             margin-bottom: var(--spacing-1);
@@ -67,7 +67,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacing-2-5);
+    gap: var(--spacing-3);
 
     .no-custom-icons-alert {
         padding: var(--spacing-4);
@@ -138,7 +138,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: var(--spacing-2-5);
+    gap: var(--spacing-3);
 
     .add-folder-btn {
         align-self: center;
@@ -150,7 +150,7 @@
 .ImportExportScreen {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-2-5);
+    gap: var(--spacing-3);
 
     .import-export-button {
         display: flex;
