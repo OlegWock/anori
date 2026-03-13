@@ -30,7 +30,7 @@ export type WidgetDescriptor<I extends ID = ID, T extends Mapping = Mapping | Em
   id: I;
   name: string;
   mock: ComponentType<EmptyObject>;
-  configurationScreen: T extends EmptyObject ? null : ComponentType<WidgetConfigurationScreenProps<T>>;
+  configurationScreen: ComponentType<WidgetConfigurationScreenProps<T>> | null;
   mainScreen: ComponentType<WidgetRenderProps<T>>;
   appearance: {
     withHoverAnimation?: boolean;
@@ -74,7 +74,7 @@ export type AnoriPlugin<
   name: string;
   icon: string;
   widgets: W;
-  configurationScreen: T extends EmptyObject ? null : ComponentType<PluginConfigurationScreenProps<T>>;
+  configurationScreen: ComponentType<PluginConfigurationScreenProps<T>> | null;
   onStart?: () => void;
   onMessage?: Record<string, (args: unknown, senderTab?: number) => unknown>;
   scheduledCallback?: {

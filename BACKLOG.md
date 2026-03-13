@@ -18,10 +18,6 @@ In `src/cloud-integration/sync-manager.ts`, full sync from remote never deletes 
 
 In `src/pages/newtab/settings/ThemesScreen.tsx`, custom background images are stored as PNG blobs, which can be quite large. Switching to WebP with compression would reduce storage usage significantly, but needs a migration strategy for existing users who already have PNG backgrounds saved.
 
-### Plugin config screen type assertion
-
-In `src/pages/newtab/settings/Settings.tsx`, the plugin configuration screen component uses a raw type assertion (`as ComponentType<...>`) instead of a proper type guard. Works but bypasses type safety at a boundary where a runtime check would be more robust.
-
 ### Biome file-level ignore
 
 `src/declarations.d.ts` has per-line `biome-ignore` comments for default exports. Waiting for Biome 2 which supports file-level ignores. Minor cleanup, no functional impact.
