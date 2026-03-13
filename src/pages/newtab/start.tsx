@@ -144,7 +144,7 @@ getAnoriStorage().then((storage) => {
   const title = storage.get(anoriSchema.newTabTitle);
   setPageTitle(title);
 
-  // TODO: Preload custom icons as early as possible
+  storage.files.get(anoriSchema.customIcons.all()); // This preloads custom icon blobs into cache
 
   const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
   if (showBookmarksBar) {

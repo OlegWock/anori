@@ -14,10 +14,6 @@ In `src/cloud-integration/sync-manager.ts`, full sync from remote never deletes 
 
 `src/pages/newtab/settings/Settings.tsx` uses the browser's native `alert()` to tell users about invalid custom icon format. There's no toast/notification system in the app, so this was the path of least resistance, but it's jarring UX. Needs either a toast system or at minimum an inline error message.
 
-### Custom icons not preloaded early enough
-
-In `src/pages/newtab/start.tsx`, custom icons aren't preloaded during initialization, so they can flash or pop in after the page renders. The TODO is right next to where other preloading happens (bookmarks bar, lazy components) -- just needs the custom icon preload added to the same flow.
-
 ### Custom background images are uncompressed
 
 In `src/pages/newtab/settings/ThemesScreen.tsx`, custom background images are stored as PNG blobs, which can be quite large. Switching to WebP with compression would reduce storage usage significantly, but needs a migration strategy for existing users who already have PNG backgrounds saved.
