@@ -6,10 +6,6 @@
 
 In `src/utils/scoped-store.ts`, `clearWidgetStorage()` has a manually maintained list of every widget store collection. Adding a new widget store means remembering to update this function, and forgetting means dangling data. The code already has a TODO acknowledging this. Needs some kind of registration mechanism so widget stores are automatically cleaned up.
 
-### `lazy-components.tsx` hierarchy violation
-
-`src/components/lazy-components.tsx` imports from `src/pages/newtab/` (SettingsModal, NewWidgetWizard), which means a shared module depends on page-specific code. This breaks the dependency hierarchy and the file itself has a TODO about it. The page-specific lazy loaders should live closer to the page that uses them.
-
 ### Dangling records on full sync
 
 In `src/cloud-integration/sync-manager.ts`, full sync from remote never deletes local cells that are absent on the remote side. This means if something is deleted remotely, the local copy persists as stale data. Could cause ghost data to accumulate over time.

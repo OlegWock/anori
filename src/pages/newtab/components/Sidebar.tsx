@@ -15,9 +15,9 @@ import { CLOUD_INTEGRATION_ENABLED } from "@anori/cloud-integration/consts";
 import { useCloudAccount } from "@anori/cloud-integration/hooks";
 import { WhatsNew } from "@anori/components/WhatsNew";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { CloudAccountModal, SettingsModal } from "@anori/components/lazy-components";
 import { anoriSchema } from "@anori/utils/storage";
 import clsx from "clsx";
+import { CloudAccountModal, SettingsModal } from "../lazy-components";
 
 export type SidebarProps = {
   folders: Folder[];
