@@ -1,0 +1,41 @@
+.BookmarkWidget-config {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: stretch;
+    min-width: 500px;
+
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .icon-picker-trigger {
+        align-self: center;
+    }
+
+    .save-config {
+        align-self: center;
+        margin-top: var(--spacing-4);
+    }
+
+    .url-import-wrapper {
+        display: flex;
+        gap: var(--spacing-2);
+
+        .Input {
+            flex-grow: 1;
+        }
+    }
+
+    .urls {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+
+    .add-button-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+}

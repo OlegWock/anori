@@ -1,0 +1,54 @@
+.ExpandableIframeWidget {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    line-height: inherit;
+    padding: var(--spacing-4);
+    cursor: pointer;
+
+    .iframe-widget-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex: 1;
+
+            h2 {
+                margin-top: var(--spacing-3);
+                margin-bottom: var(--spacing-1);
+                line-height: 1;
+                white-space: nowrap;
+            }
+        }
+
+        .host {
+            font-size: var(--font-size-xs);
+            color: var(--text-subtle-2);
+        }
+
+        svg {
+            color: var(--icon-color);
+        }
+    }
+}
+
+.ExpandableIframeWidget-expand-area {
+    position: relative;
+
+    iframe {
+        flex-grow: 1;
+        align-self: stretch;
+        border-radius: var(--radius-lg);
+    }
+}
+
+.rp-paddings {
+    padding: var(--spacing-4);
+    justify-content: unset;
+}

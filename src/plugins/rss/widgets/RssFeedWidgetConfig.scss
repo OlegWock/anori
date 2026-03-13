@@ -1,0 +1,51 @@
+.RssFeed-config {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: stretch;
+
+    .Input {
+        width: 100%;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .presets {
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-4);
+        margin-top: var(--spacing-4);
+
+        .preset {
+
+        }
+    }
+
+    .urls {
+        margin-top: var(--spacing-3);
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+
+    .url-wrapper {
+        display: flex;
+        gap: var(--spacing-2);
+
+        .Input {
+            flex-grow: 1;
+        }
+    }
+
+    .button-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .save-config {
+        margin-top: var(--spacing-4);
+    }
+}
