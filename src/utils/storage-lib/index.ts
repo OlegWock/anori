@@ -63,6 +63,7 @@ export {
   type CollectionQuery,
   type CollectionAllQuery,
   type CollectionByIdQuery,
+  type EntityAccessor,
   collection,
   isCollectionDescriptor,
   isCollectionQuery,
