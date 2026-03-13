@@ -1,20 +1,5 @@
 # Backlog
 
-## Split Large Files
-
-### `Settings.tsx` (745 lines)
-
-Contains 8 distinct screen components (General, CustomIcons, Folders, Plugins, ImportExport, Themes, HelpAbout) plus the modal wrapper, all in one file. Each screen is self-contained with its own state and has no reason to live alongside the others. ThemesScreen was already extracted to its own file, which proves the pattern works.
-
-### `Onboarding.tsx` (424 lines)
-
-Same issue as Settings -- multiple step screens (start, folders, customization, analytics, presets) in a single file. Each step is independent.
-
-### `WhatsNew.tsx` (450 lines)
-
-Release notes component that grows with every release. Contains entries going back to the beginning. Old entries will never be seen by users who update regularly. The file will only get bigger over time.
-
-
 ## Code Cleanup
 
 ### `clearWidgetStorage` hardcoded list
