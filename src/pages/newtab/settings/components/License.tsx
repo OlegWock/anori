@@ -1,5 +1,5 @@
 import "./License.scss";
-import licenseText from "../../../../LICENSE?raw";
+import licenseText from "../../../../../LICENSE?raw";
 
 const licenseParagraphs = licenseText.split("\n");
 
