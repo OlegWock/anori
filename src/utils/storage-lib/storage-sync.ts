@@ -38,12 +38,14 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
         );
         return !matchingEntry;
       });
-      await ctx.persistOutbox(filtered);
+      ctx.persistOutbox(filtered);
+      await ctx.waitForPersist();
     },
 
     async clearOutbox(): Promise<void> {
       ctx.ensureInitialized();
-      await ctx.persistOutbox([]);
+      ctx.persistOutbox([]);
+      await ctx.waitForPersist();
     },
 
     subscribeToOutbox(callback: OutboxChangeCallback): () => void {
@@ -123,7 +125,7 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
 
         if (shouldApply) {
           await applyFileChanges(ctx, key, record, fileBlobs);
-          await ctx.persistRecord(key, record, { notifyAs: "remote" });
+          ctx.persistRecord(key, record, { notifyAs: "remote" });
           applied.push(key);
         } else {
           skipped.push(key);
@@ -133,7 +135,8 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
         ctx.getHlc().receive(record.hlc);
       }
 
-      await ctx.persistHlcState();
+      ctx.persistHlcState();
+      await ctx.waitForPersist();
       return { applied, skipped };
     },
 
@@ -152,13 +155,14 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
         }
 
         await applyFileChanges(ctx, key, record, fileBlobs);
-        await ctx.persistRecord(key, record, { notifyAs: "remote" });
+        ctx.persistRecord(key, record, { notifyAs: "remote" });
         applied.push(key);
 
         ctx.getHlc().receive(record.hlc);
       }
 
-      await ctx.persistHlcState();
+      ctx.persistHlcState();
+      await ctx.waitForPersist();
       return { applied, skipped };
     },
   };

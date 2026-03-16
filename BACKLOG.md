@@ -14,14 +14,6 @@ In `src/cloud-integration/sync-manager.ts`, full sync from remote never deletes 
 
 In `src/pages/newtab/settings/ThemesScreen.tsx`, custom background images are stored as PNG blobs, which can be quite large. Switching to WebP with compression would reduce storage usage significantly, but needs a migration strategy for existing users who already have PNG backgrounds saved.
 
-### Outbox race condition on parallel writes
-
-In `src/utils/storage-lib/storage.ts`, `addToOutbox` does a read-modify-write on the shared outbox array. When multiple tracked writes run in parallel (e.g. `Promise.all` of deletes in `clearWidgetStorage`), each call reads the same outbox snapshot, appends its entry, and persists — later writes overwrite earlier ones, losing outbox entries. This means some changes may not sync to the cloud. The record writes themselves are safe (different keys), only outbox bookkeeping is affected.
-
-### Batch `browser.storage.local.set` calls
-
-In `src/utils/storage-lib/storage.ts`, every `setInternal`/`deleteInternal` call immediately writes to `browser.storage.local.set` for the record key, then again for HLC state, and potentially again for the outbox. When multiple storage operations happen in the same tick (e.g. parallel deletes), this results in many redundant writes for shared keys like HLC state and outbox. These writes should be deferred to the next microtick so that all changes within a synchronous batch are coalesced into a single `browser.storage.local.set` call per key.
-
 ### Biome file-level ignore
 
 `src/declarations.d.ts` has per-line `biome-ignore` comments for default exports. Waiting for Biome 2 which supports file-level ignores. Minor cleanup, no functional impact.

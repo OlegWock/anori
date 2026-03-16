@@ -55,6 +55,39 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
   // Track HLCs of records we've already notified about (to skip duplicate onChanged events)
   const pendingNotifications = new Map<string, HlcTimestamp>();
 
+  // Batched persistence: accumulates dirty keys and flushes them in a single browser.storage.local.set call
+  const pendingPersistKeys = new Set<string>();
+  let persistFlushPromise: Promise<void> | null = null;
+  let persistFlushResolve: (() => void) | null = null;
+
+  function schedulePersist(key: string): void {
+    pendingPersistKeys.add(key);
+    if (!persistFlushPromise) {
+      persistFlushPromise = new Promise<void>((resolve) => {
+        persistFlushResolve = resolve;
+      });
+      queueMicrotask(flushPersist);
+    }
+  }
+
+  async function flushPersist(): Promise<void> {
+    if (!persistFlushResolve) return;
+    const batch: Record<string, unknown> = {};
+    for (const key of pendingPersistKeys) {
+      batch[key] = cache[key];
+    }
+    pendingPersistKeys.clear();
+    const resolve = persistFlushResolve;
+    persistFlushPromise = null;
+    persistFlushResolve = null;
+    await browser.storage.local.set(batch);
+    resolve();
+  }
+
+  function waitForPersist(): Promise<void> {
+    return persistFlushPromise ?? Promise.resolve();
+  }
+
   function ensureInitialized(): void {
     if (!initialized) {
       throw new Error("Storage not initialized. Call initialize() first.");
@@ -86,17 +119,13 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     cache[OUTBOX_KEY] = outbox;
   }
 
-  async function persistHlcState(): Promise<void> {
+  function persistHlcState(): void {
     const state = getHlc().getState();
     cache[HLC_STATE_KEY] = state;
-    await browser.storage.local.set({ [HLC_STATE_KEY]: state });
+    schedulePersist(HLC_STATE_KEY);
   }
 
-  async function persistRecord(
-    key: string,
-    record: StorageRecord<unknown>,
-    options?: { notifyAs?: ChangeSource },
-  ): Promise<void> {
+  function persistRecord(key: string, record: StorageRecord<unknown>, options?: { notifyAs?: ChangeSource }): void {
     const oldCachedValue = cache[key];
     const oldRecord = isStorageRecord(oldCachedValue) ? oldCachedValue : undefined;
     const oldValue = oldRecord?.deleted ? undefined : oldRecord?.value;
@@ -108,19 +137,19 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
 
     cache[key] = record;
-    await browser.storage.local.set({ [key]: record });
+    schedulePersist(key);
 
     if (options?.notifyAs && (oldValue !== undefined || newValue !== undefined)) {
       notifySubscribers(key, newValue, oldValue, options.notifyAs);
     }
   }
 
-  async function persistOutbox(outbox: Outbox): Promise<void> {
+  function persistOutbox(outbox: Outbox): void {
     setOutboxInCache(outbox);
-    await browser.storage.local.set({ [OUTBOX_KEY]: outbox });
+    schedulePersist(OUTBOX_KEY);
   }
 
-  async function addToOutbox(key: string, type: "kv" | "file", hlcTs: HlcTimestamp): Promise<void> {
+  function addToOutbox(key: string, type: "kv" | "file", hlcTs: HlcTimestamp): void {
     const outbox = getOutboxFromCache();
     const existingIndex = outbox.findIndex((e) => e.key === key);
     const entry: OutboxEntry = {
@@ -136,7 +165,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       outbox.push(entry);
     }
 
-    await persistOutbox(outbox);
+    persistOutbox(outbox);
 
     const record = cache[key];
     if (isStorageRecord(record)) {
@@ -263,13 +292,15 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     const source: ChangeSource = sourceId ? "fork" : "local";
     notifySubscribers(resolved.key, value, oldValue, source, sourceId);
 
-    await browser.storage.local.set({ [resolved.key]: record });
-    await persistHlcState();
+    schedulePersist(resolved.key);
+    persistHlcState();
 
     if (outboxEnabled && "tracked" in query && query.tracked) {
       const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
-      await addToOutbox(resolved.key, type, hlcTs);
+      addToOutbox(resolved.key, type, hlcTs);
     }
+
+    await waitForPersist();
   }
 
   async function deleteInternal(query: Query, sourceId?: string): Promise<void> {
@@ -299,13 +330,16 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     cache[resolved.key] = record;
     const source: ChangeSource = sourceId ? "fork" : "local";
     notifySubscribers(resolved.key, undefined, oldValue, source, sourceId);
-    await browser.storage.local.set({ [resolved.key]: record });
-    await persistHlcState();
+
+    schedulePersist(resolved.key);
+    persistHlcState();
 
     if (outboxEnabled && "tracked" in query && query.tracked) {
       const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
-      await addToOutbox(resolved.key, type, hlcTs);
+      addToOutbox(resolved.key, type, hlcTs);
     }
+
+    await waitForPersist();
   }
 
   function getWithMetaInternal<T>(query: Query): ValueWithMeta<T | undefined> | ValueWithMeta<Record<string, T>> {
@@ -434,6 +468,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     persistRecord,
     persistHlcState,
     persistOutbox,
+    waitForPersist,
     getOutboxFromCache,
     notifyOutboxSubscribers,
     isKeyTracked,
@@ -467,7 +502,8 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       } else {
         const nodeId = generateNodeId();
         hlc = createHlc(nodeId);
-        await persistHlcState();
+        persistHlcState();
+        await waitForPersist();
       }
 
       // Initialize outbox if not present

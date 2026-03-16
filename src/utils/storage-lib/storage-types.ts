@@ -133,9 +133,10 @@ export type StorageInternalContext = {
   cache: Record<string, unknown>;
   getHlc(): import("./hlc").Hlc;
   ensureInitialized(): void;
-  persistRecord(key: string, record: StorageRecord<unknown>, options?: { notifyAs?: ChangeSource }): Promise<void>;
-  persistHlcState(): Promise<void>;
-  persistOutbox(outbox: Outbox): Promise<void>;
+  persistRecord(key: string, record: StorageRecord<unknown>, options?: { notifyAs?: ChangeSource }): void;
+  persistHlcState(): void;
+  persistOutbox(outbox: Outbox): void;
+  waitForPersist(): Promise<void>;
   getOutboxFromCache(): Outbox;
   notifyOutboxSubscribers(key: string, type: "kv" | "file", record: StorageRecord<unknown>): void;
   isKeyTracked(key: string): boolean;
