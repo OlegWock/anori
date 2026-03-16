@@ -1,7 +1,10 @@
 {
     "translation": {
         "cloud": {
-            "connect": "Connect to cloud",
+            "connect": "Connect",
+            "connected": "Connected",
+            "disconnect": "Disconnect",
+            "cancel": "Cancel",
             "account": "Cloud account",
             "login": "Log in",
             "logout": "Log out",
@@ -10,9 +13,26 @@
             "connectedAs": "Connected as",
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
+            "profiles": "Profiles",
+            "noProfiles": "No profiles found",
+            "createProfile": "Create profile",
+            "profileName": "Profile name",
+            "createdAt": "Created {{date}}",
+            "lastSyncedAt": "Last used {{date}}",
+            "create": "Create",
+            "confirm": "Confirm",
+            "rename": "Rename",
+            "delete": "Delete",
+            "deleteConfirmation": "Are you sure you want to delete profile \"{{profileName}}\"? This action cannot be undone.",
+            "connectConfirmation": {
+                "message": "Connecting to profile \"{{profileName}}\" will overwrite your current local configuration with the one stored in the profile. Do you want to continue?"
+            },
             "error": {
                 "invalidCredentials": "Invalid email or password",
-                "unknown": "Something went wrong. Please try again."
+                "unknown": "Something went wrong. Please try again.",
+                "failedToLoadProfiles": "Failed to load profiles",
+                "profileNameRequired": "Profile name is required",
+                "failedToCreateProfile": "Failed to create profile"
             }
         },
         "shortcuts": {
@@ -154,7 +174,8 @@
             "selectCity": "Select city",
             "temperatureUnit": "Temperature unit",
             "speedUnit": "Wind speed unit",
-            "weatherCode": "weather code {{code}}"
+            "weatherCode": "weather code {{code}}",
+            "attribution": "Weather data provided by <0>Open-Meteo</0>"
         },
         "rss-plugin": {
             "name": "RSS",
@@ -212,6 +233,9 @@
             "selectFamilyOrSearch": "Select specific icon family or try searching to see icon suggestions."
         },
         "settings": {
+            "importExport": {
+                "cloudWarning": "You have cloud sync enabled. Importing a backup will disconnect you from your sync profile. You will need to reconnect after import. Continue?"
+            },
             "aboutHelp": {
                 "license": "License"
             }

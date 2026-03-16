@@ -79,4 +79,15 @@
         align-self: center;
         margin-top: var(--spacing-4);
     }
+
+    .attribution {
+        font-size: var(--font-size-xs);
+        text-align: center;
+        opacity: 0.6;
+        display: block;
+
+        a {
+            color: inherit;
+        }
+    }
 }

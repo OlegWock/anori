@@ -1,7 +1,10 @@
 {
     "translation": {
         "cloud": {
-            "connect": "Connect to cloud",
+            "connect": "Connect",
+            "connected": "Connected",
+            "disconnect": "Disconnect",
+            "cancel": "Cancel",
             "account": "Cloud account",
             "login": "Log in",
             "logout": "Log out",
@@ -10,9 +13,26 @@
             "connectedAs": "Connected as",
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
+            "profiles": "Profiles",
+            "noProfiles": "No profiles found",
+            "createProfile": "Create profile",
+            "profileName": "Profile name",
+            "createdAt": "Created {{date}}",
+            "lastSyncedAt": "Last used {{date}}",
+            "create": "Create",
+            "confirm": "Confirm",
+            "rename": "Rename",
+            "delete": "Delete",
+            "deleteConfirmation": "Are you sure you want to delete profile \"{{profileName}}\"? This action cannot be undone.",
+            "connectConfirmation": {
+                "message": "Connecting to profile \"{{profileName}}\" will overwrite your current local configuration with the one stored in the profile. Do you want to continue?"
+            },
             "error": {
                 "invalidCredentials": "Invalid email or password",
-                "unknown": "Something went wrong. Please try again."
+                "unknown": "Something went wrong. Please try again.",
+                "failedToLoadProfiles": "Failed to load profiles",
+                "profileNameRequired": "Profile name is required",
+                "failedToCreateProfile": "Failed to create profile"
             }
         },
         "picture-plugin": {
@@ -46,6 +66,9 @@
                 "colorBackground": "Background",
                 "colorText": "Text"
             },
+            "importExport": {
+                "cloudWarning": "You have cloud sync enabled. Importing a backup will disconnect you from your sync profile. You will need to reconnect after import. Continue?"
+            },
             "aboutHelp": {
                 "p4": "If you'd like to support development of Anori with some coin, you can do so <0>here</0>. Crypto and credit card options are available.",
                 "license": "License"
@@ -58,6 +81,9 @@
         },
         "bookmark-plugin": {
             "openInNewTab": "Open in a new tab"
+        },
+        "weather-plugin": {
+            "attribution": "Weather data provided by <0>Open-Meteo</0>"
         },
         "rss-plugin": {
             "compactView": "Compact view"

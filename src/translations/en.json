@@ -295,7 +295,8 @@
             "selectCity": "Select city",
             "temperatureUnit": "Temperature unit",
             "speedUnit": "Wind speed unit",
-            "weatherCode": "weather code {{code}}"
+            "weatherCode": "weather code {{code}}",
+            "attribution": "Weather data provided by <0>Open-Meteo</0>"
         },
 
         "rss-plugin": {

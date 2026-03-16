@@ -4,7 +4,7 @@ import { Combobox } from "@anori/components/Combobox";
 import { Select } from "@anori/components/lazy-components";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import type { City, Speed, Temperature } from "../api";
 import { searchCity } from "../api";
 import type { WeatherWidgetConfig } from "../types";
@@ -85,6 +85,13 @@ export const WeatherWidgetConfigScreen = ({
       <Button className="save-config" onClick={onConfirm}>
         {t("save")}
       </Button>
+
+      <div className="attribution">
+        <Trans t={t} i18nKey="weather-plugin.attribution">
+          {/* biome-ignore lint/a11y/useAnchorContent: content injected by i18n */}
+          <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" />
+        </Trans>
+      </div>
     </div>
   );
 };
