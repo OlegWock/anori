@@ -38,6 +38,12 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
 
   const removeFolder = async (id: ID) => {
     const storage = await getAnoriStorage();
+    const details = storage.get(anoriSchema.folderDetails.folder.byId(id));
+    if (details) {
+      for (const widget of details.widgets) {
+        clearWidgetStorage(widget.instanceId);
+      }
+    }
     await storage.delete(anoriSchema.folderDetails.folder.byId(id));
     trackEvent("Folder deleted");
     await setFolders((p) => p.filter((f) => f.id !== id));
