@@ -47,6 +47,9 @@ export async function getAnoriStorage(options: AnoriStorageOptions = {}): Promis
   return promise;
 }
 
+// @ts-ignore For debug
+self.getAnoriStorage = getAnoriStorage;
+
 export function getAnoriStorageNoWait(): AnoriStorage {
   if (globalStorage && !(globalStorage instanceof Promise)) {
     return globalStorage;
