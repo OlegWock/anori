@@ -2,6 +2,7 @@ import { performSync } from "@anori/cloud-integration/sync-manager";
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { runOrphanGc } from "@anori/utils/storage/orphan-gc";
 import browser from "webextension-polyfill";
 import { type Language, availableTranslations } from "./translations/metadata";
 
@@ -167,6 +168,17 @@ browser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "backgroundSync") {
     getAnoriStorage().then((storage) => performSync(storage));
   }
+  if (alarm.name === "orphanGc") {
+    getAnoriStorage().then((storage) => {
+      runOrphanGc(storage).then((result) => {
+        if (result.removedKvRecords > 0 || result.removedOpfsFiles > 0) {
+          console.log(
+            `[OrphanGC] Removed ${result.removedKvRecords} orphaned records and ${result.removedOpfsFiles} orphaned OPFS files`,
+          );
+        }
+      });
+    });
+  }
 });
 
 browser.alarms.create("scheduledCallbacks", {
@@ -180,6 +192,11 @@ browser.alarms.create("sendAnalytics", {
 
 browser.alarms.create("backgroundSync", {
   periodInMinutes: 15,
+});
+
+browser.alarms.create("orphanGc", {
+  periodInMinutes: 24 * 60, // Once per day
+  delayInMinutes: 10, // First run 10 minutes after startup
 });
 
 browser.runtime.setUninstallURL(`https://anori.app/goodbye`);
