@@ -43,5 +43,5 @@ Schema-based type-safe storage in `src/utils/storage-lib/` and `src/utils/storag
 Full rules: @.cursor/rules/storage-and-sync.mdc
 
 ### Cloud Integration
-tRPC + React Query for cloud API. Guarded by `CLOUD_INTEGRATION_ENABLED` flag (dev only). Use `useCloudAccount()` for connection status, `trpc.*` hooks for API calls, `getApiClient()` for imperative usage. Error handling via `isAppErrorOfType()` — never use `instanceof`.
+tRPC + React Query for cloud API. Use `useCloudAccount()` for connection status, `trpc.*` hooks for API calls, `getApiClient()` for imperative usage. Error handling via `isAppErrorOfType()` — never use `instanceof`.
 Full rules: @.cursor/rules/cloud-integration.mdc

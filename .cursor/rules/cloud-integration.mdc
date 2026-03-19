@@ -1,15 +1,6 @@
-Cloud integration allows connecting Anori to backend services. It's guarded by `CLOUD_INTEGRATION_ENABLED` flag (development only).
+Cloud integration allows connecting Anori to backend services.
 
 The app uses tRPC with React Query integration. The tRPC client is automatically provided through `TRPCProvider` which wraps `QueryClientProvider`.
-
-# Feature Flag
-
-```ts
-import { CLOUD_INTEGRATION_ENABLED } from '@anori/cloud-integration/consts';
-
-// Use to conditionally render UI
-{CLOUD_INTEGRATION_ENABLED && <CloudFeature />}
-```
 
 # Check Connection Status
 

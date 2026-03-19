@@ -1,5 +1,3 @@
-export const CLOUD_INTEGRATION_ENABLED = X_MODE === "development";
-
 export const CURRENT_API_EPOCH = 1;
 
 export const API_BASE_URL = X_MODE === "development" ? "https://api-staging.anori.app" : "https://api.anori.app";

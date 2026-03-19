@@ -373,6 +373,12 @@ const AuthView = () => {
 
   return (
     <div className="CloudAccountModal-auth">
+      <div className="plus-description">
+        <p>{t("cloud.plusDescription")}</p>
+        <a href="https://anori.app/plus" target="_blank" rel="noopener noreferrer">
+          {t("cloud.learnMore")}
+        </a>
+      </div>
       <form
         className="auth-form"
         onSubmit={(e) => {

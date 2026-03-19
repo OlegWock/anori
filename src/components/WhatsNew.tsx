@@ -12,14 +12,24 @@ export const WhatsNew = () => {
 
           <section>
             <h2>1.26.0</h2>
-            <ul>
-              <li>
-                <strong>If you use backups you need to export fresh backup now.</strong> Internals of storage system
-                were significantly reworked in this release. This also affects backup format, as older backups won't be
-                compatible with this version.
-              </li>
-              <li>Added Japanese translation. This was contribution from @monta-gh. Thanks!</li>
-            </ul>
+            <p>Couple of big ones in this release!</p>
+            <p>
+              First of all, we're launching beta of Anori Plus — companion service for Anori. Currently, provides a
+              realtime sync of your Anori setup between multiple browsers and devices. We plan to add other features
+              later too. It's free while in beta, so give it a try, no credit card required.
+            </p>
+            <a className="plus-link" href="https://anori.app/plus" target="_blank" rel="noreferrer">
+              Learn more about Anori Plus
+            </a>
+            <p>
+              To power sync we had to significantly rework internals of Anori responsible for storage. This also affects
+              backup format, as older backups won't be compatible with this version.{" "}
+              <strong>If you use backups you need to export fresh backup now.</strong>
+            </p>
+            <p>
+              And last but not least, Anori now has a Japanese translation. This was contribution from @monta-gh.
+              Thanks!
+            </p>
           </section>
 
           <section>

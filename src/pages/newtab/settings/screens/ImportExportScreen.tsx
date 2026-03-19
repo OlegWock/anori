@@ -1,3 +1,4 @@
+import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
 import { trackEvent } from "@anori/utils/analytics";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
@@ -7,7 +8,7 @@ import { m } from "framer-motion";
 import JSZip from "jszip";
 import moment from "moment-timezone";
 import type { ComponentProps } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 import "./ImportExportScreen.scss";
 
@@ -116,6 +117,12 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="ImportExportScreen">
+      <Alert level="info">
+        <Trans t={t} i18nKey="settings.importExport.cloudSyncHint">
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
+          <a href="https://anori.app/plus" target="_blank" rel="noopener noreferrer" />
+        </Trans>
+      </Alert>
       <div>{t("settings.importExport.info")}</div>
       <div className="import-export-button">
         <Button onClick={importSettings}>{t("settings.importExport.import")}</Button>

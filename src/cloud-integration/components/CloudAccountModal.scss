@@ -171,6 +171,28 @@
 
 .CloudAccountModal-auth {
   min-width: 25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+
+  .plus-description {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    opacity: 0.8;
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: underline;
+
+      @include utils.hover {
+        opacity: 0.7;
+      }
+    }
+  }
 
   .auth-form {
     display: flex;
