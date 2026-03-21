@@ -37,7 +37,7 @@ type KvMutation = {
  * - Handle WebSocket subscription for real-time updates
  * - Initial push/pull operations for profile setup
  */
-const OUTBOX_FLUSH_DEBOUNCE_MS = 100;
+const OUTBOX_FLUSH_DEBOUNCE_MS = 500;
 
 export class SyncManager {
   private storage: AnoriStorage;
