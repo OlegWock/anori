@@ -67,6 +67,8 @@ export const applyOnboardingPreset = async ({
     return undefined;
   };
 
+  const storage = getAnoriStorageNoWait();
+
   console.log("Applying preset");
   const ipInfo = await getIpInfo();
   console.log("Ip info", ipInfo);
@@ -104,7 +106,6 @@ export const applyOnboardingPreset = async ({
 
   if (tasksWidget) {
     try {
-      const storage = getAnoriStorageNoWait();
       await storage.set(anoriSchema.tasksWidgetStore.store.byId(tasksWidget.instanceId), {
         tasks: [
           { id: guid(), text: t("onboarding.preset.task.themes") },
@@ -145,13 +146,23 @@ export const applyOnboardingPreset = async ({
     position: { x: 2, y: 1 },
   });
 
-  addIfPossible({
+  const notesWidget = await addIfPossible({
     plugin: notesPlugin,
     widget: notesWidgetDescriptor,
     config: {},
     position: { x: 4, y: 2 },
     size: { width: 2, height: 2 },
   });
+  if (notesWidget) {
+    try {
+      await storage.set(anoriSchema.notesWidgetStore.store.byId(notesWidget.instanceId), {
+        title: "Scratchpad",
+        body: "",
+      });
+    } catch (e) {
+      console.warn("Failed to pre-populate notes", e);
+    }
+  }
 
   addIfPossible({
     plugin: mathPlugin,
