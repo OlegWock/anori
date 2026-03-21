@@ -13,6 +13,8 @@
             "connectedAs": "Connected as",
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
+            "plusDescription": "Anori Plus is an additional service for Anori that lets you sync your configuration between multiple browsers and devices in real time.",
+            "learnMore": "Learn more",
             "profiles": "Profiles",
             "noProfiles": "No profiles found",
             "createProfile": "Create profile",
@@ -77,6 +79,13 @@
                 "p2": "Tired of choices? It's okay. You don't need to nail down your perfect page on the first try. You don't even need to start from a blank canvas. We have a productive setup prepared for you.",
                 "p3": "It might not be tailored for all your needs, but you can use it as a base to make your own setup you'll love.",
                 "cta": "🚀 Just give me a productive setup"
+            },
+            "preset": {
+                "task": {
+                    "themes": "Try different themes in settings",
+                    "anoriPlus": "Check out Anori Plus",
+                    "widgets": "Explore available widgets"
+                }
             }
         },
         "requirePermissions": {
@@ -234,7 +243,8 @@
         },
         "settings": {
             "importExport": {
-                "cloudWarning": "You have cloud sync enabled. Importing a backup will disconnect you from your sync profile. You will need to reconnect after import. Continue?"
+                "cloudWarning": "You have cloud sync enabled. Importing a backup will disconnect you from your sync profile. You will need to reconnect after import. Continue?",
+                "cloudSyncHint": "Want to backup you configuration to cloud or sync it across devices in real time? Try <0>Anori Plus</0> — it does this seamlessly."
             },
             "aboutHelp": {
                 "license": "License"

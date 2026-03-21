@@ -194,6 +194,13 @@
                 "p2": "Tired of choices? It's okay. You don't need to nail down your perfect page on the first try. You don't even need to start from a blank canvas. We have a productive setup prepared for you.",
                 "p3": "It might not be tailored for all your needs, but you can use it as a base to make your own setup you'll love.",
                 "cta": "🚀 Just give me a productive setup"
+            },
+            "preset": {
+                "task": {
+                    "themes": "Try different themes in settings",
+                    "anoriPlus": "Check out Anori Plus",
+                    "widgets": "Explore available widgets"
+                }
             }
         },
 
