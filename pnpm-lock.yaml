@@ -20,11 +20,11 @@ importers:
   .:
     dependencies:
       '@anori-app/api-client':
-        specifier: ^1.0.17
-        version: 1.0.17(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
+        specifier: ^1.0.20
+        version: 1.0.20(react@19.1.0)(typescript@5.9.2)
       '@anori-app/api-types':
-        specifier: ^1.0.17
-        version: 1.0.17
+        specifier: ^1.0.20
+        version: 1.0.20
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
@@ -284,11 +284,11 @@ packages:
   '@acemir/cssom@0.9.29':
     resolution: {integrity: sha512-G90x0VW+9nW4dFajtjCoT+NM0scAfH9Mb08IcjgFHYbfiL/lU04dTF9JuVOi3/OH+DJCQdcIseSXkdCB9Ky6JA==}
 
-  '@anori-app/api-client@1.0.17':
-    resolution: {integrity: sha512-Tx5Yd6NCn25vKvZO82t0JdSgFcGmYcWlhHvbmLpRVcOBpCZYJFqk7Lc+Wpd5iflnyK9O4ExoD5N7NaMhYuwXrQ==}
+  '@anori-app/api-client@1.0.20':
+    resolution: {integrity: sha512-iN6V9OKAvAl67Lz61aPtLrkC1S1ozZfWTQULykDhtoR8KJ265fqfXD72EAUCbvwfKNW/w5Pp3rjF6DVa4PiQYg==}
 
-  '@anori-app/api-types@1.0.17':
-    resolution: {integrity: sha512-qWsF2IQMijnladCe0XTJXbufSX3le3zEqJw3xkJS+/CGJ+0Dr2d9Q9l0ZDYEMoR27tJ+jL7fNhHaaPEWUfAE5g==}
+  '@anori-app/api-types@1.0.20':
+    resolution: {integrity: sha512-8ULlpCXfjaKWw+SG8+1SCvhXS6+Ko4ax7q/3DTM2bYxEppt41YMv7Cv50PlmRDykNUlX97YPUQSOIWTWrUTtkg==}
 
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
@@ -1607,24 +1607,23 @@ packages:
   '@total-typescript/ts-reset@0.6.1':
     resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
 
-  '@trpc/client@11.8.1':
-    resolution: {integrity: sha512-L/SJFGanr9xGABmuDoeXR4xAdHJmsXsiF9OuH+apecJ+8sUITzVT1EPeqp0ebqA6lBhEl5pPfg3rngVhi/h60Q==}
+  '@trpc/client@11.14.0':
+    resolution: {integrity: sha512-YhoLtpye6WZ9IUxEa4UGPl/hOeepwTHbmVrkd0Co+6ZN4QGcjFZBQdYhQGY/O80YPIeZZ7CQKnEyV82Lka6LJw==}
     peerDependencies:
-      '@trpc/server': 11.8.1
+      '@trpc/server': 11.14.0
       typescript: '>=5.7.2'
 
-  '@trpc/react-query@11.8.1':
-    resolution: {integrity: sha512-0Vu55ld/oINb4U6nIPPi7eZMhxUop6K+4QUK90RVsfSD5r+957sM80M4c8bjh/JBZUxMFv9JOhxxlWcrgHxHow==}
+  '@trpc/react-query@11.14.0':
+    resolution: {integrity: sha512-7G+y4xFJVyiRyH6uAi2cRPRBaDO+fd9JfVyBD5+PBN1w6+paoX+HLhTHfQ/qLpTlVctKMkyq8mqgK0GE0BsxCg==}
     peerDependencies:
       '@tanstack/react-query': ^5.80.3
-      '@trpc/client': 11.8.1
-      '@trpc/server': 11.8.1
+      '@trpc/client': 11.14.0
+      '@trpc/server': 11.14.0
       react: '>=18.2.0'
-      react-dom: '>=18.2.0'
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.8.1':
-    resolution: {integrity: sha512-P4rzZRpEL7zDFgjxK65IdyH0e41FMFfTkQkuq0BA5tKcr7E6v9/v38DEklCpoDN6sPiB1Sigy/PUEzHENhswDA==}
+  '@trpc/server@11.14.0':
+    resolution: {integrity: sha512-Qdc8Ebm4ofwlyM/fk64lMfQEGxHJWVXMU7suJ7uRv5N2dy9mQno73UR9sl2vVjw80zoeCNLe1Rr925b2dVkdkA==}
     peerDependencies:
       typescript: '>=5.7.2'
 
@@ -5620,9 +5619,6 @@ packages:
     resolution: {integrity: sha512-zshzwQW7gG7hjpBlgeQP9RuyPGNxvJdzR8SUM3QhxCnLjWN2E7j3dOvpeDcQoETfHx0urRS7EtmVToql7YpU4A==}
     engines: {node: '>= 10'}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
   zod@4.2.1:
     resolution: {integrity: sha512-0wZ1IRqGGhMP76gLqz8EyfBXKk0J2qo2+H3fi4mcUP/KtTocoX08nmIAHl1Z2kJIZbZee8KOpBCSNPRgauucjw==}
 
@@ -5633,21 +5629,20 @@ snapshots:
 
   '@acemir/cssom@0.9.29': {}
 
-  '@anori-app/api-client@1.0.17(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
+  '@anori-app/api-client@1.0.20(react@19.1.0)(typescript@5.9.2)':
     dependencies:
-      '@anori-app/api-types': 1.0.17
+      '@anori-app/api-types': 1.0.20
       '@tanstack/react-query': 5.87.4(react@19.1.0)
-      '@trpc/client': 11.8.1(@trpc/server@11.8.1(typescript@5.9.2))(typescript@5.9.2)
-      '@trpc/react-query': 11.8.1(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.8.1(@trpc/server@11.8.1(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.8.1(typescript@5.9.2))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
-      '@trpc/server': 11.8.1(typescript@5.9.2)
+      '@trpc/client': 11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2)
+      '@trpc/react-query': 11.14.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.14.0(typescript@5.9.2))(react@19.1.0)(typescript@5.9.2)
+      '@trpc/server': 11.14.0(typescript@5.9.2)
     transitivePeerDependencies:
       - react
-      - react-dom
       - typescript
 
-  '@anori-app/api-types@1.0.17':
+  '@anori-app/api-types@1.0.20':
     dependencies:
-      zod: 3.25.76
+      zod: 4.2.1
 
   '@antfu/install-pkg@1.1.0':
     dependencies:
@@ -6984,21 +6979,20 @@ snapshots:
 
   '@total-typescript/ts-reset@0.6.1': {}
 
-  '@trpc/client@11.8.1(@trpc/server@11.8.1(typescript@5.9.2))(typescript@5.9.2)':
+  '@trpc/client@11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2)':
     dependencies:
-      '@trpc/server': 11.8.1(typescript@5.9.2)
+      '@trpc/server': 11.14.0(typescript@5.9.2)
       typescript: 5.9.2
 
-  '@trpc/react-query@11.8.1(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.8.1(@trpc/server@11.8.1(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.8.1(typescript@5.9.2))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
+  '@trpc/react-query@11.14.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.14.0(typescript@5.9.2))(react@19.1.0)(typescript@5.9.2)':
     dependencies:
       '@tanstack/react-query': 5.87.4(react@19.1.0)
-      '@trpc/client': 11.8.1(@trpc/server@11.8.1(typescript@5.9.2))(typescript@5.9.2)
-      '@trpc/server': 11.8.1(typescript@5.9.2)
+      '@trpc/client': 11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2)
+      '@trpc/server': 11.14.0(typescript@5.9.2)
       react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
       typescript: 5.9.2
 
-  '@trpc/server@11.8.1(typescript@5.9.2)':
+  '@trpc/server@11.14.0(typescript@5.9.2)':
     dependencies:
       typescript: 5.9.2
 
@@ -11401,8 +11395,6 @@ snapshots:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.2
-
-  zod@3.25.76: {}
 
   zod@4.2.1: {}
 

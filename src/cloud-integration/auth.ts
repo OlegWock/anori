@@ -2,11 +2,17 @@ import { isAppErrorOfType } from "@anori-app/api-client";
 import { SessionExpiredError, UnauthorizedError } from "@anori-app/api-types";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { getApiClient, updateApiClientToken } from "./api-client";
+import { getDeviceName } from "./device-name";
 import { disconnectFromProfile } from "./sync-manager";
 
 export const login = async (email: string, password: string) => {
   const client = getApiClient();
-  const result = await client.auth.login.mutate({ email, password });
+  const result = await client.auth.login.mutate({
+    email,
+    password,
+    clientType: "extension",
+    deviceName: getDeviceName(),
+  });
 
   updateApiClientToken(result.sessionToken);
 
@@ -54,7 +60,7 @@ export const isSessionError = (error: unknown): boolean => {
 
 export const register = async (email: string, password: string) => {
   const client = getApiClient();
-  const result = await client.auth.register.mutate({ email, password });
+  const result = await client.auth.register.mutate({ email, password, deviceName: getDeviceName() });
 
   updateApiClientToken(result.sessionToken);
 
