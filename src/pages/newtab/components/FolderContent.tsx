@@ -100,8 +100,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
     });
   };
 
-  const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig, folderDataLoaded } =
-    useFolderWidgets(folder);
+  const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig } = useFolderWidgets(folder);
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
   const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<
@@ -116,7 +115,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const gridDimensions = useGridDimensions(scrollAreaRef, blockSize, minBlockSize, widgets);
 
-  const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
+  const shouldShowOnboarding = widgets.length === 0 && !isEditing;
 
   useHotkeys("alt+e", () => {
     setIsEditing(true);

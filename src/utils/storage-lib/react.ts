@@ -13,7 +13,7 @@ type StorageValueMeta = ValueMeta;
 
 type WritableStorageValueResult<T, V = T | undefined> = [
   value: V,
-  setValue: (value: SetStateAction<T>) => Promise<void>,
+  setValue: (value: T | ((prev: V) => T)) => Promise<void>,
   meta: StorageValueMeta,
 ];
 
