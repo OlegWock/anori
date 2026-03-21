@@ -253,13 +253,14 @@ export class SyncManager {
     }
 
     if (fileEntries.length > 0) {
-      const fileMutations = fileEntries.map(({ key, record }) => ({
+      const fileMutations = fileEntries.map(({ key, record, blob }) => ({
         key,
         value: record.value,
         deleted: false,
         schemaVersion: currentSchemaVersion,
         hlc: record.hlc,
         brand: record.brand,
+        fileSize: blob.size,
       }));
 
       const uploadResponse = await client.sync.requestFileUpload.mutate({
@@ -457,6 +458,7 @@ export class SyncManager {
             schemaVersion: currentSchemaVersion,
             hlc: entry.record.hlc,
             brand: entry.record.brand,
+            fileSize: blob.size,
           };
 
           const uploadResponse = await client.sync.requestFileUpload.mutate({
