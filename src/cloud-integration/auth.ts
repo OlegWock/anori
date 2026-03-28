@@ -60,7 +60,12 @@ export const isSessionError = (error: unknown): boolean => {
 
 export const register = async (email: string, password: string) => {
   const client = getApiClient();
-  const result = await client.auth.register.mutate({ email, password, deviceName: getDeviceName() });
+  const result = await client.auth.register.mutate({
+    email,
+    password,
+    clientType: "extension",
+    deviceName: getDeviceName(),
+  });
 
   updateApiClientToken(result.sessionToken);
 
