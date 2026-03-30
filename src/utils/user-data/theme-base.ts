@@ -173,10 +173,27 @@ export const applyThemeColors = (colors: Theme["colors"]) => {
 
 type ThemeBackgroundResolver = (themeName: string) => Promise<Blob>;
 
-let getThemeBackgroundImpl: ThemeBackgroundResolver = () => {
-  throw new Error("Theme background resolver not registered. Call registerThemeBackgroundResolver() first.");
+const g = self as typeof self & {
+  __anoriThemeBgResolver?: ThemeBackgroundResolver;
+  __anoriThemeBgResolverReady?: (resolver: ThemeBackgroundResolver) => void;
+  __anoriThemeBgResolverPromise?: Promise<ThemeBackgroundResolver>;
+};
+
+const getResolverPromise = (): Promise<ThemeBackgroundResolver> => {
+  if (!g.__anoriThemeBgResolverPromise) {
+    g.__anoriThemeBgResolverPromise = new Promise<ThemeBackgroundResolver>((resolve) => {
+      g.__anoriThemeBgResolverReady = resolve;
+    });
+  }
+  return g.__anoriThemeBgResolverPromise;
+};
+
+const getThemeBackgroundImpl: ThemeBackgroundResolver = (themeName) => {
+  if (g.__anoriThemeBgResolver) return g.__anoriThemeBgResolver(themeName);
+  return getResolverPromise().then((resolver) => resolver(themeName));
 };
 
 export const registerThemeBackgroundResolver = (resolver: ThemeBackgroundResolver) => {
-  getThemeBackgroundImpl = resolver;
+  g.__anoriThemeBgResolver = resolver;
+  g.__anoriThemeBgResolverReady?.(resolver);
 };
