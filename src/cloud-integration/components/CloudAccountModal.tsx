@@ -48,6 +48,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
   const [isPushingProfile, setIsPushingProfile] = useState(false);
   const [newProfileName, setNewProfileName] = useState("");
   const [createProfileError, setCreateProfileError] = useState<string | null>(null);
+  const [createProfileSuccess, setCreateProfileSuccess] = useState(false);
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
   const [editingProfileName, setEditingProfileName] = useState("");
   const [deletingProfileId, setDeletingProfileId] = useState<string | null>(null);
@@ -107,6 +108,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
     }
 
     setCreateProfileError(null);
+    setCreateProfileSuccess(false);
     setIsCreatingProfile(true);
     setIsPushingProfile(true);
 
@@ -114,6 +116,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
       const newProfile = await createProfileMutation.mutateAsync({ name: newProfileName.trim() });
       await connectToProfile(storage, newProfile.id, "push");
       setNewProfileName("");
+      setCreateProfileSuccess(true);
       await refetchProfiles();
     } catch (error) {
       console.error("Failed to create profile:", error);
@@ -179,7 +182,14 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
       <div className="profiles-section">
         <div className="profiles-header">
           <div className="label">{t("cloud.profiles")}</div>
-          <Button onClick={() => setIsCreatingProfile(true)} size="compact" disabled={isCreatingProfile}>
+          <Button
+            onClick={() => {
+              setIsCreatingProfile(true);
+              setCreateProfileSuccess(false);
+            }}
+            size="compact"
+            disabled={isCreatingProfile}
+          >
             {t("cloud.createProfile")}
           </Button>
         </div>
@@ -189,6 +199,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
             {getAppError(profilesError)?.message ?? t("cloud.error.failedToLoadProfiles")}
           </Alert>
         )}
+        {createProfileSuccess && <Alert level="info">{t("cloud.profileCreatedSuccess")}</Alert>}
         {isCreatingProfile && (
           <div className="create-profile-form">
             {createProfileError && <Alert level="attention">{createProfileError}</Alert>}
@@ -364,7 +375,7 @@ const AuthView = () => {
       if (isAppErrorOfType(e, InvalidCredentialsError)) {
         setError(t("cloud.error.invalidCredentials"));
       } else {
-        setError(t("cloud.error.unknown"));
+        setError(getAppError(e)?.message ?? t("cloud.error.unknown"));
       }
     } finally {
       setIsLoading(false);
