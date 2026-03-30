@@ -3,6 +3,9 @@ import { type CachedPromiseFuncReturn, cachedPromiseFunc } from "@anori/utils/mi
 import type { ReorderGroup as ReorderGroupType } from "@anori/utils/motion/lazy-load-reorder";
 import { type ComponentType, type JSX, type ReactNode, Suspense, lazy, useMemo } from "react";
 
+// biome-ignore lint/suspicious/noExplicitAny: loaders wrap arbitrary component types
+export type LazyLoader = () => CachedPromiseFuncReturn<ComponentType<any>>;
+
 const loaders = {
   Select: cachedPromiseFunc(() => import("@anori/components/Select").then((m) => m.Select)),
   ReorderGroup: cachedPromiseFunc(() => import("@anori/utils/motion/lazy-load-reorder").then((m) => m.ReorderGroup)),
@@ -10,21 +13,17 @@ const loaders = {
   ReactMarkdown: cachedPromiseFunc(() => import("react-markdown").then((m) => m.default)),
   BookmarksBar: cachedPromiseFunc(() => import("@anori/components/BookmarksBar").then((m) => m.BookmarksBar)),
   WhatsNew: cachedPromiseFunc(() => import("@anori/components/WhatsNew").then((m) => m.WhatsNew)),
-
-  // TODO: these are components from pages/newtab folder, while this file resides in just components, this
-  // breaks the hierarchy and should be fixed as part of wider structure reorganization
-  SettingsModal: cachedPromiseFunc(() => import("../pages/newtab/settings/Settings").then((m) => m.SettingsModal)),
-  NewWidgetWizard: cachedPromiseFunc(() =>
-    import("../pages/newtab/components/NewWidgetWizard").then((m) => m.NewWidgetWizard),
-  ),
-  CloudAccountModal: cachedPromiseFunc(() =>
-    import("@anori/cloud-integration/components/CloudAccountModal").then((m) => m.CloudAccountModal),
-  ),
 } as const;
+
+const extraPreloads: LazyLoader[] = [];
+
+export const registerLazyComponentsForPreload = (loaderMap: Record<string, LazyLoader>) => {
+  extraPreloads.push(...Object.values(loaderMap));
+};
 
 export const scheduleLazyComponentsPreload = () => {
   const triggerPreload = () => {
-    const funcs = Object.values(loaders);
+    const funcs: LazyLoader[] = [...Object.values(loaders), ...extraPreloads];
     funcs.forEach((f) => f());
   };
 
@@ -49,7 +48,7 @@ type LazyComponent<P> = ComponentType<P & { lazyOptions?: LazyComponentProps }> 
   preload: () => Promise<ComponentType<P>>;
 };
 
-const createLazyComponentWithSuspense = <P,>(
+export const createLazyComponentWithSuspense = <P,>(
   loader: () => CachedPromiseFuncReturn<ComponentType<P>>,
   { fallback: fallbackFromOptions = null, name }: CreateLazyComponentWithSuspenseOptions = {},
 ): LazyComponent<P> => {
@@ -88,6 +87,3 @@ export const ReorderItem = createLazyComponentWithSuspense(loaders.ReorderItem);
 export const ReactMarkdown = createLazyComponentWithSuspense(loaders.ReactMarkdown);
 export const BookmarksBar = createLazyComponentWithSuspense(loaders.BookmarksBar);
 export const WhatsNew = createLazyComponentWithSuspense(loaders.WhatsNew);
-export const SettingsModal = createLazyComponentWithSuspense(loaders.SettingsModal, { name: "SettingLazyWrapper" });
-export const NewWidgetWizard = createLazyComponentWithSuspense(loaders.NewWidgetWizard);
-export const CloudAccountModal = createLazyComponentWithSuspense(loaders.CloudAccountModal);

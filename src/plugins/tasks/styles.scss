@@ -28,14 +28,14 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        gap: 2px;
-        padding: 2px 0;
+        gap: var(--spacing-0-5);
+        padding: var(--spacing-0-5) 0;
     }
 
     .task {
         display: flex;
         align-items: center;
-        gap: 2px;
+        gap: var(--spacing-0-5);
         position: relative;
 
         @include utils.touch {
@@ -75,16 +75,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 0.25rem;
-            padding: 0.25rem;
+            border-radius: var(--radius-xs);
+            padding: var(--spacing-1);
             cursor: grab;
         }
 
         .Input {
             flex-grow: 1;
-            margin: 0 2px;
+            margin: 0 var(--spacing-0-5);
             margin-top: 1px;
-            padding: 0.25rem 0.5rem;
+            padding: var(--spacing-1) var(--spacing-2);
             text-overflow: ellipsis;
             resize: none;
 
@@ -105,7 +105,7 @@
 .TasksWidget-config {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--spacing-3);
     align-items: stretch;
 
     &>div {
@@ -117,6 +117,6 @@
 
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: var(--spacing-4);
     }
 }

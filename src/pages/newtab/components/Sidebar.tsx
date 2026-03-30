@@ -11,13 +11,12 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Sidebar.scss";
-import { CLOUD_INTEGRATION_ENABLED } from "@anori/cloud-integration/consts";
 import { useCloudAccount } from "@anori/cloud-integration/hooks";
 import { WhatsNew } from "@anori/components/WhatsNew";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { CloudAccountModal, SettingsModal } from "@anori/components/lazy-components";
 import { anoriSchema } from "@anori/utils/storage";
 import clsx from "clsx";
+import { CloudAccountModal, SettingsModal } from "../lazy-components";
 
 export type SidebarProps = {
   folders: Folder[];
@@ -79,15 +78,13 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                   setHasUnreadReleaseNotes(false);
                 }}
               />
-              {CLOUD_INTEGRATION_ENABLED && (
-                <FolderButton
-                  sidebarOrientation={orientation}
-                  layoutId="cloud-account"
-                  icon={builtinIcons.personCircle}
-                  name={isConnected ? t("cloud.account") : t("cloud.connect")}
-                  onClick={() => setCloudModalVisible(true)}
-                />
-              )}
+              <FolderButton
+                sidebarOrientation={orientation}
+                layoutId="cloud-account"
+                icon={builtinIcons.personCircle}
+                name={isConnected ? t("cloud.account") : t("cloud.connect")}
+                onClick={() => setCloudModalVisible(true)}
+              />
               <FolderButton
                 sidebarOrientation={orientation}
                 layoutId="settings"

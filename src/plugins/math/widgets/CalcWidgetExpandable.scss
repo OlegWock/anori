@@ -1,0 +1,19 @@
+.CalculatorWidgetExpandable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    align-self: stretch;
+    cursor: pointer;
+    text-align: start;
+
+    svg {
+        color: var(--icon-color)
+    }
+}
+
+.CalculatorWidgetExpandArea {
+    .Calculator {
+        // min-height: 500px;
+    }
+}

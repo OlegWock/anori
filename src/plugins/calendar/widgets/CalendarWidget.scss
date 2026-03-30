@@ -1,0 +1,74 @@
+.CalendarWidget {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
+    align-self: stretch;
+    align-items: stretch;
+
+    .header {
+        text-align: center;
+        margin-bottom: var(--spacing-1-5);
+        font-size: var(--font-size-lg);
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-4);
+
+        .month-name {
+            width: 120px;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+    }
+
+    .calendar-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        flex-grow: 1;
+
+        .calendar-days {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .calendar-row {
+            display: flex;
+            flex-grow: 1;
+
+            &.weekdays {
+                flex-grow: unset;
+                padding: var(--spacing-1) 0;
+
+                .calendar-cell {
+                    color: var(--text);
+                }
+            }
+
+            .calendar-cell {
+                flex-grow: 1;
+                flex-shrink: 1;
+                flex-basis: 0px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: var(--spacing-1);
+                color: var(--text-subtle-2);
+                line-height: 1;
+                text-align: center;
+
+                &.current-month {
+                    color: var(--text);
+                }
+
+                &.today {
+                    background: var(--accent);
+                    border-radius: var(--radius-lg);
+                }
+            }
+        }
+    }
+
+}

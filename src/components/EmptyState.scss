@@ -2,9 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 48px 24px;
+    padding: var(--spacing-12) var(--spacing-6);
     flex-direction: column;
-    gap: 16px;
+    gap: var(--spacing-4);
     text-align: center;
     color: var(--text-subtle-2);
 
@@ -13,17 +13,16 @@
     }
 
     .empty-title {
-        font-size: 1.25rem;
+        font-size: var(--font-size-lg);
         font-weight: 400;
         color: var(--text);
         margin: 0;
     }
 
     .empty-description {
-        font-size: 0.9rem;
+        font-size: var(--font-size-sm);
         max-width: 400px;
         line-height: 1.5;
         margin: 0;
     }
 }
-

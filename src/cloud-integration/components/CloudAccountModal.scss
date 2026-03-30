@@ -1,45 +1,215 @@
+@use "@anori/components/utils.scss" as utils;
+
+.CloudAccountModal {
+  width: 600px;
+}
+
 .CloudAccountModal-connected {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  min-width: 400px;
+  gap: var(--spacing-6);
+  min-width: 25rem;
 
   .account-info {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    .account-info-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-4);
+    }
 
     .label {
-      font-size: 0.875rem;
+      font-size: var(--font-size-sm);
       opacity: 0.7;
     }
 
     .email {
-      font-size: 1rem;
+      font-size: var(--font-size-base);
       font-weight: 500;
+    }
+  }
+
+  .profiles-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+
+    .profiles-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-3);
+    }
+
+    .label {
+      font-size: var(--font-size-sm);
+      opacity: 0.7;
+    }
+
+    .profiles-loading {
+      font-size: var(--font-size-sm);
+      opacity: 0.7;
+      padding: var(--spacing-2) 0;
+    }
+
+    .profiles-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
+      overflow-y: auto;
+    }
+
+    .profiles-empty {
+      font-size: var(--font-size-sm);
+      opacity: 0.7;
+      padding: var(--spacing-2) 0;
+    }
+
+    .profile-card {
+      background: var(--background-lighter);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-3);
+
+      &-connected {
+        outline: 1px solid hsla(var(--text-hsl) / 0.15);
+      }
+    }
+
+    .profile-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
+
+      .profile-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--spacing-3);
+      }
+
+      .profile-info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-1);
+        flex: 1;
+        min-width: 0;
+      }
+
+      .profile-name {
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-2);
+      }
+
+      .profile-connected-badge {
+        font-size: var(--font-size-xs);
+        font-weight: 400;
+        opacity: 0.6;
+      }
+
+      .profile-meta {
+        font-size: var(--font-size-xs);
+        opacity: 0.6;
+      }
+
+      .profile-actions {
+        display: flex;
+        gap: var(--spacing-1);
+      }
+
+      .profile-rename-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-3);
+        flex: 1;
+
+        .profile-rename-actions {
+          display: flex;
+          flex-direction: row;
+          gap: var(--spacing-2);
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .create-profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
+      background: var(--background-lighter);
+      border-radius: var(--radius-md);
+
+      .create-profile-actions {
+        display: flex;
+        flex-direction: row;
+        gap: var(--spacing-2);
+        justify-content: flex-end;
+      }
+    }
+
+    .profile-confirmation {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-3);
+      padding-top: var(--spacing-3);
+
+      .confirmation-actions {
+        display: flex;
+        flex-direction: row;
+        gap: var(--spacing-2);
+        justify-content: flex-end;
+      }
     }
   }
 }
 
 .CloudAccountModal-auth {
-  min-width: 400px;
+  min-width: 25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+
+  .plus-description {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    opacity: 0.8;
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: underline;
+
+      @include utils.hover {
+        opacity: 0.7;
+      }
+    }
+  }
 
   .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--spacing-4);
 
     .register-link {
       text-align: center;
-      font-size: 0.875rem;
+      font-size: var(--font-size-sm);
       opacity: 0.8;
       margin: 0;
 
       a {
         color: var(--text);
         text-decoration: underline;
-        
-        &:hover {
+
+        @include utils.hover {
           opacity: 0.7;
         }
       }

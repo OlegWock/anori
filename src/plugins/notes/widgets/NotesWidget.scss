@@ -1,0 +1,125 @@
+@use "@anori/components/utils.scss" as utils;
+
+.NotesWidget {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-decoration: none;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .Input {
+        margin: var(--spacing-0-5);
+        min-width: none;
+        padding: var(--spacing-1) var(--spacing-2);
+        height: auto;
+
+        @include utils.scroll-mixin-darker();
+    }
+
+    .note-title {
+        font-size: var(--font-size-xl); // h2
+    }
+
+    .note-body-editor {
+        resize: none;
+        flex-grow: 1;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+        padding-top: 0;
+        color: inherit;
+    }
+
+    .note-body-rendered {
+        flex-grow: 1;
+        flex-shrink: 1;
+        overflow: hidden;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        margin: var(--spacing-0-5) var(--spacing-3);
+        cursor: text;
+        text-align: start;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        .ScrollAreaRoot {
+            max-height: 100%;
+            border-radius: 0;
+        }
+
+        .note-body-rendered-content {
+            p:not(:first-child) {
+                margin-top: var(--spacing-1);
+            }
+
+            ul,
+            ol {
+                list-style-position: inside;
+            }
+
+            blockquote {
+                padding-left: var(--spacing-3);
+                border-left: 0.15rem solid var(--text-subtle-2);
+            }
+
+            hr {
+                width: 100%;
+                border-bottom: 1px solid var(--text-border);
+                margin: var(--spacing-3) 0;
+            }
+
+            &>* ul,
+            &>* ol {
+                margin-left: var(--spacing-6);
+            }
+
+            li>p {
+                display: contents;
+            }
+
+            code {
+                background: var(--background);
+                padding: var(--spacing-0-5) var(--spacing-2);
+                border-radius: var(--radius-xs);
+            }
+
+            pre {
+                padding: var(--spacing-2);
+                background: var(--background);
+                border-radius: var(--radius-md);
+
+                code {
+                    background: inherit;
+                    padding: 0;
+                    border-radius: 0;
+                }
+            }
+
+            table,
+            th,
+            td {
+                border: 1px solid var(--text-border);
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            td {
+                padding: var(--spacing-1) var(--spacing-3);
+            }
+
+            img {
+                max-width: 100%;
+            }
+        }
+
+        .notes-body-placeholder {
+            opacity: 0.5;
+        }
+    }
+}

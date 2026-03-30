@@ -25,11 +25,11 @@ export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...
     );
   }
 
-  if (customIconInfo.svgContent !== null) {
+  if (customIconInfo.isSvg) {
     return (
       <SvgIconRenderer
         icon={`custom:${icon}`}
-        svgText={customIconInfo.svgContent}
+        src={customIconInfo.objectUrl}
         ref={ref as Ref<SVGSVGElement>}
         cache={cache}
         {...props}
@@ -45,7 +45,7 @@ export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...
         borderRadius: size / 5,
         ...(style as CSSProperties),
       }}
-      src={customIconInfo.urlObject}
+      src={customIconInfo.objectUrl}
       width={props.width || props.height || 24}
       height={props.height || props.width || 24}
     />

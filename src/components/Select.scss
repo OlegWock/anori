@@ -2,12 +2,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 8px;
-    padding: 0 15px;
-    font-size: 0.875rem;
+    border-radius: var(--radius-md);
+    padding: 0 var(--spacing-4);
+    font-size: var(--font-size-sm);
     line-height: 1;
     height: 35px;
-    gap: 12px;
+    gap: var(--spacing-3);
     min-width: 250px;
     border: 0px solid transparent;
     color: var(--text-subtle-1);
@@ -26,7 +26,7 @@
 .SelectContent {
     overflow: hidden;
     background-color: var(--background);
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
     z-index: 9999;
     border: 2px solid var(--accent);
@@ -38,18 +38,18 @@
 }
 
 .SelectViewport {
-    padding: 5px;
+    padding: var(--spacing-1-5);
 }
 
 .SelectItem {
-    font-size: 0.8125rem;
+    font-size: var(--font-size-xs);
     line-height: 1;
     color: var(--text);
-    border-radius: 3px;
+    border-radius: var(--radius-xs);
     display: flex;
     align-items: center;
     height: 1.5625rem;
-    padding: 0 35px 0 25px;
+    padding: 0 var(--spacing-9) 0 var(--spacing-6);
     position: relative;
     user-select: none;
     -webkit-user-select: none;
@@ -67,8 +67,8 @@
 }
 
 .SelectLabel {
-    padding: 0 25px;
-    font-size: 1rem;
+    padding: 0 var(--spacing-6);
+    font-size: var(--font-size-base);
     line-height: 2rem;
     color: var(--text-subtle-1);
     font-weight: 600;
@@ -77,7 +77,7 @@
 .SelectSeparator {
     height: 1px;
     background-color: var(--violet6);
-    margin: 5px;
+    margin: var(--spacing-1-5);
 }
 
 .SelectItemIndicator {

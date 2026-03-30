@@ -61,7 +61,3 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
-
-export const LinkButton = forwardRef<HTMLButtonElement, ComponentProps<"button">>((props, ref) => {
-  return <button {...props} ref={ref} className={classNames("LinkButton", props.className)} />;
-});

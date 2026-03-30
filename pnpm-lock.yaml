@@ -6,13 +6,13 @@ settings:
 
 patchedDependencies:
   '@radix-ui/react-scroll-area':
-    hash: dtw47zwr7szbdhk4nveamratr4
+    hash: 6310ba17553bd13cc38804ced8e179bb99163082282b07db23b4f8207336fda2
     path: patches/@radix-ui__react-scroll-area.patch
   framer-motion:
-    hash: ty3dj24gqoqvqpkq3ifh2bq5jm
+    hash: bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad
     path: patches/framer-motion.patch
   react-textarea-autosize:
-    hash: e64rfebehqbcmaw4cwezgkmzju
+    hash: 72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2
     path: patches/react-textarea-autosize.patch
 
 importers:
@@ -20,11 +20,11 @@ importers:
   .:
     dependencies:
       '@anori-app/api-client':
-        specifier: ^1.0.13
-        version: 1.0.13(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
+        specifier: ^1.0.21
+        version: 1.0.21(react@19.1.0)(typescript@5.9.2)
       '@anori-app/api-types':
-        specifier: ^1.0.13
-        version: 1.0.13
+        specifier: ^1.0.21
+        version: 1.0.21
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
@@ -54,7 +54,7 @@ importers:
         version: 1.1.15(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-scroll-area':
         specifier: ^1.2.9
-        version: 1.2.9(patch_hash=dtw47zwr7szbdhk4nveamratr4)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 1.2.9(patch_hash=6310ba17553bd13cc38804ced8e179bb99163082282b07db23b4f8207336fda2)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-select':
         specifier: ^2.2.5
         version: 2.2.5(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -132,7 +132,7 @@ importers:
         version: 7.0.0(webpack@5.101.3)
       framer-motion:
         specifier: ^12.17.0
-        version: 12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       generate-file-webpack-plugin:
         specifier: ^1.0.1
         version: 1.0.1
@@ -195,10 +195,10 @@ importers:
         version: 3.0.2(react@19.1.0)
       react-textarea-autosize:
         specifier: ^8.5.9
-        version: 8.5.9(patch_hash=e64rfebehqbcmaw4cwezgkmzju)(@types/react@19.1.5)(react@19.1.0)
+        version: 8.5.9(patch_hash=72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2)(@types/react@19.1.5)(react@19.1.0)
       react-use-motion-measure:
         specifier: ^3.0.0
-        version: 3.0.0(framer-motion@12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-window:
         specifier: ^1.8.11
         version: 1.8.11(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -284,11 +284,11 @@ packages:
   '@acemir/cssom@0.9.29':
     resolution: {integrity: sha512-G90x0VW+9nW4dFajtjCoT+NM0scAfH9Mb08IcjgFHYbfiL/lU04dTF9JuVOi3/OH+DJCQdcIseSXkdCB9Ky6JA==}
 
-  '@anori-app/api-client@1.0.13':
-    resolution: {integrity: sha512-xJ3cjN6kaX9Ji6LttvZlqdfvD5jXlWiCId77MkokKDz+2IjrVhiv+s3oB/sZgpj/14/pRdqw4oDXOMSdhvJdrA==}
+  '@anori-app/api-client@1.0.21':
+    resolution: {integrity: sha512-Jq45Nfya8Wd16XlYLkRwAzTLV38Zmc1Km82tZteyUrW1eQbx501qOqdAITzfMHtGd/EFGY3PNsZX5zueh6a6iQ==}
 
-  '@anori-app/api-types@1.0.13':
-    resolution: {integrity: sha512-2+8v0L8GAe/cKNpqjHOGM4i2jtrHkvLOzesUvMvOAy7yddFpbULOpywMMzi0CbC/Qh5Hs/axQbw4k0rrKcoeTQ==}
+  '@anori-app/api-types@1.0.21':
+    resolution: {integrity: sha512-arsVb0ETxT6K94ZhuSFknuzx0NRDXryXnsOshZ1RRa4qG6DQdH4ozaU9EAm4g01OOAkqt+1R4NmElTHCfZYhDA==}
 
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
@@ -314,6 +314,10 @@ packages:
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/code-frame@7.29.0':
+    resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/compat-data@7.28.4':
@@ -1603,24 +1607,23 @@ packages:
   '@total-typescript/ts-reset@0.6.1':
     resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
 
-  '@trpc/client@11.8.0':
-    resolution: {integrity: sha512-imJQeESX1hAapDaC4JB91yvXg41AZfBuTh/scnEiN/hAubZa5s/ikp0n+w29q2GCf+hREkr3WptUFKFJoDAIug==}
+  '@trpc/client@11.14.0':
+    resolution: {integrity: sha512-YhoLtpye6WZ9IUxEa4UGPl/hOeepwTHbmVrkd0Co+6ZN4QGcjFZBQdYhQGY/O80YPIeZZ7CQKnEyV82Lka6LJw==}
     peerDependencies:
-      '@trpc/server': 11.8.0
+      '@trpc/server': 11.14.0
       typescript: '>=5.7.2'
 
-  '@trpc/react-query@11.8.0':
-    resolution: {integrity: sha512-zJG22PqhGUBq6ke58McGxRBGWGDTHlmsgpxp/rQx8iT2yi0Ja1H2/UcSsjZ/MG65DhCfpKvMVH0OVivTn9FWwA==}
+  '@trpc/react-query@11.14.0':
+    resolution: {integrity: sha512-7G+y4xFJVyiRyH6uAi2cRPRBaDO+fd9JfVyBD5+PBN1w6+paoX+HLhTHfQ/qLpTlVctKMkyq8mqgK0GE0BsxCg==}
     peerDependencies:
       '@tanstack/react-query': ^5.80.3
-      '@trpc/client': 11.8.0
-      '@trpc/server': 11.8.0
+      '@trpc/client': 11.14.0
+      '@trpc/server': 11.14.0
       react: '>=18.2.0'
-      react-dom: '>=18.2.0'
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.8.0':
-    resolution: {integrity: sha512-DphyQnLuyX2nwJCQGWQ9zYz4hZGvRhSBqDhQ0SH3tDhQ3PU4u68xofA0pJ741Ir4InEAFD+TtJVLAQy+wVOkiQ==}
+  '@trpc/server@11.14.0':
+    resolution: {integrity: sha512-Qdc8Ebm4ofwlyM/fk64lMfQEGxHJWVXMU7suJ7uRv5N2dy9mQno73UR9sl2vVjw80zoeCNLe1Rr925b2dVkdkA==}
     peerDependencies:
       typescript: '>=5.7.2'
 
@@ -5616,9 +5619,6 @@ packages:
     resolution: {integrity: sha512-zshzwQW7gG7hjpBlgeQP9RuyPGNxvJdzR8SUM3QhxCnLjWN2E7j3dOvpeDcQoETfHx0urRS7EtmVToql7YpU4A==}
     engines: {node: '>= 10'}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
   zod@4.2.1:
     resolution: {integrity: sha512-0wZ1IRqGGhMP76gLqz8EyfBXKk0J2qo2+H3fi4mcUP/KtTocoX08nmIAHl1Z2kJIZbZee8KOpBCSNPRgauucjw==}
 
@@ -5629,21 +5629,20 @@ snapshots:
 
   '@acemir/cssom@0.9.29': {}
 
-  '@anori-app/api-client@1.0.13(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
+  '@anori-app/api-client@1.0.21(react@19.1.0)(typescript@5.9.2)':
     dependencies:
-      '@anori-app/api-types': 1.0.13
+      '@anori-app/api-types': 1.0.21
       '@tanstack/react-query': 5.87.4(react@19.1.0)
-      '@trpc/client': 11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2)
-      '@trpc/react-query': 11.8.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.8.0(typescript@5.9.2))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)
-      '@trpc/server': 11.8.0(typescript@5.9.2)
+      '@trpc/client': 11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2)
+      '@trpc/react-query': 11.14.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.14.0(typescript@5.9.2))(react@19.1.0)(typescript@5.9.2)
+      '@trpc/server': 11.14.0(typescript@5.9.2)
     transitivePeerDependencies:
       - react
-      - react-dom
       - typescript
 
-  '@anori-app/api-types@1.0.13':
+  '@anori-app/api-types@1.0.21':
     dependencies:
-      zod: 3.25.76
+      zod: 4.2.1
 
   '@antfu/install-pkg@1.1.0':
     dependencies:
@@ -5681,6 +5680,12 @@ snapshots:
   '@babel/code-frame@7.27.1':
     dependencies:
       '@babel/helper-validator-identifier': 7.27.1
+      js-tokens: 4.0.0
+      picocolors: 1.1.1
+
+  '@babel/code-frame@7.29.0':
+    dependencies:
+      '@babel/helper-validator-identifier': 7.28.5
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
@@ -6428,7 +6433,7 @@ snapshots:
       '@types/react': 19.1.5
       '@types/react-dom': 19.1.5(@types/react@19.1.5)
 
-  '@radix-ui/react-scroll-area@1.2.9(patch_hash=dtw47zwr7szbdhk4nveamratr4)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@radix-ui/react-scroll-area@1.2.9(patch_hash=6310ba17553bd13cc38804ced8e179bb99163082282b07db23b4f8207336fda2)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/number': 1.1.1
       '@radix-ui/primitive': 1.1.2
@@ -6953,7 +6958,7 @@ snapshots:
 
   '@testing-library/dom@10.4.1':
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.29.0
       '@babel/runtime': 7.28.4
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
@@ -6974,21 +6979,20 @@ snapshots:
 
   '@total-typescript/ts-reset@0.6.1': {}
 
-  '@trpc/client@11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2)':
+  '@trpc/client@11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2)':
     dependencies:
-      '@trpc/server': 11.8.0(typescript@5.9.2)
+      '@trpc/server': 11.14.0(typescript@5.9.2)
       typescript: 5.9.2
 
-  '@trpc/react-query@11.8.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.8.0(typescript@5.9.2))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.2)':
+  '@trpc/react-query@11.14.0(@tanstack/react-query@5.87.4(react@19.1.0))(@trpc/client@11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.14.0(typescript@5.9.2))(react@19.1.0)(typescript@5.9.2)':
     dependencies:
       '@tanstack/react-query': 5.87.4(react@19.1.0)
-      '@trpc/client': 11.8.0(@trpc/server@11.8.0(typescript@5.9.2))(typescript@5.9.2)
-      '@trpc/server': 11.8.0(typescript@5.9.2)
+      '@trpc/client': 11.14.0(@trpc/server@11.14.0(typescript@5.9.2))(typescript@5.9.2)
+      '@trpc/server': 11.14.0(typescript@5.9.2)
       react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
       typescript: 5.9.2
 
-  '@trpc/server@11.8.0(typescript@5.9.2)':
+  '@trpc/server@11.14.0(typescript@5.9.2)':
     dependencies:
       typescript: 5.9.2
 
@@ -8572,7 +8576,7 @@ snapshots:
 
   fraction.js@5.2.2: {}
 
-  framer-motion@12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       motion-dom: 12.17.0
       motion-utils: 12.12.1
@@ -10196,7 +10200,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.5
 
-  react-textarea-autosize@8.5.9(patch_hash=e64rfebehqbcmaw4cwezgkmzju)(@types/react@19.1.5)(react@19.1.0):
+  react-textarea-autosize@8.5.9(patch_hash=72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2)(@types/react@19.1.5)(react@19.1.0):
     dependencies:
       '@babel/runtime': 7.28.4
       react: 19.1.0
@@ -10205,10 +10209,10 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  react-use-motion-measure@3.0.0(framer-motion@12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-use-motion-measure@3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       debounce: 1.2.1
-      framer-motion: 12.17.0(patch_hash=ty3dj24gqoqvqpkq3ifh2bq5jm)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      framer-motion: 12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
@@ -11391,8 +11395,6 @@ snapshots:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.2
-
-  zod@3.25.76: {}
 
   zod@4.2.1: {}
 

@@ -183,9 +183,6 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
   };
 };
 
-// @ts-ignore
-self.gatherDailyUsageData = gatherDailyUsageData;
-
 export const sendAnalyticsIfEnabled = async (skipTimeout = false) => {
   const storage = await getAnoriStorage();
 

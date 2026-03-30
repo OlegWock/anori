@@ -1,0 +1,70 @@
+.CustomIconsScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+
+    .no-custom-icons-alert {
+        padding: var(--spacing-4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .custom-icons-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--spacing-3);
+        margin-bottom: var(--spacing-2);
+        align-self: stretch;
+
+        .custom-icon-plate {
+            padding: var(--spacing-3);
+            border-radius: var(--radius-lg);
+            background: var(--background-lighter);
+            display: flex;
+            gap: var(--spacing-3);
+            align-items: center;
+
+            .custom-icon-name {
+                flex: 1;
+                text-overflow: ellipsis;
+                font-size: var(--font-size-sm);
+                overflow: hidden;
+            }
+        }
+    }
+
+    .draft-icons-list {
+        border: 3px solid var(--background-lighter);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-2);
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-4);
+        padding: var(--spacing-4);
+        align-self: stretch;
+    }
+
+    .draft-icon-section {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-8);
+
+        .draft-icon-preview {
+            align-self: center;
+        }
+
+        .draft-icon-name-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+
+            .draft-icon-name {}
+
+            .draft-icon-name-error {}
+        }
+    }
+}

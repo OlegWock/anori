@@ -1,0 +1,67 @@
+.AnkiWidget {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    flex-grow: 1;
+    overflow: hidden;
+
+    .set-name-line {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        gap: var(--spacing-4);
+    }
+
+    .set-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 600;
+    }
+
+    .set-due {
+        color: var(--text-subtle-2);
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-1);
+    }
+
+    iframe {
+        flex-grow: 1;
+        border-radius: var(--radius-xs);
+        overflow: hidden;
+    }
+
+    .spacer {
+        flex-grow: 1;
+    }
+
+    .actions {
+        display: flex;
+        gap: var(--spacing-2);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .mock-card {
+        text-align: center;
+        color: black;
+        background-color: white;
+
+        flex-grow: 1;
+        border-radius: var(--radius-xs);
+        overflow: auto;
+
+        .big-kanji {
+            font-size: var(--font-size-3xl);
+        }
+    }
+
+    .Alert {
+        flex-grow: 1;
+    }
+}

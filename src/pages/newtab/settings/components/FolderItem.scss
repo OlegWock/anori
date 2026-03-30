@@ -1,0 +1,47 @@
+.FolderItem {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+    margin: var(--spacing-1-5) 0;
+
+    .folder-drag-indicator {
+        touch-action: none;
+        cursor: grab;
+    }
+
+    .folder-icon {
+        cursor: pointer;
+        background: none;
+        display: flex;
+        color: inherit;
+        padding: var(--spacing-1-5) var(--spacing-3);
+
+        &.static {
+            padding: var(--spacing-1-5) var(--spacing-3);
+            cursor: default;
+        }
+    }
+
+    input {
+        background: transparent;
+        border: none;
+        font-size: inherit;
+        color: inherit;
+        font-family: inherit;
+        border-radius: var(--radius-sm);
+
+        &:focus {
+            outline: none;
+            outline: 2px solid var(--accent);
+        }
+    }
+
+    .folder-name {
+        padding: var(--spacing-0-5) var(--spacing-2);
+        flex-grow: 1;
+    }
+
+    .Button {
+        background: var(--background);
+    }
+}

@@ -1,8 +1,8 @@
 .Input {
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3) var(--spacing-4);
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
     line-height: 1;
     letter-spacing: inherit;
     min-width: 15rem;

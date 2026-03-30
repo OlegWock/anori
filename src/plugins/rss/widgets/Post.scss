@@ -1,0 +1,52 @@
+.Post {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &.compact {
+        .title {
+            font-size: var(--font-size-lg);
+        }
+    }
+
+    .title {
+        flex: 1;
+        line-height: 1.25;
+        overflow: hidden;
+
+        .compact-post-date {
+            color: var(--text-subtle-1);
+            font-size: var(--font-size-sm);
+            font-weight: 200;
+        }
+    }
+
+    .description {
+        margin-top: var(--spacing-1);
+        color: var(--text-subtle-2);
+    }
+
+    .details {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        column-gap: var(--spacing-3);
+        row-gap: var(--spacing-2);
+        margin-top: var(--spacing-2);
+
+        svg {
+            color: var(--icon-color);
+        }
+
+        .feed-name,
+        .post-date {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-1-5);
+            line-height: 1;
+            color: var(--text-subtle-1);
+        }
+    }
+}

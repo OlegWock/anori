@@ -7,17 +7,17 @@
     width: 600px;
 
     .Input {
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-2);
     }
 
     .bookmark {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        padding: 0.4rem;
+        gap: var(--spacing-4);
+        padding: var(--spacing-1-5);
         cursor: pointer;
         transition: 0.15s ease-in-out;
-        border-radius: 8px;
+        border-radius: var(--radius-md);
 
         @include utils.hover {
             background: hsla(var(--text-hsl) /  0.1);
@@ -30,7 +30,7 @@
 
         .fav-icon {
             width: 18px;
-            border-radius: 9px;
+            border-radius: var(--radius-md);
         }
 
         .title {
@@ -39,7 +39,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
-            font-size: 0.85rem;
+            font-size: var(--font-size-sm);
         }
     }
 
@@ -47,6 +47,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 4rem;
+        padding: var(--spacing-16);
     }
 }

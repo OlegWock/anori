@@ -6,7 +6,7 @@ import { cell, collection, entity } from "../schema";
 describe("Query Resolution", () => {
   describe("resolveQuery", () => {
     it("should resolve cell query", () => {
-      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true });
+      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true });
 
       const resolved = resolveQuery(themeCell);
 
@@ -21,6 +21,7 @@ describe("Query Resolution", () => {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string() }) }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       const resolved = resolveQuery(folders.byId("home"));
@@ -37,6 +38,7 @@ describe("Query Resolution", () => {
           notes: entity({ brand: "NotesWidget", schema: z.object({ content: z.string() }) }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       const resolved = resolveQuery(widgets.notes.byId("123"));
@@ -53,6 +55,7 @@ describe("Query Resolution", () => {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string() }) }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       const resolved = resolveQuery(folders.all());
@@ -69,6 +72,7 @@ describe("Query Resolution", () => {
           notes: entity({ brand: "NotesWidget", schema: z.object({ content: z.string() }) }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       const resolved = resolveQuery(widgets.notes.all());
@@ -81,7 +85,7 @@ describe("Query Resolution", () => {
 
   describe("getStorageKey", () => {
     it("should get key for cell", () => {
-      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true });
+      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true });
 
       expect(getStorageKey(themeCell)).toBe("theme");
     });
@@ -93,6 +97,7 @@ describe("Query Resolution", () => {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string() }) }),
         },
         tracked: true,
+        includedInBackup: true,
       });
 
       expect(getStorageKey(folders.byId("home"))).toBe("Folder:home");

@@ -1,105 +1,92 @@
 import browser from "webextension-polyfill";
-import { type FilesStorage, createFilesStorage } from "./files";
+import { createFilesStorage } from "./files";
 import { type Hlc, type HlcState, type HlcTimestamp, compareHlc, createHlc, generateNodeId } from "./hlc";
 import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
-import { type Query, type ResolvedQuery, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
-import { type CellDescriptor, isCellDescriptor } from "./schema/cell";
-import { type CollectionAllQuery, type CollectionByIdQuery, isCollectionDescriptor } from "./schema/collection";
-import {
-  isFileCollectionAllQuery,
-  isFileCollectionByIdQuery,
-  isFileCollectionDescriptor,
-  isFileDescriptor,
-} from "./schema/file";
+import { type Query, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
+import type { CellDescriptor } from "./schema/cell";
+import type { CollectionAllQuery, CollectionByIdQuery } from "./schema/collection";
+import { isFileCollectionAllQuery, isFileCollectionByIdQuery, isFileDescriptor } from "./schema/file";
 import type { VersionedSchema } from "./schema/versioned";
+import { createBackupInterface } from "./storage-backup";
+import { createSchemaHelpers } from "./storage-helpers";
+import { createSyncInterface } from "./storage-sync";
+import type {
+  ChangeCallback,
+  ChangeInfo,
+  ChangeSource,
+  CreateStorageOptions,
+  Outbox,
+  OutboxEntry,
+  OutboxSubscription,
+  Storage,
+  StorageFork,
+  StorageInternalContext,
+  Subscription,
+  ValueWithMeta,
+} from "./storage-types";
 import { type StorageRecord, isStorageRecord } from "./types";
 
-export type OutboxEntry = {
-  key: string;
-  type: "kv" | "file";
-  hlc: HlcTimestamp;
-  addedAt: number;
-};
-
-type Outbox = OutboxEntry[];
-
-type ChangeCallback<T = unknown> = (value: T | undefined, oldValue: T | undefined) => void;
-
-type Subscription = {
-  query: ResolvedQuery;
-  callback: ChangeCallback;
-  sourceId?: string;
-};
-
-export type ValueMeta = {
-  isDefault: boolean;
-};
-
-export type ValueWithMeta<T> = {
-  value: T;
-  meta: ValueMeta;
-};
-
-type StorageQueryInterface = {
-  get<T>(query: CellDescriptor<T, true>): T;
-  get<T>(query: CellDescriptor<T, false>): T | undefined;
-  get<T>(query: CellDescriptor<T, boolean>): T | undefined;
-  get<T>(query: CollectionByIdQuery<T>): T | undefined;
-  get<T>(query: CollectionAllQuery<T>): Record<string, T>;
-  getWithMeta<T>(query: CellDescriptor<T, true>): ValueWithMeta<T>;
-  getWithMeta<T>(query: CellDescriptor<T, false>): ValueWithMeta<T | undefined>;
-  getWithMeta<T>(query: CellDescriptor<T, boolean>): ValueWithMeta<T | undefined>;
-  getWithMeta<T>(query: CollectionByIdQuery<T>): ValueWithMeta<T | undefined>;
-  getWithMeta<T>(query: CollectionAllQuery<T>): ValueWithMeta<Record<string, T>>;
-  set<T>(query: CellDescriptor<T>, value: T): Promise<void>;
-  set<T>(query: CollectionByIdQuery<T>, value: T): Promise<void>;
-  delete(query: CellDescriptor): Promise<void>;
-  delete(query: CollectionByIdQuery): Promise<void>;
-  subscribe<T>(query: CellDescriptor<T, true>, callback: ChangeCallback<T>): () => void;
-  subscribe<T>(query: CellDescriptor<T, false>, callback: ChangeCallback<T | undefined>): () => void;
-  subscribe<T>(query: CellDescriptor<T, boolean>, callback: ChangeCallback<T | undefined>): () => void;
-  subscribe<T>(query: CollectionByIdQuery<T>, callback: ChangeCallback<T>): () => void;
-  subscribe<T>(query: CollectionAllQuery<T>, callback: ChangeCallback<Record<string, T>>): () => void;
-};
-
-export type StorageFork = StorageQueryInterface & {
-  readonly id: string;
-};
-
-export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryInterface & {
-  readonly schema: S["latestSchema"]["definition"];
-
-  initialize(): Promise<void>;
-
-  fork(): StorageFork;
-
-  sync: {
-    getOutbox(): Outbox;
-    removeFromOutbox(keys: string[]): Promise<void>;
-    clearOutbox(): Promise<void>;
-    exportForFullSync(): Record<string, StorageRecord<unknown>>;
-    exportOutbox(): Record<string, StorageRecord<unknown>>;
-    mergeRemoteChanges(
-      changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
-    ): Promise<{ applied: string[]; skipped: string[] }>;
-  };
-
-  files: FilesStorage;
-};
-
-export type CreateStorageOptions<S extends VersionedSchema = VersionedSchema> = {
-  schema: S;
-};
+// Re-export types that external consumers import from this module
+export type {
+  OutboxEntry,
+  ChangeSource,
+  ChangeInfo,
+  ChangeCallback,
+  OutboxChangeCallback,
+  ValueMeta,
+  ValueWithMeta,
+  StorageFork,
+  Storage,
+  CreateStorageOptions,
+} from "./storage-types";
 
 export function createStorage<S extends VersionedSchema>(options: CreateStorageOptions<S>): Storage<S> {
   const versionedSchema = options.schema;
   const latestSchema = versionedSchema.latestSchema;
   const storageId = generateNodeId();
+  const { isKeyTracked, isKeyBackupEligible, isFileKey } = createSchemaHelpers(latestSchema.definition);
 
   let hlc: Hlc | null = null;
   let initialized = false;
+  let outboxEnabled = false;
   let cache: Record<string, unknown> = {};
   const subscriptions: Subscription[] = [];
+  const outboxSubscriptions: OutboxSubscription[] = [];
+  // Track HLCs of records we've already notified about (to skip duplicate onChanged events)
+  const pendingNotifications = new Map<string, HlcTimestamp>();
+
+  // Batched persistence: accumulates dirty keys and flushes them in a single browser.storage.local.set call
+  const pendingPersistKeys = new Set<string>();
+  let persistFlushPromise: Promise<void> | null = null;
+  let persistFlushResolve: (() => void) | null = null;
+
+  function schedulePersist(key: string): void {
+    pendingPersistKeys.add(key);
+    if (!persistFlushPromise) {
+      persistFlushPromise = new Promise<void>((resolve) => {
+        persistFlushResolve = resolve;
+      });
+      queueMicrotask(flushPersist);
+    }
+  }
+
+  async function flushPersist(): Promise<void> {
+    if (!persistFlushResolve) return;
+    const batch: Record<string, unknown> = {};
+    for (const key of pendingPersistKeys) {
+      batch[key] = cache[key];
+    }
+    pendingPersistKeys.clear();
+    const resolve = persistFlushResolve;
+    persistFlushPromise = null;
+    persistFlushResolve = null;
+    await browser.storage.local.set(batch);
+    resolve();
+  }
+
+  function waitForPersist(): Promise<void> {
+    return persistFlushPromise ?? Promise.resolve();
+  }
 
   function ensureInitialized(): void {
     if (!initialized) {
@@ -107,19 +94,14 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
   }
 
-  function isKeyTracked(key: string): boolean {
-    for (const descriptor of Object.values(latestSchema.definition)) {
-      if (isCellDescriptor(descriptor) || isFileDescriptor(descriptor)) {
-        if (descriptor.key === key && descriptor.tracked) {
-          return true;
-        }
-      } else if (isCollectionDescriptor(descriptor) || isFileCollectionDescriptor(descriptor)) {
-        if (isKeyMatchingPrefix(key, descriptor.keyPrefix) && descriptor.tracked) {
-          return true;
-        }
-      }
+  function notifyOutboxSubscribers(key: string, type: "kv" | "file", record: StorageRecord<unknown>): void {
+    for (const sub of outboxSubscriptions) {
+      sub.callback({
+        key,
+        record,
+        type,
+      });
     }
-    return false;
   }
 
   function getHlc(): Hlc {
@@ -137,23 +119,37 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     cache[OUTBOX_KEY] = outbox;
   }
 
-  async function persistHlcState(): Promise<void> {
+  function persistHlcState(): void {
     const state = getHlc().getState();
     cache[HLC_STATE_KEY] = state;
-    await browser.storage.local.set({ [HLC_STATE_KEY]: state });
+    schedulePersist(HLC_STATE_KEY);
   }
 
-  async function persistRecord(key: string, record: StorageRecord<unknown>): Promise<void> {
+  function persistRecord(key: string, record: StorageRecord<unknown>, options?: { notifyAs?: ChangeSource }): void {
+    const oldCachedValue = cache[key];
+    const oldRecord = isStorageRecord(oldCachedValue) ? oldCachedValue : undefined;
+    const oldValue = oldRecord?.deleted ? undefined : oldRecord?.value;
+    const newValue = record.deleted ? undefined : record.value;
+
+    // Mark this HLC as pending BEFORE writing, so onChanged can skip it
+    if (options?.notifyAs) {
+      pendingNotifications.set(key, record.hlc);
+    }
+
     cache[key] = record;
-    await browser.storage.local.set({ [key]: record });
+    schedulePersist(key);
+
+    if (options?.notifyAs && (oldValue !== undefined || newValue !== undefined)) {
+      notifySubscribers(key, newValue, oldValue, options.notifyAs);
+    }
   }
 
-  async function persistOutbox(outbox: Outbox): Promise<void> {
+  function persistOutbox(outbox: Outbox): void {
     setOutboxInCache(outbox);
-    await browser.storage.local.set({ [OUTBOX_KEY]: outbox });
+    schedulePersist(OUTBOX_KEY);
   }
 
-  async function addToOutbox(key: string, type: "kv" | "file", hlcTs: HlcTimestamp): Promise<void> {
+  function addToOutbox(key: string, type: "kv" | "file", hlcTs: HlcTimestamp): void {
     const outbox = getOutboxFromCache();
     const existingIndex = outbox.findIndex((e) => e.key === key);
     const entry: OutboxEntry = {
@@ -169,10 +165,23 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       outbox.push(entry);
     }
 
-    await persistOutbox(outbox);
+    persistOutbox(outbox);
+
+    const record = cache[key];
+    if (isStorageRecord(record)) {
+      notifyOutboxSubscribers(key, type, record);
+    }
   }
 
-  function notifySubscribers(key: string, newValue: unknown, oldValue: unknown, sourceId?: string): void {
+  function notifySubscribers(
+    key: string,
+    newValue: unknown,
+    oldValue: unknown,
+    source: ChangeSource,
+    sourceId?: string,
+  ): void {
+    const info: ChangeInfo = { source };
+
     for (const sub of subscriptions) {
       // Skip if subscription's sourceId matches write sourceId (it's the fork's own echo)
       if (sub.sourceId && sourceId && sub.sourceId === sourceId) {
@@ -180,13 +189,13 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       }
 
       if (sub.query.type === "cell" && sub.query.key === key) {
-        sub.callback(newValue, oldValue);
+        sub.callback(newValue, oldValue, info);
       } else if (sub.query.type === "collectionById" && sub.query.key === key) {
-        sub.callback(newValue, oldValue);
+        sub.callback(newValue, oldValue, info);
       } else if (sub.query.type === "collectionAll" && isKeyMatchingPrefix(key, sub.query.keyPrefix)) {
         // For collection.all(), rebuild the full record and notify
         const allRecords = getCollectionAll(sub.query.keyPrefix, sub.query.brand);
-        sub.callback(allRecords, undefined);
+        sub.callback(allRecords, undefined, info);
       }
     }
   }
@@ -229,6 +238,15 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
           continue;
         }
 
+        // Skip if this is a write we already notified about (e.g., remote sync)
+        const pendingHlc = pendingNotifications.get(key);
+        if (newRecord && pendingHlc && compareHlc(newRecord.hlc, pendingHlc) === 0) {
+          pendingNotifications.delete(key);
+          // Still update cache
+          cache[key] = change.newValue;
+          continue;
+        }
+
         // Update cache for external changes
         if (change.newValue === undefined) {
           delete cache[key];
@@ -241,7 +259,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
         const newValue = newRecord?.deleted ? undefined : newRecord?.value;
 
         if (oldValue !== undefined || newValue !== undefined) {
-          notifySubscribers(key, newValue, oldValue);
+          notifySubscribers(key, newValue, oldValue, "external");
         }
       }
     });
@@ -271,14 +289,18 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
 
     cache[resolved.key] = record;
-    notifySubscribers(resolved.key, value, oldValue, sourceId);
+    const source: ChangeSource = sourceId ? "fork" : "local";
+    notifySubscribers(resolved.key, value, oldValue, source, sourceId);
 
-    await browser.storage.local.set({ [resolved.key]: record });
-    await persistHlcState();
+    schedulePersist(resolved.key);
+    persistHlcState();
 
-    if ("tracked" in query && query.tracked) {
-      await addToOutbox(resolved.key, "kv", hlcTs);
+    if (outboxEnabled && "tracked" in query && query.tracked) {
+      const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
+      addToOutbox(resolved.key, type, hlcTs);
     }
+
+    await waitForPersist();
   }
 
   async function deleteInternal(query: Query, sourceId?: string): Promise<void> {
@@ -306,13 +328,18 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     }
 
     cache[resolved.key] = record;
-    notifySubscribers(resolved.key, undefined, oldValue, sourceId);
-    await browser.storage.local.set({ [resolved.key]: record });
-    await persistHlcState();
+    const source: ChangeSource = sourceId ? "fork" : "local";
+    notifySubscribers(resolved.key, undefined, oldValue, source, sourceId);
 
-    if ("tracked" in query && query.tracked) {
-      await addToOutbox(resolved.key, "kv", hlcTs);
+    schedulePersist(resolved.key);
+    persistHlcState();
+
+    if (outboxEnabled && "tracked" in query && query.tracked) {
+      const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
+      addToOutbox(resolved.key, type, hlcTs);
     }
+
+    await waitForPersist();
   }
 
   function getWithMetaInternal<T>(query: Query): ValueWithMeta<T | undefined> | ValueWithMeta<Record<string, T>> {
@@ -433,6 +460,28 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     };
   }
 
+  // Build internal context for extracted subsystems
+  const ctx: StorageInternalContext = {
+    cache,
+    getHlc,
+    ensureInitialized,
+    persistRecord,
+    persistHlcState,
+    persistOutbox,
+    waitForPersist,
+    getOutboxFromCache,
+    notifyOutboxSubscribers,
+    isKeyTracked,
+    isKeyBackupEligible,
+    isFileKey,
+    outboxSubscriptions,
+    getOutboxEnabled: () => outboxEnabled,
+    currentSchemaVersion: versionedSchema.currentVersion,
+  };
+
+  const syncInterface = createSyncInterface(ctx);
+  const backupInterface = createBackupInterface(ctx);
+
   const storage: Storage<S> = {
     schema: latestSchema.definition,
 
@@ -442,6 +491,8 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       // Load entire storage into memory
       const allData = await browser.storage.local.get(null);
       cache = { ...allData };
+      // Update ctx.cache reference since we reassigned cache
+      ctx.cache = cache;
 
       // Load or create HLC state
       const hlcState = allData[HLC_STATE_KEY] as HlcState | undefined;
@@ -451,7 +502,8 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       } else {
         const nodeId = generateNodeId();
         hlc = createHlc(nodeId);
-        await persistHlcState();
+        persistHlcState();
+        await waitForPersist();
       }
 
       // Initialize outbox if not present
@@ -527,88 +579,16 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     },
 
     sync: {
-      getOutbox(): Outbox {
-        ensureInitialized();
-        return getOutboxFromCache();
+      ...syncInterface,
+      enableOutbox(): void {
+        outboxEnabled = true;
       },
-
-      async removeFromOutbox(keys: string[]): Promise<void> {
-        ensureInitialized();
-        const outbox = getOutboxFromCache();
-        const filtered = outbox.filter((e) => !keys.includes(e.key));
-        await persistOutbox(filtered);
-      },
-
-      async clearOutbox(): Promise<void> {
-        ensureInitialized();
-        await persistOutbox([]);
-      },
-
-      exportForFullSync(): Record<string, StorageRecord<unknown>> {
-        ensureInitialized();
-        const result: Record<string, StorageRecord<unknown>> = {};
-
-        for (const [key, value] of Object.entries(cache)) {
-          if (!isStorageRecord(value)) continue;
-          if (!isKeyTracked(key)) continue;
-          result[key] = value;
-        }
-
-        return result;
-      },
-
-      exportOutbox(): Record<string, StorageRecord<unknown>> {
-        ensureInitialized();
-        const outbox = getOutboxFromCache();
-        const result: Record<string, StorageRecord<unknown>> = {};
-
-        for (const entry of outbox) {
-          const value = cache[entry.key];
-          if (isStorageRecord(value)) {
-            result[entry.key] = value;
-          }
-        }
-
-        return result;
-      },
-
-      async mergeRemoteChanges(
-        changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
-      ): Promise<{ applied: string[]; skipped: string[] }> {
-        ensureInitialized();
-        const applied: string[] = [];
-        const skipped: string[] = [];
-        const currentSchemaVersion = versionedSchema.currentVersion;
-
-        for (const { key, record, schemaVersion } of changes) {
-          // Skip if schema version doesn't match
-          if (schemaVersion !== currentSchemaVersion) {
-            skipped.push(key);
-            continue;
-          }
-
-          // Get local record
-          const localValue = cache[key];
-          const localRecord = isStorageRecord(localValue) ? localValue : undefined;
-
-          // Compare HLC - remote wins if newer
-          const shouldApply = !localRecord || compareHlc(record.hlc, localRecord.hlc) > 0;
-
-          if (shouldApply) {
-            await persistRecord(key, record);
-            applied.push(key);
-          } else {
-            skipped.push(key);
-          }
-
-          // Update local HLC with remote timestamp (even if not applied)
-          getHlc().receive(record.hlc);
-        }
-
-        await persistHlcState();
-        return { applied, skipped };
+      disableOutbox(): void {
+        outboxEnabled = false;
       },
     },
+
+    ...backupInterface,
 
     files: createFilesStorage({
       getMeta(query) {
@@ -622,6 +602,9 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
       async deleteMeta(query) {
         ensureInitialized();
         await deleteInternal(query);
+      },
+      subscribe(query, callback) {
+        return subscribeInternal(query, callback);
       },
     }),
   };

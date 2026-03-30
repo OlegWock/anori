@@ -2,7 +2,7 @@
 
 .WidgetCard {
     background: var(--background-lighter);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
     color: var(--text);
@@ -10,7 +10,7 @@
     padding: 0;
 
     &.with-padding {
-        padding: 1rem;
+        padding: var(--spacing-4);
 
         .overflow-protection {
             border-radius: 0;
@@ -28,8 +28,8 @@
     
     .remove-widget-btn, .drag-widget-btn, .edit-widget-btn, .resize-handle {
         position: absolute;
-        padding: 6px;
-        border-radius: 18px;
+        padding: var(--spacing-1-5);
+        border-radius: var(--radius-xl);
         background: var(--background-lighter);
         color: var(--accent);
         border: 2px solid var(--accent);
@@ -85,7 +85,7 @@
     }
 
     .error-description {
-        margin-top: 12px;
+        margin-top: var(--spacing-3);
     }
 
     .overflow-protection {

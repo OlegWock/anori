@@ -1,0 +1,18 @@
+.CalendarWidget-config {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: stretch;
+
+    &>div {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+
+    .save-config {
+        align-self: center;
+        margin-top: var(--spacing-4);
+    }
+}

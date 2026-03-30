@@ -2,11 +2,11 @@
 
 
 .sidebar-wrapper {
-    padding: 1.75rem 0.5rem;
+    padding: var(--spacing-7) var(--spacing-2);
     overflow: hidden;
 
     &.sidebar-autohide {
-        padding: 1.75rem 1rem;
+        padding: var(--spacing-7) var(--spacing-4);
 
         .sidebar {
             display: none;
@@ -15,7 +15,7 @@
         // We don't use utils.hover (i.e. proper hover) to allow users
         // with touch screens to access sidebar
         &:hover {
-            padding: 1.75rem 0.5rem;
+            padding: var(--spacing-7) var(--spacing-2);
     
             .sidebar {
                 display: flex;
@@ -47,15 +47,15 @@
         .sidebar-content {
             display: flex !important;
             flex-direction: column;
-            gap: 2rem;
-            padding: 0.625rem 1.5rem;
+            gap: var(--spacing-8);
+            padding: var(--spacing-3) var(--spacing-6);
 
             .spacer {
                 flex-grow: 1;
             }
 
             @include utils.compact {
-                gap: 1.5rem;
+                gap: var(--spacing-6);
             }
         }
     }

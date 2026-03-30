@@ -1,15 +1,14 @@
-@use "@anori/components/utils.scss" as utils;
 
 .FolderContent {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: var(--spacing-3);
 
     flex-grow: 1;
     align-self: stretch;
-    padding: 24px;
+    padding: var(--spacing-6);
     max-height: 100%;
 
     &>header {
@@ -21,7 +20,7 @@
         &>.action-buttons-wrapper {
             .action-buttons {
                 display: flex;
-                gap: 12px;
+                gap: var(--spacing-3);
             }
         }
 
@@ -61,20 +60,20 @@
 }
 
 .edit-widget-modal {
-    padding: 0px !important;
+    padding: 0 !important;
 
     .modal-header {
-        padding: 24px;
-        padding-bottom: 0px;
+        padding: var(--spacing-6);
+        padding-bottom: 0;
     }
 
     .edit-widget-scrollarea {
-        margin: 0 6px;
-        margin-bottom: 12px;
+        margin: 0 var(--spacing-1-5);
+        margin-bottom: var(--spacing-3);
     
         .edit-widget-content {
-            padding: 0 18px;
-            padding-bottom: 18px;
+            padding: 0 var(--spacing-4);
+            padding-bottom: var(--spacing-4);
             width: 800px;
             max-width: 80vw;
             overflow: hidden;

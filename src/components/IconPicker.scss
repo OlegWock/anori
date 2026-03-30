@@ -5,7 +5,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--spacing-4);
 
     section {
         display: flex;
@@ -14,9 +14,9 @@
     }
 
     .icons-search-wrapper {
-        margin-bottom: 0.75rem;
+        margin-bottom: var(--spacing-3);
         display: flex;
-        gap: 0.5rem;
+        gap: var(--spacing-2);
 
         .Input {
             flex-grow: 1;
@@ -24,20 +24,20 @@
     }
 
     .too-broad-alert {
-        padding: 0.25rem 0.75rem;
-        border-radius: 8px;
+        padding: var(--spacing-1) var(--spacing-3);
+        border-radius: var(--radius-md);
         background-color: var(--background-lighter);
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-2);
     }
 
     .empty-state-alert {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 48px 24px;
+        padding: var(--spacing-12) var(--spacing-6);
         flex-direction: column;
-        gap: 24px;
+        gap: var(--spacing-6);
         text-align: center;
     }
 
@@ -55,7 +55,7 @@
 }
 
 .IconCell {
-    padding: 4px;
+    padding: var(--spacing-1);
     transition: 0.05s ease-in-out;
     contain: paint;
     outline: none;
@@ -63,14 +63,14 @@
     &:not(.inactive){
         @include utils.hover {
             background: hsla(var(--text-hsl) /  0.2);
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             outline: none;
         }
 
         &:focus-visible  {
             background: hsla(var(--text-hsl) /  0.2);
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             outline: none;
         }

@@ -31,12 +31,13 @@ import { createStorage } from "../storage";
 
 function createTestSchema() {
   const schemaV1 = defineSchemaVersion(1, {
-    theme: cell({ key: "theme", schema: z.string(), tracked: true, defaultValue: "Forest" }),
-    profileImage: file({ key: "profileImage", tracked: true }),
-    images: fileCollection({ keyPrefix: "Image", tracked: true }),
+    theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true, defaultValue: "Forest" }),
+    profileImage: file({ key: "profileImage", tracked: true, includedInBackup: true }),
+    images: fileCollection({ keyPrefix: "Image", tracked: true, includedInBackup: true }),
     imagesWithProps: fileCollection({
       keyPrefix: "ImageProp",
       tracked: true,
+      includedInBackup: true,
       propertiesSchema: z.object({ name: z.string() }),
     }),
   });
@@ -66,6 +67,7 @@ describe("FilesStorage", () => {
       const imageFile = file({
         key: "profileImage",
         tracked: true,
+        includedInBackup: true,
       });
 
       expect(imageFile.key).toBe("profileImage");
@@ -76,6 +78,7 @@ describe("FilesStorage", () => {
       const imageFile = file({
         key: "profileImage",
         tracked: true,
+        includedInBackup: true,
         propertiesSchema: z.object({ width: z.number(), height: z.number() }),
       });
 
@@ -89,6 +92,7 @@ describe("FilesStorage", () => {
       const images = fileCollection({
         keyPrefix: "Image",
         tracked: true,
+        includedInBackup: true,
       });
 
       expect(images.keyPrefix).toBe("Image");
@@ -99,6 +103,7 @@ describe("FilesStorage", () => {
       const images = fileCollection({
         keyPrefix: "Image",
         tracked: true,
+        includedInBackup: true,
       });
 
       const query = images.byId("abc123");
@@ -112,6 +117,7 @@ describe("FilesStorage", () => {
       const images = fileCollection({
         keyPrefix: "Image",
         tracked: true,
+        includedInBackup: true,
       });
 
       const query = images.all();
@@ -140,6 +146,7 @@ describe("FilesStorage", () => {
       const imageFile = file({
         key: "profileImageWithProps",
         tracked: true,
+        includedInBackup: true,
         propertiesSchema: z.object({ width: z.number(), height: z.number() }),
       });
       const blob = new Blob(["test content"], { type: "image/png" });
@@ -168,6 +175,7 @@ describe("FilesStorage", () => {
       const imageFile = file({
         key: "profileImageMeta",
         tracked: true,
+        includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
       const blob = new Blob(["test"]);
@@ -203,6 +211,7 @@ describe("FilesStorage", () => {
       const imageFile = file({
         key: "updateBlobTest",
         tracked: true,
+        includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
       const blob1 = new Blob(["original"]);
@@ -214,7 +223,8 @@ describe("FilesStorage", () => {
       await filesStorage.updateBlob(imageFile, blob2);
 
       const meta = filesStorage.getMeta(imageFile);
-      expect(meta?.path).toBe(originalPath);
+      expect(meta?.path).toBeDefined();
+      expect(meta?.path).not.toBe(originalPath);
       expect(meta?.properties).toEqual({ width: 100 });
     });
 
@@ -236,6 +246,7 @@ describe("FilesStorage", () => {
       const imageFile = file({
         key: "updatePropsTest",
         tracked: true,
+        includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
       const blob = new Blob(["test"]);
@@ -256,6 +267,7 @@ describe("FilesStorage", () => {
       const imageFile = file({
         key: "nonExistentProps",
         tracked: true,
+        includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
 
@@ -357,6 +369,7 @@ describe("FilesStorage", () => {
 
     it("should add tracked files to outbox", async () => {
       const { storage, filesStorage, schema } = await createTestFilesStorage();
+      storage.sync.enableOutbox();
 
       const blob = new Blob(["test"]);
       await filesStorage.set(schema.latestSchema.definition.profileImage, blob);

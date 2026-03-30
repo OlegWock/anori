@@ -5,7 +5,6 @@ import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { NewWidgetWizard } from "@anori/components/lazy-components";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
@@ -19,6 +18,7 @@ import { atom, useAtom } from "jotai";
 import { type CSSProperties, type Ref, useState } from "react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { NewWidgetWizard } from "../lazy-components";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 
 type FolderContentProps = {
@@ -100,8 +100,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
     });
   };
 
-  const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig, folderDataLoaded } =
-    useFolderWidgets(folder);
+  const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig } = useFolderWidgets(folder);
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
   const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<
@@ -116,7 +115,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const gridDimensions = useGridDimensions(scrollAreaRef, blockSize, minBlockSize, widgets);
 
-  const shouldShowOnboarding = widgets.length === 0 && folderDataLoaded && !isEditing;
+  const shouldShowOnboarding = widgets.length === 0 && !isEditing;
 
   useHotkeys("alt+e", () => {
     setIsEditing(true);

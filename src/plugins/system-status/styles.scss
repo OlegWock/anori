@@ -1,7 +1,7 @@
 .SystemStatusWidget {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--spacing-1-5);
     flex-grow: 1;
 
 
@@ -10,7 +10,7 @@
     }
 
     .metric-value {
-        font-size: 2rem;
+        font-size: var(--font-size-2xl);
     }
 
     .metric-name {
@@ -24,6 +24,6 @@
     
     .save-config {
         align-self: center;
-        margin-top: 16px;
+        margin-top: var(--spacing-4);
     }
 }

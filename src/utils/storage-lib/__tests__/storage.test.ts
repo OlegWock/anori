@@ -21,14 +21,15 @@ describe("Storage", () => {
 
   function createTestSchema() {
     const v1 = defineSchemaVersion(1, {
-      theme: cell({ key: "theme", schema: z.string(), defaultValue: "Forest", tracked: true }),
-      counter: cell({ key: "counter", schema: z.number(), tracked: false }),
+      theme: cell({ key: "theme", schema: z.string(), defaultValue: "Forest", tracked: true, includedInBackup: true }),
+      counter: cell({ key: "counter", schema: z.number(), tracked: false, includedInBackup: true }),
       folders: collection({
         keyPrefix: "Folder",
         entities: {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string(), color: z.string() }) }),
         },
         tracked: true,
+        includedInBackup: true,
       }),
       widgets: collection({
         keyPrefix: "Widget",
@@ -37,6 +38,7 @@ describe("Storage", () => {
           todos: entity({ brand: "TodoWidget", schema: z.object({ items: z.array(z.string()) }) }),
         },
         tracked: true,
+        includedInBackup: true,
       }),
     });
 
@@ -242,6 +244,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.set(storage.schema.theme, "Ocean");
 
@@ -253,6 +256,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.set(storage.schema.counter, 42);
 
@@ -290,6 +294,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.set(storage.schema.theme, "Ocean");
       await storage.set(storage.schema.theme, "Forest");
@@ -340,6 +345,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
+      storage.sync.enableOutbox();
 
       await storage.delete(storage.schema.theme);
 
@@ -374,27 +380,33 @@ describe("Storage", () => {
       const storage = createStorage({ schema });
       await storage.initialize();
 
-      await storage.sync.removeFromOutbox(["theme"]);
+      await storage.sync.removeFromOutbox([{ key: "theme", hlc: { pt: 1000, lc: 0, node: "test" } }]);
 
       const outbox = browserState.storage.__outbox as Array<{ key: string }>;
       expect(outbox).toHaveLength(1);
       expect(outbox[0].key).toBe("counter");
     });
 
-    it("should clear outbox", async () => {
+    it("should remove from outbox by key+hlc match", async () => {
       browserState.storage.__outbox = [
         { key: "theme", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 },
         { key: "counter", type: "kv", hlc: { pt: 1000, lc: 0, node: "test" }, addedAt: 1000 },
+        { key: "theme", type: "kv", hlc: { pt: 2000, lc: 0, node: "test" }, addedAt: 2000 },
       ];
 
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
 
-      await storage.sync.clearOutbox();
+      await storage.sync.removeFromOutbox([
+        { key: "theme", hlc: { pt: 1000, lc: 0, node: "test" } },
+        { key: "counter", hlc: { pt: 1000, lc: 0, node: "test" } },
+      ]);
 
-      const outbox = browserState.storage.__outbox as Array<unknown>;
-      expect(outbox).toHaveLength(0);
+      const outbox = browserState.storage.__outbox as Array<{ key: string; hlc: { pt: number } }>;
+      expect(outbox).toHaveLength(1);
+      expect(outbox[0].key).toBe("theme");
+      expect(outbox[0].hlc.pt).toBe(2000);
     });
 
     it("should export for full sync", async () => {
@@ -409,10 +421,11 @@ describe("Storage", () => {
 
       const exported = storage.sync.exportForFullSync();
 
-      expect(exported.theme).toBeDefined();
-      expect(exported["Folder:home"]).toBeDefined();
-      expect(exported.__hlc_state).toBeUndefined();
-      expect(exported.__outbox).toBeUndefined();
+      expect(exported.kv.theme).toBeDefined();
+      expect(exported.kv["Folder:home"]).toBeDefined();
+      expect(exported.kv.__hlc_state).toBeUndefined();
+      expect(exported.kv.__outbox).toBeUndefined();
+      expect(exported.files).toBeDefined();
     });
 
     it("should merge remote changes - apply newer", async () => {
@@ -519,7 +532,7 @@ describe("Storage", () => {
 
       // Fork1's callback should be called
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith("dark", undefined);
+      expect(callback).toHaveBeenCalledWith("dark", undefined, { source: "fork" });
     });
 
     it("fork subscription should receive writes from main storage", async () => {
@@ -537,7 +550,7 @@ describe("Storage", () => {
 
       // Fork's callback should be called
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith("dark", undefined);
+      expect(callback).toHaveBeenCalledWith("dark", undefined, { source: "local" });
     });
 
     it("main storage subscription should receive writes from forks", async () => {
@@ -555,7 +568,7 @@ describe("Storage", () => {
 
       // Main storage callback should be called
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith("dark", undefined);
+      expect(callback).toHaveBeenCalledWith("dark", undefined, { source: "fork" });
     });
   });
 });

@@ -3,8 +3,8 @@
     color: var(--dark-primary);
     width: max-content;
     z-index: 9999;
-    padding: 16px;
-    border-radius: 6px;
+    padding: var(--spacing-4);
+    border-radius: var(--radius-sm);
     box-shadow: hsla(var(--text-hsl) / 0.15) 0px 2px 10px 8px;
     // border: 3px solid var(--accent);
 }

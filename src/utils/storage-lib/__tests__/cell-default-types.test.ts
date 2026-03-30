@@ -10,23 +10,27 @@ describe("Cell default value type inference", () => {
       schema: z.string(),
       defaultValue: "hello",
       tracked: true,
+      includedInBackup: true,
     }),
     withoutDefault: cell({
       key: "withoutDefault",
       schema: z.string(),
       tracked: true,
+      includedInBackup: true,
     }),
     withUndefinedDefault: cell({
       key: "withUndefinedDefault",
       schema: z.string().optional(),
       defaultValue: undefined,
       tracked: true,
+      includedInBackup: true,
     }),
     arrayWithDefault: cell({
       key: "arrayWithDefault",
       schema: z.array(z.string()),
       defaultValue: [],
       tracked: true,
+      includedInBackup: true,
     }),
   });
 

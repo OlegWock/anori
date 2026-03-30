@@ -1,0 +1,17 @@
+.HelpAboutScreen {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-5);
+
+    .logo {
+        align-self: center;
+        width: 300px;
+        height: auto;
+    }
+
+    .shortcuts-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-2);
+    }
+}

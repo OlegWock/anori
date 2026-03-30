@@ -1,211 +1,23 @@
-@use "@anori/components/utils.scss" as utils;
-
 .SettingsModal {
-    padding: 0px !important;
+    padding: 0 !important;
 
     .modal-header {
-        padding: 24px;
-        padding-bottom: 0px;
+        padding: var(--spacing-6);
+        padding-bottom: 0;
     }
 }
 
 .Settings {
-    margin: 0 6px;
-    margin-bottom: 6px;
+    margin: 0 var(--spacing-1-5);
+    margin-bottom: var(--spacing-1-5);
 
     .settings-content {
-        padding: 0 18px;
-        padding-bottom: 18px;
+        padding: 0 var(--spacing-4);
+        padding-bottom: var(--spacing-4);
         display: flex;
         flex-direction: column;
-        gap: 24px;
+        gap: var(--spacing-6);
         max-width: 600px;
         min-width: 600px;
-    }
-}
-
-.MainSettingsScreen {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 1fr;
-    gap: 1rem;
-}
-
-.GeneralSettingsScreen {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .translation-alert {
-        margin-top: 1rem;
-    }
-
-    .screen-size-hint {
-        margin-left: 4px;
-    }
-
-    .input-wrapper {
-        margin-bottom: 10px;
-
-        label {
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-        }
-
-        .Input {
-            width: 100%;
-        }
-    }
-
-    .SelectTrigger {
-        width: 100%;
-    }
-}
-
-.CustomIconsScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-
-    .no-custom-icons-alert {
-        padding: 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .custom-icons-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        margin-bottom: 8px;
-        align-self: stretch;
-
-        .custom-icon-plate {
-            padding: 12px;
-            border-radius: 12px;
-            background: var(--background-lighter);
-            display: flex;
-            gap: 12px;
-            align-items: center;
-
-            .custom-icon-name {
-                flex: 1;
-                text-overflow: ellipsis;
-                font-size: 0.9rem;
-                overflow: hidden;
-            }
-        }
-    }
-
-    .draft-icons-list {
-        border: 3px solid var(--background-lighter);
-        border-radius: 12px;
-        margin-bottom: 8px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        padding: 16px;
-        align-self: stretch;
-    }
-
-    .draft-icon-section {
-        display: flex;
-        align-items: center;
-        gap: 32px;
-
-        .draft-icon-preview {
-            align-self: center;
-        }
-
-        .draft-icon-name-wrapper {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-
-            .draft-icon-name {}
-
-            .draft-icon-name-error {}
-        }
-    }
-}
-
-.FoldersScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-
-    .add-folder-btn {
-        align-self: center;
-    }
-}
-
-
-
-.ImportExportScreen {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .import-export-button {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 8px;
-    }
-}
-
-.HelpAboutScreen {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-
-    .logo {
-        align-self: center;
-        width: 300px;
-        height: auto;
-    }
-
-    .shortcuts-section {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-}
-
-.PluginsScreen {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-
-    section {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-    }
-}
-
-.ScreenButton {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    background: var(--background-lighter);
-    border-radius: 12px;
-    color: var(--text);
-    gap: 1rem;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-
-    @include utils.hover {
-        background: var(--accent-subtle);
-    }
-
-    .icon {
-        opacity: 0.5;
     }
 }

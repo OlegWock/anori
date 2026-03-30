@@ -1,0 +1,10 @@
+.FoldersScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-3);
+
+    .add-folder-btn {
+        align-self: center;
+    }
+}

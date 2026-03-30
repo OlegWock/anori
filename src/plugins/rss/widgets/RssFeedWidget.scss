@@ -1,0 +1,37 @@
+.RssFeed {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .title-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-1);
+
+        svg {
+            color: hsla(var(--text-hsl) / 0.6);
+        }
+    }
+
+    .posts {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-3);
+
+        &.compact {
+            gap: var(--spacing-1);
+        }
+    }
+
+    .separator {
+        align-self: stretch;
+        border-bottom: 1px solid hsla(var(--text-hsl) / 0.2);
+    }
+
+    .Post {
+        padding: var(--spacing-1);
+        border-radius: var(--radius-sm);
+    }
+}

@@ -1,9 +1,11 @@
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
-import { type AnoriStorage, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
-import { type CollectionByIdQuery, useStorageValue } from "@anori/utils/storage-lib";
+import { type AnoriStorage, getAnoriStorage } from "@anori/utils/storage";
+import { type CollectionByIdQuery, type EntityAccessor, useStorageValue } from "@anori/utils/storage-lib";
 import { getQueryId } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
 import { type SetStateAction, useCallback, useMemo } from "react";
+
+const widgetStoreAccessors: EntityAccessor[] = [];
 
 /**
  * A typed key-value store scoped to a specific collection entity.
@@ -110,9 +112,9 @@ export class ScopedStore<T extends Mapping> {
  * const [tasks, setTasks] = store.useValue("tasks", []);
  * ```
  */
-export function createScopedStoreFactories<T extends Mapping>(entityAccessor: {
-  byId(id: string): CollectionByIdQuery<T>;
-}) {
+export function createScopedStoreFactories<T extends Mapping>(entityAccessor: EntityAccessor<T>) {
+  widgetStoreAccessors.push(entityAccessor);
+
   const getStore = (id: ID): ScopedStore<T> => {
     return ScopedStore.get(entityAccessor.byId(id));
   };
@@ -127,24 +129,9 @@ export function createScopedStoreFactories<T extends Mapping>(entityAccessor: {
 
 /**
  * Clears all widget storage for a given instance ID.
- * Tries to delete from all typed widget store collections.
+ * Automatically covers all collections registered via `createScopedStoreFactories`.
  */
 export async function clearWidgetStorage(instanceId: ID): Promise<void> {
-  // TODO: not entirely happy with this setup cuz it will be easy to add new store here and then it will be dangled
-  // Maybe it will be better to have some kind of "on remove" callback for widgets
   const storage = await getAnoriStorage();
-  const schema = anoriSchema;
-
-  // All widget store collections
-  const queries = [
-    schema.tasksWidgetStore.store.byId(instanceId),
-    schema.notesWidgetStore.store.byId(instanceId),
-    schema.weatherCurrentWidgetStore.store.byId(instanceId),
-    schema.weatherForecastWidgetStore.store.byId(instanceId),
-    schema.topSitesWidgetStore.store.byId(instanceId),
-    schema.rssWidgetStore.store.byId(instanceId),
-    schema.bookmarkWidgetStore.store.byId(instanceId),
-  ];
-
-  await Promise.all(queries.map((q) => storage.delete(q)));
+  await Promise.all(widgetStoreAccessors.map((a) => storage.delete(a.byId(instanceId))));
 }

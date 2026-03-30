@@ -1,7 +1,7 @@
 .Checkbox {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--spacing-3);
 
     &:not([data-disabled]) {
         button,
@@ -24,7 +24,7 @@
         height: 20px;
         min-width: 20px;
         min-height: 20px;
-        border-radius: 4px;
+        border-radius: var(--radius-xs);
         display: flex;
         align-items: center;
         justify-content: center;

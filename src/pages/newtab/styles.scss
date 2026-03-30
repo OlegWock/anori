@@ -1,5 +1,4 @@
 @use "@anori/components/base.scss";
-@use '@anori/components/utils.scss' as utils;
 
 @font-face {
     font-family: 'Nunito';
@@ -26,7 +25,7 @@ body {
     background: var(--background-image);
     background-size: cover;
     overflow: hidden;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
 }
 
 #root {
@@ -72,7 +71,7 @@ body {
         }
 
         .sidebar-wrapper {
-            padding: 1rem 1.5rem;
+            padding: var(--spacing-4) var(--spacing-6);
 
             .sidebar {
                 .sidebar-viewport {
@@ -81,7 +80,7 @@ body {
                         flex-direction: column;
                     }
                     .sidebar-content {
-                        padding: 0.625rem;
+                        padding: var(--spacing-3);
                         flex-direction: row !important;
                     }
                 }
@@ -90,26 +89,26 @@ body {
         }
 
         .widgets-area {
-            margin: 2rem;
+            margin: var(--spacing-8);
             margin-bottom: 0;
         }
     }
 
     &.with-bookmarks-bar {
         .widgets-area {
-            margin-top: 0.25rem;
+            margin-top: var(--spacing-1);
         }
 
         &:not(.horizontal-sidebar) {
             .sidebar-wrapper {
-                padding-top: 0.5rem !important;
+                padding-top: var(--spacing-2) !important;
             }
         }
     }
 
     .bookmarks-bar-placeholder {
-        margin: 2rem;
-        margin-top: 1rem;
+        margin: var(--spacing-8);
+        margin-top: var(--spacing-4);
         margin-bottom: 0;
         height: calc(0.9rem * 1.2 + 1.55rem);
     }
@@ -118,10 +117,10 @@ body {
 
     .widgets-area {
         position: relative;
-        margin: 2rem;
+        margin: var(--spacing-8);
         margin-inline-start: 0;
         flex: 1;
-        border-radius: 36px;
+        border-radius: var(--radius-2xl);
         background: hsla(var(--text-hsl) / 0.04);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);

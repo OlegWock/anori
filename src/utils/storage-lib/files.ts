@@ -1,5 +1,6 @@
 import { deleteFile, generateFilePath, readFile, writeFile } from "./opfs";
 import type { FileCollectionAllQuery, FileCollectionByIdQuery, FileDescriptor } from "./schema/file";
+import type { ChangeInfo } from "./storage";
 import type { FileMetaValue } from "./types";
 
 export type FileQuery<P = unknown> = FileDescriptor<P> | FileCollectionByIdQuery<P> | FileCollectionAllQuery<P>;
@@ -9,6 +10,12 @@ export type FileWithMeta<P = unknown> = {
   blob: Blob;
   meta: FileMetaValue<P>;
 };
+
+export type FileChangeCallback<P = unknown> = (
+  meta: FileMetaValue<P> | undefined,
+  oldMeta: FileMetaValue<P> | undefined,
+  info: ChangeInfo,
+) => void;
 
 export type FilesStorage = {
   get<P>(query: FileDescriptor<P>): Promise<FileWithMeta<P> | undefined>;
@@ -32,12 +39,17 @@ export type FilesStorage = {
 
   delete(query: FileDescriptor): Promise<void>;
   delete(query: FileCollectionByIdQuery): Promise<void>;
+
+  subscribe<P>(query: FileDescriptor<P>, callback: FileChangeCallback<P>): () => void;
+  subscribe<P>(query: FileCollectionByIdQuery<P>, callback: FileChangeCallback<P>): () => void;
+  subscribe<P>(query: FileCollectionAllQuery<P>, callback: FileChangeCallback<Record<string, P>>): () => void;
 };
 
 export type FilesStorageInternals = {
   getMeta(query: FileQuery): unknown;
   setMeta(query: SingleFileQuery, value: FileMetaValue): Promise<void>;
   deleteMeta(query: SingleFileQuery): Promise<void>;
+  subscribe(query: FileQuery, callback: (value: unknown, oldValue: unknown, info: ChangeInfo) => void): () => void;
 };
 
 export function createFilesStorage(internals: FilesStorageInternals): FilesStorage {
@@ -49,6 +61,23 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
     return internals.getMeta(query) as Record<string, FileMetaValue<P>>;
   }
 
+  // In-memory blob cache keyed by OPFS path. Populated on read and write,
+  // evicted when files are overwritten or deleted. Entries for paths that are
+  // no longer referenced by any meta record become unreachable naturally since
+  // lookups always go through the current meta's path.
+  const blobCache = new Map<string, Blob>();
+
+  async function readBlobCached(path: string): Promise<Blob | null> {
+    const cached = blobCache.get(path);
+    if (cached) return cached;
+
+    const blob = await readFile(path);
+    if (blob) {
+      blobCache.set(path, blob);
+    }
+    return blob;
+  }
+
   const filesStorage = {
     async get<P>(
       query: FileDescriptor<P> | FileCollectionByIdQuery<P> | FileCollectionAllQuery<P>,
@@ -57,7 +86,7 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
         const allMeta = getAllMeta(query);
         const entries = Object.entries(allMeta);
 
-        const blobResults = await Promise.all(entries.map(([, meta]) => readFile(meta.path)));
+        const blobResults = await Promise.all(entries.map(([, meta]) => readBlobCached(meta.path)));
 
         const result: Record<string, FileWithMeta<P>> = {};
         for (let i = 0; i < entries.length; i++) {
@@ -74,7 +103,7 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
       const meta = getSingleMeta(query as SingleFileQuery<P>);
       if (!meta) return undefined;
 
-      const blob = await readFile(meta.path);
+      const blob = await readBlobCached(meta.path);
       if (!blob) return undefined;
 
       return { blob, meta };
@@ -91,16 +120,23 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
     },
 
     async getBlob(path: string): Promise<Blob | null> {
-      return readFile(path);
+      return readBlobCached(path);
     },
 
     async set<P>(query: SingleFileQuery<P>, blob: Blob, properties?: P): Promise<void> {
       const existingMeta = getSingleMeta(query);
-      const path = existingMeta?.path ?? generateFilePath();
-      await writeFile(path, blob);
+      const newPath = generateFilePath();
+
+      await writeFile(newPath, blob);
+      blobCache.set(newPath, blob);
+
+      if (existingMeta?.path) {
+        blobCache.delete(existingMeta.path);
+        await deleteFile(existingMeta.path);
+      }
 
       const meta: FileMetaValue<P> = {
-        path,
+        path: newPath,
         properties,
       };
 
@@ -113,10 +149,15 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
         throw new Error("File not found");
       }
 
-      await writeFile(existingMeta.path, blob);
+      const newPath = generateFilePath();
+
+      await writeFile(newPath, blob);
+      blobCache.set(newPath, blob);
+      blobCache.delete(existingMeta.path);
+      await deleteFile(existingMeta.path);
 
       const meta: FileMetaValue = {
-        path: existingMeta.path,
+        path: newPath,
         properties: existingMeta.properties,
       };
 
@@ -141,10 +182,18 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
       const existingMeta = getSingleMeta(query);
 
       if (existingMeta) {
+        blobCache.delete(existingMeta.path);
         await deleteFile(existingMeta.path);
       }
 
       await internals.deleteMeta(query);
+    },
+
+    subscribe<P>(
+      query: FileDescriptor<P> | FileCollectionByIdQuery<P> | FileCollectionAllQuery<P>,
+      callback: FileChangeCallback<P> | FileChangeCallback<Record<string, P>>,
+    ): () => void {
+      return internals.subscribe(query, callback as (value: unknown, oldValue: unknown, info: ChangeInfo) => void);
     },
   };
 

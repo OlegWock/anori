@@ -1,0 +1,175 @@
+import { Button } from "@anori/components/Button";
+import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
+import { usePrevious } from "@anori/utils/hooks";
+import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import { capitalize } from "@anori/utils/strings";
+import { useDirection } from "@radix-ui/react-direction";
+import clsx from "clsx";
+import { AnimatePresence, m } from "framer-motion";
+import moment from "moment-timezone";
+import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import type { CalendarWidgetConfigType } from "../types";
+import { getWeekdays } from "../types";
+import "./CalendarWidget.scss";
+
+export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => {
+  const { i18n } = useTranslation();
+  const dir = useDirection();
+  const trackInteraction = useWidgetInteractionTracker();
+  const [today, setToday] = useState(() => moment());
+  const [offsetMonths, setOffsetMonths] = useState(0);
+  const prevOffset = usePrevious(offsetMonths, offsetMonths);
+  let direction = prevOffset > offsetMonths ? "right" : "left";
+  if (dir === "rtl") {
+    direction = direction === "right" ? "left" : "right";
+  }
+  const currentMonth = useMemo(() => today.clone().add(offsetMonths, "months"), [today, offsetMonths]);
+
+  const firstDayShift = config.firstDay ?? 0;
+
+  const monthName = useMemo(() => capitalize(currentMonth.format("MMMM")), [currentMonth]);
+
+  // TODO: probably should refactor this so dependencies are explicit?
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
+  useEffect(() => {
+    setToday(moment());
+  }, [i18n.language]);
+
+  const variants = {
+    exit: (direction: "left" | "right") => {
+      return {
+        left: {
+          translateX: "-100%",
+        },
+        right: {
+          translateX: "100%",
+        },
+      }[direction];
+    },
+    enter: (direction: "left" | "right") => {
+      return {
+        left: {
+          translateX: "100%",
+        },
+        right: {
+          translateX: "-100%",
+        },
+      }[direction];
+    },
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
+  const rows: ReactNode[] = useMemo(() => {
+    const res: ReactNode[] = [];
+    const startOfMonth = today.clone().add(offsetMonths, "months").startOf("month");
+    const monthNumber = startOfMonth.month();
+    const startOfFirstWeek = startOfMonth.clone().day((1 + firstDayShift) % 7);
+    if (startOfFirstWeek.isAfter(startOfMonth)) {
+      startOfFirstWeek.subtract(1, "week");
+    }
+
+    const currentDate = startOfFirstWeek.clone();
+    for (let week = 0; currentDate.isSame(currentMonth, "month") || week === 0; week++) {
+      const row: ReactNode[] = [];
+      for (let weekday = 0; weekday < 7; weekday++) {
+        const inCurrentMonth = currentDate.isSame(currentMonth, "month");
+        const isToday = currentDate.isSame(today, "day");
+        row.push(
+          <div
+            className={clsx("calendar-cell", { "current-month": inCurrentMonth, today: isToday })}
+            key={`${currentDate.month()}_${currentDate.date()}`}
+          >
+            {currentDate.date()}
+          </div>,
+        );
+        currentDate.add(1, "day");
+      }
+      res.push(
+        <m.div className="calendar-row" key={`row-${monthNumber}-${week}`}>
+          {row}
+        </m.div>,
+      );
+    }
+
+    return res;
+  }, [today, offsetMonths, i18n.language, firstDayShift, currentMonth]);
+  const currentKey = useMemo(() => `${currentMonth.month()}_${currentMonth.year()}`, [currentMonth]);
+
+  useEffect(() => {
+    const tid = setInterval(() => setToday(moment()), 1000 * 60);
+    return () => clearInterval(tid);
+  });
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
+  const headerDays = useMemo(() => {
+    const weekdays = getWeekdays();
+    const long = [...weekdays.slice(firstDayShift), ...weekdays.slice(0, firstDayShift)];
+    const weekdaysShort = getWeekdays(true);
+    const short = [...weekdaysShort.slice(firstDayShift), ...weekdaysShort.slice(0, firstDayShift)];
+    return long.map((l, i) => [l, short[i]] as const);
+  }, [i18n.language, firstDayShift]);
+
+  return (
+    <div className="CalendarWidget">
+      <h3 className="header">
+        <Button
+          withoutBorder
+          onClick={() => {
+            trackInteraction("Switch month");
+            setOffsetMonths((p) => p - 1);
+          }}
+        >
+          <Icon icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward} />
+        </Button>
+        <Button
+          withoutBorder
+          onClick={() => {
+            trackInteraction("Switch month");
+            setOffsetMonths(0);
+          }}
+          className="month-name"
+        >
+          {monthName}
+        </Button>
+        <Button
+          withoutBorder
+          onClick={() => {
+            trackInteraction("Switch month");
+            setOffsetMonths((p) => p + 1);
+          }}
+        >
+          <Icon icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
+        </Button>
+      </h3>
+      <m.div className="calendar-grid" dir="ltr">
+        <div className="calendar-row weekdays" key="weekdays">
+          {headerDays.map(([weekday, weekdayShort]) => {
+            return (
+              <div className="calendar-cell" key={weekday}>
+                {weekdayShort}
+              </div>
+            );
+          })}
+        </div>
+        <AnimatePresence mode="wait" custom={direction} initial={false}>
+          <m.div
+            className="calendar-days"
+            custom={direction}
+            transition={{ duration: 0.12 }}
+            variants={variants}
+            initial={"enter"}
+            animate={{ translateX: 0 }}
+            exit={"exit"}
+            key={currentKey}
+          >
+            {rows}
+          </m.div>
+        </AnimatePresence>
+      </m.div>
+    </div>
+  );
+};
