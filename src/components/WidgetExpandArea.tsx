@@ -238,6 +238,7 @@ export const WidgetExpandArea = ({
         dir="ltr"
         ref={areaRef}
         key="area"
+        onClick={(e) => e.stopPropagation()}
         style={{
           transformOrigin: transformOriginStr,
           scaleX: scaleX,
