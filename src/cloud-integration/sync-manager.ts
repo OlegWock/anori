@@ -214,6 +214,8 @@ export class SyncManager {
 
     const { kv, files } = this.storage.sync.exportForFullSync();
 
+    const syncedEntries: Array<{ key: string; hlc: HlcTimestamp }> = [];
+
     const kvMutations: KvMutation[] = Object.entries(kv).map(([key, record]) => ({
       key,
       value: record.deleted ? null : record.value,
@@ -250,6 +252,7 @@ export class SyncManager {
         profileId,
         mutations: kvMutations,
       });
+      syncedEntries.push(...kvMutations.map((m) => ({ key: m.key, hlc: m.hlc })));
     }
 
     if (fileEntries.length > 0) {
@@ -293,6 +296,7 @@ export class SyncManager {
               uploadId,
               key,
             });
+            syncedEntries.push({ key, hlc: fileEntry.record.hlc });
           } catch (error) {
             console.error(`Failed to upload file ${key}:`, error);
           }
@@ -300,7 +304,9 @@ export class SyncManager {
       );
     }
 
-    await this.storage.sync.clearOutbox();
+    if (syncedEntries.length > 0) {
+      await this.storage.sync.removeFromOutbox(syncedEntries);
+    }
 
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       profileId,
