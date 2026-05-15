@@ -1,0 +1,352 @@
+{
+    "translation": {
+        "appName": "Anori: Khởi động ngày làm việc năng suất",
+        "appDescription": "Cá nhân hóa tab mới: Tự do thiết kế không gian làm việc với các tiện ích thông minh",
+        "appActionTitle": "Mở Anori ở tab mới",
+        "icon": "Biểu tượng",
+        "title": "Tiêu đề",
+        "url": "URL",
+        "urls": "URLs",
+        "save": "Lưu",
+        "import": "Nhập",
+        "add": "Thêm",
+        "reload": "Tải lại",
+        "noResults": "Không có kết quả",
+        "example": "Ví dụ",
+        "timezone": "Múi giờ",
+        "refreshing": "Đang làm mới...",
+        "refresh": "Làm mới",
+        "startTypingToSearch": "Bắt đầu gõ để tìm kiếm...",
+        "search": "Tìm kiếm...",
+        "loading": "Đang tải...",
+        "lastUpdatedAt": "Cập nhật lần cuối lúc {{datetime}}",
+        "home": "Trang chủ",
+        "availableOnlyInEnglish": "Chỉ có bằng tiếng Anh",
+        "px": "px",
+        "whatsNew": "Có gì mới",
+        "editWidget": "Sửa tiện ích",
+        "configureWidget": "Cấu hình tiện ích",
+        "addWidget": "Thêm tiện ích",
+        "next": "Tiếp theo",
+        "back": "Quay lại",
+        "icons": "Biểu tượng",
+        "customIcons": "Biểu tượng tùy chỉnh",
+        "canBeEmpty": "có thể để trống",
+        "cloud": {
+            "connect": "Kết nối",
+            "connected": "Đã kết nối",
+            "disconnect": "Ngắt kết nối",
+            "cancel": "Hủy",
+            "account": "Tài khoản đám mây",
+            "login": "Đăng nhập",
+            "logout": "Đăng xuất",
+            "email": "Email",
+            "password": "Mật khẩu",
+            "connectedAs": "Đã kết nối với",
+            "noAccount": "Chưa có tài khoản?",
+            "createAccount": "Tạo tại đây",
+            "plusDescription": "Anori Plus giúp bạn đồng bộ cấu hình giữa các trình duyệt và thiết bị theo thời gian thực.",
+            "learnMore": "Tìm hiểu thêm",
+            "profiles": "Hồ sơ",
+            "noProfiles": "Không tìm thấy hồ sơ. Hãy tạo hồ sơ đầu tiên để đồng bộ cài đặt.",
+            "createProfile": "Tạo hồ sơ",
+            "profileName": "Tên hồ sơ",
+            "createdAt": "Đã tạo {{date}}",
+            "lastSyncedAt": "Dùng lần cuối {{date}}",
+            "create": "Tạo",
+            "profileCreatedSuccess": "Đã tạo hồ sơ! Bây giờ bạn có thể kết nối các trình duyệt khác để đồng bộ.",
+            "confirm": "Xác nhận",
+            "rename": "Đổi tên",
+            "delete": "Xóa",
+            "deleteConfirmation": "Bạn chắc chắn muốn xóa hồ sơ \"{{profileName}}\"? Hành động này không thể hoàn tác.",
+            "connectConfirmation": {
+                "message": "Kết nối với \"{{profileName}}\" sẽ ghi đè cấu hình hiện tại của bạn. Bạn có muốn tiếp tục?"
+            },
+            "error": {
+                "invalidCredentials": "Email hoặc mật khẩu không hợp lệ",
+                "unknown": "Đã xảy ra lỗi. Vui lòng thử lại.",
+                "failedToLoadProfiles": "Không thể tải hồ sơ",
+                "profileNameRequired": "Tên hồ sơ là bắt buộc",
+                "failedToCreateProfile": "Không thể tạo hồ sơ"
+            }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "Biểu tượng tùy chỉnh là biểu tượng bạn tải lên để dùng trong Anori.",
+            "customIconsAbsent": "Bạn chưa có biểu tượng tùy chỉnh nào. Hãy vào Cài đặt để tải lên.",
+            "iconFamily": "Bộ biểu tượng",
+            "allIcons": "Tất cả biểu tượng",
+            "selectFamilyOrSearch": "Chọn bộ biểu tượng hoặc tìm kiếm gợi ý."
+        },
+        "settings": {
+            "title": "Cài đặt",
+            "general": {
+                "title": "Chung",
+                "language": "Ngôn ngữ",
+                "translationInfo": "Các bản dịch được đóng góp bởi cộng đồng. Nếu bạn thấy lỗi, hãy giúp chúng tôi sửa! <0>Xem hướng dẫn</0>.",
+                "sidebarOrientation": "Hướng thanh bên",
+                "sidebarOrientationOption-auto": "Tự động",
+                "sidebarOrientationOption-vertical": "Luôn dọc",
+                "sidebarOrientationOption-horizontal": "Luôn ngang",
+                "autoHideSidebar": "Tự động ẩn thanh bên",
+                "newTabTitle": "Tiêu đề tab mới",
+                "enableAnalytics": "Gửi dữ liệu phân tích",
+                "analyticsHintP1": "Phân tích giúp tôi hiểu cách Anori được sử dụng. Dữ liệu này không chứa thông tin cá nhân như nội dung ghi chú hay URL dấu trang.",
+                "analyticsHintP2": "Điều này giúp phát triển sản phẩm tốt hơn. Mong bạn hãy bật tính năng này. <0>Tìm hiểu thêm.</0>",
+                "showBookmarksBar": "Hiện thanh dấu trang",
+                "automaticCompact": "Tự động thu gọn theo màn hình",
+                "automaticCompactModeThreshold": "Chuyển sang thu gọn nếu chiều rộng màn hình nhỏ hơn",
+                "automaticCompactModeThresholdHint": "Chiều rộng hiện tại là {{screenWidth}}px",
+                "useCompact": "Luôn dùng chế độ thu gọn",
+                "showAnimationOnOpen": "Hiện hoạt ảnh khi mở",
+                "showAnimationOnOpenHint": "Khi bật, tiện ích sẽ hiển thị hoạt ảnh tải nhanh để ẩn hiện tượng nhấp nháy ban đầu.",
+                "rememberLastFolder": "Nhớ thư mục mở lần cuối"
+            },
+            "customIcons": {
+                "title": "Biểu tượng tùy chỉnh",
+                "incorrectFormat": "Vui lòng cung cấp tệp hợp lệ. Hỗ trợ .png, .jpg, .gif, .jpeg và .svg",
+                "noIcons": "Bạn chưa có biểu tượng tùy chỉnh nào.",
+                "iconName": "Tên biểu tượng",
+                "invalidNames": "Một số biểu tượng có tên không hợp lệ, vui lòng sửa trước khi lưu.",
+                "nameContainsInvalidChars": "Tên chứa ký tự không hợp lệ (chỉ cho phép chữ, số, - và _).",
+                "saveIcons": "Lưu biểu tượng",
+                "supportedFormats": "Hỗ trợ .png, .jpg, .gif, .svg. Nên dùng ảnh vuông, 128px-256px.",
+                "importIcons": "Nhập biểu tượng"
+            },
+            "folders": {
+                "title": "Thư mục",
+                "createNew": "Tạo thư mục mới",
+                "defaultName": "Thư mục mới"
+            },
+            "pluginSettings": {
+                "title": "Cài đặt plugin"
+            },
+            "theme": {
+                "title": "Giao diện",
+                "createCustom": "Tạo giao diện",
+                "selectBackground": "Chọn hình nền",
+                "blur": "Độ mờ",
+                "colorAccent": "Màu nhấn",
+                "colorBackground": "Nền",
+                "colorText": "Văn bản"
+            },
+            "importExport": {
+                "title": "Nhập & Xuất",
+                "info": "Bạn có thể sao lưu hoặc khôi phục cài đặt tại đây.",
+                "import": "Nhập",
+                "export": "Xuất",
+                "cloudWarning": "Bạn đang bật đồng bộ đám mây. Việc nhập sao lưu sẽ ngắt kết nối hồ sơ. Tiếp tục?",
+                "cloudSyncHint": "Muốn sao lưu hoặc đồng bộ theo thời gian thực? Hãy thử <0>Anori Plus</0>."
+            },
+            "aboutHelp": {
+                "title": "Trợ giúp & Giới thiệu",
+                "onlyEnglishPlease": "Tác giả chỉ hỗ trợ tiếng Anh, vui lòng gửi phản hồi bằng tiếng Anh. Cảm ơn!",
+                "p1": "Anori là tiện ích mã nguồn mở trên <0>GitHub</0>. Nếu bạn muốn góp ý hoặc báo lỗi, hãy <1>tạo issue</1>. Bạn cũng có thể thả sao (star) nếu thấy thích :).",
+                "p2": "Để sửa đổi hoặc thêm tiện ích riêng, xem chi tiết ở <0>readme</0>.",
+                "p3": "Theo dõi tác giả trên <0>Twitter</0> và <1>ủng hộ Ukraine</1>.",
+                "p4": "Nếu bạn muốn ủng hộ tài chính, có thể xem tại <0>đây</0>. Hỗ trợ Crypto và thẻ tín dụng.",
+                "license": "Giấy phép"
+            }
+        },
+        "shortcuts": {
+            "title": "Phím tắt",
+            "showCheatsheet": "Hiện/ẩn phím tắt",
+            "toggleSettings": "Hiện/ẩn cài đặt",
+            "closeMenuOrModal": "Đóng cửa sổ",
+            "switchToFolderAbove": "Chuyển lên thư mục trên",
+            "switchToFolderBelow": "Chuyển xuống thư mục dưới",
+            "switchToNFolder": "Chuyển đến thư mục 1 (áp dụng với số khác)",
+            "editCurrentFolder": "Sửa thư mục hiện tại",
+            "addNewWidget": "Thêm tiện ích vào thư mục hiện tại"
+        },
+        "onboarding": {
+            "start": {
+                "title": "Chào mừng đến với Anori!",
+                "p1": "Rất vui được gặp bạn! Hướng dẫn này có sẵn bằng {{languages}}.",
+                "p2": "Anori giúp bạn tạo trang tab mới lý tưởng với các tiện ích như ghi chú, dấu trang... Bạn toàn quyền sắp xếp chúng.",
+                "p3": "Nhấp vào biểu tượng bút chì ở góc trên bên phải để vào chế độ chỉnh sửa. Tại đây, bạn có thể thêm, di chuyển hoặc xóa các tiện ích.",
+                "p4": "Nhấp vào nút dấu cộng để thêm tiện ích, hoặc dấu kiểm để thoát chế độ chỉnh sửa. Bạn có thể tự khám phá hoặc chọn 'Tiếp theo' để tìm hiểu thêm."
+            },
+            "folders": {
+                "title": "Thư mục",
+                "p1": "Mặc định các tiện ích được thêm vào thư mục 'Trang chủ'. Tuy nhiên, bạn có thể phân loại chúng thành các thư mục riêng (Công việc, Cá nhân...).",
+                "p2": "Để quản lý, nhấp vào biểu tượng bánh răng ở góc dưới bên trái để mở Cài đặt, sau đó chọn 'Thư mục'."
+            },
+            "customization": {
+                "title": "Tùy biến",
+                "p1": "Anori còn cho phép tùy biến nhiều hơn thế.",
+                "p2": "Bạn có thể đổi bảng màu, hình nền và tải lên biểu tượng của riêng mình (ngoài 10.000+ biểu tượng có sẵn).",
+                "p3": "Vẫn còn rất nhiều tùy chọn khác đang chờ bạn khám phá trong Cài đặt."
+            },
+            "analytics": {
+                "title": "Phân tích",
+                "p1": "Mặc định Anori không thu thập dữ liệu gì cả. Nhưng tôi dựa vào dữ liệu phân tích ẩn danh để biết tính năng nào cần cải thiện.",
+                "p2": "Vì vậy tôi hy vọng bạn sẽ bật tính năng này. Dữ liệu chỉ gồm cách bạn dùng tiện ích (không chứa nội dung cá nhân). Quyết định là ở bạn, Anori vẫn hoạt động bình thường nếu không bật.",
+                "p3": "Tìm hiểu thêm về dữ liệu được thu thập tại <0>đây</0>."
+            },
+            "presets": {
+                "title": "Khởi đầu mới",
+                "p1": "Vậy là xong. Bây giờ bạn đã sẵn sàng tạo trang chủ cho riêng mình!",
+                "p2": "Nếu bạn thấy bối rối? Không sao, chúng tôi có sẵn một bố cục tối ưu năng suất cho bạn.",
+                "p3": "Nó có thể không hoàn hảo, nhưng là một khởi đầu tuyệt vời để bạn tự tùy chỉnh thêm.",
+                "cta": "🚀 Cho tôi bố cục mẫu"
+            },
+            "preset": {
+                "task": {
+                    "themes": "Thử đổi giao diện trong Cài đặt",
+                    "anoriPlus": "Tìm hiểu Anori Plus",
+                    "widgets": "Khám phá các tiện ích"
+                }
+            }
+        },
+        "requirePermissions": {
+            "eh": "Hả?",
+            "modalTitle": "Cần thêm quyền hạn",
+            "compactText": "Cần thêm quyền hạn. Nhấp để xem chi tiết.",
+            "text": "Tiện ích này yêu cầu thêm quyền hạn:",
+            "apiPermissions": "Quyền API",
+            "hostPermissions": "Quyền truy cập trang",
+            "grant": "Cấp quyền"
+        },
+        "bookmark-plugin": {
+            "name": "Dấu trang",
+            "widgetName": "Dấu trang",
+            "groupWidgetName": "Nhóm dấu trang",
+            "openInGroup": "Mở trong nhóm tab",
+            "group": "Nhóm",
+            "searchBookmarks": "Tìm dấu trang",
+            "checkStatus": "Kiểm tra trạng thái trang",
+            "checkStatusHint": "Anori sẽ kiểm tra ngầm mỗi 10-15 phút. Nếu máy chủ lỗi 5xx, nó sẽ bị coi là 'ngưng hoạt động'. Việc này cần thêm quyền.",
+            "checkingStatus": "Đang kiểm tra...",
+            "status": "Trang hiện tại {{status}}, thay đổi cuối lúc {{lastChange}}. Kiểm tra cuối lúc {{lastCheck}}.",
+            "statusUp": "hoạt động",
+            "statusDown": "ngưng hoạt động",
+            "permissionExplanation": "Anori cần quyền này để vượt qua CORS. Anori không thay đổi hay đọc dữ liệu từ các trang bạn lưu.",
+            "openInNewTab": "Mở trong tab mới"
+        },
+        "calendar-plugin": {
+            "name": "Lịch",
+            "widgetName": "Lịch",
+            "firstDayOfWeek": "Ngày đầu tuần"
+        },
+        "datetime-plugin": {
+            "name": "Ngày và giờ",
+            "widgetNameS": "Ngày và giờ (Cỡ S)",
+            "widgetNameM": "Ngày và giờ (Cỡ M)",
+            "withoutDate": "Không có ngày",
+            "timeFormat": "Định dạng giờ",
+            "dateFormat": "Định dạng ngày",
+            "24hours": "24 giờ"
+        },
+        "notes-plugin": {
+            "name": "Ghi chú",
+            "noteTitle": "Tiêu đề",
+            "noteText": "Nội dung (hỗ trợ markdown)",
+            "exampleTitle": "Danh sách mua sắm",
+            "exampleText": "Rau, sốt, phô mai, bột mì"
+        },
+        "recently-closed-plugin": {
+            "name": "Tab vừa đóng",
+            "widgetTitle": "Vừa đóng",
+            "tab": "Tab",
+            "window": "Cửa sổ"
+        },
+        "system-status-plugin": {
+            "name": "Trạng thái hệ thống",
+            "ramLoad": "Tải RAM",
+            "cpuLoad": "Tải CPU"
+        },
+        "tasks-plugin": {
+            "name": "Nhiệm vụ",
+            "todo": "Việc cần làm",
+            "completeTask": "Hoàn thành «{{task}}»",
+            "taskDescription": "Mô tả công việc...",
+            "noTasks": "Chưa có công việc nào",
+            "exampleTask0": "Đi dạo xả stress",
+            "exampleTask1": "Nằm ghế sofa",
+            "exampleTask2": "Nằm ra sàn",
+            "exampleTask3": "Cố gắng không khóc"
+        },
+        "top-sites-plugin": {
+            "name": "Trang xem nhiều",
+            "widgetHorizontal": "Trang xem nhiều (Ngang)",
+            "widgetVertical": "Trang xem nhiều (Dọc)"
+        },
+        "weather-plugin": {
+            "name": "Thời tiết",
+            "weatherForecast": "Dự báo thời tiết",
+            "forecast": "Dự báo",
+            "currentWeather": "Thời tiết hiện tại",
+            "kmh": "km/h",
+            "ms": "m/s",
+            "mph": "mph",
+            "clearSky": "Trời quang",
+            "partlyCloudy": "Có mây rải rác",
+            "fog": "Sương mù",
+            "drizzle": "Mưa phùn",
+            "freezingDrizzle": "Mưa phùn lạnh",
+            "rain": "Mưa",
+            "freezingRain": "Mưa lạnh",
+            "snow": "Tuyết",
+            "rainShower": "Mưa rào",
+            "thunderstorm": "Dông bão",
+            "unknownCode": "Mã thời tiết lạ",
+            "selectCity": "Chọn thành phố",
+            "temperatureUnit": "Đơn vị nhiệt độ",
+            "speedUnit": "Đơn vị tốc độ gió",
+            "weatherCode": "mã thời tiết {{code}}",
+            "attribution": "Dữ liệu bởi <0>Open-Meteo</0>"
+        },
+        "rss-plugin": {
+            "name": "RSS",
+            "widgetFeedName": "Nguồn RSS",
+            "widgetLatestPostName": "Bài mới nhất từ RSS",
+            "feedUrl": "URL nguồn RSS",
+            "feedUrls": "URL nguồn RSS",
+            "noPosts": "Chưa có bài viết nào",
+            "compactView": "Giao diện thu gọn",
+            "presetsTitle": "Thêm nguồn yêu thích hoặc chọn mẫu sau:",
+            "presetForDevelopers": "Cho Dev",
+            "presetForDesigners": "Cho Designer",
+            "presetInteresting": "Tin tức thú vị",
+            "presetForDevelopersTitle": "Dev",
+            "presetForDesignersTitle": "Design",
+            "presetInterestingTitle": "Thú vị",
+            "examplePostTitle1": "Cách sắp xếp tab mới Anori như chuyên gia!",
+            "examplePostDescription1": "Bắt đầu với một dấu trang và để trái tim dẫn lối...",
+            "exampleFeedTitle1": "Blog Anori",
+            "examplePostTitle2": "8 tiện ích trình duyệt hữu ích nhất",
+            "examplePostDescription2": "Hôm nay tôi sẽ chỉ bạn cách biến trình duyệt thành cỗ máy năng suất với các tiện ích không thể thiếu.",
+            "exampleFeedTitle2": "Productivity 101",
+            "examplePostTitle3": "Tiện ích cho phép tạo tab mới từ các widgets!",
+            "examplePostDescription3": "Bạn có thể ghép tab mới từ các tiện ích (công việc, ghi chú, dấu trang) và chia thư mục.",
+            "exampleFeedTitle3": "Reddit"
+        },
+        "iframe-plugin": {
+            "name": "Nhúng trang web",
+            "expandWidgetName": "Nhúng web (Mở rộng)",
+            "showLink": "Hiện liên kết gốc",
+            "limitations": "Việc nhúng có thể không hoạt động với một số trang web do họ chặn hiển thị. Anori không thể can thiệp."
+        },
+        "math-plugin": {
+            "name": "Toán học",
+            "calculator": "Máy tính",
+            "expandWidgetName": "Máy tính (Mở rộng)",
+            "cantCalc": "Không thể tính"
+        },
+        "picture-plugin": {
+            "name": "Hình ảnh",
+            "widgetName": "Ảnh"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Bộ thẻ",
+            "showAnswer": "Hiện đáp án",
+            "easy": "Dễ",
+            "again": "Lại",
+            "good": "Tốt",
+            "hard": "Khó",
+            "error": "Không thể kết nối AnkiConnect. Hãy đảm bảo Anki đang chạy và đã cài AnkiConnect.",
+            "widgetName": "Anki"
+        }
+    }
+}

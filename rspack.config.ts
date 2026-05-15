@@ -245,7 +245,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         endYear: currentYear + 5,
       }),
       new MomentLocalesPlugin({
-        localesToKeep: ["uk", "de", "fr", "es", "it", "th", "zh-cn", "ru", "ar", "pt-br", "ja"],
+        localesToKeep: ["uk", "de", "fr", "es", "it", "th", "zh-cn", "ru", "ar", "pt-br", "ja", "vi"],
       }),
       Icons({ compiler: "jsx", jsx: "react" }),
       mode === "production" &&
