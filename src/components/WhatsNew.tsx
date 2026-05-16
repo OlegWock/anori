@@ -11,6 +11,13 @@ export const WhatsNew = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
+            <h2>1.27.0</h2>
+            <ul>
+              <li>Added Vietnamese translation. This was contribution from @itsccao. Thanks!</li>
+            </ul>
+          </section>
+
+          <section>
             <h2>1.26.0</h2>
             <p>Couple of big ones in this release!</p>
             <p>
