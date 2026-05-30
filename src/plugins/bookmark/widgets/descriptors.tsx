@@ -52,7 +52,7 @@ export const bookmarkWidgetDescriptor = defineWidget({
     },
     resizable: {
       min: { width: 1, height: 1 },
-      max: { width: 2, height: 1 },
+      max: { width: 3, height: 1 },
     },
     withHoverAnimation: true,
     withoutPadding: true,
@@ -90,7 +90,7 @@ export const bookmarkGroupWidgetDescriptor = defineWidget({
     },
     resizable: {
       min: { width: 1, height: 1 },
-      max: { width: 2, height: 1 },
+      max: { width: 3, height: 1 },
     },
     withHoverAnimation: true,
     withoutPadding: true,

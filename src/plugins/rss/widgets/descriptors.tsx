@@ -46,7 +46,10 @@ export const rssLastestPostDescriptor = defineWidget({
   mock: RssLatestPostMock,
   appearance: {
     withHoverAnimation: true,
-    resizable: false,
+    resizable: {
+      min: { width: 2, height: 1 },
+      max: { width: 3, height: 1 },
+    },
     size: {
       width: 2,
       height: 1,

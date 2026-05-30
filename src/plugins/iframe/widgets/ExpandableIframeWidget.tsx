@@ -8,6 +8,7 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
 import { ensureDnrRules } from "@anori/utils/plugins/dnr";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +17,10 @@ import type { IframePluginExpandableWidgetConfig } from "../types";
 export const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpandableWidgetConfig>) => {
   const [open, setOpen] = useState(false);
   const { rem } = useSizeSettings();
+  const {
+    size: { width },
+  } = useWidgetMetadata();
+  const size = width === 1 ? "s" : "m";
   const { t } = useTranslation();
   const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
   const host = useMemo(() => parseHost(normalizedUrl), [normalizedUrl]);
@@ -29,18 +34,22 @@ export const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpan
     <>
       <button
         type="button"
-        className="ExpandableIframeWidget"
+        className={`ExpandableIframeWidget size-${size}`}
         onClick={() => {
           trackInteraction("Expand");
           setOpen(true);
         }}
       >
         <div className="iframe-widget-content">
-          <Icon icon={config.icon} width={rem(2.25)} height={rem(2.25)} />
           <div className="text">
             <h2>{config.title}</h2>
             <div className="host">{host}</div>
           </div>
+          <Icon
+            icon={config.icon}
+            width={size === "m" ? rem(5.75) : rem(2.25)}
+            height={size === "m" ? rem(5.75) : rem(2.25)}
+          />
         </div>
       </button>
       <AnimatePresence>

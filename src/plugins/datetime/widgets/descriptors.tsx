@@ -11,7 +11,10 @@ export const datetimeWidgetDescriptorS = defineWidget({
     return translate("datetime-plugin.widgetNameS");
   },
   appearance: {
-    resizable: false,
+    resizable: {
+      min: { width: 1, height: 1 },
+      max: { width: 2, height: 1 },
+    },
     size: {
       width: 1,
       height: 1,

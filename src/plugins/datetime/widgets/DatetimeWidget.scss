@@ -23,6 +23,16 @@
         .title {
             font-size: var(--font-size-sm);
         }
+
+        &.DateTimeWidget-wide {
+            .time {
+                font-size: 2.5rem;
+
+                &.smaller-time {
+                    font-size: 2.5rem;
+                }
+            }
+        }
     }
 
     &-size-m {

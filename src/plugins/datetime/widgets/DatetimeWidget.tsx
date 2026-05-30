@@ -1,6 +1,7 @@
 import "./DatetimeWidget.scss";
 import { useForceRerender, useLazyRef } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { capitalize } from "@anori/utils/strings";
 import clsx from "clsx";
 import { m } from "framer-motion";
@@ -11,6 +12,9 @@ import type { DatetimeWidgetConfig } from "../types";
 
 export const WidgetScreen = ({ config, size }: WidgetRenderProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
   const { i18n } = useTranslation();
+  const {
+    size: { width },
+  } = useWidgetMetadata();
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const currentMoment = useMemo(() => moment().tz(config.tz), [config.tz, i18n.language]);
@@ -57,7 +61,11 @@ export const WidgetScreen = ({ config, size }: WidgetRenderProps<DatetimeWidgetC
   }, [config.tz, config.timeFormat, config.dateFormat]);
 
   return (
-    <div className={clsx("DateTimeWidget", `DateTimeWidget-size-${size}`)}>
+    <div
+      className={clsx("DateTimeWidget", `DateTimeWidget-size-${size}`, {
+        "DateTimeWidget-wide": size === "s" && width >= 2,
+      })}
+    >
       {size === "m" && (
         <div className="analog-clock">
           <m.div

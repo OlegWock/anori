@@ -1,39 +1,60 @@
 .ExpandableIframeWidget {
     display: flex;
     align-items: stretch;
-    flex: 1;
-    line-height: inherit;
+    text-decoration: none;
+    flex-grow: 1;
+    max-height: 100%;
     padding: var(--spacing-4);
+    position: relative;
     cursor: pointer;
+    text-align: start;
 
     .iframe-widget-content {
         display: flex;
-        flex-direction: column;
-        flex: 1;
+        align-items: center;
+        flex-grow: 1;
         overflow: hidden;
 
         .text {
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            align-items: flex-start;
-            flex: 1;
+            align-self: stretch;
+            overflow: hidden;
 
             h2 {
+                margin-top: var(--spacing-1);
+                margin-bottom: var(--spacing-4);
+                line-height: 1.25;
+            }
+
+            .host {
+                font-size: var(--font-size-xs);
+                color: var(--text-subtle-2);
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        svg {
+            color: var(--icon-color);
+        }
+    }
+
+    &.size-s {
+        .iframe-widget-content {
+            flex-direction: column;
+            align-items: flex-start;
+            flex-flow: column-reverse;
+
+            .text h2 {
                 margin-top: var(--spacing-3);
                 margin-bottom: var(--spacing-1);
                 line-height: 1;
                 white-space: nowrap;
             }
-        }
-
-        .host {
-            font-size: var(--font-size-xs);
-            color: var(--text-subtle-2);
-        }
-
-        svg {
-            color: var(--icon-color);
         }
     }
 }

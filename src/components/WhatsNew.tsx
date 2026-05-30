@@ -28,6 +28,7 @@ export const WhatsNew = () => {
                 Added Polish, Slovak, Czech, Indonesian, Filipino, and Hindi (machine) translations. If you notice
                 something off, please file an issue.
               </li>
+              <li>Relaxed size limitation for embedded page, bookmark, and RSS widgets.</li>
             </ul>
           </section>
 
