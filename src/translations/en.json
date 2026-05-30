@@ -131,7 +131,8 @@
                 "blur": "Blur",
                 "colorAccent": "Accent",
                 "colorBackground": "Background",
-                "colorText": "Text"
+                "colorText": "Text",
+                "colorCode": "Color code"
             },
             "importExport": {
                 "title": "Import & export",

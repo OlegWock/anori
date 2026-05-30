@@ -153,8 +153,8 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     };
   }, []);
 
-  const applyPreview = () => {
-    runAfterRender(() => applyThemeColors(theme.colors));
+  const applyPreview = (colors: PartialCustomTheme["colors"] = theme.colors) => {
+    runAfterRender(() => applyThemeColors(colors));
   };
 
   const saveTheme = async () => {
@@ -175,11 +175,22 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
       customThemes.push(theme);
     }
     await storage.set(anoriSchema.customThemes, customThemes);
+    savedRef.current = true;
     setCurrentTheme(theme.name);
     onClose();
   };
 
   const [currentTheme, setCurrentTheme] = useCurrentTheme();
+  const currentThemeRef = useMirrorStateToRef(currentTheme);
+  const savedRef = useRef(false);
+
+  // The editor previews colors/background by mutating CSS variables and the page
+  // background directly. Restore the user's actual theme whenever the editor is left.
+  useEffect(() => {
+    return () => {
+      if (!savedRef.current) applyTheme(currentThemeRef.current);
+    };
+  }, []);
 
   const [theme, setTheme] = useState<PartialCustomTheme>(() => {
     if (themeFromProps) return themeFromProps;
@@ -281,33 +292,25 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
           <ColorPicker
             className="color-picker"
             value={theme.colors[currentlyEditingColor]}
+            label={t("settings.theme.colorCode")}
             onChange={(color) => {
               const modifiedColor = {
                 ...color,
                 saturation: color.lightness === 1 ? 0 : color.saturation,
               };
-              setTheme((p) => ({
-                ...p,
-                colors: {
-                  ...p.colors,
-                  [currentlyEditingColor]: modifiedColor,
-                },
-              }));
-              applyPreview();
+              const newColors = {
+                ...theme.colors,
+                [currentlyEditingColor]: modifiedColor,
+              };
+              setTheme((p) => ({ ...p, colors: newColors }));
+              applyPreview(newColors);
             }}
           />
         )}
       </div>
 
       <div className="action-buttons">
-        <Button
-          onClick={() => {
-            onClose();
-            applyTheme(currentTheme);
-          }}
-        >
-          {t("back")}
-        </Button>
+        <Button onClick={onClose}>{t("back")}</Button>
         <Button disabled={!backgroundUrl} onClick={saveTheme}>
           {t("save")}
         </Button>

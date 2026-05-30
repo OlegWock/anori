@@ -1,3 +1,5 @@
+import { type HsvaColor, hexToHsva, hslaStringToHsva, hsvaToHsla, rgbaStringToHsva, validHex } from "@uiw/react-color";
+
 export type Color = {
   // HSL
   hue: number;
@@ -50,6 +52,48 @@ export const toCssHslValues = (c: Color) => {
 
 export const toCss = (c: Color) => {
   return `hsl(${toCssHslValues(c)} / ${c.alpha})`;
+};
+
+const fromHsva = (hsva: HsvaColor): Color => {
+  const { h, s, l, a } = hsvaToHsla(hsva);
+  return fromHsl(h, s, l, a);
+};
+
+/**
+ * Parses a CSS color string into a {@link Color}. Supports hex (`#rgb`, `#rgba`,
+ * `#rrggbb`, `#rrggbbaa`, with or without the leading `#`), `rgb()`/`rgba()` and
+ * `hsl()`/`hsla()` notations in both comma- and space-separated forms. Returns `null`
+ * for unrecognized input. Conversion is delegated to `@uiw/react-color`; the regexes
+ * below only detect/validate the notation, since the lib's rgb/hsl string parsers
+ * silently fall back to black on invalid input.
+ */
+export const parseColor = (input: string): Color | null => {
+  const trimmed = input.trim().toLowerCase();
+  if (!trimmed) return null;
+
+  // Hex with or without the leading `#` (incl. shorthand and alpha)
+  const hexCandidate = trimmed.startsWith("#") ? trimmed : `#${trimmed}`;
+  if (validHex(hexCandidate)) {
+    return fromHsva(hexToHsva(hexCandidate));
+  }
+
+  if (/^rgba?\(.+\)$/.test(trimmed)) {
+    return fromHsva(rgbaStringToHsva(trimmed));
+  }
+
+  if (/^hsla?\(.+\)$/.test(trimmed)) {
+    return fromHsva(hslaStringToHsva(trimmed));
+  }
+
+  return null;
+};
+
+export const toHexWithAlpha = (c: Color) => {
+  if (c.alpha >= 1) return toHex(c);
+  const alphaHex = Math.round(clamp(c.alpha, 0, 1) * 255)
+    .toString(16)
+    .padStart(2, "0");
+  return `${toHex(c)}${alphaHex}`;
 };
 
 export const toHex = (c: Color) => {

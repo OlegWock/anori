@@ -1,16 +1,19 @@
-import { type Color, fromHsl } from "@anori/utils/color";
+import { type Color, fromHsl, parseColor, toHexWithAlpha } from "@anori/utils/color";
 import "./ColorPicker.scss";
 import { Colorful, hslaToHsva } from "@uiw/react-color";
 import clsx from "clsx";
-import { useMemo } from "react";
+import { useId, useMemo, useState } from "react";
+import { Input } from "./Input";
 
 export type ColorPickerProps = {
   value: Color;
   onChange: (val: Color) => void;
+  label?: string;
   className?: string;
 };
 
-export const ColorPicker = ({ value: valueFromProps, onChange, className }: ColorPickerProps) => {
+export const ColorPicker = ({ value: valueFromProps, onChange, label, className }: ColorPickerProps) => {
+  const inputId = useId();
   const hsvaValue = useMemo(
     () =>
       hslaToHsva({
@@ -22,13 +25,56 @@ export const ColorPicker = ({ value: valueFromProps, onChange, className }: Colo
     [valueFromProps],
   );
 
+  const [textValue, setTextValue] = useState(() => toHexWithAlpha(valueFromProps));
+  const [textInvalid, setTextInvalid] = useState(false);
+
+  // Keep the text input in sync when the color is changed elsewhere (e.g. via the picker).
+  const [syncedValue, setSyncedValue] = useState(valueFromProps);
+  if (valueFromProps !== syncedValue) {
+    setSyncedValue(valueFromProps);
+    setTextValue(toHexWithAlpha(valueFromProps));
+    setTextInvalid(false);
+  }
+
+  const handleTextChange = (val: string) => {
+    setTextValue(val);
+    const parsed = parseColor(val);
+    if (parsed) {
+      setTextInvalid(false);
+      onChange(parsed);
+    } else {
+      setTextInvalid(true);
+    }
+  };
+
   return (
-    <Colorful
-      className={clsx("ColorPicker", className)}
-      color={hsvaValue}
-      onChange={(color) => {
-        onChange(fromHsl(color.hsla.h, color.hsla.s, color.hsla.l, color.hsla.a));
-      }}
-    />
+    <div className={clsx("ColorPicker", className)}>
+      <Colorful
+        className="ColorPicker-picker"
+        color={hsvaValue}
+        onChange={(color) => {
+          onChange(fromHsl(color.hsla.h, color.hsla.s, color.hsla.l, color.hsla.a));
+        }}
+      />
+      <div className="ColorPicker-field">
+        {!!label && (
+          <label className="ColorPicker-label" htmlFor={inputId}>
+            {label}
+          </label>
+        )}
+        <Input
+          id={inputId}
+          className={clsx("ColorPicker-input", { "ColorPicker-input--invalid": textInvalid })}
+          value={textValue}
+          spellCheck={false}
+          onValueChange={handleTextChange}
+          onBlur={() => {
+            // Snap back to the actual color if the user left an unparseable value
+            setTextValue(toHexWithAlpha(valueFromProps));
+            setTextInvalid(false);
+          }}
+        />
+      </div>
+    </div>
   );
 };

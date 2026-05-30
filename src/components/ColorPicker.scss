@@ -1,3 +1,32 @@
 .ColorPicker {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--spacing-4);
 
+    &-field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-1);
+    }
+
+    &-label {
+        font-size: var(--font-size-sm);
+        color: var(--text-subtle-1);
+    }
+
+    &-input {
+        min-width: 0;
+        width: 11rem;
+        box-sizing: border-box;
+        font-variant-numeric: tabular-nums;
+
+        &--invalid {
+            outline: 2px solid var(--error-color);
+
+            &:focus {
+                outline: 2px solid var(--error-color);
+            }
+        }
+    }
 }
