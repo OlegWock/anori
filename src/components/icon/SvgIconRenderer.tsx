@@ -32,6 +32,9 @@ export const SvgIconRenderer = ({
     if (root && iconCacheDescriptorRef.current) {
       if (cache) root.replaceChildren(...iconCacheDescriptorRef.current.nodes.map((n) => n.cloneNode(true)));
       else root.replaceChildren(...iconCacheDescriptorRef.current.nodes);
+      for (const [name, value] of Object.entries(iconCacheDescriptorRef.current.rootAttributes)) {
+        root.setAttribute(name, value);
+      }
       // TODO: for some reason aspectRatio is not applied by Motion when passed as field of `style`
       // so we set it manually. Might get resolved on itself after Motion update
       root.style.aspectRatio = iconCacheDescriptorRef.current.aspectRatio.toString();
@@ -127,10 +130,21 @@ function parseSvgToIconInfo(svgText: string): SvgIconCacheDescriptor | null {
   const viewBox = svgRoot.getAttribute("viewBox") || "0 0 24 24";
   const width = Number.parseInt(svgRoot.getAttribute("width") || "24");
   const height = Number.parseInt(svgRoot.getAttribute("height") || "24");
+
+  // Preserve presentational attributes (fill, stroke, etc.) that children inherit from the <svg> root
+  const managedAttributes = new Set(["width", "height", "viewbox", "style", "class", "id", "xmlns"]);
+  const rootAttributes: Record<string, string> = {};
+  for (const attr of Array.from(svgRoot.attributes)) {
+    if (!managedAttributes.has(attr.name.toLowerCase())) {
+      rootAttributes[attr.name] = attr.value;
+    }
+  }
+
   return {
     svgText,
     viewbox: viewBox,
     aspectRatio: width / height,
     nodes: Array.from(svgRoot.childNodes),
+    rootAttributes,
   };
 }

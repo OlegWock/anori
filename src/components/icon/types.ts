@@ -18,4 +18,5 @@ export type SvgIconCacheDescriptor = {
   viewbox: string;
   aspectRatio: number;
   nodes: Node[];
+  rootAttributes: Record<string, string>;
 };
