@@ -13,8 +13,8 @@ import ruTranslation from "./ru.json";
 import thTranslation from "./th.json";
 import trTranslation from "./tr.json";
 import ukTranslation from "./uk.json";
-import zhCnTranslation from "./zh-cn.json";
 import viTranslation from "./vi.json";
+import zhCnTranslation from "./zh-cn.json";
 // When adding any of moment locales, don't forget to update rspack config to actually include them in build
 import "moment/locale/uk";
 import "moment/locale/de";
@@ -45,7 +45,7 @@ export const availableTranslations = [
   "ru",
   "ar",
   "ja",
-  "vi"
+  "vi",
 ] as const;
 
 export type Language = (typeof availableTranslations)[number];
@@ -65,7 +65,7 @@ export const availableTranslationsPrettyNames = {
   "pt-BR": "Português do Brasil",
   ja: "日本語",
   // 'zh-TW': '中文 (繁體)',
-  vi: "Tiếng Việt"
+  vi: "Tiếng Việt",
 } satisfies Record<Language, string>;
 
 export const resources = {
@@ -82,7 +82,7 @@ export const resources = {
   ar: arTranslation,
   "pt-BR": ptBrTranslation,
   ja: jaTranslation,
-  vi: viTranslation
+  vi: viTranslation,
 } satisfies Record<Language, Mapping>;
 
 export const languageDirections = {
@@ -99,5 +99,5 @@ export const languageDirections = {
   "pt-BR": "ltr",
   ar: "rtl",
   ja: "ltr",
-  vi: "ltr"
+  vi: "ltr",
 } satisfies Record<Language, "rtl" | "ltr">;

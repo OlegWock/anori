@@ -162,6 +162,21 @@ const main = async () => {
 
 const DEFAULT_LANGUAGE = "en";
 const TRANSLATIONS_FOLDER = join(__dirname, "src/translations");
-const FINISHED_TRANSLATIONS = ["en", "uk", "it", "de", "fr", "es", "th", "tr", "zh-cn", "ru", "ar", "pt-br", "ja", "vi"];
+const FINISHED_TRANSLATIONS = [
+  "en",
+  "uk",
+  "it",
+  "de",
+  "fr",
+  "es",
+  "th",
+  "tr",
+  "zh-cn",
+  "ru",
+  "ar",
+  "pt-br",
+  "ja",
+  "vi",
+];
 
 main();

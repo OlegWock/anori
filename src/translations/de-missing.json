@@ -49,7 +49,8 @@
                 "blur": "Blur",
                 "colorAccent": "Accent",
                 "colorBackground": "Background",
-                "colorText": "Text"
+                "colorText": "Text",
+                "colorCode": "Color code"
             },
             "importExport": {
                 "cloudWarning": "You have cloud sync enabled. Importing a backup will disconnect you from your sync profile. You will need to reconnect after import. Continue?",

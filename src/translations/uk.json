@@ -79,7 +79,8 @@
                 "blur": "Розмиття",
                 "colorAccent": "Акценти",
                 "colorBackground": "Фон",
-                "colorText": "Текст"
+                "colorText": "Текст",
+                "colorCode": "Код кольору"
             },
             "importExport": {
                 "title": "Імпорт та експорт",

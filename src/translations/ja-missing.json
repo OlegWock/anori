@@ -28,6 +28,9 @@
             }
         },
         "settings": {
+            "theme": {
+                "colorCode": "Color code"
+            },
             "importExport": {
                 "cloudWarning": "You have cloud sync enabled. Importing a backup will disconnect you from your sync profile. You will need to reconnect after import. Continue?",
                 "cloudSyncHint": "Want to backup you configuration to cloud or sync it across devices in real time? Try <0>Anori Plus</0> — it does this seamlessly."
