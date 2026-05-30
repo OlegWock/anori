@@ -3,6 +3,9 @@
         "settings": {
             "theme": {
                 "colorCode": "Color code"
+            },
+            "importExport": {
+                "importError": "Couldn't import backup: {{error}}"
             }
         }
     }

@@ -71,48 +71,55 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
     const files = await showOpenFilePicker(false, ".zip");
     const file = files[0];
-    const zip = await JSZip.loadAsync(file);
+    if (!file) return;
 
-    const metaJsonFile = zip.file("meta.json");
-    if (!metaJsonFile) {
-      throw new Error("Invalid backup: missing meta.json");
-    }
-    const backupMeta = JSON.parse(await metaJsonFile.async("string")) as { formatVersion?: number };
-    if (backupMeta.formatVersion !== BACKUP_FORMAT_VERSION) {
-      throw new Error(
-        `Unsupported backup format version: ${backupMeta.formatVersion}. Expected ${BACKUP_FORMAT_VERSION}. This backup was created with a different version of Anori.`,
-      );
-    }
+    try {
+      const zip = await JSZip.loadAsync(file);
 
-    const storageFile = zip.file("storage.json");
-    if (!storageFile) {
-      throw new Error("Invalid backup: missing storage.json");
-    }
-    const storageData = JSON.parse(await storageFile.async("string")) as Record<string, unknown>;
-
-    // Extract OPFS file blobs from the zip
-    const fileBlobs = new Map<string, Blob>();
-    const opfsFolder = zip.folder("opfs");
-    if (opfsFolder) {
-      const opfsFiles = opfsFolder.filter(() => true);
-      for (const opfsFile of opfsFiles) {
-        const path = opfsFile.name.replace(/^opfs\//, "");
-        const blob = await opfsFile.async("blob");
-        fileBlobs.set(path, blob);
+      const metaJsonFile = zip.file("meta.json");
+      if (!metaJsonFile) {
+        throw new Error("Invalid backup: missing meta.json");
       }
+      const backupMeta = JSON.parse(await metaJsonFile.async("string")) as { formatVersion?: number };
+      if (backupMeta.formatVersion !== BACKUP_FORMAT_VERSION) {
+        throw new Error(
+          `Unsupported backup format version: ${backupMeta.formatVersion}. Expected ${BACKUP_FORMAT_VERSION}. This backup was created with a different version of Anori.`,
+        );
+      }
+
+      const storageFile = zip.file("storage.json");
+      if (!storageFile) {
+        throw new Error("Invalid backup: missing storage.json");
+      }
+      const storageData = JSON.parse(await storageFile.async("string")) as Record<string, unknown>;
+
+      // Extract OPFS file blobs from the zip
+      const fileBlobs = new Map<string, Blob>();
+      const opfsFolder = zip.folder("opfs");
+      if (opfsFolder) {
+        const opfsFiles = opfsFolder.filter(() => true);
+        for (const opfsFile of opfsFiles) {
+          const path = opfsFile.name.replace(/^opfs\//, "");
+          const blob = await opfsFile.async("blob");
+          fileBlobs.set(path, blob);
+        }
+      }
+
+      // Preserve cloud account credentials so user stays logged in
+      const currentCloudAccount = storage.get(anoriSchema.cloudAccount);
+
+      await storage.importFromBackup({ kv: storageData, fileBlobs });
+
+      if (currentCloudAccount) {
+        await storage.set(anoriSchema.cloudAccount, currentCloudAccount);
+      }
+
+      trackEvent("Configuration imported");
+      window.location.reload();
+    } catch (err) {
+      console.error("Error while importing backup", err);
+      alert(t("settings.importExport.importError", { error: err instanceof Error ? err.message : String(err) }));
     }
-
-    // Preserve cloud account credentials so user stays logged in
-    const currentCloudAccount = storage.get(anoriSchema.cloudAccount);
-
-    await storage.importFromBackup({ kv: storageData, fileBlobs });
-
-    if (currentCloudAccount) {
-      await storage.set(anoriSchema.cloudAccount, currentCloudAccount);
-    }
-
-    trackEvent("Configuration imported");
-    window.location.reload();
   };
 
   return (
