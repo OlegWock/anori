@@ -23,7 +23,6 @@
         "home": "Ana Sayfa",
         "availableOnlyInEnglish": "Yalnızca İngilizce olarak mevcut",
         "px": "px",
-
         "whatsNew": "Yenilikler",
         "editWidget": "Widget'ı düzenle",
         "configureWidget": "Widget'ı yapılandır",
@@ -33,14 +32,12 @@
         "icons": "İkonlar",
         "customIcons": "Özel ikonlar",
         "canBeEmpty": "Boş olabilir",
-
         "iconsPicker": {
             "customIconsInfo": "Özel ikonlar, Anori'de daha sonra kullanmak üzere yüklediğiniz ikonlardır.",
             "customIconsAbsent": "Şu anda özel ikonlarınız yok. İlk özel ikonunuzu yüklemek için ayarlara gidin.",
             "iconFamily": "İkon ailesi",
             "allIcons": "Tüm ikonlar"
         },
-
         "settings": {
             "title": "Ayarlar",
             "general": {

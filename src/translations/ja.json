@@ -23,7 +23,6 @@
         "home": "ホーム",
         "availableOnlyInEnglish": "英語のみ対応",
         "px": "px",
-
         "whatsNew": "新着情報",
         "editWidget": "ウィジェットを編集",
         "configureWidget": "ウィジェットを設定",
@@ -33,7 +32,6 @@
         "icons": "アイコン",
         "customIcons": "カスタムアイコン",
         "canBeEmpty": "空にできます",
-
         "cloud": {
             "connect": "クラウドに接続",
             "account": "クラウドアカウント",
@@ -49,7 +47,6 @@
                 "unknown": "エラーが発生しました。もう一度お試しください。"
             }
         },
-
         "iconsPicker": {
             "customIconsInfo": "カスタムアイコンは、Anoriで使用するためにアップロードしたアイコンです。",
             "customIconsAbsent": "カスタムアイコンがありません。最初のカスタムアイコンをアップロードするには設定をご覧ください。",
@@ -57,7 +54,6 @@
             "allIcons": "すべてのアイコン",
             "selectFamilyOrSearch": "アイコンファミリーを選択するか、検索してアイコン候補を表示してください。"
         },
-
         "settings": {
             "title": "設定",
             "general": {
@@ -126,7 +122,6 @@
                 "license": "ライセンス"
             }
         },
-
         "shortcuts": {
             "title": "ショートカット",
             "showCheatsheet": "ショートカット一覧の表示/非表示",
@@ -138,7 +133,6 @@
             "editCurrentFolder": "現在のフォルダを編集",
             "addNewWidget": "現在のフォルダにウィジェットを追加"
         },
-
         "onboarding": {
             "start": {
                 "title": "Anoriへようこそ！",
@@ -172,7 +166,6 @@
                 "cta": "🚀 生産性の高いセットアップを使う"
             }
         },
-
         "requirePermissions": {
             "eh": "えっ？",
             "modalTitle": "追加の権限が必要です",
@@ -182,7 +175,6 @@
             "hostPermissions": "ホスト権限",
             "grant": "権限を付与"
         },
-
         "bookmark-plugin": {
             "name": "ブックマーク",
             "widgetName": "ブックマーク",
@@ -213,7 +205,6 @@
             "dateFormat": "日付フォーマット",
             "24hours": "24時間"
         },
-
         "notes-plugin": {
             "name": "メモ",
             "noteTitle": "メモのタイトル",
@@ -221,14 +212,12 @@
             "exampleTitle": "買い物リスト",
             "exampleText": "野菜、ケチャップ、チーズ、小麦粉、オリーブオイル"
         },
-
         "recently-closed-plugin": {
             "name": "最近閉じたタブ",
             "widgetTitle": "最近閉じたもの",
             "tab": "タブ",
             "window": "ウィンドウ"
         },
-
         "system-status-plugin": {
             "name": "システム状態",
             "ramLoad": "RAM使用率",
@@ -245,13 +234,11 @@
             "exampleTask2": "床でだらける",
             "exampleTask3": "泣かないようにする"
         },
-
         "top-sites-plugin": {
             "name": "よく見るサイト",
             "widgetHorizontal": "よく見るサイト - 横並び",
             "widgetVertical": "よく見るサイト - 縦並び"
         },
-
         "weather-plugin": {
             "name": "天気",
             "weatherForecast": "天気予報",
@@ -276,7 +263,6 @@
             "speedUnit": "風速の単位",
             "weatherCode": "天気コード {{code}}"
         },
-
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "RSSフィード",
@@ -302,14 +288,12 @@
             "examplePostDescription3": "タスク、メモ、ブックマークなどのウィジェットを組み合わせて新しいタブを作り、フォルダで整理できます。",
             "exampleFeedTitle3": "Reddit"
         },
-
         "iframe-plugin": {
             "name": "ウェブページを埋め込む",
             "expandWidgetName": "ウェブページを埋め込む — 拡張可能",
             "showLink": "元のページへのリンクを表示",
             "limitations": "すべてのページを埋め込みできるわけではありません。一部のサイトは埋め込み表示を意図的にブロックしており、残念ながらAnoriではどうにもできない場合があります。これにより、ページが読み込まれなかったり（Gmailなど）、正常に動作しないことがあります。"
         },
-
         "math-plugin": {
             "name": "計算",
             "calculator": "電卓",

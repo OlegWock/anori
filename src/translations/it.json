@@ -30,7 +30,6 @@
         "back": "Indietro",
         "icons": "Icone",
         "customIcons": "Icone personalizzate",
-
         "iconsPicker": {
             "customIconsInfo": "Le icone personalizzate sono icone che carichi in Anori per un uso futuro.",
             "customIconsAbsent": "Attualmente, non hai nessuna icona personalizzata. Per caricare la tua prima icona vai alle impostazioni.",
@@ -51,13 +50,13 @@
                 "enableAnalytics": "Abilita l'invio dei dati di analisi",
                 "analyticsHintP1": "L'analisi dei dati ci aiuta a capire meglio come gli utenti interagiscono con Anori e quali funzionalità vengono utilizzate di più. Non vengono condivise le informazioni private, come il contenuto delle note o gli URL dei segnalibri.",
                 "analyticsHintP2": "Questo ci aiuta a sviluppare un prodotto migliore, quindi ti chiediamo di abilitare l'invio dei dati di analisi. <0>Scopri di più.</0>",
+                "showBookmarksBar": "Mostra barra segnalibri",
                 "automaticCompact": "Passa automaticamente alla modalità compatta in base alla dimensione dello schermo",
                 "automaticCompactModeThreshold": "Passa alla modalità compatta se la dimensione dello schermo è inferiore a",
                 "automaticCompactModeThresholdHint": "La larghezza dello schermo attuale è di {{screenWidth}}px",
                 "useCompact": "Usa sempre la modalità compatta",
                 "showAnimationOnOpen": "Mostra animazione all'apertura",
-                "showAnimationOnOpenHint": "Se abilitata, l'estensione mostrerà un'animazione di caricamento veloce che nasconderà l'iniziale sfarfallio durante il caricamento dei dati e fornirà un esperienza migliore.",
-                "showBookmarksBar": "Mostra barra segnalibri"
+                "showAnimationOnOpenHint": "Se abilitata, l'estensione mostrerà un'animazione di caricamento veloce che nasconderà l'iniziale sfarfallio durante il caricamento dei dati e fornirà un esperienza migliore."
             },
             "customIcons": {
                 "title": "Icone personalizzate",

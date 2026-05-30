@@ -23,7 +23,6 @@
         "home": "Início",
         "availableOnlyInEnglish": "Disponível apenas em inglês",
         "px": "px",
-
         "whatsNew": "O que há de novo",
         "editWidget": "Editar widget",
         "configureWidget": "Configurar widget",
@@ -33,14 +32,12 @@
         "icons": "Ícones",
         "customIcons": "Ícones customizados",
         "canBeEmpty": "pode estar vazio",
-
         "iconsPicker": {
             "customIconsInfo": "Ícones customiozados são ícones que você sobe para depois usar no Anori.",
             "customIconsAbsent": "Atualmente, você não tem nenhum ícone customizado. Para subir seu primeiro ícone customizado por favor vá para as configurações.",
             "iconFamily": "Família de ícones",
             "allIcons": "Todos os ícones"
         },
-
         "settings": {
             "title": "Configurações",
             "general": {
@@ -100,7 +97,6 @@
                 "p3": "Siga o autor no <0>Twitter</0> e <1>apoie a Ucrânia</1>."
             }
         },
-
         "shortcuts": {
             "title": "Atalhos",
             "showCheatsheet": "Mostrar/ocultar folha de dicas de atalhos",
@@ -112,7 +108,6 @@
             "editCurrentFolder": "Editar pasta atual",
             "addNewWidget": "Adicionar novo widget à pasta atual"
         },
-
         "onboarding": {
             "start": {
                 "title": "Bem vindo ao Anori!",
@@ -146,7 +141,6 @@
                 "cta": "🚀 Apenas me dê uma configuração produtiva, hein!"
             }
         },
-
         "requirePermissions": {
             "eh": "Ahn?",
             "modalTitle": "Permissões adicionais necessárias",
@@ -156,7 +150,6 @@
             "hostPermissions": "Permissões de host",
             "grant": "Conceda as permissões"
         },
-
         "bookmark-plugin": {
             "name": "Favoritos",
             "widgetName": "Favorito",
@@ -187,7 +180,6 @@
             "dateFormat": "Formato de data",
             "24hours": "24 horas"
         },
-
         "notes-plugin": {
             "name": "Notas",
             "noteTitle": "´Titulo da nota",
@@ -195,7 +187,6 @@
             "exampleTitle": "Lista de compras",
             "exampleText": "Vegetais, ketchup, queijo, farinha, azeite de oliva"
         },
-
         "recently-closed-plugin": {
             "name": "Abas fechadas recentemente",
             "widgetTitle": "Recentemente fechado",
@@ -218,13 +209,11 @@
             "exampleTask2": "Deitar no chão",
             "exampleTask3": "Tentar não chorar"
         },
-
         "top-sites-plugin": {
             "name": "Top sites",
             "widgetHorizontal": "Top sites - horizontal",
             "widgetVertical": "Top sites - vertical"
         },
-
         "weather-plugin": {
             "name": "Tempo",
             "weatherForecast": "Previsão do tempo",
@@ -249,7 +238,6 @@
             "speedUnit": "Unidade de velocidade do vento",
             "weatherCode": "Código meteorológico {{code}}"
         },
-
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "Feed RSS",
@@ -274,14 +262,12 @@
             "examplePostDescription3": "Você pode criar sua própria nova guia a partir dos widgets fornecidos (tarefas, notas, marcadores, etc.) e organizá-los em pastas.",
             "exampleFeedTitle3": "Reddit"
         },
-
         "iframe-plugin": {
             "name": "Incorporar página da web",
             "expandWidgetName": "Incorporar página da web — expansível",
             "showLink": "Mostrar link para a página original",
             "limitations": "A incorporação não funciona com todas as páginas. Alguns sites resistem ativamente a serem exibidos como uma página incorporada e, infelizmente, o Anori não pode fazer muito a respeito. Isso pode fazer com que as páginas não carreguem (como é o caso do Gmail) ou funcionem mal."
         },
-
         "math-plugin": {
             "name": "Matemática",
             "calculator": "Calculadora",
