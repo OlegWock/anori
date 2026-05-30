@@ -32,22 +32,62 @@
         "icons": "Ícones",
         "customIcons": "Ícones customizados",
         "canBeEmpty": "pode estar vazio",
+        "cloud": {
+            "connect": "Conectar",
+            "connected": "Conectado",
+            "disconnect": "Desconectar",
+            "cancel": "Cancelar",
+            "account": "Conta na nuvem",
+            "login": "Entrar",
+            "logout": "Sair",
+            "email": "E-mail",
+            "password": "Senha",
+            "connectedAs": "Conectado como",
+            "noAccount": "Não tem uma conta?",
+            "createAccount": "Crie uma aqui",
+            "plusDescription": "O Anori Plus é um serviço adicional para o Anori que permite sincronizar sua configuração entre vários navegadores e dispositivos em tempo real.",
+            "learnMore": "Saiba mais",
+            "profiles": "Perfis",
+            "noProfiles": "Nenhum perfil encontrado. Crie seu primeiro perfil para sincronizar as configurações entre navegadores.",
+            "createProfile": "Criar perfil",
+            "profileName": "Nome do perfil",
+            "createdAt": "Criado em {{date}}",
+            "lastSyncedAt": "Último uso {{date}}",
+            "create": "Criar",
+            "profileCreatedSuccess": "Perfil criado! Agora você pode conectar outros navegadores a este perfil e suas configurações serão sincronizadas entre eles.",
+            "confirm": "Confirmar",
+            "rename": "Renomear",
+            "delete": "Excluir",
+            "deleteConfirmation": "Tem certeza de que deseja excluir o perfil \"{{profileName}}\"? Esta ação não pode ser desfeita.",
+            "connectConfirmation": {
+                "message": "Conectar ao perfil \"{{profileName}}\" substituirá sua configuração local atual pela armazenada no perfil. Deseja continuar?"
+            },
+            "error": {
+                "invalidCredentials": "E-mail ou senha inválidos",
+                "unknown": "Algo deu errado. Por favor, tente novamente.",
+                "failedToLoadProfiles": "Falha ao carregar perfis",
+                "profileNameRequired": "O nome do perfil é obrigatório",
+                "failedToCreateProfile": "Falha ao criar perfil"
+            }
+        },
         "iconsPicker": {
             "customIconsInfo": "Ícones customiozados são ícones que você sobe para depois usar no Anori.",
             "customIconsAbsent": "Atualmente, você não tem nenhum ícone customizado. Para subir seu primeiro ícone customizado por favor vá para as configurações.",
             "iconFamily": "Família de ícones",
-            "allIcons": "Todos os ícones"
+            "allIcons": "Todos os ícones",
+            "selectFamilyOrSearch": "Selecione uma família de ícones específica ou tente pesquisar para ver sugestões de ícones."
         },
         "settings": {
             "title": "Configurações",
             "general": {
                 "title": "Geral",
                 "language": "Idioma",
-                "translationInfo": "Traduções para idiomas além do Inglês e Ucraniano são fornecidas pela comunidade. Se você encontrar um erro ou texto não traduzido, ajude-nos a consertar! <0>Aqui</0> estão as instruções de como você pode colaborar.",
+                "translationInfo": "Traduções para idiomas além do Inglês e Ucraniano podem ser feitas por máquina. Contamos com a comunidade para revisá-las. Se você encontrar um erro ou texto não traduzido, ajude-nos a corrigir! <0>Aqui</0> estão as instruções de como você pode colaborar.",
                 "sidebarOrientation": "Orientação da barra lateral",
                 "sidebarOrientationOption-auto": "Baseado na orientação da janela",
                 "sidebarOrientationOption-vertical": "Sempre vertical",
                 "sidebarOrientationOption-horizontal": "Sempre horizontal",
+                "autoHideSidebar": "Ocultar barra lateral automaticamente",
                 "newTabTitle": "Título da nova aba",
                 "enableAnalytics": "Habilitar envio de dados analíticos",
                 "analyticsHintP1": "Dados analíticos ajudam-nos a entender melhor como os usuários interagem com o Anori e quais funcionalidades são mais usadas. Não compartilhamos qualquer informação privada, como o conteúdo de notas ou URLs de favoritos.",
@@ -81,20 +121,32 @@
                 "title": "Configurações de plugin"
             },
             "theme": {
-                "title": "Tema"
+                "title": "Tema",
+                "createCustom": "Criar tema personalizado",
+                "selectBackground": "Selecionar plano de fundo",
+                "blur": "Desfoque",
+                "colorAccent": "Destaque",
+                "colorBackground": "Plano de fundo",
+                "colorText": "Texto",
+                "colorCode": "Código de cor"
             },
             "importExport": {
                 "title": "Importar & exportar",
                 "info": "Aqui você pode fazer backup de suas configurações ou restaurar backups mais antigos.",
                 "import": "Importar",
-                "export": "Exportar"
+                "export": "Exportar",
+                "cloudWarning": "Você tem a sincronização na nuvem ativada. Importar um backup irá desconectá-lo do seu perfil de sincronização. Você precisará reconectar após a importação. Continuar?",
+                "cloudSyncHint": "Quer fazer backup da sua configuração na nuvem ou sincronizá-la entre dispositivos em tempo real? Experimente o <0>Anori Plus</0> — ele faz isso de forma transparente.",
+                "importError": "Não foi possível importar o backup: {{error}}"
             },
             "aboutHelp": {
                 "title": "Ajuda & sobre a extensão",
                 "onlyEnglishPlease": "Eu (autor do projeto) não falo muitos idiomas, então por favor registre seus problemas em inglês. Obrigado!",
                 "p1": "Anori é uma extensão gratuita e de código aberto. O código-fonte pode ser encontrado no <0>GitHub</0>. Se você quiser sugerir um recurso ou relatar um bug, crie um <1>New Issue</1> no repositório. Se você quiser apenas agradecer, pode marcar esse repositório com estrela :).",
                 "p2": "Se desejar modificar esta extensão, adicionar seu próprio plugin ou widget, consulte <0>readme</0> para obter mais informações.",
-                "p3": "Siga o autor no <0>Twitter</0> e <1>apoie a Ucrânia</1>."
+                "p3": "Siga o autor no <0>Twitter</0> e <1>apoie a Ucrânia</1>.",
+                "p4": "Se você quiser apoiar o desenvolvimento do Anori com algum trocado, pode fazê-lo <0>aqui</0>. Opções de criptomoeda e cartão de crédito estão disponíveis.",
+                "license": "Licença"
             }
         },
         "shortcuts": {
@@ -139,6 +191,13 @@
                 "p2": "Cansado de escolhas? Tudo bem. Você não precisa definir sua página perfeita na primeira tentativa. Você nem precisa começar do zero. Temos um setup produtivo preparado para você.",
                 "p3": "Pode não estar adaptado para todas as suas necessidades, mas você pode usá-lo como base para fazer sua própria configuração que você vai adorar.",
                 "cta": "🚀 Apenas me dê uma configuração produtiva, hein!"
+            },
+            "preset": {
+                "task": {
+                    "themes": "Experimente diferentes temas nas configurações",
+                    "anoriPlus": "Conheça o Anori Plus",
+                    "widgets": "Explore os widgets disponíveis"
+                }
             }
         },
         "requirePermissions": {
@@ -236,7 +295,8 @@
             "selectCity": "Selecione a cidade",
             "temperatureUnit": "Unidade de temperatura",
             "speedUnit": "Unidade de velocidade do vento",
-            "weatherCode": "Código meteorológico {{code}}"
+            "weatherCode": "Código meteorológico {{code}}",
+            "attribution": "Dados meteorológicos fornecidos por <0>Open-Meteo</0>"
         },
         "rss-plugin": {
             "name": "RSS",
@@ -245,6 +305,7 @@
             "feedUrl": "URL do feed RSS",
             "feedUrls": "RSS feed URLs",
             "noPosts": "Nenhum post nesse feed ainda",
+            "compactView": "Visualização compacta",
             "presetsTitle": "Ponha seus feeds favoritos aqui ou selecione um dos predefinidos:",
             "presetForDevelopers": "Para desenvolvedores",
             "presetForDesigners": "Para designers",
@@ -273,6 +334,26 @@
             "calculator": "Calculadora",
             "expandWidgetName": "Calculadora — expansível",
             "cantCalc": "Não dá pra calcular isso, slc!"
+        },
+        "picture-plugin": {
+            "name": "Imagem",
+            "widgetName": "Imagem",
+            "imageSource": "Fonte da imagem",
+            "localFile": "Arquivo local",
+            "image": "Imagem",
+            "selectImage": "Selecionar imagem",
+            "changeImage": "Alterar imagem"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Baralho",
+            "showAnswer": "Mostrar resposta",
+            "easy": "Fácil",
+            "again": "Repetir",
+            "good": "Bom",
+            "hard": "Difícil",
+            "error": "O AnkiConnect não pode ser acessado. Certifique-se de que o Anki está em execução e o AnkiConnect está instalado.",
+            "widgetName": "Anki"
         }
     }
 }

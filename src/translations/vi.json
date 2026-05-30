@@ -82,7 +82,7 @@
             "general": {
                 "title": "Chung",
                 "language": "Ngôn ngữ",
-                "translationInfo": "Các bản dịch được đóng góp bởi cộng đồng. Nếu bạn thấy lỗi, hãy giúp chúng tôi sửa! <0>Xem hướng dẫn</0>.",
+                "translationInfo": "Các bản dịch sang ngôn ngữ khác ngoài tiếng Anh hoặc tiếng Ukraina có thể được thực hiện bằng máy. Chúng tôi dựa vào cộng đồng để kiểm tra chúng. Nếu bạn phát hiện lỗi hoặc chuỗi chưa được dịch, hãy giúp chúng tôi sửa! <0>Tại đây</0> là hướng dẫn cách bạn có thể tham gia.",
                 "sidebarOrientation": "Hướng thanh bên",
                 "sidebarOrientationOption-auto": "Tự động",
                 "sidebarOrientationOption-vertical": "Luôn dọc",
@@ -127,7 +127,8 @@
                 "blur": "Độ mờ",
                 "colorAccent": "Màu nhấn",
                 "colorBackground": "Nền",
-                "colorText": "Văn bản"
+                "colorText": "Văn bản",
+                "colorCode": "Mã màu"
             },
             "importExport": {
                 "title": "Nhập & Xuất",
@@ -135,7 +136,8 @@
                 "import": "Nhập",
                 "export": "Xuất",
                 "cloudWarning": "Bạn đang bật đồng bộ đám mây. Việc nhập sao lưu sẽ ngắt kết nối hồ sơ. Tiếp tục?",
-                "cloudSyncHint": "Muốn sao lưu hoặc đồng bộ theo thời gian thực? Hãy thử <0>Anori Plus</0>."
+                "cloudSyncHint": "Muốn sao lưu hoặc đồng bộ theo thời gian thực? Hãy thử <0>Anori Plus</0>.",
+                "importError": "Không thể nhập bản sao lưu: {{error}}"
             },
             "aboutHelp": {
                 "title": "Trợ giúp & Giới thiệu",
@@ -335,7 +337,12 @@
         },
         "picture-plugin": {
             "name": "Hình ảnh",
-            "widgetName": "Ảnh"
+            "widgetName": "Ảnh",
+            "imageSource": "Nguồn ảnh",
+            "localFile": "Tệp cục bộ",
+            "image": "Hình ảnh",
+            "selectImage": "Chọn ảnh",
+            "changeImage": "Thay đổi ảnh"
         },
         "anki-plugin": {
             "name": "Anki",

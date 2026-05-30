@@ -32,18 +32,57 @@
         "icons": "图标",
         "customIcons": "自定义图标",
         "canBeEmpty": "可以为空",
+        "cloud": {
+            "connect": "连接",
+            "connected": "已连接",
+            "disconnect": "断开连接",
+            "cancel": "取消",
+            "account": "云账户",
+            "login": "登录",
+            "logout": "退出登录",
+            "email": "电子邮件",
+            "password": "密码",
+            "connectedAs": "已连接为",
+            "noAccount": "没有账户？",
+            "createAccount": "在此创建",
+            "plusDescription": "Anori Plus 是 Anori 的附加服务，可让您在多个浏览器和设备之间实时同步配置。",
+            "learnMore": "了解更多",
+            "profiles": "配置文件",
+            "noProfiles": "未找到配置文件。创建您的第一个配置文件以在浏览器之间同步设置。",
+            "createProfile": "创建配置文件",
+            "profileName": "配置文件名称",
+            "createdAt": "创建于 {{date}}",
+            "lastSyncedAt": "上次使用于 {{date}}",
+            "create": "创建",
+            "profileCreatedSuccess": "配置文件已创建！您现在可以将其他浏览器连接到此配置文件，您的设置将在它们之间同步。",
+            "confirm": "确认",
+            "rename": "重命名",
+            "delete": "删除",
+            "deleteConfirmation": "您确定要删除配置文件 \"{{profileName}}\" 吗？此操作无法撤销。",
+            "connectConfirmation": {
+                "message": "连接到配置文件 \"{{profileName}}\" 将用该配置文件中存储的配置覆盖您当前的本地配置。是否继续？"
+            },
+            "error": {
+                "invalidCredentials": "电子邮件或密码无效",
+                "unknown": "出现错误，请重试。",
+                "failedToLoadProfiles": "加载配置文件失败",
+                "profileNameRequired": "配置文件名称为必填项",
+                "failedToCreateProfile": "创建配置文件失败"
+            }
+        },
         "iconsPicker": {
             "customIconsInfo": "自定义图标是您上传以供以后在 Anori 中使用的图标。",
             "customIconsAbsent": "目前，您没有任何自定义图标。要上传您的第一个自定义图标，请前往设置。",
             "iconFamily": "图标系列",
-            "allIcons": "所有图标"
+            "allIcons": "所有图标",
+            "selectFamilyOrSearch": "选择特定图标系列或尝试搜索以查看图标建议。"
         },
         "settings": {
             "title": "设置",
             "general": {
                 "title": "通用",
                 "language": "语言",
-                "translationInfo": "除英语和乌克兰语外的其他语言翻译由社区提供。如果您发现任何错误或未翻译的字符串，请帮助我们修复！<0>这里</0>是您可以参与的说明。",
+                "translationInfo": "除英语和乌克兰语外的其他语言翻译可能由机器翻译生成。我们依靠社区对其进行审核。如果您发现任何错误或未翻译的字符串，请帮助我们修复！<0>这里</0>是您可以参与的说明。",
                 "sidebarOrientation": "侧边栏方向",
                 "sidebarOrientationOption-auto": "基于窗口方向",
                 "sidebarOrientationOption-vertical": "始终垂直",
@@ -88,13 +127,17 @@
                 "blur": "模糊",
                 "colorAccent": "强调色",
                 "colorBackground": "背景色",
-                "colorText": "文字颜色"
+                "colorText": "文字颜色",
+                "colorCode": "颜色代码"
             },
             "importExport": {
                 "title": "导入 & 导出",
                 "info": "你可以在这里备份或恢复你的设置。",
                 "import": "导入",
-                "export": "导出"
+                "export": "导出",
+                "cloudWarning": "您已启用云同步。导入备份将断开您与同步配置文件的连接。导入后需要重新连接。是否继续？",
+                "cloudSyncHint": "想将配置备份到云端或在设备间实时同步？试试 <0>Anori Plus</0>——它可以无缝实现这一切。",
+                "importError": "无法导入备份：{{error}}"
             },
             "aboutHelp": {
                 "title": "关于此扩展 & 帮助",
@@ -102,7 +145,8 @@
                 "p1": "Anori 是一个免费的开源扩展程序。源代码可以在<0>GitHub</0>上找到。如果您想建议一个功能或报告一个错误，请在存储库中创建<1>新问题</1>。如果您只是想说谢谢，您可以给该存储库点赞：）。",
                 "p2": "如果您想修改此扩展程序，添加自己的插件或小部件，请参阅<0>readme</0>获取更多信息。",
                 "p3": "关注作者的<0>Twitter</0>并<1>支持乌克兰</1>。",
-                "p4": "如果您想通过一些硬币支持 Anori 的开发，您可以在<0>这里</0>进行。支持加密货币和信用卡选项。"
+                "p4": "如果您想通过一些硬币支持 Anori 的开发，您可以在<0>这里</0>进行。支持加密货币和信用卡选项。",
+                "license": "许可证"
             }
         },
         "shortcuts": {
@@ -147,6 +191,13 @@
                 "p2": "厌倦了选择？没关系。你不需要在第一次尝试中就确定你的完美页面。你甚至不需要从空白画布开始。我们为你准备了一个高效的设置。",
                 "p3": "它可能不是为你的所有需求量身定制的，但你可以将其用作基础，打造出自己喜欢的设置。",
                 "cta": "🚀 请给我一个高效的设置。"
+            },
+            "preset": {
+                "task": {
+                    "themes": "在设置中尝试不同的主题",
+                    "anoriPlus": "了解 Anori Plus",
+                    "widgets": "探索可用的小部件"
+                }
             }
         },
         "requirePermissions": {
@@ -244,7 +295,8 @@
             "selectCity": "选择城市",
             "temperatureUnit": "温度单位",
             "speedUnit": "风速单位",
-            "weatherCode": "天气 id 代码 {{code}}"
+            "weatherCode": "天气 id 代码 {{code}}",
+            "attribution": "天气数据由 <0>Open-Meteo</0> 提供"
         },
         "rss-plugin": {
             "name": "RSS",
@@ -285,7 +337,12 @@
         },
         "picture-plugin": {
             "name": "图片",
-            "widgetName": "图像"
+            "widgetName": "图像",
+            "imageSource": "图片来源",
+            "localFile": "本地文件",
+            "image": "图片",
+            "selectImage": "选择图片",
+            "changeImage": "更换图片"
         },
         "anki-plugin": {
             "name": "Anki",

@@ -32,22 +32,62 @@
         "icons": "Icônes",
         "customIcons": "Icônes personnalisés",
         "canBeEmpty": "peut être vide",
+        "cloud": {
+            "connect": "Connecter",
+            "connected": "Connecté",
+            "disconnect": "Déconnecter",
+            "cancel": "Annuler",
+            "account": "Compte cloud",
+            "login": "Se connecter",
+            "logout": "Se déconnecter",
+            "email": "E-mail",
+            "password": "Mot de passe",
+            "connectedAs": "Connecté en tant que",
+            "noAccount": "Vous n'avez pas de compte ?",
+            "createAccount": "Créez-en un ici",
+            "plusDescription": "Anori Plus est un service additionnel pour Anori qui vous permet de synchroniser votre configuration entre plusieurs navigateurs et appareils en temps réel.",
+            "learnMore": "En savoir plus",
+            "profiles": "Profils",
+            "noProfiles": "Aucun profil trouvé. Créez votre premier profil pour synchroniser les paramètres entre les navigateurs.",
+            "createProfile": "Créer un profil",
+            "profileName": "Nom du profil",
+            "createdAt": "Créé le {{date}}",
+            "lastSyncedAt": "Dernière utilisation {{date}}",
+            "create": "Créer",
+            "profileCreatedSuccess": "Profil créé ! Vous pouvez maintenant connecter d'autres navigateurs à ce profil et vos paramètres seront synchronisés entre eux.",
+            "confirm": "Confirmer",
+            "rename": "Renommer",
+            "delete": "Supprimer",
+            "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer le profil \"{{profileName}}\" ? Cette action est irréversible.",
+            "connectConfirmation": {
+                "message": "La connexion au profil \"{{profileName}}\" remplacera votre configuration locale actuelle par celle stockée dans le profil. Voulez-vous continuer ?"
+            },
+            "error": {
+                "invalidCredentials": "E-mail ou mot de passe invalide",
+                "unknown": "Une erreur s'est produite. Veuillez réessayer.",
+                "failedToLoadProfiles": "Impossible de charger les profils",
+                "profileNameRequired": "Le nom du profil est requis",
+                "failedToCreateProfile": "Impossible de créer le profil"
+            }
+        },
         "iconsPicker": {
             "customIconsInfo": "Les icônes personnalisées sont des icônes que vous téléchargez pour les utiliser ultérieurement dans Anori.",
             "customIconsAbsent": "Actuellement, vous n'avez pas d'icônes personnalisées. Pour télécharger votre première icône personnalisée, rendez-vous dans les paramètres.",
             "iconFamily": "Famille d'icônes",
-            "allIcons": "Tous les icônes"
+            "allIcons": "Tous les icônes",
+            "selectFamilyOrSearch": "Sélectionnez une famille d'icônes ou effectuez une recherche pour voir des suggestions."
         },
         "settings": {
             "title": "Paramètres",
             "general": {
                 "title": "Général",
                 "language": "Langue",
-                "translationInfo": "Les traductions dans des langues autres que l'anglais ou l'ukrainien sont fournies par la communauté. Si vous repérez une erreur ou une chaîne de caractères non traduite, aidez-nous à la corriger ! <0>Ici</0> les instructions pour participer.",
+                "translationInfo": "Les traductions dans des langues autres que l'anglais ou l'ukrainien peuvent être réalisées par des machines. Nous comptons sur la communauté pour les vérifier. Si vous repérez une erreur ou une chaîne non traduite, aidez-nous à la corriger ! <0>Ici</0> les instructions pour participer.",
                 "sidebarOrientation": "Orientation de la barre latérale",
                 "sidebarOrientationOption-auto": "Basé sur l'orientation de la fenêtre",
                 "sidebarOrientationOption-vertical": "Toujours vertical",
                 "sidebarOrientationOption-horizontal": "Toujours horizontal",
+                "autoHideSidebar": "Masquer automatiquement la barre latérale",
                 "newTabTitle": "Titre du nouvel onglet",
                 "enableAnalytics": "Activer l'analyse de données",
                 "analyticsHintP1": "L'analyse de données m'aident à mieux comprendre comment les utilisateurs interagissent avec Anori et quelles sont les fonctions les plus utilisées. Il ne partage aucune information privée, comme le contenu des notes ou les URL des signets.",
@@ -58,7 +98,8 @@
                 "automaticCompactModeThresholdHint": "La largeur actuelle de votre écran est de {{screenWidth}}px",
                 "useCompact": "Toujours utiliser le mode compact",
                 "showAnimationOnOpen": "Afficher l'animation à l'ouverture",
-                "showAnimationOnOpenHint": "Si cette option est activée, l'extension affichera une animation de chargement rapide qui masquera le scintillement initial des données de chargement et offrira un meilleur aperçu."
+                "showAnimationOnOpenHint": "Si cette option est activée, l'extension affichera une animation de chargement rapide qui masquera le scintillement initial des données de chargement et offrira un meilleur aperçu.",
+                "rememberLastFolder": "Mémoriser le dernier dossier ouvert"
             },
             "customIcons": {
                 "title": "Icônes personnalisés",
@@ -80,20 +121,32 @@
                 "title": "Paramètres des plugins"
             },
             "theme": {
-                "title": "Thème"
+                "title": "Thème",
+                "createCustom": "Créer un thème personnalisé",
+                "selectBackground": "Sélectionner un arrière-plan",
+                "blur": "Flou",
+                "colorAccent": "Accent",
+                "colorBackground": "Arrière-plan",
+                "colorText": "Texte",
+                "colorCode": "Code couleur"
             },
             "importExport": {
                 "title": "Importation & exportation",
                 "info": "Ici, vous pouvez sauvegarder vos paramètres ou restaurer une ancienne sauvegarde.",
                 "import": "Importer",
-                "export": "Exporter"
+                "export": "Exporter",
+                "cloudWarning": "La synchronisation cloud est activée. L'importation d'une sauvegarde vous déconnectera de votre profil de synchronisation. Vous devrez vous reconnecter après l'importation. Continuer ?",
+                "cloudSyncHint": "Vous souhaitez sauvegarder votre configuration dans le cloud ou la synchroniser entre appareils en temps réel ? Essayez <0>Anori Plus</0> — il le fait de façon transparente.",
+                "importError": "Impossible d'importer la sauvegarde : {{error}}"
             },
             "aboutHelp": {
                 "title": "Aide & à propos de l'extension",
                 "onlyEnglishPlease": "Je (l'auteur du projet) ne parle pas beaucoup de langues, donc veuillez soumettre vos problèmes en anglais. Merci de votre compréhension.",
                 "p1": "Anori est une extension libre et gratuite. Le code source peut être trouvé sur <0>GitHub</0>. Si vous souhaitez suggérer une fonctionnalité ou rapporter un bug, veuillez créer un <1>nouveau problème</1> dans le dépôt. Si vous voulez juste dire merci, vous pouvez mettre une étoile à ce dépôt :).",
                 "p2": "Si vous souhaitez modifier cette extension, ajouter votre propre plugin ou widget, veuillez vous référer au <0>readme</0> pour plus d'informations.",
-                "p3": "Suivez l'auteur sur <0>Twitter</0> et <1>supportez l'Ukraine</1>."
+                "p3": "Suivez l'auteur sur <0>Twitter</0> et <1>supportez l'Ukraine</1>.",
+                "p4": "Si vous souhaitez soutenir le développement d'Anori avec quelques pièces, vous pouvez le faire <0>ici</0>. Les options crypto et carte de crédit sont disponibles.",
+                "license": "Licence"
             }
         },
         "shortcuts": {
@@ -129,7 +182,8 @@
             "analytics": {
                 "title": "Analyse de données",
                 "p1": "Nous avons presque terminé. Mais il reste une dernière chose. Par défaut, Anori ne collecte aucune donnée de suivi et n'envoie rien à des serveurs distants. Mais j'utilise les données analytiques envoyées volontairement par les utilisateurs pour voir quelles sont les fonctionnalités les plus utilisées et celles qui ont besoin d'être améliorées.",
-                "p2": "C'est pourquoi je vous demande d'activer l'envoi de données. Anori n'envoie pas de données privées (comme vos notes ou les URL de vos signets), seulement des mesures sur la façon dont vous utilisez l'extension (par exemple, le nombre de dossiers que vous avez et la fréquence à laquelle vous utilisez des raccourcis). Mais cela dépend entièrement de vous, Anori fonctionnera comme d'habitude même si vous n'activez pas l'analyse."
+                "p2": "C'est pourquoi je vous demande d'activer l'envoi de données. Anori n'envoie pas de données privées (comme vos notes ou les URL de vos signets), seulement des mesures sur la façon dont vous utilisez l'extension (par exemple, le nombre de dossiers que vous avez et la fréquence à laquelle vous utilisez des raccourcis). Mais cela dépend entièrement de vous, Anori fonctionnera comme d'habitude même si vous n'activez pas l'analyse.",
+                "p3": "Si vous souhaitez en savoir plus sur les données collectées, cliquez <0>ici</0>."
             },
             "presets": {
                 "title": "Début",
@@ -137,6 +191,13 @@
                 "p2": "Fatigué des choix ? Ce n'est pas grave. Vous n'avez pas besoin de trouver la page parfaite du premier coup. Vous n'avez même pas besoin de partir d'une page vierge. Nous avons préparé une configuration productive pour vous.",
                 "p3": "Il ne répondra peut-être pas à tous vos besoins, mais vous pouvez l'utiliser comme base pour créer votre propre installation que vous adorerez.",
                 "cta": "🚀 Donnez-moi juste une configuration productive"
+            },
+            "preset": {
+                "task": {
+                    "themes": "Essayez différents thèmes dans les paramètres",
+                    "anoriPlus": "Découvrez Anori Plus",
+                    "widgets": "Explorez les widgets disponibles"
+                }
             }
         },
         "requirePermissions": {
@@ -161,7 +222,8 @@
             "status": "La page est actuellement {{status}}, le dernier changement d'état date de {{lastChange}}. Dernière vérification {{lastCheck}}.",
             "statusUp": "En ligne",
             "statusDown": "En panne",
-            "permissionExplanation": "Anori a besoin de cette permission pour contourner CORS. La formulation présentée par votre navigateur peut être déconcertante, mais Anori ne modifie ni ne lit aucune donnée des sites web mis en favoris."
+            "permissionExplanation": "Anori a besoin de cette permission pour contourner CORS. La formulation présentée par votre navigateur peut être déconcertante, mais Anori ne modifie ni ne lit aucune donnée des sites web mis en favoris.",
+            "openInNewTab": "Ouvrir dans un nouvel onglet"
         },
         "calendar-plugin": {
             "name": "Calendrier",
@@ -233,7 +295,8 @@
             "selectCity": "Sélectionner une ville",
             "temperatureUnit": "Unité de température",
             "speedUnit": "Unité de vitesse du vent",
-            "weatherCode": "code météo {{code}}"
+            "weatherCode": "code météo {{code}}",
+            "attribution": "Données météo fournies par <0>Open-Meteo</0>"
         },
         "rss-plugin": {
             "name": "RSS",
@@ -242,6 +305,7 @@
             "feedUrl": "URL du flux RSS",
             "feedUrls": "URL des flux RSS",
             "noPosts": "Aucun message dans ce flux pour l'instant",
+            "compactView": "Vue compacte",
             "presetsTitle": "Placez vos flux préférés ici ou sélectionnez l'un des préréglages :",
             "presetForDevelopers": "Pour les développeurs",
             "presetForDesigners": "Pour les designers",
@@ -270,6 +334,26 @@
             "calculator": "Calculatrice",
             "expandWidgetName": "Calculatrice — extensible",
             "cantCalc": "Impossible de calculer cela"
+        },
+        "picture-plugin": {
+            "name": "Image",
+            "widgetName": "Image",
+            "imageSource": "Source de l'image",
+            "localFile": "Fichier local",
+            "image": "Image",
+            "selectImage": "Sélectionner une image",
+            "changeImage": "Changer l'image"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Paquet",
+            "showAnswer": "Afficher la réponse",
+            "easy": "Facile",
+            "again": "Encore",
+            "good": "Bien",
+            "hard": "Difficile",
+            "error": "AnkiConnect est inaccessible, veuillez vous assurer qu'Anki est en cours d'exécution et qu'AnkiConnect est installé.",
+            "widgetName": "Anki"
         }
     }
 }

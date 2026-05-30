@@ -61,7 +61,7 @@ type Notes = Record<string, string>;
 type Usage = { file: string; line: number; text: string };
 
 const loadJsonFile = <T = Record<string, unknown>>(fname: string): T => {
-  return JSON.parse(readFileSync(fname, "utf-8"));
+  return JSON.parse(readFileSync(fname, "utf-8")) as T;
 };
 
 const saveJsonFile = (fname: string, obj: unknown) => {
@@ -170,7 +170,7 @@ const placeholdersMatch = (english: string, translated: string): boolean => {
   return a.length === b.length && a.every((token, i) => token === b[i]);
 };
 
-type TranslationItem = { key: string; en: string; uk?: string; note?: string; usage?: string };
+type TranslationItem = { key: string; en: string; uk?: string; previous?: string; note?: string; usage?: string };
 
 const callOpenRouter = async (languageName: string, items: TranslationItem[]): Promise<Record<string, string>> => {
   const apiKey = process.env.OPENROUTER_API_KEY;
@@ -185,11 +185,13 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
     `Translate the given UI strings from English into ${languageName}.`,
     `Rules:`,
     `- Translate the "en" value. Use the "uk" (Ukrainian) value only as a secondary reference for meaning and tone.`,
+    `- If a "previous" value is given, it is an existing translation of an earlier, slightly different version of the English string. Keep its tone, terminology, and word choice, and adjust it to match the current "en" rather than translating from scratch.`,
     `- "note" and "usage" describe where the string appears; use them to pick the right wording, but never translate them.`,
     `- Preserve every interpolation placeholder EXACTLY: {{variables}}, numbered tags like <0>...</0> or <1/>, and $t(...) references. Never translate text inside {{ }} or tag contents.`,
     `- Mirror the source's trailing punctuation: if the English ends with an ellipsis ("..."), a colon, or other trailing punctuation, keep the same in the translation; if it doesn't, don't add any.`,
     `- Keep it concise and natural for UI, matching the punctuation and capitalization style of the source.`,
     `- Respond with ONLY a JSON object mapping each "key" to its translated string. No commentary, no markdown.`,
+    `- Output strictly valid JSON: escape any double quotes (\\") and backslashes inside translated values.`,
   ].join("\n");
 
   const user = JSON.stringify(items, null, 2);
@@ -219,10 +221,37 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
   const content = data.choices?.[0]?.message?.content;
   if (!content) throw new Error("OpenRouter returned an empty response");
 
-  const start = content.indexOf("{");
-  const end = content.lastIndexOf("}");
-  if (start === -1 || end === -1) throw new Error(`Could not find JSON in model response: ${content}`);
-  return JSON.parse(content.slice(start, end + 1)) as Record<string, string>;
+  const raw = content
+    .trim()
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/i, "");
+  const start = raw.indexOf("{");
+  const end = raw.lastIndexOf("}");
+  if (start === -1 || end === -1) throw new Error(`no JSON object in model response: ${content.slice(0, 200)}`);
+  try {
+    return JSON.parse(raw.slice(start, end + 1)) as Record<string, string>;
+  } catch (err) {
+    throw new Error(`invalid JSON in model response (${(err as Error).message})`);
+  }
+};
+
+// Translates a batch, isolating failures: on a network or JSON-parse error the batch is
+// split in half and retried, so one malformed key can't sink the others or the whole run.
+const translateBatch = async (languageName: string, items: TranslationItem[]): Promise<Record<string, string>> => {
+  try {
+    return await callOpenRouter(languageName, items);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (items.length === 1) {
+      console.warn(`  ⚠️  ${items[0].key}: translation failed (${message}); skipping.`);
+      return {};
+    }
+    console.warn(`  ⚠️  batch of ${items.length} failed (${message}); splitting and retrying.`);
+    const mid = Math.ceil(items.length / 2);
+    const left = await translateBatch(languageName, items.slice(0, mid));
+    const right = await translateBatch(languageName, items.slice(mid));
+    return { ...left, ...right };
+  }
 };
 
 const chunk = <T>(arr: T[], size: number): T[][] => {
@@ -280,18 +309,21 @@ const translateLanguage = async (
         key,
         en: enFlat[key],
         uk: lang === SECONDARY_REFERENCE ? undefined : ukFlat[key],
+        previous: langFlat[key] || undefined,
         note: notes[key] || undefined,
         usage: usage || undefined,
       };
     });
 
-    let result = await callOpenRouter(languageName, items);
+    let result = await translateBatch(languageName, items);
 
-    // Retry once for any keys whose placeholders didn't survive translation.
-    const broken = batch.filter((key) => result[key] === undefined || !placeholdersMatch(enFlat[key], result[key]));
-    if (broken.length > 0) {
-      const retryItems = items.filter((item) => broken.includes(item.key));
-      const retry = await callOpenRouter(languageName, retryItems);
+    // Retry once for keys that came back with broken interpolation placeholders.
+    const placeholderBroken = batch.filter(
+      (key) => result[key] !== undefined && !placeholdersMatch(enFlat[key], result[key]),
+    );
+    if (placeholderBroken.length > 0) {
+      const retryItems = items.filter((item) => placeholderBroken.includes(item.key));
+      const retry = await translateBatch(languageName, retryItems);
       result = { ...result, ...retry };
     }
 

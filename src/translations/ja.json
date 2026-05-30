@@ -34,6 +34,9 @@
         "canBeEmpty": "空にできます",
         "cloud": {
             "connect": "クラウドに接続",
+            "connected": "接続済み",
+            "disconnect": "切断",
+            "cancel": "キャンセル",
             "account": "クラウドアカウント",
             "login": "ログイン",
             "logout": "ログアウト",
@@ -42,9 +45,29 @@
             "connectedAs": "接続中：",
             "noAccount": "アカウントをお持ちでない方は",
             "createAccount": "こちらから作成",
+            "plusDescription": "Anori Plus は Anori の追加サービスで、複数のブラウザやデバイス間でリアルタイムに設定を同期できます。",
+            "learnMore": "詳細を見る",
+            "profiles": "プロファイル",
+            "noProfiles": "プロファイルが見つかりません。最初のプロファイルを作成して、ブラウザ間で設定を同期しましょう。",
+            "createProfile": "プロファイルを作成",
+            "profileName": "プロファイル名",
+            "createdAt": "作成日: {{date}}",
+            "lastSyncedAt": "最終使用: {{date}}",
+            "create": "作成",
+            "profileCreatedSuccess": "プロファイルを作成しました！他のブラウザをこのプロファイルに接続すると、設定が同期されます。",
+            "confirm": "確認",
+            "rename": "名前を変更",
+            "delete": "削除",
+            "deleteConfirmation": "プロファイル「{{profileName}}」を削除してもよろしいですか？この操作は元に戻せません。",
+            "connectConfirmation": {
+                "message": "プロファイル「{{profileName}}」に接続すると、現在のローカル設定がプロファイルに保存されている設定で上書きされます。続行しますか？"
+            },
             "error": {
                 "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
-                "unknown": "エラーが発生しました。もう一度お試しください。"
+                "unknown": "エラーが発生しました。もう一度お試しください。",
+                "failedToLoadProfiles": "プロファイルの読み込みに失敗しました",
+                "profileNameRequired": "プロファイル名は必須です",
+                "failedToCreateProfile": "プロファイルの作成に失敗しました"
             }
         },
         "iconsPicker": {
@@ -59,7 +82,7 @@
             "general": {
                 "title": "一般",
                 "language": "言語",
-                "translationInfo": "英語とウクライナ語以外の翻訳はコミュニティによって提供されています。誤りや未翻訳の文字列を見つけたら、修正にご協力ください！参加方法は<0>こちら</0>をご覧ください。",
+                "translationInfo": "英語とウクライナ語以外の翻訳は機械翻訳が使用される場合があります。その確認はコミュニティに頼っています。誤りや未翻訳の文字列を見つけたら、修正にご協力ください！参加方法は<0>こちら</0>をご覧ください。",
                 "sidebarOrientation": "サイドバーの向き",
                 "sidebarOrientationOption-auto": "ウィンドウの向きに合わせる",
                 "sidebarOrientationOption-vertical": "常に縦",
@@ -104,13 +127,17 @@
                 "blur": "ぼかし",
                 "colorAccent": "アクセント",
                 "colorBackground": "背景",
-                "colorText": "テキスト"
+                "colorText": "テキスト",
+                "colorCode": "カラーコード"
             },
             "importExport": {
                 "title": "インポート＆エクスポート",
                 "info": "設定のバックアップや過去のバックアップの復元ができます。",
                 "import": "インポート",
-                "export": "エクスポート"
+                "export": "エクスポート",
+                "cloudWarning": "クラウド同期が有効になっています。バックアップをインポートすると、同期プロファイルから切断されます。インポート後に再接続が必要です。続行しますか？",
+                "cloudSyncHint": "設定をクラウドにバックアップしたり、デバイス間でリアルタイムに同期したいですか？<0>Anori Plus</0> を試してみてください — シームレスに実現できます。",
+                "importError": "バックアップをインポートできませんでした: {{error}}"
             },
             "aboutHelp": {
                 "title": "ヘルプと拡張機能について",
@@ -164,6 +191,13 @@
                 "p2": "選択に疲れましたか？大丈夫です。最初から完璧なページを作る必要はありません。白紙から始める必要もありません。生産性の高いセットアップを用意しています。",
                 "p3": "すべてのニーズに合うとは限りませんが、これをベースに自分好みのセットアップを作ることができます。",
                 "cta": "🚀 生産性の高いセットアップを使う"
+            },
+            "preset": {
+                "task": {
+                    "themes": "設定でさまざまなテーマを試してみる",
+                    "anoriPlus": "Anori Plus を確認する",
+                    "widgets": "利用可能なウィジェットを探索する"
+                }
             }
         },
         "requirePermissions": {
@@ -261,7 +295,8 @@
             "selectCity": "都市を選択",
             "temperatureUnit": "温度の単位",
             "speedUnit": "風速の単位",
-            "weatherCode": "天気コード {{code}}"
+            "weatherCode": "天気コード {{code}}",
+            "attribution": "気象データは <0>Open-Meteo</0> により提供されています"
         },
         "rss-plugin": {
             "name": "RSS",
@@ -302,7 +337,12 @@
         },
         "picture-plugin": {
             "name": "画像",
-            "widgetName": "画像"
+            "widgetName": "画像",
+            "imageSource": "画像ソース",
+            "localFile": "ローカルファイル",
+            "image": "画像",
+            "selectImage": "画像を選択",
+            "changeImage": "画像を変更"
         },
         "anki-plugin": {
             "name": "Anki",

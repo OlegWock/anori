@@ -86,7 +86,7 @@
             "general": {
                 "title": "General",
                 "language": "Language",
-                "translationInfo": "Translations into languages other than English or Ukrainian are provided by community. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
+                "translationInfo": "Translations into languages other than English or Ukrainian can be made by machine. We rely on community to review those. If you spot any mistake or untranslated string, help us fix it! <0>Here</0> is instruction how you can participate.",
                 "sidebarOrientation": "Sidebar orientation",
                 "sidebarOrientationOption-auto": "Based on window orientation",
                 "sidebarOrientationOption-vertical": "Always vertical",
