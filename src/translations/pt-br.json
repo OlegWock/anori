@@ -166,12 +166,12 @@
                 "p1": "Que bom ver você! Esta introdução está disponível em {{languages}}.",
                 "p2": "Você está no caminho certo para configurar sua nova guia ideal. A página inicial do Anori consiste em diferentes widgets, como notas, marcadores, listas de tarefas, etc.",
                 "p3": "Você pode adicionar seu primeiro widget clicando no lápis no canto superior direito. Isso mudará a página para o modo de edição. Aqui você pode adicionar novos widgets e reposicionar ou remover os existentes.",
-                "p4": "Para adicionar um novo widget, clique no botão de adição ou clique na marca de seleção para sair do modo de edição. Depois de adicionar seu primeiro widget, essa integração desaparecerá. Você pode adicionar um widget agora mesmo e explorar a extensão por conta própria ou, se quiser saber um pouco mais sobre os recursos que o Anori tem a oferecer, clique em 'Avançar'."
+                "p4": "Para adicionar um novo widget, clique no botão de adição ou clique na marca de seleção para sair do modo de edição. Depois de adicionar seu primeiro widget, essa integração desaparecerá. Você pode adicionar um widget agora mesmo e explorar a extensão por conta própria ou, se quiser saber um pouco mais sobre os recursos que o Anori tem a oferecer, clique em '$t(next)'."
             },
             "folders": {
                 "title": "Pastas",
-                "p1": "Por padrão, todos os seus widgets são adicionados à pasta ‘Início’. No entanto, você também pode organizar seus widgets em pastas diferentes. Por exemplo, você pode ter pastas diferentes para widgets pessoais e de trabalho. Ou você pode ter uma pasta separada para cada projeto individual.",
-                "p2": "Para gerenciar pastas, clique no ícone de engrenagem no canto inferior esquerdo. Isso abrirá as configurações, onde você pode personalizar o Anori ao seu gosto. Clique em 'Pastas' para abrir o gerenciador de pastas."
+                "p1": "Por padrão, todos os seus widgets são adicionados à pasta '$t(home)'. No entanto, você também pode organizar seus widgets em pastas diferentes. Por exemplo, você pode ter pastas diferentes para widgets pessoais e de trabalho. Ou você pode ter uma pasta separada para cada projeto individual.",
+                "p2": "Para gerenciar pastas, clique no ícone de engrenagem no canto inferior esquerdo. Isso abrirá as configurações, onde você pode personalizar o Anori ao seu gosto. Clique em '$t(settings.folders.title)' para abrir o gerenciador de pastas."
             },
             "customization": {
                 "title": "Customização",
@@ -260,7 +260,7 @@
         "tasks-plugin": {
             "name": "Tarefas",
             "todo": "Afazer",
-            "completeTask": "Completar «{{task}}»",
+            "completeTask": "Completar \"{{task}}\"",
             "taskDescription": "Descrição da tarefa...",
             "noTasks": "Nenhuma tarefa por enquanto",
             "exampleTask0": "Caminhada estúpida para saúde mental estúpida",

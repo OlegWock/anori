@@ -1,1 +1,9 @@
-pnpm lint-staged
+pnpm lint-staged || exit 1
+
+# Non-blocking heads-up about translation coverage when translation files change.
+# Never blocks the commit — it only surfaces missing/stale strings so they don't go unnoticed.
+if git diff --cached --name-only | grep -q '^src/translations/.*\.json$'; then
+  echo ""
+  echo "ℹ️  Translation status (informational — does not block the commit):"
+  pnpm translations:status || true
+fi

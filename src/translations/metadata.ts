@@ -2,14 +2,20 @@ import type { Mapping } from "@anori/utils/types";
 import moment from "moment";
 
 import arTranslation from "./ar.json";
+import csTranslation from "./cs.json";
 import deTranslation from "./de.json";
 import enTranslation from "./en.json";
 import esTranslation from "./es.json";
+import filTranslation from "./fil.json";
 import frTranslation from "./fr.json";
+import hiTranslation from "./hi.json";
+import idTranslation from "./id.json";
 import itTranslation from "./it.json";
 import jaTranslation from "./ja.json";
+import plTranslation from "./pl.json";
 import ptBrTranslation from "./pt-br.json";
 import ruTranslation from "./ru.json";
+import skTranslation from "./sk.json";
 import thTranslation from "./th.json";
 import trTranslation from "./tr.json";
 import ukTranslation from "./uk.json";
@@ -29,6 +35,12 @@ import "moment/locale/zh-cn";
 import "moment/locale/ja";
 import "moment/locale/pt-br";
 import "moment/locale/vi";
+import "moment/locale/pl";
+import "moment/locale/sk";
+import "moment/locale/cs";
+import "moment/locale/id";
+import "moment/locale/fil";
+import "moment/locale/hi";
 moment.locale("en");
 
 export const availableTranslations = [
@@ -46,6 +58,12 @@ export const availableTranslations = [
   "ar",
   "ja",
   "vi",
+  "pl",
+  "sk",
+  "cs",
+  "id",
+  "fil",
+  "hi",
 ] as const;
 
 export type Language = (typeof availableTranslations)[number];
@@ -64,8 +82,13 @@ export const availableTranslationsPrettyNames = {
   ar: "العربية",
   "pt-BR": "Português do Brasil",
   ja: "日本語",
-  // 'zh-TW': '中文 (繁體)',
   vi: "Tiếng Việt",
+  pl: "Polski",
+  sk: "Slovenčina",
+  cs: "Čeština",
+  id: "Bahasa Indonesia",
+  fil: "Filipino",
+  hi: "हिन्दी",
 } satisfies Record<Language, string>;
 
 export const resources = {
@@ -83,6 +106,12 @@ export const resources = {
   "pt-BR": ptBrTranslation,
   ja: jaTranslation,
   vi: viTranslation,
+  pl: plTranslation,
+  sk: skTranslation,
+  cs: csTranslation,
+  id: idTranslation,
+  fil: filTranslation,
+  hi: hiTranslation,
 } satisfies Record<Language, Mapping>;
 
 export const languageDirections = {
@@ -100,4 +129,10 @@ export const languageDirections = {
   ar: "rtl",
   ja: "ltr",
   vi: "ltr",
+  pl: "ltr",
+  sk: "ltr",
+  cs: "ltr",
+  id: "ltr",
+  fil: "ltr",
+  hi: "ltr",
 } satisfies Record<Language, "rtl" | "ltr">;

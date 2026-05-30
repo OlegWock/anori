@@ -15,6 +15,19 @@ export const WhatsNew = () => {
             <ul>
               <li>Picture widget can now display local images from your device, not just remote URLs.</li>
               <li>Added Vietnamese translation. This was contribution from @itsccao. Thanks!</li>
+              <li>
+                Translation system was reworked. From now on, new strings will be machine translated into target
+                languages rather than kept in English. Translation might not be perfect, so if you notice a mistake or
+                awkward wording, you're very welcome to{" "}
+                <a href="https://github.com/OlegWock/anori/issues/104" target="_blank" rel="noreferrer">
+                  help fix it
+                </a>
+                .
+              </li>
+              <li>
+                Added Polish, Slovak, Czech, Indonesian, Filipino, and Hindi (machine) translations. If you notice
+                something off, please file an issue.
+              </li>
             </ul>
           </section>
 

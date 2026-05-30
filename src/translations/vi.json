@@ -166,12 +166,12 @@
                 "p1": "Rất vui được gặp bạn! Hướng dẫn này có sẵn bằng {{languages}}.",
                 "p2": "Anori giúp bạn tạo trang tab mới lý tưởng với các tiện ích như ghi chú, dấu trang... Bạn toàn quyền sắp xếp chúng.",
                 "p3": "Nhấp vào biểu tượng bút chì ở góc trên bên phải để vào chế độ chỉnh sửa. Tại đây, bạn có thể thêm, di chuyển hoặc xóa các tiện ích.",
-                "p4": "Nhấp vào nút dấu cộng để thêm tiện ích, hoặc dấu kiểm để thoát chế độ chỉnh sửa. Bạn có thể tự khám phá hoặc chọn 'Tiếp theo' để tìm hiểu thêm."
+                "p4": "Để thêm tiện ích mới, nhấp vào nút dấu cộng, hoặc nhấp vào dấu kiểm để thoát chế độ chỉnh sửa. Khi bạn thêm tiện ích đầu tiên, màn hình giới thiệu này sẽ biến mất. Bạn có thể thêm tiện ích ngay bây giờ và tự khám phá tiện ích mở rộng, hoặc nếu muốn tìm hiểu thêm về các tính năng Anori cung cấp, hãy nhấp vào '$t(next)'."
             },
             "folders": {
                 "title": "Thư mục",
-                "p1": "Mặc định các tiện ích được thêm vào thư mục 'Trang chủ'. Tuy nhiên, bạn có thể phân loại chúng thành các thư mục riêng (Công việc, Cá nhân...).",
-                "p2": "Để quản lý, nhấp vào biểu tượng bánh răng ở góc dưới bên trái để mở Cài đặt, sau đó chọn 'Thư mục'."
+                "p1": "Mặc định tất cả tiện ích của bạn được thêm vào thư mục '$t(home)'. Tuy nhiên, bạn cũng có thể sắp xếp chúng vào các thư mục khác nhau. Ví dụ, bạn có thể có các thư mục riêng cho tiện ích công việc và cá nhân. Hoặc một thư mục riêng cho từng dự án cụ thể.",
+                "p2": "Để quản lý thư mục, nhấp vào biểu tượng bánh răng ở góc dưới bên trái. Thao tác này sẽ mở Cài đặt, nơi bạn có thể tùy chỉnh Anori theo ý thích. Nhấp vào '$t(settings.folders.title)' để mở trình quản lý thư mục."
             },
             "customization": {
                 "title": "Tùy biến",
@@ -260,7 +260,7 @@
         "tasks-plugin": {
             "name": "Nhiệm vụ",
             "todo": "Việc cần làm",
-            "completeTask": "Hoàn thành «{{task}}»",
+            "completeTask": "Hoàn thành \"{{task}}\"",
             "taskDescription": "Mô tả công việc...",
             "noTasks": "Chưa có công việc nào",
             "exampleTask0": "Đi dạo xả stress",

@@ -166,12 +166,12 @@
                 "p1": "¡Que bueno verte! Esta introducción está disponible en {{languages}}.",
                 "p2": "Estás en camino de configurar tu nueva pestaña ideal. La pagina de inicio de Anori consiste de diferentes widgets, como notas, marcadores, listas ToDo, etc. Elige que agregar y como organizarlo.",
                 "p3": "Puede agregar su primer widget haciendo clic en el lápiz arriba a la derecha. Este cambiará la página a modo de edición. Aquí puedes agregar widgets o mover los que ya tienes.",
-                "p4": "Para agregar un nuevo widget, haga clic en el botón con el signo 'más', o haga clic en símbolo de palomita (comprobación) para salir del modo de edición. Una vez agregado tu primer widget, este borde desaparecerá. Puedes agregar un widget ahora mismo y explorar la extensión por tu cuenta or, si quieres saber un poco más sobre las características que Anori tiene para ofrecer, haz clic en 'Siguiente'."
+                "p4": "Para agregar un nuevo widget, haz clic en el botón con el signo más, o haz clic en el símbolo de palomita para salir del modo de edición. Una vez que agregues tu primer widget, este mensaje desaparecerá. Puedes agregar un widget ahora mismo y explorar la extensión por tu cuenta, o, si quieres saber un poco más sobre las características que Anori tiene para ofrecer, haz clic en '$t(next)'."
             },
             "folders": {
                 "title": "Carpetas",
-                "p1": "POr defecto, todos los widgets son agregados en la Carpeta 'Inicio'. Sin embargo, También puedes organizar tus widgets en diferentes carpetas. Por ejemplo, podrías tener varias carpetas para separar widgets del trabajo y personales. O podrías tener una carpeta para cada proyecto individual.",
-                "p2": "Para gestionar carpetas, haga clic en el icono de engranaje del fondo a la izquierda. Esto abrirá la configuración, donde puedes gestionar Anori a tu gusto. Has clic en 'carpetas' para abrir el gestor de carpetas."
+                "p1": "Por defecto, todos los widgets se agregan a la carpeta '$t(home)'. Sin embargo, también puedes organizar tus widgets en diferentes carpetas. Por ejemplo, podrías tener carpetas separadas para widgets de trabajo y personales. O podrías tener una carpeta para cada proyecto individual.",
+                "p2": "Para gestionar carpetas, haz clic en el icono de engranaje en la esquina inferior izquierda. Esto abrirá la configuración, donde puedes personalizar Anori a tu gusto. Haz clic en '$t(settings.folders.title)' para abrir el gestor de carpetas."
             },
             "customization": {
                 "title": "Personalización",
@@ -260,7 +260,7 @@
         "tasks-plugin": {
             "name": "Tareas",
             "todo": "Tareas por hacer",
-            "completeTask": "Completar «{{task}}»",
+            "completeTask": "Completar \"{{task}}\"",
             "taskDescription": "Descripción de la tarea...",
             "noTasks": "Todavía no hay tareas",
             "exampleTask0": "Estúpida caminata para la estúpida salud mental",

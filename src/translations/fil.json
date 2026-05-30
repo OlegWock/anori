@@ -1,0 +1,359 @@
+{
+    "translation": {
+        "appName": "Anori: productivity new tab",
+        "appDescription": "Customizable new tab: compose your own page from widgets",
+        "appActionTitle": "Buksan ang Anori new tab",
+        "icon": "Icon",
+        "title": "Pamagat",
+        "url": "URL",
+        "urls": "Mga URL",
+        "save": "I-save",
+        "import": "I-import",
+        "add": "Idagdag",
+        "reload": "I-reload",
+        "noResults": "Walang resulta",
+        "example": "Halimbawa",
+        "timezone": "Time zone",
+        "refreshing": "Nire-refresh...",
+        "refresh": "I-refresh",
+        "startTypingToSearch": "Magsimulang mag-type para maghanap...",
+        "search": "Maghanap...",
+        "loading": "Naglo-load...",
+        "lastUpdatedAt": "Huling na-update noong {{datetime}}",
+        "home": "Home",
+        "availableOnlyInEnglish": "Available sa Ingles lamang",
+        "px": "px",
+        "whatsNew": "Ano ang bago",
+        "editWidget": "I-edit ang widget",
+        "configureWidget": "I-configure ang widget",
+        "addWidget": "Magdagdag ng widget",
+        "next": "Susunod",
+        "back": "Bumalik",
+        "icons": "Mga icon",
+        "customIcons": "Mga custom na icon",
+        "canBeEmpty": "maaaring walang laman",
+        "cloud": {
+            "connect": "Ikonekta",
+            "connected": "Nakakonekta",
+            "disconnect": "Idiskonekta",
+            "cancel": "Kanselahin",
+            "account": "Cloud account",
+            "login": "Mag-log in",
+            "logout": "Mag-log out",
+            "email": "Email",
+            "password": "Password",
+            "connectedAs": "Nakakonekta bilang",
+            "noAccount": "Wala kang account?",
+            "createAccount": "Gumawa ng isa dito",
+            "plusDescription": "Ang Anori Plus ay isang karagdagang serbisyo para sa Anori na nagbibigay-daan sa iyo na i-sync ang iyong configuration sa pagitan ng maraming browser at device nang real time.",
+            "learnMore": "Matuto pa",
+            "profiles": "Mga Profile",
+            "noProfiles": "Walang nahanap na profile. Gumawa ng iyong unang profile upang i-sync ang mga setting sa pagitan ng mga browser.",
+            "createProfile": "Gumawa ng profile",
+            "profileName": "Pangalan ng profile",
+            "createdAt": "Ginawa {{date}}",
+            "lastSyncedAt": "Huling ginamit {{date}}",
+            "create": "Gumawa",
+            "profileCreatedSuccess": "Nagawa na ang profile! Maaari ka na ngayong ikonekta ang ibang mga browser sa profile na ito at ang iyong mga setting ay isi-sync sa pagitan nila.",
+            "confirm": "Kumpirmahin",
+            "rename": "Palitan ng pangalan",
+            "delete": "Tanggalin",
+            "deleteConfirmation": "Sigurado ka bang gusto mong tanggalin ang profile na \"{{profileName}}\"? Hindi na maaaring bawiin ang aksyong ito.",
+            "connectConfirmation": {
+                "message": "Ang pagkonekta sa profile na \"{{profileName}}\" ay papalitan ang iyong kasalukuyang lokal na configuration ng nakaimbak sa profile. Gusto mo bang magpatuloy?"
+            },
+            "error": {
+                "invalidCredentials": "Mali ang email o password",
+                "unknown": "May nangyaring mali. Pakisubukan muli.",
+                "failedToLoadProfiles": "Nabigong i-load ang mga profile",
+                "profileNameRequired": "Kailangan ang pangalan ng profile",
+                "failedToCreateProfile": "Nabigong gumawa ng profile"
+            }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "Ang mga custom na icon ay mga icon na ini-upload mo para magamit sa Anori.",
+            "customIconsAbsent": "Sa kasalukuyan, wala kang mga custom na icon. Upang mag-upload ng iyong unang custom na icon, pumunta sa mga setting.",
+            "iconFamily": "Pamilya ng icon",
+            "allIcons": "Lahat ng icon",
+            "selectFamilyOrSearch": "Pumili ng partikular na pamilya ng icon o subukang maghanap upang makita ang mga mungkahing icon."
+        },
+        "settings": {
+            "title": "Mga Setting",
+            "general": {
+                "title": "Pangkalahatan",
+                "language": "Wika",
+                "translationInfo": "Ang mga pagsasalin sa mga wikang maliban sa Ingles o Ukrainiano ay maaaring ginawa ng makina. Umaasa kami sa komunidad para suriin ang mga ito. Kung makakita ka ng anumang pagkakamali o hindi nasaling string, tulungan kaming ayusin ito! <0>Dito</0> makikita ang tagubilin kung paano ka makakalahok.",
+                "sidebarOrientation": "Oryentasyon ng sidebar",
+                "sidebarOrientationOption-auto": "Batay sa oryentasyon ng window",
+                "sidebarOrientationOption-vertical": "Palaging patayo",
+                "sidebarOrientationOption-horizontal": "Palaging pahalang",
+                "autoHideSidebar": "Awtomatikong itago ang sidebar",
+                "newTabTitle": "Pamagat ng bagong tab",
+                "enableAnalytics": "Paganahin ang pagpapadala ng analytics",
+                "analyticsHintP1": "Ang analytics ay tumutulong sa akin na mas maunawaan kung paano ginagamit ng mga user ang Anori at kung aling mga feature ang pinaka-ginagamit. Hindi ito nagbabahagi ng anumang pribadong impormasyon, tulad ng nilalaman ng mga tala o mga URL ng bookmark.",
+                "analyticsHintP2": "Nakakatulong ito sa akin na mapabuti ang produkto kaya hinihiling ko sa inyo na paganahin ang pagpapadala ng analytics. <0>Matuto pa.</0>",
+                "showBookmarksBar": "Ipakita ang bookmarks bar",
+                "automaticCompact": "Awtomatikong lumipat sa compact mode batay sa laki ng screen",
+                "automaticCompactModeThreshold": "Lumipat sa compact mode kung ang laki ng screen ay mas maliit sa",
+                "automaticCompactModeThresholdHint": "Ang kasalukuyang lapad ng iyong screen ay {{screenWidth}}px",
+                "useCompact": "Palaging gamitin ang compact mode",
+                "showAnimationOnOpen": "Ipakita ang animasyon sa pagbubukas",
+                "showAnimationOnOpenHint": "Kung pinagana, magpapakita ang extension ng mabilis na loading animation na magtatago ng paunang flicker ng paglo-load ng data at magbibigay ng mas magandang hitsura.",
+                "rememberLastFolder": "Tandaan ang huling bukas na folder"
+            },
+            "customIcons": {
+                "title": "Mga custom na icon",
+                "incorrectFormat": "Mangyaring magbigay ng valid na file(s). Sinusuportahan ng Anori ang .png, .jpg, .gif, .jpeg at .svg",
+                "noIcons": "Wala ka pang anumang custom na icon.",
+                "iconName": "Pangalan ng icon",
+                "invalidNames": "Ang ilan sa mga icon ay may hindi wastong pangalan, mangyaring ayusin ang mga pangalan bago i-save.",
+                "nameContainsInvalidChars": "Ang pangalan ay naglalaman ng mga hindi wastong karakter, tanging mga letra, digit, - at _ lamang ang tinatanggap.",
+                "saveIcons": "I-save ang mga icon",
+                "supportedFormats": "Sinusuportahan ng Anori ang .png, .jpg, .gif at .svg. Pinakamainam na gumamit ng mga square na larawan na may lapad na 128 hanggang 256 pixel (hindi naaangkop sa .svg).",
+                "importIcons": "Mag-import ng mga icon"
+            },
+            "folders": {
+                "title": "Mga folder",
+                "createNew": "Lumikha ng bagong folder",
+                "defaultName": "Bagong folder"
+            },
+            "pluginSettings": {
+                "title": "Mga setting ng plugin"
+            },
+            "theme": {
+                "title": "Tema",
+                "createCustom": "Lumikha ng custom na tema",
+                "selectBackground": "Pumili ng background",
+                "blur": "Blur",
+                "colorAccent": "Accent",
+                "colorBackground": "Background",
+                "colorText": "Teksto",
+                "colorCode": "Color code"
+            },
+            "importExport": {
+                "title": "Import at export",
+                "info": "Dito maaari mong i-backup ang iyong mga setting o ibalik ang mas lumang backup.",
+                "import": "Import",
+                "export": "Export",
+                "cloudWarning": "Naka-enable ang cloud sync mo. Ang pag-import ng backup ay magdidiskonekta sa iyo mula sa iyong sync profile. Kakailanganin mong muling kumonekta pagkatapos ng import. Ituloy?",
+                "cloudSyncHint": "Gusto mo bang i-backup ang iyong configuration sa cloud o i-sync ito sa iba't ibang device nang real time? Subukan ang <0>Anori Plus</0> — ginagawa nito ito nang walang kahirap-hirap.",
+                "importError": "Hindi ma-import ang backup: {{error}}"
+            },
+            "aboutHelp": {
+                "title": "Tulong at tungkol sa extension",
+                "onlyEnglishPlease": "Ako (ang may-akda ng proyekto) ay hindi nagsasalita ng maraming wika, kaya mangyaring mag-file ng iyong mga isyu sa Ingles. Salamat!",
+                "p1": "Ang Anori ay isang libreng open source na extension. Ang source code ay makikita sa <0>GitHub</0>. Kung nais mong magmungkahi ng feature o mag-ulat ng bug, mangyaring lumikha ng <1>bagong issue</1> sa repository. Kung gusto mo lang sabihing salamat, maaari mong i-star ang repo :).",
+                "p2": "Kung nais mong baguhin ang extension na ito, magdagdag ng sariling plugin o widget, mangyaring tingnan ang <0>readme</0> para sa karagdagang impormasyon.",
+                "p3": "Sundan ang may-akda sa <0>Twitter</0> at <1>suportahan ang Ukraine</1>.",
+                "p4": "Kung nais mong suportahan ang pagpapaunlad ng Anori sa pamamagitan ng donasyon, maaari mo itong gawin <0>dito</0>. Available ang crypto at credit card na opsyon.",
+                "license": "Lisensya"
+            }
+        },
+        "shortcuts": {
+            "title": "Mga Shortcut",
+            "showCheatsheet": "Ipakita/itago ang shortcuts cheatsheet",
+            "toggleSettings": "Ipakita/itago ang mga setting",
+            "closeMenuOrModal": "Isara ang modal window",
+            "switchToFolderAbove": "Lumipat sa folder sa itaas",
+            "switchToFolderBelow": "Lumipat sa folder sa ibaba",
+            "switchToNFolder": "Lumipat sa 1st folder (gumagana rin sa ibang numero!)",
+            "editCurrentFolder": "I-edit ang kasalukuyang folder",
+            "addNewWidget": "Magdagdag ng bagong widget sa kasalukuyang folder"
+        },
+        "onboarding": {
+            "start": {
+                "title": "Maligayang pagdating sa Anori!",
+                "p1": "Masaya kaming makita ka! Ang panimulang ito ay available sa {{languages}}.",
+                "p2": "Ikaw ay nasa daan na upang i-setup ang iyong ideal na bagong tab. Ang start page ng Anori ay binubuo ng iba't ibang widget, tulad ng mga tala, bookmark, listahan ng gawain, atbp. Ikaw ang pumipili kung ano ang idadagdag at kung paano ito aayusin.",
+                "p3": "Maaari kang magdagdag ng iyong unang widget sa pamamagitan ng pag-click sa lapis sa kanang sulok sa itaas. Ililipat nito ang pahina sa editing mode. Dito maaari kang magdagdag ng mga bagong widget at muling iposisyon o alisin ang mga kasalukuyang widget.",
+                "p4": "Upang magdagdag ng bagong widget, i-click ang plus button, o i-click ang checkmark upang lumabas sa editing mode. Kapag naidagdag mo na ang iyong unang widget, mawawala ang onboarding na ito. Maaari kang magdagdag ng widget ngayon at tuklasin ang extension nang mag-isa, o, kung nais mong malaman ang higit pa tungkol sa mga feature na inaalok ng Anori, i-click ang '$t(next)'."
+            },
+            "folders": {
+                "title": "Mga Folder",
+                "p1": "Sa default, lahat ng iyong mga widget ay idinadagdag sa folder na '$t(home)'. Gayunpaman, maaari mo ring ayusin ang iyong mga widget sa iba't ibang folder. Halimbawa, maaari kang magkaroon ng magkahiwalay na folder para sa trabaho at personal na mga widget. O maaari kang magkaroon ng hiwalay na folder para sa bawat indibidwal na proyekto.",
+                "p2": "Upang pamahalaan ang mga folder, i-click ang icon na gears sa kaliwang sulok sa ibaba. Magbubukas ito ng mga setting, kung saan maaari mong i-customize ang Anori ayon sa iyong kagustuhan. I-click ang '$t(settings.folders.title)' doon upang buksan ang folders manager."
+            },
+            "customization": {
+                "title": "Pag-customize",
+                "p1": "Habang pinapayagan ka ng Anori na bumuo ng sariling start page mula sa mga widget, maaari pa itong i-customize nang higit pa.",
+                "p2": "Maaari mong baguhin ang pamagat ng bagong tab, baguhin ang color scheme kasama ang background image at mag-upload ng iyong sariling mga icon para gamitin sa mga widget (bilang karagdagan sa 10,000+ built-in na icon).",
+                "p3": "At hindi pa ito kalahati ng mga opsyon. Baka gusto mong tingnan ang mga setting upang makita ang lahat ng ito."
+            },
+            "analytics": {
+                "title": "Analytics",
+                "p1": "Halos tapos na tayo. Ngunit may isang huling bagay. Sa default, ang Anori ay hindi nangongolekta ng anumang tracking data at hindi nagpapadala ng anuman sa mga remote server. Ngunit ginagamit ko ang analytics na boluntaryong ipinapadala ng mga gumagamit upang makita kung aling mga feature ang pinaka-ginagamit at kung ano ang kailangan pang pagbutihin.",
+                "p2": "Kaya naman hinihiling ko sa iyo na paganahin ang pagpapadala ng analytics. Ang Anori ay hindi nagpapadala ng anumang pribadong data (tulad ng iyong mga tala o mga URL ng iyong mga bookmark), kundi mga sukatan lamang kung paano mo ginagamit ang extension (hal. kung ilang folder ang mayroon ka at kung gaano kadalas mong ginagamit ang mga shortcut). Ngunit nasa iyo ito, gagana pa rin ang Anori gaya ng dati kahit hindi mo paganahin ang analytics.",
+                "p3": "Kung nais mong malaman ang higit pa tungkol sa kung anong data ang kinokolekta, i-click <0>dito</0>."
+            },
+            "presets": {
+                "title": "Bagong simula",
+                "p1": "Iyon na lahat. Ngayon ay mayroon ka nang express bachelor's degree sa Anori at handa ka nang lumikha ng iyong sariling start page. Magdagdag ng iyong unang widget at simulan ang pagbuo ng ultimate setup.",
+                "p2": "Pagod sa pagpili? Okay lang iyon. Hindi mo kailangang makuha ang iyong perpektong pahina sa unang pagkakataon. Hindi mo man lang kailangang magsimula sa blangkong canvas. Mayroon kaming inihanda na produktibong setup para sa iyo.",
+                "p3": "Maaaring hindi ito angkop sa lahat ng iyong pangangailangan, ngunit maaari mo itong gamitin bilang batayan upang lumikha ng sariling setup na magugustuhan mo.",
+                "cta": "🚀 Bigyan na ako ng produktibong setup"
+            },
+            "preset": {
+                "task": {
+                    "themes": "Subukan ang iba't ibang tema sa mga setting",
+                    "anoriPlus": "Tingnan ang Anori Plus",
+                    "widgets": "Tuklasin ang mga available na widget"
+                }
+            }
+        },
+        "requirePermissions": {
+            "eh": "Ano?",
+            "modalTitle": "Kailangan ng karagdagang pahintulot",
+            "compactText": "Kailangan ng karagdagang pahintulot. I-click para sa mga detalye.",
+            "text": "Ang widget na ito ay nangangailangan ng karagdagang pahintulot:",
+            "apiPermissions": "Mga pahintulot sa API",
+            "hostPermissions": "Mga pahintulot sa host",
+            "grant": "Bigyan ng pahintulot"
+        },
+        "bookmark-plugin": {
+            "name": "Mga Bookmark",
+            "widgetName": "Bookmark",
+            "groupWidgetName": "Grupo ng bookmark",
+            "openInGroup": "Buksan sa isang grupo ng tab",
+            "group": "Grupo",
+            "searchBookmarks": "Maghanap ng mga bookmark",
+            "checkStatus": "Suriin ang status ng pahina",
+            "checkStatusHint": "Gagawa ang Anori ng kahilingan sa pahina tuwing 10-15 minuto sa background upang makita kung ito ay aktibo. Kung ang server ay hindi maaabot o nagbabalik ng HTTP 5xx na error, ito ay ituturing na hindi aktibo. Mangangailangan ito ng karagdagang pahintulot. Hindi isasagawa ang mga pagsusuri habang sarado ang browser o natutulog ang computer.",
+            "checkingStatus": "Sinusuri ang status ng pahina...",
+            "status": "Ang pahina ay kasalukuyang {{status}}, ang huling pagbabago ng status ay {{lastChange}}. Huling nasuri {{lastCheck}}.",
+            "statusUp": "aktibo",
+            "statusDown": "hindi aktibo",
+            "permissionExplanation": "Kailangan ng Anori ang pahintulot na ito upang maiwasan ang CORS. Ang pagkakasalita na ipinakita ng iyong browser ay maaaring nakakatakot, ngunit hindi binabago o binabasa ng Anori ang anumang data mula sa mga naka-bookmark na website.",
+            "openInNewTab": "Buksan sa bagong tab"
+        },
+        "calendar-plugin": {
+            "name": "Kalendaryo",
+            "widgetName": "Kalendaryo",
+            "firstDayOfWeek": "Unang araw ng linggo"
+        },
+        "datetime-plugin": {
+            "name": "Petsa at oras",
+            "widgetNameS": "Petsa at oras - sukat S",
+            "widgetNameM": "Petsa at oras - sukat M",
+            "withoutDate": "Walang petsa",
+            "timeFormat": "Format ng oras",
+            "dateFormat": "Format ng petsa",
+            "24hours": "24 na oras"
+        },
+        "notes-plugin": {
+            "name": "Mga Tala",
+            "noteTitle": "Pamagat ng tala",
+            "noteText": "Teksto ng tala (sinusuportahan ang markdown)",
+            "exampleTitle": "Listahan ng pamimili",
+            "exampleText": "Mga gulay, ketchup, keso, harina, olive oil"
+        },
+        "recently-closed-plugin": {
+            "name": "Mga kamakailang saradong tab",
+            "widgetTitle": "Kamakailang sarado",
+            "tab": "Tab",
+            "window": "Window"
+        },
+        "system-status-plugin": {
+            "name": "Status ng sistema",
+            "ramLoad": "Pagkarga ng RAM",
+            "cpuLoad": "CPU load"
+        },
+        "tasks-plugin": {
+            "name": "Mga Gawain",
+            "todo": "ToDo",
+            "completeTask": "Kumpletuhin ang \"{{task}}\"",
+            "taskDescription": "Paglalarawan ng gawain...",
+            "noTasks": "Wala pang mga gawain dito",
+            "exampleTask0": "Stupid walk for stupid mental health",
+            "exampleTask1": "Humiga sa sofa",
+            "exampleTask2": "Humiga sa sahig",
+            "exampleTask3": "Subukang huwag umiyak"
+        },
+        "top-sites-plugin": {
+            "name": "Mga nangungunang site",
+            "widgetHorizontal": "Mga nangungunang site - pahalang",
+            "widgetVertical": "Mga nangungunang site - patayo"
+        },
+        "weather-plugin": {
+            "name": "Panahon",
+            "weatherForecast": "Hula ng panahon",
+            "forecast": "Hula",
+            "currentWeather": "Kasalukuyang panahon",
+            "kmh": "km/h",
+            "ms": "m/s",
+            "mph": "mph",
+            "clearSky": "Malinaw na langit",
+            "partlyCloudy": "Bahagyang maulap",
+            "fog": "Ulap",
+            "drizzle": "Ambon",
+            "freezingDrizzle": "Nagyeyelong ambon",
+            "rain": "Ulan",
+            "freezingRain": "Nagyeyelong ulan",
+            "snow": "Niyebe",
+            "rainShower": "Malakas na ulan",
+            "thunderstorm": "Bagyo",
+            "unknownCode": "Hindi kilalang weather code",
+            "selectCity": "Pumili ng lungsod",
+            "temperatureUnit": "Yunit ng temperatura",
+            "speedUnit": "Yunit ng bilis ng hangin",
+            "weatherCode": "weather code {{code}}",
+            "attribution": "Datos ng panahon ay ibinigay ng <0>Open-Meteo</0>"
+        },
+        "rss-plugin": {
+            "name": "RSS",
+            "widgetFeedName": "RSS feed",
+            "widgetLatestPostName": "Pinakabagong post mula sa RSS feed",
+            "feedUrl": "URL ng RSS feed",
+            "feedUrls": "Mga URL ng RSS feed",
+            "noPosts": "Wala pang mga post sa feed na ito",
+            "compactView": "Compact na view",
+            "presetsTitle": "Ilagay ang iyong mga paboritong feed dito o pumili mula sa isa sa mga preset:",
+            "presetForDevelopers": "Para sa mga developer",
+            "presetForDesigners": "Para sa mga designer",
+            "presetInteresting": "Mga kawili-wiling bagay",
+            "presetForDevelopersTitle": "Dev",
+            "presetForDesignersTitle": "Design",
+            "presetInterestingTitle": "Mga kawili-wiling bagay",
+            "examplePostTitle1": "Paano ayusin ang iyong Anori new tab tulad ng isang pro!",
+            "examplePostDescription1": "Magsimula ka sa isang simpleng bookmark at hayaan ang iyong puso ang mag-gabay. Minsan kailangan mo lang ng kaunting kaayusan...",
+            "exampleFeedTitle1": "Anori blog",
+            "examplePostTitle2": "8 pinaka-kapaki-pakinabang na mga extension ng browser",
+            "examplePostDescription2": "Ngayon ipapakita ko sa inyo kung paano gawing productivity station ang iyong browser gamit ang mga must-have na extension. Kasama ang bituin ng palabas — Anori.",
+            "exampleFeedTitle2": "Productivity 101",
+            "examplePostTitle3": "Isang extension na nagbibigay-daan sa iyo na buuin ang iyong sariling new tab mula sa mga widget!",
+            "examplePostDescription3": "Maaari mong buuin ang iyong sariling new tab mula sa mga ibinigay na widget (mga gawain, tala, bookmark, atbp.) at ayusin ang mga ito sa mga folder.",
+            "exampleFeedTitle3": "Reddit"
+        },
+        "iframe-plugin": {
+            "name": "I-embed ang webpage",
+            "expandWidgetName": "I-embed ang webpage — expandable",
+            "showLink": "Ipakita ang link sa orihinal na pahina",
+            "limitations": "Hindi gumagana ang pag-embed sa lahat ng pahina. Aktibong lumalaban ang ilang site sa pagiging ipinapakita bilang naka-embed na pahina, at sa kasamaang-palad, kaunti lang ang magagawa ng Anori tungkol dito. Maaari itong magresulta sa hindi pag-load ng mga pahina (tulad ng Gmail) o mahinang paggana."
+        },
+        "math-plugin": {
+            "name": "Math",
+            "calculator": "Calculator",
+            "expandWidgetName": "Calculator — expandable",
+            "cantCalc": "Hindi ko maka-calculate iyon"
+        },
+        "picture-plugin": {
+            "name": "Larawan",
+            "widgetName": "Larawan",
+            "imageSource": "Pinagmulan ng larawan",
+            "localFile": "Lokal na file",
+            "image": "Larawan",
+            "selectImage": "Pumili ng larawan",
+            "changeImage": "Palitan ang larawan"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Deck",
+            "showAnswer": "Ipakita ang sagot",
+            "easy": "Madali",
+            "again": "Muli",
+            "good": "Mabuti",
+            "hard": "Mahirap",
+            "error": "Hindi maaabot ang AnkiConnect, pakitiyak na tumatakbo ang Anki at naka-install ang AnkiConnect.",
+            "widgetName": "Anki"
+        }
+    }
+}

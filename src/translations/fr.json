@@ -166,12 +166,12 @@
                 "p1": "Heureux de vous voir ! Cette introduction est disponible en{{languages}}.",
                 "p2": "Vous êtes sur le point de configurer votre nouvel onglet idéal. La page d'accueil d'Anori se compose de différents widgets, tels que des notes, des signets, des listes de tâches, etc. Vous choisissez ce que vous voulez ajouter et comment l'organiser.",
                 "p3": "Vous pouvez ajouter votre premier widget en cliquant sur le crayon dans le coin supérieur droit. La page passe alors en mode édition. Vous pouvez alors ajouter de nouveaux widgets et repositionner ou supprimer des widgets existants.",
-                "p4": "Pour ajouter un nouveau widget, cliquez sur le bouton plus, ou cliquez sur la coche pour quitter le mode édition. Une fois que vous aurez ajouté votre premier widget, cet onboarding disparaîtra. Vous pouvez ajouter un widget dès maintenant et explorer l'extension par vous-même ou, si vous souhaitez en savoir un peu plus sur les fonctionnalités offertes par Anori, cliquez sur \"Suivant\"."
+                "p4": "Pour ajouter un nouveau widget, cliquez sur le bouton plus, ou cliquez sur la coche pour quitter le mode édition. Une fois que vous aurez ajouté votre premier widget, cet onboarding disparaîtra. Vous pouvez ajouter un widget dès maintenant et explorer l'extension par vous-même ou, si vous souhaitez en savoir un peu plus sur les fonctionnalités offertes par Anori, cliquez sur \"$t(next)\"."
             },
             "folders": {
                 "title": "Dossiers",
-                "p1": "Par défaut, tous vos widgets sont ajoutés au dossier \"Accueil\". Toutefois, vous pouvez également organiser vos widgets dans différents dossiers. Par exemple, vous pouvez avoir des dossiers différents pour les widgets professionnels et personnels. Vous pouvez également créer un dossier distinct pour chaque projet individuel.",
-                "p2": "Pour gérer les dossiers, cliquez sur l'icône en forme d'engrenage dans le coin inférieur gauche. Cela ouvrira les paramètres, où vous pouvez personnaliser Anori à votre guise. Cliquez sur \"Dossiers\" pour ouvrir le gestionnaire de dossiers."
+                "p1": "Par défaut, tous vos widgets sont ajoutés au dossier \"$t(home)\". Toutefois, vous pouvez également organiser vos widgets dans différents dossiers. Par exemple, vous pouvez avoir des dossiers différents pour les widgets professionnels et personnels. Vous pouvez également créer un dossier distinct pour chaque projet individuel.",
+                "p2": "Pour gérer les dossiers, cliquez sur l'icône en forme d'engrenage dans le coin inférieur gauche. Cela ouvrira les paramètres, où vous pouvez personnaliser Anori à votre guise. Cliquez sur \"$t(settings.folders.title)\" pour ouvrir le gestionnaire de dossiers."
             },
             "customization": {
                 "title": "Personnalisation",
@@ -260,7 +260,7 @@
         "tasks-plugin": {
             "name": "Tâches",
             "todo": "À faire",
-            "completeTask": "Compléter «{{task}}»",
+            "completeTask": "Compléter \"{{task}}\"",
             "taskDescription": "Description de la tâche...",
             "noTasks": "Pas encore de tâches ici",
             "exampleTask0": "Une marche stupide pour une santé mentale stupide",

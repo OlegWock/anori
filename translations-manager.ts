@@ -20,6 +20,9 @@ const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
 const BATCH_SIZE = 40;
 const MAX_USAGES_PER_KEY = 3;
 
+// Toggled by the -v/--verbose CLI flag; dumps raw model responses when parsing fails.
+let verbose = false;
+
 const FINISHED_TRANSLATIONS = [
   "en",
   "uk",
@@ -35,6 +38,12 @@ const FINISHED_TRANSLATIONS = [
   "pt-br",
   "ja",
   "vi",
+  "pl",
+  "sk",
+  "cs",
+  "id",
+  "fil",
+  "hi",
 ];
 
 // English names of the languages, used in the translation prompt.
@@ -52,6 +61,12 @@ const LANGUAGE_ENGLISH_NAMES: Record<string, string> = {
   ar: "Arabic",
   ja: "Japanese",
   vi: "Vietnamese",
+  pl: "Polish",
+  sk: "Slovak",
+  cs: "Czech",
+  id: "Indonesian",
+  fil: "Filipino",
+  hi: "Hindi",
 };
 
 type Fingerprints = Record<string, Record<string, string>>;
@@ -170,6 +185,31 @@ const placeholdersMatch = (english: string, translated: string): boolean => {
   return a.length === b.length && a.every((token, i) => token === b[i]);
 };
 
+// Parses the model's delimited reply: each translation is introduced by a line `[[[<key>]]]`
+// followed by its (possibly multi-line) text. Using markers instead of JSON sidesteps the
+// frequent failure where models emit an unescaped quote inside a value and break the JSON.
+const parseKeyedBlocks = (content: string): Record<string, string> => {
+  const result: Record<string, string> = {};
+  const markerRe = /^\s*\[\[\[(.+?)\]\]\]\s*$/;
+  let key: string | null = null;
+  let buffer: string[] = [];
+  const flush = () => {
+    if (key !== null) result[key] = buffer.join("\n").trim();
+  };
+  for (const line of content.split(/\r?\n/)) {
+    const match = line.match(markerRe);
+    if (match) {
+      flush();
+      key = match[1].trim();
+      buffer = [];
+    } else if (key !== null && !/^\s*```/.test(line)) {
+      buffer.push(line);
+    }
+  }
+  flush();
+  return result;
+};
+
 type TranslationItem = { key: string; en: string; uk?: string; previous?: string; note?: string; usage?: string };
 
 const callOpenRouter = async (languageName: string, items: TranslationItem[]): Promise<Record<string, string>> => {
@@ -185,16 +225,26 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
     `Translate the given UI strings from English into ${languageName}.`,
     `Rules:`,
     `- Translate the "en" value. Use the "uk" (Ukrainian) value only as a secondary reference for meaning and tone.`,
+    `- Words in quotes that name a UI element (a button, tab, folder, or menu label — e.g. 'Next', 'Home', 'Folders') refer to other parts of the app; translate them into the target language to match that label rather than leaving them in English. Keep only brand/product names (such as Anori) untranslated.`,
     `- If a "previous" value is given, it is an existing translation of an earlier, slightly different version of the English string. Keep its tone, terminology, and word choice, and adjust it to match the current "en" rather than translating from scratch.`,
     `- "note" and "usage" describe where the string appears; use them to pick the right wording, but never translate them.`,
     `- Preserve every interpolation placeholder EXACTLY: {{variables}}, numbered tags like <0>...</0> or <1/>, and $t(...) references. Never translate text inside {{ }} or tag contents.`,
     `- Mirror the source's trailing punctuation: if the English ends with an ellipsis ("..."), a colon, or other trailing punctuation, keep the same in the translation; if it doesn't, don't add any.`,
     `- Keep it concise and natural for UI, matching the punctuation and capitalization style of the source.`,
-    `- Respond with ONLY a JSON object mapping each "key" to its translated string. No commentary, no markdown.`,
-    `- Output strictly valid JSON: escape any double quotes (\\") and backslashes inside translated values.`,
+    `- For quotation marks use ONLY straight quotes — the apostrophe ' (U+0027) and the double quote " (U+0022). Never use typographic, curly, or angled quotes (such as “ ” ‘ ’ „ ‚ « » 「 」); replace any of them with the matching straight quote.`,
+    `- Output ONLY the translations, nothing else — no JSON, no commentary, no code fences.`,
+    `- For each item, write a line containing exactly [[[<key>]]] (using the item's "key"), then the translated text on the following line(s). Example:`,
+    `[[[some.key]]]`,
+    `Translated text for some.key`,
+    `[[[another.key]]]`,
+    `Translated text for another.key`,
   ].join("\n");
 
   const user = JSON.stringify(items, null, 2);
+
+  if (verbose) {
+    console.log(`  → requesting ${items.length} key(s): ${items.map((i) => i.key).join(", ")}`);
+  }
 
   const response = await fetch(OPENROUTER_URL, {
     method: "POST",
@@ -205,7 +255,6 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
     body: JSON.stringify({
       model,
       temperature: 0.2,
-      response_format: { type: "json_object" },
       messages: [
         { role: "system", content: system },
         { role: "user", content: user },
@@ -221,18 +270,12 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
   const content = data.choices?.[0]?.message?.content;
   if (!content) throw new Error("OpenRouter returned an empty response");
 
-  const raw = content
-    .trim()
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/\s*```$/i, "");
-  const start = raw.indexOf("{");
-  const end = raw.lastIndexOf("}");
-  if (start === -1 || end === -1) throw new Error(`no JSON object in model response: ${content.slice(0, 200)}`);
-  try {
-    return JSON.parse(raw.slice(start, end + 1)) as Record<string, string>;
-  } catch (err) {
-    throw new Error(`invalid JSON in model response (${(err as Error).message})`);
+  const translations = parseKeyedBlocks(content);
+  if (Object.keys(translations).length === 0) {
+    if (verbose) console.error(`  ──── raw model response ────\n${content}\n  ──── end ────`);
+    throw new Error(`no translations parsed from model response: ${content.slice(0, 200)}`);
   }
+  return translations;
 };
 
 // Translates a batch, isolating failures: on a network or JSON-parse error the batch is
@@ -335,7 +378,9 @@ const translateLanguage = async (
         continue;
       }
       if (!placeholdersMatch(enFlat[key], value)) {
-        console.warn(`  ⚠️  ${key}: placeholder mismatch, keeping translation but please review.`);
+        console.warn(`  ⚠️  ${key}: placeholder mismatch, keeping previous value (will retry next run).`);
+        failures++;
+        continue;
       }
       langFlat[key] = value;
       langFingerprints[key] = fingerprint(enFlat[key]);
@@ -359,7 +404,13 @@ const writeLanguageFile = (lang: string, enFlat: Record<string, string>, langFla
 };
 
 const main = async () => {
-  const args = process.argv.slice(2);
+  const args = process.argv.slice(2).filter((arg) => {
+    if (arg === "-v" || arg === "--verbose") {
+      verbose = true;
+      return false;
+    }
+    return true;
+  });
   const command = args[0];
 
   const enFlat = flattenStrings(getTranslationRoot(DEFAULT_LANGUAGE));

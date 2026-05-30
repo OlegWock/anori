@@ -23,7 +23,6 @@
         "home": "Home",
         "availableOnlyInEnglish": "Available only in English",
         "px": "px",
-
         "whatsNew": "What's new",
         "editWidget": "Edit widget",
         "configureWidget": "Configure widget",
@@ -33,7 +32,6 @@
         "icons": "Icons",
         "customIcons": "Custom icons",
         "canBeEmpty": "can be empty",
-
         "cloud": {
             "connect": "Connect",
             "connected": "Connected",
@@ -72,7 +70,6 @@
                 "failedToCreateProfile": "Failed to create profile"
             }
         },
-
         "iconsPicker": {
             "customIconsInfo": "Custom icons are icons which you upload for later use in Anori.",
             "customIconsAbsent": "Currently, you don't have any custom icons. To upload your first custom icon please head to settings.",
@@ -80,7 +77,6 @@
             "allIcons": "All icons",
             "selectFamilyOrSearch": "Select specific icon family or try searching to see icon suggestions."
         },
-
         "settings": {
             "title": "Settings",
             "general": {
@@ -153,7 +149,6 @@
                 "license": "License"
             }
         },
-
         "shortcuts": {
             "title": "Shortcuts",
             "showCheatsheet": "Show/hide shortcuts cheatsheet",
@@ -165,19 +160,18 @@
             "editCurrentFolder": "Edit current folder",
             "addNewWidget": "Add new widget to current folder"
         },
-
         "onboarding": {
             "start": {
                 "title": "Welcome to Anori!",
                 "p1": "Glad to see you! This introduction is available in {{languages}}.",
                 "p2": "You're on your way to setup your ideal new tab. Anori start page consists of different widgets, like notes, bookmarks, todo lists, etc. You choose what to add and how to organize them.",
                 "p3": "You can add your first widget by clicking on the pencil in the top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
-                "p4": "To add a new widget, click on the plus button, or click on the checkmark to exit editing mode. Once you add your first widget, this onboarding will disappear. You can add a widget right now and explore the extension on your own, or, if you'd like to know a bit more about the features Anori has to offer, click 'Next'."
+                "p4": "To add a new widget, click on the plus button, or click on the checkmark to exit editing mode. Once you add your first widget, this onboarding will disappear. You can add a widget right now and explore the extension on your own, or, if you'd like to know a bit more about the features Anori has to offer, click '$t(next)'."
             },
             "folders": {
                 "title": "Folders",
-                "p1": "By default all your widgets are being added to the 'Home' folder. However, you can also organize your widgets in different folders. For example, you could have different folders for work and personal widgets. Or you could have a separate folder for each individual project.",
-                "p2": "To manage folders, click on a gears icon in the bottom left corner. This will open settings, where you can customize Anori to your liking. Click on 'Folders' there to open folders manager."
+                "p1": "By default all your widgets are being added to the '$t(home)' folder. However, you can also organize your widgets in different folders. For example, you could have different folders for work and personal widgets. Or you could have a separate folder for each individual project.",
+                "p2": "To manage folders, click on a gears icon in the bottom left corner. This will open settings, where you can customize Anori to your liking. Click on '$t(settings.folders.title)' there to open folders manager."
             },
             "customization": {
                 "title": "Customization",
@@ -206,7 +200,6 @@
                 }
             }
         },
-
         "requirePermissions": {
             "eh": "Eh?",
             "modalTitle": "Additional permissions required",
@@ -216,7 +209,6 @@
             "hostPermissions": "Host permissions",
             "grant": "Grant permissions"
         },
-
         "bookmark-plugin": {
             "name": "Bookmarks",
             "widgetName": "Bookmark",
@@ -247,7 +239,6 @@
             "dateFormat": "Date format",
             "24hours": "24 hours"
         },
-
         "notes-plugin": {
             "name": "Notes",
             "noteTitle": "Note title",
@@ -255,14 +246,12 @@
             "exampleTitle": "Shopping list",
             "exampleText": "Veggies, ketchup, cheese, flour, olive oil"
         },
-
         "recently-closed-plugin": {
             "name": "Recently closed tabs",
             "widgetTitle": "Recently closed",
             "tab": "Tab",
             "window": "Window"
         },
-
         "system-status-plugin": {
             "name": "System status",
             "ramLoad": "RAM load",
@@ -271,7 +260,7 @@
         "tasks-plugin": {
             "name": "Tasks",
             "todo": "ToDo",
-            "completeTask": "Complete «{{task}}»",
+            "completeTask": "Complete \"{{task}}\"",
             "taskDescription": "Task description...",
             "noTasks": "No tasks here yet",
             "exampleTask0": "Stupid walk for stupid mental health",
@@ -279,13 +268,11 @@
             "exampleTask2": "Lay on the floor",
             "exampleTask3": "Try not to cry"
         },
-
         "top-sites-plugin": {
             "name": "Top sites",
             "widgetHorizontal": "Top sites - horizontal",
             "widgetVertical": "Top sites - vertical"
         },
-
         "weather-plugin": {
             "name": "Weather",
             "weatherForecast": "Weather forecast",
@@ -311,7 +298,6 @@
             "weatherCode": "weather code {{code}}",
             "attribution": "Weather data provided by <0>Open-Meteo</0>"
         },
-
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "RSS feed",
@@ -337,14 +323,12 @@
             "examplePostDescription3": "You can compose your own new tab from provided widgets (tasks, notes, bookmarks, etc) and organize them into folders.",
             "exampleFeedTitle3": "Reddit"
         },
-
         "iframe-plugin": {
             "name": "Embed webpage",
             "expandWidgetName": "Embed webpage — expandable",
             "showLink": "Show link to original page",
             "limitations": "Embedding doesn't work with all pages. Some sites actively resist being displayed as an embedded page, and unfortunately, Anori can't do much about it. This might result in pages not loading (as is the case with Gmail) or working poorly."
         },
-
         "math-plugin": {
             "name": "Math",
             "calculator": "Calculator",

@@ -166,12 +166,12 @@
                 "p1": "Sizi burada görmekten mutluluk duyuyoruz! Bu tanıtım {{languages}} dillerinde mevcuttur.",
                 "p2": "İdeal yeni sekmenizi oluşturmaya başlıyorsunuz. Anori başlangıç sayfası; notlar, yer imleri, yapılacaklar listesi gibi farklı widget'lardan oluşur. Neyi ekleyeceğinizi ve nasıl düzenleyeceğinizi siz seçersiniz.",
                 "p3": "İlk widget'ınızı eklemek için sağ üst köşedeki kalem simgesine tıklayın. Bu, sayfayı düzenleme moduna geçirir. Bu modda yeni widget ekleyebilir, mevcut olanları yeniden konumlandırabilir veya kaldırabilirsiniz.",
-                "p4": "Yeni bir widget eklemek için artı düğmesine tıklayın ya da düzenleme modundan çıkmak için onay işareti düğmesine tıklayın. İlk widget'ınızı eklediğinizde bu tanıtım kaybolacaktır. Şimdi bir widget ekleyip eklentiyi kendiniz keşfedebilir ya da Anori'nin sunduğu özellikler hakkında biraz daha bilgi edinmek istiyorsanız 'İleri'ye tıklayabilirsiniz."
+                "p4": "Yeni bir widget eklemek için artı düğmesine tıklayın ya da düzenleme modundan çıkmak için onay işareti düğmesine tıklayın. İlk widget'ınızı eklediğinizde bu tanıtım kaybolacaktır. Şimdi bir widget ekleyip eklentiyi kendiniz keşfedebilir ya da Anori'nin sunduğu özellikler hakkında biraz daha bilgi edinmek istiyorsanız '$t(next)'e tıklayabilirsiniz."
             },
             "folders": {
                 "title": "Klasörler",
-                "p1": "Varsayılan olarak tüm widget'larınız 'Ana Sayfa' klasörüne eklenir. Ancak widget'larınızı farklı klasörlerde de düzenleyebilirsiniz. Örneğin, iş ve kişisel widget'lar için ayrı klasörleriniz olabilir ya da her proje için ayrı bir klasör oluşturabilirsiniz.",
-                "p2": "Klasörleri yönetmek için sol alt köşedeki dişli simgesine tıklayın. Bu, Anori'yi istediğiniz gibi özelleştirebileceğiniz ayarları açar. Klasör yöneticisini açmak için orada 'Klasörler'e tıklayın."
+                "p1": "Varsayılan olarak tüm widget'larınız '$t(home)' klasörüne eklenir. Ancak widget'larınızı farklı klasörlerde de düzenleyebilirsiniz. Örneğin, iş ve kişisel widget'lar için ayrı klasörleriniz olabilir ya da her proje için ayrı bir klasör oluşturabilirsiniz.",
+                "p2": "Klasörleri yönetmek için sol alt köşedeki dişli simgesine tıklayın. Bu, Anori'yi istediğiniz gibi özelleştirebileceğiniz ayarları açar. Klasör yöneticisini açmak için orada '$t(settings.folders.title)'a tıklayın."
             },
             "customization": {
                 "title": "Özelleştirme",
@@ -260,7 +260,7 @@
         "tasks-plugin": {
             "name": "Görevler",
             "todo": "Yapılacaklar",
-            "completeTask": "«{{task}}» görevini tamamla",
+            "completeTask": "\"{{task}}\" görevini tamamla",
             "taskDescription": "Görev açıklaması...",
             "noTasks": "Henüz görev yok",
             "exampleTask0": "Aptal bir yürüyüş, aptal bir ruh sağlığı için",

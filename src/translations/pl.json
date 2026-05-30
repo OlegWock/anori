@@ -1,0 +1,359 @@
+{
+    "translation": {
+        "appName": "Anori: produktywna nowa karta",
+        "appDescription": "Konfigurowalna nowa karta: zbuduj własną stronę z widżetów",
+        "appActionTitle": "Otwórz nową kartę Anori",
+        "icon": "Ikona",
+        "title": "Tytuł",
+        "url": "URL",
+        "urls": "URL-e",
+        "save": "Zapisz",
+        "import": "Importuj",
+        "add": "Dodaj",
+        "reload": "Przeładuj",
+        "noResults": "Brak wyników",
+        "example": "Przykład",
+        "timezone": "Strefa czasowa",
+        "refreshing": "Odświeżanie...",
+        "refresh": "Odśwież",
+        "startTypingToSearch": "Zacznij pisać, aby wyszukać...",
+        "search": "Szukaj...",
+        "loading": "Ładowanie...",
+        "lastUpdatedAt": "Ostatnia aktualizacja o {{datetime}}",
+        "home": "Główna",
+        "availableOnlyInEnglish": "Dostępne tylko w języku angielskim",
+        "px": "px",
+        "whatsNew": "Co nowego",
+        "editWidget": "Edytuj widżet",
+        "configureWidget": "Konfiguruj widżet",
+        "addWidget": "Dodaj widżet",
+        "next": "Dalej",
+        "back": "Wstecz",
+        "icons": "Ikony",
+        "customIcons": "Własne ikony",
+        "canBeEmpty": "może być puste",
+        "cloud": {
+            "connect": "Połącz",
+            "connected": "Połączono",
+            "disconnect": "Rozłącz",
+            "cancel": "Anuluj",
+            "account": "Konto w chmurze",
+            "login": "Zaloguj się",
+            "logout": "Wyloguj się",
+            "email": "E-mail",
+            "password": "Hasło",
+            "connectedAs": "Zalogowano jako",
+            "noAccount": "Nie masz konta?",
+            "createAccount": "Utwórz je tutaj",
+            "plusDescription": "Anori Plus to dodatkowa usługa dla Anori, która umożliwia synchronizację konfiguracji między wieloma przeglądarkami i urządzeniami w czasie rzeczywistym.",
+            "learnMore": "Dowiedz się więcej",
+            "profiles": "Profile",
+            "noProfiles": "Nie znaleziono profili. Utwórz swój pierwszy profil, aby synchronizować ustawienia między przeglądarkami.",
+            "createProfile": "Utwórz profil",
+            "profileName": "Nazwa profilu",
+            "createdAt": "Utworzono {{date}}",
+            "lastSyncedAt": "Ostatnio używano {{date}}",
+            "create": "Utwórz",
+            "profileCreatedSuccess": "Profil utworzony! Możesz teraz połączyć inne przeglądarki z tym profilem, a Twoje ustawienia będą między nimi synchronizowane.",
+            "confirm": "Potwierdź",
+            "rename": "Zmień nazwę",
+            "delete": "Usuń",
+            "deleteConfirmation": "Czy na pewno chcesz usunąć profil \"{{profileName}}\"? Tej operacji nie można cofnąć.",
+            "connectConfirmation": {
+                "message": "Połączenie z profilem \"{{profileName}}\" zastąpi Twoją bieżącą lokalną konfigurację tą zapisaną w profilu. Czy chcesz kontynuować?"
+            },
+            "error": {
+                "invalidCredentials": "Nieprawidłowy adres e-mail lub hasło",
+                "unknown": "Coś poszło nie tak. Spróbuj ponownie.",
+                "failedToLoadProfiles": "Nie udało się załadować profili",
+                "profileNameRequired": "Nazwa profilu jest wymagana",
+                "failedToCreateProfile": "Nie udało się utworzyć profilu"
+            }
+        },
+        "iconsPicker": {
+            "customIconsInfo": "Niestandardowe ikony to ikony, które przesyłasz do późniejszego użycia w Anori.",
+            "customIconsAbsent": "Nie masz jeszcze żadnych niestandardowych ikon. Aby przesłać pierwszą niestandardową ikonę, przejdź do ustawień.",
+            "iconFamily": "Rodzina ikon",
+            "allIcons": "Wszystkie ikony",
+            "selectFamilyOrSearch": "Wybierz konkretną rodzinę ikon lub wyszukaj, aby zobaczyć sugestie ikon."
+        },
+        "settings": {
+            "title": "Ustawienia",
+            "general": {
+                "title": "Ogólne",
+                "language": "Język",
+                "translationInfo": "Tłumaczenia na języki inne niż angielski lub ukraiński mogą być wykonane maszynowo. Polegamy na społeczności przy ich weryfikacji. Jeśli zauważysz błąd lub nieprzetłumaczony ciąg, pomóż nam go poprawić! <0>Tutaj</0> znajdziesz instrukcję, jak możesz wziąć udział.",
+                "sidebarOrientation": "Orientacja paska bocznego",
+                "sidebarOrientationOption-auto": "Na podstawie orientacji okna",
+                "sidebarOrientationOption-vertical": "Zawsze pionowa",
+                "sidebarOrientationOption-horizontal": "Zawsze pozioma",
+                "autoHideSidebar": "Automatycznie ukrywaj pasek boczny",
+                "newTabTitle": "Tytuł nowej karty",
+                "enableAnalytics": "Włącz wysyłanie analityki",
+                "analyticsHintP1": "Analityka pomaga mi lepiej rozumieć, jak użytkownicy korzystają z Anori i które funkcje są najczęściej używane. Nie udostępnia żadnych prywatnych informacji, takich jak treść notatek czy adresy URL zakładek.",
+                "analyticsHintP2": "Pomaga mi to tworzyć lepszy produkt, dlatego proszę o włączenie wysyłania analityki. <0>Dowiedz się więcej.</0>",
+                "showBookmarksBar": "Pokaż pasek zakładek",
+                "automaticCompact": "Automatycznie przełączaj na tryb kompaktowy w zależności od rozmiaru ekranu",
+                "automaticCompactModeThreshold": "Przełącz na tryb kompaktowy, jeśli rozmiar ekranu jest mniejszy niż",
+                "automaticCompactModeThresholdHint": "Aktualna szerokość ekranu wynosi {{screenWidth}}px",
+                "useCompact": "Zawsze używaj trybu kompaktowego",
+                "showAnimationOnOpen": "Pokaż animację przy otwieraniu",
+                "showAnimationOnOpenHint": "Gdy ta opcja jest włączona, rozszerzenie wyświetli krótką animację ładowania, która ukryje początkowe migotanie podczas wczytywania danych i zapewni lepszy wygląd.",
+                "rememberLastFolder": "Zapamiętaj ostatnio otwartą teczkę"
+            },
+            "customIcons": {
+                "title": "Własne ikony",
+                "incorrectFormat": "Podaj prawidłowe pliki. Anori obsługuje .png, .jpg, .gif, .jpeg i .svg",
+                "noIcons": "Nie masz jeszcze żadnych własnych ikon.",
+                "iconName": "Nazwa ikony",
+                "invalidNames": "Niektóre ikony mają nieprawidłową nazwę, popraw je przed zapisaniem.",
+                "nameContainsInvalidChars": "Nazwa zawiera niedozwolone znaki, dozwolone są tylko litery, cyfry, - i _.",
+                "saveIcons": "Zapisz ikony",
+                "supportedFormats": "Anori obsługuje .png, .jpg, .gif i .svg. Najlepiej używać kwadratowych obrazów o szerokości od 128 do 256 pikseli (nie dotyczy .svg).",
+                "importIcons": "Importuj ikony"
+            },
+            "folders": {
+                "title": "Teczki",
+                "createNew": "Utwórz nową teczkę",
+                "defaultName": "Nowa teczka"
+            },
+            "pluginSettings": {
+                "title": "Ustawienia wtyczek"
+            },
+            "theme": {
+                "title": "Motyw",
+                "createCustom": "Utwórz własny motyw",
+                "selectBackground": "Wybierz tło",
+                "blur": "Rozmycie",
+                "colorAccent": "Akcent",
+                "colorBackground": "Tło",
+                "colorText": "Tekst",
+                "colorCode": "Kod koloru"
+            },
+            "importExport": {
+                "title": "Import i eksport",
+                "info": "Tutaj możesz wykonać kopię zapasową swoich ustawień lub przywrócić starszą kopię.",
+                "import": "Import",
+                "export": "Eksport",
+                "cloudWarning": "Masz włączoną synchronizację w chmurze. Importowanie kopii zapasowej rozłączy Cię z profilem synchronizacji. Po imporcie będziesz musiał ponownie się połączyć. Kontynuować?",
+                "cloudSyncHint": "Chcesz wykonać kopię zapasową konfiguracji w chmurze lub synchronizować ją między urządzeniami w czasie rzeczywistym? Wypróbuj <0>Anori Plus</0> — robi to bezproblemowo.",
+                "importError": "Nie udało się zaimportować kopii zapasowej: {{error}}"
+            },
+            "aboutHelp": {
+                "title": "Pomoc i informacje o rozszerzeniu",
+                "onlyEnglishPlease": "Ja (autor projektu) nie znam wielu języków, dlatego proszę o zgłaszanie problemów po angielsku. Dziękuję!",
+                "p1": "Anori to darmowe rozszerzenie o otwartym kodzie źródłowym. Kod można znaleźć na <0>GitHub</0>. Jeśli chcesz zaproponować nową funkcję lub zgłosić błąd, utwórz <1>nowe zgłoszenie</1> w repozytorium. Jeśli po prostu chcesz podziękować, możesz dodać gwiazdkę do repo :).",
+                "p2": "Jeśli chcesz zmodyfikować to rozszerzenie, dodać własny plugin lub widget, zajrzyj do <0>readme</0>, aby uzyskać więcej informacji.",
+                "p3": "Śledź autora na <0>Twitter</0> i <1>wspieraj Ukrainę</1>.",
+                "p4": "Jeśli chcesz wesprzeć rozwój Anori finansowo, możesz to zrobić <0>tutaj</0>. Dostępne są opcje płatności kartą kredytową oraz kryptowalutą.",
+                "license": "Licencja"
+            }
+        },
+        "shortcuts": {
+            "title": "Skróty klawiszowe",
+            "showCheatsheet": "Pokaż/ukryj ściągawkę ze skrótami",
+            "toggleSettings": "Pokaż/ukryj ustawienia",
+            "closeMenuOrModal": "Zamknij okno modalne",
+            "switchToFolderAbove": "Przejdź do folderu powyżej",
+            "switchToFolderBelow": "Przejdź do folderu poniżej",
+            "switchToNFolder": "Przejdź do 1. folderu (działa też z innymi numerami!)",
+            "editCurrentFolder": "Edytuj bieżący folder",
+            "addNewWidget": "Dodaj nowy widget do bieżącego folderu"
+        },
+        "onboarding": {
+            "start": {
+                "title": "Witaj w Anori!",
+                "p1": "Miło cię widzieć! To wprowadzenie jest dostępne w następujących językach: {{languages}}.",
+                "p2": "Jesteś na dobrej drodze do skonfigurowania idealnej nowej karty. Strona startowa Anori składa się z różnych widżetów, takich jak notatki, zakładki, listy zadań itp. Ty decydujesz, co dodać i jak to zorganizować.",
+                "p3": "Możesz dodać swój pierwszy widżet, klikając ikonę ołówka w prawym górnym rogu. Spowoduje to przełączenie strony w tryb edycji. Tutaj możesz dodawać nowe widżety oraz zmieniać położenie lub usuwać istniejące.",
+                "p4": "Aby dodać nowy widżet, kliknij przycisk z plusem lub kliknij znacznik wyboru, aby wyjść z trybu edycji. Po dodaniu pierwszego widżetu ten ekran powitalny zniknie. Możesz dodać widżet już teraz i samodzielnie poznać rozszerzenie lub, jeśli chcesz dowiedzieć się nieco więcej o funkcjach Anori, kliknij \"$t(next)\"."
+            },
+            "folders": {
+                "title": "Foldery",
+                "p1": "Domyślnie wszystkie widżety są dodawane do folderu \"$t(home)\". Możesz jednak organizować widżety w różnych folderach. Na przykład możesz mieć osobne foldery dla widżetów służbowych i prywatnych. Albo osobny folder dla każdego projektu.",
+                "p2": "Aby zarządzać folderami, kliknij ikonę koła zębatego w lewym dolnym rogu. Otworzy to ustawienia, w których możesz dostosować Anori do swoich potrzeb. Kliknij tam \"$t(settings.folders.title)\", aby otworzyć menedżer folderów."
+            },
+            "customization": {
+                "title": "Personalizacja",
+                "p1": "Anori pozwala tworzyć własną stronę startową z widżetów, ale można go dostosować jeszcze bardziej.",
+                "p2": "Możesz zmienić tytuł nowej karty, schemat kolorów wraz z obrazem tła oraz przesłać własne ikony do użycia w widżetach (oprócz ponad 10 000 wbudowanych ikon).",
+                "p3": "A to nawet nie połowa dostępnych opcji. Zajrzyj do ustawień, aby zobaczyć je wszystkie."
+            },
+            "analytics": {
+                "title": "Analityka",
+                "p1": "Prawie skończyliśmy, ale została jeszcze jedna rzecz. Domyślnie Anori nie zbiera żadnych danych śledzenia i nic nie wysyła na zewnętrzne serwery. Korzystam jednak z analityki dobrowolnie przesyłanej przez użytkowników, aby wiedzieć, które funkcje są najczęściej używane i co wymaga jeszcze trochę dopracowania.",
+                "p2": "Dlatego proszę Cię o włączenie wysyłania analityki. Anori nie wysyła żadnych prywatnych danych (takich jak treść notatek czy adresy URL zakładek), tylko metryki dotyczące sposobu korzystania z rozszerzenia (np. ile masz folderów i jak często używasz skrótów klawiszowych). Decyzja należy wyłącznie do Ciebie — Anori będzie działać normalnie, nawet jeśli nie włączysz analityki.",
+                "p3": "Jeśli chcesz dowiedzieć się więcej o tym, jakie dane są zbierane, kliknij <0>tutaj</0>."
+            },
+            "presets": {
+                "title": "Nowy początek",
+                "p1": "To wszystko. Masz teraz ekspresowy tytuł licencjata z Anori i jesteś gotowy, by stworzyć własną stronę startową. Dodaj swój pierwszy widget i zacznij budować wymarzony setup.",
+                "p2": "Zmęczony wyborami? Spokojnie. Nie musisz tworzyć idealnej strony za pierwszym razem. Nie musisz nawet zaczynać od pustego płótna. Mamy dla Ciebie gotowy produktywny setup.",
+                "p3": "Może nie być idealnie dopasowany do Twoich potrzeb, ale możesz go użyć jako bazy do stworzenia własnego setupu, który pokochasz.",
+                "cta": "🚀 Daj mi gotowy produktywny setup"
+            },
+            "preset": {
+                "task": {
+                    "themes": "Wypróbuj różne motywy w ustawieniach",
+                    "anoriPlus": "Sprawdź Anori Plus",
+                    "widgets": "Odkryj dostępne widgety"
+                }
+            }
+        },
+        "requirePermissions": {
+            "eh": "Hm?",
+            "modalTitle": "Wymagane dodatkowe uprawnienia",
+            "compactText": "Wymagane dodatkowe uprawnienia. Kliknij, aby zobaczyć szczegóły.",
+            "text": "Ten widget wymaga dodatkowych uprawnień:",
+            "apiPermissions": "Uprawnienia API",
+            "hostPermissions": "Uprawnienia hosta",
+            "grant": "Przyznaj uprawnienia"
+        },
+        "bookmark-plugin": {
+            "name": "Zakładki",
+            "widgetName": "Zakładka",
+            "groupWidgetName": "Grupa zakładek",
+            "openInGroup": "Otwórz w grupie kart",
+            "group": "Grupa",
+            "searchBookmarks": "Szukaj zakładek",
+            "checkStatus": "Sprawdzaj status strony",
+            "checkStatusHint": "Anori będzie wysyłać żądanie do strony co 10–15 minut w tle, aby sprawdzić, czy działa. Jeśli serwer jest niedostępny lub zwraca błąd HTTP 5xx, zostanie uznany za niedostępny. Ta funkcja wymaga dodatkowego uprawnienia. Sprawdzanie nie będzie wykonywane, gdy przeglądarka jest zamknięta lub komputer jest w trybie uśpienia.",
+            "checkingStatus": "Sprawdzanie statusu strony...",
+            "status": "Strona jest obecnie {{status}}, ostatnia zmiana statusu nastąpiła {{lastChange}}. Ostatnio sprawdzono {{lastCheck}}.",
+            "statusUp": "dostępna",
+            "statusDown": "niedostępna",
+            "permissionExplanation": "Anori potrzebuje tego uprawnienia, aby obejść CORS. Sformułowanie przedstawione przez przeglądarkę może brzmieć niepokojąco, ale Anori nie odczytuje ani nie zmienia żadnych danych na stronach z zakładek.",
+            "openInNewTab": "Otwieraj w nowej karcie"
+        },
+        "calendar-plugin": {
+            "name": "Kalendarz",
+            "widgetName": "Kalendarz",
+            "firstDayOfWeek": "Pierwszy dzień tygodnia"
+        },
+        "datetime-plugin": {
+            "name": "Data i godzina",
+            "widgetNameS": "Data i godzina - rozmiar S",
+            "widgetNameM": "Data i godzina - rozmiar M",
+            "withoutDate": "Bez daty",
+            "timeFormat": "Format czasu",
+            "dateFormat": "Format daty",
+            "24hours": "24 godziny"
+        },
+        "notes-plugin": {
+            "name": "Notatki",
+            "noteTitle": "Tytuł notatki",
+            "noteText": "Treść notatki (obsługiwany markdown)",
+            "exampleTitle": "Lista zakupów",
+            "exampleText": "Warzywa, ketchup, ser, mąka, oliwa z oliwek"
+        },
+        "recently-closed-plugin": {
+            "name": "Ostatnio zamknięte karty",
+            "widgetTitle": "Ostatnio zamknięte",
+            "tab": "Karta",
+            "window": "Okno"
+        },
+        "system-status-plugin": {
+            "name": "Status systemu",
+            "ramLoad": "Obciążenie RAM",
+            "cpuLoad": "Obciążenie CPU"
+        },
+        "tasks-plugin": {
+            "name": "Zadania",
+            "todo": "Lista zadań",
+            "completeTask": "Oznacz \"{{task}}\" jako ukończone",
+            "taskDescription": "Opis zadania...",
+            "noTasks": "Brak zadań",
+            "exampleTask0": "Głupi spacer dla głupiego zdrowia psychicznego",
+            "exampleTask1": "Leżeć na kanapie",
+            "exampleTask2": "Leżeć na podłodze",
+            "exampleTask3": "Starać się nie płakać"
+        },
+        "top-sites-plugin": {
+            "name": "Popularne strony",
+            "widgetHorizontal": "Popularne strony - poziomy",
+            "widgetVertical": "Popularne strony - pionowy"
+        },
+        "weather-plugin": {
+            "name": "Pogoda",
+            "weatherForecast": "Prognoza pogody",
+            "forecast": "Prognoza",
+            "currentWeather": "Aktualna pogoda",
+            "kmh": "km/h",
+            "ms": "m/s",
+            "mph": "mph",
+            "clearSky": "Bezchmurnie",
+            "partlyCloudy": "Częściowe zachmurzenie",
+            "fog": "Mgła",
+            "drizzle": "Mżawka",
+            "freezingDrizzle": "Marznąca mżawka",
+            "rain": "Deszcz",
+            "freezingRain": "Marznący deszcz",
+            "snow": "Śnieg",
+            "rainShower": "Przelotny deszcz",
+            "thunderstorm": "Burza",
+            "unknownCode": "Nieznany kod pogody",
+            "selectCity": "Wybierz miasto",
+            "temperatureUnit": "Jednostka temperatury",
+            "speedUnit": "Jednostka prędkości wiatru",
+            "weatherCode": "kod pogody {{code}}",
+            "attribution": "Dane pogodowe dostarczone przez <0>Open-Meteo</0>"
+        },
+        "rss-plugin": {
+            "name": "RSS",
+            "widgetFeedName": "Kanał RSS",
+            "widgetLatestPostName": "Najnowszy wpis z kanału RSS",
+            "feedUrl": "URL kanału RSS",
+            "feedUrls": "Adresy URL kanałów RSS",
+            "noPosts": "Brak postów w tym kanale",
+            "compactView": "Widok kompaktowy",
+            "presetsTitle": "Dodaj swoje ulubione kanały lub wybierz jeden z gotowych zestawów:",
+            "presetForDevelopers": "Dla programistów",
+            "presetForDesigners": "Dla projektantów",
+            "presetInteresting": "Po prostu ciekawe rzeczy",
+            "presetForDevelopersTitle": "Dev",
+            "presetForDesignersTitle": "Design",
+            "presetInterestingTitle": "Ciekawe rzeczy",
+            "examplePostTitle1": "Jak zorganizować nową kartę Anori jak profesjonalista!",
+            "examplePostDescription1": "Zacznij od dobrych starych zakładek i pozwól, by serce cię prowadziło. Czasem wystarczy odrobina porządku...",
+            "exampleFeedTitle1": "Blog Anori",
+            "examplePostTitle2": "8 najbardziej przydatnych rozszerzeń do przeglądarki",
+            "examplePostDescription2": "Dziś pokażę wam, jak zamienić przeglądarkę w centrum produktywności dzięki tym niezbędnym rozszerzeniom. W roli głównej gwiazda show — Anori.",
+            "exampleFeedTitle2": "Produktywność 101",
+            "examplePostTitle3": "Rozszerzenie, które pozwala tworzyć własną nową kartę z widżetów!",
+            "examplePostDescription3": "Możesz stworzyć własną nową kartę z dostępnych widżetów (zadania, notatki, zakładki itp.) i organizować je w foldery.",
+            "exampleFeedTitle3": "Reddit"
+        },
+        "iframe-plugin": {
+            "name": "Osadzona strona",
+            "expandWidgetName": "Osadzona strona — rozwijana",
+            "showLink": "Pokaż link do oryginalnej strony",
+            "limitations": "Osadzanie nie działa ze wszystkimi stronami. Niektóre witryny aktywnie blokują wyświetlanie jako osadzona strona i niestety Anori niewiele może z tym zrobić. Może to skutkować brakiem możliwości załadowania strony (jak w przypadku Gmaila) lub jej nieprawidłowym działaniem."
+        },
+        "math-plugin": {
+            "name": "Matematyka",
+            "calculator": "Kalkulator",
+            "expandWidgetName": "Kalkulator — rozwijany",
+            "cantCalc": "Nie mogę tego obliczyć"
+        },
+        "picture-plugin": {
+            "name": "Obraz",
+            "widgetName": "Obraz",
+            "imageSource": "Źródło obrazu",
+            "localFile": "Plik lokalny",
+            "image": "Obraz",
+            "selectImage": "Wybierz obraz",
+            "changeImage": "Zmień obraz"
+        },
+        "anki-plugin": {
+            "name": "Anki",
+            "deck": "Talia",
+            "showAnswer": "Pokaż odpowiedź",
+            "easy": "Łatwe",
+            "again": "Jeszcze raz",
+            "good": "Dobre",
+            "hard": "Trudne",
+            "error": "Nie można połączyć się z AnkiConnect. Upewnij się, że Anki jest uruchomione i AnkiConnect jest zainstalowany.",
+            "widgetName": "Anki"
+        }
+    }
+}

@@ -166,12 +166,12 @@
                 "p1": "Felice di vederti! Questa introduzione è disponibile in {{languages}}.",
                 "p2": "Stai per configurare la tua nuova scheda ideale. La pagina d'avvio di Anori è composta da diversi widget, come note, segnalibri, elenchi di task, ecc. Tu scegli cosa aggiungere e come organizzarli.",
                 "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita nell'angolo in alto a destra. Questo passerà alla modalità di modifica. Qui puoi aggiungere, riposizionare o rimuovere i vari widget.",
-                "p4": "Per aggiungere un nuovo widget, clicca sul pulsante più. Clicca sulla spunta per uscire dalla modalità di modifica. Una volta aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget ora ed esplorare da solo, altrimenti, se desideri conoscere un po' meglio le funzionalità che Anori offre, clicca su 'Avanti'."
+                "p4": "Per aggiungere un nuovo widget, clicca sul pulsante più, oppure clicca sulla spunta per uscire dalla modalità di modifica. Una volta aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget ora ed esplorare l'estensione da solo, altrimenti, se desideri conoscere un po' meglio le funzionalità che Anori offre, clicca su '$t(next)'."
             },
             "folders": {
                 "title": "Cartelle",
-                "p1": "Per impostazione predefinita, tutti i tuoi widget vengono aggiunti alla cartella 'Home'. Tuttavia, puoi anche organizzare i tuoi widget in diverse cartelle. Ad esempio, potresti avere una cartella per il lavoro e una personala. Oppure potresti avere una cartella separata per ogni progetto.",
-                "p2": "Per gestire le cartelle, clicca sull'icona dell'ingranaggio nell'angolo in basso a sinistra. Questo aprirà le impostazioni, dove puoi personalizzare Anori a tuo piacimento. Clicca su 'Cartelle' per aprire il gestore delle cartelle."
+                "p1": "Per impostazione predefinita, tutti i tuoi widget vengono aggiunti alla cartella '$t(home)'. Tuttavia, puoi anche organizzare i tuoi widget in diverse cartelle. Ad esempio, potresti avere cartelle separate per i widget di lavoro e personali. Oppure potresti avere una cartella separata per ogni singolo progetto.",
+                "p2": "Per gestire le cartelle, clicca sull'icona dell'ingranaggio nell'angolo in basso a sinistra. Questo aprirà le impostazioni, dove puoi personalizzare Anori a tuo piacimento. Clicca su '$t(settings.folders.title)' per aprire il gestore delle cartelle."
             },
             "customization": {
                 "title": "Personalizzazione",
@@ -260,7 +260,7 @@
         "tasks-plugin": {
             "name": "Attività",
             "todo": "ToDo",
-            "completeTask": "Completa «{{task}}»",
+            "completeTask": "Completa \"{{task}}\"",
             "taskDescription": "Descrizione attività...",
             "noTasks": "Nessuna attività",
             "exampleTask0": "Stupida passeggiata per la mia stupida salute mentale",
