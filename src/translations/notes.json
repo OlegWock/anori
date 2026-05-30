@@ -1,0 +1,357 @@
+{
+    "appName": "Browser extension name shown in store listings, the extension list, and the browser action title; also used in manifest metadata.",
+    "appDescription": "Extension description shown in browser store listings and the extension list; also used in manifest metadata.",
+    "appActionTitle": "Tooltip shown when hovering the extension icon in the browser toolbar; also used in manifest metadata.",
+    "icon": "Form field label for selecting an icon in widget configuration screens.",
+    "title": "Form field label for entering a widget's title or display name in configuration screens.",
+    "url": "Form field label for entering a URL in widget configuration screens.",
+    "urls": "Form field label for a list of web addresses in widget configuration screens.",
+    "save": "Button label that saves the current widget configuration form.",
+    "import": "Button label that imports a value from an external source (such as browser bookmarks) into a form field.",
+    "add": "Button label for adding a new item to a list in widget configuration screens.",
+    "reload": "Action to reload the page.",
+    "noResults": "Empty-state message displayed when a search or filter produces no matching items.",
+    "example": "Placeholder title text used in example widget previews (iframe and bookmark previews).",
+    "timezone": "Form field label for selecting a timezone in the date/time widget configuration screen.",
+    "refreshing": "Transient status text shown while RSS feeds are being refreshed.",
+    "refresh": "Button to refresh/reload content in widgets such as RSS feeds.",
+    "startTypingToSearch": "Placeholder text inside dropdown/combobox search inputs prompting the user to start typing.",
+    "search": "Placeholder text inside search input fields for finding icons or widgets.",
+    "loading": "Generic loading status shown while fetching data (weather/RSS widgets, cloud profile list).",
+    "lastUpdatedAt": "Timestamp label showing when a data source was last refreshed (weather, RSS).",
+    "home": "Name of the default folder where widgets are placed by default; also appears in onboarding text about folders.",
+    "availableOnlyInEnglish": "Notice shown in the 'What's new' modal when the browser language is not English, indicating release notes are English-only.",
+    "px": "Unit suffix (pixels) appended to numeric size/breakpoint inputs.",
+    "whatsNew": "Sidebar button label and modal title for the release notes / changelog feature.",
+    "editWidget": "Modal dialog title for editing the configuration of an already-placed widget.",
+    "configureWidget": "Modal dialog title for configuring a newly added widget during the add-widget wizard.",
+    "addWidget": "Button/modal title for selecting and adding a new widget to the current folder; also a step in onboarding.",
+    "next": "Navigation button advancing to the next step of the onboarding wizard.",
+    "back": "Navigation button returning to the previous step of a wizard or dialog.",
+    "icons": "Heading for the section listing available built-in icons in the icon picker.",
+    "customIcons": "Option/tab label in the icon picker for the user's own uploaded icon set.",
+    "canBeEmpty": "Inline parenthetical hint next to an optional form field label, indicating it may be left blank.",
+    "cloud": {
+        "connect": "Button to connect the current browser to a cloud sync profile (sidebar and profile cards).",
+        "connected": "Badge next to a profile name indicating it is currently connected and syncing.",
+        "disconnect": "Button to disconnect the current browser from the active cloud profile.",
+        "cancel": "Button to dismiss cloud modals (profile creation, rename, connect confirmation).",
+        "account": "Cloud account modal title and the sidebar button that opens it.",
+        "login": "Submit button on the cloud login form.",
+        "logout": "Button to log out of the cloud account in the connected-account view.",
+        "email": "Email input field on the cloud login form.",
+        "password": "Password input field on the cloud login form.",
+        "connectedAs": "Label showing which email the user is logged in as.",
+        "noAccount": "Prompt text shown before the sign-up link on the login form.",
+        "createAccount": "Link on the login form that takes the user to create an account.",
+        "plusDescription": "Description of the Anori Plus cloud-sync service shown to logged-out users.",
+        "learnMore": "Link on the login screen to learn more about Anori Plus.",
+        "profiles": "Heading for the list of sync profiles in the connected-account view.",
+        "noProfiles": "Empty-state message when the user has no sync profiles yet.",
+        "createProfile": "Button that opens the new-profile creation flow.",
+        "profileName": "Input field for the new profile's name.",
+        "createdAt": "Profile metadata label showing when the profile was created.",
+        "lastSyncedAt": "Profile metadata label showing when the profile was last used.",
+        "create": "Button that confirms creation of the new profile.",
+        "profileCreatedSuccess": "Success message shown after a sync profile is created.",
+        "confirm": "Generic confirm button in cloud confirmation dialogs (connect, delete).",
+        "rename": "Button to rename an existing sync profile.",
+        "delete": "Button to delete a sync profile.",
+        "deleteConfirmation": "Confirmation prompt before deleting a profile, including the profile's name.",
+        "connectConfirmation": {
+            "message": "Confirmation prompt warning that connecting will overwrite the local configuration, including the profile's name."
+        },
+        "error": {
+            "invalidCredentials": "Login error shown when the email or password is wrong.",
+            "unknown": "Generic fallback error message for failed cloud requests.",
+            "failedToLoadProfiles": "Error shown when the profile list fails to load.",
+            "profileNameRequired": "Validation error when creating a profile without a name.",
+            "failedToCreateProfile": "Error shown when profile creation fails."
+        }
+    },
+    "iconsPicker": {
+        "customIconsInfo": "Informational text in the icon picker explaining what custom icons are.",
+        "customIconsAbsent": "Empty-state in the icon picker's custom-icons view prompting the user to upload one in settings.",
+        "iconFamily": "Label for the dropdown that selects an icon family in the icon picker.",
+        "allIcons": "Option in the icon-family dropdown showing icons from all families.",
+        "selectFamilyOrSearch": "Hint in the icon picker prompting the user to pick a family or search."
+    },
+    "settings": {
+        "title": "Sidebar button that opens the Settings modal.",
+        "general": {
+            "title": "Title of the General tab in Settings.",
+            "language": "Label for the interface language dropdown in General settings.",
+            "translationInfo": "Note in General settings explaining community translations and linking to contribution instructions.",
+            "sidebarOrientation": "Label for the sidebar orientation dropdown in General settings.",
+            "sidebarOrientationOption-auto": "Sidebar orientation dropdown option.",
+            "sidebarOrientationOption-vertical": "Sidebar orientation dropdown option.",
+            "sidebarOrientationOption-horizontal": "Sidebar orientation dropdown option.",
+            "autoHideSidebar": "Toggle label in General settings for auto-hiding the sidebar.",
+            "newTabTitle": "Label for the input that customizes the browser tab title.",
+            "enableAnalytics": "Toggle to enable sending analytics, in General settings and onboarding.",
+            "analyticsHintP1": "First paragraph of the hint explaining what analytics collect, below the analytics toggle.",
+            "analyticsHintP2": "Second paragraph of the analytics hint, with a 'Learn more' link.",
+            "showBookmarksBar": "Toggle label in General settings for showing the bookmarks bar.",
+            "automaticCompact": "Toggle label for switching to compact mode based on screen size.",
+            "automaticCompactModeThreshold": "Label for the dropdown choosing the screen-width threshold for compact mode.",
+            "automaticCompactModeThresholdHint": "Hint below the threshold dropdown showing the current screen width.",
+            "useCompact": "Toggle label to always use compact mode.",
+            "showAnimationOnOpen": "Toggle label for showing the open animation.",
+            "showAnimationOnOpenHint": "Hint explaining the open animation, below its toggle.",
+            "rememberLastFolder": "Toggle label for reopening the last open folder."
+        },
+        "customIcons": {
+            "title": "Title of the Custom icons tab in Settings.",
+            "incorrectFormat": "Error shown when uploaded files are an unsupported format.",
+            "noIcons": "Empty-state when the user has no custom icons yet.",
+            "iconName": "Input field for naming an uploaded custom icon.",
+            "invalidNames": "Error shown when trying to save icons that have invalid names.",
+            "nameContainsInvalidChars": "Validation error below an icon-name field for disallowed characters.",
+            "saveIcons": "Button to save uploaded custom icons.",
+            "supportedFormats": "Hint describing supported image formats and recommended size for custom icons.",
+            "importIcons": "Button that opens the file picker to upload custom icons."
+        },
+        "folders": {
+            "title": "Title of the Folders tab in Settings.",
+            "createNew": "Button to create a new folder in Folders settings.",
+            "defaultName": "Default name given to a newly created folder."
+        },
+        "pluginSettings": {
+            "title": "Title of the Plugin settings tab in Settings."
+        },
+        "theme": {
+            "title": "Title of the Theme tab in Settings.",
+            "createCustom": "Button to create a new custom theme.",
+            "selectBackground": "Button to choose a background image for a custom theme.",
+            "blur": "Label for the background blur slider in the custom theme editor.",
+            "colorAccent": "Label for the accent color picker in the custom theme editor.",
+            "colorBackground": "Label for the background color picker in the custom theme editor.",
+            "colorText": "Label for the text color picker in the custom theme editor.",
+            "colorCode": "Label for the hex color code input in the color picker."
+        },
+        "importExport": {
+            "title": "Title of the Import & export tab in Settings.",
+            "info": "Intro text on the Import & export screen describing backup/restore.",
+            "import": "Button to import a backup file on the Import & export screen.",
+            "export": "Button to export the current configuration as a backup file.",
+            "cloudWarning": "Confirmation shown when importing while cloud sync is on, warning it will disconnect the sync profile.",
+            "cloudSyncHint": "Note on the Import & export screen promoting Anori Plus, with a link to it.",
+            "importError": "Error shown when a backup import fails, including the failure detail."
+        },
+        "aboutHelp": {
+            "title": "Title of the Help & about tab in Settings.",
+            "onlyEnglishPlease": "Note shown to non-English users asking them to file issues in English.",
+            "p1": "Help & about paragraph stating Anori is free and open source, with links to the GitHub repo and to filing a new issue.",
+            "p2": "Help & about paragraph about modifying/extending the extension, with a link to the readme.",
+            "p3": "Help & about paragraph linking to the author's Twitter and a 'support Ukraine' page.",
+            "p4": "Help & about paragraph about supporting development financially, with a donation link.",
+            "license": "Heading above the license text in Help & about."
+        }
+    },
+    "shortcuts": {
+        "title": "Heading for the keyboard-shortcuts cheatsheet (also a section in Help & about).",
+        "showCheatsheet": "Cheatsheet description for the shortcut that toggles the shortcuts cheatsheet.",
+        "toggleSettings": "Cheatsheet description for the shortcut that toggles the settings panel.",
+        "closeMenuOrModal": "Cheatsheet description for the shortcut that closes the open modal or menu.",
+        "switchToFolderAbove": "Cheatsheet description for the shortcut that switches to the folder above.",
+        "switchToFolderBelow": "Cheatsheet description for the shortcut that switches to the folder below.",
+        "switchToNFolder": "Cheatsheet description for the shortcut that switches to a folder by its number.",
+        "editCurrentFolder": "Cheatsheet description for the shortcut that edits the current folder.",
+        "addNewWidget": "Cheatsheet description for the shortcut that adds a new widget to the current folder."
+    },
+    "onboarding": {
+        "start": {
+            "title": "Heading of the first onboarding step welcoming the user.",
+            "p1": "Intro paragraph on the first onboarding step noting which languages the introduction is available in.",
+            "p2": "Paragraph on the first onboarding step explaining the page is built from widgets.",
+            "p3": "Paragraph on the first onboarding step explaining how to enter editing mode to add a widget.",
+            "p4": "Paragraph on the first onboarding step explaining how to add a widget or exit editing mode."
+        },
+        "folders": {
+            "title": "Heading of the onboarding step about folders.",
+            "p1": "Paragraph on the folders onboarding step explaining the default Home folder and organizing widgets into folders.",
+            "p2": "Paragraph on the folders onboarding step explaining how to open the folders manager in settings."
+        },
+        "customization": {
+            "title": "Heading of the onboarding step about customization.",
+            "p1": "Paragraph on the customization onboarding step noting Anori can be customized further.",
+            "p2": "Paragraph on the customization onboarding step listing options like tab title, theme, background, and custom icons.",
+            "p3": "Paragraph on the customization onboarding step encouraging the user to explore settings."
+        },
+        "analytics": {
+            "title": "Heading of the onboarding step about analytics.",
+            "p1": "Paragraph on the analytics onboarding step explaining Anori collects no tracking data by default.",
+            "p2": "Paragraph on the analytics onboarding step asking the user to opt in to anonymous usage analytics.",
+            "p3": "Paragraph on the analytics onboarding step, with a link to details on what data is collected."
+        },
+        "presets": {
+            "title": "Heading of the final onboarding step offering a ready-made setup.",
+            "p1": "Paragraph concluding the onboarding walkthrough.",
+            "p2": "Paragraph on the final onboarding step offering a prepared productive setup.",
+            "p3": "Paragraph on the final onboarding step noting the preset can be used as a starting point.",
+            "cta": "Button that applies the ready-made productive setup."
+        },
+        "preset": {
+            "task": {
+                "themes": "Checklist item seeded into the starter setup, suggesting trying themes.",
+                "anoriPlus": "Checklist item seeded into the starter setup, suggesting checking out Anori Plus.",
+                "widgets": "Checklist item seeded into the starter setup, suggesting exploring widgets."
+            }
+        }
+    },
+    "requirePermissions": {
+        "eh": "Short heading on the widget permission notice.",
+        "modalTitle": "Title of the dialog detailing the extra permissions a widget needs.",
+        "compactText": "Compact one-line notice that a widget needs extra permissions, clickable for details.",
+        "text": "Intro line before the list of permissions a widget requires.",
+        "apiPermissions": "Heading for the list of required browser API permissions.",
+        "hostPermissions": "Heading for the list of required host (website) permissions.",
+        "grant": "Button that grants the requested permissions."
+    },
+    "bookmark-plugin": {
+        "name": "Bookmarks plugin name in the add-widget picker.",
+        "widgetName": "Name of the single Bookmark widget in the add-widget picker.",
+        "groupWidgetName": "Name of the Bookmark group widget in the add-widget picker.",
+        "openInGroup": "Toggle in the bookmark-group config to open bookmarks as a browser tab group.",
+        "group": "Label marking a widget as a bookmark group.",
+        "searchBookmarks": "Placeholder in the bookmark search input.",
+        "checkStatus": "Toggle in the bookmark config to enable periodic page up/down checks.",
+        "checkStatusHint": "Hint explaining how background page-status checking works.",
+        "checkingStatus": "Status shown while a bookmark's page status is being checked.",
+        "status": "Status line reporting whether the bookmarked page is up or down and when it was last checked.",
+        "statusUp": "Word inserted into the status line when the page is reachable.",
+        "statusDown": "Word inserted into the status line when the page is unreachable.",
+        "permissionExplanation": "Explanation shown when granting the permission needed for page-status checks (CORS).",
+        "openInNewTab": "Toggle in the bookmark config to open the bookmark in a new tab."
+    },
+    "calendar-plugin": {
+        "name": "Calendar plugin name in the add-widget picker.",
+        "widgetName": "Calendar widget name in the add-widget picker.",
+        "firstDayOfWeek": "Label for the first-day-of-week setting in the Calendar widget config."
+    },
+    "datetime-plugin": {
+        "name": "Date and time plugin name in the add-widget picker.",
+        "widgetNameS": "Name of the small Date and time widget variant.",
+        "widgetNameM": "Name of the medium Date and time widget variant.",
+        "withoutDate": "Date-format option in the Date and time config for showing time without a date.",
+        "timeFormat": "Label for the time-format setting in the Date and time config.",
+        "dateFormat": "Label for the date-format setting in the Date and time config.",
+        "24hours": "Label marking the 24-hour time-format option."
+    },
+    "notes-plugin": {
+        "name": "Notes plugin/widget name in the add-widget picker.",
+        "noteTitle": "Placeholder for the note title field.",
+        "noteText": "Placeholder for the note body field, noting markdown is supported.",
+        "exampleTitle": "Demo note title shown in the Notes widget preview.",
+        "exampleText": "Demo note body shown in the Notes widget preview."
+    },
+    "recently-closed-plugin": {
+        "name": "Recently closed tabs plugin name in the add-widget picker.",
+        "widgetTitle": "Heading at the top of the Recently closed widget.",
+        "tab": "Label marking a recently-closed entry as a tab.",
+        "window": "Label marking a recently-closed entry as a window."
+    },
+    "system-status-plugin": {
+        "name": "System status plugin name in the add-widget picker.",
+        "ramLoad": "Name/label of the RAM load widget.",
+        "cpuLoad": "Name/label of the CPU load widget."
+    },
+    "tasks-plugin": {
+        "name": "Tasks plugin name in the add-widget picker.",
+        "todo": "Default title of the Tasks widget.",
+        "completeTask": "Accessibility label for the button that marks a task complete.",
+        "taskDescription": "Placeholder for the new-task input field.",
+        "noTasks": "Empty-state shown when the task list is empty.",
+        "exampleTask0": "Demo task shown in the Tasks widget preview.",
+        "exampleTask1": "Demo task shown in the Tasks widget preview.",
+        "exampleTask2": "Demo task shown in the Tasks widget preview.",
+        "exampleTask3": "Demo task shown in the Tasks widget preview."
+    },
+    "top-sites-plugin": {
+        "name": "Top sites plugin name in the add-widget picker.",
+        "widgetHorizontal": "Name of the horizontal Top sites widget variant.",
+        "widgetVertical": "Name of the vertical Top sites widget variant."
+    },
+    "weather-plugin": {
+        "name": "Weather plugin name in the add-widget picker.",
+        "weatherForecast": "Name of the forecast Weather widget.",
+        "forecast": "Heading for the multi-day forecast in the Weather widget.",
+        "currentWeather": "Name of the current-conditions Weather widget.",
+        "kmh": "Wind-speed unit abbreviation, kilometers per hour.",
+        "ms": "Wind-speed unit abbreviation, meters per second.",
+        "mph": "Wind-speed unit abbreviation, miles per hour.",
+        "clearSky": "Weather-condition label for clear sky in the Weather widget.",
+        "partlyCloudy": "Weather-condition label for partly cloudy in the Weather widget.",
+        "fog": "Weather-condition label for fog in the Weather widget.",
+        "drizzle": "Weather-condition label for drizzle in the Weather widget.",
+        "freezingDrizzle": "Weather-condition label for freezing drizzle in the Weather widget.",
+        "rain": "Weather-condition label for rain in the Weather widget.",
+        "freezingRain": "Weather-condition label for freezing rain in the Weather widget.",
+        "snow": "Weather-condition label for snow in the Weather widget.",
+        "rainShower": "Weather-condition label for rain showers in the Weather widget.",
+        "thunderstorm": "Weather-condition label for thunderstorm in the Weather widget.",
+        "unknownCode": "Fallback condition text when the weather code is unrecognized.",
+        "selectCity": "Label/placeholder for the city selector in the Weather widget config.",
+        "temperatureUnit": "Label for the temperature-unit dropdown in the Weather widget config.",
+        "speedUnit": "Label for the wind-speed-unit dropdown in the Weather widget config.",
+        "weatherCode": "Tooltip showing the numeric weather code next to the condition text.",
+        "attribution": "Attribution line crediting the Open-Meteo data source, with a link."
+    },
+    "rss-plugin": {
+        "name": "RSS plugin name in the add-widget picker.",
+        "widgetFeedName": "Name of the RSS feed widget (multiple posts).",
+        "widgetLatestPostName": "Name of the widget showing only the latest post from a feed.",
+        "feedUrl": "Label for the single RSS feed URL field.",
+        "feedUrls": "Label for the multiple RSS feed URLs field.",
+        "noPosts": "Empty-state shown when a feed has no posts yet.",
+        "compactView": "Toggle in the RSS config for a compact post layout.",
+        "presetsTitle": "Intro text in the RSS config inviting the user to add feeds or pick a preset.",
+        "presetForDevelopers": "Full label of the developer-focused feed preset.",
+        "presetForDesigners": "Full label of the designer-focused feed preset.",
+        "presetInteresting": "Full label of the general-interest feed preset.",
+        "presetForDevelopersTitle": "Short label for the developer feed preset.",
+        "presetForDesignersTitle": "Short label for the designer feed preset.",
+        "presetInterestingTitle": "Short label for the general-interest feed preset.",
+        "examplePostTitle1": "Demo post title shown in the RSS widget preview.",
+        "examplePostDescription1": "Demo post description shown in the RSS widget preview.",
+        "exampleFeedTitle1": "Demo feed title shown in the RSS widget preview.",
+        "examplePostTitle2": "Demo post title shown in the RSS widget preview.",
+        "examplePostDescription2": "Demo post description shown in the RSS widget preview.",
+        "exampleFeedTitle2": "Demo feed title shown in the RSS widget preview.",
+        "examplePostTitle3": "Demo post title shown in the RSS widget preview.",
+        "examplePostDescription3": "Demo post description shown in the RSS widget preview.",
+        "exampleFeedTitle3": "Demo feed title shown in the RSS widget preview."
+    },
+    "iframe-plugin": {
+        "name": "Embed webpage plugin name in the add-widget picker.",
+        "expandWidgetName": "Name of the expandable Embed webpage widget variant.",
+        "showLink": "Toggle in the embed config to show a link to the original page.",
+        "limitations": "Notice in the embed config warning that some pages block being embedded."
+    },
+    "math-plugin": {
+        "name": "Math plugin name in the add-widget picker.",
+        "calculator": "Name of the calculator widget.",
+        "expandWidgetName": "Name of the expandable calculator widget variant.",
+        "cantCalc": "Message shown when the calculator can't evaluate the expression."
+    },
+    "picture-plugin": {
+        "name": "Picture plugin name in the add-widget picker.",
+        "widgetName": "Name of the Image widget.",
+        "imageSource": "Label for the image-source selector (URL or local file) in the Picture config.",
+        "localFile": "Option for using a local file as the image source.",
+        "image": "Label for the local image field in the Picture config.",
+        "selectImage": "Button to pick a local image when none is selected.",
+        "changeImage": "Button to replace the currently selected local image."
+    },
+    "anki-plugin": {
+        "name": "Anki plugin name in the add-widget picker.",
+        "deck": "Label for the deck selector in the Anki widget config.",
+        "showAnswer": "Button that reveals the answer during flashcard review.",
+        "easy": "Answer-grade button rating a reviewed card as easy.",
+        "again": "Answer-grade button marking a reviewed card to be shown again.",
+        "good": "Answer-grade button rating a reviewed card as good.",
+        "hard": "Answer-grade button rating a reviewed card as hard.",
+        "error": "Error shown when the widget can't reach AnkiConnect (Anki not running or addon missing).",
+        "widgetName": "Anki widget name in the add-widget picker."
+    }
+}

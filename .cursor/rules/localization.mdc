@@ -16,26 +16,32 @@ alwaysApply: false
 
 * `src/translations/index.ts` holds list of avilable translations and utility functions.
 
-* `en` is considered as main language and its translation file is used as source of truth.
+* `en` is the only source of truth and the only language that is never auto-translated. `uk` is also hand-verified and trusted, and is passed to the model as a secondary reference when translating the other languages — but it is itself auto-translatable like any other target language.
 
-* When adding new translation, it should also be added to `rspack.config.ts` file in `MomentLocalesPlugin` settings, as well as in `translation-manager.ts` file in `FINISHED_TRANSLATIONS` list.
+* Other languages are translated by an LLM (via OpenRouter) and committed to source control, then freely hand-editable. They are treated as real, precious files, not generated artifacts.
 
-* There are couple of helper commands available to manage translations (all implemented in `translation-manager.ts`)
-    * `pnpm translations:missing` — checks if translations state is up-to-date. Doesn't write anythin.
-    * `pnpm translations:extract` — checks all translations against `en` and extracts any untranslated strings into `<lang-code>-missing.json` files.
-    * `pnpm translations:clean` — removes keys no longer found in `en` from other translations. Used after removing strings from `en` translation.
-    * `pnpm translations:merge <lang-code>` — merges back strings from `<lang-code>-missing.json` files into translation files. It should be run after strings in `<lang-code>-missing.json` files were translated from english into `<lang-code>` language.
-    * `pnpm translations:locales` — generates files in `src/_locales` folder. Those are used by browser and extension stores to show extension name and description in prefered user language. They shouldn't be edited manually.
+* When adding a new language, it should also be added to `rspack.config.ts` file in `MomentLocalesPlugin` settings, in `translations-manager.ts` (`FINISHED_TRANSLATIONS` and `LANGUAGE_ENGLISH_NAMES`), and in `src/translations/metadata.ts`.
+
+* `src/translations/fingerprints.json` stores, per language per key, a hash of the `en` value the translation was derived from. A key is (re)translated only when its hash is missing or no longer matches the current `en` value — this is what makes translation incremental and lets hand-edits survive until the English source changes (at which point they are overwritten by a fresh translation, by design). Origin (machine vs. hand-edited) is never tracked.
+
+* `src/translations/notes.json` holds optional human-readable usage notes that are fed to the model as extra context. It is nested like the translation files (but without the `translation` wrapper) so notes can be hand-edited alongside `en.json`. It is hand-maintained (seed it for existing keys with the help of Claude Code; add notes for new keys manually). Missing notes are fine — the translator also auto-greps `src` for `t('key')` usages as fallback context.
+
+* Helper commands (all implemented in `translations-manager.ts`):
+    * `pnpm translations:status` — prints, per language, how many keys are up to date / missing / stale. Writes nothing.
+    * `pnpm translations:translate <lang-code|all>` — translates every missing-or-stale key for the given language (or all languages) via OpenRouter, validates that interpolation placeholders survive, writes the results, and updates `fingerprints.json`. Requires `OPENROUTER_API_KEY` in the environment; the model is `OPENROUTER_MODEL` or a sensible default.
+    * `pnpm translations:clean` — removes keys no longer found in `en` from other translations (and from `fingerprints.json`). Run after removing strings from `en`.
+    * `pnpm translations:locales` — generates files in `src/_locales` folder. Those are used by browser and extension stores to show extension name and description in preferred user language. They shouldn't be edited manually.
 
 * General flow when working with translations is as follows
     * When adding new strings:
         1. Add them to `en` translation.
-        2. Run `pnpm translations:extract`.
-        3. Translate strings in `<lang-code>-missing.json` file(s).
-        4. Run `pnpm translations:merge <lang-code>` for each language
+        2. (Optional) Add usage notes for the new keys to `notes.json`.
+        3. Run `pnpm translations:translate all`.
+        4. Manually review/verify `uk` (and any other language you can vet).
     * When removing strings
         1. Remove them from `en` translation.
         2. Run `pnpm translations:clean`
-    * When significantly changing strings
-        1. Update string(s) in `en`
-        2. Manually update them in translation files
+    * When changing strings
+        1. Update string(s) in `en`. The changed fingerprint marks them stale automatically.
+        2. Run `pnpm translations:translate all` to refresh every language.
+    * To correct a single bad translation, just edit the value in the language file directly — it will persist until that `en` string changes.

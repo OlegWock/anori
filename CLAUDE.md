@@ -35,7 +35,7 @@ SCSS with BEM-like naming (`.ComponentName`, `.ComponentName-modifier`, nested k
 Full rules: @.cursor/rules/styling.mdc
 
 ### Localization
-i18next + react-i18next. `en` is source of truth. Use `useTranslation` hook in React, `translate()` outside. Translation management commands: `pnpm translations:extract`, `pnpm translations:merge <lang>`, `pnpm translations:clean`. New translations must also be added to `rspack.config.ts` (MomentLocalesPlugin) and `translation-manager.ts` (FINISHED_TRANSLATIONS).
+i18next + react-i18next. `en` is the only source of truth; `uk` is hand-verified. Use `useTranslation` hook in React, `translate()` outside. Other languages are LLM-translated (OpenRouter) and committed: `pnpm translations:status`, `pnpm translations:translate <lang|all>`, `pnpm translations:clean`. Incremental re-translation is gated by `src/translations/fingerprints.json` (hash of the `en` value each translation derived from); `notes.json` holds optional per-key usage context for the model. New languages must also be added to `rspack.config.ts` (MomentLocalesPlugin), `translations-manager.ts` (FINISHED_TRANSLATIONS, LANGUAGE_ENGLISH_NAMES), and `src/translations/metadata.ts`.
 Full rules: @.cursor/rules/localization.mdc
 
 ### Storage & Sync
