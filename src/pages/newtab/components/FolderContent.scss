@@ -70,10 +70,14 @@
     .edit-widget-scrollarea {
         margin: 0 var(--spacing-1-5);
         margin-bottom: var(--spacing-3);
+
+        .ScrollAreaViewport {
+            padding: var(--spacing-1);
+        }
     
         .edit-widget-content {
-            padding: 0 var(--spacing-4);
-            padding-bottom: var(--spacing-4);
+            padding: 0 var(--spacing-3);
+            padding-bottom: var(--spacing-3);
             width: 800px;
             max-width: 80vw;
             overflow: hidden;
