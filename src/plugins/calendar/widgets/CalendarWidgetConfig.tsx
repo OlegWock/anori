@@ -3,6 +3,7 @@ import { Select } from "@anori/components/lazy-components";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_CALENDAR, SUPPORTED_CALENDARS, getCalendarLabel } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
 import "./CalendarWidgetConfig.scss";
@@ -17,6 +18,7 @@ export const ConfigScreen = ({
   const weekdays = useMemo(getWeekdays, [i18n.language]);
 
   const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
+  const [calendar, setCalendar] = useState<string>(currentConfig?.calendar ?? DEFAULT_CALENDAR);
 
   return (
     <div className="CalendarWidget-config">
@@ -31,7 +33,18 @@ export const ConfigScreen = ({
         />
       </div>
 
-      <Button className="save-config" onClick={() => saveConfiguration({ firstDay })}>
+      <div>
+        <label>{t("calendar-plugin.calendarSystem")}:</label>
+        <Select<string>
+          options={[...SUPPORTED_CALENDARS]}
+          value={calendar}
+          onChange={setCalendar}
+          getOptionKey={(o) => o}
+          getOptionLabel={(o) => getCalendarLabel(o, i18n.language)}
+        />
+      </div>
+
+      <Button className="save-config" onClick={() => saveConfiguration({ firstDay, calendar })}>
         {t("save")}
       </Button>
     </div>

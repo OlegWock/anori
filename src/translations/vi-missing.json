@@ -7,6 +7,9 @@
             "importExport": {
                 "importError": "Couldn't import backup: {{error}}"
             }
+        },
+        "calendar-plugin": {
+            "calendarSystem": "Calendar system"
         }
     }
 }

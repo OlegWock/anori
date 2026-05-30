@@ -95,6 +95,9 @@
         "bookmark-plugin": {
             "openInNewTab": "Open in a new tab"
         },
+        "calendar-plugin": {
+            "calendarSystem": "Calendar system"
+        },
         "weather-plugin": {
             "attribution": "Weather data provided by <0>Open-Meteo</0>"
         },

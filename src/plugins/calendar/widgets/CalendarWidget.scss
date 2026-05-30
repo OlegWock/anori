@@ -11,12 +11,21 @@
         margin-bottom: var(--spacing-1-5);
         font-size: var(--font-size-lg);
         display: flex;
-        justify-content: center;
+        align-items: center;
         gap: var(--spacing-4);
 
+        .Button:not(.month-name) {
+            padding-inline: var(--spacing-2);
+        }
+
         .month-name {
-            width: 120px;
+            flex: 1;
+            min-width: 0;
+            display: block;
             text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             user-select: none;
             -webkit-user-select: none;
         }

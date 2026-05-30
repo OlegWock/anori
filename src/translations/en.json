@@ -236,7 +236,8 @@
         "calendar-plugin": {
             "name": "Calendar",
             "widgetName": "Calendar",
-            "firstDayOfWeek": "First day of the week"
+            "firstDayOfWeek": "First day of the week",
+            "calendarSystem": "Calendar system"
         },
         "datetime-plugin": {
             "name": "Date and time",
