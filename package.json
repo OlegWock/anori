@@ -56,7 +56,7 @@
         "@tanstack/query-async-storage-persister": "^5.87.4",
         "@tanstack/react-query": "^5.87.4",
         "@tanstack/react-query-persist-client": "^5.87.4",
-        "@tanstack/react-virtual": "^3.13.9",
+        "@tanstack/react-virtual": "^3.13.26",
         "@total-typescript/ts-reset": "^0.6.1",
         "@types/lodash": "^4.17.17",
         "@types/node": "^22.15.21",

@@ -41,6 +41,11 @@
             display: flex;
             gap: var(--spacing-3);
             width: fit-content;
+
+            .bookmarks-bar-item {
+                display: flex;
+                flex-shrink: 0;
+            }
         }
 
         .bookmarks-placeholder {
@@ -113,6 +118,14 @@
         &:not(:has(.ScrollAreaScrollbar)) {
             padding-right: 0;
         }
+    }
+    
+    &.submenu-shift-right[data-side="right"] {
+        margin-left: 12px;
+    }
+
+    &.submenu-shift-left[data-side="left"] {
+        margin-right: 12px;
     }
 }
 

@@ -131,6 +131,7 @@ const VirtualizedBookmarksMenuContent = ({
   shiftSubmenu = false,
 }: { bookmarks: BookmarkType[]; isSubmenu?: boolean; shiftSubmenu?: boolean }) => {
   const { rem } = useSizeSettings();
+  const dir = useDirection();
   const [scrollAreaOverflows, setScrollAreaOverflows] = useState(false);
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -146,17 +147,22 @@ const VirtualizedBookmarksMenuContent = ({
   const WrapperComponent = isSubmenu ? Menubar.SubContent : Menubar.Content;
   const wrapperProps = isSubmenu
     ? {
-        alignOffset: rem(-0.5),
-        sideOffset: shiftSubmenu ? rem(0.75) + 12 : rem(0.75),
+        alignOffset: rem(-2),
+        sideOffset: rem(0.75),
+        collisionPadding: 10,
       }
     : {
         align: "start",
         sideOffset: 5,
         alignOffset: -3,
+        collisionPadding: 10,
       };
 
+  const overflowShiftClass =
+    isSubmenu && shiftSubmenu ? (dir === "ltr" ? "submenu-shift-right" : "submenu-shift-left") : undefined;
+
   return (
-    <WrapperComponent className="BookmarksMenubarContent" {...wrapperProps}>
+    <WrapperComponent className={clsx("BookmarksMenubarContent", overflowShiftClass)} {...wrapperProps}>
       <ScrollArea
         color="translucent"
         onVerticalOverflowStatusChange={setScrollAreaOverflows}
@@ -215,12 +221,15 @@ const BookmarksBarComponent = () => {
   const [bar, other] = useBookmarks();
   const dir = useDirection();
 
+  const { rem } = useSizeSettings();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const virtualizer = useVirtualizer({
     count: bar.length,
     horizontal: true,
     getScrollElement: () => scrollAreaRef.current,
-    estimateSize: () => 144 + 12,
+    estimateSize: () => rem(6),
+    gap: rem(0.75),
+    overscan: 5,
   });
 
   const virtualizedItems = virtualizer.getVirtualItems();
@@ -248,7 +257,16 @@ const BookmarksBarComponent = () => {
           >
             {virtualizedItems.map((virtualItem) => {
               const bm = bar[virtualItem.index];
-              return <Bookmark bookmark={bm} key={bm.id} />;
+              return (
+                <div
+                  className="bookmarks-bar-item"
+                  data-index={virtualItem.index}
+                  ref={virtualizer.measureElement}
+                  key={bm.id}
+                >
+                  <Bookmark bookmark={bm} />
+                </div>
+              );
             })}
           </div>
         </div>
