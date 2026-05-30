@@ -13,6 +13,7 @@ export const WhatsNew = () => {
           <section>
             <h2>1.27.0</h2>
             <ul>
+              <li>Picture widget can now display local images from your device, not just remote URLs.</li>
               <li>Added Vietnamese translation. This was contribution from @itsccao. Thanks!</li>
             </ul>
           </section>

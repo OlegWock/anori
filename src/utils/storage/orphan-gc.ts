@@ -27,11 +27,17 @@ export async function runOrphanGc(storage: AnoriStorage): Promise<GcResult> {
 
   // Valid widget instance IDs: collect from all folder details
   const validInstanceIds = new Set<string>();
+  // Picture-widget image IDs referenced by a live widget config
+  const validPictureImageIds = new Set<string>();
   for (const folderId of validFolderIds) {
     const details = storage.get(anoriSchema.folderDetails.folder.byId(folderId));
     if (details?.widgets) {
       for (const widget of details.widgets) {
         validInstanceIds.add(widget.instanceId);
+        const imageId = (widget.configuration as { imageId?: unknown })?.imageId;
+        if (typeof imageId === "string") {
+          validPictureImageIds.add(imageId);
+        }
       }
     }
   }
@@ -95,6 +101,17 @@ export async function runOrphanGc(storage: AnoriStorage): Promise<GcResult> {
   const allIconMeta = storage.files.getMeta(anoriSchema.customIcons.all());
   for (const meta of Object.values(allIconMeta)) {
     referencedOpfsPaths.add(meta.path);
+  }
+
+  // Picture-widget images — keyed by an image ID stored in the widget config.
+  const allPictureImageMeta = storage.files.getMeta(anoriSchema.pictureWidgetImages.all());
+  for (const [imageId, meta] of Object.entries(allPictureImageMeta)) {
+    if (!validPictureImageIds.has(imageId)) {
+      await storage.files.delete(anoriSchema.pictureWidgetImages.byId(imageId));
+      result.removedKvRecords++;
+    } else {
+      referencedOpfsPaths.add(meta.path);
+    }
   }
 
   // ── 4. Sweep OPFS for unreferenced files ─────────────────────────

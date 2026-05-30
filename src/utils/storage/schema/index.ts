@@ -408,6 +408,14 @@ export const schemaV1 = defineSchemaVersion(1, {
     tracked: true,
     includedInBackup: true,
   }),
+  pictureWidgetImages: fileCollection({
+    keyPrefix: "PictureWidgetImage",
+    tracked: true,
+    includedInBackup: true,
+    propertiesSchema: z.object({
+      mimeType: z.string().optional(),
+    }),
+  }),
 });
 
 export type AnoriSchemaV1 = typeof schemaV1.definition;

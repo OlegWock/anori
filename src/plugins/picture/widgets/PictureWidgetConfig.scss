@@ -7,6 +7,19 @@
     &>div {
         display: flex;
         flex-direction: column;
+        gap: var(--spacing-2);
+    }
+
+    .field>.Button {
+        align-self: flex-start;
+    }
+
+    .image-preview {
+        align-self: flex-start;
+        max-width: 100%;
+        max-height: 12rem;
+        border-radius: var(--radius-md);
+        object-fit: contain;
     }
 
     .save-config {

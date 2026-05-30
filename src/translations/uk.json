@@ -299,7 +299,12 @@
         "reload": "Перезавантажити",
         "picture-plugin": {
             "name": "Зображення",
-            "widgetName": "Зображення"
+            "widgetName": "Зображення",
+            "imageSource": "Тип зображення",
+            "localFile": "Локальний файл",
+            "image": "Зображення",
+            "selectImage": "Обрати зображення",
+            "changeImage": "Змінити зображення"
         },
         "anki-plugin": {
             "name": "Anki",

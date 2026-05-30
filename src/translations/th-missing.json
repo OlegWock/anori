@@ -65,6 +65,13 @@
         },
         "weather-plugin": {
             "attribution": "Weather data provided by <0>Open-Meteo</0>"
+        },
+        "picture-plugin": {
+            "imageSource": "Image source",
+            "localFile": "Local file",
+            "image": "Image",
+            "selectImage": "Select image",
+            "changeImage": "Change image"
         }
     }
 }

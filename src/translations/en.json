@@ -353,7 +353,12 @@
         },
         "picture-plugin": {
             "name": "Picture",
-            "widgetName": "Image"
+            "widgetName": "Image",
+            "imageSource": "Image source",
+            "localFile": "Local file",
+            "image": "Image",
+            "selectImage": "Select image",
+            "changeImage": "Change image"
         },
         "anki-plugin": {
             "name": "Anki",
