@@ -6,6 +6,9 @@ export type CalendarWidgetConfigType = {
   // This is marked as optional because first version of widget didn't had this
   // settings, thus it's not guaranteed to have this set
   firstDay?: number;
+  // BCP-47 calendar identifier (e.g. "gregory", "islamic-umalqura"). Optional for backward
+  // compatibility — absent means Gregorian. See SUPPORTED_CALENDARS in calendar-adapter.ts.
+  calendar?: string;
 };
 
 export const getWeekdays = (short = false) => {

@@ -14,6 +14,7 @@ export const WhatsNew = () => {
             <h2>1.27.0</h2>
             <ul>
               <li>Picture widget can now display local images from your device, not just remote URLs.</li>
+              <li>Calendar widget now supports Hijri, Persian, Hebrew, and Buddhist calendars.</li>
               <li>Added Vietnamese translation. This was contribution from @itsccao. Thanks!</li>
               <li>
                 Translation system was reworked. From now on, new strings will be machine translated into target

@@ -4,7 +4,6 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { usePrevious } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
-import { capitalize } from "@anori/utils/strings";
 import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
@@ -12,6 +11,7 @@ import moment from "moment-timezone";
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_CALENDAR, makeCalendarAdapter } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
 import "./CalendarWidget.scss";
@@ -27,11 +27,25 @@ export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigTyp
   if (dir === "rtl") {
     direction = direction === "right" ? "left" : "right";
   }
-  const currentMonth = useMemo(() => today.clone().add(offsetMonths, "months"), [today, offsetMonths]);
+
+  const calendar = useMemo(
+    () => makeCalendarAdapter(config.calendar ?? DEFAULT_CALENDAR, i18n.language),
+    [config.calendar, i18n.language],
+  );
+
+  const currentMonthStart = useMemo(
+    () => calendar.addMonths(today.toDate(), offsetMonths),
+    [calendar, today, offsetMonths],
+  );
 
   const firstDayShift = config.firstDay ?? 0;
 
-  const monthName = useMemo(() => capitalize(currentMonth.format("MMMM")), [currentMonth]);
+  const monthName = useMemo(() => {
+    const todayDate = today.toDate();
+    return calendar.isSameYear(currentMonthStart, todayDate)
+      ? calendar.monthName(currentMonthStart)
+      : calendar.monthLabel(currentMonthStart);
+  }, [calendar, currentMonthStart, today]);
 
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
@@ -62,42 +76,42 @@ export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigTyp
     },
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const rows: ReactNode[] = useMemo(() => {
     const res: ReactNode[] = [];
-    const startOfMonth = today.clone().add(offsetMonths, "months").startOf("month");
-    const monthNumber = startOfMonth.month();
+    const startOfMonth = moment(currentMonthStart);
+    const monthKey = calendar.monthKey(currentMonthStart);
     const startOfFirstWeek = startOfMonth.clone().day((1 + firstDayShift) % 7);
     if (startOfFirstWeek.isAfter(startOfMonth)) {
       startOfFirstWeek.subtract(1, "week");
     }
 
     const currentDate = startOfFirstWeek.clone();
-    for (let week = 0; currentDate.isSame(currentMonth, "month") || week === 0; week++) {
+    for (let week = 0; calendar.isSameMonth(currentDate.toDate(), currentMonthStart) || week === 0; week++) {
       const row: ReactNode[] = [];
       for (let weekday = 0; weekday < 7; weekday++) {
-        const inCurrentMonth = currentDate.isSame(currentMonth, "month");
+        const cellDate = currentDate.toDate();
+        const inCurrentMonth = calendar.isSameMonth(cellDate, currentMonthStart);
         const isToday = currentDate.isSame(today, "day");
         row.push(
           <div
             className={clsx("calendar-cell", { "current-month": inCurrentMonth, today: isToday })}
-            key={`${currentDate.month()}_${currentDate.date()}`}
+            key={currentDate.format("YYYY-MM-DD")}
           >
-            {currentDate.date()}
+            {calendar.dayLabel(cellDate)}
           </div>,
         );
         currentDate.add(1, "day");
       }
       res.push(
-        <m.div className="calendar-row" key={`row-${monthNumber}-${week}`}>
+        <m.div className="calendar-row" key={`row-${monthKey}-${week}`}>
           {row}
         </m.div>,
       );
     }
 
     return res;
-  }, [today, offsetMonths, i18n.language, firstDayShift, currentMonth]);
-  const currentKey = useMemo(() => `${currentMonth.month()}_${currentMonth.year()}`, [currentMonth]);
+  }, [today, calendar, currentMonthStart, firstDayShift]);
+  const currentKey = useMemo(() => calendar.monthKey(currentMonthStart), [calendar, currentMonthStart]);
 
   useEffect(() => {
     const tid = setInterval(() => setToday(moment()), 1000 * 60);
