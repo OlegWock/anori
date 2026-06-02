@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "Kalender",
             "widgetName": "Kalender",
-            "firstDayOfWeek": "Hari pertama dalam seminggu"
+            "firstDayOfWeek": "Hari pertama dalam seminggu",
+            "calendarType": "Tipe kalender"
         },
         "datetime-plugin": {
             "name": "Tanggal dan waktu",

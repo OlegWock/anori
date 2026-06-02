@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "Календар",
             "widgetName": "Календар",
-            "firstDayOfWeek": "Перший день тижня"
+            "firstDayOfWeek": "Перший день тижня",
+            "calendarType": "Тип календаря"
         },
         "datetime-plugin": {
             "name": "Дата і час",

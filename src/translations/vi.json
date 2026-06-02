@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "Lịch",
             "widgetName": "Lịch",
-            "firstDayOfWeek": "Ngày đầu tuần"
+            "firstDayOfWeek": "Ngày đầu tuần",
+            "calendarType": "Loại lịch"
         },
         "datetime-plugin": {
             "name": "Ngày và giờ",

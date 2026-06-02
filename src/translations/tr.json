@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "Takvim",
             "widgetName": "Takvim",
-            "firstDayOfWeek": "Haftanın ilk günü"
+            "firstDayOfWeek": "Haftanın ilk günü",
+            "calendarType": "Takvim türü"
         },
         "datetime-plugin": {
             "name": "Tarih ve saat",

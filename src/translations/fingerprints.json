@@ -282,7 +282,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "de": {
         "appName": "55adda81af29",
@@ -567,7 +568,8 @@
         "picture-plugin.changeImage": "87b8b0086a4c",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "es": {
         "appName": "55adda81af29",
@@ -852,7 +854,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "fr": {
         "appName": "55adda81af29",
@@ -1137,7 +1140,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "it": {
         "appName": "55adda81af29",
@@ -1422,7 +1426,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "ja": {
         "appName": "55adda81af29",
@@ -1707,7 +1712,8 @@
         "picture-plugin.changeImage": "87b8b0086a4c",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "pt-br": {
         "appName": "55adda81af29",
@@ -1992,7 +1998,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "ru": {
         "appName": "55adda81af29",
@@ -2277,7 +2284,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "th": {
         "appName": "55adda81af29",
@@ -2562,7 +2570,8 @@
         "picture-plugin.changeImage": "87b8b0086a4c",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "tr": {
         "appName": "55adda81af29",
@@ -2847,7 +2856,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "uk": {
         "appName": "55adda81af29",
@@ -3132,7 +3142,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "vi": {
         "appName": "55adda81af29",
@@ -3417,7 +3428,8 @@
         "picture-plugin.changeImage": "87b8b0086a4c",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "zh-cn": {
         "appName": "55adda81af29",
@@ -3702,7 +3714,8 @@
         "picture-plugin.changeImage": "87b8b0086a4c",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "cs": {
         "appName": "55adda81af29",
@@ -3987,7 +4000,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "fil": {
         "appName": "55adda81af29",
@@ -4272,7 +4286,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "hi": {
         "appName": "55adda81af29",
@@ -4557,7 +4572,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "id": {
         "appName": "55adda81af29",
@@ -4842,7 +4858,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "pl": {
         "appName": "55adda81af29",
@@ -5127,7 +5144,8 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     },
     "sk": {
         "appName": "55adda81af29",
@@ -5412,6 +5430,7 @@
         "anki-plugin.widgetName": "cf5f6a750360",
         "onboarding.start.p4": "b478a5439d6f",
         "onboarding.folders.p1": "4f881c22eebd",
-        "onboarding.folders.p2": "96ddc0dbb660"
+        "onboarding.folders.p2": "96ddc0dbb660",
+        "calendar-plugin.calendarType": "725c96af8360"
     }
 }

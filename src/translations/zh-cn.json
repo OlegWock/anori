@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "日历",
             "widgetName": "日历",
-            "firstDayOfWeek": "每周的第一天"
+            "firstDayOfWeek": "每周的第一天",
+            "calendarType": "日历类型"
         },
         "datetime-plugin": {
             "name": "日期和时间",

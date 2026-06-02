@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "カレンダー",
             "widgetName": "カレンダー",
-            "firstDayOfWeek": "週の最初の曜日"
+            "firstDayOfWeek": "週の最初の曜日",
+            "calendarType": "カレンダータイプ"
         },
         "datetime-plugin": {
             "name": "日付と時刻",

@@ -34,7 +34,7 @@ export const ConfigScreen = ({
       </div>
 
       <div>
-        <label>{t("calendar-plugin.calendarSystem")}:</label>
+        <label>{t("calendar-plugin.calendarType")}:</label>
         <Select<string>
           options={[...SUPPORTED_CALENDARS]}
           value={calendar}

@@ -227,7 +227,7 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
     `- Translate the "en" value. Use the "uk" (Ukrainian) value only as a secondary reference for meaning and tone.`,
     `- Words in quotes that name a UI element (a button, tab, folder, or menu label — e.g. 'Next', 'Home', 'Folders') refer to other parts of the app; translate them into the target language to match that label rather than leaving them in English. Keep only brand/product names (such as Anori) untranslated.`,
     `- If a "previous" value is given, it is an existing translation of an earlier, slightly different version of the English string. Keep its tone, terminology, and word choice, and adjust it to match the current "en" rather than translating from scratch.`,
-    `- "note" and "usage" describe where the string appears; use them to pick the right wording, but never translate them.`,
+    `- "note" and "usage" are context only — never translate them. The "usage" lines are raw code excerpts, so they may include characters around the string (e.g. a trailing colon, quotes, or brackets) that are NOT part of it; never copy that punctuation into the translation. The translation's punctuation must follow the "en" value alone.`,
     `- Preserve every interpolation placeholder EXACTLY: {{variables}}, numbered tags like <0>...</0> or <1/>, and $t(...) references. Never translate text inside {{ }} or tag contents.`,
     `- Mirror the source's trailing punctuation: if the English ends with an ellipsis ("..."), a colon, or other trailing punctuation, keep the same in the translation; if it doesn't, don't add any.`,
     `- Keep it concise and natural for UI, matching the punctuation and capitalization style of the source.`,

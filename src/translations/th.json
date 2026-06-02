@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "ปฏิทิน",
             "widgetName": "ปฏิทิน",
-            "firstDayOfWeek": "วันแรกของสัปดาห์"
+            "firstDayOfWeek": "วันแรกของสัปดาห์",
+            "calendarType": "ประเภทปฏิทิน"
         },
         "datetime-plugin": {
             "name": "วันที่และเวลา",

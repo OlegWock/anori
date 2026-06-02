@@ -228,7 +228,8 @@
         "calendar-plugin": {
             "name": "कैलेंडर",
             "widgetName": "कैलेंडर",
-            "firstDayOfWeek": "सप्ताह का पहला दिन"
+            "firstDayOfWeek": "सप्ताह का पहला दिन",
+            "calendarType": "कैलेंडर प्रकार"
         },
         "datetime-plugin": {
             "name": "दिनांक और समय",
