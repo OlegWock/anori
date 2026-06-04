@@ -180,6 +180,18 @@ browser.alarms.onAlarm.addListener((alarm) => {
       });
     });
   }
+  if (alarm.name === "tombstoneCompaction") {
+    getAnoriStorage().then((storage) => {
+      storage.sync
+        .compactTombstones()
+        .then((removed) => {
+          if (removed > 0) {
+            console.log(`[TombstoneCompaction] Removed ${removed} expired tombstone(s)`);
+          }
+        })
+        .catch((error) => console.error("Tombstone compaction failed:", error));
+    });
+  }
 });
 
 browser.alarms.create("scheduledCallbacks", {
@@ -198,6 +210,11 @@ browser.alarms.create("backgroundSync", {
 browser.alarms.create("orphanGc", {
   periodInMinutes: 24 * 60, // Once per day
   delayInMinutes: 10, // First run 10 minutes after startup
+});
+
+browser.alarms.create("tombstoneCompaction", {
+  periodInMinutes: 24 * 60, // Once per day
+  delayInMinutes: 15, // Offset from orphanGc to avoid bursting at the same time
 });
 
 browser.runtime.setUninstallURL(`https://anori.app/goodbye`);

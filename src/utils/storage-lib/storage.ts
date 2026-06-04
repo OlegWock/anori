@@ -312,7 +312,21 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
     const existingValue = cache[resolved.key];
     const existingRecord = isStorageRecord(existingValue) ? existingValue : undefined;
-    const oldValue = existingRecord?.deleted ? undefined : existingRecord?.value;
+
+    if (!existingRecord || existingRecord.deleted) {
+      return;
+    }
+
+    const oldValue = existingRecord.value;
+
+    // Untracked cells are never synced, so a tombstone would serve no purpose
+    // and would linger forever
+    const isTracked = "tracked" in query && query.tracked === true;
+    if (!isTracked) {
+      delete cache[resolved.key];
+      await browser.storage.local.remove(resolved.key);
+      return;
+    }
 
     const hlcTs = getHlc().tick();
 

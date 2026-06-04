@@ -1,4 +1,6 @@
+import browser from "webextension-polyfill";
 import { type HlcTimestamp, compareHlc } from "./hlc";
+import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
 import { deleteFile, writeFile } from "./opfs";
 import type {
   Outbox,
@@ -9,7 +11,33 @@ import type {
 } from "./storage-types";
 import { type FileMetaValue, type StorageRecord, isStorageRecord } from "./types";
 
+/**
+ * How long deleted records (tombstones) are kept before local compaction removes them.
+ * Mirrors the server-side purge horizon.
+ */
+export const TOMBSTONE_RETENTION_MS = 60 * 24 * 60 * 60 * 1000;
+
 export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"] {
+  const hardDeleteKeys = async (keys: string[]): Promise<void> => {
+    if (keys.length === 0) return;
+    for (const key of keys) {
+      const existing = ctx.cache[key];
+      const record = isStorageRecord(existing) ? existing : undefined;
+      if (record && !record.deleted && ctx.isFileKey(key)) {
+        const meta = record.value as FileMetaValue<unknown> | null;
+        if (meta?.path) {
+          try {
+            await deleteFile(meta.path);
+          } catch (error) {
+            console.error(`Failed to delete OPFS file for ${key}:`, error);
+          }
+        }
+      }
+      delete ctx.cache[key];
+    }
+    await browser.storage.local.remove(keys);
+  };
+
   return {
     isOutboxEnabled(): boolean {
       return ctx.getOutboxEnabled();
@@ -164,6 +192,49 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
       ctx.persistHlcState();
       await ctx.waitForPersist();
       return { applied, skipped };
+    },
+
+    hardDeleteKeys,
+
+    async compactTombstones(): Promise<number> {
+      ctx.ensureInitialized();
+      const cutoff = Date.now() - TOMBSTONE_RETENTION_MS;
+      const toRemove: string[] = [];
+      for (const [key, value] of Object.entries(ctx.cache)) {
+        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
+        if (!isStorageRecord(value)) continue;
+        if (!value.deleted) continue;
+        if (!ctx.isKeyTracked(key)) continue;
+        if (value.hlc.pt >= cutoff) continue;
+        toRemove.push(key);
+      }
+      if (toRemove.length > 0) {
+        await hardDeleteKeys(toRemove);
+      }
+      return toRemove.length;
+    },
+
+    async reconcileAgainstServerKeys(
+      serverKeys: Set<string>,
+      options?: { protectOutbox?: boolean },
+    ): Promise<string[]> {
+      ctx.ensureInitialized();
+      const protectOutbox = options?.protectOutbox ?? true;
+      const outboxKeys = protectOutbox ? new Set(ctx.getOutboxFromCache().map((e) => e.key)) : null;
+      const toRemove: string[] = [];
+      for (const [key, value] of Object.entries(ctx.cache)) {
+        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
+        if (!isStorageRecord(value)) continue;
+        if (value.deleted) continue; // only live keys; tombstones are handled by compaction
+        if (!ctx.isKeyTracked(key)) continue;
+        if (serverKeys.has(key)) continue;
+        if (outboxKeys?.has(key)) continue;
+        toRemove.push(key);
+      }
+      if (toRemove.length > 0) {
+        await hardDeleteKeys(toRemove);
+      }
+      return toRemove;
     },
   };
 }

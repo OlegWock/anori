@@ -106,6 +106,12 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
       changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
       fileBlobs?: Map<string, Blob>,
     ): Promise<{ applied: string[]; skipped: string[] }>;
+    /** Removes keys outright, without tombstone and outbox entry */
+    hardDeleteKeys(keys: string[]): Promise<void>;
+    /** Hard-removes tracked tombstones older than the retention horizon. Returns count removed. */
+    compactTombstones(): Promise<number>;
+    /** Hard-removes live tracked keys absent from `serverKeys` (authoritative full-sync reconcile). Returns removed keys. */
+    reconcileAgainstServerKeys(serverKeys: Set<string>, options?: { protectOutbox?: boolean }): Promise<string[]>;
   };
 
   exportForBackup(): {

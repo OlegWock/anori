@@ -39,8 +39,17 @@ export function createMockBrowserStorage(state: MockBrowserStorageState) {
           }),
           remove: vi.fn(async (keys: string | string[]) => {
             const keyList = typeof keys === "string" ? [keys] : keys;
+            const changes: Record<string, { oldValue?: unknown; newValue?: unknown }> = {};
             for (const key of keyList) {
-              delete state.storage[key];
+              if (key in state.storage) {
+                changes[key] = { oldValue: state.storage[key], newValue: undefined };
+                delete state.storage[key];
+              }
+            }
+            if (Object.keys(changes).length > 0) {
+              for (const listener of state.changeListeners) {
+                listener(changes);
+              }
             }
           }),
           onChanged: {

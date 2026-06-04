@@ -29,6 +29,16 @@ type KvMutation = {
 };
 
 /**
+ * Reads the server-reported total cell count from a full-sync response. Temporary wrapper until the
+ * backend ships it.
+ * TODO: remove this once update to backend is released
+ */
+function getTotalCount(response: unknown): number | undefined {
+  const value = (response as { totalCount?: unknown }).totalCount;
+  return typeof value === "number" ? value : undefined;
+}
+
+/**
  * Manages synchronization between local storage and the cloud backend.
  *
  * Responsibilities:
@@ -115,6 +125,7 @@ export class SyncManager {
 
         const fullData = await client.sync.fullSync.query({ profileId });
         await this.applyRemoteCells(fullData.cells);
+        await this.reconcileAfterFullSync(fullData.cells, getTotalCount(fullData), true);
 
         await this.storage.set(anoriSchema.cloudSyncSettings, {
           profileId,
@@ -198,6 +209,7 @@ export class SyncManager {
     );
 
     await this.storage.sync.applyRemoteChangesIgnoringHlc(changes, fileBlobs);
+    await this.reconcileAfterFullSync(remoteData.cells, getTotalCount(remoteData), false);
     await this.storage.sync.clearOutbox();
 
     await this.storage.set(anoriSchema.cloudSyncSettings, {
@@ -519,6 +531,38 @@ export class SyncManager {
 
     if (syncedEntries.length > 0) {
       await this.storage.sync.removeFromOutbox(syncedEntries);
+    }
+  }
+
+  /**
+   * Reconcile hard-removes local tracked keys absent from a full-sync response, which is how a
+   * stale client sheds values the server has purged.
+   *
+   * @param protectOutbox keep keys with pending local changes (true for the automatic fallback,
+   *   false for an explicit pull which deliberately replaces local with the cloud profile).
+   */
+  private async reconcileAfterFullSync(
+    cells: RemoteCell[],
+    totalCount: number | undefined,
+    protectOutbox: boolean,
+  ): Promise<void> {
+    if (totalCount === undefined) {
+      // Backend doesn't report a count yet (purge not deployed) → no-op for safety.
+      // TODO: remove once backend is updated
+      return;
+    }
+    if (cells.length !== totalCount) {
+      console.warn(`Full-sync completeness check failed (${cells.length} != ${totalCount}); skipping reconcile`);
+      return;
+    }
+    if (cells.length === 0) {
+      console.warn("Full-sync returned no cells; skipping reconcile");
+      return;
+    }
+    const serverKeys = new Set(cells.map((c) => c.key));
+    const removed = await this.storage.sync.reconcileAgainstServerKeys(serverKeys, { protectOutbox });
+    if (removed.length > 0) {
+      console.log(`Reconcile removed ${removed.length} local key(s) absent from server`);
     }
   }
 
