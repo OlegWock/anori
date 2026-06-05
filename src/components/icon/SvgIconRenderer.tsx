@@ -80,7 +80,7 @@ export const SvgIconRenderer = ({
     iife(() => {
       const rawSize = width || height || 24;
       if (typeof rawSize === "string") {
-        return Number.parseInt(rawSize);
+        return Number.parseInt(rawSize, 10);
       }
       if (typeof rawSize === "number") {
         return rawSize;
@@ -128,8 +128,8 @@ function parseSvgToIconInfo(svgText: string): SvgIconCacheDescriptor | null {
   }
 
   const viewBox = svgRoot.getAttribute("viewBox") || "0 0 24 24";
-  const width = Number.parseInt(svgRoot.getAttribute("width") || "24");
-  const height = Number.parseInt(svgRoot.getAttribute("height") || "24");
+  const width = Number.parseInt(svgRoot.getAttribute("width") || "24", 10);
+  const height = Number.parseInt(svgRoot.getAttribute("height") || "24", 10);
 
   // Preserve presentational attributes (fill, stroke, etc.) that children inherit from the <svg> root
   const managedAttributes = new Set(["width", "height", "viewbox", "style", "class", "id", "xmlns"]);

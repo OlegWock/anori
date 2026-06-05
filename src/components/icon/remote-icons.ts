@@ -69,7 +69,9 @@ const getRemoteIcons = async ({ set, searchQuery }: GetRemoteIconsOptions): Prom
       icons.push(...json.uncategorized);
     }
     if (json.categories) {
-      Object.values(json.categories).forEach((categoryIcons) => icons.push(...categoryIcons));
+      Object.values(json.categories).forEach((categoryIcons) => {
+        icons.push(...categoryIcons);
+      });
     }
     return [...new Set(icons)].map((i) => `${json.prefix}:${i}`);
   }
@@ -90,7 +92,7 @@ export const useIconsSuspense = ({ set, searchQuery }: GetRemoteIconsOptions) =>
   const { customIcons } = useCustomIcons();
   const allIcons = useMemo(() => {
     const matchingCustomIcons =
-      !!set && set !== CUSTOM_ICONS_SET_NAME
+      set && set !== CUSTOM_ICONS_SET_NAME
         ? []
         : customIcons.filter((i) => (searchQuery ? i.name.toLowerCase().includes(searchQuery.toLowerCase()) : true));
     return [...matchingCustomIcons.map((i) => `${CUSTOM_ICONS_SET_NAME}:${i.name}`), ...(data ?? [])];

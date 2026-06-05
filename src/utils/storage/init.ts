@@ -6,7 +6,7 @@ import {
   runMigrations,
   setStoredSchemaVersion,
 } from "@anori/utils/storage-lib/migrations/runner";
-import { type Storage, createStorage } from "@anori/utils/storage-lib/storage";
+import { createStorage, type Storage } from "@anori/utils/storage-lib/storage";
 
 export type AnoriStorage = Storage<typeof anoriVersionedSchema>;
 
@@ -47,7 +47,7 @@ export async function getAnoriStorage(options: AnoriStorageOptions = {}): Promis
   return promise;
 }
 
-// @ts-ignore For debug
+// @ts-expect-error For debug
 self.getAnoriStorage = getAnoriStorage;
 
 export function getAnoriStorageNoWait(): AnoriStorage {

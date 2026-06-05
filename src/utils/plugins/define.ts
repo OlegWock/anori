@@ -44,10 +44,7 @@ export const definePlugin = <const I extends ID = string, const T extends Mappin
           plugin.onMessage = handlers;
           return builder;
         },
-        withScheduledCallback(config: {
-          intervalInMinutes: number;
-          callback: (self: AnoriPlugin<I, T, W>) => void;
-        }) {
+        withScheduledCallback(config: { intervalInMinutes: number; callback: (self: AnoriPlugin<I, T, W>) => void }) {
           plugin.scheduledCallback = {
             intervalInMinutes: config.intervalInMinutes,
             callback: () => config.callback(plugin),

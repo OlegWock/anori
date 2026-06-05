@@ -1,18 +1,18 @@
+export { type AnoriStorage, type AnoriStorageOptions, getAnoriStorage, getAnoriStorageNoWait } from "./init";
 export {
-  anoriVersionedSchema,
   anoriSchema,
+  anoriVersionedSchema,
+  type BookmarkWidgetStore,
+  type CustomTheme,
   type Folder,
   type FolderDetails,
-  type CustomTheme,
-  type Task,
-  type TasksWidgetStore,
   type NotesWidgetStore,
-  type WeatherCurrentWidgetStore,
-  type WeatherForecastWidgetStore,
-  type TopSitesWidgetStore,
-  type RssWidgetStore,
   type RssFeed,
   type RssPost,
-  type BookmarkWidgetStore,
+  type RssWidgetStore,
+  type Task,
+  type TasksWidgetStore,
+  type TopSitesWidgetStore,
+  type WeatherCurrentWidgetStore,
+  type WeatherForecastWidgetStore,
 } from "./schema";
-export { getAnoriStorage, getAnoriStorageNoWait, type AnoriStorage, type AnoriStorageOptions } from "./init";

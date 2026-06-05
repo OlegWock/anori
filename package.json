@@ -30,12 +30,13 @@
         "translations:locales": "ts-node translations-manager.ts generate-locales"
     },
     "lint-staged": {
-        "*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true --write"]
+        "*": [
+            "biome check --no-errors-on-unmatched --files-ignore-unknown=true --write"
+        ]
     },
     "dependencies": {
         "@anori-app/api-client": "^1.0.21",
         "@anori-app/api-types": "^1.0.21",
-        "@biomejs/biome": "^1.9.4",
         "@floating-ui/react": "^0.27.16",
         "@iconify/json": "^2.2.341",
         "@iconify/react": "^6.0.0",
@@ -125,6 +126,7 @@
         }
     },
     "devDependencies": {
+        "@biomejs/biome": "^2.4.16",
         "@testing-library/react": "^16.3.1",
         "jsdom": "^27.3.0",
         "vitest": "^4.0.16"

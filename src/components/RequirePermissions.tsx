@@ -1,6 +1,6 @@
 import { Button } from "@anori/components/Button";
-import { useState } from "react";
 import type { ReactNode } from "react";
+import { useState } from "react";
 import browser from "webextension-polyfill";
 import "./RequirePermissions.scss";
 import {
@@ -39,7 +39,7 @@ export const RequirePermissions = ({
 }: RequirePermissionsProps) => {
   const grantPermissions = async () => {
     const granted = await browser.permissions.request({
-      // @ts-ignore I know what I'm doing
+      // @ts-expect-error I know what I'm doing
       permissions: missingPermissions,
       origins: missingHostPermissions.map((host) => {
         return `*://${normalizeHost(host)}/*`;

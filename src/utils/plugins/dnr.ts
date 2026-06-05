@@ -72,7 +72,6 @@ export const clearBrowsingData = async (url: string) => {
             serviceWorkers: true,
           };
 
-    // @ts-ignore Types between Chrome and Firefox mismatch
     return browser.browsingData.remove(options, dataToRemove);
   }
 };

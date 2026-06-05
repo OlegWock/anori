@@ -5,40 +5,35 @@ export {
   isCellDescriptor,
   isCellQuery,
 } from "./cell";
-
-export { type EntityDescriptor, entity, isEntityDescriptor } from "./entity";
-
 export {
-  type CollectionDescriptor,
-  type CollectionQuery,
   type CollectionAllQuery,
   type CollectionByIdQuery,
-  type EntityAccessor,
+  type CollectionDescriptor,
+  type CollectionQuery,
   collection,
-  isCollectionDescriptor,
-  isCollectionQuery,
+  type EntityAccessor,
   isCollectionAllQuery,
   isCollectionByIdQuery,
+  isCollectionDescriptor,
+  isCollectionQuery,
 } from "./collection";
-
-export { type SchemaEntry, type SchemaDefinition, type SchemaVersion, defineSchemaVersion } from "./version";
-
+export { type EntityDescriptor, entity, isEntityDescriptor } from "./entity";
+export {
+  type FileCollectionAllQuery,
+  type FileCollectionByIdQuery,
+  type FileCollectionDescriptor,
+  type FileCollectionQuery,
+  type FileDescriptor,
+  file,
+  fileCollection,
+  isFileCollectionAllQuery,
+  isFileCollectionByIdQuery,
+  isFileCollectionDescriptor,
+  isFileDescriptor,
+  isFileQuery,
+} from "./file";
+export { defineSchemaVersion, type SchemaDefinition, type SchemaEntry, type SchemaVersion } from "./version";
 export {
   createMigration,
   defineVersionedSchema,
 } from "./versioned";
-
-export {
-  type FileDescriptor,
-  type FileCollectionDescriptor,
-  type FileCollectionQuery,
-  type FileCollectionAllQuery,
-  type FileCollectionByIdQuery,
-  file,
-  fileCollection,
-  isFileDescriptor,
-  isFileCollectionDescriptor,
-  isFileQuery,
-  isFileCollectionAllQuery,
-  isFileCollectionByIdQuery,
-} from "./file";

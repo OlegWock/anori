@@ -1,15 +1,5 @@
-import { type Language, availableTranslations } from "@anori/translations/metadata";
+import { availableTranslations, type Language } from "@anori/translations/metadata";
 import type { Color } from "@anori/utils/color";
-import {
-  cell,
-  collection,
-  defineSchemaVersion,
-  defineVersionedSchema,
-  entity,
-  fileCollection,
-} from "@anori/utils/storage-lib/schema";
-import { z } from "zod";
-
 import {
   BookmarkWidgetStoreSchema,
   NotesWidgetStoreSchema,
@@ -19,6 +9,15 @@ import {
   WeatherCurrentWidgetStoreSchema,
   WeatherForecastWidgetStoreSchema,
 } from "@anori/utils/storage/schema/widget-store";
+import {
+  cell,
+  collection,
+  defineSchemaVersion,
+  defineVersionedSchema,
+  entity,
+  fileCollection,
+} from "@anori/utils/storage-lib/schema";
+import { z } from "zod";
 
 const FolderSchema = z.object({
   id: z.string(),
@@ -428,14 +427,14 @@ export const anoriVersionedSchema = defineVersionedSchema({
 export const anoriSchema = anoriVersionedSchema.latestSchema.definition;
 
 export type {
-  Task,
-  TasksWidgetStore,
+  BookmarkWidgetStore,
   NotesWidgetStore,
-  WeatherCurrentWidgetStore,
-  WeatherForecastWidgetStore,
-  TopSitesWidgetStore,
-  RssWidgetStore,
   RssFeed,
   RssPost,
-  BookmarkWidgetStore,
+  RssWidgetStore,
+  Task,
+  TasksWidgetStore,
+  TopSitesWidgetStore,
+  WeatherCurrentWidgetStore,
+  WeatherForecastWidgetStore,
 } from "./widget-store";

@@ -1,5 +1,5 @@
 import { useLazyRef } from "@anori/utils/hooks";
-import { MotionValue, frame } from "framer-motion";
+import { frame, MotionValue } from "framer-motion";
 
 const getCurrentDerivedValue = <I, V>(deps: MotionValue[], depsTransformer: (deps: I[]) => V) => {
   const newVal = depsTransformer(deps.map((d) => d.get()));
@@ -15,7 +15,9 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
     super(val);
     this.deps = [...deps];
     this.depsTransformer = transformer;
-    this.deps.forEach((d) => d.on("change", this.deriveCurrentValue));
+    this.deps.forEach((d) => {
+      d.on("change", this.deriveCurrentValue);
+    });
     this.deriveCurrentValue();
   }
 
@@ -23,7 +25,9 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
     this.detach();
     this.deps = [...deps];
     this.depsTransformer = transformer;
-    this.deps.forEach((d) => d.on("change", this.deriveCurrentValue));
+    this.deps.forEach((d) => {
+      d.on("change", this.deriveCurrentValue);
+    });
     this.deriveCurrentValue();
   }
 

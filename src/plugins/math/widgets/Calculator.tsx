@@ -29,7 +29,11 @@ export const Calculator = ({
   showAdditionalButtons,
   showHistory,
   inputRef,
-}: { showAdditionalButtons: boolean; showHistory: boolean; inputRef?: Ref<HTMLInputElement> }) => {
+}: {
+  showAdditionalButtons: boolean;
+  showHistory: boolean;
+  inputRef?: Ref<HTMLInputElement>;
+}) => {
   const doCalc = async () => {
     try {
       const result = await evaluate(expression);

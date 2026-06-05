@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { type HlcTimestamp, compareHlc, createHlc, deserializeHlc, serializeHlc } from "../hlc";
+import { compareHlc, createHlc, deserializeHlc, type HlcTimestamp, serializeHlc } from "../hlc";
 
 describe("HLC", () => {
   describe("createHlc", () => {

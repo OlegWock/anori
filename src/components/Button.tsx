@@ -1,5 +1,5 @@
 import classNames from "clsx";
-import { type ComponentProps, type ReactNode, forwardRef } from "react";
+import { type ComponentProps, forwardRef, type ReactNode } from "react";
 import "./Button.scss";
 import { m } from "framer-motion";
 

@@ -1,8 +1,8 @@
 import { Button } from "@anori/components/Button";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Tooltip } from "@anori/components/Tooltip";
-import { Icon } from "@anori/components/icon/Icon";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import clsx from "clsx";

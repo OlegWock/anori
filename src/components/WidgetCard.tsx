@@ -1,9 +1,9 @@
 import { Component, type ComponentProps, createContext, createRef, useContext, useRef, useState } from "react";
 import "./WidgetCard.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { useParentFolder } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
+import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
 import { positionToPixelPosition, snapToSector } from "@anori/utils/grid/utils";
 import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@anori/utils/hooks";
@@ -13,7 +13,7 @@ import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "
 import { WidgetMetadataContext } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
-import { type PanInfo, m, useMotionValue } from "framer-motion";
+import { m, type PanInfo, useMotionValue } from "framer-motion";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "./Button";

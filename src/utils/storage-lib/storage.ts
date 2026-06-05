@@ -1,8 +1,8 @@
 import browser from "webextension-polyfill";
 import { createFilesStorage } from "./files";
-import { type Hlc, type HlcState, type HlcTimestamp, compareHlc, createHlc, generateNodeId } from "./hlc";
+import { compareHlc, createHlc, generateNodeId, type Hlc, type HlcState, type HlcTimestamp } from "./hlc";
 import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
-import { type Query, extractIdFromKey, isKeyMatchingPrefix, resolveQuery } from "./query";
+import { extractIdFromKey, isKeyMatchingPrefix, type Query, resolveQuery } from "./query";
 import type { CellDescriptor } from "./schema/cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "./schema/collection";
 import { isFileCollectionAllQuery, isFileCollectionByIdQuery, isFileDescriptor } from "./schema/file";
@@ -24,20 +24,20 @@ import type {
   Subscription,
   ValueWithMeta,
 } from "./storage-types";
-import { type StorageRecord, isStorageRecord } from "./types";
+import { isStorageRecord, type StorageRecord } from "./types";
 
 // Re-export types that external consumers import from this module
 export type {
-  OutboxEntry,
-  ChangeSource,
-  ChangeInfo,
   ChangeCallback,
+  ChangeInfo,
+  ChangeSource,
+  CreateStorageOptions,
   OutboxChangeCallback,
+  OutboxEntry,
+  Storage,
+  StorageFork,
   ValueMeta,
   ValueWithMeta,
-  StorageFork,
-  Storage,
-  CreateStorageOptions,
 } from "./storage-types";
 
 export function createStorage<S extends VersionedSchema>(options: CreateStorageOptions<S>): Storage<S> {

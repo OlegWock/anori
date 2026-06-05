@@ -1,7 +1,7 @@
 import type { Select as SelectType } from "@anori/components/Select";
 import { type CachedPromiseFuncReturn, cachedPromiseFunc } from "@anori/utils/misc";
 import type { ReorderGroup as ReorderGroupType } from "@anori/utils/motion/lazy-load-reorder";
-import { type ComponentType, type JSX, type ReactNode, Suspense, lazy, useMemo } from "react";
+import { type ComponentType, type JSX, lazy, type ReactNode, Suspense, useMemo } from "react";
 
 // biome-ignore lint/suspicious/noExplicitAny: loaders wrap arbitrary component types
 export type LazyLoader = () => CachedPromiseFuncReturn<ComponentType<any>>;
@@ -24,7 +24,9 @@ export const registerLazyComponentsForPreload = (loaderMap: Record<string, LazyL
 export const scheduleLazyComponentsPreload = () => {
   const triggerPreload = () => {
     const funcs: LazyLoader[] = [...Object.values(loaders), ...extraPreloads];
-    funcs.forEach((f) => f());
+    funcs.forEach((f) => {
+      f();
+    });
   };
 
   if ("requestIdleCallback" in window) {
@@ -59,8 +61,6 @@ export const createLazyComponentWithSuspense = <P,>(
     // This will cause us to render different root component which will reset any state in child components. To avoid
     // this we remember value returned at first render to keep rendered component stable.
     //
-    // `loader` is `createLazyComponentWithSuspense`, which isn't react component, but biome can't detect that
-    // biome-ignore lint/correctness/useExhaustiveDependencies:
     const val = useMemo(() => loader(), []);
 
     if (val.status === "resolved") {

@@ -2,10 +2,10 @@ import "../styles.scss";
 import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/components/Checkbox";
 import { Textarea } from "@anori/components/Input";
-import { ScrollArea } from "@anori/components/ScrollArea";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
+import { ScrollArea } from "@anori/components/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
@@ -59,7 +59,6 @@ const Scribble = ({ progress }: { progress: MotionValue<number> }) => {
   const display = useTransform(progress, (v) => (v === 0 ? "none" : "block"));
 
   return (
-    // biome-ignore lint/a11y/noSvgWithoutTitle: this is cosmetics element, hidden from screen readers
     <m.svg
       xmlns="http://www.w3.org/2000/svg"
       fillRule="evenodd"

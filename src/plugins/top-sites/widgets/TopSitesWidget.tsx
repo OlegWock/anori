@@ -1,11 +1,11 @@
 import "../styles.scss";
 import { Button } from "@anori/components/Button";
-import { Link } from "@anori/components/Link";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { useParentFolder } from "@anori/utils/FolderContentContext";
+import { Icon } from "@anori/components/icon/Icon";
+import { Link } from "@anori/components/Link";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
+import { useParentFolder } from "@anori/utils/FolderContentContext";
 import { useLinkNavigationState } from "@anori/utils/hooks";
 import { parseHost } from "@anori/utils/misc";
 import type { CorrectPermission } from "@anori/utils/permissions";
@@ -24,7 +24,12 @@ const LinkPlate = ({
   favicon,
   title,
   onRemove,
-}: { href: string; favicon: string; title: string; onRemove: () => void }) => {
+}: {
+  href: string;
+  favicon: string;
+  title: string;
+  onRemove: () => void;
+}) => {
   const { onLinkClick, isNavigating } = useLinkNavigationState();
   const { isEditing } = useParentFolder();
   const trackInteraction = useWidgetInteractionTracker();

@@ -38,7 +38,9 @@ export const CpuWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
     const manualTids = [setTimeout(() => load(), 500), setTimeout(() => load(), 1000), setTimeout(() => load(), 2000)];
     return () => {
       clearInterval(tid);
-      manualTids.forEach((t) => clearTimeout(t));
+      manualTids.forEach((t) => {
+        clearTimeout(t);
+      });
     };
   }, []);
 

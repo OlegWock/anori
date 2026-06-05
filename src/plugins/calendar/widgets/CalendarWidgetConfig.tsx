@@ -3,7 +3,7 @@ import { Select } from "@anori/components/lazy-components";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DEFAULT_CALENDAR, SUPPORTED_CALENDARS, getCalendarLabel } from "../calendar-adapter";
+import { DEFAULT_CALENDAR, getCalendarLabel, SUPPORTED_CALENDARS } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
 import "./CalendarWidgetConfig.scss";

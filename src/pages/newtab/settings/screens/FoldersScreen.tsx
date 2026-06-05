@@ -1,6 +1,6 @@
 import { Button } from "@anori/components/Button";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import { ReorderGroup } from "@anori/components/lazy-components";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { homeFolder } from "@anori/utils/user-data/types";

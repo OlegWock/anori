@@ -3,8 +3,8 @@ import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useS
 import "./NotesWidget.scss";
 
 import { Link } from "@anori/components/Link";
-import { ScrollArea } from "@anori/components/ScrollArea";
 import { ReactMarkdown } from "@anori/components/lazy-components";
+import { ScrollArea } from "@anori/components/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";

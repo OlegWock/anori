@@ -1,11 +1,11 @@
 import "../styles.scss";
+import { listItemAnimation } from "@anori/components/animations";
 import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/components/Checkbox";
 import { Input } from "@anori/components/Input";
-import { ScrollArea } from "@anori/components/ScrollArea";
-import { listItemAnimation } from "@anori/components/animations";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
+import { ScrollArea } from "@anori/components/ScrollArea";
 import type { Task } from "@anori/utils/storage";
 import { AnimatePresence, m } from "framer-motion";
 import { useTranslation } from "react-i18next";

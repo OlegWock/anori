@@ -4,8 +4,16 @@ import { combineRefs } from "@anori/utils/react";
 import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { m } from "framer-motion";
-import { type ComponentProps, type ReactNode, type Ref, type WheelEvent, useCallback, useEffect, useRef } from "react";
-import { forwardRef } from "react";
+import {
+  type ComponentProps,
+  forwardRef,
+  type ReactNode,
+  type Ref,
+  useCallback,
+  useEffect,
+  useRef,
+  type WheelEvent,
+} from "react";
 
 type ScrollAreaProps = {
   children?: ReactNode;
@@ -125,7 +133,7 @@ const ResizeObserverComponent = ({ onResize }: { onResize: () => void }) => {
     return () => observer.disconnect();
   }, [ctx.content, onResize]);
 
-  return <></>;
+  return null;
 };
 
 export const MotionScrollArea = m.create(ScrollArea);

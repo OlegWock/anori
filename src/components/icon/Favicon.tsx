@@ -33,10 +33,10 @@ export const Favicon = ({ useFaviconApiIfPossible, ref, ...props }: FaviconProps
   }, [hasPermission, props.url, props.height, props.width, useFaviconApiIfPossible]);
 
   if (iconUrl && !imageError) {
-    // @ts-ignore incorrect ref typing
+    // @ts-expect-error incorrect ref typing
     return <img src={iconUrl} onError={() => setImageError(true)} {...props} ref={ref} aria-hidden />;
   }
 
-  // @ts-ignore incorrect ref typing
+  // @ts-expect-error incorrect ref typing
   return <Icon icon={props.fallback || builtinIcons.recentlyClosedTabs.tab} {...props} ref={ref} />;
 };

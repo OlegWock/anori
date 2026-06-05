@@ -14,4 +14,4 @@ export const datetimePlugin = definePlugin({
   .withWidgets(datetimeWidgetDescriptorS, datetimeWidgetDescriptorM)
   .build();
 
-export { datetimeWidgetDescriptorS, datetimeWidgetDescriptorM };
+export { datetimeWidgetDescriptorM, datetimeWidgetDescriptorS };

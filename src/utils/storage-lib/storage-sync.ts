@@ -1,5 +1,5 @@
 import browser from "webextension-polyfill";
-import { type HlcTimestamp, compareHlc } from "./hlc";
+import { compareHlc, type HlcTimestamp } from "./hlc";
 import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
 import { deleteFile, writeFile } from "./opfs";
 import type {
@@ -9,7 +9,7 @@ import type {
   Storage,
   StorageInternalContext,
 } from "./storage-types";
-import { type FileMetaValue, type StorageRecord, isStorageRecord } from "./types";
+import { type FileMetaValue, isStorageRecord, type StorageRecord } from "./types";
 
 /**
  * How long deleted records (tombstones) are kept before local compaction removes them.

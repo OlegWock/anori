@@ -130,5 +130,5 @@ export async function runOrphanGc(storage: AnoriStorage): Promise<GcResult> {
   return result;
 }
 
-// @ts-ignore for debug
+// @ts-expect-error for debug
 self.runOrphanGc = runOrphanGc;

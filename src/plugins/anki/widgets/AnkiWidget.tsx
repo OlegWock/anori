@@ -1,7 +1,7 @@
 import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useCallback, useEffect, useState } from "react";
@@ -87,9 +87,7 @@ export const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigT
           )}
         </>
       ) : (
-        <>
-          <Alert>{t("anki-plugin.error")}</Alert>
-        </>
+        <Alert>{t("anki-plugin.error")}</Alert>
       )}
 
       {reachable && (

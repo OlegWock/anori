@@ -1,5 +1,5 @@
-import { SvgIconRenderer } from "@anori/components/icon/SvgIconRenderer";
 import { useCustomIcon } from "@anori/components/icon/custom-icons";
+import { SvgIconRenderer } from "@anori/components/icon/SvgIconRenderer";
 import type { IconProps } from "@anori/components/icon/types";
 import clsx from "clsx";
 import { m } from "framer-motion";
@@ -8,7 +8,7 @@ import type { CSSProperties, Ref } from "react";
 export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...props }: IconProps) => {
   const customIconInfo = useCustomIcon(icon);
   let size = props.width || props.height || 24;
-  if (typeof size === "string") size = Number.parseInt(size);
+  if (typeof size === "string") size = Number.parseInt(size, 10);
 
   if (!customIconInfo) {
     return (

@@ -45,7 +45,7 @@ export const minmax = (num: number, min: number, max: number) => {
 
 export const cachedFunc = <T>(func: () => T) => {
   const called = false;
-  let val: T | undefined = undefined;
+  let val: T | undefined;
 
   return () => {
     if (!called) {
@@ -67,8 +67,8 @@ export type CachedPromiseFuncReturn<T> =
     };
 
 export const cachedPromiseFunc = <T>(func: () => Promise<T>) => {
-  let promise: Promise<T> | undefined = undefined;
-  let value: T | undefined = undefined;
+  let promise: Promise<T> | undefined;
+  let value: T | undefined;
   let valueSet = false;
 
   return () => {

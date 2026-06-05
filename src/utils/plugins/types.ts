@@ -50,13 +50,8 @@ export type IDFromWidgetDescriptor<W> = W extends WidgetDescriptor
     ? W[number]["id"]
     : never;
 
-export type WidgetDescriptorFromPluginByID<P extends AnoriPlugin, WID extends ID> = P extends AnoriPlugin<
-  ID,
-  Mapping,
-  infer WD
->
-  ? Extract<WD[number], WidgetDescriptor<WID, Mapping>>
-  : never;
+export type WidgetDescriptorFromPluginByID<P extends AnoriPlugin, WID extends ID> =
+  P extends AnoriPlugin<ID, Mapping, infer WD> ? Extract<WD[number], WidgetDescriptor<WID, Mapping>> : never;
 
 export type OnMessageDescriptor<I extends Mapping, O> = {
   args: I;

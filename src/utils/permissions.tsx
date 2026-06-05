@@ -91,7 +91,10 @@ export const useAvailablePermissions = () => {
 export const usePermissionsQuery = ({
   hosts,
   permissions,
-}: { hosts?: string[]; permissions?: CorrectPermission[] }) => {
+}: {
+  hosts?: string[];
+  permissions?: CorrectPermission[];
+}) => {
   const availablePermissions = useAvailablePermissions();
   const missingPermissions = permissions
     ? permissions.filter((p) => !availablePermissions.permissions.includes(p)).filter((p) => isPermissionSupported(p))

@@ -1,10 +1,10 @@
 import {
-  FloatingPortal,
-  type Placement,
-  type Strategy,
   autoUpdate,
+  FloatingPortal,
   flip,
   offset,
+  type Placement,
+  type Strategy,
   safePolygon,
   shift,
   useClick,
@@ -17,7 +17,7 @@ import {
   useRole,
 } from "@floating-ui/react";
 import { AnimatePresence, m } from "framer-motion";
-import { type ReactElement, type ReactNode, type Ref, cloneElement, useId, useState } from "react";
+import { cloneElement, type ReactElement, type ReactNode, type Ref, useId, useState } from "react";
 import "./Tooltip.scss";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import type { Mapping } from "@anori/utils/types";

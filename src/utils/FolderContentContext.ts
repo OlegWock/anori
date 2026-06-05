@@ -1,5 +1,5 @@
 import type { GridDimensions, GridItemSize, GridPixelPosition } from "@anori/utils/grid/types";
-import { type RefObject, createContext, useContext } from "react";
+import { createContext, type RefObject, useContext } from "react";
 import { type Folder, homeFolder } from "./user-data/types";
 
 type FolderContentContextType = {

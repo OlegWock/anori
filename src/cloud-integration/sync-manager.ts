@@ -1,9 +1,9 @@
-import { type ApiClientWithReconnect, createApiClient, isAppErrorOfType } from "@anori-app/api-client";
-import { CommitLogPrunedError } from "@anori-app/api-types";
 import { type AnoriStorage, anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
 import type { HlcTimestamp } from "@anori/utils/storage-lib/hlc";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
+import { type ApiClientWithReconnect, createApiClient, isAppErrorOfType } from "@anori-app/api-client";
+import { CommitLogPrunedError } from "@anori-app/api-types";
 import { getApiClient } from "./api-client";
 import { clearSession, isSessionError } from "./auth";
 import { API_BASE_URL } from "./consts";
@@ -458,7 +458,7 @@ export class SyncManager {
           }
 
           const fileMeta = entry.record.value as FileMetaValue<unknown> | null;
-          if (!fileMeta || !fileMeta.path) {
+          if (!fileMeta?.path) {
             syncedEntries.push({ key: entry.key, hlc: entry.record.hlc });
             continue;
           }

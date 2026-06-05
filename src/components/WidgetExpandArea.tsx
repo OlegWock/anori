@@ -1,6 +1,6 @@
 import {
-  type Transition,
   m,
+  type Transition,
   useAnimate,
   useMotionTemplate,
   useMotionValue,
@@ -16,9 +16,9 @@ import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { Icon } from "./icon/Icon";
 import { ScrollArea } from "./ScrollArea";
 import { useParentWidgetCardRef } from "./WidgetCard";
-import { Icon } from "./icon/Icon";
 
 export type WidgetExpandAreaProps = {
   children: ReactNode;

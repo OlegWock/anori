@@ -12,12 +12,12 @@ import type {
   WidgetDescriptor,
 } from "@anori/utils/plugins/types";
 import { clearWidgetStorage } from "@anori/utils/scoped-store";
-import { type FolderDetails, anoriSchema, getAnoriStorage, getAnoriStorageNoWait } from "@anori/utils/storage";
+import { anoriSchema, type FolderDetails, getAnoriStorage, getAnoriStorageNoWait } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { type Folder, type WidgetInFolder, type WidgetInFolderWithMeta, homeFolder } from "./types";
+import { type Folder, homeFolder, type WidgetInFolder, type WidgetInFolderWithMeta } from "./types";
 
 type UseFoldersOptions = {
   includeHome?: boolean;

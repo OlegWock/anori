@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
     "vcs": {
         "enabled": false,
         "clientKind": "git",
@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": false,
-        "ignore": ["dist/", "**/*.js", "src/assets/"]
+        "includes": ["**", "!**/dist", "!**/*.js", "!**/src/assets"]
     },
     "formatter": {
         "enabled": true,
@@ -15,9 +15,7 @@
 
         "lineWidth": 120
     },
-    "organizeImports": {
-        "enabled": true
-    },
+    "assist": { "actions": { "source": { "organizeImports": "on" } } },
     "linter": {
         "enabled": true,
         "rules": {
@@ -28,7 +26,6 @@
             },
             "correctness": {
                 "noConstantMathMinMaxClamp": "error",
-                "noInvalidNewBuiltin": "error",
                 "noUnusedImports": "error",
                 "noUnusedVariables": "warn",
                 "noChildrenProp": "off",
@@ -49,7 +46,8 @@
                             { "name": "useOnChangeLayoutEffect", "dependenciesIndex": 1 }
                         ]
                     }
-                }
+                },
+                "noInvalidBuiltinInstantiation": "error"
             },
             "style": {
                 "noDefaultExport": "error",

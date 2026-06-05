@@ -1,8 +1,8 @@
 import browser from "webextension-polyfill";
-import { type HlcState, createHlc, generateNodeId } from "../hlc";
+import { createHlc, generateNodeId, type HlcState } from "../hlc";
 import { HLC_STATE_KEY, SCHEMA_VERSION_KEY } from "../keys";
 import type { SchemaDefinition } from "../schema/version";
-import { type Migration, type VersionedSchema, getMigrationPath } from "../schema/versioned";
+import { getMigrationPath, type Migration, type VersionedSchema } from "../schema/versioned";
 import type { StorageRecord } from "../types";
 import { createFromAccessor, createToAccessor } from "./context";
 

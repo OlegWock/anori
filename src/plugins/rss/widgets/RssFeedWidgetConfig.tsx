@@ -1,10 +1,10 @@
 import { Alert } from "@anori/components/Alert";
+import { listItemAnimation } from "@anori/components/animations";
 import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/components/Checkbox";
 import { Input } from "@anori/components/Input";
-import { listItemAnimation } from "@anori/components/animations";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import { guid } from "@anori/utils/misc";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { AnimatePresence, m } from "framer-motion";

@@ -1,10 +1,10 @@
 import {
   type CSSProperties,
+  createContext,
   type KeyboardEvent,
   type Ref,
   type RefObject,
   Suspense,
-  createContext,
   useContext,
   useDeferredValue,
   useRef,
@@ -17,9 +17,9 @@ import { Select } from "@anori/components/lazy-components";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
 import { Input } from "./Input";
+import { Icon } from "./icon/Icon";
 import type { PopoverRenderProps } from "./Popover";
 import { Tooltip } from "./Tooltip";
-import { Icon } from "./icon/Icon";
 
 type IconPickerProps = PopoverRenderProps<{
   onSelected: (icon: string) => void;
@@ -99,7 +99,11 @@ const IconsGrid = ({
   searchQuery,
   selectedFamily,
   onSelected,
-}: { selectedFamily: string; searchQuery: string; onSelected: (icon: string) => void }) => {
+}: {
+  selectedFamily: string;
+  searchQuery: string;
+  onSelected: (icon: string) => void;
+}) => {
   const { t } = useTranslation();
 
   const { icons: iconsList } = useIconsSuspense({
@@ -133,7 +137,7 @@ const IconsGrid = ({
 
 export const IconPicker = ({ data, close }: IconPickerProps) => {
   const moveFocus = (direction: "up" | "down" | "left" | "right", currentX: number, currentY: number) => {
-    let target: HTMLButtonElement | undefined = undefined;
+    let target: HTMLButtonElement | undefined;
     if (direction === "up") {
       target = rowRefs.current[`${currentX}_${currentY - 1}`];
     }

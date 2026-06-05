@@ -1,8 +1,9 @@
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import lodash from "lodash";
+
 const { get, set } = lodash;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -133,9 +134,9 @@ const listLanguages = (): string[] => {
 const collectUsages = (): Map<string, Usage[]> => {
   const map = new Map<string, Usage[]>();
   const patterns = [
-    /\bt\(\s*["'`]([\w.\-]+)["'`]/g,
-    /\btranslate\(\s*["'`]([\w.\-]+)["'`]/g,
-    /i18nKey=\s*["'`]([\w.\-]+)["'`]/g,
+    /\bt\(\s*["'`]([\w.-]+)["'`]/g,
+    /\btranslate\(\s*["'`]([\w.-]+)["'`]/g,
+    /i18nKey=\s*["'`]([\w.-]+)["'`]/g,
   ];
 
   const walk = (dir: string) => {

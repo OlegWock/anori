@@ -1,12 +1,12 @@
 import {
+  autoPlacement,
+  autoUpdate,
   FloatingFocusManager,
   FloatingPortal,
+  offset,
   type Placement,
   type Side,
   type SizeOptions,
-  autoPlacement,
-  autoUpdate,
-  offset,
   safePolygon,
   shift,
   size,
@@ -22,11 +22,11 @@ import { AnimatePresence, m } from "framer-motion";
 import type React from "react";
 import {
   Children,
+  cloneElement,
   type ReactElement,
   type ReactNode,
   type Ref,
   type RefObject,
-  cloneElement,
   useMemo,
   useState,
 } from "react";
@@ -168,7 +168,7 @@ export const Popover = <D = undefined>({
                 <ContentComponent
                   labelId={labelId}
                   descriptionId={descriptionId}
-                  // @ts-ignore Additional data typing is kind ad-hoc, couldn't figure out better way to do it
+                  // @ts-expect-error Additional data typing is kind ad-hoc, couldn't figure out better way to do it
                   data={additionalData}
                   close={() => {
                     setOpen(false);

@@ -4,8 +4,8 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import type { NarrowVariants } from "@anori/utils/motion/types";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import { type ComponentProps, forwardRef, useId } from "react";
 import type { ReactNode } from "react";
+import { type ComponentProps, forwardRef, useId } from "react";
 import { Icon } from "./icon/Icon";
 
 export type CheckboxVariant = "disabled" | "checked" | "unchecked";

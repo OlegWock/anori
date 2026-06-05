@@ -1,7 +1,7 @@
 import browser from "webextension-polyfill";
 import { deleteFile, listFiles, writeFile } from "./opfs";
 import type { StorageInternalContext } from "./storage-types";
-import { type FileMetaValue, type StorageRecord, isStorageRecord } from "./types";
+import { type FileMetaValue, isStorageRecord, type StorageRecord } from "./types";
 
 export function createBackupInterface(ctx: StorageInternalContext) {
   return {

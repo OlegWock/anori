@@ -41,7 +41,11 @@ export const layoutTo2DArray = ({
   grid,
   layout,
   allowOverlay = false,
-}: { grid: Pick<GridDimensions, "columns" | "rows">; layout: GridContent; allowOverlay?: boolean }): Grid2DArray => {
+}: {
+  grid: Pick<GridDimensions, "columns" | "rows">;
+  layout: GridContent;
+  allowOverlay?: boolean;
+}): Grid2DArray => {
   const arr = [...Array(grid.rows)].map(() => {
     return [...Array(grid.columns)].map(() => false);
   });
@@ -96,9 +100,11 @@ export const findPositionForItemInGrid = ({
   grid,
   layout,
   item,
-}: { grid: Pick<GridDimensions, "columns" | "rows">; layout: GridContent; item: GridItemSize }):
-  | false
-  | GridPosition => {
+}: {
+  grid: Pick<GridDimensions, "columns" | "rows">;
+  layout: GridContent;
+  item: GridItemSize;
+}): false | GridPosition => {
   const arr = layoutTo2DArray({ grid, layout });
 
   for (let i = 0; i < arr.length; i++) {
@@ -145,7 +151,10 @@ export const snapToSector = ({ grid, position }: { grid: GridDimensions; positio
 export const positionToPixelPosition = ({
   grid,
   position,
-}: { grid: GridDimensions; position: GridPosition }): GridPixelPosition => {
+}: {
+  grid: GridDimensions;
+  position: GridPosition;
+}): GridPixelPosition => {
   return {
     x: position.x * grid.boxSize,
     y: position.y * grid.boxSize,

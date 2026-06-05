@@ -1,17 +1,17 @@
 import { Button, type ButtonProps } from "@anori/components/Button";
 import { toCss } from "@anori/utils/color";
-import { type CustomTheme, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import { anoriSchema, type CustomTheme, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import {
-  type PartialCustomTheme,
-  type Theme,
   applyTheme,
   applyThemeColors,
   defaultTheme,
   deleteThemeBackgrounds,
   getThemeBackground,
   getThemeBackgroundOriginal,
+  type PartialCustomTheme,
   saveThemeBackground,
+  type Theme,
   themes,
 } from "@anori/utils/user-data/theme";
 import clsx from "clsx";
@@ -20,9 +20,9 @@ import { type ComponentProps, useCallback, useEffect, useRef, useState } from "r
 import browser from "webextension-polyfill";
 import "./ThemesScreen.scss";
 import { ColorPicker } from "@anori/components/ColorPicker";
-import { Slider } from "@anori/components/Slider";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
+import { Slider } from "@anori/components/Slider";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
@@ -329,9 +329,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   return (
     <m.div {...props} className="ThemesScreen">
       {editorActive ? (
-        <>
-          <ThemeEditor theme={editorTheme} onClose={() => setEditorActive(false)} />
-        </>
+        <ThemeEditor theme={editorTheme} onClose={() => setEditorActive(false)} />
       ) : (
         <>
           <div className="themes-grid">

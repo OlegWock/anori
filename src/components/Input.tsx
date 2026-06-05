@@ -24,7 +24,6 @@ export const Textarea = forwardRef<
     if (onChange) return onChange(e);
   };
 
-  // @ts-ignore idk something wrong with ref types
   return (
     <TextareaAutosize
       onChange={patchedOnChange}

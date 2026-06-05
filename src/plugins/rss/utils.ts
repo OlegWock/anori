@@ -1,7 +1,7 @@
 import { cachedFunc } from "@anori/utils/misc";
 import type { ScopedStore } from "@anori/utils/scoped-store";
 import { createScopedStoreFactories } from "@anori/utils/scoped-store";
-import { type RssFeed, type RssPost, type RssWidgetStore, anoriSchema } from "@anori/utils/storage";
+import { anoriSchema, type RssFeed, type RssPost, type RssWidgetStore } from "@anori/utils/storage";
 import moment from "moment-timezone";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -95,6 +95,13 @@ const loadAndParseFeeds = async (feedUrls: string[], fetchFeed: (url: string) =>
 };
 
 export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Promise<string>) => {
+  const store = useRssStore();
+  const { i18n } = useTranslation();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const [feeds, setFeeds] = store.useValue("feeds", {});
+  const [lastUpdated, setLastUpdated] = store.useValue("lastUpdated", null);
+
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
 
@@ -108,14 +115,7 @@ export const useRssFeeds = (feedUrls: string[], fetchFeed: (url: string) => Prom
     } finally {
       setIsRefreshing(false);
     }
-  }, [feedUrls, fetchFeed]);
-
-  const store = useRssStore();
-  const { i18n } = useTranslation();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const [feeds, setFeeds] = store.useValue("feeds", {});
-  const [lastUpdated, setLastUpdated] = store.useValue("lastUpdated", null);
+  }, [feedUrls, fetchFeed, store.set, setLastUpdated, setFeeds]);
 
   const consolidatedFeed = useMemo(() => {
     return Object.values(feeds)

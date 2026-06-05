@@ -1,7 +1,7 @@
 import { ClampTextToFit } from "@anori/components/ClampTextToFit";
-import { RelativeTime } from "@anori/components/RelativeTime";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
+import { RelativeTime } from "@anori/components/RelativeTime";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import clsx from "clsx";
@@ -25,7 +25,11 @@ export const Post = ({
   post,
   clampTitle = false,
   compact = false,
-}: { post: RssPost; clampTitle?: boolean; compact?: boolean }) => {
+}: {
+  post: RssPost;
+  clampTitle?: boolean;
+  compact?: boolean;
+}) => {
   const { rem } = useSizeSettings();
   const { i18n } = useTranslation();
   const trackInteraction = useWidgetInteractionTracker();

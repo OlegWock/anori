@@ -26,7 +26,7 @@ export const getIpInfo = async (): Promise<IpInfo> => {
   const json = (await resp.json()) as IpInfoApiResponse;
 
   const [lat, long] = json.loc.includes(",")
-    ? json.loc.split(",").map((i: string) => Number.parseInt(i))
+    ? json.loc.split(",").map((i: string) => Number.parseInt(i, 10))
     : [undefined, undefined];
   return {
     ...json,

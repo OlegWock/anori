@@ -59,7 +59,6 @@ export const useMirrorStateToRef = <T>(val: T) => {
 
 export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
   const isFirstRun = useRef(true);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: fn is not in dependencies intentionally
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
@@ -67,12 +66,12 @@ export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.Depende
     }
 
     return fn();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: deps are forwarded from the caller
   }, deps);
 };
 
 export const useOnChangeLayoutEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
   const isFirstRun = useRef(true);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: fn is not in dependencies intentionally
   useLayoutEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
@@ -80,16 +79,8 @@ export const useOnChangeLayoutEffect = (fn: React.EffectCallback, deps?: React.D
     }
 
     return fn();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: deps are forwarded from the caller
   }, deps);
-};
-
-const symbolUseRunIfDepsChangedNotSet = Symbol();
-export const useRunIfDepsChanged = (fn: () => void, deps: React.DependencyList) => {
-  const prevRefs = deps.map((d) => usePrevious(d, symbolUseRunIfDepsChangedNotSet));
-  const isChanged = prevRefs.some((r, ind) => r !== symbolUseRunIfDepsChangedNotSet && r !== deps[ind]);
-  if (isChanged) {
-    fn();
-  }
 };
 
 export const useLinkNavigationState = () => {
@@ -179,17 +170,17 @@ export const useLazyRef = <T>(init: () => T): RefObject<T> => {
 
 export const useAsyncEffect = (func: () => unknown, deps?: DependencyList | undefined) => {
   // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
-  // biome-ignore lint/correctness/useExhaustiveDependencies: func is not in dependencies intentionally
   useEffect(() => {
     func();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: deps are forwarded from the caller
   }, deps);
 };
 
 export const useAsyncLayoutEffect = (func: () => unknown, deps?: DependencyList | undefined) => {
   // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
-  // biome-ignore lint/correctness/useExhaustiveDependencies: func is not in dependencies intentionally
   useLayoutEffect(() => {
     func();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: deps are forwarded from the caller
   }, deps);
 };
 

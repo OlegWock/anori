@@ -1,6 +1,6 @@
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { isAppErrorOfType } from "@anori-app/api-client";
 import { SessionExpiredError, UnauthorizedError } from "@anori-app/api-types";
-import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { getApiClient, updateApiClientToken } from "./api-client";
 import { getDeviceName } from "./device-name";
 import { disconnectFromProfile } from "./sync-manager";

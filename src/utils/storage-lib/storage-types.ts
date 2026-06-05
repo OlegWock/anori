@@ -33,11 +33,7 @@ export type Subscription = {
   sourceId?: string;
 };
 
-export type OutboxChangeCallback = (data: {
-  key: string;
-  record: StorageRecord<unknown>;
-  type: "kv" | "file";
-}) => void;
+export type OutboxChangeCallback = (data: { key: string; record: StorageRecord<unknown>; type: "kv" | "file" }) => void;
 
 export type OutboxSubscription = {
   callback: OutboxChangeCallback;
@@ -119,10 +115,7 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
   };
 
-  importFromBackup(data: {
-    kv: Record<string, unknown>;
-    fileBlobs: Map<string, Blob>;
-  }): Promise<void>;
+  importFromBackup(data: { kv: Record<string, unknown>; fileBlobs: Map<string, Blob> }): Promise<void>;
 
   files: FilesStorage;
 };

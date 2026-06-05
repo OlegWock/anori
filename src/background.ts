@@ -4,7 +4,7 @@ import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { runOrphanGc } from "@anori/utils/storage/orphan-gc";
 import browser from "webextension-polyfill";
-import { type Language, availableTranslations } from "./translations/metadata";
+import { availableTranslations, type Language } from "./translations/metadata";
 
 console.log("Background init");
 
@@ -36,8 +36,8 @@ const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
   // v1 is newer than v2 => -1
   // v1 and v2 are same => 0
   // v1 is older than v2 => 1
-  const v1Tokens = v1.split(".").map((d) => Number.parseInt(d));
-  const v2Tokens = v2.split(".").map((d) => Number.parseInt(d));
+  const v1Tokens = v1.split(".").map((d) => Number.parseInt(d, 10));
+  const v2Tokens = v2.split(".").map((d) => Number.parseInt(d, 10));
   for (let ind = 0; ind < Math.min(v1Tokens.length, v2Tokens.length); ind++) {
     if (v1Tokens[ind] > v2Tokens[ind]) return -1;
     if (v1Tokens[ind] < v2Tokens[ind]) return 1;
@@ -95,7 +95,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
       console.warn("Got message for unknown plugin", message.pluginId);
       return;
     }
-    if (!plugin.onMessage || !plugin.onMessage[message.command]) {
+    if (!plugin.onMessage?.[message.command]) {
       console.warn("Plugin", plugin.id, `can't handle command`, message.command);
       return;
     }
@@ -226,9 +226,9 @@ browser.runtime.setUninstallURL(`https://anori.app/goodbye`);
   });
 });
 
-// @ts-ignore unknwon onRuleMatchedDebug event
+// @ts-expect-error unknwon onRuleMatchedDebug event
 if (X_BROWSER === "chrome" && X_MODE === "development" && browser.declarativeNetRequest?.onRuleMatchedDebug) {
-  // @ts-ignore unknwon onRuleMatchedDebug event
+  // @ts-expect-error unknwon onRuleMatchedDebug event
   browser.declarativeNetRequest.onRuleMatchedDebug.addListener((info) => console.log("Matched DNR rule", info));
 }
 

@@ -1,12 +1,12 @@
 import { AnimatePresence, m } from "framer-motion";
 import "./FolderContent.scss";
 import { Button } from "@anori/components/Button";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
-import { Icon } from "@anori/components/icon/Icon";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useSizeSettings } from "@anori/utils/compact";
+import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
 import { useHotkeys } from "@anori/utils/hooks";
 import type { WidgetDescriptor } from "@anori/utils/plugins/types";
@@ -15,8 +15,7 @@ import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import clsx from "clsx";
 import { atom, useAtom } from "jotai";
-import { type CSSProperties, type Ref, useState } from "react";
-import { useRef } from "react";
+import { type CSSProperties, type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NewWidgetWizard } from "../lazy-components";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
@@ -128,122 +127,120 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   });
 
   return (
-    <>
-      <FolderContentContext.Provider
-        value={{
-          activeFolder: folder,
-          isEditing,
-          grid: gridDimensions,
-          gridRef: mainRef,
+    <FolderContentContext.Provider
+      value={{
+        activeFolder: folder,
+        isEditing,
+        grid: gridDimensions,
+        gridRef: mainRef,
+      }}
+    >
+      <m.div
+        key={`FolderContent-${folder.id}`}
+        data-folder-id={folder.id}
+        className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
+        transition={{
+          duration: 0.2,
+          type: "spring",
         }}
+        variants={variants}
+        initial="initial"
+        animate="visible"
+        custom={animationDirection}
+        style={
+          {
+            "--widget-box-size": gridDimensions.boxSize,
+            "--widget-box-size-px": `${gridDimensions.boxSize}px`,
+            "--widget-box-percent": (gridDimensions.boxSize - minBlockSize) / (blockSize - minBlockSize),
+          } as CSSProperties
+        }
+        ref={ref}
       >
-        <m.div
-          key={`FolderContent-${folder.id}`}
-          data-folder-id={folder.id}
-          className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
-          transition={{
-            duration: 0.2,
-            type: "spring",
+        <header
+          style={{
+            marginLeft: gapSize,
+            marginRight: gapSize,
           }}
-          variants={variants}
-          initial="initial"
-          animate="visible"
-          custom={animationDirection}
-          style={
-            {
-              "--widget-box-size": gridDimensions.boxSize,
-              "--widget-box-size-px": `${gridDimensions.boxSize}px`,
-              "--widget-box-percent": (gridDimensions.boxSize - minBlockSize) / (blockSize - minBlockSize),
-            } as CSSProperties
-          }
-          ref={ref}
         >
-          <header
-            style={{
-              marginLeft: gapSize,
-              marginRight: gapSize,
-            }}
-          >
-            <h1>{folder.name}</h1>
+          <h1>{folder.name}</h1>
 
-            <div className="action-buttons-wrapper">
-              <AnimatePresence initial={false} mode="wait">
-                {isEditing && (
-                  <m.div className="action-buttons" key="editing-buttons" {...actionButtonAnimations}>
-                    <Button onClick={() => setNewWidgetWizardVisible(true)}>
-                      <Icon icon={builtinIcons.add} height={24} />
-                    </Button>
+          <div className="action-buttons-wrapper">
+            <AnimatePresence initial={false} mode="wait">
+              {isEditing && (
+                <m.div className="action-buttons" key="editing-buttons" {...actionButtonAnimations}>
+                  <Button onClick={() => setNewWidgetWizardVisible(true)}>
+                    <Icon icon={builtinIcons.add} height={24} />
+                  </Button>
 
-                    <Button onClick={() => setIsEditing(false)}>
-                      <Icon icon={builtinIcons.check} height={24} />
-                    </Button>
-                  </m.div>
-                )}
-
-                {!isEditing && (
-                  <m.div className="action-buttons" key="viewing-buttons" {...actionButtonAnimations}>
-                    <Button onClick={() => setIsEditing(true)} key="start-editing" {...actionButtonAnimations}>
-                      <Icon icon={builtinIcons.pencil} height={24} />
-                    </Button>
-                  </m.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </header>
-          <WidgetsGrid
-            gridRef={mainRef}
-            scrollAreaRef={scrollAreaRef}
-            isEditing={isEditing}
-            gapSize={gapSize}
-            layout={widgets}
-            gridDimensions={gridDimensions}
-            onEditWidget={setEditingWidget}
-            onUpdateWidgetConfig={updateWidgetConfig}
-            onLayoutUpdate={onLayoutUpdate}
-            showOnboarding={shouldShowOnboarding}
-          />
-        </m.div>
-
-        <AnimatePresence>
-          {newWidgetWizardVisible && (
-            <NewWidgetWizard
-              folder={folder}
-              key="new-widget-wizard"
-              onClose={() => setNewWidgetWizardVisible(false)}
-              gridDimensions={gridDimensions}
-              layout={widgets}
-            />
-          )}
-
-          {!!editingWidget && editingWidget.widget.configurationScreen && (
-            <Modal
-              title={t("editWidget")}
-              key="edit-widget-modal"
-              className="edit-widget-modal"
-              onClose={() => setEditingWidget(null)}
-              closable
-            >
-              <ScrollArea className="edit-widget-scrollarea">
-                <m.div
-                  className="edit-widget-content"
-                  transition={{ duration: 0.18 }}
-                  animate={{ opacity: 1, translateX: "0%" }}
-                >
-                  <editingWidget.widget.configurationScreen
-                    instanceId={editingWidget.instanceId}
-                    widgetId={editingWidget.widgetId}
-                    currentConfig={editingWidget.configuration}
-                    saveConfiguration={(config) => {
-                      updateWidgetConfig(editingWidget.instanceId, config);
-                      setEditingWidget(null);
-                    }}
-                  />
+                  <Button onClick={() => setIsEditing(false)}>
+                    <Icon icon={builtinIcons.check} height={24} />
+                  </Button>
                 </m.div>
-              </ScrollArea>
-            </Modal>
-          )}
-        </AnimatePresence>
-      </FolderContentContext.Provider>
-    </>
+              )}
+
+              {!isEditing && (
+                <m.div className="action-buttons" key="viewing-buttons" {...actionButtonAnimations}>
+                  <Button onClick={() => setIsEditing(true)} key="start-editing" {...actionButtonAnimations}>
+                    <Icon icon={builtinIcons.pencil} height={24} />
+                  </Button>
+                </m.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </header>
+        <WidgetsGrid
+          gridRef={mainRef}
+          scrollAreaRef={scrollAreaRef}
+          isEditing={isEditing}
+          gapSize={gapSize}
+          layout={widgets}
+          gridDimensions={gridDimensions}
+          onEditWidget={setEditingWidget}
+          onUpdateWidgetConfig={updateWidgetConfig}
+          onLayoutUpdate={onLayoutUpdate}
+          showOnboarding={shouldShowOnboarding}
+        />
+      </m.div>
+
+      <AnimatePresence>
+        {newWidgetWizardVisible && (
+          <NewWidgetWizard
+            folder={folder}
+            key="new-widget-wizard"
+            onClose={() => setNewWidgetWizardVisible(false)}
+            gridDimensions={gridDimensions}
+            layout={widgets}
+          />
+        )}
+
+        {!!editingWidget && editingWidget.widget.configurationScreen && (
+          <Modal
+            title={t("editWidget")}
+            key="edit-widget-modal"
+            className="edit-widget-modal"
+            onClose={() => setEditingWidget(null)}
+            closable
+          >
+            <ScrollArea className="edit-widget-scrollarea">
+              <m.div
+                className="edit-widget-content"
+                transition={{ duration: 0.18 }}
+                animate={{ opacity: 1, translateX: "0%" }}
+              >
+                <editingWidget.widget.configurationScreen
+                  instanceId={editingWidget.instanceId}
+                  widgetId={editingWidget.widgetId}
+                  currentConfig={editingWidget.configuration}
+                  saveConfiguration={(config) => {
+                    updateWidgetConfig(editingWidget.instanceId, config);
+                    setEditingWidget(null);
+                  }}
+                />
+              </m.div>
+            </ScrollArea>
+          </Modal>
+        )}
+      </AnimatePresence>
+    </FolderContentContext.Provider>
   );
 };

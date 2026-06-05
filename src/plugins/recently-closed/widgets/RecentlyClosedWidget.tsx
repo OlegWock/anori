@@ -1,8 +1,8 @@
 import "./RecentlyClosedWidget.scss";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import { RelativeTime } from "@anori/components/RelativeTime";
 import { ScrollArea } from "@anori/components/ScrollArea";
-import { Icon } from "@anori/components/icon/Icon";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { wait } from "@anori/utils/misc";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";

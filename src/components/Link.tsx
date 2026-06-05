@@ -1,12 +1,12 @@
 import { normalizeUrl } from "@anori/utils/misc";
 import { isMacLike } from "@anori/utils/shortcuts";
-import { type ComponentProps, type MouseEvent, forwardRef } from "react";
+import { type ComponentProps, forwardRef, type MouseEvent } from "react";
 import browser from "webextension-polyfill";
 
 // Drop-in replacement for <a> which correctly handles local resource urls (like file:// or chrome://)
 export const Link = forwardRef<HTMLAnchorElement, ComponentProps<"a">>(({ href, onClick, ...props }, ref) => {
   const localOnClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    let result = undefined;
+    let result: ReturnType<NonNullable<typeof onClick>> | undefined;
     if (onClick) {
       result = onClick(e);
     }

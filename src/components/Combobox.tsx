@@ -2,11 +2,11 @@ import { forwardRef, useRef, useState } from "react";
 import "./Combobox.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import {
+  autoUpdate,
   FloatingFocusManager,
   FloatingPortal,
-  type SizeOptions,
-  autoUpdate,
   offset,
+  type SizeOptions,
   size,
   useDismiss,
   useFloating,
@@ -206,7 +206,7 @@ export const Combobox = <T,>({
                         setInputValue(getOptionLabel(item));
                         setOpen(false);
                         openRef.current = false;
-                        // @ts-ignore maybe we should use refs.domReference to please ts?
+                        // @ts-expect-error maybe we should use refs.domReference to please ts?
                         refs.reference.current?.focus();
                       },
                     })}

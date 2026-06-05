@@ -17,7 +17,7 @@ export const detectBrowser = (): BrowserName => {
   if (ua.includes(" edg/")) {
     return "Edge";
   }
-  // @ts-ignore non-standart property
+  // @ts-expect-error non-standart property
   if (self.navigator.brave) {
     return "Brave";
   }

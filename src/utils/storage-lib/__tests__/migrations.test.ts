@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type MockBrowserStorageState, createMockBrowserStorage, resetMockBrowserStorage } from "./test-utils";
+import { createMockBrowserStorage, type MockBrowserStorageState, resetMockBrowserStorage } from "./test-utils";
 
 const browserState = vi.hoisted<MockBrowserStorageState>(() => ({ storage: {}, changeListeners: [] }));
 

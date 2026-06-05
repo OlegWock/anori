@@ -1,7 +1,7 @@
 import { Button } from "@anori/components/Button";
 import { IconPicker } from "@anori/components/IconPicker";
-import { Popover } from "@anori/components/Popover";
 import { Icon } from "@anori/components/icon/Icon";
+import { Popover } from "@anori/components/Popover";
 import type { Folder } from "@anori/utils/user-data/types";
 import { m, useDragControls } from "framer-motion";
 import { useRef } from "react";

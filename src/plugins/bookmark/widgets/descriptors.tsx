@@ -1,5 +1,5 @@
-import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { parseHost } from "@anori/utils/misc";
 import { defineWidget } from "@anori/utils/plugins/define";

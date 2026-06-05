@@ -1,7 +1,7 @@
 import "../styles.scss";
-import { Tooltip } from "@anori/components/Tooltip";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
+import { Tooltip } from "@anori/components/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useMirrorStateToRef, useOnChangeEffect } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
@@ -10,7 +10,7 @@ import { FloatingDelayGroup } from "@floating-ui/react";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { type WeatherForecast, getForecast } from "../api";
+import { getForecast, type WeatherForecast } from "../api";
 import { useForecastWeatherStore } from "../storage";
 import type { WeatherWidgetConfig } from "../types";
 import {
@@ -148,6 +148,7 @@ export const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<Wea
     [],
   );
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: instanceId is stable for a mounted widget, so the branch never changes across renders
   const { forecast, lastUpdated } = instanceId === "mock" ? mockForecast : useForecastWeather(config);
   const { rem } = useSizeSettings();
   const { t } = useTranslation();

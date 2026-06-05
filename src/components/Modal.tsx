@@ -43,7 +43,7 @@ export const Modal = ({
   return createPortal(
     <m.div
       className="Modal-backdrop"
-      onClick={() => closable && closeOnClickOutside && onClose && onClose()}
+      onClick={() => closable && closeOnClickOutside && onClose?.()}
       initial={{ opacity: 0 }}
       exit={{ opacity: 0 }}
       animate={{ opacity: 1 }}

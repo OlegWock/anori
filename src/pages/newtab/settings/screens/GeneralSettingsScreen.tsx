@@ -4,7 +4,7 @@ import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission
 import { Hint } from "@anori/components/Hint";
 import { Input } from "@anori/components/Input";
 import { Select } from "@anori/components/lazy-components";
-import { type Language, availableTranslations, availableTranslationsPrettyNames } from "@anori/translations/metadata";
+import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
 import { switchTranslationLanguage } from "@anori/translations/utils";
 import { useScreenWidth } from "@anori/utils/compact";
 import { setPageTitle } from "@anori/utils/page";

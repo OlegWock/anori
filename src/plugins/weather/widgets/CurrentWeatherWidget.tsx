@@ -1,7 +1,7 @@
 import "../styles.scss";
-import { Tooltip } from "@anori/components/Tooltip";
-import { Icon } from "@anori/components/icon/Icon";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
+import { Tooltip } from "@anori/components/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useMirrorStateToRef } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
@@ -94,6 +94,7 @@ const useCurrentWeather = (config: WeatherWidgetConfig) => {
 };
 
 export const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
+  // biome-ignore lint/correctness/useHookAtTopLevel: instanceId is stable for a mounted widget, so the branch never changes across renders
   const { weather } = instanceId === "mock" ? mockWeather : useCurrentWeather(config);
   const { rem } = useSizeSettings();
   const { t } = useTranslation();

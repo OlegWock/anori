@@ -1,8 +1,8 @@
 import type { Language } from "@anori/translations/metadata";
 import { asyncIterableToArray } from "@anori/utils/misc";
 import browser from "webextension-polyfill";
-import { type CustomTheme, type Folder, type FolderDetails, anoriVersionedSchema } from "../../storage/schema";
-import { type HlcTimestamp, createHlc, generateNodeId } from "../hlc";
+import { anoriVersionedSchema, type CustomTheme, type Folder, type FolderDetails } from "../../storage/schema";
+import { createHlc, generateNodeId, type HlcTimestamp } from "../hlc";
 import { HLC_STATE_KEY, SCHEMA_VERSION_KEY } from "../keys";
 import { generateFilePath, writeFile } from "../opfs";
 import type { FileMetaValue, StorageRecord } from "../types";

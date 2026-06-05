@@ -2,7 +2,7 @@ import type { CellDescriptor } from "../schema/cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "../schema/collection";
 import type { SchemaDefinition } from "../schema/version";
 import type { MigrationFromAccessor, MigrationToAccessor } from "../schema/versioned";
-import { type StorageRecord, isStorageRecord } from "../types";
+import { isStorageRecord, type StorageRecord } from "../types";
 
 export function createFromAccessor<S extends SchemaDefinition>(
   schema: S,

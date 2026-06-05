@@ -1,4 +1,4 @@
-import { type HttpApiClient, createHttpClient, createReactHttpClient, trpc } from "@anori-app/api-client";
+import { createHttpClient, createReactHttpClient, type HttpApiClient, trpc } from "@anori-app/api-client";
 import { API_BASE_URL } from "./consts";
 import { getCloudAccount } from "./storage";
 
@@ -14,7 +14,7 @@ export const getApiClient = () => {
   return apiClient.client;
 };
 
-// @ts-ignore for debug
+// @ts-expect-error for debug
 self.getApiClient = getApiClient;
 
 export const updateApiClientToken = (token: string | undefined) => {

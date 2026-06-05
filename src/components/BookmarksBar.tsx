@@ -1,10 +1,10 @@
 import { RequirePermissions } from "@anori/components/RequirePermissions";
 import "./BookmarksBar.scss";
-import { Link } from "@anori/components/Link";
-import { ScrollArea } from "@anori/components/ScrollArea";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Favicon } from "@anori/components/icon/Favicon";
 import { Icon } from "@anori/components/icon/Icon";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Link } from "@anori/components/Link";
+import { ScrollArea } from "@anori/components/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { usePermissionsQuery } from "@anori/utils/permissions";
 import { useDirection } from "@radix-ui/react-direction";
@@ -129,7 +129,11 @@ const VirtualizedBookmarksMenuContent = ({
   bookmarks,
   isSubmenu = false,
   shiftSubmenu = false,
-}: { bookmarks: BookmarkType[]; isSubmenu?: boolean; shiftSubmenu?: boolean }) => {
+}: {
+  bookmarks: BookmarkType[];
+  isSubmenu?: boolean;
+  shiftSubmenu?: boolean;
+}) => {
   const { rem } = useSizeSettings();
   const dir = useDirection();
   const [scrollAreaOverflows, setScrollAreaOverflows] = useState(false);

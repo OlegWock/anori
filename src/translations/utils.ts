@@ -1,9 +1,8 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-
 import { type Language, languageDirections, resources } from "@anori/translations/metadata";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
+import i18n from "i18next";
 import moment from "moment";
+import { initReactI18next } from "react-i18next";
 
 export const initTranslation = async () => {
   const storage = await getAnoriStorage();
