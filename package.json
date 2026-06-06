@@ -19,7 +19,7 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "test:coverage": "vitest run --coverage",
-        "prepare": "husky",
+        "prepare": "husky && panda codegen",
         "fmt": "biome format --write .",
         "lint": "biome lint --write .",
         "biome:check": "biome check --write .",
@@ -129,9 +129,12 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.4.16",
+        "@pandacss/dev": "^1.11.3",
         "@testing-library/react": "^16.3.1",
         "@types/culori": "^4.0.1",
         "jsdom": "^27.3.0",
+        "postcss": "^8.5.15",
+        "postcss-loader": "^8.2.1",
         "vitest": "^4.0.16"
     }
 }

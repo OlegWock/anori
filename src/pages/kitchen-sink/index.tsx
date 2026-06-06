@@ -2,10 +2,12 @@ import { buildPalette, detectGamut, type OklchInput, tokensToCssVars } from "@an
 import { Card } from "@anori/design-system/components/Card/Card";
 import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { Box } from "styled-system/jsx";
 import { HueChromaPicker } from "./components/HueChromaPicker";
 import { OklchPicker } from "./components/OklchPicker";
 import { PrimitiveScales, SemanticTokens } from "./components/Swatches";
 import { builtinThemePresets } from "./lib/theme-migration";
+import "../../panda.css";
 import "./styles.scss";
 
 const DEFAULT_BG: OklchInput = { l: 0.3, c: 0.05, h: 175 };
@@ -25,6 +27,7 @@ function App() {
   const [background, setBackground] = useState(() => parseColorParam(params.get("bg"), DEFAULT_BG));
   const [accent, setAccent] = useState(() => parseColorParam(params.get("ac"), DEFAULT_ACCENT));
   const [bgImage, setBgImage] = useState(() => builtinThemePresets[0]?.image ?? "");
+  const [compact, setCompact] = useState(false);
   const gamut = useMemo(() => detectGamut(), []);
 
   useEffect(() => {
@@ -42,7 +45,7 @@ function App() {
       className="ks-page"
       style={{ ...cssVars, backgroundImage: bgImage ? `url("${bgImage}")` : undefined } as CSSProperties}
     >
-      <div className="ks-surface">
+      <div className={`ks-surface${compact ? " compact-mode-active" : ""}`}>
         <div className="ks-themes">
           <div className="ks-theme-list">
             {builtinThemePresets.map((preset) => (
@@ -71,6 +74,9 @@ function App() {
           <div className="ks-pills">
             <span className="ks-mode-pill">mode: {palette.mode}</span>
             <span className="ks-mode-pill">gamut: {gamut === "p3" ? "Display P3" : "sRGB"}</span>
+            <label className="ks-mode-pill">
+              <input type="checkbox" checked={compact} onChange={(e) => setCompact(e.target.checked)} /> compact
+            </label>
           </div>
         </div>
 
@@ -107,6 +113,23 @@ function App() {
               <div className="ks-card-body">items synced · padding 8, radius md</div>
             </Card>
           </div>
+        </div>
+
+        <div>
+          <h2 className="ks-section-title">Panda (sanity check)</h2>
+          <Box
+            bg="surface"
+            color="text.primary"
+            p="4"
+            borderRadius="lg"
+            fontSize="lg"
+            borderWidth="1px"
+            borderStyle="solid"
+            borderColor="border"
+            maxW="20rem"
+          >
+            Panda Box — p="4" / borderRadius="lg" / fontSize="lg" mapped to our scales, colors from runtime --ds-* vars.
+          </Box>
         </div>
 
         <SemanticTokens palette={palette} />

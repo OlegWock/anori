@@ -1,6 +1,11 @@
 @use 'sass:color';
 @use './utils.scss' as utils;
 
+// Wrapped in a low cascade layer so the reset/base styles never override *layered* styles such as
+// Panda utilities (unlayered declarations otherwise win over any layer regardless of specificity).
+// Panda declares the order: reset, base, tokens, recipes, utilities — so `base` sits below them.
+@layer base {
+
 :root {
     font-size: 1rem;
     // --background-image: url("/assets/images/backgrounds/greenery.jpg");
@@ -115,3 +120,5 @@ a,
 a:visited {
     color: inherit
 }
+
+} // @layer base

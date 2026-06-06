@@ -12,7 +12,8 @@
             "@anori/plugins/*": ["./src/plugins/*"],
             "@anori/translations/*": ["./src/translations/*"],
             "@anori/cloud-integration/*": ["./src/cloud-integration/*"],
-            "@anori/design-system/*": ["./src/design-system/*"]
+            "@anori/design-system/*": ["./src/design-system/*"],
+            "styled-system/*": ["./styled-system/*"]
         },
         "outDir": "dist",
         "noImplicitAny": true,

@@ -106,6 +106,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         "@anori/translations": path.resolve(__dirname, paths.src.translations),
         "@anori/cloud-integration": path.resolve(__dirname, paths.src.base, "cloud-integration"),
         "@anori/design-system": path.resolve(__dirname, paths.src.base, "design-system"),
+        "styled-system": path.resolve(__dirname, "styled-system"),
       },
       aliasFields: ["browser", "worker"],
 
@@ -119,13 +120,19 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       },
 
       // modules: [path.resolve(__dirname, paths.src.base), "node_modules"],
-      extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+      extensions: ["*", ".js", ".jsx", ".ts", ".tsx", ".mjs"],
     },
     module: {
       defaultRules: [
         "...", // Add rules applied by webpack by default
       ],
       rules: [
+        // Generated styled-system (Panda) ships .mjs with extensionless imports.
+        {
+          test: /\.mjs$/,
+          type: "javascript/auto",
+          resolve: { fullySpecified: false },
+        },
         // Typescript TSX
         {
           test: /\.(ts|tsx)$/,
@@ -190,6 +197,10 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
               options: {
                 url: false,
               },
+            },
+            {
+              // Runs Panda's postcss plugin (postcss.config.cjs) to emit the generated CSS.
+              loader: "postcss-loader",
             },
           ],
         },
