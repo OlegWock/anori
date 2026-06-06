@@ -1,10 +1,11 @@
-import { clampChroma } from "culori";
+import { APCAcontrast, sRGBtoY } from "apca-w3";
+import { clampChroma, converter } from "culori";
 
 // Throwaway color engine for the design-system prototype. Three tiers:
 //   1. a continuous OKLCH generator (the curve) — not referenced directly,
 //   2. a fixed numbered primitive scale sampled from it (role-agnostic, index 0..N),
 //   3. semantic tokens that map names → a primitive index (the only thing the UI uses).
-// Input: a background color + an accent color (OKLCH). Output: primitive scales + semantic tokens.
+// Input: an accent color (OKLCH) + a light/dark mode. Output: primitive scales + semantic tokens.
 
 export type Mode = "light" | "dark";
 export type Gamut = "rgb" | "p3";
@@ -48,15 +49,44 @@ export const PRIMITIVE_STEPS = PRIMITIVE_LS.length;
 const scale = (hue: number, chroma: number, gamut: Gamut): string[] =>
   PRIMITIVE_LS.map((l) => colorAt(hue, chroma, l, gamut));
 
+// For the neutral family the accent tint fades out on the lighter steps (≈ step 7 upward), gradually,
+// so light tones aren't over-tinted while the darker steps keep their warmth.
+const neutralFade = (l: number) => (l <= 0.6 ? 1 : 1 - ((l - 0.6) / (0.98 - 0.6)) * 0.7);
+const neutralColorAt = (hue: number, chroma: number, l: number, gamut: Gamut): string =>
+  colorAt(hue, chroma * neutralFade(l), l, gamut);
+const neutralScale = (hue: number, chroma: number, gamut: Gamut): string[] =>
+  PRIMITIVE_LS.map((l) => neutralColorAt(hue, chroma, l, gamut));
+
 const byMode = (mode: Mode, dark: number, light: number) => (mode === "dark" ? dark : light);
 
-export function buildPalette(backgroundColor: OklchInput, accentColor: OklchInput, gamut: Gamut): Palette {
-  const mode: Mode = backgroundColor.l > 0.5 ? "light" : "dark";
+const toRgb = converter("rgb");
+const clamp255 = (v: number) => Math.round(Math.min(1, Math.max(0, v)) * 255);
+const apcaY = (color: string): number => {
+  const c = toRgb(color);
+  return sRGBtoY([clamp255(c?.r ?? 0), clamp255(c?.g ?? 0), clamp255(c?.b ?? 0)]);
+};
 
+// Picks the text candidate (light vs dark) with the most perceptual contrast on `fill`, per APCA.
+const bestTextOn = (fill: string, light: string, dark: string): string => {
+  const bgY = apcaY(fill);
+  const lcLight = Math.abs(Number(APCAcontrast(apcaY(light), bgY)));
+  const lcDark = Math.abs(Number(APCAcontrast(apcaY(dark), bgY)));
+  return lcLight >= lcDark ? light : dark;
+};
+
+// The one sanctioned off-scale derivation (see design-system-rules.md DS-2): an interactive fill's
+// hover state is the fill nudged a *sub-step* toward more contrast — lighter in dark, darker in
+// light. `sampleAt` is the family's curve sampler (bound to its hue/chroma/gamut).
+const HOVER_DELTA = 0.03;
+const hoverShade = (sampleAt: (l: number) => string, baseL: number, mode: Mode): string =>
+  sampleAt(baseL + (mode === "dark" ? HOVER_DELTA : -HOVER_DELTA));
+
+export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut): Palette {
   // Tier 2 — build each family's primitive scale by sampling the curve.
   const scales: Record<ScaleName, string[]> = {
-    // Neutral carries the background's hue at a low (tunable) chroma → "colored grays".
-    neutral: scale(backgroundColor.h, Math.min(backgroundColor.c, 0.045), gamut),
+    // Neutral carries the accent's hue at a low (tunable) chroma → "colored grays". There's no
+    // separate background color: surfaces are derived from the accent hue, and light/dark is chosen.
+    neutral: neutralScale(accentColor.h, Math.min(accentColor.c, 0.045), gamut),
     accent: scale(accentColor.h, accentColor.c, gamut),
     danger: scale(25, 0.16, gamut),
     warning: scale(75, 0.15, gamut),
@@ -66,10 +96,35 @@ export function buildPalette(backgroundColor: OklchInput, accentColor: OklchInpu
 
   // ── Tier 3: semantic tokens (name → primitive index, flipping per mode) ──
   const { neutral, accent } = scales;
+  const neutralChroma = Math.min(accentColor.c, 0.045);
+  const accentFillIdx = byMode(mode, 5, 5);
+  const controlIdx = byMode(mode, 4, 10);
+  const accentFill = accent[accentFillIdx];
 
   const tokens: Record<string, string> = {
     surface: neutral[byMode(mode, 3, 11)],
     border: neutral[byMode(mode, 4, 7)],
+
+    // Filled neutral control (e.g. the secondary button) — one step lighter than `surface` in dark
+    // mode, with its own edge. A control isn't a surface, so it's its own role.
+    control: neutral[controlIdx],
+    "control-border": neutral[byMode(mode, 5, 9)],
+    "control-hover": hoverShade(
+      (l) => neutralColorAt(accentColor.h, neutralChroma, l, gamut),
+      PRIMITIVE_LS[controlIdx],
+      mode,
+    ),
+
+    accent: accentFill,
+    // Text on the accent fill — APCA picks the more legible of the neutral extremes.
+    "accent-text": bestTextOn(accentFill, neutral[11], neutral[0]),
+    // A touch lighter than the fill in dark mode, darker in light mode — a subtle edge.
+    "accent-border": accent[byMode(mode, 6, 4)],
+    "accent-hover": hoverShade(
+      (l) => colorAt(accentColor.h, accentColor.c, l, gamut),
+      PRIMITIVE_LS[accentFillIdx],
+      mode,
+    ),
 
     "text-primary": neutral[byMode(mode, 11, 1)],
     "text-subtle": neutral[byMode(mode, 9, 4)],

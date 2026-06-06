@@ -1,11 +1,11 @@
 import type { Color } from "@anori/utils/color";
 import { converter } from "culori";
-import type { OklchInput } from "./color-engine";
+import type { Mode, OklchInput } from "./color-engine";
 
 // Translation layer: keeps stored themes in their existing shape (HSL `Color`: hue in turns 0..1,
-// saturation/lightness 0..1) while feeding the new OKLCH design system. Background keeps full L/C/H
-// (its lightness drives mode + surfaces); accent's lightness is ignored downstream (the engine
-// derives it), so only its hue + chroma carry over. Text color is discarded.
+// saturation/lightness 0..1) while feeding the new OKLCH design system. Only the accent's hue +
+// chroma carry over (the engine derives lightness). There's no separate background color anymore —
+// the stored background's lightness only picks light vs dark. Text color is discarded.
 
 const toOklch = converter("oklch");
 
@@ -14,9 +14,9 @@ export const colorToOklch = (c: Color): OklchInput => {
   return { l: o?.l ?? 0, c: o?.c ?? 0, h: o?.h ?? 0 };
 };
 
-export type ThemeInputs = { background: OklchInput; accent: OklchInput };
+export type ThemeInputs = { accent: OklchInput; mode: Mode };
 
 export const themeColorsToInputs = (colors: { accent: Color; background: Color }): ThemeInputs => ({
-  background: colorToOklch(colors.background),
   accent: colorToOklch(colors.accent),
+  mode: colorToOklch(colors.background).l > 0.5 ? "light" : "dark",
 });

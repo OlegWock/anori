@@ -1,16 +1,21 @@
-import { buildPalette, detectGamut, type OklchInput, tokensToCssVars } from "@anori/design-system/color-engine";
+import {
+  buildPalette,
+  detectGamut,
+  type Mode,
+  type OklchInput,
+  tokensToCssVars,
+} from "@anori/design-system/color-engine";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
-import { type CSSProperties, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Box } from "styled-system/jsx";
 import { HueChromaPicker } from "./components/HueChromaPicker";
-import { OklchPicker } from "./components/OklchPicker";
 import { PrimitiveScales, SemanticTokens } from "./components/Swatches";
 import { builtinThemePresets } from "./lib/theme-migration";
-import "../../panda.css";
+import "styled-system/styles.css";
 import "./styles.scss";
 
-const DEFAULT_BG: OklchInput = { l: 0.3, c: 0.05, h: 175 };
 const DEFAULT_ACCENT: OklchInput = { l: 0.72, c: 0.17, h: 150 };
 
 const serialize = (o: OklchInput) => `${o.l.toFixed(4)},${o.c.toFixed(4)},${o.h.toFixed(1)}`;
@@ -24,27 +29,33 @@ const parseColorParam = (raw: string | null, fallback: OklchInput): OklchInput =
 
 function App() {
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
-  const [background, setBackground] = useState(() => parseColorParam(params.get("bg"), DEFAULT_BG));
   const [accent, setAccent] = useState(() => parseColorParam(params.get("ac"), DEFAULT_ACCENT));
-  const [bgImage, setBgImage] = useState(() => builtinThemePresets[0]?.image ?? "");
+  const [mode, setMode] = useState<Mode>(() => (params.get("mode") === "light" ? "light" : "dark"));
+  const [bgImage, setBgImage] = useState(() => params.get("img") ?? builtinThemePresets[0]?.image ?? "");
   const [compact, setCompact] = useState(false);
   const gamut = useMemo(() => detectGamut(), []);
 
   useEffect(() => {
     const p = new URLSearchParams();
-    p.set("bg", serialize(background));
     p.set("ac", serialize(accent));
+    p.set("mode", mode);
+    if (bgImage) p.set("img", bgImage);
     window.history.replaceState(null, "", `?${p.toString()}`);
-  }, [background, accent]);
+  }, [accent, mode, bgImage]);
 
-  const palette = useMemo(() => buildPalette(background, accent, gamut), [background, accent, gamut]);
+  const palette = useMemo(() => buildPalette(accent, mode, gamut), [accent, mode, gamut]);
   const cssVars = useMemo(() => tokensToCssVars(palette), [palette]);
 
+  // Apply the tokens at :root (like the real app does), not on .ks-page. Panda's semantic token vars
+  // (--dsp-colors-*: var(--ds-*)) are declared at :root and resolve their var(--ds-*) against :root,
+  // so the values must live there or Panda-mediated styles won't pick up theme changes.
+  useEffect(() => {
+    const root = document.documentElement;
+    for (const [key, value] of Object.entries(cssVars)) root.style.setProperty(key, value);
+  }, [cssVars]);
+
   return (
-    <div
-      className="ks-page"
-      style={{ ...cssVars, backgroundImage: bgImage ? `url("${bgImage}")` : undefined } as CSSProperties}
-    >
+    <div className="ks-page" style={{ backgroundImage: bgImage ? `url("${bgImage}")` : undefined }}>
       <div className={`ks-surface${compact ? " compact-mode-active" : ""}`}>
         <div className="ks-themes">
           <div className="ks-theme-list">
@@ -54,17 +65,12 @@ function App() {
                 type="button"
                 className="ks-theme-btn"
                 onClick={() => {
-                  setBackground(preset.background);
                   setAccent(preset.accent);
+                  setMode(preset.mode);
                   setBgImage(preset.image);
                 }}
               >
                 <span className="ks-theme-swatches">
-                  <span
-                    style={{
-                      background: `oklch(${preset.background.l} ${preset.background.c} ${preset.background.h})`,
-                    }}
-                  />
                   <span style={{ background: `oklch(0.7 ${preset.accent.c} ${preset.accent.h})` }} />
                 </span>
                 {preset.name}
@@ -72,7 +78,14 @@ function App() {
             ))}
           </div>
           <div className="ks-pills">
-            <span className="ks-mode-pill">mode: {palette.mode}</span>
+            <label className="ks-mode-pill">
+              <input
+                type="checkbox"
+                checked={mode === "light"}
+                onChange={(e) => setMode(e.target.checked ? "light" : "dark")}
+              />{" "}
+              light
+            </label>
             <span className="ks-mode-pill">gamut: {gamut === "p3" ? "Display P3" : "sRGB"}</span>
             <label className="ks-mode-pill">
               <input type="checkbox" checked={compact} onChange={(e) => setCompact(e.target.checked)} /> compact
@@ -84,9 +97,6 @@ function App() {
           <div className="ks-col">
             <HueChromaPicker label="Accent" value={accent} gamut={gamut} onChange={setAccent} />
           </div>
-          <div className="ks-col">
-            <OklchPicker label="Background" value={background} gamut={gamut} onChange={setBackground} />
-          </div>
           <div className="ks-col ks-col-scales">
             <PrimitiveScales palette={palette} />
           </div>
@@ -95,12 +105,12 @@ function App() {
         <div>
           <h2 className="ks-section-title">Card component</h2>
           <div className="ks-cards">
-            <Card padding="2" radius="sm">
+            <Card w="16rem" padding="2" borderRadius="sm">
               <div className="ks-card-title">Compact — padding 2, radius sm</div>
               <div className="ks-card-body">Tighter padding, smaller corners.</div>
             </Card>
 
-            <Card padding="4" radius="lg">
+            <Card w="16rem" padding="4" borderRadius="lg">
               <div className="ks-card-title">Default — padding 4, radius lg</div>
               <div className="ks-card-body">
                 A solid surface with a border. Subtle text is allowed here because the surface is opaque (unlike the
@@ -108,11 +118,37 @@ function App() {
               </div>
             </Card>
 
-            <Card as="section" aria-label="Stats" padding="5" radius="lg">
+            <Card as="section" aria-label="Stats" w="16rem" padding="5" borderRadius="lg">
               <div className="ks-card-stat">128</div>
-              <div className="ks-card-body">items synced · padding 8, radius md</div>
+              <div className="ks-card-body">items synced · padding 5, radius lg</div>
             </Card>
           </div>
+        </div>
+
+        <div>
+          <h2 className="ks-section-title">Button component</h2>
+          <div className="ks-row">
+            <Button>Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button size="compact">Primary compact</Button>
+            <Button variant="secondary" size="compact">
+              Secondary compact
+            </Button>
+            <Button loading>Loading</Button>
+            <Button disabled>Disabled</Button>
+          </div>
+          <Card mt="6">
+            <div className="ks-row">
+              <Button>Primary</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button size="compact">Primary compact</Button>
+              <Button variant="secondary" size="compact">
+                Secondary compact
+              </Button>
+              <Button loading>Loading</Button>
+              <Button disabled>Disabled</Button>
+            </div>
+          </Card>
         </div>
 
         <div>

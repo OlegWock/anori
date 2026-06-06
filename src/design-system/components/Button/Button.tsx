@@ -1,0 +1,113 @@
+import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
+import { css, cva, cx } from "styled-system/css";
+
+type ButtonSize = "normal" | "compact";
+type ButtonVariant = "primary" | "secondary";
+
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  block?: boolean;
+  visuallyDisabled?: boolean;
+  loading?: boolean;
+  children?: ReactNode;
+}
+
+const button = cva({
+  base: {
+    position: "relative",
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "1-5",
+    cursor: "pointer",
+    fontFamily: "inherit",
+    fontWeight: "medium",
+    whiteSpace: "nowrap",
+    userSelect: "none",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderRadius: "xl",
+    transition: "background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out",
+    // Disabled/loading: drop the variant fill for a muted neutral one (so it reads as inactive and
+    // doesn't look like the active accent), with legible subtle text.
+    "&:disabled, &[aria-disabled=true]": {
+      bg: "surface",
+      borderColor: "border",
+      color: "text.subtle",
+      cursor: "not-allowed",
+      opacity: 0.7,
+    },
+  },
+  variants: {
+    variant: {
+      primary: {
+        bg: "accent",
+        color: "accent.text",
+        borderColor: "accent.border",
+        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "accent.hover" },
+      },
+      secondary: {
+        bg: "control",
+        color: "text.primary",
+        borderColor: "control.border",
+        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "control.hover" },
+      },
+    },
+    // Fixed heights (no vertical padding) — the design-system control sizes.
+    size: {
+      normal: { height: "36px", px: "5", fontSize: "base" },
+      compact: { height: "28px", px: "4", fontSize: "sm" },
+    },
+    block: { true: { width: "100%" } },
+    loading: { true: { cursor: "wait" } },
+  },
+  defaultVariants: { variant: "primary", size: "normal" },
+});
+
+const spinner = css({
+  position: "absolute",
+  width: "1em",
+  height: "1em",
+  borderWidth: "2px",
+  borderStyle: "solid",
+  borderColor: "color-mix(in srgb, currentColor 30%, transparent)",
+  borderTopColor: "currentColor",
+  borderRadius: "full",
+  animation: "spin 0.6s linear infinite",
+});
+
+const content = css({ display: "contents" });
+const contentHidden = css({ visibility: "hidden" });
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    variant = "primary",
+    size = "normal",
+    block = false,
+    visuallyDisabled = false,
+    loading = false,
+    disabled,
+    onClick,
+    className,
+    children,
+    ...props
+  },
+  ref,
+) {
+  const isDisabled = disabled || loading;
+  return (
+    <button
+      type="button"
+      {...props}
+      ref={ref}
+      disabled={visuallyDisabled ? undefined : isDisabled}
+      aria-disabled={visuallyDisabled ? "true" : undefined}
+      onClick={visuallyDisabled || loading ? undefined : onClick}
+      className={cx(button({ variant, size, block, loading }), className)}
+    >
+      {loading && <span className={spinner} />}
+      <span className={cx(content, loading && contentHidden)}>{children}</span>
+    </button>
+  );
+});

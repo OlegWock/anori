@@ -13,7 +13,7 @@ export default defineConfig({
 
   // Namespace Panda's generated CSS vars (e.g. --ds-spacing-4) so they don't collide with the
   // legacy --spacing-* still declared in base.scss during the migration.
-  prefix: "ds",
+  prefix: "dsp",
 
   outdir: "styled-system",
 
@@ -27,6 +27,10 @@ export default defineConfig({
 
   theme: {
     extend: {
+      keyframes: {
+        spin: { to: { transform: "rotate(360deg)" } },
+      },
+
       // Static scales: actual values live here (Panda owns them). The legacy --spacing-*/--radius-*/
       // --font-size-* in base.scss go away once everything is migrated.
       tokens: {
@@ -99,6 +103,17 @@ export default defineConfig({
         colors: {
           surface: { value: "var(--ds-surface)" },
           border: { value: "var(--ds-border)" },
+          control: {
+            DEFAULT: { value: "var(--ds-control)" },
+            border: { value: "var(--ds-control-border)" },
+            hover: { value: "var(--ds-control-hover)" },
+          },
+          accent: {
+            DEFAULT: { value: "var(--ds-accent)" },
+            text: { value: "var(--ds-accent-text)" },
+            border: { value: "var(--ds-accent-border)" },
+            hover: { value: "var(--ds-accent-hover)" },
+          },
           text: {
             primary: { value: "var(--ds-text-primary)" },
             subtle: { value: "var(--ds-text-subtle)" },

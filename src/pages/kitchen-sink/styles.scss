@@ -85,10 +85,6 @@ body {
     height: 0.9rem;
     border-radius: 50%;
     border: 1px solid var(--ui-border-subtle);
-
-    &:last-child {
-      margin-left: -0.3rem;
-    }
   }
 }
 
@@ -284,10 +280,13 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
 
-  .Card {
-    width: 16rem;
-  }
+.ks-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .ks-card-title {
