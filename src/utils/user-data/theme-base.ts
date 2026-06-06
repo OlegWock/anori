@@ -1,3 +1,4 @@
+import { applyDesignSystemTokens } from "@anori/design-system/apply";
 import { type Color, darken, fromHsl, lighten, toCss, toCssHslValues, transparentize } from "@anori/utils/color";
 import { setPageBackground } from "@anori/utils/page";
 import browser from "webextension-polyfill";
@@ -169,6 +170,10 @@ export const applyThemeColors = (colors: Theme["colors"]) => {
   const darkerText = colors.text.lightness > 0.5 ? darken(colors.text, 0.45) : lighten(colors.text, 0.45);
   root.style.setProperty("--background-lighter", toCss(lighterBg));
   root.style.setProperty("--text-disabled", toCss(darkerText));
+
+  // New design system (src/design-system) runs alongside the old vars above; components migrate to
+  // its --ds-* tokens gradually.
+  applyDesignSystemTokens(colors);
 };
 
 type ThemeBackgroundResolver = (themeName: string) => Promise<Blob>;

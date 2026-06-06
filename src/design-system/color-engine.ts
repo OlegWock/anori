@@ -18,7 +18,6 @@ export type Palette = {
 
 export type ScaleName = "neutral" | "accent" | "danger" | "warning" | "success" | "info";
 
-// Detects whether the current display can render the wider Display-P3 gamut.
 export const detectGamut = (): Gamut =>
   typeof window !== "undefined" && window.matchMedia?.("(color-gamut: p3)").matches ? "p3" : "rgb";
 
@@ -51,14 +50,14 @@ const scale = (hue: number, chroma: number, gamut: Gamut): string[] =>
 
 const byMode = (mode: Mode, dark: number, light: number) => (mode === "dark" ? dark : light);
 
-export function buildPalette(background: OklchInput, accent: OklchInput, gamut: Gamut): Palette {
-  const mode: Mode = background.l > 0.5 ? "light" : "dark";
+export function buildPalette(backgroundColor: OklchInput, accentColor: OklchInput, gamut: Gamut): Palette {
+  const mode: Mode = backgroundColor.l > 0.5 ? "light" : "dark";
 
   // Tier 2 — build each family's primitive scale by sampling the curve.
   const scales: Record<ScaleName, string[]> = {
     // Neutral carries the background's hue at a low (tunable) chroma → "colored grays".
-    neutral: scale(background.h, Math.min(background.c, 0.045), gamut),
-    accent: scale(accent.h, accent.c, gamut),
+    neutral: scale(backgroundColor.h, Math.min(backgroundColor.c, 0.045), gamut),
+    accent: scale(accentColor.h, accentColor.c, gamut),
     danger: scale(25, 0.16, gamut),
     warning: scale(75, 0.15, gamut),
     success: scale(150, 0.13, gamut),
@@ -66,13 +65,16 @@ export function buildPalette(background: OklchInput, accent: OklchInput, gamut: 
   };
 
   // ── Tier 3: semantic tokens (name → primitive index, flipping per mode) ──
-  const n = scales.neutral;
+  const { neutral, accent } = scales;
 
   const tokens: Record<string, string> = {
-    "text-primary": n[byMode(mode, 11, 1)],
-    "text-subtle": n[byMode(mode, 9, 4)],
-    "text-placeholder": n[byMode(mode, 7, 6)],
-    "text-disabled": n[byMode(mode, 6, 7)],
+    surface: neutral[byMode(mode, 3, 11)],
+    border: neutral[byMode(mode, 4, 7)],
+
+    "text-primary": neutral[byMode(mode, 11, 1)],
+    "text-subtle": neutral[byMode(mode, 9, 4)],
+    "text-placeholder": neutral[byMode(mode, 7, 6)],
+    "text-disabled": neutral[byMode(mode, 6, 7)],
   };
 
   return { mode, scales, tokens };

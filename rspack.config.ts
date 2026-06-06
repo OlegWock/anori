@@ -105,6 +105,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         "@anori/plugins": path.resolve(__dirname, paths.src.plugins),
         "@anori/translations": path.resolve(__dirname, paths.src.translations),
         "@anori/cloud-integration": path.resolve(__dirname, paths.src.base, "cloud-integration"),
+        "@anori/design-system": path.resolve(__dirname, paths.src.base, "design-system"),
       },
       aliasFields: ["browser", "worker"],
 

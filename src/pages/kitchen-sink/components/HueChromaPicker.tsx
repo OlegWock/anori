@@ -1,6 +1,6 @@
+import type { Gamut, OklchInput } from "@anori/design-system/color-engine";
 import { clampChroma, converter, formatCss } from "culori";
 import { useEffect, useRef } from "react";
-import type { Gamut, OklchInput } from "../lib/color-engine";
 
 const C_MAX = 0.37;
 const RENDER_L = 0.72; // lightness the hue×chroma map is previewed at (accent lightness is derived)

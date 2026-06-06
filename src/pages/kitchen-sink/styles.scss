@@ -1,3 +1,6 @@
+// Pulls in the foundation scales (--spacing-*, --radius-*, --font-size-*) the components rely on.
+@use "@anori/components/base.scss";
+
 * {
   box-sizing: border-box;
 }
@@ -275,6 +278,38 @@ body {
   gap: 0.5rem;
   font-size: 0.8rem;
   color: var(--ds-text-primary);
+}
+
+.ks-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .Card {
+    width: 16rem;
+  }
+}
+
+.ks-card-title {
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.ks-card-body {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ds-text-subtle);
+}
+
+.ks-card-stat {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ks-card-link {
+  color: inherit;
+  text-decoration: none;
 }
 
 .ks-token-swatch {

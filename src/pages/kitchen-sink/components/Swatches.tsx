@@ -1,4 +1,4 @@
-import type { Palette, ScaleName } from "../lib/color-engine";
+import type { Palette, ScaleName } from "@anori/design-system/color-engine";
 
 const SCALE_ORDER: ScaleName[] = ["neutral", "accent", "danger", "warning", "success", "info"];
 

@@ -1,6 +1,6 @@
+import type { Gamut, OklchInput } from "@anori/design-system/color-engine";
 import { clampChroma, converter, formatCss } from "culori";
 import { useEffect, useRef } from "react";
-import type { Gamut, OklchInput } from "../lib/color-engine";
 
 const C_MAX = 0.37; // reaches into the Display-P3 gamut; clamped to the supported gamut
 const FIELD_W = 100;

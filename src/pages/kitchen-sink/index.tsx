@@ -1,9 +1,10 @@
+import { buildPalette, detectGamut, type OklchInput, tokensToCssVars } from "@anori/design-system/color-engine";
+import { Card } from "@anori/design-system/components/Card/Card";
 import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { HueChromaPicker } from "./components/HueChromaPicker";
 import { OklchPicker } from "./components/OklchPicker";
 import { PrimitiveScales, SemanticTokens } from "./components/Swatches";
-import { buildPalette, detectGamut, type OklchInput, tokensToCssVars } from "./lib/color-engine";
 import { builtinThemePresets } from "./lib/theme-migration";
 import "./styles.scss";
 
@@ -82,6 +83,29 @@ function App() {
           </div>
           <div className="ks-col ks-col-scales">
             <PrimitiveScales palette={palette} />
+          </div>
+        </div>
+
+        <div>
+          <h2 className="ks-section-title">Card component</h2>
+          <div className="ks-cards">
+            <Card padding="2" radius="sm">
+              <div className="ks-card-title">Compact — padding 2, radius sm</div>
+              <div className="ks-card-body">Tighter padding, smaller corners.</div>
+            </Card>
+
+            <Card padding="4" radius="lg">
+              <div className="ks-card-title">Default — padding 4, radius lg</div>
+              <div className="ks-card-body">
+                A solid surface with a border. Subtle text is allowed here because the surface is opaque (unlike the
+                frosted plate behind it).
+              </div>
+            </Card>
+
+            <Card as="section" aria-label="Stats" padding="5" radius="lg">
+              <div className="ks-card-stat">128</div>
+              <div className="ks-card-body">items synced · padding 8, radius md</div>
+            </Card>
           </div>
         </div>
 
