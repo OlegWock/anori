@@ -2,7 +2,7 @@ import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { css, cva, cx } from "styled-system/css";
 
 type ButtonSize = "normal" | "compact";
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "primary" | "secondary" | "frosted";
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
   variant?: ButtonVariant;
@@ -52,6 +52,17 @@ const button = cva({
         color: "text.primary",
         borderColor: "control.border",
         "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "control.hover" },
+      },
+      // Matches the legacy button: transparent, with a faint text-colored border + hover fill — meant
+      // to sit on the frosted plate (so it uses text.primary per DS-1).
+      frosted: {
+        bg: "transparent",
+        color: "text.primary",
+        borderWidth: "2px",
+        borderColor: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
+        "&:hover:not(:disabled):not([aria-disabled=true])": {
+          bg: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
+        },
       },
     },
     // Fixed heights (no vertical padding) — the design-system control sizes.

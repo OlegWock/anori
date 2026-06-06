@@ -130,9 +130,13 @@ function App() {
           <div className="ks-row">
             <Button>Primary</Button>
             <Button variant="secondary">Secondary</Button>
+            <Button variant="frosted">Frosted</Button>
             <Button size="compact">Primary compact</Button>
             <Button variant="secondary" size="compact">
               Secondary compact
+            </Button>
+            <Button variant="frosted" size="compact">
+              Frosted compact
             </Button>
             <Button loading>Loading</Button>
             <Button disabled>Disabled</Button>
@@ -141,9 +145,13 @@ function App() {
             <div className="ks-row">
               <Button>Primary</Button>
               <Button variant="secondary">Secondary</Button>
+              <Button variant="frosted">Frosted</Button>
               <Button size="compact">Primary compact</Button>
               <Button variant="secondary" size="compact">
                 Secondary compact
+              </Button>
+              <Button variant="frosted" size="compact">
+                Frosted compact
               </Button>
               <Button loading>Loading</Button>
               <Button disabled>Disabled</Button>

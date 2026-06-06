@@ -108,7 +108,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const surfaceIdx = byMode(mode, 3, 11);
   const elevatedIdx = byMode(mode, 4, 10);
   const accentFillIdx = byMode(mode, 6, 5);
-  const controlIdx = byMode(mode, 5, 10);
+  const controlIdx = byMode(mode, 4, 10);
   const accentFill = accent[accentFillIdx];
 
   const tokens: Record<string, string> = {
