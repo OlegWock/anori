@@ -10,6 +10,7 @@ import { FloatingDelayGroup } from "@floating-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import browser from "webextension-polyfill";
 import "./Sidebar.scss";
 import { useCloudAccount } from "@anori/cloud-integration/hooks";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
@@ -92,6 +93,15 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                 name={t("settings.title")}
                 onClick={() => setSettingsVisible(true)}
               />
+              {X_MODE === "development" && (
+                <FolderButton
+                  sidebarOrientation={orientation}
+                  layoutId="kitchen-sink"
+                  icon={builtinIcons.palette}
+                  name="Kitchen sink"
+                  onClick={() => browser.tabs.create({ url: browser.runtime.getURL("/pages/kitchen-sink/index.html") })}
+                />
+              )}
             </FloatingDelayGroup>
           </div>
         </ScrollArea>

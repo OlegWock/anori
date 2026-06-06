@@ -66,9 +66,11 @@
         "@types/react-window": "^1.8.5",
         "@types/webextension-polyfill": "^0.10.0",
         "@uiw/react-color": "^2.9.0",
+        "apca-w3": "^0.1.9",
         "clsx": "^2.1.1",
         "cross-env": "^7.0.3",
         "css-loader": "^6.7.1",
+        "culori": "^4.0.2",
         "file-loader": "^6.2.0",
         "filemanager-webpack-plugin": "^7.0.0",
         "framer-motion": "^12.17.0",
@@ -128,6 +130,7 @@
     "devDependencies": {
         "@biomejs/biome": "^2.4.16",
         "@testing-library/react": "^16.3.1",
+        "@types/culori": "^4.0.1",
         "jsdom": "^27.3.0",
         "vitest": "^4.0.16"
     }
