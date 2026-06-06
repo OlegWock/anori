@@ -1,6 +1,6 @@
 import type { Palette, ScaleName } from "@anori/design-system/color-engine";
 
-const SCALE_ORDER: ScaleName[] = ["neutral", "accent", "danger", "warning", "success", "info"];
+const SCALE_ORDER: ScaleName[] = ["neutral", "surface", "accent", "danger", "warning", "success", "info"];
 
 export function PrimitiveScales({ palette }: { palette: Palette }) {
   return (

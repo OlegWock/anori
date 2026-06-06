@@ -7,7 +7,7 @@ import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Icon } from "@anori/components/icon/Icon";
 import { Modal } from "@anori/components/Modal";
 import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
-import { WidgetCard } from "@anori/components/WidgetCard";
+import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import type { GridContent, GridDimensions } from "@anori/utils/grid/types";
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";

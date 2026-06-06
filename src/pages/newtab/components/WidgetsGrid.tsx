@@ -1,6 +1,6 @@
 import { Onboarding } from "@anori/components/Onboarding";
 import { MotionScrollArea } from "@anori/components/ScrollArea";
-import { WidgetCard } from "@anori/components/WidgetCard";
+import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import type { GridContent, GridDimensions, GridItem, GridPosition } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@anori/utils/grid/utils";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";

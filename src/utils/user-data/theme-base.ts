@@ -46,8 +46,7 @@ export const themes: Theme[] = [
     type: "builtin",
     background: "greenery.jpg",
     colors: {
-      // HSL hue tuned so the accent's OKLCH hue is ~162.
-      accent: fromHsl(156.6, 59.3, 44.3),
+      accent: fromHsl(160.6, 59.3, 44.3),
       text: fromHsl(0, 0, 100),
       background: fromHsl(162, 59.6, 17.5),
     },

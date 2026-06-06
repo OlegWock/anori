@@ -77,6 +77,12 @@ export default defineConfig({
           tooltip: { value: 4000 },
           "app-cover": { value: 9000 },
         },
+        // Elevation. `raised` = small floating affordances (e.g. widget edit controls); `overlay` =
+        // an element lifted above its peers (e.g. a widget card being dragged/resized).
+        shadows: {
+          raised: { value: "rgba(0, 0, 0, 0.25) 0px 4px 6px 4px" },
+          overlay: { value: "0px 4px 4px 3px rgba(0, 0, 0, 0.4)" },
+        },
       },
 
       semanticTokens: {
@@ -101,7 +107,14 @@ export default defineConfig({
         // Colors aren't known at build time — injected at runtime as --ds-* vars by the design
         // system (src/design-system/apply.ts). Panda only needs the names; values resolve at runtime.
         colors: {
-          surface: { value: "var(--ds-surface)" },
+          surface: {
+            DEFAULT: { value: "var(--ds-surface)" },
+            border: { value: "var(--ds-surface-border)" },
+            elevated: {
+              DEFAULT: { value: "var(--ds-surface-elevated)" },
+              border: { value: "var(--ds-surface-elevated-border)" },
+            },
+          },
           border: { value: "var(--ds-border)" },
           control: {
             DEFAULT: { value: "var(--ds-control)" },

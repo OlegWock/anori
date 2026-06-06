@@ -18,7 +18,7 @@ import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Icon } from "./icon/Icon";
 import { ScrollArea } from "./ScrollArea";
-import { useParentWidgetCardRef } from "./WidgetCard";
+import { useParentWidgetCardRef } from "./WidgetCard/context";
 
 export type WidgetExpandAreaProps = {
   children: ReactNode;

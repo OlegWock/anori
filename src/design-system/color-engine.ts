@@ -17,7 +17,7 @@ export type Palette = {
   tokens: Record<string, string>;
 };
 
-export type ScaleName = "neutral" | "accent" | "danger" | "warning" | "success" | "info";
+export type ScaleName = "neutral" | "surface" | "accent" | "danger" | "warning" | "success" | "info";
 
 export const detectGamut = (): Gamut =>
   typeof window !== "undefined" && window.matchMedia?.("(color-gamut: p3)").matches ? "p3" : "rgb";
@@ -49,13 +49,16 @@ export const PRIMITIVE_STEPS = PRIMITIVE_LS.length;
 const scale = (hue: number, chroma: number, gamut: Gamut): string[] =>
   PRIMITIVE_LS.map((l) => colorAt(hue, chroma, l, gamut));
 
-// For the neutral family the accent tint fades out on the lighter steps (≈ step 7 upward), gradually,
-// so light tones aren't over-tinted while the darker steps keep their warmth.
-const neutralFade = (l: number) => (l <= 0.6 ? 1 : 1 - ((l - 0.6) / (0.98 - 0.6)) * 0.7);
-const neutralColorAt = (hue: number, chroma: number, l: number, gamut: Gamut): string =>
-  colorAt(hue, chroma * neutralFade(l), l, gamut);
-const neutralScale = (hue: number, chroma: number, gamut: Gamut): string[] =>
-  PRIMITIVE_LS.map((l) => neutralColorAt(hue, chroma, l, gamut));
+// A tinted-grey scale: the accent hue at a (capped) chroma, with the tint fading out on the lighter
+// steps (≈ step 7 up) so light tones aren't over-tinted. Used for both the low-chroma `neutral`
+// family (text/borders) and the more-saturated `surface` family (filled surfaces + controls).
+const NEUTRAL_CHROMA = 0.045;
+const SURFACE_CHROMA = 0.09;
+const tintFade = (l: number) => (l <= 0.6 ? 1 : 1 - ((l - 0.6) / (0.98 - 0.6)) * 0.7);
+const tintedColorAt = (hue: number, chroma: number, l: number, gamut: Gamut): string =>
+  colorAt(hue, chroma * tintFade(l), l, gamut);
+const tintedScale = (hue: number, chroma: number, gamut: Gamut): string[] =>
+  PRIMITIVE_LS.map((l) => tintedColorAt(hue, chroma, l, gamut));
 
 const byMode = (mode: Mode, dark: number, light: number) => (mode === "dark" ? dark : light);
 
@@ -74,19 +77,22 @@ const bestTextOn = (fill: string, light: string, dark: string): string => {
   return lcLight >= lcDark ? light : dark;
 };
 
-// The one sanctioned off-scale derivation (see design-system-rules.md DS-2): an interactive fill's
-// hover state is the fill nudged a *sub-step* toward more contrast — lighter in dark, darker in
-// light. `sampleAt` is the family's curve sampler (bound to its hue/chroma/gamut).
+// The one sanctioned off-scale derivation (see design-system-rules.md DS-2): a fill nudged a
+// *sub-step* toward more contrast (lighter in dark, darker in light) — finer than a numbered step.
+// Used for hover states and for subtle edges that need to sit between two steps. `sampleAt` is the
+// family's curve sampler (bound to its hue/chroma/gamut).
 const HOVER_DELTA = 0.03;
-const hoverShade = (sampleAt: (l: number) => string, baseL: number, mode: Mode): string =>
-  sampleAt(baseL + (mode === "dark" ? HOVER_DELTA : -HOVER_DELTA));
+const EDGE_DELTA = 0.025;
+const shade = (sampleAt: (l: number) => string, baseL: number, mode: Mode, delta: number): string =>
+  sampleAt(baseL + (mode === "dark" ? delta : -delta));
 
 export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut): Palette {
   // Tier 2 — build each family's primitive scale by sampling the curve.
   const scales: Record<ScaleName, string[]> = {
-    // Neutral carries the accent's hue at a low (tunable) chroma → "colored grays". There's no
-    // separate background color: surfaces are derived from the accent hue, and light/dark is chosen.
-    neutral: neutralScale(accentColor.h, Math.min(accentColor.c, 0.045), gamut),
+    // Both carry the accent's hue (no separate background color): `neutral` at a low chroma →
+    // "colored grays" for text/borders; `surface` at a higher chroma → brand-tinted fills.
+    neutral: tintedScale(accentColor.h, Math.min(accentColor.c, NEUTRAL_CHROMA), gamut),
+    surface: tintedScale(accentColor.h, Math.min(accentColor.c, SURFACE_CHROMA), gamut),
     accent: scale(accentColor.h, accentColor.c, gamut),
     danger: scale(25, 0.16, gamut),
     warning: scale(75, 0.15, gamut),
@@ -95,36 +101,40 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   };
 
   // ── Tier 3: semantic tokens (name → primitive index, flipping per mode) ──
-  const { neutral, accent } = scales;
-  const neutralChroma = Math.min(accentColor.c, 0.045);
-  const accentFillIdx = byMode(mode, 5, 5);
-  const controlIdx = byMode(mode, 4, 10);
+  const { neutral, surface, accent } = scales;
+  const surfaceChroma = Math.min(accentColor.c, SURFACE_CHROMA);
+  const sampleSurface = (l: number) => tintedColorAt(accentColor.h, surfaceChroma, l, gamut);
+  const sampleAccent = (l: number) => colorAt(accentColor.h, accentColor.c, l, gamut);
+  const surfaceIdx = byMode(mode, 3, 11);
+  const elevatedIdx = byMode(mode, 4, 10);
+  const accentFillIdx = byMode(mode, 6, 5);
+  const controlIdx = byMode(mode, 5, 10);
   const accentFill = accent[accentFillIdx];
 
   const tokens: Record<string, string> = {
-    surface: neutral[byMode(mode, 3, 11)],
-    border: neutral[byMode(mode, 4, 7)],
+    // Brand-tinted fills come from the `surface` family; text + borders stay on the neutral family.
+    surface: surface[surfaceIdx],
+    // A *sub-step* edge — a touch lighter than `surface` in dark mode (darker in light), finer than a
+    // full scale step, on the tinted family so it matches the fill rather than reading as a grey line.
+    "surface-border": shade(sampleSurface, PRIMITIVE_LS[surfaceIdx], mode, EDGE_DELTA),
+    // Elevated surface (popovers, dropdowns, modals) — a step lighter than `surface` in dark mode,
+    // with its own matching sub-step edge.
+    "surface-elevated": surface[elevatedIdx],
+    "surface-elevated-border": shade(sampleSurface, PRIMITIVE_LS[elevatedIdx], mode, EDGE_DELTA),
+    border: neutral[byMode(mode, 5, 7)],
 
-    // Filled neutral control (e.g. the secondary button) — one step lighter than `surface` in dark
-    // mode, with its own edge. A control isn't a surface, so it's its own role.
-    control: neutral[controlIdx],
-    "control-border": neutral[byMode(mode, 5, 9)],
-    "control-hover": hoverShade(
-      (l) => neutralColorAt(accentColor.h, neutralChroma, l, gamut),
-      PRIMITIVE_LS[controlIdx],
-      mode,
-    ),
+    // Filled control (e.g. the secondary button) — one step lighter than `surface` in dark mode, on
+    // the same tinted family, with a neutral edge.
+    control: surface[controlIdx],
+    "control-border": neutral[byMode(mode, 6, 8)],
+    "control-hover": shade(sampleSurface, PRIMITIVE_LS[controlIdx], mode, HOVER_DELTA),
 
     accent: accentFill,
     // Text on the accent fill — APCA picks the more legible of the neutral extremes.
     "accent-text": bestTextOn(accentFill, neutral[11], neutral[0]),
     // A touch lighter than the fill in dark mode, darker in light mode — a subtle edge.
     "accent-border": accent[byMode(mode, 6, 4)],
-    "accent-hover": hoverShade(
-      (l) => colorAt(accentColor.h, accentColor.c, l, gamut),
-      PRIMITIVE_LS[accentFillIdx],
-      mode,
-    ),
+    "accent-hover": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], mode, HOVER_DELTA),
 
     "text-primary": neutral[byMode(mode, 11, 1)],
     "text-subtle": neutral[byMode(mode, 9, 4)],

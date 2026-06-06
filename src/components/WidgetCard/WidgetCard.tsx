@@ -1,5 +1,3 @@
-import { Component, type ComponentProps, createContext, createRef, useContext, useRef, useState } from "react";
-import "./WidgetCard.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
@@ -14,10 +12,58 @@ import { WidgetMetadataContext } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
 import { m, type PanInfo, useMotionValue } from "framer-motion";
-import type { ReactNode } from "react";
+import { Component, type ComponentProps, type ReactNode, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Button } from "./Button";
-import { Icon } from "./icon/Icon";
+import { css } from "styled-system/css";
+import { ControlButton } from "./ControlButton";
+import { WidgetCardContext } from "./context";
+import { ResizeHandle } from "./ResizeHandle";
+
+const cardCss = css({
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  bg: "surface",
+  color: "text.primary",
+  borderWidth: "2px",
+  borderStyle: "solid",
+  borderColor: "surface.border",
+  borderRadius: "lg",
+  padding: 0,
+  zIndex: "base",
+  // Lifted above its peers while being dragged or resized, with the overlay elevation.
+  "&[data-busy]": {
+    zIndex: "docked",
+    boxShadow: "overlay",
+  },
+  // Edit controls (drag/remove/edit/resize) only appear while the card is hovered or focused.
+  "& .widget-control": {
+    opacity: 0,
+    pointerEvents: "none",
+    transition: "opacity 0.15s ease-in-out",
+  },
+  "&:hover .widget-control, &:focus-within .widget-control": {
+    opacity: 1,
+    pointerEvents: "auto",
+  },
+  // While dragging or resizing, the only control still mounted is the active one (drag handle /
+  // resize handle) — keep it visible regardless of hover (the pointer may leave the card as it moves).
+  "&[data-busy] .widget-control": {
+    opacity: 1,
+    pointerEvents: "auto",
+  },
+});
+const cardPaddedCss = css({ padding: "4" });
+const overflowProtectionCss = css({
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 1,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+});
+const interactionBlockerCss = css({ position: "absolute", inset: 0 });
+const errorDescriptionCss = css({ marginTop: "3" });
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   constructor(props: { children: ReactNode }) {
@@ -39,7 +85,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
       return (
         <>
           <h2>Oops</h2>
-          <div className="error-description">Widget failed to render, check console for details.</div>
+          <div className={errorDescriptionCss}>Widget failed to render, check console for details.</div>
         </>
       );
     }
@@ -47,10 +93,6 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
     return this.props.children;
   }
 }
-
-const WidgetCardContext = createContext({
-  cardRef: createRef<HTMLDivElement>(),
-});
 
 type WidgetCardProps<WD extends WidgetDescriptor[], W extends WD[number]> = {
   widget: W;
@@ -174,11 +216,12 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
 
   const { isEditing, grid, gridRef } = useParentFolder();
 
-  const { gapSize, rem } = useSizeSettings();
+  const { gapSize } = useSizeSettings();
   const ref = useRef<HTMLDivElement>(null);
   const runAfterRender = useRunAfterNextRender();
 
   const sizeToUse = size ? size : widget.appearance.size;
+  const withPadding = !widget.appearance.withoutPadding;
 
   const resizeWidth = useMotionValue(convertUnitsToPixels(sizeToUse.width));
   const resizeHeight = useMotionValue(convertUnitsToPixels(sizeToUse.height));
@@ -201,7 +244,6 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
     },
     {
       onDragEnd,
-      whileDrag: { zIndex: 9, boxShadow: "0px 4px 4px 3px rgba(0,0,0,0.4)" },
     },
   );
   const drag = type === "widget";
@@ -229,7 +271,8 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       id={instanceId ? `WidgetCard-${instanceId}` : undefined}
       ref={ref}
       key={`card-${instanceId}`}
-      className={clsx(className, "WidgetCard", !widget.appearance.withoutPadding && "with-padding")}
+      className={clsx(cardCss, withPadding && cardPaddedCss, "WidgetCard", className)}
+      data-busy={isDragging || isResizing ? true : undefined}
       transition={{ ease: "easeInOut", duration: 0.15 }}
       exit={isEditing ? { scale: 0 } : undefined}
       whileHover={
@@ -250,8 +293,6 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
         width: readonlyResizeWidth,
         height: readonlyResizeHeight,
         margin: gapSize,
-        boxShadow: isResizing ? "0px 4px 4px 3px rgba(0,0,0,0.4)" : "0px 0px 0px 0px rgba(0,0,0,0.0)",
-        zIndex: isResizing || isDragging ? 9 : 0,
         position: type === "widget" ? "absolute" : undefined,
         top: isDragging ? (gridRef.current?.getBoundingClientRect().top ?? 0) + pixelPosition.y : pixelPosition.y,
         left: isDragging ? (gridRef.current?.getBoundingClientRect().left ?? 0) + pixelPosition.x : pixelPosition.x,
@@ -260,46 +301,32 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       {...dragProps}
       {...props}
     >
-      {isEditing && type === "widget" && !!onDragEnd && (
-        <Button
-          className="drag-widget-btn"
+      {isEditing && type === "widget" && !isResizing && !!onDragEnd && (
+        <ControlButton
+          position="drag"
+          icon={builtinIcons.dragHandle}
           onPointerDown={(e) => {
             e.preventDefault();
             setIsDragging(true);
             runAfterRender(() => dragControls.start(e));
           }}
           onPointerUp={() => setIsDragging(false)}
-          withoutBorder
           {...dragHandleProps}
-        >
-          <Icon icon={builtinIcons.dragHandle} width={rem(1.25)} height={rem(1.25)} />
-        </Button>
+        />
       )}
-      {isEditing && type === "widget" && !!onRemove && (
-        <Button className="remove-widget-btn" onClick={onRemove} withoutBorder>
-          <Icon icon={builtinIcons.close} width={rem(1.25)} height={rem(1.25)} />
-        </Button>
+      {isEditing && type === "widget" && !isDragging && !isResizing && !!onRemove && (
+        <ControlButton position="remove" icon={builtinIcons.close} onClick={onRemove} />
       )}
-      {isEditing && type === "widget" && !!onEdit && (
-        <Button className="edit-widget-btn" onClick={onEdit} withoutBorder>
-          <Icon icon={builtinIcons.pencil} width={rem(1.25)} height={rem(1.25)} />
-        </Button>
+      {isEditing && type === "widget" && !isDragging && !isResizing && !!onEdit && (
+        <ControlButton position="edit" icon={builtinIcons.pencil} onClick={onEdit} />
       )}
-      {isEditing && type === "widget" && !!widget.appearance.resizable && (
-        <m.div
-          className="resize-handle"
-          onPointerDown={(e) => e.preventDefault()}
-          onPanStart={startResize}
-          onPan={updateResize}
-          onPanEnd={finishResize}
-        >
-          <Icon icon={builtinIcons.resize} width={rem(1.25)} height={rem(1.25)} style={{ rotate: 90 }} />
-        </m.div>
+      {isEditing && type === "widget" && !isDragging && !!widget.appearance.resizable && (
+        <ResizeHandle onPanStart={startResize} onPan={updateResize} onPanEnd={finishResize} />
       )}
       <ErrorBoundary>
-        <div className="overflow-protection">
+        <div className={overflowProtectionCss} style={{ borderRadius: withPadding ? 0 : "inherit" }}>
           {children}
-          {(type === "mock" || isResizing || isDragging) && <div className="interaction-blocker" />}
+          {(type === "mock" || isResizing || isDragging) && <div className={interactionBlockerCss} />}
         </div>
       </ErrorBoundary>
     </m.div>
@@ -321,8 +348,4 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       </WidgetMetadataContext.Provider>
     </WidgetCardContext.Provider>
   );
-};
-
-export const useParentWidgetCardRef = () => {
-  return useContext(WidgetCardContext).cardRef;
 };
