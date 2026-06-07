@@ -26,42 +26,6 @@
 
         .plugins-list {
             flex: 1;
-
-            .plugin-item {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                gap: var(--spacing-3);
-                padding: var(--spacing-3) var(--spacing-3);
-                border: none;
-                background: transparent;
-                color: var(--text);
-                border-radius: var(--radius-md);
-                cursor: pointer;
-                text-align: left;
-                transition: background-color 0.15s ease;
-                font-size: var(--font-size-sm);
-
-                &:hover {
-                    background-color: var(--background-lighter);
-                }
-
-                &.active {
-                    background-color: var(--accent-subtle);
-                    font-weight: 600;
-                }
-
-                .plugin-icon {
-                    color: var(--icon-color);
-                }
-
-                span {
-                    flex: 1;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-            }
         }
     }
 

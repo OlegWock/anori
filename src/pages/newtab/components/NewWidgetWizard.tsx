@@ -7,6 +7,7 @@ import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";
+import { MenuItem, MenuList } from "@anori/design-system/components/MenuList/MenuList";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import type { GridContent, GridDimensions } from "@anori/utils/grid/types";
@@ -155,17 +156,13 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
               <div className="two-column-content">
                 <div className="plugins-sidebar">
                   <ScrollArea className="plugins-list">
-                    {pluginsList.map((plugin) => (
-                      <button
-                        key={plugin.id}
-                        type="button"
-                        className="plugin-item"
-                        onClick={() => scrollToPlugin(plugin.id)}
-                      >
-                        <Icon icon={plugin.icon} className="plugin-icon" width={20} height={20} />
-                        <span>{plugin.name}</span>
-                      </button>
-                    ))}
+                    <MenuList>
+                      {pluginsList.map((plugin) => (
+                        <MenuItem key={plugin.id} icon={plugin.icon} onClick={() => scrollToPlugin(plugin.id)}>
+                          {plugin.name}
+                        </MenuItem>
+                      ))}
+                    </MenuList>
                   </ScrollArea>
                 </div>
 
