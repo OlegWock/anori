@@ -1,7 +1,7 @@
 import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
 import { Input } from "@anori/components/Input";
-import { Modal } from "@anori/components/Modal";
+import { Modal } from "@anori/components/Modal/Modal";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import { getAppError, isAppErrorOfType } from "@anori-app/api-client";

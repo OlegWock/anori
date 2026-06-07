@@ -14,7 +14,7 @@ import {
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Modal } from "./Modal";
+import { Modal } from "./Modal/Modal";
 
 export type RequirePermissionsProps = {
   additionalInfo?: string;

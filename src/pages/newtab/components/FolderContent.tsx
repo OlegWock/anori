@@ -1,6 +1,6 @@
 import { AnimatePresence, m } from "framer-motion";
 import "./FolderContent.scss";
-import { Modal } from "@anori/components/Modal";
+import { Modal } from "@anori/components/Modal/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
@@ -130,7 +130,8 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
 
   const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig } = useFolderWidgets(folder);
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
-  const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
+  // const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
+  const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(true);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<
     ID,
     WidgetDescriptor[],

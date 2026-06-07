@@ -30,17 +30,16 @@ const cardCss = css({
   position: "relative",
   display: "flex",
   flexDirection: "column",
-  bg: "surface",
+  bg: "card",
   color: "text.primary",
   borderRadius: "lg",
-  padding: 0,
   zIndex: "base",
   // Edge (DS-3): a 1px inset ring for volume instead of a border (no box-model impact).
-  boxShadow: "surface.edge",
+  boxShadow: "card.edge",
   // Lifted above its peers while being dragged or resized — keep the edge, add the overlay elevation.
   "&[data-busy]": {
     zIndex: "docked",
-    boxShadow: "{shadows.surface.edge}, {shadows.overlay}",
+    boxShadow: "{shadows.card.edge}, {shadows.overlay}",
   },
   // Edit controls (drag/remove/edit/resize) only appear while the card is hovered or focused.
   "& .widget-control": {
@@ -66,7 +65,10 @@ const cardCss = css({
     pointerEvents: "auto",
   },
 });
+// Padding is applied as exactly one of these (never both) — base `cardCss` sets no padding, so there's
+// no `p_0` vs `p_4` atom conflict where cascade order, not class order, would pick the winner.
 const cardPaddedCss = css({ padding: "4" });
+const cardFlushCss = css({ padding: 0 });
 const overflowProtectionCss = css({
   position: "relative",
   display: "flex",
@@ -330,7 +332,7 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       id={instanceId ? `WidgetCard-${instanceId}` : undefined}
       ref={ref}
       key={`card-${instanceId}`}
-      className={clsx(cardCss, withPadding && cardPaddedCss, "WidgetCard", className)}
+      className={clsx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
       data-busy={isDragging || isResizing ? true : undefined}
       data-resizing={isResizing ? true : undefined}
       transition={{ ease: "easeInOut", duration: 0.15 }}

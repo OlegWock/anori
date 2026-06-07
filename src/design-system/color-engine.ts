@@ -105,7 +105,11 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const surfaceChroma = Math.min(accentColor.c, SURFACE_CHROMA);
   const sampleSurface = (l: number) => tintedColorAt(accentColor.h, surfaceChroma, l, gamut);
   const sampleAccent = (l: number) => colorAt(accentColor.h, accentColor.c, l, gamut);
-  const surfaceIdx = byMode(mode, 3, 11);
+  // Two genuinely separate filled surfaces (off the same tinted `surface` scale): `card` (lighter)
+  // and `modal` (darker, so dialogs read deeper / more focused). `elevated` stays for raised UI
+  // (dropdowns/popovers).
+  const cardIdx = byMode(mode, 3, 11);
+  const modalIdx = byMode(mode, 2, 9);
   const elevatedIdx = byMode(mode, 4, 10);
   const accentFillIdx = byMode(mode, 6, 5);
   const controlIdx = byMode(mode, 4, 10);
@@ -113,13 +117,14 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const accentDisabled = colorAt(accentColor.h, accentColor.c * 0.4, PRIMITIVE_LS[accentFillIdx], gamut);
 
   const tokens: Record<string, string> = {
-    // Brand-tinted fills come from the `surface` family; text + borders stay on the neutral family.
-    surface: surface[surfaceIdx],
-    // An *edge*, not a border (DS-3): a barely-there sub-step shade that gives the surface volume —
-    // lighter in dark, darker in light, on the tinted family so it matches the fill.
-    "surface-edge": shade(sampleSurface, PRIMITIVE_LS[surfaceIdx], mode, EDGE_DELTA),
-    // Elevated surface (popovers, dropdowns, modals) — a step lighter than `surface` in dark mode,
-    // with its own matching edge.
+    // Card fill (the brand-tinted `surface` scale). The *edge* (DS-3) is a barely-there sub-step shade
+    // that gives the surface volume — lighter in dark, darker in light, on the tinted family.
+    card: surface[cardIdx],
+    "card-edge": shade(sampleSurface, PRIMITIVE_LS[cardIdx], mode, EDGE_DELTA),
+    // Modal/dialog fill — a darker surface than the card, with its own matching edge.
+    modal: surface[modalIdx],
+    "modal-edge": shade(sampleSurface, PRIMITIVE_LS[modalIdx], mode, EDGE_DELTA),
+    // Elevated surface (popovers, dropdowns) — a step lighter than the card in dark mode.
     "surface-elevated": surface[elevatedIdx],
     "surface-elevated-edge": shade(sampleSurface, PRIMITIVE_LS[elevatedIdx], mode, EDGE_DELTA),
 

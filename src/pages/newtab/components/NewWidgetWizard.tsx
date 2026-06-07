@@ -3,7 +3,7 @@ import "./NewWidgetWizard.scss";
 import { Button } from "@anori/components/Button";
 import { EmptyState } from "@anori/components/EmptyState";
 import { Input } from "@anori/components/Input";
-import { Modal } from "@anori/components/Modal";
+import { Modal } from "@anori/components/Modal/Modal";
 import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
 import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";

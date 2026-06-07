@@ -3,7 +3,7 @@ import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { css, cva, cx } from "styled-system/css";
 
 type ButtonSize = "normal" | "compact";
-type ButtonVariant = "primary" | "secondary" | "frosted";
+type ButtonVariant = "primary" | "secondary" | "frosted" | "ghost";
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
   variant?: ButtonVariant;
@@ -66,6 +66,14 @@ const button = cva({
         bg: "transparent",
         color: "text.primary",
         boxShadow: "inset 0 0 0 2px color-mix(in srgb, var(--ds-text-primary) 18%, transparent)",
+        "&:hover:not(:disabled):not([aria-disabled=true])": {
+          bg: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
+        },
+      },
+      // Like frosted but with no edge — a quiet, borderless button (e.g. a modal close).
+      ghost: {
+        bg: "transparent",
+        color: "text.primary",
         "&:hover:not(:disabled):not([aria-disabled=true])": {
           bg: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
         },

@@ -1,5 +1,5 @@
 import { Button } from "@anori/components/Button";
-import { Modal } from "@anori/components/Modal";
+import { Modal } from "@anori/components/Modal/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";

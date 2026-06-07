@@ -1,4 +1,4 @@
-import { Modal } from "@anori/components/Modal";
+import { Modal } from "@anori/components/Modal/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { SidebarButton } from "@anori/components/SidebarButton/SidebarButton";

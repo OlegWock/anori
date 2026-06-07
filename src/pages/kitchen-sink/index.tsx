@@ -133,6 +133,7 @@ function App() {
             <Button>Primary</Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="frosted">Frosted</Button>
+            <Button variant="ghost">Ghost</Button>
             <Button size="compact">Primary compact</Button>
             <Button variant="secondary" size="compact">
               Secondary compact

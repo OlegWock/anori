@@ -85,8 +85,13 @@ export default defineConfig({
         shadows: {
           raised: { value: "rgba(0, 0, 0, 0.25) 0px 4px 6px 4px" },
           overlay: { value: "0px 4px 4px 3px rgba(0, 0, 0, 0.4)" },
+          card: {
+            edge: { value: "inset 0 0 0 2px var(--ds-card-edge)" },
+          },
+          modal: {
+            edge: { value: "inset 0 0 0 2px var(--ds-modal-edge)" },
+          },
           surface: {
-            edge: { value: "inset 0 0 0 2px var(--ds-surface-edge)" },
             elevated: {
               edge: { value: "inset 0 0 0 2px var(--ds-surface-elevated-edge)" },
             },
@@ -122,9 +127,15 @@ export default defineConfig({
         // Colors aren't known at build time — injected at runtime as --ds-* vars by the design
         // system (src/design-system/apply.ts). Panda only needs the names; values resolve at runtime.
         colors: {
+          card: {
+            DEFAULT: { value: "var(--ds-card)" },
+            edge: { value: "var(--ds-card-edge)" },
+          },
+          modal: {
+            DEFAULT: { value: "var(--ds-modal)" },
+            edge: { value: "var(--ds-modal-edge)" },
+          },
           surface: {
-            DEFAULT: { value: "var(--ds-surface)" },
-            edge: { value: "var(--ds-surface-edge)" },
             elevated: {
               DEFAULT: { value: "var(--ds-surface-elevated)" },
               edge: { value: "var(--ds-surface-elevated-edge)" },
