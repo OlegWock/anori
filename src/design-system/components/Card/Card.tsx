@@ -8,9 +8,8 @@ export const Card = styled("div", {
     display: "flex",
     flexDirection: "column",
     bg: "surface",
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: "border",
+    // Edge (DS-3): a 1px inset ring for volume, not a delineating border.
+    boxShadow: "surface.edge",
     color: "text.primary",
     padding: "5",
     borderRadius: "lg",

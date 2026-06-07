@@ -25,18 +25,13 @@ const button = cva({
     fontWeight: "medium",
     whiteSpace: "nowrap",
     userSelect: "none",
-    borderWidth: "1px",
-    borderStyle: "solid",
     borderRadius: "xl",
-    transition: "background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out",
-    // Disabled/loading: drop the variant fill for a muted neutral one (so it reads as inactive and
-    // doesn't look like the active accent), with legible subtle text.
+    transition: "background 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
+    // Disabled/loading: common bits; each variant supplies a muted fill from its own palette below.
     "&:disabled, &[aria-disabled=true]": {
-      bg: "surface",
-      borderColor: "border",
       color: "text.subtle",
       cursor: "not-allowed",
-      opacity: 0.7,
+      boxShadow: "none",
     },
   },
   variants: {
@@ -44,22 +39,24 @@ const button = cva({
       primary: {
         bg: "accent",
         color: "accent.text",
-        borderColor: "accent.border",
+        boxShadow: "accent.edge",
         "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "accent.hover" },
+        "&:disabled, &[aria-disabled=true]": { bg: "accent.disabled" },
       },
       secondary: {
         bg: "control",
         color: "text.primary",
-        borderColor: "control.border",
+        boxShadow: "control.edge",
         "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "control.hover" },
+        "&:disabled, &[aria-disabled=true]": { bg: "control.disabled" },
       },
-      // Matches the legacy button: transparent, with a faint text-colored border + hover fill — meant
-      // to sit on the frosted plate (so it uses text.primary per DS-1).
+      // Matches the legacy button: transparent, with a faint text-colored inset edge + hover fill —
+      // meant to sit on the frosted plate (so it uses text.primary per DS-1). Disabled drops the edge
+      // (base) and just dims the text.
       frosted: {
         bg: "transparent",
         color: "text.primary",
-        borderWidth: "2px",
-        borderColor: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
+        boxShadow: "inset 0 0 0 2px color-mix(in srgb, var(--ds-text-primary) 18%, transparent)",
         "&:hover:not(:disabled):not([aria-disabled=true])": {
           bg: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
         },

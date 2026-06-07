@@ -25,16 +25,15 @@ const cardCss = css({
   flexDirection: "column",
   bg: "surface",
   color: "text.primary",
-  borderWidth: "2px",
-  borderStyle: "solid",
-  borderColor: "surface.border",
   borderRadius: "lg",
   padding: 0,
   zIndex: "base",
-  // Lifted above its peers while being dragged or resized, with the overlay elevation.
+  // Edge (DS-3): a 1px inset ring for volume instead of a border (no box-model impact).
+  boxShadow: "surface.edge",
+  // Lifted above its peers while being dragged or resized — keep the edge, add the overlay elevation.
   "&[data-busy]": {
     zIndex: "docked",
-    boxShadow: "overlay",
+    boxShadow: "{shadows.surface.edge}, {shadows.overlay}",
   },
   // Edit controls (drag/remove/edit/resize) only appear while the card is hovered or focused.
   "& .widget-control": {

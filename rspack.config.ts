@@ -76,8 +76,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       maxEntrypointSize: 1024 * 1024 * 20,
     },
     watchOptions: {
-      // Ignore everything not in /src or /styled-system (Panda regenerates styled-system/styles.css
-      // on changes, and rspack must watch it to hot-reload the generated CSS).
+      // Ignore everything not in /src and /styled-system
       ignored: /^(?!.*[\\/](?:src|styled-system)[\\/]).*$/,
     },
     output: {
@@ -201,6 +200,11 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
               options: {
                 url: false,
               },
+            },
+            {
+              // Panda's postcss plugin (postcss.config.cjs) generates the design-system CSS inline
+              // during the single rspack build (src/panda.css is the layer entry it injects into).
+              loader: "postcss-loader",
             },
           ],
         },

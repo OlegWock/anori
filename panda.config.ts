@@ -79,9 +79,24 @@ export default defineConfig({
         },
         // Elevation. `raised` = small floating affordances (e.g. widget edit controls); `overlay` =
         // an element lifted above its peers (e.g. a widget card being dragged/resized).
+        // The `*.edge` shadows are the volume edge (DS-3) as a 2px inset ring instead of a border, so
+        // it costs no layout and composes with other shadows. Paths mirror the `*.edge` color tokens
+        // (`boxShadow: "accent.edge"` ↔ `borderColor: "accent.border"`).
         shadows: {
           raised: { value: "rgba(0, 0, 0, 0.25) 0px 4px 6px 4px" },
           overlay: { value: "0px 4px 4px 3px rgba(0, 0, 0, 0.4)" },
+          surface: {
+            edge: { value: "inset 0 0 0 2px var(--ds-surface-edge)" },
+            elevated: {
+              edge: { value: "inset 0 0 0 2px var(--ds-surface-elevated-edge)" },
+            },
+          },
+          control: {
+            edge: { value: "inset 0 0 0 2px var(--ds-control-edge)" },
+          },
+          accent: {
+            edge: { value: "inset 0 0 0 2px var(--ds-accent-edge)" },
+          },
         },
       },
 
@@ -109,23 +124,26 @@ export default defineConfig({
         colors: {
           surface: {
             DEFAULT: { value: "var(--ds-surface)" },
-            border: { value: "var(--ds-surface-border)" },
+            edge: { value: "var(--ds-surface-edge)" },
             elevated: {
               DEFAULT: { value: "var(--ds-surface-elevated)" },
-              border: { value: "var(--ds-surface-elevated-border)" },
+              edge: { value: "var(--ds-surface-elevated-edge)" },
             },
           },
-          border: { value: "var(--ds-border)" },
           control: {
             DEFAULT: { value: "var(--ds-control)" },
             border: { value: "var(--ds-control-border)" },
+            edge: { value: "var(--ds-control-edge)" },
             hover: { value: "var(--ds-control-hover)" },
+            disabled: { value: "var(--ds-control-disabled)" },
           },
           accent: {
             DEFAULT: { value: "var(--ds-accent)" },
             text: { value: "var(--ds-accent-text)" },
             border: { value: "var(--ds-accent-border)" },
+            edge: { value: "var(--ds-accent-edge)" },
             hover: { value: "var(--ds-accent-hover)" },
+            disabled: { value: "var(--ds-accent-disabled)" },
           },
           text: {
             primary: { value: "var(--ds-text-primary)" },

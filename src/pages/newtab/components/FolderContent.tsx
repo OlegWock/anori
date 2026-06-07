@@ -1,10 +1,10 @@
 import { AnimatePresence, m } from "framer-motion";
 import "./FolderContent.scss";
-import { Button } from "@anori/components/Button";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { Icon } from "@anori/components/icon/Icon";
 import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { useSizeSettings } from "@anori/utils/compact";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
@@ -17,6 +17,8 @@ import clsx from "clsx";
 import { atom, useAtom } from "jotai";
 import { type CSSProperties, type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
+import { styled } from "styled-system/jsx";
 import { NewWidgetWizard } from "../lazy-components";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 
@@ -82,6 +84,31 @@ const actionButtonAnimations = {
   },
 } as const;
 
+// The animated root + action group stay `m.div` (Panda's `styled` would swallow framer's `transition`
+// prop), so they take a Panda `css()` class. Non-motion elements use `styled`/style props.
+const rootClass = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "3",
+  flexGrow: 1,
+  alignSelf: "stretch",
+  padding: "6",
+  maxHeight: "100%",
+});
+
+const actionButtonsClass = css({ display: "flex", gap: "3" });
+
+const Header = styled("header", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignSelf: "stretch",
+    color: "text.primary",
+  },
+});
+
 const isEditingModeActiveAtom = atom(false);
 
 export const FolderContent = ({ folder, animationDirection, ref }: FolderContentProps) => {
@@ -138,7 +165,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
       <m.div
         key={`FolderContent-${folder.id}`}
         data-folder-id={folder.id}
-        className={clsx("FolderContent", shouldShowOnboarding && "onboarding-visible")}
+        className={clsx(rootClass, "FolderContent", shouldShowOnboarding && "onboarding-visible")}
         transition={{
           duration: 0.2,
           type: "spring",
@@ -156,38 +183,31 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
         }
         ref={ref}
       >
-        <header
-          style={{
-            marginLeft: gapSize,
-            marginRight: gapSize,
-          }}
-        >
+        <Header style={{ marginLeft: gapSize, marginRight: gapSize }}>
           <h1>{folder.name}</h1>
 
-          <div className="action-buttons-wrapper">
-            <AnimatePresence initial={false} mode="wait">
-              {isEditing && (
-                <m.div className="action-buttons" key="editing-buttons" {...actionButtonAnimations}>
-                  <Button onClick={() => setNewWidgetWizardVisible(true)}>
-                    <Icon icon={builtinIcons.add} height={24} />
-                  </Button>
+          <AnimatePresence initial={false} mode="wait">
+            {isEditing && (
+              <m.div className={actionButtonsClass} key="editing-buttons" {...actionButtonAnimations}>
+                <Button variant="frosted" onClick={() => setNewWidgetWizardVisible(true)}>
+                  <Icon icon={builtinIcons.add} height={24} />
+                </Button>
 
-                  <Button onClick={() => setIsEditing(false)}>
-                    <Icon icon={builtinIcons.check} height={24} />
-                  </Button>
-                </m.div>
-              )}
+                <Button variant="primary" onClick={() => setIsEditing(false)}>
+                  <Icon icon={builtinIcons.check} height={24} />
+                </Button>
+              </m.div>
+            )}
 
-              {!isEditing && (
-                <m.div className="action-buttons" key="viewing-buttons" {...actionButtonAnimations}>
-                  <Button onClick={() => setIsEditing(true)} key="start-editing" {...actionButtonAnimations}>
-                    <Icon icon={builtinIcons.pencil} height={24} />
-                  </Button>
-                </m.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </header>
+            {!isEditing && (
+              <m.div className={actionButtonsClass} key="viewing-buttons" {...actionButtonAnimations}>
+                <Button variant="frosted" onClick={() => setIsEditing(true)}>
+                  <Icon icon={builtinIcons.pencil} height={24} />
+                </Button>
+              </m.div>
+            )}
+          </AnimatePresence>
+        </Header>
         <WidgetsGrid
           gridRef={mainRef}
           scrollAreaRef={scrollAreaRef}

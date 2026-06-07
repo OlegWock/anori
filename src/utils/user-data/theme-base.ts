@@ -62,7 +62,7 @@ export const themes: Theme[] = [
     type: "builtin",
     background: "greenery.jpg",
     colors: {
-      accent: { l: 0.6886, c: 0.13, h: 166.26 },
+      accent: { l: 0.6886, c: 0.13, h: 160.26 },
       text: WHITE,
       background: { l: 0.3592, c: 0.062, h: 169.07 },
     },

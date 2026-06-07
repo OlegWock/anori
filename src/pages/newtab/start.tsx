@@ -1,7 +1,7 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
 import "./styles.scss";
-import "styled-system/styles.css";
+import "../../panda.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { languageDirections } from "@anori/translations/metadata";

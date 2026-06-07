@@ -1,34 +1,7 @@
-
+// FolderContent's own elements live in Panda (see FolderContent.tsx). What remains here styles the
+// *child* components it composes (WidgetsGrid, ScrollArea, Modal internals) via descendant selectors;
+// those move out when those components migrate.
 .FolderContent {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--spacing-3);
-
-    flex-grow: 1;
-    align-self: stretch;
-    padding: var(--spacing-6);
-    max-height: 100%;
-
-    &>header {
-        color: var(--text);
-        display: flex;
-        justify-content: space-between;
-        align-self: stretch;
-
-        &>.action-buttons-wrapper {
-            .action-buttons {
-                display: flex;
-                gap: var(--spacing-3);
-            }
-        }
-
-        svg {
-            color: var(--text-subtle-1)
-        }
-    }
-
     .WidgetsGrid {
         flex-grow: 1;
         align-self: stretch;
@@ -74,7 +47,7 @@
         .ScrollAreaViewport {
             padding: var(--spacing-1);
         }
-    
+
         .edit-widget-content {
             padding: 0 var(--spacing-3);
             padding-bottom: var(--spacing-3);
@@ -84,4 +57,3 @@
         }
     }
 }
-

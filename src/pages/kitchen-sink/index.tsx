@@ -12,7 +12,7 @@ import { createRoot } from "react-dom/client";
 import { HueChromaPicker } from "./components/HueChromaPicker";
 import { PrimitiveScales, SemanticTokens } from "./components/Swatches";
 import { builtinThemePresets } from "./lib/theme-migration";
-import "styled-system/styles.css";
+import "../../panda.css";
 import "./styles.scss";
 
 const DEFAULT_ACCENT: OklchInput = { l: 0.72, c: 0.17, h: 150 };
@@ -139,6 +139,12 @@ function App() {
             </Button>
             <Button loading>Loading</Button>
             <Button disabled>Disabled</Button>
+            <Button variant="secondary" disabled>
+              Secondary disabled
+            </Button>
+            <Button variant="frosted" disabled>
+              Frosted disabled
+            </Button>
           </div>
           <Card mt="6">
             <div className="ks-row">
@@ -154,6 +160,12 @@ function App() {
               </Button>
               <Button loading>Loading</Button>
               <Button disabled>Disabled</Button>
+              <Button variant="secondary" disabled>
+                Secondary disabled
+              </Button>
+              <Button variant="frosted" disabled>
+                Frosted disabled
+              </Button>
             </div>
           </Card>
         </div>

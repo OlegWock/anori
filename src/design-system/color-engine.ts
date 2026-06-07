@@ -82,7 +82,7 @@ const bestTextOn = (fill: string, light: string, dark: string): string => {
 // Used for hover states and for subtle edges that need to sit between two steps. `sampleAt` is the
 // family's curve sampler (bound to its hue/chroma/gamut).
 const HOVER_DELTA = 0.03;
-const EDGE_DELTA = 0.025;
+const EDGE_DELTA = 0.02;
 const shade = (sampleAt: (l: number) => string, baseL: number, mode: Mode, delta: number): string =>
   sampleAt(baseL + (mode === "dark" ? delta : -delta));
 
@@ -105,36 +105,41 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const surfaceChroma = Math.min(accentColor.c, SURFACE_CHROMA);
   const sampleSurface = (l: number) => tintedColorAt(accentColor.h, surfaceChroma, l, gamut);
   const sampleAccent = (l: number) => colorAt(accentColor.h, accentColor.c, l, gamut);
-  const surfaceIdx = byMode(mode, 3, 11);
+  const surfaceIdx = byMode(mode, 4, 11);
   const elevatedIdx = byMode(mode, 4, 10);
   const accentFillIdx = byMode(mode, 6, 5);
-  const controlIdx = byMode(mode, 4, 10);
+  const controlIdx = byMode(mode, 5, 10);
   const accentFill = accent[accentFillIdx];
 
   const tokens: Record<string, string> = {
     // Brand-tinted fills come from the `surface` family; text + borders stay on the neutral family.
     surface: surface[surfaceIdx],
-    // A *sub-step* edge — a touch lighter than `surface` in dark mode (darker in light), finer than a
-    // full scale step, on the tinted family so it matches the fill rather than reading as a grey line.
-    "surface-border": shade(sampleSurface, PRIMITIVE_LS[surfaceIdx], mode, EDGE_DELTA),
+    // An *edge*, not a border (DS-3): a barely-there sub-step shade that gives the surface volume —
+    // lighter in dark, darker in light, on the tinted family so it matches the fill.
+    "surface-edge": shade(sampleSurface, PRIMITIVE_LS[surfaceIdx], mode, EDGE_DELTA),
     // Elevated surface (popovers, dropdowns, modals) — a step lighter than `surface` in dark mode,
-    // with its own matching sub-step edge.
+    // with its own matching edge.
     "surface-elevated": surface[elevatedIdx],
-    "surface-elevated-border": shade(sampleSurface, PRIMITIVE_LS[elevatedIdx], mode, EDGE_DELTA),
-    border: neutral[byMode(mode, 5, 7)],
+    "surface-elevated-edge": shade(sampleSurface, PRIMITIVE_LS[elevatedIdx], mode, EDGE_DELTA),
 
     // Filled control (e.g. the secondary button) — one step lighter than `surface` in dark mode, on
-    // the same tinted family, with a neutral edge.
+    // the same tinted family. `border` delineates it (DS-3); `edge` is its inset volume highlight.
     control: surface[controlIdx],
-    "control-border": neutral[byMode(mode, 6, 8)],
+    "control-border": neutral[byMode(mode, 5, 9)],
+    "control-edge": shade(sampleSurface, PRIMITIVE_LS[controlIdx], mode, EDGE_DELTA),
     "control-hover": shade(sampleSurface, PRIMITIVE_LS[controlIdx], mode, HOVER_DELTA),
+    // Disabled secondary — a muted (low-chroma) shade of the control family, not surface.
+    "control-disabled": tintedColorAt(accentColor.h, surfaceChroma * 0.5, PRIMITIVE_LS[controlIdx], gamut),
 
     accent: accentFill,
     // Text on the accent fill — APCA picks the more legible of the neutral extremes.
     "accent-text": bestTextOn(accentFill, neutral[11], neutral[0]),
-    // A touch lighter than the fill in dark mode, darker in light mode — a subtle edge.
+    // A touch lighter than the fill in dark mode, darker in light mode — a delineating border.
     "accent-border": accent[byMode(mode, 6, 4)],
+    "accent-edge": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], mode, EDGE_DELTA * 1.5),
     "accent-hover": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], mode, HOVER_DELTA),
+    // Disabled primary — a muted (desaturated) shade of the accent family, not surface.
+    "accent-disabled": colorAt(accentColor.h, accentColor.c * 0.4, PRIMITIVE_LS[accentFillIdx], gamut),
 
     "text-primary": neutral[byMode(mode, 11, 1)],
     "text-subtle": neutral[byMode(mode, 9, 4)],
