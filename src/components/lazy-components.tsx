@@ -11,7 +11,9 @@ const loaders = {
   ReorderGroup: cachedPromiseFunc(() => import("@anori/utils/motion/lazy-load-reorder").then((m) => m.ReorderGroup)),
   ReorderItem: cachedPromiseFunc(() => import("@anori/utils/motion/lazy-load-reorder").then((m) => m.ReorderItem)),
   ReactMarkdown: cachedPromiseFunc(() => import("react-markdown").then((m) => m.default)),
-  BookmarksBar: cachedPromiseFunc(() => import("@anori/components/BookmarksBar").then((m) => m.BookmarksBar)),
+  BookmarksBar: cachedPromiseFunc(() =>
+    import("@anori/components/BookmarksBar/BookmarksBar").then((m) => m.BookmarksBar),
+  ),
   WhatsNew: cachedPromiseFunc(() => import("@anori/components/WhatsNew").then((m) => m.WhatsNew)),
 } as const;
 

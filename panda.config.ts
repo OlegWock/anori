@@ -86,6 +86,10 @@ export default defineConfig({
         shadows: {
           raised: { value: "rgba(0, 0, 0, 0.25) 0px 4px 6px 4px" },
           overlay: { value: "0px 4px 4px 3px rgba(0, 0, 0, 0.4)" },
+          // Dropdown / popover menus (e.g. the bookmarks menu).
+          popover: {
+            value: "0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)",
+          },
           card: {
             edge: { value: "inset 0 0 0 2px var(--ds-card-edge)" },
           },
@@ -131,6 +135,12 @@ export default defineConfig({
           card: {
             DEFAULT: { value: "var(--ds-card)" },
             edge: { value: "var(--ds-card-edge)" },
+          },
+          // Translucent text-primary overlays for frosted surfaces (over a backdrop blur).
+          frosted: {
+            DEFAULT: { value: "var(--ds-frosted)" },
+            subtle: { value: "var(--ds-frosted-subtle)" },
+            strong: { value: "var(--ds-frosted-strong)" },
           },
           modal: {
             DEFAULT: { value: "var(--ds-modal)" },

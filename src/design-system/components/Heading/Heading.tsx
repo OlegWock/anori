@@ -21,7 +21,7 @@ const heading = cva({
     // Trim the heading's box to its cap-height/alphabetic edges so it hugs the glyphs — lets it align
     // cleanly when vertically centered next to controls. Progressive enhancement (ignored where
     // text-box isn't supported).
-    singleLine: { true: { lineHeight: "1" } },
+    singleLine: { true: { lineHeight: "none" } },
   },
 });
 

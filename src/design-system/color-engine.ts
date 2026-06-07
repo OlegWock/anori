@@ -86,6 +86,9 @@ const EDGE_DELTA = 0.02;
 const shade = (sampleAt: (l: number) => string, baseL: number, mode: Mode, delta: number): string =>
   sampleAt(baseL + (mode === "dark" ? delta : -delta));
 
+// Adds an alpha channel to an emitted oklch() string → a translucent overlay.
+const withAlpha = (oklch: string, alpha: number): string => oklch.replace(/\)\s*$/, ` / ${alpha})`);
+
 export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut): Palette {
   // Tier 2 — build each family's primitive scale by sampling the curve.
   const scales: Record<ScaleName, string[]> = {
@@ -155,6 +158,12 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "text-subtle": neutral[byMode(mode, 9, 4)],
     "text-placeholder": neutral[byMode(mode, 8, 6)],
     "text-disabled": neutral[byMode(mode, 6, 7)],
+
+    // Frosted overlays: text-primary at low alpha (so they adapt to mode) for translucent surfaces
+    // over a backdrop blur — bookmarks bar/menus, and the frosted/ghost buttons.
+    "frosted-subtle": withAlpha(neutral[byMode(mode, 11, 1)], 0.04),
+    frosted: withAlpha(neutral[byMode(mode, 11, 1)], 0.1),
+    "frosted-strong": withAlpha(neutral[byMode(mode, 11, 1)], 0.18),
   };
 
   return { mode, scales, tokens };

@@ -65,18 +65,14 @@ const button = cva({
       frosted: {
         bg: "transparent",
         color: "text.primary",
-        boxShadow: "inset 0 0 0 2px color-mix(in srgb, var(--ds-text-primary) 18%, transparent)",
-        "&:hover:not(:disabled):not([aria-disabled=true])": {
-          bg: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
-        },
+        boxShadow: "inset 0 0 0 2px {colors.frosted.strong}",
+        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "frosted" },
       },
       // Like frosted but with no edge — a quiet, borderless button (e.g. a modal close).
       ghost: {
         bg: "transparent",
         color: "text.primary",
-        "&:hover:not(:disabled):not([aria-disabled=true])": {
-          bg: "color-mix(in srgb, var(--ds-text-primary) 10%, transparent)",
-        },
+        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "frosted" },
       },
     },
     // Fixed heights (no vertical padding) — the design-system control sizes.
