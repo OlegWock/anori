@@ -139,11 +139,15 @@ export default defineConfig({
           },
           accent: {
             DEFAULT: { value: "var(--ds-accent)" },
-            text: { value: "var(--ds-accent-text)" },
             border: { value: "var(--ds-accent-border)" },
             edge: { value: "var(--ds-accent-edge)" },
             hover: { value: "var(--ds-accent-hover)" },
             disabled: { value: "var(--ds-accent-disabled)" },
+          },
+          // Foreground for content on the accent fill (its own family, mirroring accent/accent.disabled).
+          "on-accent": {
+            DEFAULT: { value: "var(--ds-on-accent)" },
+            disabled: { value: "var(--ds-on-accent-disabled)" },
           },
           text: {
             primary: { value: "var(--ds-text-primary)" },

@@ -80,7 +80,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       ignored: /^(?!.*[\\/](?:src|styled-system)[\\/]).*$/,
     },
     output: {
-      clean: true,
+      clean: false,
       filename: (pathData) => {
         if (!pathData.chunk) {
           throw new Error("pathData.chunk not defined for some reason");

@@ -43,7 +43,7 @@ export const colorAt = (hue: number, chroma: number, l: number, gamut: Gamut): s
 // ── Tier 2: the fixed numbered primitive scale ───────────────────────────────────────────────
 // The curve sampled at these lightnesses → role-agnostic stops (index 0..11, "step 1..12"). Tier-3
 // semantics reference these by index only. Densifying = add a stop here (cheap, since generated).
-const PRIMITIVE_LS = [0.16, 0.22, 0.28, 0.35, 0.43, 0.52, 0.61, 0.7, 0.78, 0.86, 0.93, 0.98];
+const PRIMITIVE_LS = [0.16, 0.22, 0.33, 0.38, 0.45, 0.52, 0.61, 0.7, 0.78, 0.86, 0.93, 0.98];
 export const PRIMITIVE_STEPS = PRIMITIVE_LS.length;
 
 const scale = (hue: number, chroma: number, gamut: Gamut): string[] =>
@@ -105,11 +105,12 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const surfaceChroma = Math.min(accentColor.c, SURFACE_CHROMA);
   const sampleSurface = (l: number) => tintedColorAt(accentColor.h, surfaceChroma, l, gamut);
   const sampleAccent = (l: number) => colorAt(accentColor.h, accentColor.c, l, gamut);
-  const surfaceIdx = byMode(mode, 4, 11);
+  const surfaceIdx = byMode(mode, 3, 11);
   const elevatedIdx = byMode(mode, 4, 10);
   const accentFillIdx = byMode(mode, 6, 5);
-  const controlIdx = byMode(mode, 5, 10);
+  const controlIdx = byMode(mode, 4, 10);
   const accentFill = accent[accentFillIdx];
+  const accentDisabled = colorAt(accentColor.h, accentColor.c * 0.4, PRIMITIVE_LS[accentFillIdx], gamut);
 
   const tokens: Record<string, string> = {
     // Brand-tinted fills come from the `surface` family; text + borders stay on the neutral family.
@@ -132,14 +133,18 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "control-disabled": tintedColorAt(accentColor.h, surfaceChroma * 0.5, PRIMITIVE_LS[controlIdx], gamut),
 
     accent: accentFill,
-    // Text on the accent fill — APCA picks the more legible of the neutral extremes.
-    "accent-text": bestTextOn(accentFill, neutral[11], neutral[0]),
+    // `on-accent` family: foreground (text/icon) for content sitting on the accent fill — APCA picks
+    // the more legible of the neutral extremes.
+    "on-accent": bestTextOn(accentFill, neutral[11], neutral[0]),
     // A touch lighter than the fill in dark mode, darker in light mode — a delineating border.
     "accent-border": accent[byMode(mode, 6, 4)],
     "accent-edge": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], mode, EDGE_DELTA * 1.5),
     "accent-hover": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], mode, HOVER_DELTA),
     // Disabled primary — a muted (desaturated) shade of the accent family, not surface.
-    "accent-disabled": colorAt(accentColor.h, accentColor.c * 0.4, PRIMITIVE_LS[accentFillIdx], gamut),
+    "accent-disabled": accentDisabled,
+    // Foreground on the disabled accent fill — subtle neutrals (not the active extremes), APCA-picked
+    // so it stays legible in both modes.
+    "on-accent-disabled": bestTextOn(accentDisabled, neutral[9], neutral[2]),
 
     "text-primary": neutral[byMode(mode, 11, 1)],
     "text-subtle": neutral[byMode(mode, 9, 4)],

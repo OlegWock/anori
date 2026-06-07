@@ -38,10 +38,10 @@ const button = cva({
     variant: {
       primary: {
         bg: "accent",
-        color: "accent.text",
+        color: "on-accent",
         boxShadow: "accent.edge",
         "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "accent.hover" },
-        "&:disabled, &[aria-disabled=true]": { bg: "accent.disabled" },
+        "&:disabled, &[aria-disabled=true]": { bg: "accent.disabled", color: "on-accent.disabled" },
       },
       secondary: {
         bg: "control",
