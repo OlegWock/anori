@@ -1,7 +1,7 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
-import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
+import { type DndItemMeta, ensureDndItemType, useCurrentlyDragging, useDraggable } from "@anori/utils/drag-and-drop";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
 import { positionToPixelPosition, snapToSector } from "@anori/utils/grid/utils";
@@ -52,10 +52,17 @@ const cardCss = css({
     opacity: 1,
     pointerEvents: "auto",
   },
-  // While dragging or resizing, the only control still mounted is the active one (drag handle /
-  // resize handle) — keep it visible regardless of hover (the pointer may leave the card as it moves).
+  // While dragging or resizing, the only control still mounted is the active one — keep it visible
+  // regardless of hover (the pointer may leave the card as it moves). Stay pointer-transparent so a
+  // drop target beneath the dragged card (e.g. a sidebar folder) still receives the pointer; the card
+  // itself is already `pointer-events: none` while framer-dragging (see useDraggable whileDrag).
   "&[data-busy] .widget-control": {
     opacity: 1,
+    pointerEvents: "none",
+  },
+  // Resize is a native-pointer gesture on the handle itself (with pointer capture), so it must stay
+  // interactive throughout. (No drop-through is needed during a resize.)
+  "&[data-resizing] .widget-control": {
     pointerEvents: "auto",
   },
 });
@@ -283,6 +290,9 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
   const [resizeHeightUnits, setResizeHeightUnits] = useState(sizeToUse.height);
 
   const [isDragging, setIsDragging] = useState(false);
+  // Another widget is being dragged (not this one) — suppress this card's hover controls so the
+  // dragged card passing over it doesn't reveal them.
+  const otherWidgetDragging = useCurrentlyDragging({ type: "widget" }) && !isDragging;
 
   const pixelPosition = position ? positionToPixelPosition({ grid, position }) : { x: 0, y: 0 };
 
@@ -322,6 +332,7 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       key={`card-${instanceId}`}
       className={clsx(cardCss, withPadding && cardPaddedCss, "WidgetCard", className)}
       data-busy={isDragging || isResizing ? true : undefined}
+      data-resizing={isResizing ? true : undefined}
       transition={{ ease: "easeInOut", duration: 0.15 }}
       exit={isEditing ? { scale: 0 } : undefined}
       whileHover={
@@ -350,11 +361,12 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       {...dragProps}
       {...props}
     >
-      {isEditing && type === "widget" && !isResizing && !!onDragEnd && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isResizing && !!onDragEnd && (
         <IconButton
           className={cx("widget-control", control({ position: "drag" }))}
           icon={builtinIcons.dragHandle}
           label={t("moveWidget")}
+          showTooltip={!isDragging}
           onPointerDown={(e) => {
             e.preventDefault();
             setIsDragging(true);
@@ -364,7 +376,7 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
           {...dragHandleProps}
         />
       )}
-      {isEditing && type === "widget" && !isDragging && !isResizing && !!onRemove && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !isResizing && !!onRemove && (
         <IconButton
           className={cx("widget-control", control({ position: "remove" }))}
           icon={builtinIcons.close}
@@ -372,7 +384,7 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
           onClick={onRemove}
         />
       )}
-      {isEditing && type === "widget" && !isDragging && !isResizing && !!onEdit && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !isResizing && !!onEdit && (
         <IconButton
           className={cx("widget-control", control({ position: "edit" }))}
           icon={builtinIcons.pencil}
@@ -380,11 +392,12 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
           onClick={onEdit}
         />
       )}
-      {isEditing && type === "widget" && !isDragging && !!widget.appearance.resizable && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !!widget.appearance.resizable && (
         <IconButton
           className={cx("widget-control", control({ position: "resize" }))}
           icon={builtinIcons.resize}
           label={t("resizeWidget")}
+          showTooltip={!isResizing}
           onPointerDown={startResize}
           onPointerMove={updateResize}
           onPointerUp={finishResize}

@@ -1,7 +1,7 @@
-import { FolderButton } from "@anori/components/FolderButton";
 import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
+import { SidebarButton } from "@anori/components/SidebarButton/SidebarButton";
 import { useHotkeys } from "@anori/utils/hooks";
 import { useStorageValue } from "@anori/utils/storage-lib";
 
@@ -54,7 +54,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
             <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
               {folders.map((f) => {
                 return (
-                  <FolderButton
+                  <SidebarButton
                     dropDestination={{ id: f.id }}
                     sidebarOrientation={orientation}
                     key={f.id}
@@ -68,7 +68,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                 );
               })}
               <div className="spacer" />
-              <FolderButton
+              <SidebarButton
                 sidebarOrientation={orientation}
                 layoutId="whats-new"
                 icon={builtinIcons.newspaper}
@@ -79,14 +79,14 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                   setHasUnreadReleaseNotes(false);
                 }}
               />
-              <FolderButton
+              <SidebarButton
                 sidebarOrientation={orientation}
                 layoutId="cloud-account"
                 icon={builtinIcons.personCircle}
                 name={isConnected ? t("cloud.account") : t("cloud.connect")}
                 onClick={() => setCloudModalVisible(true)}
               />
-              <FolderButton
+              <SidebarButton
                 sidebarOrientation={orientation}
                 layoutId="settings"
                 icon={builtinIcons.settings}
@@ -94,7 +94,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                 onClick={() => setSettingsVisible(true)}
               />
               {X_MODE === "development" && (
-                <FolderButton
+                <SidebarButton
                   sidebarOrientation={orientation}
                   layoutId="kitchen-sink"
                   icon={builtinIcons.palette}

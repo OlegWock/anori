@@ -36,6 +36,9 @@ interface Props {
   hasClickableContent?: boolean;
   ignoreFocus?: boolean;
   enableOnTouch?: boolean;
+  // Keep the tooltip wired up (no remount of the child) but never open it. Useful while the child is
+  // mid-gesture (dragging/resizing), where a popup would be noise.
+  disabled?: boolean;
 }
 
 export const Tooltip = ({
@@ -50,6 +53,7 @@ export const Tooltip = ({
   hasClickableContent = false,
   ignoreFocus = false,
   enableOnTouch = false,
+  disabled = false,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const id = useId();
@@ -79,6 +83,7 @@ export const Tooltip = ({
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useHover(context, {
+      enabled: !disabled,
       handleClose: hasClickableContent ? safePolygon() : undefined,
       mouseOnly: true,
       delay:
@@ -118,7 +123,7 @@ export const Tooltip = ({
       {cloneElement(children, getReferenceProps({ ref: mergedRef, ...children.props }))}
       <FloatingPortal root={document.body}>
         <AnimatePresence>
-          {open && (
+          {open && !disabled && (
             <m.div
               initial={{ opacity: 0, ...translate }}
               animate={{ opacity: 1, translateX: 0, translateY: 0 }}

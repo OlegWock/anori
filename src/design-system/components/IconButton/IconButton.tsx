@@ -10,6 +10,8 @@ export type IconButtonProps = Omit<ButtonProps, "children" | "iconStart" | "icon
   label: string;
   // Override the tooltip content (defaults to `label`) — e.g. a richer/dynamic hint.
   tooltip?: ReactNode;
+  // Whether to show the label tooltip. On by default; turn off e.g. while a control is mid-gesture.
+  showTooltip?: boolean;
 };
 
 // Square, icon-only button: the text Button with its horizontal padding collapsed to match the
@@ -18,11 +20,13 @@ export type IconButtonProps = Omit<ButtonProps, "children" | "iconStart" | "icon
 const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center" });
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-  { icon, label, tooltip, className, ...props },
+  { icon, label, tooltip, showTooltip = true, className, ...props },
   ref,
 ) {
+  // Always render the Tooltip wrapper (it adds no DOM node and `disabled` just suppresses opening), so
+  // toggling `showTooltip` mid-gesture doesn't remount the button and break its pointer capture.
   return (
-    <Tooltip label={tooltip ?? label} showDelay={700} targetRef={ref as Ref<HTMLElement>}>
+    <Tooltip label={tooltip ?? label} showDelay={700} disabled={!showTooltip} targetRef={ref as Ref<HTMLElement>}>
       <Button iconStart={icon} aria-label={label} className={cx(iconButton, className)} {...props} />
     </Tooltip>
   );

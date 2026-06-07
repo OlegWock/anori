@@ -110,11 +110,11 @@ const MenuBookmark = ({ bookmark, shiftSubmenu }: { bookmark: BookmarkType; shif
     <Menubar.Sub>
       <Menubar.SubTrigger className="MenuBookmark">
         <div className="content">
-          <Icon icon={builtinIcons.folder} height={rem(1)} width={rem(1)} />
+          <Icon icon={builtinIcons.folder} size="sm" />
           <span className="title">{bookmark.title}</span>
         </div>
 
-        <Icon icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
+        <Icon size="sm" icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
       </Menubar.SubTrigger>
       <Menubar.Portal>
         <div className="radix-popover-zindex-fix">
