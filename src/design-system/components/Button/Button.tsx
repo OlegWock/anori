@@ -32,6 +32,9 @@ const button = cva({
     whiteSpace: "nowrap",
     userSelect: "none",
     borderRadius: "xl",
+    // Trim the label's box to cap-height/alphabetic so it matches the cap-height icons → precise
+    // icon↔text alignment. Progressive enhancement: ignored where text-box isn't supported.
+    textBox: "trim-both cap alphabetic",
     transition: "background 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
     // Disabled/loading: common bits; each variant supplies a muted fill from its own palette below.
     "&:disabled, &[aria-disabled=true]": {

@@ -1,4 +1,5 @@
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
@@ -12,12 +13,18 @@ import { WidgetMetadataContext } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
 import { m, type PanInfo, useMotionValue } from "framer-motion";
-import { Component, type ComponentProps, type ReactNode, useRef, useState } from "react";
+import {
+  Component,
+  type ComponentProps,
+  type ReactNode,
+  type PointerEvent as ReactPointerEvent,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
-import { css } from "styled-system/css";
-import { ControlButton } from "./ControlButton";
+import { useTranslation } from "react-i18next";
+import { css, cva, cx } from "styled-system/css";
 import { WidgetCardContext } from "./context";
-import { ResizeHandle } from "./ResizeHandle";
 
 const cardCss = css({
   position: "relative",
@@ -63,6 +70,35 @@ const overflowProtectionCss = css({
 });
 const interactionBlockerCss = css({ position: "absolute", inset: 0 });
 const errorDescriptionCss = css({ marginTop: "3" });
+
+// Placement + floating drop shadow for the edit controls. The look (accent fill, on-accent icon)
+// comes from IconButton variant="primary"; this just pins them at the card corners, adds the `raised`
+// shadow so they read as floating, and marks them with `.widget-control` for the hover-reveal above.
+const control = cva({
+  base: { position: "absolute", zIndex: 1, boxShadow: "raised" },
+  variants: {
+    position: {
+      remove: { top: "-14px", right: "-14px", _compact: { top: "-8px", right: "-4px" } },
+      edit: { top: "30px", right: "-14px", _compact: { right: "-4px" } },
+      // `grab!` (important): override the Button base's `cursor: pointer` (same single-class specificity).
+      drag: {
+        top: "-14px",
+        left: "-14px",
+        cursor: "grab!",
+        touchAction: "none",
+        _compact: { top: "-8px", left: "-4px" },
+      },
+      resize: {
+        bottom: "-14px",
+        right: "-14px",
+        cursor: "grab!",
+        touchAction: "none",
+        "& svg": { transform: "rotate(90deg)" },
+        _compact: { bottom: "-8px", right: "-4px" },
+      },
+    },
+  },
+});
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   constructor(props: { children: ReactNode }) {
@@ -144,28 +180,36 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
   onMoveToFolder,
   ...props
 }: WidgetCardProps<WD, W>) => {
-  const startResize = () => {
-    setIsResizing(true);
-  };
-
   const convertUnitsToPixels = (unit: number) => unit * grid.boxSize - gapSize * 2;
 
   const convertPixelsToUnits = (px: number) => Math.round((px + gapSize * 2) / grid.boxSize);
 
-  const updateResize = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    if (!widget.appearance.resizable) return;
+  // Resize via native pointer events (pointer capture) so the handle can be a plain IconButton — no
+  // framer gesture, which would need a motion element.
+  const startResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    resizeActive.current = true;
+    resizeStart.current = { x: e.clientX, y: e.clientY };
+    setIsResizing(true);
+  };
+
+  const updateResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    if (!resizeActive.current || !widget.appearance.resizable) return;
     const res = widget.appearance.resizable;
     const minWidth = res === true ? 1 : (res.min?.width ?? 1);
     const minHeight = res === true ? 1 : (res.min?.height ?? 1);
     const maxWidth = res === true ? 999 : (res.max?.width ?? 999);
     const maxHeight = res === true ? 999 : (res.max?.height ?? 999);
+    const offsetX = e.clientX - resizeStart.current.x;
+    const offsetY = e.clientY - resizeStart.current.y;
     const newWidth = minmax(
-      convertUnitsToPixels(sizeToUse.width) + info.offset.x,
+      convertUnitsToPixels(sizeToUse.width) + offsetX,
       convertUnitsToPixels(minWidth),
       convertUnitsToPixels(maxWidth),
     );
     const newHeight = minmax(
-      convertUnitsToPixels(sizeToUse.height) + info.offset.y,
+      convertUnitsToPixels(sizeToUse.height) + offsetY,
       convertUnitsToPixels(minHeight),
       convertUnitsToPixels(maxHeight),
     );
@@ -177,7 +221,10 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
     resizeHeight.set(newHeight);
   };
 
-  const finishResize = (_event: MouseEvent | TouchEvent | PointerEvent, _info: PanInfo) => {
+  const finishResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    if (!resizeActive.current) return;
+    resizeActive.current = false;
+    e.currentTarget.releasePointerCapture(e.pointerId);
     setIsResizing(false);
     let shouldReset = true;
     if (onResize) {
@@ -216,8 +263,11 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
   const { isEditing, grid, gridRef } = useParentFolder();
 
   const { gapSize } = useSizeSettings();
+  const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
   const runAfterRender = useRunAfterNextRender();
+  const resizeActive = useRef(false);
+  const resizeStart = useRef({ x: 0, y: 0 });
 
   const sizeToUse = size ? size : widget.appearance.size;
   const withPadding = !widget.appearance.withoutPadding;
@@ -301,9 +351,10 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       {...props}
     >
       {isEditing && type === "widget" && !isResizing && !!onDragEnd && (
-        <ControlButton
-          position="drag"
+        <IconButton
+          className={cx("widget-control", control({ position: "drag" }))}
           icon={builtinIcons.dragHandle}
+          label={t("moveWidget")}
           onPointerDown={(e) => {
             e.preventDefault();
             setIsDragging(true);
@@ -314,13 +365,30 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
         />
       )}
       {isEditing && type === "widget" && !isDragging && !isResizing && !!onRemove && (
-        <ControlButton position="remove" icon={builtinIcons.close} onClick={onRemove} />
+        <IconButton
+          className={cx("widget-control", control({ position: "remove" }))}
+          icon={builtinIcons.close}
+          label={t("removeWidget")}
+          onClick={onRemove}
+        />
       )}
       {isEditing && type === "widget" && !isDragging && !isResizing && !!onEdit && (
-        <ControlButton position="edit" icon={builtinIcons.pencil} onClick={onEdit} />
+        <IconButton
+          className={cx("widget-control", control({ position: "edit" }))}
+          icon={builtinIcons.pencil}
+          label={t("editWidget")}
+          onClick={onEdit}
+        />
       )}
       {isEditing && type === "widget" && !isDragging && !!widget.appearance.resizable && (
-        <ResizeHandle onPanStart={startResize} onPan={updateResize} onPanEnd={finishResize} />
+        <IconButton
+          className={cx("widget-control", control({ position: "resize" }))}
+          icon={builtinIcons.resize}
+          label={t("resizeWidget")}
+          onPointerDown={startResize}
+          onPointerMove={updateResize}
+          onPointerUp={finishResize}
+        />
       )}
       <ErrorBoundary>
         <div className={overflowProtectionCss} style={{ borderRadius: withPadding ? 0 : "inherit" }}>

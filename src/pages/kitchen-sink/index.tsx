@@ -170,14 +170,14 @@ function App() {
               Edit
             </Button>
           </div>
-          {/* IconButton — square, icon-only, required aria-label */}
+          {/* IconButton — square, icon-only, required label (a11y name + delayed tooltip) */}
           <div className="ks-row" style={{ marginTop: "0.75rem" }}>
-            <IconButton icon={builtinIcons.settings} aria-label="Settings" />
-            <IconButton variant="secondary" icon={builtinIcons.close} aria-label="Close" />
-            <IconButton variant="frosted" icon={builtinIcons.refresh} aria-label="Refresh" />
-            <IconButton size="compact" icon={builtinIcons.add} aria-label="Add" />
-            <IconButton variant="secondary" size="compact" icon={builtinIcons.pencil} aria-label="Edit" />
-            <IconButton disabled icon={builtinIcons.chevronDown} aria-label="More" />
+            <IconButton icon={builtinIcons.settings} label="Settings" />
+            <IconButton variant="secondary" icon={builtinIcons.close} label="Close" />
+            <IconButton variant="frosted" icon={builtinIcons.refresh} label="Refresh" />
+            <IconButton size="compact" icon={builtinIcons.add} label="Add" />
+            <IconButton variant="secondary" size="compact" icon={builtinIcons.pencil} label="Edit" />
+            <IconButton disabled icon={builtinIcons.chevronDown} label="More" />
           </div>
           <Card mt="6">
             <div className="ks-row">

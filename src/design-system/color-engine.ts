@@ -43,7 +43,7 @@ export const colorAt = (hue: number, chroma: number, l: number, gamut: Gamut): s
 // ── Tier 2: the fixed numbered primitive scale ───────────────────────────────────────────────
 // The curve sampled at these lightnesses → role-agnostic stops (index 0..11, "step 1..12"). Tier-3
 // semantics reference these by index only. Densifying = add a stop here (cheap, since generated).
-const PRIMITIVE_LS = [0.16, 0.22, 0.33, 0.38, 0.45, 0.52, 0.61, 0.7, 0.78, 0.86, 0.93, 0.98];
+const PRIMITIVE_LS = [0.16, 0.22, 0.31, 0.38, 0.45, 0.52, 0.61, 0.7, 0.78, 0.86, 0.93, 0.98];
 export const PRIMITIVE_STEPS = PRIMITIVE_LS.length;
 
 const scale = (hue: number, chroma: number, gamut: Gamut): string[] =>

@@ -1,10 +1,11 @@
 import { AnimatePresence, m } from "framer-motion";
 import "./FolderContent.scss";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
 import { Modal } from "@anori/components/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Button } from "@anori/design-system/components/Button/Button";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
@@ -104,6 +105,7 @@ const Header = styled("header", {
   base: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
     alignSelf: "stretch",
     color: "text.primary",
   },
@@ -183,27 +185,30 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
         }
         ref={ref}
       >
-        <Header style={{ marginLeft: gapSize, marginRight: gapSize }}>
-          <h1>{folder.name}</h1>
+        <Header style={{ marginTop: gapSize, marginLeft: gapSize, marginRight: gapSize }}>
+          <Heading level={1}>{folder.name}</Heading>
 
           <AnimatePresence initial={false} mode="wait">
             {isEditing && (
               <m.div className={actionButtonsClass} key="editing-buttons" {...actionButtonAnimations}>
-                <Button variant="frosted" onClick={() => setNewWidgetWizardVisible(true)}>
-                  <Icon icon={builtinIcons.add} height={24} />
+                <Button variant="frosted" iconStart={builtinIcons.add} onClick={() => setNewWidgetWizardVisible(true)}>
+                  {t("addWidget")}
                 </Button>
 
-                <Button variant="primary" onClick={() => setIsEditing(false)}>
-                  <Icon icon={builtinIcons.check} height={24} />
+                <Button variant="primary" iconStart={builtinIcons.check} onClick={() => setIsEditing(false)}>
+                  {t("done")}
                 </Button>
               </m.div>
             )}
 
             {!isEditing && (
               <m.div className={actionButtonsClass} key="viewing-buttons" {...actionButtonAnimations}>
-                <Button variant="frosted" onClick={() => setIsEditing(true)}>
-                  <Icon icon={builtinIcons.pencil} height={24} />
-                </Button>
+                <IconButton
+                  variant="frosted"
+                  icon={builtinIcons.pencil}
+                  label={t("edit")}
+                  onClick={() => setIsEditing(true)}
+                />
               </m.div>
             )}
           </AnimatePresence>

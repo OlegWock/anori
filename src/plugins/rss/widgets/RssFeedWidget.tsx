@@ -1,6 +1,5 @@
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { ScrollArea } from "@anori/components/ScrollArea";
-import { Tooltip } from "@anori/components/Tooltip";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import clsx from "clsx";
@@ -28,16 +27,15 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
     <div className="RssFeed">
       <div className="title-wrapper">
         <h2>{config.title}</h2>
-        <Tooltip label={lastRefresh}>
-          <IconButton
-            variant="frosted"
-            size="compact"
-            icon={builtinIcons.refresh}
-            aria-label={t("refresh")}
-            loading={isRefreshing}
-            onClick={() => refresh()}
-          />
-        </Tooltip>
+        <IconButton
+          variant="frosted"
+          size="compact"
+          icon={builtinIcons.refresh}
+          label={t("refresh")}
+          tooltip={lastRefresh}
+          loading={isRefreshing}
+          onClick={() => refresh()}
+        />
       </div>
       <ScrollArea type="hover" color="dark">
         <div className={clsx("posts", config.compactView && "compact")}>
@@ -100,7 +98,7 @@ export const RssFeedMock = () => {
     <div className="RssFeed">
       <div className="title-wrapper">
         <h2>{t("rss-plugin.name")}</h2>
-        <IconButton variant="frosted" icon={builtinIcons.refresh} aria-label={t("refresh")} />
+        <IconButton variant="frosted" icon={builtinIcons.refresh} label={t("refresh")} />
       </div>
       <ScrollArea type="hover" color="dark">
         <div className="posts">
