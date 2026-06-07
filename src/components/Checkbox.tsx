@@ -1,12 +1,12 @@
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import "./Checkbox.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import type { NarrowVariants } from "@anori/utils/motion/types";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import type { ReactNode } from "react";
 import { type ComponentProps, forwardRef, useId } from "react";
-import { Icon } from "./icon/Icon";
 
 export type CheckboxVariant = "disabled" | "checked" | "unchecked";
 

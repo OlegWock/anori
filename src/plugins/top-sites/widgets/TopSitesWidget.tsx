@@ -1,8 +1,8 @@
 import "../styles.scss";
 import { Button } from "@anori/components/Button";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
 import { Link } from "@anori/components/Link";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useParentFolder } from "@anori/utils/FolderContentContext";

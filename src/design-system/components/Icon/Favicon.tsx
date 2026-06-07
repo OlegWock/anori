@@ -1,4 +1,4 @@
-import type { BaseIconProps } from "@anori/components/icon/types";
+import type { BaseIconProps } from "@anori/design-system/components/Icon/types";
 import { availablePermissionsAtom } from "@anori/utils/permissions";
 import { useAtomValue } from "jotai";
 import { useMemo, useState } from "react";

@@ -1,4 +1,4 @@
-import { CUSTOM_ICONS_SET_NAME, useCustomIcons } from "@anori/components/icon/custom-icons";
+import { CUSTOM_ICONS_SET_NAME, useCustomIcons } from "@anori/design-system/components/Icon/custom-icons";
 import type { IconifyInfo } from "@iconify/types";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo } from "react";

@@ -1,6 +1,6 @@
-import { useCustomIcon } from "@anori/components/icon/custom-icons";
-import { SvgIconRenderer } from "@anori/components/icon/SvgIconRenderer";
-import type { IconRenderProps } from "@anori/components/icon/types";
+import { useCustomIcon } from "@anori/design-system/components/Icon/custom-icons";
+import { SvgIconRenderer } from "@anori/design-system/components/Icon/SvgIconRenderer";
+import type { IconRenderProps } from "@anori/design-system/components/Icon/types";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import type { CSSProperties, Ref } from "react";

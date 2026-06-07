@@ -1,6 +1,6 @@
 import "../styles.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useSizeSettings } from "@anori/utils/compact";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import type { EmptyObject } from "@anori/utils/types";

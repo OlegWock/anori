@@ -11,13 +11,13 @@ import {
   useState,
 } from "react";
 import "./IconPicker.scss";
-import { CUSTOM_ICONS_SET_NAME } from "@anori/components/icon/custom-icons";
-import { useIconSets, useIconsSuspense } from "@anori/components/icon/remote-icons";
 import { Select } from "@anori/components/lazy-components";
+import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/custom-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { useIconSets, useIconsSuspense } from "@anori/design-system/components/Icon/remote-icons";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
 import { Input } from "./Input";
-import { Icon } from "./icon/Icon";
 import type { PopoverRenderProps } from "./Popover";
 import { Tooltip } from "./Tooltip";
 

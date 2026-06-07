@@ -1,13 +1,13 @@
 import { Button } from "@anori/components/Button";
 import { IconPicker } from "@anori/components/IconPicker";
-import { Icon } from "@anori/components/icon/Icon";
 import { Popover } from "@anori/components/Popover";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import type { Folder } from "@anori/utils/user-data/types";
 import { m, useDragControls } from "framer-motion";
 import { useRef } from "react";
 import "./FolderItem.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { ReorderItem } from "@anori/components/lazy-components";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 
 export const FolderItem = ({

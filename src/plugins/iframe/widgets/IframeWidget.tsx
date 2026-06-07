@@ -3,9 +3,9 @@
 // those cookies to function
 
 import "./IframeWidget.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
 import { Link } from "@anori/components/Link";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useSizeSettings } from "@anori/utils/compact";
 import { ensureDnrRules } from "@anori/utils/plugins/dnr";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";

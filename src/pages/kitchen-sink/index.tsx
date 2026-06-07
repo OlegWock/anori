@@ -1,5 +1,3 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
 import {
   buildPalette,
   detectGamut,
@@ -9,6 +7,8 @@ import {
 } from "@anori/design-system/color-engine";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";

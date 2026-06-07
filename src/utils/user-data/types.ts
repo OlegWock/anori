@@ -1,4 +1,4 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import type { Language } from "@anori/translations/metadata";
 import { translate } from "@anori/translations/utils";
 import type { GridItem } from "@anori/utils/grid/types";

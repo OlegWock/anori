@@ -1,10 +1,10 @@
 import { RequirePermissions } from "@anori/components/RequirePermissions";
 import "./BookmarksBar.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Favicon } from "@anori/components/icon/Favicon";
-import { Icon } from "@anori/components/icon/Icon";
 import { Link } from "@anori/components/Link";
 import { ScrollArea } from "@anori/components/ScrollArea";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Favicon } from "@anori/design-system/components/Icon/Favicon";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useSizeSettings } from "@anori/utils/compact";
 import { usePermissionsQuery } from "@anori/utils/permissions";
 import { useDirection } from "@radix-ui/react-direction";

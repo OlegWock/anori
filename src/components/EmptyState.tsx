@@ -1,7 +1,7 @@
-import { Icon } from "@anori/components/icon/Icon";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import type { ReactNode } from "react";
 import "./EmptyState.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 
 export type EmptyStateProps = {
   title: string;

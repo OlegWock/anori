@@ -1,3 +1,4 @@
+import { getAllCustomIconNames } from "@anori/design-system/components/Icon/custom-icons";
 import { allPlugins } from "@anori/plugins/all";
 import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
 import { detectBrowser } from "@anori/utils/browser";
@@ -9,7 +10,6 @@ import type { StorageContent } from "@anori/utils/user-data/types";
 import { useCallback } from "react";
 import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
-import { getAllCustomIconNames } from "../components/icon/custom-icons";
 import { guid, wait } from "./misc";
 
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;

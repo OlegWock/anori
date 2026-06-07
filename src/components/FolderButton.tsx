@@ -1,7 +1,7 @@
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import clsx from "clsx";
 import { m } from "framer-motion";
 import { type ComponentProps, useState } from "react";
-import { Icon } from "./icon/Icon";
 import { Tooltip } from "./Tooltip";
 import "./FolderButton.scss";
 import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";

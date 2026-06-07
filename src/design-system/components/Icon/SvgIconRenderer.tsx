@@ -1,4 +1,4 @@
-import type { SvgIconCacheDescriptor } from "@anori/components/icon/types";
+import type { SvgIconCacheDescriptor } from "@anori/design-system/components/Icon/types";
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { iife } from "@anori/utils/misc";
 import { combineRefs } from "@anori/utils/react";

@@ -1,4 +1,4 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { definePlugin } from "@anori/utils/plugins/define";
 import { expandableWidgetDescriptor, resizableWidgetDescriptor } from "./widgets/descriptors";
 

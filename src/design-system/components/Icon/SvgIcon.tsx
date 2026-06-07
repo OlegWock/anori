@@ -1,7 +1,7 @@
-import { getBuiltinIcon } from "@anori/components/icon/builtin-icons";
-import { ICONIFY_API_BASE } from "@anori/components/icon/remote-icons";
-import { globalSvgIconsCache, SvgIconRenderer } from "@anori/components/icon/SvgIconRenderer";
-import type { IconRenderProps } from "@anori/components/icon/types";
+import { getBuiltinIcon } from "@anori/design-system/components/Icon/builtin-icons";
+import { ICONIFY_API_BASE } from "@anori/design-system/components/Icon/remote-icons";
+import { globalSvgIconsCache, SvgIconRenderer } from "@anori/design-system/components/Icon/SvgIconRenderer";
+import type { IconRenderProps } from "@anori/design-system/components/Icon/types";
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { m } from "framer-motion";
 import { useState } from "react";

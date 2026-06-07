@@ -1,6 +1,7 @@
 import { forwardRef, useRef, useState } from "react";
 import "./Combobox.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import {
   autoUpdate,
   FloatingFocusManager,
@@ -19,7 +20,6 @@ import clsx from "clsx";
 import { type HTMLMotionProps, m } from "framer-motion";
 import { useEffect } from "react";
 import { Input } from "./Input";
-import { Icon } from "./icon/Icon";
 
 export type ComboboxProps<T> = {
   options: T[];

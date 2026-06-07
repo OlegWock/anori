@@ -1,4 +1,4 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
 import { type DndItemMeta, ensureDndItemType, useDraggable } from "@anori/utils/drag-and-drop";

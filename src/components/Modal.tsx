@@ -1,13 +1,13 @@
 import { LayoutGroup, m, useIsPresent } from "framer-motion";
 import "./Modal.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useHotkeys } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import useMeasure from "react-use-motion-measure";
-import { Icon } from "./icon/Icon";
 
 export type ModalProps = {
   title: string;

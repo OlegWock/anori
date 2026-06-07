@@ -1,4 +1,4 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, trackEvent } from "@anori/utils/analytics";
 import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";

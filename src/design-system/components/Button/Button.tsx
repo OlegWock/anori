@@ -1,4 +1,4 @@
-import { Icon } from "@anori/components/icon/Icon";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { css, cva, cx } from "styled-system/css";
 

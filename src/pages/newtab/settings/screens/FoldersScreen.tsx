@@ -1,7 +1,7 @@
 import { Button } from "@anori/components/Button";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
 import { ReorderGroup } from "@anori/components/lazy-components";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { m } from "framer-motion";

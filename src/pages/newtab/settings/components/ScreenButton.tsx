@@ -1,4 +1,4 @@
-import { Icon } from "@anori/components/icon/Icon";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import type { ComponentProps } from "react";
 import "./ScreenButton.scss";
 

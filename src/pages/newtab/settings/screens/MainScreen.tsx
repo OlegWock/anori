@@ -1,4 +1,4 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { availablePlugins } from "@anori/plugins/all";
 import { m } from "framer-motion";
 import { useSetAtom } from "jotai";

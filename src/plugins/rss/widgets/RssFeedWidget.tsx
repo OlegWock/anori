@@ -1,5 +1,5 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { ScrollArea } from "@anori/components/ScrollArea";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import clsx from "clsx";

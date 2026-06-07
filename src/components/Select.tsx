@@ -16,9 +16,9 @@ import {
 import classnames, { clsx } from "clsx";
 import React, { type ReactNode, useLayoutEffect, useState } from "react";
 import "./Select.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useDirection } from "@radix-ui/react-direction";
-import { Icon } from "./icon/Icon";
 
 export type SelectProps<T> = {
   options: T[] | readonly T[];

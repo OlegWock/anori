@@ -1,4 +1,4 @@
-import { Favicon } from "@anori/components/icon/Favicon";
+import { Favicon } from "@anori/design-system/components/Icon/Favicon";
 import { useSizeSettings } from "@anori/utils/compact";
 import { m } from "framer-motion";
 import { useEffect, useState } from "react";
