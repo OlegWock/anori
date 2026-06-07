@@ -6,6 +6,7 @@ export default defineConfig({
   preflight: false,
 
   include: ["./src/**/*.{ts,tsx}"],
+  dependencies: ["./src/**/*.{ts,tsx}"],
   exclude: [],
 
   // Generate JSX patterns (Box, Flex, Stack, styled, …).
