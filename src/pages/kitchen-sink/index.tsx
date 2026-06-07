@@ -1,3 +1,5 @@
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import {
   buildPalette,
   detectGamut,
@@ -7,6 +9,7 @@ import {
 } from "@anori/design-system/color-engine";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { HueChromaPicker } from "./components/HueChromaPicker";
@@ -146,6 +149,36 @@ function App() {
               Frosted disabled
             </Button>
           </div>
+          {/* Controlled: iconStart/iconEnd — Button owns size (cap-height), color, spacing */}
+          <div className="ks-row" style={{ marginTop: "0.75rem" }}>
+            <Button iconStart={builtinIcons.add}>Add widget</Button>
+            <Button variant="secondary" iconStart={builtinIcons.refresh}>
+              Refresh
+            </Button>
+            <Button variant="frosted" iconEnd={builtinIcons.openOutline}>
+              Open
+            </Button>
+            <Button size="compact" iconStart={builtinIcons.add}>
+              Add
+            </Button>
+            <Button iconStart={builtinIcons.settings} iconEnd={builtinIcons.chevronDown}>
+              Settings
+            </Button>
+            <Button aria-label="Settings" iconStart={builtinIcons.settings} />
+            <Button variant="secondary" aria-label="Close" iconStart={builtinIcons.close} />
+            <Button variant="frosted" disabled iconStart={builtinIcons.pencil}>
+              Edit
+            </Button>
+          </div>
+          {/* IconButton — square, icon-only, required aria-label */}
+          <div className="ks-row" style={{ marginTop: "0.75rem" }}>
+            <IconButton icon={builtinIcons.settings} aria-label="Settings" />
+            <IconButton variant="secondary" icon={builtinIcons.close} aria-label="Close" />
+            <IconButton variant="frosted" icon={builtinIcons.refresh} aria-label="Refresh" />
+            <IconButton size="compact" icon={builtinIcons.add} aria-label="Add" />
+            <IconButton variant="secondary" size="compact" icon={builtinIcons.pencil} aria-label="Edit" />
+            <IconButton disabled icon={builtinIcons.chevronDown} aria-label="More" />
+          </div>
           <Card mt="6">
             <div className="ks-row">
               <Button>Primary</Button>
@@ -168,6 +201,27 @@ function App() {
               </Button>
             </div>
           </Card>
+        </div>
+
+        <div>
+          <h2 className="ks-section-title">Icon component</h2>
+          {/* Predefined sizes (size → height, width auto) */}
+          <div className="ks-row">
+            <Icon icon={builtinIcons.settings} size="xs" />
+            <Icon icon={builtinIcons.settings} size="sm" />
+            <Icon icon={builtinIcons.settings} size="md" />
+            <Icon icon={builtinIcons.settings} size="lg" />
+            <Icon icon={builtinIcons.settings} size="xl" />
+            <Icon icon={builtinIcons.settings} size="2xl" />
+          </div>
+          {/* Panda style props: color + opacity */}
+          <div className="ks-row" style={{ marginTop: "0.75rem" }}>
+            <Icon icon={builtinIcons.refresh} color="accent" />
+            <Icon icon={builtinIcons.refresh} color="text.primary" />
+            <Icon icon={builtinIcons.refresh} color="text.subtle" />
+            <Icon icon={builtinIcons.refresh} color="text.placeholder" />
+            <Icon icon={builtinIcons.refresh} color="accent" opacity={0.4} />
+          </div>
         </div>
 
         <SemanticTokens palette={palette} />

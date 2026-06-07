@@ -1,3 +1,4 @@
+import { Icon } from "@anori/components/icon/Icon";
 import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { css, cva, cx } from "styled-system/css";
 
@@ -11,6 +12,11 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   visuallyDisabled?: boolean;
   loading?: boolean;
   children?: ReactNode;
+  // Icon *name* (not an element) rendered before/after the label. The Button owns the icon's size,
+  // color and spacing so it can't be misaligned or recoloured — the blessed way to put an icon in a
+  // button. Passing `<Icon>` as a child still works but is the caller's responsibility to align.
+  iconStart?: string;
+  iconEnd?: string;
 }
 
 const button = cva({
@@ -87,6 +93,7 @@ const spinner = css({
 
 const content = css({ display: "contents" });
 const contentHidden = css({ visibility: "hidden" });
+const buttonIcon = css({ flexShrink: 0 });
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
@@ -99,6 +106,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     onClick,
     className,
     children,
+    iconStart,
+    iconEnd,
     ...props
   },
   ref,
@@ -115,7 +124,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       className={cx(button({ variant, size, block, loading }), className)}
     >
       {loading && <span className={spinner} />}
-      <span className={cx(content, loading && contentHidden)}>{children}</span>
+      <span className={cx(content, loading && contentHidden)}>
+        {iconStart && <Icon icon={iconStart} height="1em" className={buttonIcon} aria-hidden />}
+        {children}
+        {iconEnd && <Icon icon={iconEnd} height="1em" className={buttonIcon} aria-hidden />}
+      </span>
     </button>
   );
 });

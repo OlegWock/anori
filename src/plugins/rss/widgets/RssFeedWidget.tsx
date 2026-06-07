@@ -1,9 +1,7 @@
-import { Button } from "@anori/components/Button";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Tooltip } from "@anori/components/Tooltip";
-import { useSizeSettings } from "@anori/utils/compact";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import clsx from "clsx";
 import { Fragment, useMemo } from "react";
@@ -16,7 +14,6 @@ import "./RssFeedWidget.scss";
 
 export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
   const { t } = useTranslation();
-  const { rem } = useSizeSettings();
   const { feed, isRefreshing, refresh, lastUpdated } = useRssFeeds(config.feedUrls, (url) =>
     sendMessage("getFeedText", { url }),
   );
@@ -32,22 +29,14 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
       <div className="title-wrapper">
         <h2>{config.title}</h2>
         <Tooltip label={lastRefresh}>
-          <Button className="refresh-button" visuallyDisabled={isRefreshing} onClick={() => refresh()}>
-            <Icon
-              icon={builtinIcons.refresh}
-              height={rem(1.25)}
-              variants={{
-                loading: { rotate: [0, 360] },
-              }}
-              animate={isRefreshing ? "loading" : undefined}
-              transition={{
-                duration: 2,
-                repeat: isRefreshing ? Number.POSITIVE_INFINITY : 0,
-                repeatDelay: 0.2,
-                ease: "easeInOut",
-              }}
-            />
-          </Button>
+          <IconButton
+            variant="frosted"
+            size="compact"
+            icon={builtinIcons.refresh}
+            aria-label={t("refresh")}
+            loading={isRefreshing}
+            onClick={() => refresh()}
+          />
         </Tooltip>
       </div>
       <ScrollArea type="hover" color="dark">
@@ -70,7 +59,6 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
 
 export const RssFeedMock = () => {
   const { t } = useTranslation();
-  const { rem } = useSizeSettings();
 
   const feed: RssPost[] = [
     {
@@ -112,9 +100,7 @@ export const RssFeedMock = () => {
     <div className="RssFeed">
       <div className="title-wrapper">
         <h2>{t("rss-plugin.name")}</h2>
-        <Button className="refresh-button">
-          <Icon icon={builtinIcons.refresh} height={rem(1.25)} />
-        </Button>
+        <IconButton variant="frosted" icon={builtinIcons.refresh} aria-label={t("refresh")} />
       </div>
       <ScrollArea type="hover" color="dark">
         <div className="posts">

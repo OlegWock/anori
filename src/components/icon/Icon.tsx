@@ -2,14 +2,26 @@ import { useMemo } from "react";
 import "./Icon.scss";
 import { CustomIcon } from "@anori/components/icon/CustomIcon";
 import { SvgIcon } from "@anori/components/icon/SvgIcon";
-import type { IconProps } from "@anori/components/icon/types";
+import { ICON_SIZES, type IconProps } from "@anori/components/icon/types";
+import { css, cx } from "styled-system/css";
+import { splitCssProps } from "styled-system/jsx";
 
-export const Icon = ({ cache = true, ...props }: IconProps) => {
-  const [family, iconName] = useMemo(() => props.icon.split(":"), [props.icon]);
+export const Icon = ({ icon, cache = true, size = "md", className, width, height, transition, ...rest }: IconProps) => {
+  // Split Panda style props (color, mx, opacity, …) from the rest. width/height/transition are pulled
+  // out above so Panda doesn't hijack them (sizing stays numeric; transition stays framer-motion's).
+  const [cssProps, forwardProps] = splitCssProps(rest);
+  const mergedClassName = cx(css(cssProps), className) || undefined;
+  // `size` sets the height; width stays automatic so non-square icons keep their aspect ratio.
+  // An explicit `height` wins over `size`.
+  const resolvedHeight = height ?? (size ? ICON_SIZES[size] : undefined);
+
+  const [family, iconName] = useMemo(() => icon.split(":"), [icon]);
+
+  const shared = { ...forwardProps, cache, width, height: resolvedHeight, transition, className: mergedClassName };
 
   if (family === "custom") {
-    return <CustomIcon {...props} icon={iconName} cache={cache} />;
+    return <CustomIcon {...shared} icon={iconName} />;
   }
 
-  return <SvgIcon {...props} cache={cache} />;
+  return <SvgIcon {...shared} icon={icon} />;
 };
