@@ -18,16 +18,24 @@ export type IconButtonProps = Omit<ButtonProps, "children" | "iconStart" | "icon
 // vertical (1:1). Inherits all Button variants / sizes / states, and shows its label as a delayed
 // tooltip (mimicking the native `title`).
 const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center" });
+// Ghost has no fill/edge framing the icon, so a 1em glyph reads too small — bump it up.
+const ghostIcon = css({ "& svg": { height: "1.375em" } });
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-  { icon, label, tooltip, showTooltip = true, className, ...props },
+  { icon, label, tooltip, showTooltip = true, variant, className, ...props },
   ref,
 ) {
   // Always render the Tooltip wrapper (it adds no DOM node and `disabled` just suppresses opening), so
   // toggling `showTooltip` mid-gesture doesn't remount the button and break its pointer capture.
   return (
     <Tooltip label={tooltip ?? label} showDelay={700} disabled={!showTooltip} targetRef={ref as Ref<HTMLElement>}>
-      <Button iconStart={icon} aria-label={label} className={cx(iconButton, className)} {...props} />
+      <Button
+        variant={variant}
+        iconStart={icon}
+        aria-label={label}
+        className={cx(iconButton, variant === "ghost" && ghostIcon, className)}
+        {...props}
+      />
     </Tooltip>
   );
 });

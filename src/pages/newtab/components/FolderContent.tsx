@@ -130,8 +130,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
 
   const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig } = useFolderWidgets(folder);
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
-  // const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
-  const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(true);
+  const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<
     ID,
     WidgetDescriptor[],
@@ -244,6 +243,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
             title={t("editWidget")}
             key="edit-widget-modal"
             className="edit-widget-modal"
+            flush
             onClose={() => setEditingWidget(null)}
             closable
           >

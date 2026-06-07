@@ -1,11 +1,7 @@
-import type { Folder } from "@anori/utils/user-data/types";
-import "./NewWidgetWizard.scss";
-import { Button } from "@anori/components/Button";
 import { EmptyState } from "@anori/components/EmptyState";
 import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
-import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { MenuItem, MenuList } from "@anori/design-system/components/MenuList/MenuList";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
@@ -16,10 +12,13 @@ import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "
 import { isWidgetNonConfigurable } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets } from "@anori/utils/user-data/hooks";
+import type { Folder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, m } from "framer-motion";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
+import { PluginWidgetsSection } from "./PluginWidgetsSection";
 
 export type NewWidgetWizardProps = {
   folder: Folder;
@@ -27,6 +26,28 @@ export type NewWidgetWizardProps = {
   layout: GridContent;
   onClose: () => void;
 };
+
+const content = css({
+  width: "min(80vw, 1100px)",
+  overflow: "hidden",
+  display: "flex",
+  flexDirection: "column",
+  gap: "4",
+  px: "4",
+  pb: "4",
+});
+const searchInput = css({ margin: "0-5", width: "100%" });
+const twoColumn = css({ display: "flex", gap: "4", overflow: "hidden" });
+const sidebar = css({ width: "220px", flexShrink: 0, display: "flex", flexDirection: "column" });
+const pluginsListScroll = css({ flex: 1 });
+const divider = css({
+  height: "100%",
+  borderRightWidth: "1px",
+  borderRightStyle: "solid",
+  borderRightColor: "control.border",
+});
+const widgetsArea = css({ flex: 1, pr: "4" });
+const widgetsContent = css({ display: "flex", flexDirection: "column", gap: "6" });
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
   const tryAddWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>(
@@ -97,30 +118,26 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
       title={inConfigurationStage ? t("configureWidget") : t("addWidget")}
       headerButton={
         inConfigurationStage ? (
-          <Button
-            withoutBorder
+          <IconButton
+            variant="ghost"
+            icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
+            label={t("back")}
             onClick={() => {
               setSelectedPlugin(undefined);
               setSelectedWidget(undefined);
             }}
-          >
-            <Icon
-              icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
-              width={24}
-              height={24}
-            />
-          </Button>
+          />
         ) : undefined
       }
       closable
       onClose={onClose}
-      className="NewWidgetWizard-wrapper"
+      flush
     >
       <AnimatePresence initial={false} mode="wait">
         {inConfigurationStage && !!selectedWidget.configurationScreen && (
           <MotionScrollArea
             key="configuration"
-            className="NewWidgetWizard"
+            className={content}
             transition={{ duration: 0.18 }}
             initial={{ translateX: "-50%", opacity: 0 }}
             animate={{ translateX: "0%", opacity: 1 }}
@@ -136,14 +153,14 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         {!inConfigurationStage && (
           <m.div
             key="select"
-            className="NewWidgetWizard"
+            className={content}
             transition={{ duration: 0.18 }}
             initial={{ translateX: "50%", opacity: 0 }}
             animate={{ translateX: "0%", opacity: 1 }}
             exit={{ translateX: "50%", opacity: 0 }}
           >
             <Input
-              className="search-input"
+              className={searchInput}
               value={_searchQuery}
               onValueChange={setSearchQuery}
               placeholder={t("search")}
@@ -153,9 +170,9 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
             {pluginsList.length === 0 ? (
               <EmptyState title={t("noResults")} />
             ) : (
-              <div className="two-column-content">
-                <div className="plugins-sidebar">
-                  <ScrollArea className="plugins-list">
+              <div className={twoColumn}>
+                <div className={sidebar}>
+                  <ScrollArea className={pluginsListScroll}>
                     <MenuList>
                       {pluginsList.map((plugin) => (
                         <MenuItem key={plugin.id} icon={plugin.icon} onClick={() => scrollToPlugin(plugin.id)}>
@@ -166,42 +183,20 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
                   </ScrollArea>
                 </div>
 
-                <div className="divider" />
+                <div className={divider} />
 
-                <ScrollArea className="widgets-area">
-                  <div className="new-widget-content">
-                    {pluginsList.map((plugin) => {
-                      return (
-                        <section
-                          key={plugin.id}
-                          ref={(el) => {
-                            pluginSectionRefs.current[plugin.id] = el;
-                          }}
-                        >
-                          <h2>{plugin.name}</h2>
-                          <div className="widgets-mock-background">
-                            <div className="widgets-mocks">
-                              {plugin.widgets.map((widget) => (
-                                <div
-                                  role="button"
-                                  tabIndex={0}
-                                  key={widget.id}
-                                  onClick={() => onWidgetClick(widget, plugin)}
-                                  onKeyDown={(e) => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                      onWidgetClick(widget, plugin);
-                                    }
-                                  }}
-                                >
-                                  <WidgetCard type="mock" widget={widget} plugin={plugin} />
-                                  <div className="widget-name">{widget.name}</div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </section>
-                      );
-                    })}
+                <ScrollArea className={widgetsArea}>
+                  <div className={widgetsContent}>
+                    {pluginsList.map((plugin) => (
+                      <PluginWidgetsSection
+                        key={plugin.id}
+                        plugin={plugin}
+                        onWidgetClick={onWidgetClick}
+                        ref={(el) => {
+                          pluginSectionRefs.current[plugin.id] = el;
+                        }}
+                      />
+                    ))}
                   </div>
                 </ScrollArea>
               </div>

@@ -21,7 +21,7 @@ const heading = cva({
     // Trim the heading's box to its cap-height/alphabetic edges so it hugs the glyphs — lets it align
     // cleanly when vertically centered next to controls. Progressive enhancement (ignored where
     // text-box isn't supported).
-    trim: { true: { textBox: "trim-both cap alphabetic" } },
+    singleLine: { true: { lineHeight: "1" } },
   },
 });
 
@@ -30,7 +30,7 @@ type HeadingOwnProps = {
   level?: HeadingLevel;
   // Visual size; defaults to `level`. Use to decouple appearance from semantics.
   size?: HeadingLevel;
-  trim?: boolean;
+  singleLine?: boolean;
   children?: ReactNode;
   className?: string;
   ref?: Ref<HTMLHeadingElement>;
@@ -42,14 +42,14 @@ export type HeadingProps = HeadingOwnProps &
   Omit<ComponentPropsWithoutRef<"h2">, keyof JsxStyleProps | "color">;
 
 export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(function Heading(
-  { level = 2, size, trim = true, className, children, ...rest },
+  { level = 2, size, singleLine = true, className, children, ...rest },
   ref,
 ) {
   const [cssProps, htmlProps] = splitCssProps(rest);
   const Tag = `h${level}` as ElementType;
   const sizeKey = String(size ?? level) as `${HeadingLevel}`;
   return (
-    <Tag ref={ref} className={cx(heading({ size: sizeKey, trim }), css(cssProps), className)} {...htmlProps}>
+    <Tag ref={ref} className={cx(heading({ size: sizeKey, singleLine }), css(cssProps), className)} {...htmlProps}>
       {children}
     </Tag>
   );

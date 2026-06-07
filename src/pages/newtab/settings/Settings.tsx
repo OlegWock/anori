@@ -45,7 +45,7 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
   return (
     <Modal
       title={screenPrettyName[screen]}
-      className="SettingsModal"
+      flush
       closable
       onClose={() => {
         onClose();

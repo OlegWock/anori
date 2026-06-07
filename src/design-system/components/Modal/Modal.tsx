@@ -20,6 +20,8 @@ export type ModalProps = {
   closeOnClickOutside?: boolean;
   onClose?: () => void;
   className?: string;
+  // Drop the body padding so content can sit edge-to-edge (it pads itself); the header stays inset.
+  flush?: boolean;
 };
 
 const backdrop = css({
@@ -48,17 +50,21 @@ const modalCss = css({
   display: "flex",
   flexDirection: "column",
   color: "text.primary",
-  padding: "6",
   maxWidth: "80dvw",
   maxHeight: "80dvh",
 });
+// Default: pad the whole content. `flush` drops this — the body then lays out edge-to-edge and pads
+// itself, while the header keeps its own padding (below) so the title/close stay inset.
+const contentPadding = css({ padding: "6" });
 
 const headerCss = css({
   display: "flex",
-  gap: "4",
+  gap: "2",
   alignItems: "center",
   marginBottom: "6",
 });
+// In flush modals the content has no padding, so the header carries its own.
+const headerFlushPadding = css({ pt: "6", px: "6" });
 
 // Spin the close icon on hover (the old flourish), via the inner svg so the button's own transition
 // is untouched.
@@ -76,6 +82,7 @@ export const Modal = ({
   onClose,
   closeOnClickOutside,
   headerButton,
+  flush,
 }: ModalProps) => {
   const { t } = useTranslation();
   useHotkeys("esc", () => {
@@ -105,10 +112,13 @@ export const Modal = ({
         style={{ height: isPresent ? animatedHeight : undefined }}
         transition={{ y: { duration: 0.2 } }}
       >
-        <m.div className={clsx(modalCss, className)} onClick={(e) => e.stopPropagation()} layoutId={layoutId} ref={ref}>
-          {/* `modal-header` marker kept for not-yet-migrated callers whose SCSS zeroes the modal
-              padding and re-pads the header via a `.modal-header` descendant rule. */}
-          <div className={clsx(headerCss, "modal-header")}>
+        <m.div
+          className={clsx(modalCss, !flush && contentPadding, className)}
+          onClick={(e) => e.stopPropagation()}
+          layoutId={layoutId}
+          ref={ref}
+        >
+          <div className={clsx(headerCss, flush && headerFlushPadding)}>
             {headerButton}
             <Heading level={1} flexGrow={1}>
               {title}

@@ -117,7 +117,13 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
 
       <AnimatePresence>
         {whatsNewVisible && (
-          <Modal title={t("whatsNew")} className="WhatsNew-modal" closable onClose={() => setWhatsNewVisible(false)}>
+          <Modal
+            title={t("whatsNew")}
+            className="WhatsNew-modal"
+            flush
+            closable
+            onClose={() => setWhatsNewVisible(false)}
+          >
             <WhatsNew />
           </Modal>
         )}
