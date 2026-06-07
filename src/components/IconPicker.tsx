@@ -15,9 +15,9 @@ import { Select } from "@anori/components/lazy-components";
 import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/custom-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useIconSets, useIconsSuspense } from "@anori/design-system/components/Icon/remote-icons";
+import { Input } from "@anori/design-system/components/Input/Input";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
-import { Input } from "./Input";
 import type { PopoverRenderProps } from "./Popover";
 import { Tooltip } from "./Tooltip";
 

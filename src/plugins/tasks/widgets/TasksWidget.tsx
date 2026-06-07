@@ -1,11 +1,11 @@
 import "../styles.scss";
 import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/components/Checkbox";
-import { Textarea } from "@anori/components/Input";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Textarea } from "@anori/design-system/components/Input/Input";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";

@@ -153,7 +153,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
 
     "text-primary": neutral[byMode(mode, 11, 1)],
     "text-subtle": neutral[byMode(mode, 9, 4)],
-    "text-placeholder": neutral[byMode(mode, 7, 6)],
+    "text-placeholder": neutral[byMode(mode, 8, 6)],
     "text-disabled": neutral[byMode(mode, 6, 7)],
   };
 

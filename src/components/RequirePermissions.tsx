@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import browser from "webextension-polyfill";
 import "./RequirePermissions.scss";
+import { Modal } from "@anori/design-system/components/Modal/Modal";
 import {
   type CorrectPermission,
   containsHostPermission,
@@ -14,7 +15,6 @@ import {
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Modal } from "./Modal/Modal";
 
 export type RequirePermissionsProps = {
   additionalInfo?: string;

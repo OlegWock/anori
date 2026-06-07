@@ -1,10 +1,10 @@
 import { Favicon } from "@anori/design-system/components/Icon/Favicon";
+import { Input } from "@anori/design-system/components/Input/Input";
 import { useSizeSettings } from "@anori/utils/compact";
 import { m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
-import { Input } from "./Input";
 import type { PopoverRenderProps } from "./Popover";
 import { RequirePermissions } from "./RequirePermissions";
 import { ScrollArea } from "./ScrollArea";

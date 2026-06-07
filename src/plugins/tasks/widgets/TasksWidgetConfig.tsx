@@ -1,6 +1,6 @@
 import "../styles.scss";
 import { Button } from "@anori/components/Button";
-import { Input } from "@anori/components/Input";
+import { Input } from "@anori/design-system/components/Input/Input";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

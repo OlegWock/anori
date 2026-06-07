@@ -1,9 +1,9 @@
 import { Button } from "@anori/components/Button";
-import { Input } from "@anori/components/Input";
 import { Tooltip } from "@anori/components/Tooltip";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { isValidCustomIconName, useCustomIcons } from "@anori/design-system/components/Icon/custom-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Input } from "@anori/design-system/components/Input/Input";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";

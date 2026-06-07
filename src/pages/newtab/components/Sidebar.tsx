@@ -1,7 +1,7 @@
-import { Modal } from "@anori/components/Modal/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { SidebarButton } from "@anori/components/SidebarButton/SidebarButton";
+import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { useHotkeys } from "@anori/utils/hooks";
 import { useStorageValue } from "@anori/utils/storage-lib";
 

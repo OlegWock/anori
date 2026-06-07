@@ -1,8 +1,8 @@
 import "./DatetimeWidgetConfig.scss";
 import { Button } from "@anori/components/Button";
 import { Combobox } from "@anori/components/Combobox";
-import { Input } from "@anori/components/Input";
 import { Select } from "@anori/components/lazy-components";
+import { Input } from "@anori/design-system/components/Input/Input";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { capitalize } from "@anori/utils/strings";
 import moment from "moment-timezone";

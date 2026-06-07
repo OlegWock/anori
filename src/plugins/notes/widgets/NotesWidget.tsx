@@ -1,4 +1,4 @@
-import { Input, Textarea } from "@anori/components/Input";
+import { Input, Textarea } from "@anori/design-system/components/Input/Input";
 import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import "./NotesWidget.scss";
 

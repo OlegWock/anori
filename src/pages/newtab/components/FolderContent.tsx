@@ -1,11 +1,11 @@
 import { AnimatePresence, m } from "framer-motion";
 import "./FolderContent.scss";
-import { Modal } from "@anori/components/Modal/Modal";
 import { ScrollArea } from "@anori/components/ScrollArea";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { useSizeSettings } from "@anori/utils/compact";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
