@@ -1,4 +1,5 @@
 import { type HsvaColor, hexToHsva, hslaStringToHsva, hsvaToHsla, rgbaStringToHsva, validHex } from "@uiw/react-color";
+import { converter } from "culori";
 
 export type Color = {
   // HSL
@@ -6,6 +7,30 @@ export type Color = {
   saturation: number;
   lightness: number;
   alpha: number;
+};
+
+// OKLCH triplet (l 0..1, c chroma, h degrees). The design system's source-of-truth color shape.
+export type OklchColor = { l: number; c: number; h: number };
+
+const culoriToHsl = converter("hsl");
+const culoriToOklch = converter("oklch");
+
+// Compatibility bridge between the OKLCH source of truth and the legacy HSL `Color` used by the old
+// theming vars / color picker / storage.
+export const oklchToColor = (o: OklchColor): Color => {
+  const hsl = culoriToHsl({ mode: "oklch", l: o.l, c: o.c, h: o.h });
+  return { hue: (hsl?.h ?? 0) / 360, saturation: hsl?.s ?? 0, lightness: hsl?.l ?? 0, alpha: 1 };
+};
+
+export const colorToOklch = (c: Color): OklchColor => {
+  const o = culoriToOklch({ mode: "hsl", h: c.hue * 360, s: c.saturation, l: c.lightness });
+  return { l: o?.l ?? 0, c: o?.c ?? 0, h: o?.h ?? 0 };
+};
+
+// Formats a `Color` as an `oklch(L C H / A)` string (alpha carried from the `Color`).
+export const toCssOklch = (c: Color): string => {
+  const o = colorToOklch(c);
+  return `oklch(${o.l.toFixed(4)} ${o.c.toFixed(4)} ${o.h.toFixed(2)} / ${c.alpha})`;
 };
 
 const clamp = (val: number, min: number, max: number) => Math.min(max, Math.max(val, min));

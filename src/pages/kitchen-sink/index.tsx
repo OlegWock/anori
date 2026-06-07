@@ -9,7 +9,6 @@ import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Box } from "styled-system/jsx";
 import { HueChromaPicker } from "./components/HueChromaPicker";
 import { PrimitiveScales, SemanticTokens } from "./components/Swatches";
 import { builtinThemePresets } from "./lib/theme-migration";
@@ -157,23 +156,6 @@ function App() {
               <Button disabled>Disabled</Button>
             </div>
           </Card>
-        </div>
-
-        <div>
-          <h2 className="ks-section-title">Panda (sanity check)</h2>
-          <Box
-            bg="surface"
-            color="text.primary"
-            p="4"
-            borderRadius="lg"
-            fontSize="lg"
-            borderWidth="1px"
-            borderStyle="solid"
-            borderColor="border"
-            maxW="20rem"
-          >
-            Panda Box — p="4" / borderRadius="lg" / fontSize="lg" mapped to our scales, colors from runtime --ds-* vars.
-          </Box>
         </div>
 
         <SemanticTokens palette={palette} />

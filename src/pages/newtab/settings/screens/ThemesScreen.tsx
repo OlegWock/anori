@@ -10,6 +10,7 @@ import {
   getThemeBackground,
   getThemeBackgroundOriginal,
   type PartialCustomTheme,
+  resolveThemeColors,
   saveThemeBackground,
   type Theme,
   themes,
@@ -62,6 +63,8 @@ const ThemePlate = ({
     }
   }, [theme]);
 
+  const plateColors = resolveThemeColors(theme);
+
   return (
     <div className={clsx("BackgroundPlate", className)}>
       <Button
@@ -73,9 +76,9 @@ const ThemePlate = ({
         {...props}
       >
         <div className="color-cirles-wrapper">
-          <div className="color-circle" style={{ backgroundColor: toCss(theme.colors.background) }} />
-          <div className="color-circle" style={{ backgroundColor: toCss(theme.colors.text) }} />
-          <div className="color-circle" style={{ backgroundColor: toCss(theme.colors.accent) }} />
+          <div className="color-circle" style={{ backgroundColor: toCss(plateColors.background) }} />
+          <div className="color-circle" style={{ backgroundColor: toCss(plateColors.text) }} />
+          <div className="color-circle" style={{ backgroundColor: toCss(plateColors.accent) }} />
         </div>
       </Button>
 
@@ -198,11 +201,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
       name: guid(),
       type: "custom",
       blur: 5,
-      colors: {
-        accent: currentTheme.colors.accent,
-        background: currentTheme.colors.background,
-        text: currentTheme.colors.text,
-      },
+      colors: resolveThemeColors(currentTheme),
     };
   });
 

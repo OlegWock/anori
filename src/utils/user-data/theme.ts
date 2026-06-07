@@ -8,6 +8,7 @@ export {
   applyTheme,
   applyThemeColors,
   defaultTheme,
+  resolveThemeColors,
   themes,
 } from "./theme-base";
 
