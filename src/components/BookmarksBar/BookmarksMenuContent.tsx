@@ -1,4 +1,4 @@
-import { ScrollArea } from "@anori/components/ScrollArea";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useDirection } from "@radix-ui/react-direction";
 import * as Menubar from "@radix-ui/react-menubar";
@@ -82,12 +82,7 @@ export const VirtualizedBookmarksMenuContent = ({
 
   return (
     <WrapperComponent className={menuContent({ shift })} {...wrapperProps}>
-      <ScrollArea
-        color="translucent"
-        onVerticalOverflowStatusChange={setScrollAreaOverflows}
-        size="thin"
-        viewportRef={scrollAreaRef}
-      >
+      <ScrollArea onVerticalOverflowStatusChange={setScrollAreaOverflows} size="thin" viewportRef={scrollAreaRef}>
         <div style={{ height: virtualizer.getTotalSize() }}>
           <div style={{ transform: `translateY(${firstItemOffset}px)` }}>
             {virtualizedItems.map((virtualItem) => {

@@ -1,8 +1,8 @@
 import "./RecentlyClosedWidget.scss";
 import { RelativeTime } from "@anori/components/RelativeTime";
-import { ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { wait } from "@anori/utils/misc";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
@@ -93,7 +93,7 @@ export const WidgetScreen = ({ instanceId }: WidgetRenderProps<EmptyObject>) => 
   return (
     <div className="RecentlyClosedWidget">
       <h2>{t("recently-closed-plugin.widgetTitle")}</h2>
-      <ScrollArea className="sessions-list" color="dark" type="hover">
+      <ScrollArea className="sessions-list" type="hover">
         {sessions
           .filter((s) => {
             const url = s.tab ? s.tab.url : "";

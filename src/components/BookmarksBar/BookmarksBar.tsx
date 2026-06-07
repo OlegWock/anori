@@ -1,5 +1,5 @@
 import { RequirePermissions } from "@anori/components/RequirePermissions";
-import { ScrollArea } from "@anori/components/ScrollArea";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { usePermissionsQuery } from "@anori/utils/permissions";
 import { useDirection } from "@radix-ui/react-direction";
@@ -64,7 +64,6 @@ const BookmarksBarComponent = () => {
       <ScrollArea
         type="hover"
         direction="horizontal"
-        color="translucent"
         size="thin"
         className={barWrapper}
         mirrorVerticalScrollToHorizontal

@@ -2,10 +2,10 @@ import "../styles.scss";
 import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/components/Checkbox";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
-import { ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Textarea } from "@anori/design-system/components/Input/Input";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
@@ -223,7 +223,7 @@ export const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
           <Icon icon={builtinIcons.add} height={16} />
         </Button>
       </div>
-      <ScrollArea color="dark" style={{ display: tasks.length === 0 ? "none" : "flex" }}>
+      <ScrollArea style={{ display: tasks.length === 0 ? "none" : "flex" }}>
         <LayoutGroup>
           <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layoutScroll layoutRoot>
             <AnimatePresence initial={false}>

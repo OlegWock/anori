@@ -1,8 +1,8 @@
 import { Button } from "@anori/components/Button";
-import { ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence } from "framer-motion";
 import { useAtom } from "jotai";

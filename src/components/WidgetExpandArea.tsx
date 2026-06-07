@@ -10,6 +10,7 @@ import {
 import "./WidgetExpandArea.scss";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
@@ -17,7 +18,6 @@ import { useDirection } from "@radix-ui/react-direction";
 import clsx from "clsx";
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { ScrollArea } from "./ScrollArea";
 import { useParentWidgetCardRef } from "./WidgetCard/context";
 
 export type WidgetExpandAreaProps = {
@@ -289,7 +289,7 @@ export const WidgetExpandArea = ({
         >
           {withoutScroll && children}
           {!withoutScroll && (
-            <ScrollArea color="dark" type="hover" direction="both">
+            <ScrollArea type="hover" direction="both">
               {children}
             </ScrollArea>
           )}

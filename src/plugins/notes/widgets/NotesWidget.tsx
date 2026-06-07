@@ -4,7 +4,7 @@ import "./NotesWidget.scss";
 
 import { Link } from "@anori/components/Link";
 import { ReactMarkdown } from "@anori/components/lazy-components";
-import { ScrollArea } from "@anori/components/ScrollArea";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
@@ -103,7 +103,7 @@ export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
             switchEditing(true);
           }}
         >
-          <ScrollArea type="hover" color="dark">
+          <ScrollArea type="hover">
             {!!body && (
               <div className="note-body-rendered-content">
                 <ReactMarkdown

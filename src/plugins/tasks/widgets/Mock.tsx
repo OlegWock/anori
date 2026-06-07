@@ -2,10 +2,10 @@ import "../styles.scss";
 import { listItemAnimation } from "@anori/components/animations";
 import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/components/Checkbox";
-import { ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import type { Task } from "@anori/utils/storage";
 import { AnimatePresence, m } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,7 @@ export const Mock = () => {
           <Icon icon={builtinIcons.add} height={16} />
         </Button>
       </div>
-      <ScrollArea color="dark">
+      <ScrollArea>
         <m.div className="tasks-list">
           <AnimatePresence initial={false}>
             {tasks.map((t) => {

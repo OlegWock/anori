@@ -1,4 +1,4 @@
-import { ScrollArea } from "./ScrollArea";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import "./WhatsNew.scss";
 import { useTranslation } from "react-i18next";
 

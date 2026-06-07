@@ -1,10 +1,10 @@
 import { EmptyState } from "@anori/components/EmptyState";
-import { MotionScrollArea, ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { MenuItem, MenuList } from "@anori/design-system/components/MenuList/MenuList";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
+import { MotionScrollArea, ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import type { GridContent, GridDimensions } from "@anori/utils/grid/types";
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";

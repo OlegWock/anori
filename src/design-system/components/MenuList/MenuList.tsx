@@ -3,9 +3,6 @@ import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { css, cva, cx } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-// A vertical list of selectable rows (icon + label), e.g. a sidebar nav / section jump-list. The
-// container is a styled div so it also takes Panda style props; wrap it in a <ScrollArea> if it can
-// overflow.
 export const MenuList = styled("div", {
   base: { display: "flex", flexDirection: "column", gap: "0-5" },
 });

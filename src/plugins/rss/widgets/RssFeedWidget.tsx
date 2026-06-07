@@ -1,6 +1,6 @@
-import { ScrollArea } from "@anori/components/ScrollArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import clsx from "clsx";
 import { Fragment, useMemo } from "react";
@@ -37,7 +37,7 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
           onClick={() => refresh()}
         />
       </div>
-      <ScrollArea type="hover" color="dark">
+      <ScrollArea type="hover">
         <div className={clsx("posts", config.compactView && "compact")}>
           {trimmedFeed.map((post, i) => {
             if (i === 0) return <Post post={post} key={post.url} compact={config.compactView} />;
@@ -100,7 +100,7 @@ export const RssFeedMock = () => {
         <h2>{t("rss-plugin.name")}</h2>
         <IconButton variant="frosted" icon={builtinIcons.refresh} label={t("refresh")} />
       </div>
-      <ScrollArea type="hover" color="dark">
+      <ScrollArea type="hover">
         <div className="posts">
           {feed.map((post, i) => {
             if (i === 0) return <Post post={post} key={i.toString()} />;

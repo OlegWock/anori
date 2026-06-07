@@ -1,8 +1,6 @@
-import * as RadixScrollArea from "@radix-ui/react-scroll-area";
-import "./ScrollArea.scss";
 import { combineRefs } from "@anori/utils/react";
 import { useDirection } from "@radix-ui/react-direction";
-import clsx from "clsx";
+import * as RadixScrollArea from "@radix-ui/react-scroll-area";
 import { m } from "framer-motion";
 import {
   type ComponentProps,
@@ -14,12 +12,13 @@ import {
   useRef,
   type WheelEvent,
 } from "react";
+import { css, cva, cx } from "styled-system/css";
+import "./ScrollArea.css";
 
 type ScrollAreaProps = {
   children?: ReactNode;
   className?: string;
   contentClassName?: string;
-  color?: "light" | "dark" | "translucent";
   type?: RadixScrollArea.ScrollAreaContextValue["type"];
   direction?: "vertical" | "horizontal" | "both";
   mirrorVerticalScrollToHorizontal?: boolean;
@@ -28,6 +27,77 @@ type ScrollAreaProps = {
   onHorizontalOverflowStatusChange?: (overflows: boolean) => void;
   viewportRef?: Ref<HTMLDivElement>;
 } & ComponentProps<typeof m.div>;
+
+// Each radix part is styled directly (not via descendant selectors on the root). The parts also keep
+// their marker class names (ScrollAreaRoot/Viewport/Scrollbar) — a public hook a few widgets target
+// from SCSS. `--scrollbar-size` is set on the root by the `size` variant and inherited by the rail/thumb.
+const root = cva({
+  base: {
+    borderRadius: "xs",
+    overflow: "hidden",
+    backgroundColor: "transparent",
+    display: "flex",
+    flexDirection: "column",
+  },
+  variants: {
+    size: { normal: { "--scrollbar-size": "10px" }, thin: { "--scrollbar-size": "7px" } },
+    direction: { vertical: { overflowX: "hidden" }, horizontal: {}, both: {} },
+  },
+  defaultVariants: { size: "normal", direction: "vertical" },
+});
+
+const viewport = css({
+  width: "100%",
+  height: "100%",
+  borderRadius: "inherit",
+  flexShrink: 1,
+});
+
+const scrollbar = cva({
+  base: {
+    display: "flex",
+    userSelect: "none",
+    touchAction: "none",
+    padding: "0-5",
+    borderRadius: "var(--scrollbar-size)",
+    background: "transparent",
+    transition: "background 160ms ease-out",
+  },
+  variants: {
+    orientation: {
+      vertical: { width: "var(--scrollbar-size)" },
+      horizontal: { flexDirection: "column", height: "var(--scrollbar-size)" },
+    },
+  },
+});
+
+const thumb = cva({
+  base: {
+    flex: 1,
+    background: "frosted",
+    borderRadius: "var(--scrollbar-size)",
+    position: "relative",
+    // Larger touch target than the visible thumb (WCAG target size).
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "100%",
+      height: "100%",
+    },
+  },
+  variants: {
+    orientation: {
+      vertical: { "&::before": { minHeight: "44px" } },
+      horizontal: { "&::before": { minWidth: "44px" } },
+    },
+  },
+  defaultVariants: { orientation: "vertical" },
+});
+
+const corner = css({ background: "transparent" });
 
 const checkVerticalOverflow = (el: Element) => el.clientHeight < el.scrollHeight;
 const checkHorizontalOverflow = (el: Element) => el.clientWidth < el.scrollWidth;
@@ -41,7 +111,6 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
       className,
       contentClassName,
       type = "auto",
-      color = "light",
       direction = "vertical",
       onHorizontalOverflowStatusChange,
       onVerticalOverflowStatusChange,
@@ -85,7 +154,7 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
     return (
       <RadixScrollArea.Root
         dir={dir}
-        className={clsx("ScrollAreaRoot", className, `color-${color}`, `direction-${direction}`, `size-${size}`)}
+        className={cx(root({ size, direction }), "ScrollAreaRoot", className)}
         asChild
         type={type}
         ref={ref}
@@ -93,7 +162,7 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
         <m.div {...props}>
           <ResizeObserverComponent onResize={onContentResize} />
           <MotionViewport
-            className={clsx("ScrollAreaViewport", contentClassName)}
+            className={cx(viewport, "ScrollAreaViewport", contentClassName)}
             ref={mergedRef}
             layoutScroll
             layoutRoot
@@ -102,16 +171,22 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
             {children}
           </MotionViewport>
           {["vertical", "both"].includes(direction) && (
-            <RadixScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="vertical">
-              <RadixScrollArea.Thumb className="ScrollAreaThumb" />
+            <RadixScrollArea.Scrollbar
+              className={cx(scrollbar({ orientation: "vertical" }), "ScrollAreaScrollbar")}
+              orientation="vertical"
+            >
+              <RadixScrollArea.Thumb className={cx(thumb({ orientation: "vertical" }), "ScrollAreaThumb")} />
             </RadixScrollArea.Scrollbar>
           )}
           {["horizontal", "both"].includes(direction) && (
-            <RadixScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="horizontal">
-              <RadixScrollArea.Thumb className="ScrollAreaThumb" />
+            <RadixScrollArea.Scrollbar
+              className={cx(scrollbar({ orientation: "horizontal" }), "ScrollAreaScrollbar")}
+              orientation="horizontal"
+            >
+              <RadixScrollArea.Thumb className={cx(thumb({ orientation: "horizontal" }), "ScrollAreaThumb")} />
             </RadixScrollArea.Scrollbar>
           )}
-          <RadixScrollArea.Corner className="ScrollAreaCorner" />
+          <RadixScrollArea.Corner className={cx(corner, "ScrollAreaCorner")} />
         </m.div>
       </RadixScrollArea.Root>
     );

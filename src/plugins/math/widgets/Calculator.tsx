@@ -1,6 +1,6 @@
 import { Button } from "@anori/components/Button";
-import { ScrollArea } from "@anori/components/ScrollArea";
 import { Input } from "@anori/design-system/components/Input/Input";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { cachedFunc, guid } from "@anori/utils/misc";
@@ -97,7 +97,7 @@ export const Calculator = ({
     <div className={clsx("Calculator")}>
       {showHistory && (
         <div className="history-wrapper">
-          <ScrollArea type="hover" color="dark" viewportRef={historyRef}>
+          <ScrollArea type="hover" viewportRef={historyRef}>
             <div className="history">
               {history.map(({ exp, result, id }) => {
                 return (
