@@ -1,5 +1,5 @@
-import { Button } from "@anori/components/Button";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { trackEvent } from "@anori/utils/analytics";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
@@ -10,10 +10,13 @@ import JSZip from "jszip";
 import moment from "moment-timezone";
 import type { ComponentProps } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
-import "./ImportExportScreen.scss";
 
 const BACKUP_FORMAT_VERSION = 1;
+
+const screen = css({ display: "flex", flexDirection: "column", gap: "3" });
+const buttons = css({ display: "flex", justifyContent: "space-around", marginTop: "2" });
 
 export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
@@ -124,7 +127,7 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
   };
 
   return (
-    <m.div {...props} className="ImportExportScreen">
+    <m.div {...props} className={screen}>
       <Heading level={2} size={1}>
         {t("settings.importExport.title")}
       </Heading>
@@ -135,9 +138,11 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
         </Trans>
       </Alert>
       <div>{t("settings.importExport.info")}</div>
-      <div className="import-export-button">
+      <div className={buttons}>
         <Button onClick={importSettings}>{t("settings.importExport.import")}</Button>
-        <Button onClick={exportSettings}>{t("settings.importExport.export")}</Button>
+        <Button variant="secondary" onClick={exportSettings}>
+          {t("settings.importExport.export")}
+        </Button>
       </div>
     </m.div>
   );

@@ -8,7 +8,7 @@ import { GeneralSettingsScreen } from "./screens/GeneralSettingsScreen";
 import { HelpAboutScreen } from "./screens/HelpAboutScreen";
 import { ImportExportScreen } from "./screens/ImportExportScreen";
 import { PluginsScreen } from "./screens/PluginsScreen";
-import { ThemesScreen } from "./screens/ThemesScreen";
+import { ThemesScreen } from "./screens/ThemesScreen/ThemesScreen";
 import type { SettingScreen } from "./settings-atoms";
 
 export type SettingsSection = {

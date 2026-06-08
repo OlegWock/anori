@@ -15,7 +15,17 @@ import { useStorageValue } from "@anori/utils/storage-lib";
 import { m } from "framer-motion";
 import { type ComponentProps, useEffect, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import "./GeneralSettingsScreen.scss";
+import { css } from "styled-system/css";
+
+const screen = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "3",
+  // Stretch controls inside Field wrappers to the column width.
+  "& .Input, & .SelectTrigger": { width: "100%" },
+});
+const translationAlert = css({ marginTop: "4" });
+const screenSizeHint = css({ marginLeft: "1" });
 
 export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
   const [language, setLanguage] = useStorageValue(anoriSchema.language);
@@ -48,7 +58,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
   }, [newTabTitle]);
 
   return (
-    <m.div {...props} className="GeneralSettingsScreen">
+    <m.div {...props} className={screen}>
       <Heading level={2} size={1}>
         {t("settings.general.title")}
       </Heading>
@@ -65,7 +75,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
         />
       </Field>
-      <Alert variant="info" className="translation-alert">
+      <Alert variant="info" className={translationAlert}>
         <Trans t={t} i18nKey="settings.general.translationInfo">
           {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://github.com/OlegWock/anori/issues/104" />
@@ -146,7 +156,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
               onChange={setAutomaticCompactModeThreshold}
             />
           </Field>
-          <div className="screen-size-hint">
+          <div className={screenSizeHint}>
             {t("settings.general.automaticCompactModeThresholdHint", { screenWidth: screenWidth })}
           </div>
         </div>
