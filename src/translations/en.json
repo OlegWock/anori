@@ -127,8 +127,11 @@
             },
             "folders": {
                 "title": "Folders",
-                "createNew": "Create new folder",
-                "defaultName": "New folder"
+                "createNew": "New folder",
+                "defaultName": "New folder",
+                "reorder": "Reorder",
+                "changeIcon": "Change icon",
+                "removeFolder": "Remove folder"
             },
             "pluginSettings": {
                 "title": "Plugin settings"

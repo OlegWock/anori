@@ -11,9 +11,10 @@ export const Icon = ({ icon, cache = true, size = "md", className, width, height
   // out above so Panda doesn't hijack them (sizing stays numeric; transition stays framer-motion's).
   const [cssProps, forwardProps] = splitCssProps(rest);
   const mergedClassName = cx(css(cssProps), className) || undefined;
-  // `size` sets the height; width stays automatic so non-square icons keep their aspect ratio.
-  // An explicit `height` wins over `size`.
-  const resolvedHeight = height ?? (size ? ICON_SIZES[size] : undefined);
+  // `size` sets the height; width stays automatic so non-square icons keep their aspect ratio. An
+  // explicit `height` wins over `size`; an explicit `width` alone also suppresses the default height,
+  // so the icon keeps its aspect instead of being squished to width × size-height.
+  const resolvedHeight = height ?? (width === undefined && size ? ICON_SIZES[size] : undefined);
 
   const [family, iconName] = useMemo(() => icon.split(":"), [icon]);
 
