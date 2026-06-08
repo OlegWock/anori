@@ -120,7 +120,10 @@
                 "nameContainsInvalidChars": "Name contains invalid characters, only letters, digits, - and _ are accepted.",
                 "saveIcons": "Save icons",
                 "supportedFormats": "Anori supports .png, .jpg, .gif and .svg. It's best to use square images between 128 and 256 pixels wide (not applicable to .svg).",
-                "importIcons": "Import icons"
+                "addIcons": "Add icons",
+                "removeIcon": "Remove icon",
+                "newIcons": "New icons",
+                "discardIcons": "Discard"
             },
             "folders": {
                 "title": "Folders",

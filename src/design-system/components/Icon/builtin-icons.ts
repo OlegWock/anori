@@ -45,6 +45,7 @@ import IonResize from "~icons/ion/resize?raw";
 import IonSettingsSharp from "~icons/ion/settings-sharp?raw";
 import IonSpeedometer from "~icons/ion/speedometer?raw";
 import IonTimeOutline from "~icons/ion/time-outline?raw";
+import IonTrash from "~icons/ion/trash?raw";
 import IonWarning from "~icons/ion/warning?raw";
 import JamRefresh from "~icons/jam/refresh?raw";
 import LogosFacebook from "~icons/logos/facebook?raw";
@@ -91,6 +92,7 @@ const builtinIconSvgsBySourceId = {
   "ion:checkmark": IonCheckmark,
   "ion:checkmark-sharp": IonCheckmarkSharp,
   "ion:information-circle": IonInformationCircle,
+  "ion:trash": IonTrash,
   "ion:warning": IonWarning,
   "ion:alert-circle": IonAlertCircle,
   "ion:help-circle": IonHelpCircle,
@@ -170,6 +172,7 @@ export const builtinIcons = {
   check: "ion:checkmark",
   checkSharp: "ion:checkmark-sharp",
   informationCircle: "ion:information-circle",
+  trash: "ion:trash",
   warning: "ion:warning",
   alertCircle: "ion:alert-circle",
   helpCircle: "ion:help-circle",

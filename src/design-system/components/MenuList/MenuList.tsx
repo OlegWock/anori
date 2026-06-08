@@ -51,7 +51,7 @@ export const MenuItem = forwardRef<HTMLButtonElement, MenuItemProps>(function Me
 ) {
   return (
     <button ref={ref} type="button" className={cx(item({ active }), className)} {...props}>
-      {icon && <Icon icon={icon} width={20} height={20} />}
+      {icon && <Icon icon={icon} width={20} height={20} color="icon" />}
       <span className={label}>{children}</span>
     </button>
   );

@@ -328,7 +328,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="ThemesScreen">
-      <Heading level={2} alignSelf="flex-start">
+      <Heading level={2} size={1} alignSelf="flex-start">
         {t("settings.theme.title")}
       </Heading>
       {editorActive ? (

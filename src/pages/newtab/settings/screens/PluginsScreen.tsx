@@ -10,7 +10,9 @@ export const PluginsScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
   return (
     <m.div {...props} className="PluginsScreen">
-      <Heading level={2}>{t("settings.pluginSettings.title")}</Heading>
+      <Heading level={2} size={1}>
+        {t("settings.pluginSettings.title")}
+      </Heading>
       {availablePlugins
         .filter((p) => p.configurationScreen !== null)
         .map((p) => {

@@ -171,6 +171,7 @@ export default defineConfig({
             DEFAULT: { value: "var(--ds-on-accent)" },
             disabled: { value: "var(--ds-on-accent-disabled)" },
           },
+          icon: { value: "var(--ds-icon)" },
           text: {
             primary: { value: "var(--ds-text-primary)" },
             subtle: { value: "var(--ds-text-subtle)" },

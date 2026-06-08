@@ -20,6 +20,9 @@ export type IconButtonProps = Omit<ButtonProps, "children" | "iconStart" | "icon
 const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center" });
 // Ghost has no fill/edge framing the icon, so a 1em glyph reads too small — bump it up.
 const ghostIcon = css({ "& svg": { height: "1.375em" } });
+// Non-primary icon buttons sit on neutral/transparent surfaces; soften their glyph with the icon token
+// (primary keeps its on-accent fill for contrast).
+const iconColor = css({ "& svg": { color: "icon" } });
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
   { icon, label, tooltip, showTooltip = true, variant, className, ...props },
@@ -33,7 +36,12 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
         variant={variant}
         iconStart={icon}
         aria-label={label}
-        className={cx(iconButton, variant === "ghost" && ghostIcon, className)}
+        className={cx(
+          iconButton,
+          variant === "ghost" && ghostIcon,
+          variant && variant !== "primary" && iconColor,
+          className,
+        )}
         {...props}
       />
     </Tooltip>

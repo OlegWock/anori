@@ -160,6 +160,9 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "text-subtle": neutral[byMode(mode, 10, 5)],
     "text-placeholder": neutral[byMode(mode, 9, 7)],
     "text-disabled": neutral[byMode(mode, 7, 8)],
+    // Glyph foreground for decorative/secondary icons: softer than text so a solid fill does not
+    // out-weigh adjacent text.
+    icon: neutral[byMode(mode, 9, 5)],
 
     // Frosted overlays: text-primary at low alpha (so they adapt to mode) for translucent surfaces
     // over a backdrop blur — bookmarks bar/menus, and the frosted/ghost buttons.

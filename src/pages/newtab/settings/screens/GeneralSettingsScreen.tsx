@@ -48,7 +48,9 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="GeneralSettingsScreen">
-      <Heading level={2}>{t("settings.general.title")}</Heading>
+      <Heading level={2} size={1}>
+        {t("settings.general.title")}
+      </Heading>
       <div className="input-wrapper">
         <label>{t("settings.general.language")}:</label>
         <Select<Language>

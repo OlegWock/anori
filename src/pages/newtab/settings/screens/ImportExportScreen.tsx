@@ -125,7 +125,9 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="ImportExportScreen">
-      <Heading level={2}>{t("settings.importExport.title")}</Heading>
+      <Heading level={2} size={1}>
+        {t("settings.importExport.title")}
+      </Heading>
       <Alert variant="info">
         <Trans t={t} i18nKey="settings.importExport.cloudSyncHint">
           {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}

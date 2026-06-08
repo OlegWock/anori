@@ -17,7 +17,9 @@ export const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="FoldersScreen">
-      <Heading level={2}>{t("settings.folders.title")}</Heading>
+      <Heading level={2} size={1}>
+        {t("settings.folders.title")}
+      </Heading>
       <m.div>
         <FolderItem folder={homeFolder} />
         <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">

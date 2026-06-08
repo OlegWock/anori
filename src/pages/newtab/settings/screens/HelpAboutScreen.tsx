@@ -11,7 +11,9 @@ export const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
   const { t, i18n } = useTranslation();
   return (
     <m.div {...props} className="HelpAboutScreen">
-      <Heading level={2}>{t("settings.aboutHelp.title")}</Heading>
+      <Heading level={2} size={1}>
+        {t("settings.aboutHelp.title")}
+      </Heading>
       <img src={vtuberLogo} alt="Anori logo" className="logo" />
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p1">
