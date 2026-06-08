@@ -1,13 +1,17 @@
-import { Button } from "@anori/components/Button";
 import { Select } from "@anori/components/lazy-components";
-import { Alert } from "@anori/design-system/components/Alert/Alert";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { useAsyncEffect } from "@anori/utils/hooks";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import { callAnkiConnectApi } from "../api";
 import type { AnkiPluginWidgetConfigType } from "../types";
-import "./AnkiWidgetConfig.scss";
+import { AnkiUnreachable } from "./AnkiUnreachable";
+
+const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
+const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 
 export const WidgetConfigScreen = ({
   saveConfiguration,
@@ -35,12 +39,11 @@ export const WidgetConfigScreen = ({
     }
   }, []);
 
-  return (
-    <div className="AnkiWidget-config">
-      {!reachable && <Alert>{t("anki-plugin.error")}</Alert>}
-      <div className="field">
-        <label>{t("anki-plugin.deck")}:</label>
+  if (!reachable) return <AnkiUnreachable />;
 
+  return (
+    <div className={config}>
+      <Field label={`${t("anki-plugin.deck")}:`}>
         <Select<string>
           options={Object.keys(decks)}
           value={deckName}
@@ -48,9 +51,9 @@ export const WidgetConfigScreen = ({
           getOptionKey={(o) => o}
           getOptionLabel={(o) => o}
         />
-      </div>
+      </Field>
 
-      <Button className="save-config" onClick={onConfirm} disabled={!reachable}>
+      <Button variant="frosted" className={saveConfig} onClick={onConfirm}>
         Save
       </Button>
     </div>
