@@ -1,7 +1,16 @@
-import { Button, type ButtonProps } from "@anori/components/Button";
 import { Select } from "@anori/components/lazy-components";
+import { buildPalette, detectGamut, type Gamut } from "@anori/design-system/color-engine";
+import { Button as DSButton } from "@anori/design-system/components/Button/Button";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
-import { hslColorToOklch, oklchToCss, oklchToHslColor } from "@anori/utils/color";
+import { HueChromaPicker } from "@anori/design-system/components/HueChromaPicker/HueChromaPicker";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { Slider } from "@anori/design-system/components/Slider/Slider";
+import { showOpenFilePicker } from "@anori/utils/files";
+import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
+import { guid } from "@anori/utils/misc";
+import { setPageBackground } from "@anori/utils/page";
 import { anoriSchema, type CustomTheme, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import {
@@ -18,21 +27,12 @@ import {
   type Theme,
   themes,
 } from "@anori/utils/user-data/theme";
-import clsx from "clsx";
-import { m } from "framer-motion";
-import { type ComponentProps, useCallback, useEffect, useRef, useState } from "react";
-import browser from "webextension-polyfill";
-import "./ThemesScreen.scss";
-import { ColorPicker } from "@anori/components/ColorPicker";
-import { Slider } from "@anori/components/Slider";
-import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { showOpenFilePicker } from "@anori/utils/files";
-import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
-import { guid } from "@anori/utils/misc";
-import { setPageBackground } from "@anori/utils/page";
 import { useCurrentTheme } from "@anori/utils/user-data/theme-hooks";
+import { m } from "framer-motion";
+import { type ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css, cva, cx } from "styled-system/css";
+import browser from "webextension-polyfill";
 
 const COLOR_SCHEMES: ColorScheme[] = ["system", "light", "dark"];
 const COLOR_SCHEME_LABEL_KEY: Record<ColorScheme, string> = {
@@ -41,13 +41,85 @@ const COLOR_SCHEME_LABEL_KEY: Record<ColorScheme, string> = {
   dark: "settings.theme.colorSchemeDark",
 };
 
+const screen = css({ display: "flex", flexDirection: "column", gap: "4" });
+const header = css({ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "4" });
+const grid = css({ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "3" });
+
+const plate = css({
+  position: "relative",
+  height: "84px",
+  "& .theme-plate-actions": { opacity: 0, transition: "opacity 0.15s ease" },
+  "&:hover .theme-plate-actions, &:focus-within .theme-plate-actions": { opacity: 1 },
+});
+const plateButton = cva({
+  base: {
+    appearance: "none",
+    position: "absolute",
+    inset: 0,
+    padding: 0,
+    borderRadius: "lg",
+    backgroundColor: "transparent",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundClip: "padding-box",
+    borderWidth: "3px",
+    borderStyle: "solid",
+    borderColor: "transparent",
+    cursor: "pointer",
+  },
+  variants: { active: { true: { borderColor: "accent" } } },
+});
+const colorCircle = css({
+  position: "absolute",
+  bottom: "1-5",
+  left: "1-5",
+  width: "18px",
+  height: "18px",
+  borderRadius: "full",
+});
+const plateActions = css({ position: "absolute", top: "1", right: "1", display: "flex", gap: "1" });
+
+const editorPanel = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "4",
+  padding: "4",
+  borderRadius: "lg",
+  bg: "control",
+  boxShadow: "control.edge",
+});
+const preview = css({
+  position: "relative",
+  overflow: "hidden",
+  height: "160px",
+  borderRadius: "md",
+  // Tiny checkerboard placeholder, shown until an image is selected.
+  background: "repeating-conic-gradient(var(--ds-frosted-strong) 0% 25%, transparent 0% 50%) 50% / 18px 18px",
+});
+// The image layer is blurred live with a cheap CSS filter; it's oversized (negative inset scales with
+// the blur radius) so the blur has real pixels to sample at the edges instead of fading to transparent.
+const previewImage = css({ position: "absolute", backgroundSize: "cover", backgroundPosition: "center" });
+const editorActions = css({ display: "flex", justifyContent: "flex-end", gap: "3" });
+
 const ThemePlate = ({
   theme,
-  className,
+  active,
+  gamut,
+  onSelect,
   onEdit,
   onDelete,
-  ...props
-}: { theme: Theme; onEdit?: VoidFunction; onDelete?: VoidFunction } & ButtonProps) => {
+}: {
+  theme: Theme;
+  active: boolean;
+  gamut: Gamut;
+  onSelect: VoidFunction;
+  onEdit?: VoidFunction;
+  onDelete?: VoidFunction;
+}) => {
+  const { t } = useTranslation();
+  // Show the palette's accent (step 6), not the raw input colour — the input lightness is ignored, so
+  // the raw value can look off; this is the swatch the theme actually produces.
+  const accentSwatch = useMemo(() => buildPalette(theme.accent, "dark", gamut).scales.accent[7], [theme.accent, gamut]);
   const [backgroundUrl, setBackgroundUrl] = useState(() => {
     return theme.type === "builtin"
       ? browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background}`)
@@ -74,42 +146,44 @@ const ThemePlate = ({
   }, [theme]);
 
   return (
-    <div className={clsx("BackgroundPlate", className)}>
-      <Button
-        className="main-btn"
-        style={{ backgroundImage: `url(${backgroundUrl})` }}
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", duration: 0.1 }}
-        withoutBorder
-        {...props}
+    <div className={plate}>
+      <button
+        type="button"
+        className={plateButton({ active })}
+        style={{ backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : undefined }}
+        onClick={onSelect}
       >
-        <div className="color-cirles-wrapper">
-          <div className="color-circle" style={{ backgroundColor: oklchToCss(theme.accent) }} />
-        </div>
-      </Button>
+        <div className={colorCircle} style={{ backgroundColor: accentSwatch }} />
+      </button>
 
-      <div className="theme-actions">
-        {!!onEdit && (
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit();
-            }}
-          >
-            <Icon icon={builtinIcons.pencil} height={16} />
-          </Button>
-        )}
-        {!!onDelete && (
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-          >
-            <Icon icon={builtinIcons.close} height={16} />
-          </Button>
-        )}
-      </div>
+      {(onEdit || onDelete) && (
+        <div className={cx(plateActions, "theme-plate-actions")}>
+          {onEdit && (
+            <IconButton
+              variant="secondary"
+              size="compact"
+              icon={builtinIcons.pencil}
+              label={t("edit")}
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit();
+              }}
+            />
+          )}
+          {onDelete && (
+            <IconButton
+              variant="secondary"
+              size="compact"
+              icon={builtinIcons.trash}
+              label={t("settings.theme.removeTheme")}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -120,6 +194,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     if (!files[0]) return;
     const background = files[0];
     originalBackgroundBlob.current = background;
+    setOriginalUrl(URL.createObjectURL(background));
     applyBlur(theme.blur);
   };
 
@@ -190,6 +265,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
   const currentThemeRef = useMirrorStateToRef(currentTheme);
   const colorSchemeRef = useMirrorStateToRef(colorScheme);
   const savedRef = useRef(false);
+  const gamut = useMemo(() => detectGamut(), []);
 
   // The editor previews colors/background by mutating CSS variables and the page background directly.
   // Restore the user's actual theme whenever the editor is left without saving.
@@ -209,6 +285,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     };
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: load + bake once per theme; later blur changes bake via the slider's onCommit, not every drag
   useEffect(() => {
     const main = async () => {
       try {
@@ -216,6 +293,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
         const blurred = await getThemeBackground(theme.name);
         originalBackgroundBlob.current = original;
         blurredBackgroundBlob.current = blurred;
+        setOriginalUrl(URL.createObjectURL(original));
         applyBlur(theme.blur);
       } catch (err) {
         console.log("Error while trying to load background", err);
@@ -223,7 +301,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     };
 
     main();
-  }, [applyBlur, theme.blur, theme.name]);
+  }, [applyBlur, theme.name]);
 
   const { t } = useTranslation();
   const originalBackgroundBlob = useRef<Blob | null>(null);
@@ -232,57 +310,93 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
   useEffect(() => {
     return () => (backgroundUrl ? URL.revokeObjectURL(backgroundUrl) : undefined);
   }, [backgroundUrl]);
+  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
+  useEffect(() => {
+    return () => (originalUrl ? URL.revokeObjectURL(originalUrl) : undefined);
+  }, [originalUrl]);
 
-  const bgStyles = backgroundUrl
-    ? {
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundImage: `url(${backgroundUrl})`,
-      }
-    : {};
+  // The preview box is far smaller than the full-screen background, so the same px blur reads much
+  // stronger here than the baked image does behind the page. Scale the live CSS blur by the box's
+  // width relative to the viewport (both cover) so the preview approximates the real background.
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [previewScale, setPreviewScale] = useState(1);
+  useEffect(() => {
+    const el = previewRef.current;
+    if (!el) return;
+    const update = () => setPreviewScale(el.clientWidth / window.innerWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  const accentRef = useMirrorStateToRef(theme.accent);
+  const backgroundUrlRef = useMirrorStateToRef(backgroundUrl);
+  // Flipping the color scheme makes the global theme watcher re-apply the *active* theme; re-assert
+  // the editor's draft preview so the in-progress accent (and background) isn't lost. Refs keep this
+  // tied to scheme changes only.
+  useEffect(() => {
+    applyThemeColors(accentRef.current, resolveColorScheme(colorScheme));
+    if (backgroundUrlRef.current) setPageBackground(backgroundUrlRef.current);
+  }, [colorScheme]);
 
   const runAfterRender = useRunAfterNextRender();
+  const previewBlur = theme.blur * previewScale;
 
   return (
-    <>
-      <div className="theme-editor">
-        <div className="theme-preview" style={bgStyles} />
+    <div className={editorPanel}>
+      <Heading level={3}>{themeFromProps ? t("settings.theme.editTheme") : t("settings.theme.newTheme")}</Heading>
 
-        <Button className="select-bg-btn" onClick={loadBackground}>
-          {t("settings.theme.selectBackground")}
-        </Button>
-
-        <div className="blur-settings">
-          <label>{t("settings.theme.blur")}:</label>
-          <Slider
-            value={theme.blur}
-            min={0}
-            max={50}
-            onChange={(val) => setTheme((p) => ({ ...p, blur: val }))}
-            onCommit={(val) => applyBlur(val)}
+      <div ref={previewRef} className={preview}>
+        {originalUrl && (
+          <div
+            className={previewImage}
+            style={{
+              inset: `-${previewBlur * 2}px`,
+              backgroundImage: `url(${originalUrl})`,
+              filter: `blur(${previewBlur}px)`,
+            }}
           />
-        </div>
+        )}
+      </div>
 
-        <ColorPicker
-          className="color-picker"
-          value={oklchToHslColor(theme.accent)}
-          label={t("settings.theme.colorAccent")}
-          onChange={(color) => {
-            const modifiedColor = { ...color, saturation: color.lightness === 1 ? 0 : color.saturation };
-            const accent = hslColorToOklch(modifiedColor);
-            setTheme((p) => ({ ...p, accent }));
-            applyPreview(accent);
-          }}
+      <DSButton variant="secondary" onClick={loadBackground}>
+        {backgroundUrl ? t("settings.theme.changeBackground") : t("settings.theme.selectBackground")}
+      </DSButton>
+
+      <Field label={`${t("settings.theme.blur")}:`}>
+        <Slider
+          value={theme.blur}
+          min={0}
+          max={50}
+          onChange={(val) => setTheme((p) => ({ ...p, blur: val }))}
+          onCommit={(val) => applyBlur(val)}
         />
-      </div>
+      </Field>
 
-      <div className="action-buttons">
-        <Button onClick={onClose}>{t("back")}</Button>
-        <Button disabled={!backgroundUrl} onClick={saveTheme}>
+      <HueChromaPicker
+        label={t("settings.theme.colorAccent")}
+        value={theme.accent}
+        gamut={gamut}
+        onChange={(accent) => {
+          setTheme((p) => ({ ...p, accent }));
+          applyPreview(accent);
+        }}
+      />
+
+      <div className={editorActions}>
+        <DSButton variant="secondary" onClick={onClose}>
+          {t("back")}
+        </DSButton>
+        <DSButton disabled={!backgroundUrl} onClick={saveTheme}>
           {t("save")}
-        </Button>
+        </DSButton>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -295,65 +409,65 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   const [editorTheme, setEditorTheme] = useState<CustomTheme | undefined>(undefined);
 
   const mode = resolveColorScheme(colorScheme);
+  const gamut = useMemo(() => detectGamut(), []);
+
+  const openEditor = (theme?: CustomTheme) => {
+    setEditorTheme(theme);
+    setEditorActive(true);
+  };
 
   return (
-    <m.div {...props} className="ThemesScreen">
-      <Heading level={2} size={1} alignSelf="flex-start">
-        {t("settings.theme.title")}
-      </Heading>
-      {editorActive ? (
-        <ThemeEditor theme={editorTheme} onClose={() => setEditorActive(false)} />
-      ) : (
-        <>
-          <div className="color-scheme-setting">
-            <label>{t("settings.theme.colorScheme")}:</label>
-            <Select<ColorScheme>
-              options={COLOR_SCHEMES}
-              value={colorScheme}
-              onChange={setColorScheme}
-              getOptionKey={(s) => s}
-              getOptionLabel={(s) => t(COLOR_SCHEME_LABEL_KEY[s])}
-            />
-          </div>
+    <m.div {...props} className={screen}>
+      <div className={header}>
+        <Heading level={2} size={1}>
+          {t("settings.theme.title")}
+        </Heading>
+        <DSButton iconStart={builtinIcons.add} onClick={() => openEditor()}>
+          {t("settings.theme.newTheme")}
+        </DSButton>
+      </div>
 
-          <div className="themes-grid">
-            {[...themes, ...customThemes].map((theme) => {
-              return (
-                <ThemePlate
-                  theme={theme}
-                  className={clsx({ active: theme.name === currentTheme })}
-                  onClick={() => {
-                    setTheme(theme.name);
-                    applyTheme(theme, mode);
-                  }}
-                  onEdit={
-                    theme.type === "custom"
-                      ? () => {
-                          setEditorTheme(theme);
-                          setEditorActive(true);
-                        }
-                      : undefined
-                  }
-                  onDelete={
-                    theme.type === "custom"
-                      ? () => {
-                          setCustomThemes((prev) => prev.filter((t) => t.name !== theme.name));
-                          deleteThemeBackgrounds(theme.name);
-                          if (currentTheme === theme.name) {
-                            setTheme(defaultTheme.name);
-                            applyTheme(defaultTheme, mode);
-                          }
-                        }
-                      : undefined
-                  }
-                  key={theme.name}
-                />
-              );
-            })}
-          </div>
-          <Button onClick={() => setEditorActive(true)}>{t("settings.theme.createCustom")}</Button>
-        </>
+      {editorActive && (
+        <ThemeEditor key={editorTheme?.name ?? "new"} theme={editorTheme} onClose={() => setEditorActive(false)} />
       )}
+
+      <div className={grid}>
+        {[...themes, ...customThemes].map((theme) => (
+          <ThemePlate
+            key={theme.name}
+            theme={theme}
+            active={theme.name === currentTheme}
+            gamut={gamut}
+            onSelect={() => {
+              setTheme(theme.name);
+              applyTheme(theme, mode);
+            }}
+            onEdit={theme.type === "custom" ? () => openEditor(theme) : undefined}
+            onDelete={
+              theme.type === "custom"
+                ? () => {
+                    setCustomThemes((prev) => prev.filter((t) => t.name !== theme.name));
+                    deleteThemeBackgrounds(theme.name);
+                    if (currentTheme === theme.name) {
+                      setTheme(defaultTheme.name);
+                      applyTheme(defaultTheme, mode);
+                    }
+                  }
+                : undefined
+            }
+          />
+        ))}
+      </div>
+
+      <Field label={`${t("settings.theme.colorScheme")}:`}>
+        <Select<ColorScheme>
+          options={COLOR_SCHEMES}
+          value={colorScheme}
+          onChange={setColorScheme}
+          getOptionKey={(s) => s}
+          getOptionLabel={(s) => t(COLOR_SCHEME_LABEL_KEY[s])}
+        />
+      </Field>
     </m.div>
   );
 };

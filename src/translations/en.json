@@ -139,7 +139,11 @@
             "theme": {
                 "title": "Theme",
                 "createCustom": "Create custom theme",
+                "newTheme": "New theme",
+                "editTheme": "Edit theme",
+                "removeTheme": "Remove theme",
                 "selectBackground": "Select background",
+                "changeBackground": "Change background",
                 "blur": "Blur",
                 "colorAccent": "Accent",
                 "colorBackground": "Background",

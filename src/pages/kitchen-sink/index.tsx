@@ -8,13 +8,13 @@ import {
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
+import { HueChromaPicker } from "@anori/design-system/components/HueChromaPicker/HueChromaPicker";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { initTranslation } from "@anori/translations/utils";
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { HueChromaPicker } from "./components/HueChromaPicker";
 import { PrimitiveScales, SemanticTokens } from "./components/Swatches";
 import { builtinThemePresets } from "./lib/theme-migration";
 import "../../panda.css";

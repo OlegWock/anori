@@ -11,20 +11,8 @@
         margin-left: var(--spacing-1);
     }
 
-    .input-wrapper {
-        margin-bottom: var(--spacing-3);
-
-        label {
-            margin-bottom: var(--spacing-1);
-            display: flex;
-            align-items: center;
-        }
-
-        .Input {
-            width: 100%;
-        }
-    }
-
+    // Stretch controls inside Field wrappers to the column width.
+    .Input,
     .SelectTrigger {
         width: 100%;
     }

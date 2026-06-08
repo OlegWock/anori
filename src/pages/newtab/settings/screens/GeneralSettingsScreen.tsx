@@ -3,6 +3,7 @@ import { Hint } from "@anori/components/Hint";
 import { Select } from "@anori/components/lazy-components";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
@@ -51,8 +52,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       <Heading level={2} size={1}>
         {t("settings.general.title")}
       </Heading>
-      <div className="input-wrapper">
-        <label>{t("settings.general.language")}:</label>
+      <Field label={`${t("settings.general.language")}:`}>
         <Select<Language>
           value={language}
           onChange={(newLang) => {
@@ -64,16 +64,15 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           getOptionKey={(o) => o}
           getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
         />
+      </Field>
+      <Alert variant="info" className="translation-alert">
+        <Trans t={t} i18nKey="settings.general.translationInfo">
+          {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
+          <a href="https://github.com/OlegWock/anori/issues/104" />
+        </Trans>
+      </Alert>
 
-        <Alert variant="info" className="translation-alert">
-          <Trans t={t} i18nKey="settings.general.translationInfo">
-            {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
-            <a href="https://github.com/OlegWock/anori/issues/104" />
-          </Trans>
-        </Alert>
-      </div>
-      <div className="input-wrapper">
-        <label>{t("settings.general.sidebarOrientation")}:</label>
+      <Field label={`${t("settings.general.sidebarOrientation")}:`}>
         <Select<"auto" | "vertical" | "horizontal">
           value={sidebarOrientation}
           onChange={setSidebarOrientation}
@@ -81,11 +80,10 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           getOptionKey={(o) => o}
           getOptionLabel={(o) => t(`settings.general.sidebarOrientationOption-${o}`)}
         />
-      </div>
-      <div className="input-wrapper">
-        <label>{t("settings.general.newTabTitle")}: </label>
+      </Field>
+      <Field label={`${t("settings.general.newTabTitle")}:`}>
         <Input value={newTabTitle} onValueChange={setNewTabTitle} />
-      </div>
+      </Field>
 
       <Checkbox checked={analyticsEnabled} onChange={setAnalyticsEnabled}>
         {t("settings.general.enableAnalytics")}
@@ -139,14 +137,15 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       </Checkbox>
       {isAutomaticCompact && (
         <div>
-          <label>{t("settings.general.automaticCompactModeThreshold")}</label>
-          <Select<number>
-            options={screenSizeBreakpoints}
-            getOptionKey={(o) => o.toString()}
-            getOptionLabel={(o) => `< ${o}${t("px")}`}
-            value={automaticCompactModeThreshold}
-            onChange={setAutomaticCompactModeThreshold}
-          />
+          <Field label={t("settings.general.automaticCompactModeThreshold")}>
+            <Select<number>
+              options={screenSizeBreakpoints}
+              getOptionKey={(o) => o.toString()}
+              getOptionLabel={(o) => `< ${o}${t("px")}`}
+              value={automaticCompactModeThreshold}
+              onChange={setAutomaticCompactModeThreshold}
+            />
+          </Field>
           <div className="screen-size-hint">
             {t("settings.general.automaticCompactModeThresholdHint", { screenWidth: screenWidth })}
           </div>
