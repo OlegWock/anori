@@ -1,5 +1,6 @@
 import { Button } from "@anori/components/Button";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { trackEvent } from "@anori/utils/analytics";
 import { downloadBlob, showOpenFilePicker } from "@anori/utils/files";
 import { anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
@@ -124,6 +125,7 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="ImportExportScreen">
+      <Heading level={2}>{t("settings.importExport.title")}</Heading>
       <Alert variant="info">
         <Trans t={t} i18nKey="settings.importExport.cloudSyncHint">
           {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}

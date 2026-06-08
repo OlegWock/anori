@@ -1,5 +1,6 @@
 import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { m } from "framer-motion";
 import type { ComponentProps } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -10,6 +11,7 @@ export const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
   const { t, i18n } = useTranslation();
   return (
     <m.div {...props} className="HelpAboutScreen">
+      <Heading level={2}>{t("settings.aboutHelp.title")}</Heading>
       <img src={vtuberLogo} alt="Anori logo" className="logo" />
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p1">

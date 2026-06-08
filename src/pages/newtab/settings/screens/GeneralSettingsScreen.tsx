@@ -3,6 +3,7 @@ import { Hint } from "@anori/components/Hint";
 import { Select } from "@anori/components/lazy-components";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
 import { switchTranslationLanguage } from "@anori/translations/utils";
@@ -47,6 +48,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="GeneralSettingsScreen">
+      <Heading level={2}>{t("settings.general.title")}</Heading>
       <div className="input-wrapper">
         <label>{t("settings.general.language")}:</label>
         <Select<Language>

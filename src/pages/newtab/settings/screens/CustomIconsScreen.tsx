@@ -1,5 +1,6 @@
 import { Button } from "@anori/components/Button";
 import { Tooltip } from "@anori/components/Tooltip";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { isValidCustomIconName, useCustomIcons } from "@anori/design-system/components/Icon/custom-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
@@ -69,6 +70,9 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="CustomIconsScreen">
+      <Heading level={2} alignSelf="flex-start">
+        {t("settings.customIcons.title")}
+      </Heading>
       {customIcons.length === 0 && <div className="no-custom-icons-alert">{t("settings.customIcons.noIcons")}</div>}
 
       <m.div className="custom-icons-grid" layout>

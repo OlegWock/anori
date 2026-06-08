@@ -1,5 +1,6 @@
 import { Button } from "@anori/components/Button";
 import { ReorderGroup } from "@anori/components/lazy-components";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useFolders } from "@anori/utils/user-data/hooks";
@@ -16,6 +17,7 @@ export const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="FoldersScreen">
+      <Heading level={2}>{t("settings.folders.title")}</Heading>
       <m.div>
         <FolderItem folder={homeFolder} />
         <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div">

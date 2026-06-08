@@ -1,4 +1,5 @@
 import { Button, type ButtonProps } from "@anori/components/Button";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { toCss } from "@anori/utils/color";
 import { anoriSchema, type CustomTheme, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
@@ -327,6 +328,9 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
 
   return (
     <m.div {...props} className="ThemesScreen">
+      <Heading level={2} alignSelf="flex-start">
+        {t("settings.theme.title")}
+      </Heading>
       {editorActive ? (
         <ThemeEditor theme={editorTheme} onClose={() => setEditorActive(false)} />
       ) : (
