@@ -1,7 +1,6 @@
 import { atom } from "jotai";
 
 export type SettingScreen =
-  | "main"
   | "general"
   | "custom-icons"
   | "folders"
@@ -10,4 +9,4 @@ export type SettingScreen =
   | "import-export"
   | "about-help";
 
-export const currentScreenAtom = atom<SettingScreen>("main");
+export const currentScreenAtom = atom<SettingScreen>("general");

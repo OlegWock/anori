@@ -1,142 +1,98 @@
-import { Button } from "@anori/components/Button";
-import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { MenuItem, MenuList } from "@anori/design-system/components/MenuList/MenuList";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence } from "framer-motion";
 import { useAtom } from "jotai";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CustomIconsScreen } from "./screens/CustomIconsScreen";
-import { FoldersScreen } from "./screens/FoldersScreen";
-import { GeneralSettingsScreen } from "./screens/GeneralSettingsScreen";
-import { HelpAboutScreen } from "./screens/HelpAboutScreen";
-import { ImportExportScreen } from "./screens/ImportExportScreen";
-import { MainScreen } from "./screens/MainScreen";
-import { PluginsScreen } from "./screens/PluginsScreen";
-import { ThemesScreen } from "./screens/ThemesScreen";
-import { currentScreenAtom } from "./settings-atoms";
-import "./Settings.scss";
+import { css } from "styled-system/css";
+import { settingsSections } from "./sections";
+import { currentScreenAtom, type SettingScreen } from "./settings-atoms";
+
+// A fixed-size two-column shell (sidebar list + screen), so the modal doesn't jump as sections of
+// different heights swap; each column scrolls on its own.
+const content = css({
+  display: "flex",
+  flexDirection: "column",
+  width: "min(90vw, 880px)",
+  height: "calc(80dvh - 6rem)",
+});
+const twoColumn = css({ display: "flex", gap: "4", flex: 1, overflow: "hidden", px: "4", pb: "4" });
+const sidebar = css({ width: "260px", flexShrink: 0, display: "flex", flexDirection: "column" });
+const listScroll = css({ flex: 1 });
+const divider = css({
+  height: "100%",
+  borderRightWidth: "1px",
+  borderRightStyle: "solid",
+  borderRightColor: "frosted",
+});
+const screenScroll = css({ flex: 1 });
+const screenPad = css({ paddingInline: "4", paddingBottom: "4" });
+
+// Screens slide vertically by their relative position (like switching folders): going to a later
+// section enters from below / exits upward, and vice-versa.
+const screenVariants = {
+  center: { y: "0%", opacity: 1 },
+  enter: (dir: "up" | "down") => ({ y: dir === "down" ? "12%" : "-12%", opacity: 0 }),
+  exit: (dir: "up" | "down") => ({ y: dir === "down" ? "-12%" : "12%", opacity: 0 }),
+};
 
 export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
-  console.log("Rendering SettingsModal");
   const { t } = useTranslation();
-  const screenPrettyName = {
-    main: t("settings.title"),
-    general: t("settings.general.title"),
-    "custom-icons": t("settings.customIcons.title"),
-    folders: t("settings.folders.title"),
-    plugins: t("settings.pluginSettings.title"),
-    theme: t("settings.theme.title"),
-    "import-export": t("settings.importExport.title"),
-    "about-help": t("settings.aboutHelp.title"),
-  } as const;
-
   const [screen, setScreen] = useAtom(currentScreenAtom);
+  const [direction, setDirection] = useState<"up" | "down">("down");
 
-  const dir = useDirection();
+  const currentIndex = Math.max(
+    settingsSections.findIndex((s) => s.id === screen),
+    0,
+  );
+  const active = settingsSections[currentIndex];
+  const ActiveScreen = active.Component;
 
-  const mainScreenEnter = { x: dir === "ltr" ? "-30%" : "30%", opacity: 0 };
-  const mainScreenExit = { x: dir === "ltr" ? "-30%" : "30%", opacity: 0 };
-  const innerScreenEnter = { x: dir === "ltr" ? "30%" : "-30%", opacity: 0 };
-  const innerScreenExit = { x: dir === "ltr" ? "30%" : "-30%", opacity: 0 };
-  const transition = { duration: 0.18 };
+  const selectScreen = (id: SettingScreen) => {
+    const nextIndex = settingsSections.findIndex((s) => s.id === id);
+    setDirection(nextIndex > currentIndex ? "down" : "up");
+    setScreen(id);
+  };
 
   return (
-    <Modal
-      title={screenPrettyName[screen]}
-      flush
-      closable
-      onClose={() => {
-        onClose();
-        setScreen("main");
-      }}
-      headerButton={
-        screen !== "main" ? (
-          <Button withoutBorder onClick={() => setScreen("main")}>
-            <Icon icon={dir === "ltr" ? builtinIcons.arrowBack : builtinIcons.arrowForward} width={24} height={24} />
-          </Button>
-        ) : undefined
-      }
-    >
-      <ScrollArea className="Settings">
-        <div className="settings-content">
-          <AnimatePresence initial={false} mode="wait">
-            {screen === "main" && (
-              <MainScreen
-                key="main"
-                initial={mainScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={mainScreenExit}
-                transition={transition}
+    <Modal title={t("settings.title")} flush closable onClose={onClose}>
+      <div className={content}>
+        <div className={twoColumn}>
+          <div className={sidebar}>
+            <ScrollArea className={listScroll}>
+              <MenuList>
+                {settingsSections.map((section) => (
+                  <MenuItem
+                    key={section.id}
+                    icon={section.icon}
+                    active={section.id === active.id}
+                    onClick={() => selectScreen(section.id)}
+                  >
+                    {t(section.titleKey)}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </ScrollArea>
+          </div>
+
+          <div className={divider} />
+
+          <ScrollArea className={screenScroll} contentClassName={screenPad}>
+            <AnimatePresence mode="wait" custom={direction} initial={false}>
+              <ActiveScreen
+                key={active.id}
+                custom={direction}
+                variants={screenVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.065 }}
               />
-            )}
-            {screen === "general" && (
-              <GeneralSettingsScreen
-                key="general"
-                initial={innerScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={innerScreenExit}
-                transition={transition}
-              />
-            )}
-            {screen === "custom-icons" && (
-              <CustomIconsScreen
-                key="custom-icons"
-                initial={innerScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={innerScreenExit}
-                transition={transition}
-              />
-            )}
-            {screen === "folders" && (
-              <FoldersScreen
-                key="folders"
-                initial={innerScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={innerScreenExit}
-                transition={transition}
-              />
-            )}
-            {screen === "plugins" && (
-              <PluginsScreen
-                key="plugins"
-                initial={innerScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={innerScreenExit}
-                transition={transition}
-              />
-            )}
-            {screen === "theme" && (
-              <ThemesScreen
-                key="theme"
-                initial={innerScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={innerScreenExit}
-                transition={transition}
-              />
-            )}
-            {screen === "import-export" && (
-              <ImportExportScreen
-                key="import-export"
-                initial={innerScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={innerScreenExit}
-                transition={transition}
-              />
-            )}
-            {screen === "about-help" && (
-              <HelpAboutScreen
-                key="about-help"
-                initial={innerScreenEnter}
-                animate={{ x: 0, opacity: 1 }}
-                exit={innerScreenExit}
-                transition={transition}
-              />
-            )}
-          </AnimatePresence>
+            </AnimatePresence>
+          </ScrollArea>
         </div>
-      </ScrollArea>
+      </div>
     </Modal>
   );
 };
