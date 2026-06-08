@@ -1,5 +1,5 @@
+import { ShortcutHint } from "@anori/design-system/components/ShortcutHint/ShortcutHint";
 import { useTranslation } from "react-i18next";
-import { ShortcutHint } from "./ShortcutHint";
 import "./ShortcutsHelp.scss";
 
 export const ShortcutsHelp = () => {

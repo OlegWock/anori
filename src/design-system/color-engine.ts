@@ -155,6 +155,9 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     // Foreground on the disabled accent fill — subtle neutrals (not the active extremes), APCA-picked
     // so it stays legible in both modes.
     "on-accent-disabled": bestTextOn(accentDisabled, neutral[10], neutral[2]),
+    // The shortcut key-cap's raised "side": a deliberately darker accent step (a couple steps below the
+    // fill) — not the lighter `*-edge` lift — so the cap reads like a physical key. Specific to ShortcutHint.
+    "shortcut-shadow": accent[byMode(mode, 5, 4)],
 
     "text-primary": neutral[byMode(mode, 12, 1)],
     "text-subtle": neutral[byMode(mode, 10, 5)],
