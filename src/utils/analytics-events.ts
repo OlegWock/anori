@@ -1,7 +1,16 @@
+import type { SidebarOrientation } from "@anori/utils/storage";
 import type { EmptyObject } from "@anori/utils/types";
-import type { StorageContent } from "@anori/utils/user-data/types";
 
 type NoParams = EmptyObject;
+
+// Per-day usage counters. The schema stores these as a loose `Record<string, number>`, so the precise
+// key union lives here, where analytics actually needs it.
+export type UsageQuantifiableMetrics =
+  | "Times new tab opened"
+  | "Times hotkey used"
+  | "Times navigated to another folder"
+  | `Interactions / ${string} / ${string} / ${string}`; // plugin id / widget id / interaction type
+export type DailyUsageMetrics = { [key in UsageQuantifiableMetrics]?: number };
 
 export type WidgetsCount = Record<`${"Home" | "Custom"} folder widgets / ${string} / ${string}`, number>;
 
@@ -12,7 +21,7 @@ export type AnalyticEvents = {
     "Extension version": string;
     "Custom icons count": number;
     "Custom folders count": number;
-    "Sidebar orientation": StorageContent["sidebarOrientation"];
+    "Sidebar orientation": SidebarOrientation;
     "Automatically hide sidebar enabled": boolean;
     "Bookmarks bar enabled": boolean;
     "Compact mode": "enabled" | "disabled" | "auto";
@@ -21,7 +30,7 @@ export type AnalyticEvents = {
     "Theme": string;
     "Performance / Avg LCP": number | null;
     "Performance / INP": number | null;
-  } & StorageContent["dailyUsageMetrics"] &
+  } & DailyUsageMetrics &
     WidgetsCount;
   "Configuration imported": NoParams;
   "Configuration exported": NoParams;

@@ -1,17 +1,19 @@
 import { Button, type ButtonProps } from "@anori/components/Button";
+import { Select } from "@anori/components/lazy-components";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
-import { toCss } from "@anori/utils/color";
+import { hslColorToOklch, oklchToCss, oklchToHslColor } from "@anori/utils/color";
 import { anoriSchema, type CustomTheme, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import {
   applyTheme,
   applyThemeColors,
+  type ColorScheme,
   defaultTheme,
   deleteThemeBackgrounds,
   getThemeBackground,
   getThemeBackgroundOriginal,
   type PartialCustomTheme,
-  resolveThemeColors,
+  resolveColorScheme,
   saveThemeBackground,
   type Theme,
   themes,
@@ -31,6 +33,13 @@ import { guid } from "@anori/utils/misc";
 import { setPageBackground } from "@anori/utils/page";
 import { useCurrentTheme } from "@anori/utils/user-data/theme-hooks";
 import { useTranslation } from "react-i18next";
+
+const COLOR_SCHEMES: ColorScheme[] = ["system", "light", "dark"];
+const COLOR_SCHEME_LABEL_KEY: Record<ColorScheme, string> = {
+  system: "settings.theme.colorSchemeSystem",
+  light: "settings.theme.colorSchemeLight",
+  dark: "settings.theme.colorSchemeDark",
+};
 
 const ThemePlate = ({
   theme,
@@ -64,8 +73,6 @@ const ThemePlate = ({
     }
   }, [theme]);
 
-  const plateColors = resolveThemeColors(theme);
-
   return (
     <div className={clsx("BackgroundPlate", className)}>
       <Button
@@ -77,9 +84,7 @@ const ThemePlate = ({
         {...props}
       >
         <div className="color-cirles-wrapper">
-          <div className="color-circle" style={{ backgroundColor: toCss(plateColors.background) }} />
-          <div className="color-circle" style={{ backgroundColor: toCss(plateColors.text) }} />
-          <div className="color-circle" style={{ backgroundColor: toCss(plateColors.accent) }} />
+          <div className="color-circle" style={{ backgroundColor: oklchToCss(theme.accent) }} />
         </div>
       </Button>
 
@@ -144,8 +149,6 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
       }
       croppedCtx.drawImage(canvas, PADDING, PADDING, img.width, img.height, 0, 0, img.width, img.height);
 
-      // TODO: we should probably switch to image/webp with compression as current custom backgrounds are quite
-      // big. But we need to check if it will affect current users and/or if we can migrate them automatically
       croppedCanvas.toBlob((blob) => {
         if (!blob) return;
         blurredBackgroundBlob.current = blob;
@@ -157,8 +160,8 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     };
   }, []);
 
-  const applyPreview = (colors: PartialCustomTheme["colors"] = theme.colors) => {
-    runAfterRender(() => applyThemeColors(colors));
+  const applyPreview = (accent = theme.accent) => {
+    runAfterRender(() => applyThemeColors(accent, resolveColorScheme(colorScheme)));
   };
 
   const saveTheme = async () => {
@@ -168,15 +171,13 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     await saveThemeBackground(id, "original", originalBackgroundBlob.current);
     await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
 
+    const toSave: CustomTheme = { name: theme.name, type: "custom", blur: theme.blur, accent: theme.accent };
     const storage = await getAnoriStorage();
     let customThemes = storage.get(anoriSchema.customThemes);
     if (themeFromProps) {
-      customThemes = customThemes.map((t) => {
-        if (t.name === id) return theme;
-        return t;
-      });
+      customThemes = customThemes.map((t) => (t.name === id ? toSave : t));
     } else {
-      customThemes.push(theme);
+      customThemes.push(toSave);
     }
     await storage.set(anoriSchema.customThemes, customThemes);
     savedRef.current = true;
@@ -184,15 +185,17 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
     onClose();
   };
 
+  const [colorScheme] = useStorageValue(anoriSchema.colorScheme);
   const [currentTheme, setCurrentTheme] = useCurrentTheme();
   const currentThemeRef = useMirrorStateToRef(currentTheme);
+  const colorSchemeRef = useMirrorStateToRef(colorScheme);
   const savedRef = useRef(false);
 
-  // The editor previews colors/background by mutating CSS variables and the page
-  // background directly. Restore the user's actual theme whenever the editor is left.
+  // The editor previews colors/background by mutating CSS variables and the page background directly.
+  // Restore the user's actual theme whenever the editor is left without saving.
   useEffect(() => {
     return () => {
-      if (!savedRef.current) applyTheme(currentThemeRef.current);
+      if (!savedRef.current) applyTheme(currentThemeRef.current, resolveColorScheme(colorSchemeRef.current));
     };
   }, []);
 
@@ -202,7 +205,7 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
       name: guid(),
       type: "custom",
       blur: 5,
-      colors: resolveThemeColors(currentTheme),
+      accent: currentTheme.accent,
     };
   });
 
@@ -229,8 +232,6 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
   useEffect(() => {
     return () => (backgroundUrl ? URL.revokeObjectURL(backgroundUrl) : undefined);
   }, [backgroundUrl]);
-
-  const [currentlyEditingColor, setCurrentlyEditingColor] = useState<keyof PartialCustomTheme["colors"] | null>(null);
 
   const bgStyles = backgroundUrl
     ? {
@@ -261,52 +262,18 @@ const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; 
             onCommit={(val) => applyBlur(val)}
           />
         </div>
-        <div className="swatches">
-          <div className="swatch-wrapper">
-            <button
-              type="button"
-              onClick={() => setCurrentlyEditingColor("accent")}
-              style={{ background: toCss(theme.colors.accent) }}
-            />
-            <div>{t("settings.theme.colorAccent")}</div>
-          </div>
-          <div className="swatch-wrapper">
-            <button
-              type="button"
-              onClick={() => setCurrentlyEditingColor("background")}
-              style={{ background: toCss(theme.colors.background) }}
-            />
-            <div>{t("settings.theme.colorBackground")}</div>
-          </div>
-          <div className="swatch-wrapper">
-            <button
-              type="button"
-              onClick={() => setCurrentlyEditingColor("text")}
-              style={{ background: toCss(theme.colors.text) }}
-            />
-            <div>{t("settings.theme.colorText")}</div>
-          </div>
-        </div>
 
-        {!!currentlyEditingColor && (
-          <ColorPicker
-            className="color-picker"
-            value={theme.colors[currentlyEditingColor]}
-            label={t("settings.theme.colorCode")}
-            onChange={(color) => {
-              const modifiedColor = {
-                ...color,
-                saturation: color.lightness === 1 ? 0 : color.saturation,
-              };
-              const newColors = {
-                ...theme.colors,
-                [currentlyEditingColor]: modifiedColor,
-              };
-              setTheme((p) => ({ ...p, colors: newColors }));
-              applyPreview(newColors);
-            }}
-          />
-        )}
+        <ColorPicker
+          className="color-picker"
+          value={oklchToHslColor(theme.accent)}
+          label={t("settings.theme.colorAccent")}
+          onChange={(color) => {
+            const modifiedColor = { ...color, saturation: color.lightness === 1 ? 0 : color.saturation };
+            const accent = hslColorToOklch(modifiedColor);
+            setTheme((p) => ({ ...p, accent }));
+            applyPreview(accent);
+          }}
+        />
       </div>
 
       <div className="action-buttons">
@@ -323,8 +290,11 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
   const [customThemes, setCustomThemes] = useStorageValue(anoriSchema.customThemes);
   const [currentTheme, setTheme] = useStorageValue(anoriSchema.theme);
+  const [colorScheme, setColorScheme] = useStorageValue(anoriSchema.colorScheme);
   const [editorActive, setEditorActive] = useState(false);
   const [editorTheme, setEditorTheme] = useState<CustomTheme | undefined>(undefined);
+
+  const mode = resolveColorScheme(colorScheme);
 
   return (
     <m.div {...props} className="ThemesScreen">
@@ -335,6 +305,17 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
         <ThemeEditor theme={editorTheme} onClose={() => setEditorActive(false)} />
       ) : (
         <>
+          <div className="color-scheme-setting">
+            <label>{t("settings.theme.colorScheme")}:</label>
+            <Select<ColorScheme>
+              options={COLOR_SCHEMES}
+              value={colorScheme}
+              onChange={setColorScheme}
+              getOptionKey={(s) => s}
+              getOptionLabel={(s) => t(COLOR_SCHEME_LABEL_KEY[s])}
+            />
+          </div>
+
           <div className="themes-grid">
             {[...themes, ...customThemes].map((theme) => {
               return (
@@ -343,7 +324,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
                   className={clsx({ active: theme.name === currentTheme })}
                   onClick={() => {
                     setTheme(theme.name);
-                    applyTheme(theme);
+                    applyTheme(theme, mode);
                   }}
                   onEdit={
                     theme.type === "custom"
@@ -360,7 +341,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
                           deleteThemeBackgrounds(theme.name);
                           if (currentTheme === theme.name) {
                             setTheme(defaultTheme.name);
-                            applyTheme(defaultTheme);
+                            applyTheme(defaultTheme, mode);
                           }
                         }
                       : undefined

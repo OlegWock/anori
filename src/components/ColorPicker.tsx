@@ -1,4 +1,4 @@
-import { type Color, fromHsl, parseColor, toHexWithAlpha } from "@anori/utils/color";
+import { fromHsl, type HslColor, parseColor, toHexWithAlpha } from "@anori/utils/color";
 import "./ColorPicker.scss";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Colorful, hslaToHsva } from "@uiw/react-color";
@@ -6,8 +6,8 @@ import clsx from "clsx";
 import { useId, useMemo, useState } from "react";
 
 export type ColorPickerProps = {
-  value: Color;
-  onChange: (val: Color) => void;
+  value: HslColor;
+  onChange: (val: HslColor) => void;
   label?: string;
   className?: string;
 };

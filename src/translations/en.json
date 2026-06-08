@@ -144,7 +144,11 @@
                 "colorAccent": "Accent",
                 "colorBackground": "Background",
                 "colorText": "Text",
-                "colorCode": "Color code"
+                "colorCode": "Color code",
+                "colorScheme": "Color scheme",
+                "colorSchemeSystem": "System",
+                "colorSchemeLight": "Light",
+                "colorSchemeDark": "Dark"
             },
             "importExport": {
                 "title": "Import & export",

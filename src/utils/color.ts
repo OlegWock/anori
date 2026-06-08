@@ -1,7 +1,7 @@
 import { type HsvaColor, hexToHsva, hslaStringToHsva, hsvaToHsla, rgbaStringToHsva, validHex } from "@uiw/react-color";
 import { converter } from "culori";
 
-export type Color = {
+export type HslColor = {
   // HSL
   hue: number;
   saturation: number;
@@ -17,43 +17,57 @@ const culoriToOklch = converter("oklch");
 
 // Compatibility bridge between the OKLCH source of truth and the legacy HSL `Color` used by the old
 // theming vars / color picker / storage.
-export const oklchToColor = (o: OklchColor): Color => {
+export const oklchToHslColor = (o: OklchColor): HslColor => {
   const hsl = culoriToHsl({ mode: "oklch", l: o.l, c: o.c, h: o.h });
   return { hue: (hsl?.h ?? 0) / 360, saturation: hsl?.s ?? 0, lightness: hsl?.l ?? 0, alpha: 1 };
 };
 
-export const colorToOklch = (c: Color): OklchColor => {
+export const hslColorToOklch = (c: HslColor): OklchColor => {
   const o = culoriToOklch({ mode: "hsl", h: c.hue * 360, s: c.saturation, l: c.lightness });
   return { l: o?.l ?? 0, c: o?.c ?? 0, h: o?.h ?? 0 };
 };
 
 // Formats a `Color` as an `oklch(L C H / A)` string (alpha carried from the `Color`).
-export const toCssOklch = (c: Color): string => {
-  const o = colorToOklch(c);
+export const toCssOklch = (c: HslColor): string => {
+  const o = hslColorToOklch(c);
   return `oklch(${o.l.toFixed(4)} ${o.c.toFixed(4)} ${o.h.toFixed(2)} / ${c.alpha})`;
+};
+
+// Formats an OKLCH triplet as an `oklch()` string (the alpha is omitted when fully opaque).
+export const oklchToCss = (o: OklchColor, alpha = 1): string =>
+  `oklch(${o.l.toFixed(4)} ${o.c.toFixed(4)} ${o.h.toFixed(2)}${alpha < 1 ? ` / ${alpha}` : ""})`;
+
+// Appends an alpha to an already-formatted `oklch()` string (the design-system tokens carry none).
+export const withAlphaCss = (oklchStr: string, alpha: number): string => oklchStr.replace(/\)\s*$/, ` / ${alpha})`);
+
+// Converts any CSS color string (e.g. a design-system `oklch()` token) to the legacy
+// "Hturn S% L%" HSL value list consumed as `hsla(var(--text-hsl) / <alpha>)`.
+export const cssColorToHslValues = (css: string): string => {
+  const hsl = culoriToHsl(css);
+  return `${((hsl?.h ?? 0) / 360).toFixed(4)}turn ${((hsl?.s ?? 0) * 100).toFixed(2)}% ${((hsl?.l ?? 0) * 100).toFixed(2)}%`;
 };
 
 const clamp = (val: number, min: number, max: number) => Math.min(max, Math.max(val, min));
 
-export const darken = (c: Color, amount: number): Color => {
+export const darken = (c: HslColor, amount: number): HslColor => {
   return lighten(c, -amount);
 };
 
-export const lighten = (c: Color, amount: number): Color => {
+export const lighten = (c: HslColor, amount: number): HslColor => {
   return {
     ...c,
     lightness: clamp(c.lightness + amount, 0, 1),
   };
 };
 
-export const transparentize = (c: Color, amount: number): Color => {
+export const transparentize = (c: HslColor, amount: number): HslColor => {
   return {
     ...c,
     alpha: clamp(c.alpha - amount, 0, 1),
   };
 };
 
-export const fromHsl = (hueDeg: number, saturationPer: number, lightnessPer: number, alpha = 1): Color => {
+export const fromHsl = (hueDeg: number, saturationPer: number, lightnessPer: number, alpha = 1): HslColor => {
   return {
     hue: hueDeg / 360,
     saturation: saturationPer / 100,
@@ -62,7 +76,7 @@ export const fromHsl = (hueDeg: number, saturationPer: number, lightnessPer: num
   };
 };
 
-export const toHsl = (c: Color) => {
+export const toHsl = (c: HslColor) => {
   return {
     hue: c.hue * 360,
     saturation: c.lightness * 100,
@@ -71,28 +85,28 @@ export const toHsl = (c: Color) => {
   };
 };
 
-export const toCssHslValues = (c: Color) => {
+export const toCssHslValues = (c: HslColor) => {
   return `${c.hue.toFixed(4)}turn ${(c.saturation * 100).toFixed(2)}% ${(c.lightness * 100).toFixed(2)}%`;
 };
 
-export const toCss = (c: Color) => {
+export const toCss = (c: HslColor) => {
   return `hsl(${toCssHslValues(c)} / ${c.alpha})`;
 };
 
-const fromHsva = (hsva: HsvaColor): Color => {
+const fromHsva = (hsva: HsvaColor): HslColor => {
   const { h, s, l, a } = hsvaToHsla(hsva);
   return fromHsl(h, s, l, a);
 };
 
 /**
- * Parses a CSS color string into a {@link Color}. Supports hex (`#rgb`, `#rgba`,
+ * Parses a CSS color string into a {@link HslColor}. Supports hex (`#rgb`, `#rgba`,
  * `#rrggbb`, `#rrggbbaa`, with or without the leading `#`), `rgb()`/`rgba()` and
  * `hsl()`/`hsla()` notations in both comma- and space-separated forms. Returns `null`
  * for unrecognized input. Conversion is delegated to `@uiw/react-color`; the regexes
  * below only detect/validate the notation, since the lib's rgb/hsl string parsers
  * silently fall back to black on invalid input.
  */
-export const parseColor = (input: string): Color | null => {
+export const parseColor = (input: string): HslColor | null => {
   const trimmed = input.trim().toLowerCase();
   if (!trimmed) return null;
 
@@ -113,7 +127,7 @@ export const parseColor = (input: string): Color | null => {
   return null;
 };
 
-export const toHexWithAlpha = (c: Color) => {
+export const toHexWithAlpha = (c: HslColor) => {
   if (c.alpha >= 1) return toHex(c);
   const alphaHex = Math.round(clamp(c.alpha, 0, 1) * 255)
     .toString(16)
@@ -121,7 +135,7 @@ export const toHexWithAlpha = (c: Color) => {
   return `${toHex(c)}${alphaHex}`;
 };
 
-export const toHex = (c: Color) => {
+export const toHex = (c: HslColor) => {
   const h = c.hue * 360;
   const l = c.lightness * 100;
   const s = c.saturation * 100;

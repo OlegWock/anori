@@ -1,12 +1,11 @@
 import { getAllCustomIconNames } from "@anori/design-system/components/Icon/custom-icons";
 import { allPlugins } from "@anori/plugins/all";
-import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
+import type { AnalyticEvents, UsageQuantifiableMetrics, WidgetsCount } from "@anori/utils/analytics-events";
 import { detectBrowser } from "@anori/utils/browser";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import type { EmptyObject } from "@anori/utils/types";
 import { themes } from "@anori/utils/user-data/theme";
-import type { StorageContent } from "@anori/utils/user-data/types";
 import { useCallback } from "react";
 import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
@@ -83,7 +82,7 @@ export const plantPerformanceMetricsListeners = async () => {
   }).observe({ type: "event", buffered: true, durationThreshold: 8 });
 };
 
-export const incrementDailyUsageMetric = async (name: keyof StorageContent["dailyUsageMetrics"]) => {
+export const incrementDailyUsageMetric = async (name: UsageQuantifiableMetrics) => {
   if (isBackground()) {
     const storage = await getAnoriStorage();
     const analyticsEnabled = storage.get(anoriSchema.analyticsEnabled);
