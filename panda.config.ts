@@ -172,6 +172,10 @@ export default defineConfig({
             disabled: { value: "var(--ds-on-accent-disabled)" },
           },
           icon: { value: "var(--ds-icon)" },
+          // Tooltip: a fixed dark, slightly-translucent overlay — intentionally outside the themed
+          // scale — with a light foreground. High contrast over any background, in both modes.
+          tooltip: { value: "rgba(0, 0, 0, 0.82)" },
+          "on-tooltip": { value: "white" },
           text: {
             primary: { value: "var(--ds-text-primary)" },
             subtle: { value: "var(--ds-text-subtle)" },

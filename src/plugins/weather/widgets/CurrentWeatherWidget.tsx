@@ -1,7 +1,7 @@
 import "../styles.scss";
-import { Tooltip } from "@anori/components/Tooltip";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useMirrorStateToRef } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";

@@ -1,8 +1,8 @@
+import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import type { Mapping } from "@anori/utils/types";
 import type React from "react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { mergeRefs } from "react-merge-refs";
-import { Tooltip } from "./Tooltip";
 
 type PolymorphicRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>["ref"];
 

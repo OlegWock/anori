@@ -1,10 +1,10 @@
 import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
-import { Hint } from "@anori/components/Hint";
 import { Select } from "@anori/components/lazy-components";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { Hint } from "@anori/design-system/components/Hint/Hint";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
 import { switchTranslationLanguage } from "@anori/translations/utils";

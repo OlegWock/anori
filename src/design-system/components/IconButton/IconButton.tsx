@@ -1,4 +1,4 @@
-import { Tooltip } from "@anori/components/Tooltip";
+import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { forwardRef, type ReactNode, type Ref } from "react";
 import { css, cx } from "styled-system/css";
 import { Button, type ButtonProps } from "../Button/Button";

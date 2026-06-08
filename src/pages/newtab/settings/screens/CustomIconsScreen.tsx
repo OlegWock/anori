@@ -1,4 +1,3 @@
-import { Tooltip } from "@anori/components/Tooltip";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
@@ -6,6 +5,7 @@ import { isValidCustomIconName, useCustomIcons } from "@anori/design-system/comp
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
+import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
 import { AnimatePresence, LayoutGroup, m } from "framer-motion";

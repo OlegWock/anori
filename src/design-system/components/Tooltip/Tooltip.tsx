@@ -1,3 +1,5 @@
+import { IS_TOUCH_DEVICE } from "@anori/utils/device";
+import type { Mapping } from "@anori/utils/types";
 import {
   autoUpdate,
   FloatingPortal,
@@ -16,13 +18,26 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react";
+import { clsx } from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import { cloneElement, type ReactElement, type ReactNode, type Ref, useId, useState } from "react";
-import "./Tooltip.scss";
-import { IS_TOUCH_DEVICE } from "@anori/utils/device";
-import type { Mapping } from "@anori/utils/types";
-import clsx from "clsx";
 import { mergeRefs } from "react-merge-refs";
+import { cva } from "styled-system/css";
+
+const tooltip = cva({
+  base: {
+    bg: "tooltip",
+    color: "on-tooltip",
+    borderRadius: "sm",
+    paddingBlock: "2",
+    paddingInline: "4",
+    fontSize: { base: "sm", _compact: "base" },
+    maxWidth: "400px",
+    zIndex: "tooltip",
+    pointerEvents: "none",
+  },
+  variants: { clickable: { true: { pointerEvents: "auto" } } },
+});
 
 interface Props {
   label: ReactNode | (() => ReactNode);
@@ -136,11 +151,10 @@ export const Tooltip = ({
               }
               {...getFloatingProps({
                 ref: refs.setFloating,
-                className: clsx("Tooltip", hasClickableContent && "has-clickable-content"),
+                className: clsx(tooltip({ clickable: hasClickableContent }), "Tooltip"),
                 style: {
                   position: localStrategy,
                   maxWidth: maxWidth || undefined,
-                  zIndex: 9999999999,
                   top: y ?? 0,
                   left: x ?? 0,
                 },
