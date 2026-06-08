@@ -139,7 +139,9 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       </Alert>
       <div>{t("settings.importExport.info")}</div>
       <div className={buttons}>
-        <Button onClick={importSettings}>{t("settings.importExport.import")}</Button>
+        <Button variant="secondary" onClick={importSettings}>
+          {t("settings.importExport.import")}
+        </Button>
         <Button variant="secondary" onClick={exportSettings}>
           {t("settings.importExport.export")}
         </Button>

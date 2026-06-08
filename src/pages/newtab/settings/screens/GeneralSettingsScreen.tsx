@@ -24,7 +24,6 @@ const screen = css({
   // Stretch controls inside Field wrappers to the column width.
   "& .Input, & .SelectTrigger": { width: "100%" },
 });
-const translationAlert = css({ marginTop: "4" });
 const screenSizeHint = css({ marginLeft: "1" });
 
 export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
@@ -75,7 +74,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
         />
       </Field>
-      <Alert variant="info" className={translationAlert}>
+      <Alert variant="info">
         <Trans t={t} i18nKey="settings.general.translationInfo">
           {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
           <a href="https://github.com/OlegWock/anori/issues/104" />
