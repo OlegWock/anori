@@ -1,3 +1,4 @@
+import type { Mapping } from "@anori/utils/types";
 import {
   autoPlacement,
   autoUpdate,
@@ -18,6 +19,7 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react";
+import classNames from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import type React from "react";
 import {
@@ -31,9 +33,19 @@ import {
   useState,
 } from "react";
 import { mergeRefs } from "react-merge-refs";
-import "./Popover.scss";
-import type { Mapping } from "@anori/utils/types";
-import classNames from "clsx";
+import { css } from "styled-system/css";
+
+// Floating content panel (icon picker, config forms, permission prompts). Elevated surface + drop
+// shadow; `tooltip` z-layer so it sits above any modal it's opened from.
+const popover = css({
+  width: "max-content",
+  padding: "4",
+  borderRadius: "sm",
+  bg: "surface.elevated",
+  color: "text.primary",
+  boxShadow: "popover",
+  zIndex: "tooltip",
+});
 
 export type PopoverProps<D = undefined> = {
   component: (data: PopoverRenderProps<D>) => ReactNode;
@@ -150,7 +162,7 @@ export const Popover = <D = undefined>({
             <FloatingFocusManager initialFocus={initialFocus} context={context} key="popover">
               <m.div
                 ref={refs.setFloating}
-                className={classNames(["Popover", className])}
+                className={classNames(popover, "Popover", className)}
                 style={{
                   ...style,
                   position: strategy,

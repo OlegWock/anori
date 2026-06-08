@@ -1,12 +1,12 @@
 import { Favicon } from "@anori/design-system/components/Icon/Favicon";
 import { Input } from "@anori/design-system/components/Input/Input";
+import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
-import type { PopoverRenderProps } from "./Popover";
 import { RequirePermissions } from "./RequirePermissions";
 import "./PickBookmark.scss";
 

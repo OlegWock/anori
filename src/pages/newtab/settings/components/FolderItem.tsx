@@ -1,11 +1,11 @@
 import { IconPicker } from "@anori/components/IconPicker";
 import { ReorderItem } from "@anori/components/lazy-components";
-import { Popover } from "@anori/components/Popover";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
+import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import type { Folder } from "@anori/utils/user-data/types";
 import { useDragControls } from "framer-motion";

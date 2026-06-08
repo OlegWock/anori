@@ -2,8 +2,8 @@ import { Input, Textarea } from "@anori/design-system/components/Input/Input";
 import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import "./NotesWidget.scss";
 
-import { Link } from "@anori/components/Link";
 import { ReactMarkdown } from "@anori/components/lazy-components";
+import { Link } from "@anori/design-system/components/Link/Link";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";

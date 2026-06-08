@@ -1,4 +1,4 @@
-import { EmptyState } from "@anori/components/EmptyState";
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";

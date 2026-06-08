@@ -1,7 +1,7 @@
-import { Link } from "@anori/components/Link";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Favicon } from "@anori/design-system/components/Icon/Favicon";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Link } from "@anori/design-system/components/Link/Link";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useDirection } from "@radix-ui/react-direction";
 import * as Menubar from "@radix-ui/react-menubar";

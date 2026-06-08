@@ -1,8 +1,8 @@
 import "./ExpandableIframeWidget.scss";
-import { Link } from "@anori/components/Link";
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Link } from "@anori/design-system/components/Link/Link";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";

@@ -16,10 +16,10 @@ import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/cust
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useIconSets, useIconsSuspense } from "@anori/design-system/components/Icon/remote-icons";
 import { Input } from "@anori/design-system/components/Input/Input";
+import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
-import type { PopoverRenderProps } from "./Popover";
 
 type IconPickerProps = PopoverRenderProps<{
   onSelected: (icon: string) => void;

@@ -1,10 +1,10 @@
 import "./IframeWidgetConfig.scss";
 import { Button } from "@anori/components/Button";
 import { PickBookmark } from "@anori/components/PickBookmark";
-import { Popover } from "@anori/components/Popover";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Input } from "@anori/design-system/components/Input/Input";
+import { Popover } from "@anori/design-system/components/Popover/Popover";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
