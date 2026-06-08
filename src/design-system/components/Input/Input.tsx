@@ -16,6 +16,8 @@ const inputBase = css({
   letterSpacing: "inherit",
   color: "text.primary",
   bg: "control",
+  // Edge (DS-3): an inset ring for volume instead of a delineating border.
+  boxShadow: "control.edge",
   "&::placeholder": { color: "text.placeholder" },
   _focus: {
     outlineWidth: "2px",

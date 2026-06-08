@@ -34,6 +34,8 @@ const trigger = css({
   lineHeight: "none",
   color: "text.primary",
   bg: "control",
+  // Edge (DS-3): an inset ring for volume instead of a delineating border.
+  boxShadow: "control.edge",
   cursor: "pointer",
   "&[data-placeholder]": { color: "text.placeholder" },
   _focusVisible: { outlineWidth: "2px", outlineStyle: "solid", outlineColor: "accent" },
@@ -56,7 +58,7 @@ const item = css({
   alignItems: "center",
   position: "relative",
   height: "1.5625rem",
-  paddingLeft: "6",
+  paddingLeft: "7",
   paddingRight: "9",
   borderRadius: "xs",
   fontSize: "xs",
@@ -158,7 +160,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       <RadixSelectItem className={clsx(item, "SelectItem", className)} {...props} ref={forwardedRef}>
         <RadixSelectItemText>{children}</RadixSelectItemText>
         <RadixSelectItemIndicator className={itemIndicator}>
-          <Icon icon={builtinIcons.check} />
+          <Icon icon={builtinIcons.check} width={14} height={14} />
         </RadixSelectItemIndicator>
       </RadixSelectItem>
     );

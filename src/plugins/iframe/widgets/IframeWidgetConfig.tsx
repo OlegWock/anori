@@ -1,9 +1,9 @@
 import "./IframeWidgetConfig.scss";
 import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
-import { Checkbox } from "@anori/components/Checkbox";
 import { PickBookmark } from "@anori/components/PickBookmark";
 import { Popover } from "@anori/components/Popover";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Input } from "@anori/design-system/components/Input/Input";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";

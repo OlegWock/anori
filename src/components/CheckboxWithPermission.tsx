@@ -1,5 +1,5 @@
+import { Checkbox, type CheckboxProps } from "@anori/design-system/components/Checkbox/Checkbox";
 import { type CorrectPermission, usePermissionsQuery } from "@anori/utils/permissions";
-import { Checkbox, type CheckboxProps } from "./Checkbox";
 import { Popover } from "./Popover";
 import { RequirePermissions } from "./RequirePermissions";
 

@@ -1,8 +1,8 @@
 import { Alert } from "@anori/components/Alert";
-import { Checkbox } from "@anori/components/Checkbox";
 import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
 import { Hint } from "@anori/components/Hint";
 import { Select } from "@anori/components/lazy-components";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
 import { switchTranslationLanguage } from "@anori/translations/utils";

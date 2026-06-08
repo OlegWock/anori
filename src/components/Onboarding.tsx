@@ -1,6 +1,7 @@
 import { Trans, useTranslation } from "react-i18next";
 import "./Onboarding.scss";
 import { Select } from "@anori/components/lazy-components";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
@@ -19,7 +20,6 @@ import useMeasure from "react-use-motion-measure";
 import { slidingScreensAnimation } from "./animations";
 import { applyOnboardingPreset } from "./apply-onboarding-preset";
 import { Button } from "./Button";
-import { Checkbox } from "./Checkbox";
 
 const screens = ["start", "folders", "customization", "analytics", "presets"] as const;
 

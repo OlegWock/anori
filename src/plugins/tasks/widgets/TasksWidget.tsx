@@ -1,7 +1,7 @@
 import "../styles.scss";
 import { Button } from "@anori/components/Button";
-import { Checkbox } from "@anori/components/Checkbox";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Textarea } from "@anori/design-system/components/Input/Input";

@@ -1,5 +1,5 @@
 import { Button } from "@anori/components/Button";
-import { Checkbox } from "@anori/components/Checkbox";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Input } from "@anori/design-system/components/Input/Input";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
