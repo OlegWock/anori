@@ -1,6 +1,6 @@
-import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
 import { Select } from "@anori/components/lazy-components";
+import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { useAsyncEffect } from "@anori/utils/hooks";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";

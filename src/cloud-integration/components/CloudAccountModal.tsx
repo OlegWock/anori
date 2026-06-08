@@ -1,5 +1,5 @@
-import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
+import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { anoriSchema } from "@anori/utils/storage";
@@ -195,14 +195,12 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
         </div>
         {isLoadingProfiles && <div className="profiles-loading">{t("loading")}</div>}
         {profilesError && (
-          <Alert level="attention">
-            {getAppError(profilesError)?.message ?? t("cloud.error.failedToLoadProfiles")}
-          </Alert>
+          <Alert variant="accent">{getAppError(profilesError)?.message ?? t("cloud.error.failedToLoadProfiles")}</Alert>
         )}
-        {createProfileSuccess && <Alert level="info">{t("cloud.profileCreatedSuccess")}</Alert>}
+        {createProfileSuccess && <Alert variant="info">{t("cloud.profileCreatedSuccess")}</Alert>}
         {isCreatingProfile && (
           <div className="create-profile-form">
-            {createProfileError && <Alert level="attention">{createProfileError}</Alert>}
+            {createProfileError && <Alert variant="accent">{createProfileError}</Alert>}
             <Input
               placeholder={t("cloud.profileName")}
               value={newProfileName}
@@ -321,7 +319,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                     </div>
                     {showConfirmation && (
                       <div className="profile-confirmation">
-                        <Alert level="attention">
+                        <Alert variant="accent">
                           {t("cloud.connectConfirmation.message", { profileName: profile.name })}
                         </Alert>
                         <div className="confirmation-actions">
@@ -336,7 +334,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                     )}
                     {showDeleteConfirm && (
                       <div className="profile-confirmation">
-                        <Alert level="attention">{t("cloud.deleteConfirmation", { profileName: profile.name })}</Alert>
+                        <Alert variant="accent">{t("cloud.deleteConfirmation", { profileName: profile.name })}</Alert>
                         <div className="confirmation-actions">
                           <Button onClick={() => handleDeleteProfile(profile.id)} loading={isDeleting}>
                             {t("cloud.confirm")}
@@ -397,7 +395,7 @@ const AuthView = () => {
           handleLogin();
         }}
       >
-        {error && <Alert level="attention">{error}</Alert>}
+        {error && <Alert variant="accent">{error}</Alert>}
 
         <Input type="email" placeholder={t("cloud.email")} value={email} onValueChange={setEmail} />
         <Input type="password" placeholder={t("cloud.password")} value={password} onValueChange={setPassword} />

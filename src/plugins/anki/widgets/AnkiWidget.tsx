@@ -1,5 +1,5 @@
-import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
+import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";

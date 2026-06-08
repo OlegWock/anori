@@ -8,6 +8,7 @@ import IcBaselineTab from "~icons/ic/baseline-tab?raw";
 import IcOutlineWindow from "~icons/ic/outline-window?raw";
 import IonAdd from "~icons/ion/add?raw";
 import IonAlbums from "~icons/ion/albums?raw";
+import IonAlertCircle from "~icons/ion/alert-circle?raw";
 import IonArchiveSharp from "~icons/ion/archive-sharp?raw";
 import IonArrowBack from "~icons/ion/arrow-back?raw";
 import IonArrowForward from "~icons/ion/arrow-forward?raw";
@@ -33,6 +34,7 @@ import IonFolderOpenSharp from "~icons/ion/folder-open-sharp?raw";
 import IonHelpBuoySharp from "~icons/ion/help-buoy-sharp?raw";
 import IonHelpCircle from "~icons/ion/help-circle?raw";
 import IonHome from "~icons/ion/home?raw";
+import IonInformationCircle from "~icons/ion/information-circle?raw";
 import IonLocationSharp from "~icons/ion/location-sharp?raw";
 import IonLogoRss from "~icons/ion/logo-rss?raw";
 import IonNewspaperOutline from "~icons/ion/newspaper-outline?raw";
@@ -43,6 +45,7 @@ import IonResize from "~icons/ion/resize?raw";
 import IonSettingsSharp from "~icons/ion/settings-sharp?raw";
 import IonSpeedometer from "~icons/ion/speedometer?raw";
 import IonTimeOutline from "~icons/ion/time-outline?raw";
+import IonWarning from "~icons/ion/warning?raw";
 import JamRefresh from "~icons/jam/refresh?raw";
 import LogosFacebook from "~icons/logos/facebook?raw";
 import LogosGithubIcon from "~icons/logos/github-icon?raw";
@@ -87,6 +90,9 @@ const builtinIconSvgsBySourceId = {
   "ion:bookmark": IonBookmark,
   "ion:checkmark": IonCheckmark,
   "ion:checkmark-sharp": IonCheckmarkSharp,
+  "ion:information-circle": IonInformationCircle,
+  "ion:warning": IonWarning,
+  "ion:alert-circle": IonAlertCircle,
   "ion:help-circle": IonHelpCircle,
   "ion:location-sharp": IonLocationSharp,
   "ion:time-outline": IonTimeOutline,
@@ -163,6 +169,9 @@ export const builtinIcons = {
   resize: "ion:resize",
   check: "ion:checkmark",
   checkSharp: "ion:checkmark-sharp",
+  informationCircle: "ion:information-circle",
+  warning: "ion:warning",
+  alertCircle: "ion:alert-circle",
   helpCircle: "ion:help-circle",
   location: "ion:location-sharp",
   time: "ion:time-outline",

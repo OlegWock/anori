@@ -1,7 +1,7 @@
-import { Alert } from "@anori/components/Alert";
 import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
 import { Hint } from "@anori/components/Hint";
 import { Select } from "@anori/components/lazy-components";
+import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
@@ -61,7 +61,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           getOptionLabel={(o) => availableTranslationsPrettyNames[o]}
         />
 
-        <Alert level="info" className="translation-alert">
+        <Alert variant="info" className="translation-alert">
           <Trans t={t} i18nKey="settings.general.translationInfo">
             {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
             <a href="https://github.com/OlegWock/anori/issues/104" />

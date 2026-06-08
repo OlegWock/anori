@@ -1,6 +1,6 @@
-import { Alert } from "@anori/components/Alert";
 import { listItemAnimation } from "@anori/components/animations";
 import { Button } from "@anori/components/Button";
+import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
@@ -76,7 +76,7 @@ export const RssFeedConfigScreen = ({
       <div className="field">
         <label>{t("rss-plugin.feedUrls")}:</label>
 
-        <Alert level="info">
+        <Alert variant="info">
           <div>{t("rss-plugin.presetsTitle")}</div>
           <div className="presets">
             {presets.map(({ title, name, urls }) => {

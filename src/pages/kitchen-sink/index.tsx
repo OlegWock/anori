@@ -5,11 +5,13 @@ import {
   type OklchInput,
   tokensToCssVars,
 } from "@anori/design-system/color-engine";
+import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { initTranslation } from "@anori/translations/utils";
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { HueChromaPicker } from "./components/HueChromaPicker";
@@ -17,6 +19,8 @@ import { PrimitiveScales, SemanticTokens } from "./components/Swatches";
 import { builtinThemePresets } from "./lib/theme-migration";
 import "../../panda.css";
 import "./styles.scss";
+
+initTranslation();
 
 const DEFAULT_ACCENT: OklchInput = { l: 0.72, c: 0.17, h: 150 };
 
@@ -222,6 +226,27 @@ function App() {
             <Icon icon={builtinIcons.refresh} color="text.subtle" />
             <Icon icon={builtinIcons.refresh} color="text.placeholder" />
             <Icon icon={builtinIcons.refresh} color="accent" opacity={0.4} />
+          </div>
+        </div>
+
+        <div>
+          <h2 className="ks-section-title">Alert component</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", maxWidth: "34rem" }}>
+            <Alert variant="info" title="Heads up">
+              An info alert with a title and a body. The icon sits top-left at half opacity, the title aligns with it,
+              and the description sits in the row below.
+            </Alert>
+            <Alert variant="success">No title here — the description fills the right column on the icon's row.</Alert>
+            <Alert variant="warning" title="Double-check this">
+              This action affects other widgets in the folder.
+            </Alert>
+            <Alert variant="danger" title="Couldn't reach the server">
+              Check your connection and try again. The glyph differs per variant, but the colour stays the text colour.
+            </Alert>
+            <Alert variant="accent" title="Plain note">
+              The accent variant is neutral — no icon, just the optional title and the description.
+            </Alert>
+            <Alert>A bare alert: no variant, no title — just a line of text on the card surface.</Alert>
           </div>
         </div>
 
