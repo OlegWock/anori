@@ -225,7 +225,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Eh?",
             "modalTitle": "Additional permissions required",
             "compactText": "Additional permissions required. Click to see details.",
             "text": "This widget requires additional permissions:",

@@ -12,6 +12,7 @@ import { HueChromaPicker } from "@anori/design-system/components/HueChromaPicker
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { initTranslation } from "@anori/translations/utils";
 import { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -247,6 +248,42 @@ function App() {
               The accent variant is neutral — no icon, just the optional title and the description.
             </Alert>
             <Alert>A bare alert: no variant, no title — just a line of text on the card surface.</Alert>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="ks-section-title">RequirePermissions component</h2>
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <div
+              style={{
+                width: "22rem",
+                height: "18rem",
+                padding: "1rem",
+                borderRadius: "12px",
+                background: "var(--ds-card)",
+                display: "flex",
+              }}
+            >
+              <RequirePermissions
+                permissions={["bookmarks"]}
+                hosts={["example.com"]}
+                additionalInfo="Shown inline when a widget needs access it doesn't have yet."
+              >
+                Granted content goes here.
+              </RequirePermissions>
+            </div>
+            <div
+              style={{
+                width: "16rem",
+                height: "9rem",
+                padding: "1rem",
+                borderRadius: "12px",
+                background: "var(--ds-card)",
+                display: "flex",
+              }}
+            >
+              <RequirePermissions compact permissions={["bookmarks"]} hosts={["example.com"]} />
+            </div>
           </div>
         </div>
 

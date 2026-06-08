@@ -168,7 +168,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     icon: neutral[byMode(mode, 9, 5)],
     // An even quieter glyph — for large decorative icons (empty/error states) that should barely
     // register against the surface.
-    "icon-subtle": neutral[byMode(mode, 7, 8)],
+    "icon-subtle": withAlpha(neutral[byMode(mode, 9, 5)], 0.45),
 
     // Frosted overlays: text-primary at low alpha (so they adapt to mode) for translucent surfaces
     // over a backdrop blur — bookmarks bar/menus, and the frosted/ghost buttons.

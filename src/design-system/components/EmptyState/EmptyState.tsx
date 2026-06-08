@@ -9,7 +9,7 @@ const emptyState = css({
   justifyContent: "center",
   alignItems: "center",
   gap: "4",
-  paddingBlock: "12",
+  paddingBlock: "8",
   paddingInline: "6",
   textAlign: "center",
   color: "text.placeholder",

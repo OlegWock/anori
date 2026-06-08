@@ -1,4 +1,4 @@
-import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
 import { MainScreen, Mock, REQUIRED_PERMISSIONS } from "./TopSitesWidget";

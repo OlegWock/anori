@@ -1,4 +1,4 @@
-import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { usePermissionsQuery } from "@anori/utils/permissions";

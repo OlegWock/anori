@@ -1,8 +1,8 @@
-import { RequirePermissions } from "@anori/components/RequirePermissions";
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Link } from "@anori/design-system/components/Link/Link";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
