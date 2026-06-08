@@ -41,9 +41,9 @@ export const colorAt = (hue: number, chroma: number, l: number, gamut: Gamut): s
   fmt(l, chroma * chromaWeight(l), hue, gamut);
 
 // ── Tier 2: the fixed numbered primitive scale ───────────────────────────────────────────────
-// The curve sampled at these lightnesses → role-agnostic stops (index 0..11, "step 1..12"). Tier-3
-// semantics reference these by index only. Densifying = add a stop here (cheap, since generated).
-const PRIMITIVE_LS = [0.16, 0.22, 0.31, 0.38, 0.45, 0.52, 0.61, 0.7, 0.78, 0.86, 0.93, 0.98];
+// The curve sampled at these lightnesses → role-agnostic stops (index 0..12). Tier-3 semantics
+// reference these by index only. Densifying = add a stop here, then re-map the indices below.
+const PRIMITIVE_LS = [0.16, 0.22, 0.31, 0.35, 0.38, 0.45, 0.52, 0.61, 0.7, 0.78, 0.86, 0.93, 0.98];
 export const PRIMITIVE_STEPS = PRIMITIVE_LS.length;
 
 const scale = (hue: number, chroma: number, gamut: Gamut): string[] =>
@@ -111,11 +111,13 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   // Two genuinely separate filled surfaces (off the same tinted `surface` scale): `card` (lighter)
   // and `modal` (darker, so dialogs read deeper / more focused). `elevated` stays for raised UI
   // (dropdowns/popovers).
-  const cardIdx = byMode(mode, 3, 11);
-  const modalIdx = byMode(mode, 2, 9);
-  const elevatedIdx = byMode(mode, 4, 10);
-  const accentFillIdx = byMode(mode, 6, 5);
-  const controlIdx = byMode(mode, 4, 10);
+  const cardIdx = byMode(mode, 4, 12);
+  const modalIdx = byMode(mode, 2, 10);
+  const elevatedIdx = byMode(mode, 5, 11);
+  const accentFillIdx = byMode(mode, 7, 6);
+  // `control` (inputs, secondary button) lives on the dedicated step 4 (L≈0.35): between `modal` and
+  // `card` — slightly lighter than the modal it's often on, a touch darker than a card (a recessed fill).
+  const controlIdx = byMode(mode, 3, 11);
   const accentFill = accent[accentFillIdx];
   const accentDisabled = colorAt(accentColor.h, accentColor.c * 0.4, PRIMITIVE_LS[accentFillIdx], gamut);
 
@@ -131,10 +133,10 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "surface-elevated": surface[elevatedIdx],
     "surface-elevated-edge": shade(sampleSurface, PRIMITIVE_LS[elevatedIdx], mode, EDGE_DELTA),
 
-    // Filled control (e.g. the secondary button) — one step lighter than `surface` in dark mode, on
-    // the same tinted family. `border` delineates it (DS-3); `edge` is its inset volume highlight.
+    // Filled control (inputs, secondary button) on the tinted family. `border` delineates it (DS-3);
+    // `edge` is its inset volume highlight.
     control: surface[controlIdx],
-    "control-border": neutral[byMode(mode, 5, 9)],
+    "control-border": neutral[byMode(mode, 6, 10)],
     "control-edge": shade(sampleSurface, PRIMITIVE_LS[controlIdx], mode, EDGE_DELTA),
     "control-hover": shade(sampleSurface, PRIMITIVE_LS[controlIdx], mode, HOVER_DELTA),
     // Disabled secondary — a muted (low-chroma) shade of the control family, not surface.
@@ -143,27 +145,27 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     accent: accentFill,
     // `on-accent` family: foreground (text/icon) for content sitting on the accent fill — APCA picks
     // the more legible of the neutral extremes.
-    "on-accent": bestTextOn(accentFill, neutral[11], neutral[0]),
+    "on-accent": bestTextOn(accentFill, neutral[12], neutral[0]),
     // A touch lighter than the fill in dark mode, darker in light mode — a delineating border.
-    "accent-border": accent[byMode(mode, 6, 4)],
+    "accent-border": accent[byMode(mode, 7, 5)],
     "accent-edge": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], mode, EDGE_DELTA * 1.5),
     "accent-hover": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], mode, HOVER_DELTA),
     // Disabled primary — a muted (desaturated) shade of the accent family, not surface.
     "accent-disabled": accentDisabled,
     // Foreground on the disabled accent fill — subtle neutrals (not the active extremes), APCA-picked
     // so it stays legible in both modes.
-    "on-accent-disabled": bestTextOn(accentDisabled, neutral[9], neutral[2]),
+    "on-accent-disabled": bestTextOn(accentDisabled, neutral[10], neutral[2]),
 
-    "text-primary": neutral[byMode(mode, 11, 1)],
-    "text-subtle": neutral[byMode(mode, 9, 4)],
-    "text-placeholder": neutral[byMode(mode, 8, 6)],
-    "text-disabled": neutral[byMode(mode, 6, 7)],
+    "text-primary": neutral[byMode(mode, 12, 1)],
+    "text-subtle": neutral[byMode(mode, 10, 5)],
+    "text-placeholder": neutral[byMode(mode, 9, 7)],
+    "text-disabled": neutral[byMode(mode, 7, 8)],
 
     // Frosted overlays: text-primary at low alpha (so they adapt to mode) for translucent surfaces
     // over a backdrop blur — bookmarks bar/menus, and the frosted/ghost buttons.
-    "frosted-subtle": withAlpha(neutral[byMode(mode, 11, 1)], 0.04),
-    frosted: withAlpha(neutral[byMode(mode, 11, 1)], 0.1),
-    "frosted-strong": withAlpha(neutral[byMode(mode, 11, 1)], 0.18),
+    "frosted-subtle": withAlpha(neutral[byMode(mode, 12, 1)], 0.04),
+    frosted: withAlpha(neutral[byMode(mode, 12, 1)], 0.1),
+    "frosted-strong": withAlpha(neutral[byMode(mode, 12, 1)], 0.18),
   };
 
   return { mode, scales, tokens };
