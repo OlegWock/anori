@@ -1,5 +1,4 @@
-import "../styles.scss";
-import { Button } from "@anori/components/Button";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Link } from "@anori/design-system/components/Link/Link";
@@ -12,10 +11,61 @@ import type { CorrectPermission } from "@anori/utils/permissions";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import type { EmptyObject } from "@anori/utils/types";
-import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
+import { css, cva, cx } from "styled-system/css";
 import browser from "webextension-polyfill";
 import { useTopSitesStore } from "../storage";
+
+const widget = cva({
+  base: { display: "grid", gap: "2", flexGrow: 1, alignSelf: "stretch" },
+  variants: {
+    type: {
+      horizontal: { gridTemplateColumns: "repeat(6, 1fr)" },
+      vertical: { gridTemplateRows: "repeat(6, 1fr)", gridAutoFlow: "column" },
+    },
+  },
+});
+const linkPlate = css({
+  textDecoration: "none",
+  display: "flex",
+  flexDirection: "column",
+  gap: "2",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "2",
+  borderRadius: "md",
+  transition: "0.1s ease-in-out",
+  width: 0,
+  minWidth: "100%",
+  position: "relative",
+  "@media (any-hover: hover)": { "&:hover": { background: "frosted", "& .remove-link": { display: "flex" } } },
+});
+const plateIcon = css({ margin: "2", width: "2rem" });
+const loadingIcon = css({ margin: "2", width: "2rem", animation: "spin 1.5s ease-in-out infinite" });
+const removeLink = css({
+  display: "none",
+  position: "absolute",
+  top: 0,
+  right: 0,
+  zIndex: 1,
+  padding: "0-5",
+  background: "surface.elevated",
+  color: "accent",
+  borderWidth: "2px",
+  borderStyle: "solid",
+  borderColor: "accent",
+});
+const siteTitle = cva({
+  base: {
+    lineHeight: "1.25rem",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    alignSelf: "stretch",
+    fontSize: "sm",
+    textAlign: "center",
+  },
+  variants: { vertical: { true: { height: "1.25rem", whiteSpace: "nowrap" }, false: { height: "2.5rem" } } },
+});
 
 const REQUIRED_PERMISSIONS: CorrectPermission[] = X_BROWSER === "firefox" ? ["topSites"] : ["topSites", "favicon"];
 
@@ -24,11 +74,13 @@ const LinkPlate = ({
   favicon,
   title,
   onRemove,
+  vertical,
 }: {
   href: string;
   favicon: string;
   title: string;
   onRemove: () => void;
+  vertical: boolean;
 }) => {
   const { onLinkClick, isNavigating } = useLinkNavigationState();
   const { isEditing } = useParentFolder();
@@ -36,18 +88,20 @@ const LinkPlate = ({
 
   return (
     <Link
+      className={linkPlate}
       href={href}
       onClick={(e) => {
         trackInteraction("Open website");
         onLinkClick(e);
       }}
     >
-      {isNavigating && <Icon className="loading" icon={builtinIcons.spinner} width={32} height={32} />}
-      {!isNavigating && <img src={favicon} aria-hidden />}
-      <div className="site-title">{title}</div>
+      {isNavigating && <Icon className={loadingIcon} icon={builtinIcons.spinner} width={32} height={32} />}
+      {!isNavigating && <img className={plateIcon} src={favicon} aria-hidden />}
+      <div className={siteTitle({ vertical })}>{title}</div>
       {isEditing && (
         <Button
-          className="remove-link"
+          variant="ghost"
+          className={cx(removeLink, "remove-link")}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -94,7 +148,7 @@ export const MainScreen = ({ type }: WidgetRenderProps<EmptyObject> & { type: "h
   }, [blacklist]);
 
   return (
-    <div className={clsx("TopSitesWidget", type)}>
+    <div className={widget({ type })}>
       {sitesToDisplay.map((s) => {
         const resUrl = new URL(browser.runtime.getURL("/_favicon/"));
         resUrl.searchParams.set("pageUrl", s.url);
@@ -112,6 +166,7 @@ export const MainScreen = ({ type }: WidgetRenderProps<EmptyObject> & { type: "h
             href={s.url}
             favicon={faviconUrl}
             title={title}
+            vertical={type === "vertical"}
           />
         );
       })}
@@ -122,30 +177,30 @@ export const MainScreen = ({ type }: WidgetRenderProps<EmptyObject> & { type: "h
 export const Mock = ({ type }: { type: "horizontal" | "vertical" }) => {
   const { rem } = useSizeSettings();
   return (
-    <div className={clsx("TopSitesWidget", type)}>
-      <a href="http://example.com">
+    <div className={widget({ type })}>
+      <a className={linkPlate} href="http://example.com">
         <Icon icon={builtinIcons.logos.facebook} height={rem(2)} width={rem(2)} />
-        <div className="site-title">Facebook</div>
+        <div className={siteTitle({ vertical: type === "vertical" })}>Facebook</div>
       </a>
-      <a href="http://example.com">
+      <a className={linkPlate} href="http://example.com">
         <Icon icon={builtinIcons.logos.twitter} height={rem(2)} width={rem(2)} />
-        <div className="site-title">Twitter</div>
+        <div className={siteTitle({ vertical: type === "vertical" })}>Twitter</div>
       </a>
-      <a href="http://example.com">
+      <a className={linkPlate} href="http://example.com">
         <Icon icon={builtinIcons.logos.jira} height={rem(2)} width={rem(2)} />
-        <div className="site-title">Jira</div>
+        <div className={siteTitle({ vertical: type === "vertical" })}>Jira</div>
       </a>
-      <a href="http://example.com">
+      <a className={linkPlate} href="http://example.com">
         <Icon icon={builtinIcons.logos.github} height={rem(2)} width={rem(2)} />
-        <div className="site-title">GitHub</div>
+        <div className={siteTitle({ vertical: type === "vertical" })}>GitHub</div>
       </a>
-      <a href="http://example.com">
+      <a className={linkPlate} href="http://example.com">
         <Icon icon={builtinIcons.logos.whatsapp} height={rem(2)} width={rem(2)} />
-        <div className="site-title">Whatsapp</div>
+        <div className={siteTitle({ vertical: type === "vertical" })}>Whatsapp</div>
       </a>
-      <a href="http://example.com">
+      <a className={linkPlate} href="http://example.com">
         <Icon icon={builtinIcons.logos.notion} height={rem(2)} width={rem(2)} />
-        <div className="site-title">Notion</div>
+        <div className={siteTitle({ vertical: type === "vertical" })}>Notion</div>
       </a>
     </div>
   );
