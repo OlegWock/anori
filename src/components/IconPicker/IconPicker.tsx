@@ -1,3 +1,10 @@
+import { Select } from "@anori/components/lazy-components";
+import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/custom-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { useIconSets, useIconsSuspense } from "@anori/design-system/components/Icon/remote-icons";
+import { Input } from "@anori/design-system/components/Input/Input";
+import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
+import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import {
   type CSSProperties,
   createContext,
@@ -10,16 +17,51 @@ import {
   useRef,
   useState,
 } from "react";
-import "./IconPicker.scss";
-import { Select } from "@anori/components/lazy-components";
-import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/custom-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { useIconSets, useIconsSuspense } from "@anori/design-system/components/Icon/remote-icons";
-import { Input } from "@anori/design-system/components/Input/Input";
-import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
-import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useTranslation } from "react-i18next";
 import { FixedSizeList } from "react-window";
+import { css } from "styled-system/css";
+
+const iconPicker = css({ display: "flex", flexDirection: "column", gap: "4" });
+const section = css({ display: "flex", flexDirection: "column", alignItems: "stretch" });
+const searchWrapper = css({ display: "flex", gap: "2", marginBottom: "3", "& .Input": { flexGrow: 1 } });
+const tooBroadAlert = css({
+  borderRadius: "md",
+  backgroundColor: "surface.elevated",
+  fontSize: "sm",
+  marginBottom: "2",
+});
+const emptyStateAlert = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "6",
+  paddingBlock: "12",
+  paddingInline: "6",
+  textAlign: "center",
+});
+// react-window owns the scroll container, so we can't wrap it in <ScrollArea>; style the native
+// scrollbar directly (mirrors the legacy scroll-mixin: thumb on the elevated surface, track on card).
+const iconsGrid = css({
+  alignSelf: "center",
+  overflowX: "hidden !important",
+  "&::-webkit-scrollbar": { width: "7px", height: "7px" },
+  "&::-webkit-scrollbar-thumb": {
+    borderRadius: "md",
+    border: "2px solid var(--ds-surface-elevated)",
+    backgroundColor: "surface.elevated",
+  },
+  "&::-webkit-scrollbar-track": { backgroundColor: "card", borderRadius: "md" },
+  scrollbarColor: "var(--ds-surface-elevated) transparent",
+});
+const iconRow = css({ display: "flex" });
+const iconCell = css({
+  transition: "0.05s ease-in-out",
+  contain: "paint",
+  outline: "none",
+  _hover: { background: "frosted.strong", borderRadius: "sm", cursor: "pointer" },
+  _focusVisible: { background: "frosted.strong", borderRadius: "sm", cursor: "pointer", outline: "none" },
+});
 
 type IconPickerProps = PopoverRenderProps<{
   onSelected: (icon: string) => void;
@@ -39,6 +81,9 @@ const IconPickerContext = createContext<IconPickerContextType>({
 const COLUMNS = 8;
 const ICON_SIZE = 32;
 const PADDING = 10;
+// The grid and the picker share this width so the search input/select line up with the icon columns
+// (+8 for the scrollbar gutter).
+const GRID_WIDTH = COLUMNS * (ICON_SIZE + PADDING * 2) + 8;
 
 const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void; x: number; y: number }) => {
   const registerRef = (el: HTMLButtonElement | null) => {
@@ -64,7 +109,7 @@ const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void;
       <button
         type="button"
         style={{ padding: PADDING }}
-        className="IconCell"
+        className={iconCell}
         data-icon={icon}
         onClick={onClick}
         onKeyDown={onKeyDown}
@@ -80,7 +125,7 @@ const IconRow = ({ index, data, style }: { index: number; style: CSSProperties; 
   const indexEnd = Math.min(indexStart + COLUMNS, data.iconsList.length);
 
   return (
-    <div className="IconRow" style={style}>
+    <div className={iconRow} style={style}>
       {data.iconsList.slice(indexStart, indexEnd).map((icon, currentX) => {
         return <IconCell key={icon} icon={icon} onClick={() => data.onSelected(icon)} x={currentX} y={index} />;
       })}
@@ -114,17 +159,17 @@ const IconsGrid = ({
   const ROWS = Math.ceil(iconsList.length / COLUMNS);
 
   return iconsList.length === 0 && selectedFamily === CUSTOM_ICONS_SET_NAME ? (
-    <div className="empty-state-alert">
+    <div className={emptyStateAlert}>
       <p>{t("iconsPicker.customIconsInfo")}</p>
       <p>{t("iconsPicker.customIconsAbsent")}</p>
     </div>
   ) : (
     <FixedSizeList<GridItemData>
-      className="icons-grid"
+      className={iconsGrid}
       height={350}
       itemCount={ROWS}
       itemSize={ICON_SIZE + PADDING * 2}
-      width={COLUMNS * (ICON_SIZE + PADDING * 2) + 8} // 8px is for scrollbar
+      width={GRID_WIDTH}
       itemData={{
         iconsList,
         onSelected,
@@ -187,8 +232,8 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
 
   return (
     <IconPickerContext.Provider value={{ rowRefs, moveFocus }}>
-      <div className="IconPicker">
-        <section>
+      <div className={iconPicker} style={{ width: GRID_WIDTH }}>
+        <section className={section}>
           <label>{t("iconsPicker.iconFamily")}:</label>
           <Select<string>
             options={[ALL_SETS, ...iconSetIds]}
@@ -199,21 +244,20 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
           />
         </section>
 
-        <section>
+        <section className={section}>
           <label>{t("icons")}: </label>
 
-          <div className="icons-search-wrapper">
+          <div className={searchWrapper}>
             <Input
               ref={data.inputRef}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t("search")}
-              className="icons-search"
               onKeyUp={onInputKeydown}
             />
           </div>
           {selectedFamily === ALL_SETS && !query && (
-            <div className="too-broad-alert">
+            <div className={tooBroadAlert}>
               <p>{t("iconsPicker.selectFamilyOrSearch")}</p>
             </div>
           )}

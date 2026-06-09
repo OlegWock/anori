@@ -1,4 +1,4 @@
-import { IconPicker } from "@anori/components/IconPicker";
+import { IconPicker } from "@anori/components/IconPicker/IconPicker";
 import { ReorderItem } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
