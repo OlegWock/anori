@@ -14,7 +14,6 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";
-import browser from "webextension-polyfill";
 import { CloudAccountModal, SettingsModal } from "../lazy-components";
 
 export type SidebarProps = {
@@ -159,15 +158,6 @@ export const Sidebar = ({ folders, activeFolder, orientation, bookmarksBarVisibl
                 name={t("settings.title")}
                 onClick={() => setSettingsVisible(true)}
               />
-              {X_MODE === "development" && (
-                <SidebarButton
-                  sidebarOrientation={orientation}
-                  layoutId="kitchen-sink"
-                  icon={builtinIcons.palette}
-                  name="Kitchen sink"
-                  onClick={() => browser.tabs.create({ url: browser.runtime.getURL("/pages/kitchen-sink/index.html") })}
-                />
-              )}
             </FloatingDelayGroup>
           </div>
         </ScrollArea>

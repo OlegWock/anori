@@ -30,5 +30,10 @@ declare module "~icons/*?raw" {
   export default content;
 }
 
+declare module "apca-w3" {
+  export function APCAcontrast(textY: number, bgY: number): number | string;
+  export function sRGBtoY(rgb: number[]): number;
+}
+
 declare const X_MODE: "development" | "production";
 declare const X_BROWSER: "chrome" | "firefox";
