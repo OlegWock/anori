@@ -1,22 +1,21 @@
+import { useCloudAccount } from "@anori/cloud-integration/hooks";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { SidebarButton } from "@anori/components/SidebarButton/SidebarButton";
+import { WhatsNew } from "@anori/components/WhatsNew";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useHotkeys } from "@anori/utils/hooks";
+import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
-
 import type { Folder } from "@anori/utils/user-data/types";
 import { FloatingDelayGroup } from "@floating-ui/react";
+import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css, cva } from "styled-system/css";
 import browser from "webextension-polyfill";
-import "./Sidebar.scss";
-import { useCloudAccount } from "@anori/cloud-integration/hooks";
-import { WhatsNew } from "@anori/components/WhatsNew";
-import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { anoriSchema } from "@anori/utils/storage";
-import clsx from "clsx";
 import { CloudAccountModal, SettingsModal } from "../lazy-components";
 
 export type SidebarProps = {
@@ -25,6 +24,53 @@ export type SidebarProps = {
   orientation: "vertical" | "horizontal";
   onFolderClick: (folder: Folder) => void;
 };
+
+const sidebarWrapper = cva({
+  base: { paddingBlock: "7", paddingInline: "2", overflow: "hidden" },
+  // Real `:hover` (not @media hover) so touch users can reveal the hidden sidebar by tapping it.
+  variants: {
+    autohide: {
+      true: {
+        paddingInline: "4",
+        "--sidebar-display": "none",
+        "&:hover": { paddingInline: "2", "--sidebar-display": "flex" },
+      },
+    },
+  },
+});
+
+const sidebar = css({
+  flexGrow: 0,
+  flexShrink: 0,
+  zIndex: 1,
+  maxHeight: "100%",
+  minHeight: "100%",
+  // Shown by default; the wrapper's autohide variant flips this var. `!` to beat the ScrollArea's own display.
+  display: "var(--sidebar-display, flex) !important",
+});
+
+const sidebarViewport = css({
+  flexGrow: 1,
+  display: "flex",
+  flexDirection: "column",
+  "& > div[style]:not(#specifity-bump)": {
+    flexGrow: 1,
+    height: "100%",
+    minHeight: "100%",
+    display: "flex !important",
+  },
+});
+
+const sidebarContent = css({
+  display: "flex !important",
+  flexDirection: "column",
+  gap: "8",
+  paddingBlock: "3",
+  paddingInline: "6",
+  _compact: { gap: "6" },
+});
+
+const spacer = css({ flexGrow: 1 });
 
 export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: SidebarProps) => {
   const { t } = useTranslation();
@@ -41,15 +87,17 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
 
   return (
     <>
-      <div className={clsx("sidebar-wrapper", (autoHideSidebar ?? false) && "sidebar-autohide")}>
+      {/* The page layout (newtab styles.scss: horizontal-sidebar / bookmarks-bar) still targets these
+          marker classes, so they're kept alongside the Panda styles until that migrates too. */}
+      <div className={clsx(sidebarWrapper({ autohide: autoHideSidebar ?? false }), "sidebar-wrapper")}>
         <ScrollArea
-          className="sidebar"
-          contentClassName="sidebar-viewport"
+          className={clsx(sidebar, "sidebar")}
+          contentClassName={clsx(sidebarViewport, "sidebar-viewport")}
           type="hover"
           direction={orientation}
           mirrorVerticalScrollToHorizontal
         >
-          <div className="sidebar-content">
+          <div className={clsx(sidebarContent, "sidebar-content")}>
             <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
               {folders.map((f) => {
                 return (
@@ -66,7 +114,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                   />
                 );
               })}
-              <div className="spacer" />
+              <div className={spacer} />
               <SidebarButton
                 sidebarOrientation={orientation}
                 layoutId="whats-new"
