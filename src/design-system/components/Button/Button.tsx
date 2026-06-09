@@ -2,8 +2,8 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
 import { css, cva, cx } from "styled-system/css";
 
-type ButtonSize = "normal" | "compact";
-type ButtonVariant = "primary" | "secondary" | "frosted" | "ghost";
+export type ButtonSize = "normal" | "compact";
+export type ButtonVariant = "primary" | "secondary" | "frosted" | "ghost";
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
   variant?: ButtonVariant;
@@ -19,7 +19,7 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   iconEnd?: string;
 }
 
-const button = cva({
+export const button = cva({
   base: {
     position: "relative",
     display: "inline-flex",
@@ -102,6 +102,29 @@ const content = css({ display: "contents" });
 const contentHidden = css({ visibility: "hidden" });
 const buttonIcon = css({ flexShrink: 0 });
 
+// The inner content of a button-styled control (the loading spinner + label/icons). Shared so
+// link-flavoured buttons (LinkButton/LinkIconButton) render identically to <button> ones.
+export const ButtonContent = ({
+  loading,
+  iconStart,
+  iconEnd,
+  children,
+}: {
+  loading?: boolean;
+  iconStart?: string;
+  iconEnd?: string;
+  children?: ReactNode;
+}) => (
+  <>
+    {loading && <span className={spinner} />}
+    <span className={cx(content, loading && contentHidden)}>
+      {iconStart && <Icon icon={iconStart} height="1em" className={buttonIcon} aria-hidden />}
+      {children}
+      {iconEnd && <Icon icon={iconEnd} height="1em" className={buttonIcon} aria-hidden />}
+    </span>
+  </>
+);
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     variant = "primary",
@@ -130,12 +153,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       onClick={visuallyDisabled || loading ? undefined : onClick}
       className={cx(button({ variant, size, block, loading }), className)}
     >
-      {loading && <span className={spinner} />}
-      <span className={cx(content, loading && contentHidden)}>
-        {iconStart && <Icon icon={iconStart} height="1em" className={buttonIcon} aria-hidden />}
+      <ButtonContent loading={loading} iconStart={iconStart} iconEnd={iconEnd}>
         {children}
-        {iconEnd && <Icon icon={iconEnd} height="1em" className={buttonIcon} aria-hidden />}
-      </span>
+      </ButtonContent>
     </button>
   );
 });

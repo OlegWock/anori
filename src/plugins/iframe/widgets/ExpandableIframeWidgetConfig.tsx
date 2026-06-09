@@ -14,7 +14,15 @@ import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types"
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { IframePluginExpandableWidgetConfig } from "../types";
-import { compactField, config, iconPickerTrigger, saveConfig, urlImportWrapper } from "./config-styles";
+import {
+  compactField,
+  config,
+  iconPickerTrigger,
+  mainColumn,
+  row,
+  saveConfig,
+  urlImportWrapper,
+} from "./config-styles";
 
 export const ExpandableWidgetConfigScreen = ({
   saveConfiguration,
@@ -36,39 +44,43 @@ export const ExpandableWidgetConfigScreen = ({
     <div className={config}>
       <Alert>{t("iframe-plugin.limitations")}</Alert>
 
-      <Field label={`${t("icon")}:`}>
-        <Popover
-          component={IconPicker}
-          initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
-          additionalData={{
-            onSelected: setIcon,
-            inputRef: iconSearchRef,
-          }}
-        >
-          <Button variant="secondary" className={iconPickerTrigger}>
-            <Icon icon={icon} width={rem(3)} />
-          </Button>
-        </Popover>
-      </Field>
-      <Field label={t("title")}>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-      </Field>
-      <Field label={`${t("url")}:`}>
-        <div className={urlImportWrapper}>
-          <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+      <div className={row}>
+        <Field label={`${t("icon")}:`}>
           <Popover
-            component={PickBookmark}
+            component={IconPicker}
+            initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
             additionalData={{
-              onSelected: (title, url) => {
-                console.log("Selected bookmark", title, url);
-                setUrl(url);
-              },
+              onSelected: setIcon,
+              inputRef: iconSearchRef,
             }}
           >
-            <Button variant="secondary">{t("import")}</Button>
+            <Button variant="secondary" className={iconPickerTrigger}>
+              <Icon icon={icon} width={rem(3)} />
+            </Button>
           </Popover>
+        </Field>
+        <div className={mainColumn}>
+          <Field label={t("title")}>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+          </Field>
+          <Field label={`${t("url")}:`}>
+            <div className={urlImportWrapper}>
+              <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+              <Popover
+                component={PickBookmark}
+                additionalData={{
+                  onSelected: (title, url) => {
+                    console.log("Selected bookmark", title, url);
+                    setUrl(url);
+                  },
+                }}
+              >
+                <Button variant="secondary">{t("import")}</Button>
+              </Popover>
+            </div>
+          </Field>
         </div>
-      </Field>
+      </div>
 
       <div className={compactField}>
         <Checkbox checked={showLinkToPage} onChange={setShowLinkToPage}>

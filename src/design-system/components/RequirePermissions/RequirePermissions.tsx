@@ -26,6 +26,10 @@ const prompt = css({ flexGrow: 1 });
 const promptContent = css({ display: "flex", flexDirection: "column", gap: "3" });
 // Radix wraps the viewport content in an inline `display: table` div; override it to a centered flex
 // column (min-height fills the viewport) so the prompt centers when it fits and scrolls when it doesn't.
+// TODO: the prompt isn't vertically centered when rendered inside the WidgetExpandArea popup
+// (withoutScroll) — repro: the bookmark widget's "View in popup" action when the host permission isn't
+// granted. The ScrollArea viewport doesn't fill the flex-grown scroll root there, so this
+// min-height: 100% has nothing to resolve against. Centers fine in the small/compact widget case.
 const centeredViewport = css({
   "& > div": {
     display: "flex !important",

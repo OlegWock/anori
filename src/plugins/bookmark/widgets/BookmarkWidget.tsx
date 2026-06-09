@@ -1,6 +1,7 @@
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Link } from "@anori/design-system/components/Link/Link";
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
@@ -27,8 +28,8 @@ import {
   bookmarkText,
   cornerControls,
   expandArea,
+  expandButton,
   loadingIcon,
-  openInIframe,
   statusDot,
   widget,
 } from "./widget-styles";
@@ -156,11 +157,13 @@ export const BookmarkWidget = ({
           )}
 
           {["chrome", "firefox"].includes(X_BROWSER) && (
-            <button type="button" onClick={openIframe} className={clsx(openInIframe, "open-in-iframe")}>
-              <div>
-                <Icon icon={builtinIcons.expand} />
-              </div>
-            </button>
+            <IconButton
+              variant="frosted"
+              icon={builtinIcons.expand}
+              label={t("bookmark-plugin.openInIframe")}
+              onClick={openIframe}
+              className={clsx(expandButton, "open-in-iframe")}
+            />
           )}
         </div>
       </Link>

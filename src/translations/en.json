@@ -247,6 +247,7 @@
             "statusDown": "down",
             "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites.",
             "openInNewTab": "Open in a new tab",
+            "openInIframe": "Open in popup",
             "pages": "Pages",
             "addPage": "Add page"
         },
@@ -355,6 +356,7 @@
             "name": "Embed webpage",
             "expandWidgetName": "Embed webpage — expandable",
             "showLink": "Show link to original page",
+            "openPage": "Open page",
             "limitations": "Embedding doesn't work with all pages. Some sites actively resist being displayed as an embedded page, and unfortunately, Anori can't do much about it. This might result in pages not loading (as is the case with Gmail) or working poorly."
         },
         "math-plugin": {

@@ -81,26 +81,8 @@ export const statusDot = css({
   border: "0.2rem solid var(--ds-card)",
 });
 
-export const openInIframe = css({
-  lineHeight: "none",
-  display: "none",
-  background: "card",
-  whiteSpace: "nowrap",
-  color: "text.primary",
-  borderRadius: "xl",
-  overflow: "hidden",
-  cursor: "pointer",
-  "& > div": {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBlock: "1-5",
-    paddingInline: "4",
-    background: "transparent",
-    transition: "0.2s ease-in-out, box-shadow 0.35s ease-in-out",
-  },
-  "@media (any-hover: hover)": { "&:hover > div": { background: "frosted.subtle" } },
-});
+// The "open in iframe" button is hidden until the card is hovered (revealed by `widget`'s :hover rule).
+export const expandButton = css({ display: "none" });
 
 // Applied to the WidgetExpandArea content when a bookmark is opened in an iframe.
 export const expandArea = css({

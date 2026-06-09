@@ -17,12 +17,12 @@ export type IconButtonProps = Omit<ButtonProps, "children" | "iconStart" | "icon
 // Square, icon-only button: the text Button with its horizontal padding collapsed to match the
 // vertical (1:1). Inherits all Button variants / sizes / states, and shows its label as a delayed
 // tooltip (mimicking the native `title`).
-const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center" });
+export const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center" });
 // Ghost has no fill/edge framing the icon, so a 1em glyph reads too small — bump it up.
-const ghostIcon = css({ "& svg": { height: "1.375em" } });
+export const ghostIcon = css({ "& svg": { height: "1.375em" } });
 // Non-primary icon buttons sit on neutral/transparent surfaces; soften their glyph with the icon token
 // (primary keeps its on-accent fill for contrast).
-const iconColor = css({ "& svg": { color: "icon" } });
+export const iconColor = css({ "& svg": { color: "icon" } });
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
   { icon, label, tooltip, showTooltip = true, variant, className, ...props },
@@ -31,7 +31,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
   // Always render the Tooltip wrapper (it adds no DOM node and `disabled` just suppresses opening), so
   // toggling `showTooltip` mid-gesture doesn't remount the button and break its pointer capture.
   return (
-    <Tooltip label={tooltip ?? label} showDelay={700} disabled={!showTooltip} targetRef={ref as Ref<HTMLElement>}>
+    <Tooltip label={tooltip ?? label} showDelay={1400} disabled={!showTooltip} targetRef={ref as Ref<HTMLElement>}>
       <Button
         variant={variant}
         iconStart={icon}

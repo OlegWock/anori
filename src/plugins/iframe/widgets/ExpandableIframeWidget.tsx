@@ -1,7 +1,7 @@
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { Link } from "@anori/design-system/components/Link/Link";
+import { LinkIconButton } from "@anori/design-system/components/LinkIconButton/LinkIconButton";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
@@ -13,7 +13,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";
 import type { IframePluginExpandableWidgetConfig } from "../types";
-import { openUrlBtn } from "./widget-styles";
 
 const widget = css({
   display: "flex",
@@ -108,9 +107,12 @@ export const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpan
             className={expandArea}
             extraButtons={
               config.showLinkToPage && (
-                <Link className={openUrlBtn} href={config.url}>
-                  <Icon icon={builtinIcons.openOutline} height={rem(1.5)} width={rem(1.5)} />
-                </Link>
+                <LinkIconButton
+                  variant="ghost"
+                  icon={builtinIcons.openOutline}
+                  label={t("iframe-plugin.openPage")}
+                  href={config.url}
+                />
               )
             }
           >

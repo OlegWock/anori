@@ -52,7 +52,7 @@ const windowTitle = css({
   overflow: "hidden",
   textOverflow: "ellipsis",
 });
-const windowButtons = css({ display: "flex", alignItems: "center", gap: "4" });
+const windowButtons = css({ display: "flex", alignItems: "center", gap: "2" });
 // Consumer-provided extra buttons (raw icon links) keep the dimmed-glyph treatment; the close button
 // is a DS ghost IconButton and styles itself.
 const extraButtonsWrap = css({
