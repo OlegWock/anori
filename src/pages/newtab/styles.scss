@@ -64,28 +64,12 @@ body {
         overflow: hidden;
     }
 
+    // The sidebar's own horizontal / bookmarks-bar overrides live in the Sidebar component (Panda),
+    // driven by its `orientation` and `bookmarksBarVisible` props.
     &.horizontal-sidebar {
 
         .start-page-content {
             flex-direction: column-reverse;
-        }
-
-        .sidebar-wrapper {
-            padding: var(--spacing-4) var(--spacing-6);
-
-            .sidebar {
-                .sidebar-viewport {
-
-                    &>div[style]:not(#specifity-bump) { 
-                        flex-direction: column;
-                    }
-                    .sidebar-content {
-                        padding: var(--spacing-3);
-                        flex-direction: row !important;
-                    }
-                }
-            }
-
         }
 
         .widgets-area {
@@ -97,12 +81,6 @@ body {
     &.with-bookmarks-bar {
         .widgets-area {
             margin-top: var(--spacing-1);
-        }
-
-        &:not(.horizontal-sidebar) {
-            .sidebar-wrapper {
-                padding-top: var(--spacing-2) !important;
-            }
         }
     }
 

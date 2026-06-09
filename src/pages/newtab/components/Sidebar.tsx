@@ -10,7 +10,6 @@ import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { Folder } from "@anori/utils/user-data/types";
 import { FloatingDelayGroup } from "@floating-ui/react";
-import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,21 +21,28 @@ export type SidebarProps = {
   folders: Folder[];
   activeFolder: Folder;
   orientation: "vertical" | "horizontal";
+  // Whether the (horizontal) bookmarks bar is shown above the page — tightens the vertical sidebar's top.
+  bookmarksBarVisible?: boolean;
   onFolderClick: (folder: Folder) => void;
 };
 
 const sidebarWrapper = cva({
-  base: { paddingBlock: "7", paddingInline: "2", overflow: "hidden" },
-  // Real `:hover` (not @media hover) so touch users can reveal the hidden sidebar by tapping it.
+  base: { overflow: "hidden" },
   variants: {
-    autohide: {
-      true: {
-        paddingInline: "4",
-        "--sidebar-display": "none",
-        "&:hover": { paddingInline: "2", "--sidebar-display": "flex" },
-      },
+    orientation: {
+      vertical: { paddingBlock: "7", paddingInline: "2" },
+      horizontal: { paddingBlock: "4", paddingInline: "6" },
     },
+    // Real `:hover` (not @media hover) so touch users can reveal the hidden sidebar by tapping it.
+    autohide: { true: { "--sidebar-display": "none", "&:hover": { "--sidebar-display": "flex" } } },
+    bookmarksBar: { true: {} },
   },
+  compoundVariants: [
+    // Vertical autohide collapses to a narrow hover strip; widen back on hover.
+    { orientation: "vertical", autohide: true, css: { paddingInline: "4!", "&:hover": { paddingInline: "2!" } } },
+    // A horizontal bookmarks bar sits above the vertical sidebar, so tighten its top padding.
+    { orientation: "vertical", bookmarksBar: true, css: { paddingTop: "2!" } },
+  ],
 });
 
 const sidebar = css({
@@ -49,30 +55,39 @@ const sidebar = css({
   display: "var(--sidebar-display, flex) !important",
 });
 
-const sidebarViewport = css({
-  flexGrow: 1,
-  display: "flex",
-  flexDirection: "column",
-  "& > div[style]:not(#specifity-bump)": {
+const sidebarViewport = cva({
+  base: {
     flexGrow: 1,
-    height: "100%",
-    minHeight: "100%",
-    display: "flex !important",
+    display: "flex",
+    flexDirection: "column",
+    "& > div[style]:not(#specifity-bump)": {
+      flexGrow: 1,
+      height: "100%",
+      minHeight: "100%",
+      display: "flex !important",
+    },
+  },
+  variants: {
+    orientation: {
+      vertical: {},
+      horizontal: { "& > div[style]:not(#specifity-bump)": { flexDirection: "column" } },
+    },
   },
 });
 
-const sidebarContent = css({
-  display: "flex !important",
-  flexDirection: "column",
-  gap: "8",
-  paddingBlock: "3",
-  paddingInline: "6",
-  _compact: { gap: "6" },
+const sidebarContent = cva({
+  base: { display: "flex !important", gap: "8", _compact: { gap: "6" } },
+  variants: {
+    orientation: {
+      vertical: { flexDirection: "column", paddingBlock: "3", paddingInline: "6" },
+      horizontal: { flexDirection: "row", padding: "3" },
+    },
+  },
 });
 
 const spacer = css({ flexGrow: 1 });
 
-export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: SidebarProps) => {
+export const Sidebar = ({ folders, activeFolder, orientation, bookmarksBarVisible, onFolderClick }: SidebarProps) => {
   const { t } = useTranslation();
   const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useStorageValue(anoriSchema.hasUnreadReleaseNotes);
   const [autoHideSidebar] = useStorageValue(anoriSchema.autoHideSidebar);
@@ -87,17 +102,21 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
 
   return (
     <>
-      {/* The page layout (newtab styles.scss: horizontal-sidebar / bookmarks-bar) still targets these
-          marker classes, so they're kept alongside the Panda styles until that migrates too. */}
-      <div className={clsx(sidebarWrapper({ autohide: autoHideSidebar ?? false }), "sidebar-wrapper")}>
+      <div
+        className={sidebarWrapper({
+          orientation,
+          autohide: autoHideSidebar ?? false,
+          bookmarksBar: bookmarksBarVisible ?? false,
+        })}
+      >
         <ScrollArea
-          className={clsx(sidebar, "sidebar")}
-          contentClassName={clsx(sidebarViewport, "sidebar-viewport")}
+          className={sidebar}
+          contentClassName={sidebarViewport({ orientation })}
           type="hover"
           direction={orientation}
           mirrorVerticalScrollToHorizontal
         >
-          <div className={clsx(sidebarContent, "sidebar-content")}>
+          <div className={sidebarContent({ orientation })}>
             <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
               {folders.map((f) => {
                 return (

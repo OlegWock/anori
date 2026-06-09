@@ -121,6 +121,7 @@ const Start = () => {
                 folders={folders}
                 activeFolder={activeFolder}
                 orientation={sidebarOrientation}
+                bookmarksBarVisible={showBookmarksBar}
                 onFolderClick={(f) => {
                   setActiveFolder(f);
                   if (rememberLastFolder) setLastFolder(f.id);
