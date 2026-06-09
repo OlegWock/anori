@@ -1,12 +1,16 @@
-import { Button } from "@anori/components/Button";
 import { Select } from "@anori/components/lazy-components";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Field } from "@anori/design-system/components/Field/Field";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import { DEFAULT_CALENDAR, getCalendarLabel, SUPPORTED_CALENDARS } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
-import "./CalendarWidgetConfig.scss";
+
+const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
+const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
 
 export const ConfigScreen = ({
   currentConfig,
@@ -21,9 +25,8 @@ export const ConfigScreen = ({
   const [calendar, setCalendar] = useState<string>(currentConfig?.calendar ?? DEFAULT_CALENDAR);
 
   return (
-    <div className="CalendarWidget-config">
-      <div>
-        <label>{t("calendar-plugin.firstDayOfWeek")}:</label>
+    <div className={config}>
+      <Field label={`${t("calendar-plugin.firstDayOfWeek")}:`}>
         <Select<number>
           options={[0, 1, 2, 3, 4, 5, 6]}
           value={firstDay}
@@ -31,10 +34,9 @@ export const ConfigScreen = ({
           getOptionKey={(o) => o.toString()}
           getOptionLabel={(o) => weekdays[o]}
         />
-      </div>
+      </Field>
 
-      <div>
-        <label>{t("calendar-plugin.calendarType")}:</label>
+      <Field label={`${t("calendar-plugin.calendarType")}:`}>
         <Select<string>
           options={[...SUPPORTED_CALENDARS]}
           value={calendar}
@@ -42,9 +44,9 @@ export const ConfigScreen = ({
           getOptionKey={(o) => o}
           getOptionLabel={(o) => getCalendarLabel(o, i18n.language)}
         />
-      </div>
+      </Field>
 
-      <Button className="save-config" onClick={() => saveConfiguration({ firstDay, calendar })}>
+      <Button className={saveConfig} onClick={() => saveConfiguration({ firstDay, calendar })}>
         {t("save")}
       </Button>
     </div>

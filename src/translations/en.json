@@ -254,7 +254,9 @@
             "name": "Calendar",
             "widgetName": "Calendar",
             "firstDayOfWeek": "First day of the week",
-            "calendarType": "Calendar type"
+            "calendarType": "Calendar type",
+            "previousMonth": "Previous month",
+            "nextMonth": "Next month"
         },
         "datetime-plugin": {
             "name": "Date and time",

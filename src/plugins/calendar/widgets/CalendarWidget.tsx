@@ -1,23 +1,62 @@
-import { Button } from "@anori/components/Button";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { usePrevious } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useDirection } from "@radix-ui/react-direction";
-import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import moment from "moment-timezone";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css, cva } from "styled-system/css";
 import { DEFAULT_CALENDAR, makeCalendarAdapter } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
-import "./CalendarWidget.scss";
+
+const calendarWidget = css({
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 1,
+  alignSelf: "stretch",
+  alignItems: "stretch",
+});
+const header = css({
+  marginBottom: "1-5",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: "4",
+});
+const calendarGrid = css({ display: "flex", flexDirection: "column", alignItems: "stretch", flexGrow: 1 });
+const calendarDays = css({ display: "flex", flexDirection: "column", flexGrow: 1 });
+const calendarRow = cva({
+  base: { display: "flex", flexGrow: 1 },
+  variants: { weekdays: { true: { flexGrow: 0, paddingBlock: "1" } } },
+});
+const calendarCell = cva({
+  base: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "1",
+    color: "text.placeholder",
+    lineHeight: "none",
+    textAlign: "center",
+  },
+  variants: {
+    weekday: { true: { color: "text.primary" } },
+    currentMonth: { true: { color: "text.primary" } },
+    today: { true: { background: "accent", borderRadius: "lg" } },
+  },
+});
 
 export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dir = useDirection();
   const trackInteraction = useWidgetInteractionTracker();
   const [today, setToday] = useState(() => moment());
@@ -94,7 +133,7 @@ export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigTyp
         const isToday = currentDate.isSame(today, "day");
         row.push(
           <div
-            className={clsx("calendar-cell", { "current-month": inCurrentMonth, today: isToday })}
+            className={calendarCell({ currentMonth: inCurrentMonth, today: isToday })}
             key={currentDate.format("YYYY-MM-DD")}
           >
             {calendar.dayLabel(cellDate)}
@@ -103,7 +142,7 @@ export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigTyp
         currentDate.add(1, "day");
       }
       res.push(
-        <m.div className="calendar-row" key={`row-${monthKey}-${week}`}>
+        <m.div className={calendarRow()} key={`row-${monthKey}-${week}`}>
           {row}
         </m.div>,
       );
@@ -128,42 +167,41 @@ export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigTyp
   }, [i18n.language, firstDayShift]);
 
   return (
-    <div className="CalendarWidget">
-      <h3 className="header">
-        <Button
-          withoutBorder
+    <div className={calendarWidget}>
+      <h3 className={header}>
+        <IconButton
+          variant="ghost"
+          icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
+          label={t("calendar-plugin.previousMonth")}
           onClick={() => {
             trackInteraction("Switch month");
             setOffsetMonths((p) => p - 1);
           }}
-        >
-          <Icon icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward} />
-        </Button>
+        />
         <Button
-          withoutBorder
+          variant="ghost"
           onClick={() => {
             trackInteraction("Switch month");
             setOffsetMonths(0);
           }}
-          className="month-name"
         >
           {monthName}
         </Button>
-        <Button
-          withoutBorder
+        <IconButton
+          variant="ghost"
+          icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack}
+          label={t("calendar-plugin.nextMonth")}
           onClick={() => {
             trackInteraction("Switch month");
             setOffsetMonths((p) => p + 1);
           }}
-        >
-          <Icon icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
-        </Button>
+        />
       </h3>
-      <m.div className="calendar-grid" dir="ltr">
-        <div className="calendar-row weekdays" key="weekdays">
+      <m.div className={calendarGrid} dir="ltr">
+        <div className={calendarRow({ weekdays: true })} key="weekdays">
           {headerDays.map(([weekday, weekdayShort]) => {
             return (
-              <div className="calendar-cell" key={weekday}>
+              <div className={calendarCell({ weekday: true })} key={weekday}>
                 {weekdayShort}
               </div>
             );
@@ -171,7 +209,7 @@ export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigTyp
         </div>
         <AnimatePresence mode="wait" custom={direction} initial={false}>
           <m.div
-            className="calendar-days"
+            className={calendarDays}
             custom={direction}
             transition={{ duration: 0.12 }}
             variants={variants}
