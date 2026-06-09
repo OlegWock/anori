@@ -1,9 +1,9 @@
-import "./IframeWidgetConfig.scss";
-import { Button } from "@anori/components/Button";
 import { IconPicker } from "@anori/components/IconPicker/IconPicker";
 import { PickBookmark } from "@anori/components/PickBookmark/PickBookmark";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";
@@ -14,6 +14,7 @@ import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types"
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { IframePluginExpandableWidgetConfig } from "../types";
+import { compactField, config, iconPickerTrigger, saveConfig, urlImportWrapper } from "./config-styles";
 
 export const ExpandableWidgetConfigScreen = ({
   saveConfiguration,
@@ -32,11 +33,10 @@ export const ExpandableWidgetConfigScreen = ({
   const iconSearchRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="IframeWidget-config">
+    <div className={config}>
       <Alert>{t("iframe-plugin.limitations")}</Alert>
 
-      <div className="field">
-        <label>{t("icon")}:</label>
+      <Field label={`${t("icon")}:`}>
         <Popover
           component={IconPicker}
           initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
@@ -45,18 +45,16 @@ export const ExpandableWidgetConfigScreen = ({
             inputRef: iconSearchRef,
           }}
         >
-          <Button className="icon-picker-trigger">
+          <Button variant="secondary" className={iconPickerTrigger}>
             <Icon icon={icon} width={rem(3)} />
           </Button>
         </Popover>
-      </div>
-      <div className="field">
-        <label>{t("title")}</label>
+      </Field>
+      <Field label={t("title")}>
         <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-      </div>
-      <div className="field">
-        <label>{t("url")}:</label>
-        <div className="url-import-wrapper">
+      </Field>
+      <Field label={`${t("url")}:`}>
+        <div className={urlImportWrapper}>
           <Input value={url} onChange={(e) => setUrl(e.target.value)} />
           <Popover
             component={PickBookmark}
@@ -67,19 +65,19 @@ export const ExpandableWidgetConfigScreen = ({
               },
             }}
           >
-            <Button>{t("import")}</Button>
+            <Button variant="secondary">{t("import")}</Button>
           </Popover>
         </div>
-      </div>
+      </Field>
 
-      <div className="field">
+      <div className={compactField}>
         <Checkbox checked={showLinkToPage} onChange={setShowLinkToPage}>
           {t("iframe-plugin.showLink")}
         </Checkbox>
       </div>
 
-      <Button className="save-config" onClick={onConfirm}>
-        Save
+      <Button className={saveConfig} onClick={onConfirm}>
+        {t("save")}
       </Button>
     </div>
   );

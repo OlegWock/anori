@@ -2,7 +2,6 @@
 // it's not available for JS (not sent at all?) if opened in iframe. Sites need to explicitly set SameSite=None to allow
 // those cookies to function
 
-import "./IframeWidget.scss";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Link } from "@anori/design-system/components/Link/Link";
@@ -11,7 +10,36 @@ import { ensureDnrRules } from "@anori/utils/plugins/dnr";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css, cva } from "styled-system/css";
 import type { IframePluginWidgetConfig } from "../types";
+import { openUrlBtn } from "./widget-styles";
+
+const widget = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+  textDecoration: "none",
+  flexGrow: 1,
+  gap: "2",
+  "& iframe": { flexGrow: 1, alignSelf: "stretch", borderRadius: "sm", background: "white" },
+});
+const widgetHeader = css({
+  display: "flex",
+  justifyContent: "space-between",
+  alignSelf: "stretch",
+  alignItems: "center",
+});
+const openUrlWrapper = cva({
+  base: {
+    background: "surface.elevated",
+    whiteSpace: "nowrap",
+    color: "text.primary",
+    overflow: "hidden",
+    borderRadius: "xl",
+  },
+  variants: { absolute: { true: { position: "absolute", top: "0.5rem", right: "0.5rem" } } },
+});
 
 export const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfig>) => {
   const [canRenderIframe, setCanRenderIframe] = useState(false);
@@ -29,13 +57,13 @@ export const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfi
   }, [config.url]);
 
   return (
-    <div className="IframeWidget">
+    <div className={widget}>
       {!!config.title && (
-        <div className="header">
+        <div className={widgetHeader}>
           <h2>{config.title}</h2>
           {config.showLinkToPage && (
-            <div className="open-url-btn-wrapper">
-              <Link className="open-url-btn" href={config.url}>
+            <div className={openUrlWrapper()}>
+              <Link className={openUrlBtn} href={config.url}>
                 <Icon icon={builtinIcons.openOutline} height={rem(1.25)} width={rem(1.25)} />
               </Link>
             </div>
@@ -43,8 +71,8 @@ export const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfi
         </div>
       )}
       {!config.title && config.showLinkToPage && (
-        <div className="open-url-btn-wrapper absolute">
-          <Link className="open-url-btn" href={config.url}>
+        <div className={openUrlWrapper({ absolute: true })}>
+          <Link className={openUrlBtn} href={config.url}>
             <Icon icon={builtinIcons.openOutline} height={rem(1.25)} width={rem(1.25)} />
           </Link>
         </div>

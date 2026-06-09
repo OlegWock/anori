@@ -106,5 +106,5 @@ export const openInIframe = css({
 export const expandArea = css({
   justifyContent: "center",
   alignItems: "center !important",
-  "& iframe": { flexGrow: 1, alignSelf: "stretch", borderRadius: "lg" },
+  "& iframe": { flexGrow: 1, alignSelf: "stretch", borderRadius: "lg", background: "white" },
 });
