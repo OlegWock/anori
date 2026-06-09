@@ -1,7 +1,7 @@
 import "../styles.scss";
 import { Button } from "@anori/components/Button";
-import { Combobox } from "@anori/components/Combobox";
 import { Select } from "@anori/components/lazy-components";
+import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";

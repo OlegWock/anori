@@ -1,14 +1,18 @@
-import "./DatetimeWidgetConfig.scss";
-import { Button } from "@anori/components/Button";
-import { Combobox } from "@anori/components/Combobox";
 import { Select } from "@anori/components/lazy-components";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { capitalize } from "@anori/utils/strings";
 import moment from "moment-timezone";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import type { DatetimeWidgetConfig } from "../types";
+
+const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
+const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
 
 export const ConfigScreen = ({
   currentConfig,
@@ -69,13 +73,11 @@ export const ConfigScreen = ({
   const [tz, setTz] = useState(currentConfig ? currentConfig.tz : moment.tz.guess());
 
   return (
-    <div className="DateTimeWidget-config">
-      <div>
-        <label>{t("title")}</label>
+    <div className={config}>
+      <Field label={t("title")}>
         <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-      </div>
-      <div>
-        <label>{t("timezone")}</label>
+      </Field>
+      <Field label={t("timezone")}>
         <Combobox<string>
           options={allTz}
           value={tz}
@@ -85,9 +87,8 @@ export const ConfigScreen = ({
           getOptionLabel={(o) => o.replace(/_/gim, " ")}
           shouldDisplayOption={(o, t) => o.toLowerCase().includes(t.toLowerCase())}
         />
-      </div>
-      <div>
-        <label>{t("datetime-plugin.timeFormat")}</label>
+      </Field>
+      <Field label={t("datetime-plugin.timeFormat")}>
         <Select<string>
           options={availableTimeFormats}
           value={timeFormat}
@@ -95,9 +96,8 @@ export const ConfigScreen = ({
           getOptionKey={(o) => o}
           getOptionLabel={(o) => availableTimeFormatsMap[o]}
         />
-      </div>
-      <div>
-        <label>{t("datetime-plugin.dateFormat")}</label>
+      </Field>
+      <Field label={t("datetime-plugin.dateFormat")}>
         <Select<string>
           options={availableDateFormats}
           value={dateFormat}
@@ -105,8 +105,8 @@ export const ConfigScreen = ({
           getOptionKey={(o) => o}
           getOptionLabel={(o) => availableDateFormatsMap[o]}
         />
-      </div>
-      <Button className="save-config" onClick={() => saveConfiguration({ title, timeFormat, dateFormat, tz })}>
+      </Field>
+      <Button className={saveConfig} onClick={() => saveConfiguration({ title, timeFormat, dateFormat, tz })}>
         {t("save")}
       </Button>
     </div>

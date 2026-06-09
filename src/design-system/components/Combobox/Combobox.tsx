@@ -1,5 +1,3 @@
-import { forwardRef, useRef, useState } from "react";
-import "./Combobox.scss";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";
@@ -17,9 +15,55 @@ import {
   useListNavigation,
   useRole,
 } from "@floating-ui/react";
-import clsx from "clsx";
 import { type HTMLMotionProps, m } from "framer-motion";
-import { useEffect } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { css, cva } from "styled-system/css";
+
+// Floating list panel — elevated surface + drop shadow on the tooltip layer (so it clears a modal it
+// was opened from); thin frosted scrollbar.
+const optionsPanel = css({
+  backgroundColor: "surface.elevated",
+  borderRadius: "sm",
+  boxShadow: "popover",
+  zIndex: "tooltip",
+  padding: "1-5",
+  "&::-webkit-scrollbar": { width: "8px", height: "8px" },
+  "&::-webkit-scrollbar-thumb": { backgroundColor: "frosted.strong", borderRadius: "md" },
+  "&::-webkit-scrollbar-track": { backgroundColor: "transparent" },
+  scrollbarWidth: "thin",
+  scrollbarColor: "var(--ds-frosted-strong) transparent",
+});
+const option = cva({
+  base: {
+    fontSize: "sm",
+    lineHeight: "none",
+    color: "text.primary",
+    borderRadius: "xs",
+    display: "flex",
+    alignItems: "center",
+    height: "30px",
+    paddingInline: "4",
+    userSelect: "none",
+    cursor: "default",
+    outline: "none",
+  },
+  variants: { active: { true: { backgroundColor: "control" } } },
+});
+const optionContent = css({ display: "flex", gap: "2" });
+const checkIcon = cva({
+  base: { flexShrink: 0, flexGrow: 0, opacity: 0 },
+  variants: { visible: { true: { opacity: 1 } } },
+});
+const noResults = css({
+  fontSize: "sm",
+  lineHeight: "none",
+  color: "text.primary",
+  display: "flex",
+  alignItems: "center",
+  height: "30px",
+  paddingInline: "4",
+  userSelect: "none",
+});
 
 export type ComboboxProps<T> = {
   options: T[];
@@ -47,19 +91,15 @@ const Item = forwardRef<HTMLDivElement, ItemProps & React.HTMLProps<HTMLDivEleme
         ref={ref}
         role="option"
         tabIndex={0}
-        className={clsx("Combobox-option", active && "highlighted")}
+        className={option({ active })}
         id={id}
         aria-selected={active}
         data-active={active}
         data-selected={checked}
         {...rest}
-        style={{
-          cursor: "default",
-          ...rest.style,
-        }}
       >
-        <m.div className="content">
-          <Icon className="check-icon" icon={builtinIcons.check} height={16} />
+        <m.div className={optionContent}>
+          <Icon className={checkIcon({ visible: checked })} icon={builtinIcons.check} height={16} />
           {children}
         </m.div>
       </div>
@@ -157,7 +197,7 @@ export const Combobox = <T,>({
           onChange: localOnChange,
           value: inputValue,
           placeholder,
-          className: clsx("Combobox-input", className),
+          className,
           "aria-autocomplete": "list",
           onKeyDown(event) {
             if (event.key === "Enter" && activeIndex != null && items[activeIndex]) {
@@ -183,7 +223,7 @@ export const Combobox = <T,>({
             <m.div
               {...getFloatingProps({
                 ref: refs.setFloating,
-                className: "Combobox-options",
+                className: optionsPanel,
                 style: {
                   position: strategy,
                   left: x ?? 0,
@@ -217,7 +257,7 @@ export const Combobox = <T,>({
                   </Item>
                 );
               })}
-              {items.length === 0 && <div className="Combobox-no-results">No results</div>}
+              {items.length === 0 && <div className={noResults}>No results</div>}
             </m.div>
           </FloatingFocusManager>
         )}
