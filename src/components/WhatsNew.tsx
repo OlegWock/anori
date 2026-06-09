@@ -1,13 +1,25 @@
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import "./WhatsNew.scss";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
+
+const whatsNew = css({ maxWidth: "600px", overflow: "hidden", display: "flex", flexDirection: "column" });
+const scrollArea = css({ marginTop: 0, marginInline: "1-5", marginBottom: "3" });
+const content = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "8",
+  paddingInline: "4",
+  "& ul": { marginLeft: "6", display: "flex", flexDirection: "column", gap: "2" },
+  "& p:not(:last-child)": { marginBottom: "4" },
+});
+const plusLink = css({ display: "block", textAlign: "center", marginBottom: "4" });
 
 export const WhatsNew = () => {
   const { t, i18n } = useTranslation();
   return (
-    <div className="WhatsNew">
-      <ScrollArea className="WhatsNew-scrollarea">
-        <div className="WhatsNew-content">
+    <div className={whatsNew}>
+      <ScrollArea className={scrollArea}>
+        <div className={content}>
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
@@ -41,7 +53,7 @@ export const WhatsNew = () => {
               realtime sync of your Anori setup between multiple browsers and devices. We plan to add other features
               later too. It's free while in beta, so give it a try, no credit card required.
             </p>
-            <a className="plus-link" href="https://anori.app/plus" target="_blank" rel="noreferrer">
+            <a className={plusLink} href="https://anori.app/plus" target="_blank" rel="noreferrer">
               Learn more about Anori Plus
             </a>
             <p>
