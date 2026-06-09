@@ -1,7 +1,7 @@
 import "./IframeWidgetConfig.scss";
 import { Button } from "@anori/components/Button";
 import { IconPicker } from "@anori/components/IconPicker";
-import { PickBookmark } from "@anori/components/PickBookmark";
+import { PickBookmark } from "@anori/components/PickBookmark/PickBookmark";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";

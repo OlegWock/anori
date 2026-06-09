@@ -1,6 +1,6 @@
 import { Button } from "@anori/components/Button";
 import { IconPicker } from "@anori/components/IconPicker";
-import { PickBookmark } from "@anori/components/PickBookmark";
+import { PickBookmark } from "@anori/components/PickBookmark/PickBookmark";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Hint } from "@anori/design-system/components/Hint/Hint";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";

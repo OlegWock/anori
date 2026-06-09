@@ -113,7 +113,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   // (dropdowns/popovers).
   const cardIdx = byMode(mode, 4, 12);
   const modalIdx = byMode(mode, 2, 10);
-  const elevatedIdx = byMode(mode, 5, 11);
+  const elevatedIdx = byMode(mode, 4, 12);
   const accentFillIdx = byMode(mode, 7, 6);
   // `control` (inputs, secondary button) lives on the dedicated step 4 (L≈0.35): between `modal` and
   // `card` — slightly lighter than the modal it's often on, a touch darker than a card (a recessed fill).

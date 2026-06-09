@@ -2,7 +2,7 @@ import { listItemAnimation } from "@anori/components/animations";
 import { Button } from "@anori/components/Button";
 import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
 import { IconPicker } from "@anori/components/IconPicker";
-import { PickBookmark } from "@anori/components/PickBookmark";
+import { PickBookmark } from "@anori/components/PickBookmark/PickBookmark";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";

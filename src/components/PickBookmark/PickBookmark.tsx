@@ -7,8 +7,36 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
-import "./PickBookmark.scss";
+
+const pickBookmark = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "2",
+  width: "600px",
+  maxHeight: "max(40vh, 600px)",
+});
+const bookmark = css({
+  display: "flex",
+  alignItems: "center",
+  gap: "4",
+  padding: "1-5",
+  borderRadius: "md",
+  cursor: "pointer",
+  transition: "0.15s ease-in-out",
+  "@media (any-hover: hover)": { "&:hover": { background: "frosted" } },
+  "& svg": { minWidth: "18px", maxWidth: "18px" },
+});
+const bookmarkTitle = css({
+  flexGrow: 1,
+  flexShrink: 1,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  fontSize: "sm",
+});
+const noResults = css({ display: "flex", justifyContent: "center", alignItems: "center", padding: "16" });
 
 type BrowserBookmark = {
   id: string;
@@ -59,25 +87,25 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
   });
 
   return (
-    <div className="PickBookmark">
+    <div className={pickBookmark}>
       <Input value={searchQuery} onValueChange={setSearchQuery} placeholder={t("bookmark-plugin.searchBookmarks")} />
       <ScrollArea>
         {filteredBookmarks.map((bk) => {
           return (
             <m.div
               key={bk.id}
-              className="bookmark"
+              className={bookmark}
               onClick={() => {
                 onSelected(bk.title, bk.url);
                 close();
               }}
             >
               <Favicon url={bk.url} height={rem(1)} />
-              <div className="title">{bk.title || bk.url}</div>
+              <div className={bookmarkTitle}>{bk.title || bk.url}</div>
             </m.div>
           );
         })}
-        {filteredBookmarks.length === 0 && <div className="no-results">{t("noResults")}</div>}
+        {filteredBookmarks.length === 0 && <div className={noResults}>{t("noResults")}</div>}
       </ScrollArea>
     </div>
   );
