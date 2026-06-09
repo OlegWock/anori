@@ -1,9 +1,10 @@
-import "../styles.scss";
-import { Button } from "@anori/components/Button";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { config, saveConfig } from "../styles";
 import type { TaskWidgetConfig } from "../types";
 
 export const TasksWidgetConfigScreen = ({
@@ -18,13 +19,12 @@ export const TasksWidgetConfigScreen = ({
   const [title, setTitle] = useState(currentConfig ? currentConfig.title : t("tasks-plugin.todo"));
 
   return (
-    <div className="TasksWidget-config">
-      <div>
-        <label>{t("title")}:</label>
+    <div className={config}>
+      <Field label={`${t("title")}:`}>
         <Input value={title} onValueChange={setTitle} />
-      </div>
+      </Field>
 
-      <Button className="save-config" onClick={onConfirm}>
+      <Button className={saveConfig} onClick={onConfirm}>
         {t("save")}
       </Button>
     </div>

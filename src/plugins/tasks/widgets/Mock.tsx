@@ -1,14 +1,13 @@
-import "../styles.scss";
 import { listItemAnimation } from "@anori/components/animations";
-import { Button } from "@anori/components/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import type { Task } from "@anori/utils/storage";
 import { AnimatePresence, m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { scrollArea, taskInput, taskRow, tasksHeader, tasksList, tasksWidget } from "../styles";
 
 export const Mock = () => {
   const { t } = useTranslation();
@@ -20,21 +19,19 @@ export const Mock = () => {
   ];
 
   return (
-    <div className="TasksWidget">
-      <div className="tasks-header">
+    <div className={tasksWidget}>
+      <div className={tasksHeader}>
         <h2>{t("tasks-plugin.todo")}</h2>
-        <Button>
-          <Icon icon={builtinIcons.add} height={16} />
-        </Button>
+        <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} />
       </div>
-      <ScrollArea>
-        <m.div className="tasks-list">
+      <ScrollArea className={scrollArea}>
+        <m.div className={tasksList}>
           <AnimatePresence initial={false}>
             {tasks.map((t) => {
               return (
-                <m.div key={t.id} className="task" {...listItemAnimation}>
+                <m.div key={t.id} className={taskRow} {...listItemAnimation}>
                   <Checkbox checked={false} />
-                  <Input value={t.text} />
+                  <Input className={taskInput} value={t.text} />
                 </m.div>
               );
             })}

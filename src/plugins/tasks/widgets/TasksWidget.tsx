@@ -1,9 +1,8 @@
-import "../styles.scss";
-import { Button } from "@anori/components/Button";
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Textarea } from "@anori/design-system/components/Input/Input";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
@@ -27,7 +26,20 @@ import {
 } from "framer-motion";
 import { forwardRef, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { cx } from "styled-system/css";
 import { useTasksStore } from "../storage";
+import {
+  dragControl,
+  inputWrapper,
+  noTasks,
+  scribble,
+  scrollArea,
+  taskInput,
+  taskRow,
+  tasksHeader,
+  tasksList,
+  tasksWidget,
+} from "../styles";
 import type { TaskWidgetConfig } from "../types";
 
 const devOnlyMockTasks = [
@@ -67,7 +79,7 @@ const Scribble = ({ progress }: { progress: MotionValue<number> }) => {
       strokeMiterlimit="1.5"
       clipRule="evenodd"
       viewBox="0 0 450 100"
-      className="scribble"
+      className={scribble}
       preserveAspectRatio="none"
       style={{
         scaleX: dir === "rtl" ? -1 : 1,
@@ -128,7 +140,7 @@ const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
       <ReorderItem
         key={task.id}
         value={task}
-        className="task"
+        className={taskRow}
         layout="position"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -138,7 +150,7 @@ const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
         ref={mergedRef}
         data-task-id={task.id}
       >
-        <div className="drag-control">
+        <div className={cx(dragControl, "drag-control")}>
           <Icon
             icon={builtinIcons.dragHandle}
             width={rem(1)}
@@ -161,10 +173,11 @@ const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
             },
           }}
         />
-        <m.div className="input-wrapper">
+        <m.div className={inputWrapper}>
           <Scribble progress={completionProgress} />
 
           <Textarea
+            className={taskInput}
             value={task.text}
             onValueChange={(v) => onEdit(v)}
             onKeyDown={(e) => {
@@ -216,16 +229,14 @@ export const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
   const trackInteraction = useWidgetInteractionTracker();
 
   return (
-    <m.div className="TasksWidget" layoutRoot>
-      <div className="tasks-header">
+    <m.div className={tasksWidget} layoutRoot>
+      <div className={tasksHeader}>
         <h2>{config.title}</h2>
-        <Button onClick={addTask}>
-          <Icon icon={builtinIcons.add} height={16} />
-        </Button>
+        <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} onClick={addTask} />
       </div>
-      <ScrollArea style={{ display: tasks.length === 0 ? "none" : "flex" }}>
+      <ScrollArea className={scrollArea} style={{ display: tasks.length === 0 ? "none" : "flex" }}>
         <LayoutGroup>
-          <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className="tasks-list" layoutScroll layoutRoot>
+          <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className={tasksList} layoutScroll layoutRoot>
             <AnimatePresence initial={false}>
               {tasks.map((t) => {
                 return (
@@ -243,7 +254,7 @@ export const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
         </LayoutGroup>
       </ScrollArea>
       {tasks.length === 0 && (
-        <m.div key="no-tasks" className="no-tasks">
+        <m.div key="no-tasks" className={noTasks}>
           {t("tasks-plugin.noTasks")}
         </m.div>
       )}
