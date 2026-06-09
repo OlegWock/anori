@@ -9,9 +9,19 @@ import type { EmptyObject } from "@anori/utils/types";
 import { AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./CalcWidget.scss";
-import "./CalcWidgetExpandable.scss";
+import { css } from "styled-system/css";
 import { Calculator } from "./Calculator";
+
+const expandTrigger = css({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flex: 1,
+  alignSelf: "stretch",
+  cursor: "pointer",
+  textAlign: "start",
+  "& svg": { color: "icon" },
+});
 
 export const MainScreenExpandable = (_props: WidgetRenderProps<EmptyObject>) => {
   const [show, setShow] = useState(false);
@@ -25,7 +35,7 @@ export const MainScreenExpandable = (_props: WidgetRenderProps<EmptyObject>) => 
     <>
       <button
         type="button"
-        className="CalculatorWidgetExpandable"
+        className={expandTrigger}
         onClick={() => {
           trackInteraction("Expand");
           if (!show) {
@@ -40,12 +50,7 @@ export const MainScreenExpandable = (_props: WidgetRenderProps<EmptyObject>) => 
       </button>
       <AnimatePresence>
         {show && (
-          <WidgetExpandArea
-            size={{ height: 600 }}
-            title={t("math-plugin.calculator")}
-            className="CalculatorWidgetExpandArea"
-            onClose={() => setShow(false)}
-          >
+          <WidgetExpandArea size={{ height: 600 }} title={t("math-plugin.calculator")} onClose={() => setShow(false)}>
             <Calculator showAdditionalButtons showHistory inputRef={inputRef} />
           </WidgetExpandArea>
         )}

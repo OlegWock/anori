@@ -1,13 +1,62 @@
-import { Button } from "@anori/components/Button";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { cachedFunc, guid } from "@anori/utils/misc";
-import clsx from "clsx";
 import type { MathJsInstance } from "mathjs";
 import { type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css, cva } from "styled-system/css";
+
+const calculator = css({
+  flexGrow: 1,
+  alignSelf: "stretch",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "stretch",
+  gap: "2",
+});
+const historyWrapper = css({
+  flex: "1 1 0",
+  display: "flex",
+  flexDirection: "column",
+  paddingBottom: "4",
+  marginBottom: "4",
+  borderBottomWidth: "3px",
+  borderBottomStyle: "solid",
+  borderBottomColor: "frosted",
+  "& .ScrollAreaRoot": { flex: "1 1 0" },
+});
+const historyList = css({ textAlign: "right", display: "flex", flexDirection: "column", gap: "2" });
+const historyRecord = css({ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "2" });
+const expressionShaded = css({ opacity: 0.6 });
+const resultText = css({ whiteSpace: "nowrap", textAlign: "right" });
+const calcButtons = cva({
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gridTemplateRows: "repeat(5, 2rem)",
+    gap: "2",
+    // Calc keys fill their grid cell: drop the Button's fixed height and tighten padding.
+    "& > button": {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      lineHeight: "none",
+      height: "auto",
+      minHeight: 0,
+      paddingInline: "1",
+      paddingBlock: "1",
+      gap: 0,
+      "& sup": { fontSize: "2xs" },
+    },
+  },
+  variants: {
+    additional: { true: { gridTemplateColumns: "repeat(7, 1fr)" } },
+    allHeight: { true: { flex: 1, gridTemplateRows: "repeat(5, 1fr)" } },
+  },
+});
 
 export const getMath = cachedFunc(() =>
   import("mathjs").then(
@@ -94,16 +143,16 @@ export const Calculator = ({
   const trackInteraction = useWidgetInteractionTracker();
 
   return (
-    <div className={clsx("Calculator")}>
+    <div className={calculator}>
       {showHistory && (
-        <div className="history-wrapper">
+        <div className={historyWrapper}>
           <ScrollArea type="hover" viewportRef={historyRef}>
-            <div className="history">
+            <div className={historyList}>
               {history.map(({ exp, result, id }) => {
                 return (
-                  <div className="history-record" key={id}>
-                    <span className="expression-shaded">{exp}</span>
-                    <span className="expression-shaded">=</span>
+                  <div className={historyRecord} key={id}>
+                    <span className={expressionShaded}>{exp}</span>
+                    <span className={expressionShaded}>=</span>
                     <span>{result}</span>
                   </div>
                 );
@@ -112,7 +161,7 @@ export const Calculator = ({
           </ScrollArea>
         </div>
       )}
-      <div className="result">{result}</div>
+      <div className={resultText}>{result}</div>
       <Input
         value={expression}
         ref={inputRef}
@@ -125,80 +174,140 @@ export const Calculator = ({
         }}
       />
 
-      <div
-        className={clsx(
-          "calc-buttons",
-          showAdditionalButtons && "with-additional-buttons",
-          !showHistory && "all-height",
-        )}
-      >
+      <div className={calcButtons({ additional: showAdditionalButtons, allHeight: !showHistory })}>
         {showAdditionalButtons && (
           <>
-            <Button onClick={addToExp("sin(")}>sin</Button>
-            <Button onClick={addToExp("cos(")}>cos</Button>
-            <Button onClick={addToExp("tan(")}>tan</Button>
+            <Button variant="frosted" onClick={addToExp("sin(")}>
+              sin
+            </Button>
+            <Button variant="frosted" onClick={addToExp("cos(")}>
+              cos
+            </Button>
+            <Button variant="frosted" onClick={addToExp("tan(")}>
+              tan
+            </Button>
           </>
         )}
-        <Button onClick={clear}>C</Button>
-        <Button onClick={addToExp("(")}>(</Button>
-        <Button onClick={addToExp(")")}>)</Button>
-        <Button onClick={addToExp("%")}>%</Button>
+        <Button variant="frosted" onClick={clear}>
+          C
+        </Button>
+        <Button variant="frosted" onClick={addToExp("(")}>
+          (
+        </Button>
+        <Button variant="frosted" onClick={addToExp(")")}>
+          )
+        </Button>
+        <Button variant="frosted" onClick={addToExp("%")}>
+          %
+        </Button>
 
         {showAdditionalButtons && (
           <>
-            <Button onClick={addToExp("asin(")}>asin</Button>
-            <Button onClick={addToExp("acos(")}>acos</Button>
-            <Button onClick={addToExp("atan(")}>atan</Button>
+            <Button variant="frosted" onClick={addToExp("asin(")}>
+              asin
+            </Button>
+            <Button variant="frosted" onClick={addToExp("acos(")}>
+              acos
+            </Button>
+            <Button variant="frosted" onClick={addToExp("atan(")}>
+              atan
+            </Button>
           </>
         )}
-        <Button onClick={addToExp("7")}>7</Button>
-        <Button onClick={addToExp("8")}>8</Button>
-        <Button onClick={addToExp("9")}>9</Button>
-        <Button onClick={addToExp("/")}>÷</Button>
+        <Button variant="frosted" onClick={addToExp("7")}>
+          7
+        </Button>
+        <Button variant="frosted" onClick={addToExp("8")}>
+          8
+        </Button>
+        <Button variant="frosted" onClick={addToExp("9")}>
+          9
+        </Button>
+        <Button variant="frosted" onClick={addToExp("/")}>
+          ÷
+        </Button>
 
         {showAdditionalButtons && (
           <>
-            <Button onClick={addToExp("^2")}>
+            <Button variant="frosted" onClick={addToExp("^2")}>
               <span>
                 x<sup>2</sup>
               </span>
             </Button>
-            <Button onClick={addToExp("^")}>
+            <Button variant="frosted" onClick={addToExp("^")}>
               <span>
                 x<sup>y</sup>
               </span>
             </Button>
-            <Button onClick={addToExp("sqrt(")}>√</Button>
+            <Button variant="frosted" onClick={addToExp("sqrt(")}>
+              √
+            </Button>
           </>
         )}
-        <Button onClick={addToExp("4")}>4</Button>
-        <Button onClick={addToExp("5")}>5</Button>
-        <Button onClick={addToExp("6")}>6</Button>
-        <Button onClick={addToExp("*")}>×</Button>
+        <Button variant="frosted" onClick={addToExp("4")}>
+          4
+        </Button>
+        <Button variant="frosted" onClick={addToExp("5")}>
+          5
+        </Button>
+        <Button variant="frosted" onClick={addToExp("6")}>
+          6
+        </Button>
+        <Button variant="frosted" onClick={addToExp("*")}>
+          ×
+        </Button>
 
         {showAdditionalButtons && (
           <>
-            <Button onClick={addToExp("ln(")}>ln</Button>
-            <Button onClick={addToExp("log(")}>log</Button>
-            <Button onClick={addToExp("mod")}>mod</Button>
+            <Button variant="frosted" onClick={addToExp("ln(")}>
+              ln
+            </Button>
+            <Button variant="frosted" onClick={addToExp("log(")}>
+              log
+            </Button>
+            <Button variant="frosted" onClick={addToExp("mod")}>
+              mod
+            </Button>
           </>
         )}
-        <Button onClick={addToExp("1")}>1</Button>
-        <Button onClick={addToExp("2")}>2</Button>
-        <Button onClick={addToExp("3")}>3</Button>
-        <Button onClick={addToExp("-")}>-</Button>
+        <Button variant="frosted" onClick={addToExp("1")}>
+          1
+        </Button>
+        <Button variant="frosted" onClick={addToExp("2")}>
+          2
+        </Button>
+        <Button variant="frosted" onClick={addToExp("3")}>
+          3
+        </Button>
+        <Button variant="frosted" onClick={addToExp("-")}>
+          -
+        </Button>
 
         {showAdditionalButtons && (
           <>
-            <Button onClick={addToExp("!")}>!</Button>
-            <Button onClick={addToExp("pi")}>π</Button>
-            <Button onClick={addToExp("e")}>e</Button>
+            <Button variant="frosted" onClick={addToExp("!")}>
+              !
+            </Button>
+            <Button variant="frosted" onClick={addToExp("pi")}>
+              π
+            </Button>
+            <Button variant="frosted" onClick={addToExp("e")}>
+              e
+            </Button>
           </>
         )}
-        <Button onClick={addToExp("0")}>0</Button>
-        <Button onClick={addToExp(".")}>.</Button>
-        <Button onClick={doCalc}>=</Button>
-        <Button onClick={addToExp("+")}>+</Button>
+        <Button variant="frosted" onClick={addToExp("0")}>
+          0
+        </Button>
+        <Button variant="frosted" onClick={addToExp(".")}>
+          .
+        </Button>
+        <Button variant="frosted" onClick={doCalc}>
+          =
+        </Button>
+        <Button variant="frosted" onClick={addToExp("+")}>
+          +
+        </Button>
       </div>
     </div>
   );

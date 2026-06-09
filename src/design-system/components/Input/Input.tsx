@@ -18,10 +18,13 @@ const input = cva({
     letterSpacing: "inherit",
     color: "text.primary",
     "&::placeholder": { color: "text.placeholder" },
+    // Inset the focus ring (negative offset) so it's drawn inside the input's own box rather than
+    // outside it — otherwise an edge-to-edge input in an overflow:hidden container clips the outline.
     _focus: {
       outlineWidth: "2px",
       outlineStyle: "solid",
       outlineColor: "accent",
+      outlineOffset: "-2px",
     },
   },
   variants: {
