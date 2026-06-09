@@ -20,7 +20,18 @@ import { useTranslation } from "react-i18next";
 import { updatePageStatusForWidget } from "../background";
 import { useBookmarkStore } from "../storage";
 import type { BookmarkWidgetConfig } from "../types";
-import "./BookmarkWidget.scss";
+import {
+  bookmarkContent,
+  bookmarkH2,
+  bookmarkHost,
+  bookmarkText,
+  cornerControls,
+  expandArea,
+  loadingIcon,
+  openInIframe,
+  statusDot,
+  widget,
+} from "./widget-styles";
 
 export const BookmarkWidget = ({
   config,
@@ -70,7 +81,7 @@ export const BookmarkWidget = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
   const statusColor = {
-    loading: "var(--text-disabled)",
+    loading: "var(--ds-text-disabled)",
     up: "var(--success-color)",
     down: "var(--error-color)",
   }[status];
@@ -109,7 +120,7 @@ export const BookmarkWidget = ({
   return (
     <>
       <Link
-        className={clsx(["BookmarkWidget", `size-${size}`])}
+        className={widget}
         href={isMock ? undefined : normalizedUrl}
         onClick={(e) => {
           trackInteraction("Open bookmark");
@@ -117,14 +128,14 @@ export const BookmarkWidget = ({
         }}
         target={config.openInNewTab ? "_blank" : undefined}
       >
-        <div className="bookmark-content">
-          <div className="text">
-            <h2>{config.title}</h2>
-            <div className="host">{host}</div>
+        <div className={bookmarkContent({ size })}>
+          <div className={bookmarkText}>
+            <h2 className={bookmarkH2({ size })}>{config.title}</h2>
+            <div className={bookmarkHost}>{host}</div>
           </div>
           {isNavigating && !config.openInNewTab ? (
             <Icon
-              className="loading"
+              className={loadingIcon}
               icon={builtinIcons.spinner}
               width={size === "m" ? rem(5.75) : rem(2.25)}
               height={size === "m" ? rem(5.75) : rem(2.25)}
@@ -137,15 +148,15 @@ export const BookmarkWidget = ({
             />
           )}
         </div>
-        <div className="corner-controls">
+        <div className={cornerControls}>
           {config.checkStatus && (
             <Tooltip label={createStatusMessage}>
-              <div className="status-dot" style={{ backgroundColor: statusColor }} />
+              <div className={statusDot} style={{ backgroundColor: statusColor }} />
             </Tooltip>
           )}
 
           {["chrome", "firefox"].includes(X_BROWSER) && (
-            <button type="button" onClick={openIframe} className="open-in-iframe">
+            <button type="button" onClick={openIframe} className={clsx(openInIframe, "open-in-iframe")}>
               <div>
                 <Icon icon={builtinIcons.expand} />
               </div>
@@ -155,13 +166,7 @@ export const BookmarkWidget = ({
       </Link>
       <AnimatePresence>
         {showExpandArea && (
-          <WidgetExpandArea
-            title={config.title}
-            onClose={closeExpand}
-            size="max"
-            withoutScroll
-            className="BookmarkWidget-expand"
-          >
+          <WidgetExpandArea title={config.title} onClose={closeExpand} size="max" withoutScroll className={expandArea}>
             <RequirePermissions
               hosts={[parseHost(config.url)]}
               permissions={dnrPermissions}

@@ -5,6 +5,7 @@ import { parseHost } from "@anori/utils/misc";
 import { defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import type { BookmarkGroupWidgetConfig, BookmarkWidgetConfig } from "../types";
 import { BookmarkGroupWidget } from "./BookmarkGroupWidget";
 import { BookmarGroupkWidgetConfigScreen } from "./BookmarkGroupWidgetConfig";
@@ -21,7 +22,7 @@ export const bookmarkWidgetDescriptor = defineWidget({
     const { t } = useTranslation();
     return (
       <RequirePermissions
-        className="rp-paddings"
+        className={css({ padding: "4" })}
         additionalInfo={t("bookmark-plugin.permissionExplanation")}
         hosts={[parseHost(config.url)]}
         enabled={config.checkStatus === true}

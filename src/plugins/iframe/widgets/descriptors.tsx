@@ -6,6 +6,7 @@ import { defineWidget } from "@anori/utils/plugins/define";
 import { dnrPermissions } from "@anori/utils/plugins/dnr";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import type { IframePluginExpandableWidgetConfig, IframePluginWidgetConfig } from "../types";
 import { ExpandableWidget } from "./ExpandableIframeWidget";
 import { ExpandableWidgetConfigScreen } from "./ExpandableIframeWidgetConfig";
@@ -50,7 +51,7 @@ export const widgetDescriptorExpandable = defineWidget({
       <RequirePermissions
         compact
         hosts={[parseHost(props.config.url)]}
-        className="rp-paddings"
+        className={css({ padding: "4" })}
         permissions={dnrPermissions}
       >
         <ExpandableWidget {...props} />
