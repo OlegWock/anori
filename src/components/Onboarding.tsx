@@ -1,6 +1,7 @@
 import { Trans, useTranslation } from "react-i18next";
 import "./Onboarding.scss";
 import { Select } from "@anori/components/lazy-components";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
@@ -19,9 +20,11 @@ import { type ComponentProps, forwardRef, useEffect, useState } from "react";
 import useMeasure from "react-use-motion-measure";
 import { slidingScreensAnimation } from "./animations";
 import { applyOnboardingPreset } from "./apply-onboarding-preset";
-import { Button } from "./Button";
 
 const screens = ["start", "folders", "customization", "analytics", "presets"] as const;
+
+// The DS Button isn't a motion element; wrap it so the nav buttons can still fade in/out.
+const MotionButton = m.create(Button);
 
 const Section = forwardRef<HTMLDivElement, ComponentProps<typeof m.section>>(({ ...props }, ref) => {
   return (
@@ -177,7 +180,11 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   <p>{t("onboarding.presets.p2")}</p>
                   <p>{t("onboarding.presets.p3")}</p>
 
-                  <Button className="preset" onClick={() => applyOnboardingPreset({ t, gridDimensions, addWidget })}>
+                  <Button
+                    variant="frosted"
+                    className="preset"
+                    onClick={() => applyOnboardingPreset({ t, gridDimensions, addWidget })}
+                  >
                     {t("onboarding.presets.cta")}
                   </Button>
                 </Section>
@@ -188,7 +195,8 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
         <m.div className="navigation-buttons" layout>
           <AnimatePresence initial={false}>
             {screenIndex !== 0 && (
-              <Button
+              <MotionButton
+                variant="frosted"
                 variants={navigationButtonVariants}
                 initial="initial"
                 animate="show"
@@ -202,11 +210,12 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   height={24}
                 />{" "}
                 {t("back")}
-              </Button>
+              </MotionButton>
             )}
             <div className="spacer" />
             {screenIndex !== screens.length - 1 && (
-              <Button
+              <MotionButton
+                variant="frosted"
                 variants={navigationButtonVariants}
                 initial="initial"
                 animate="show"
@@ -222,7 +231,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
                   width={24}
                   height={24}
                 />
-              </Button>
+              </MotionButton>
             )}
           </AnimatePresence>
         </m.div>

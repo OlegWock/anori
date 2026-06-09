@@ -1,5 +1,5 @@
-import { Button } from "@anori/components/Button";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { anoriSchema } from "@anori/utils/storage";
@@ -173,7 +173,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
             <div className="label">{t("cloud.connectedAs")}</div>
             <div className="email">{account.email}</div>
           </div>
-          <Button onClick={handleLogout} loading={isLoggingOut} size="compact">
+          <Button variant="frosted" onClick={handleLogout} loading={isLoggingOut} size="compact">
             {t("cloud.logout")}
           </Button>
         </div>
@@ -183,6 +183,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
         <div className="profiles-header">
           <div className="label">{t("cloud.profiles")}</div>
           <Button
+            variant="frosted"
             onClick={() => {
               setIsCreatingProfile(true);
               setCreateProfileSuccess(false);
@@ -209,6 +210,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
             />
             <div className="create-profile-actions">
               <Button
+                variant="frosted"
                 onClick={() => {
                   setIsCreatingProfile(false);
                   setNewProfileName("");
@@ -218,7 +220,12 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
               >
                 {t("cloud.cancel")}
               </Button>
-              <Button onClick={handleCreateProfile} loading={isPushingProfile} disabled={!newProfileName.trim()}>
+              <Button
+                variant="frosted"
+                onClick={handleCreateProfile}
+                loading={isPushingProfile}
+                disabled={!newProfileName.trim()}
+              >
                 {t("cloud.create")}
               </Button>
             </div>
@@ -255,10 +262,11 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                             }}
                           />
                           <div className="profile-rename-actions">
-                            <Button onClick={() => setEditingProfileId(null)} size="compact">
+                            <Button variant="frosted" onClick={() => setEditingProfileId(null)} size="compact">
                               {t("cloud.cancel")}
                             </Button>
                             <Button
+                              variant="frosted"
                               onClick={() => handleRenameProfile(profile.id)}
                               size="compact"
                               loading={updateProfileMutation.isPending}
@@ -289,11 +297,17 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                           </div>
                           <div className="profile-actions">
                             {isConnected ? (
-                              <Button onClick={handleDisconnect} loading={isDisconnecting} size="compact">
+                              <Button
+                                variant="frosted"
+                                onClick={handleDisconnect}
+                                loading={isDisconnecting}
+                                size="compact"
+                              >
                                 {t("cloud.disconnect")}
                               </Button>
                             ) : (
                               <Button
+                                variant="frosted"
                                 onClick={() => handleConnectClick(profile.id)}
                                 loading={isConnecting}
                                 size="compact"
@@ -302,6 +316,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                               </Button>
                             )}
                             <Button
+                              variant="frosted"
                               onClick={() => {
                                 setEditingProfileId(profile.id);
                                 setEditingProfileName(profile.name);
@@ -310,7 +325,11 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                             >
                               {t("cloud.rename")}
                             </Button>
-                            <Button onClick={() => setConfirmDeleteProfileId(profile.id)} size="compact">
+                            <Button
+                              variant="frosted"
+                              onClick={() => setConfirmDeleteProfileId(profile.id)}
+                              size="compact"
+                            >
                               {t("cloud.delete")}
                             </Button>
                           </div>
@@ -323,10 +342,14 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                           {t("cloud.connectConfirmation.message", { profileName: profile.name })}
                         </Alert>
                         <div className="confirmation-actions">
-                          <Button onClick={handleConfirmConnect} loading={isConnecting}>
+                          <Button variant="frosted" onClick={handleConfirmConnect} loading={isConnecting}>
                             {t("cloud.confirm")}
                           </Button>
-                          <Button onClick={() => setConfirmingProfileId(null)} disabled={isConnecting}>
+                          <Button
+                            variant="frosted"
+                            onClick={() => setConfirmingProfileId(null)}
+                            disabled={isConnecting}
+                          >
                             {t("cloud.cancel")}
                           </Button>
                         </div>
@@ -336,10 +359,18 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                       <div className="profile-confirmation">
                         <Alert variant="accent">{t("cloud.deleteConfirmation", { profileName: profile.name })}</Alert>
                         <div className="confirmation-actions">
-                          <Button onClick={() => handleDeleteProfile(profile.id)} loading={isDeleting}>
+                          <Button
+                            variant="frosted"
+                            onClick={() => handleDeleteProfile(profile.id)}
+                            loading={isDeleting}
+                          >
                             {t("cloud.confirm")}
                           </Button>
-                          <Button onClick={() => setConfirmDeleteProfileId(null)} disabled={isDeleting}>
+                          <Button
+                            variant="frosted"
+                            onClick={() => setConfirmDeleteProfileId(null)}
+                            disabled={isDeleting}
+                          >
                             {t("cloud.cancel")}
                           </Button>
                         </div>
@@ -400,7 +431,7 @@ const AuthView = () => {
         <Input type="email" placeholder={t("cloud.email")} value={email} onValueChange={setEmail} />
         <Input type="password" placeholder={t("cloud.password")} value={password} onValueChange={setPassword} />
 
-        <Button loading={isLoading} block>
+        <Button variant="frosted" loading={isLoading} block>
           {t("cloud.login")}
         </Button>
 
