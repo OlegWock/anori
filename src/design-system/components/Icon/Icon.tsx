@@ -1,8 +1,7 @@
-import { useMemo } from "react";
-import "./Icon.scss";
 import { CustomIcon } from "@anori/design-system/components/Icon/CustomIcon";
 import { SvgIcon } from "@anori/design-system/components/Icon/SvgIcon";
 import { ICON_SIZES, type IconProps } from "@anori/design-system/components/Icon/types";
+import { useMemo } from "react";
 import { css, cx } from "styled-system/css";
 import { splitCssProps } from "styled-system/jsx";
 

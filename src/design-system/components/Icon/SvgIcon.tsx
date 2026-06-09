@@ -5,6 +5,10 @@ import type { IconRenderProps } from "@anori/design-system/components/Icon/types
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { m } from "framer-motion";
 import { useState } from "react";
+import { css } from "styled-system/css";
+
+// Shown while the icon is still loading.
+const placeholder = css({ background: "text.primary", borderRadius: "md", opacity: 0.35 });
 
 export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRenderProps) => {
   const [prevIcon, setPrevIcon] = useState<unknown>(icon);
@@ -46,10 +50,8 @@ export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRen
 
   return (
     <m.div
+      className={placeholder}
       style={{
-        background: "var(--text)",
-        borderRadius: 8,
-        opacity: 0.35,
         width: props.width || props.height || 24,
         height: props.height || props.width || 24,
       }}
