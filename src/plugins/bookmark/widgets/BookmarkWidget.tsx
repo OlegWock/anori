@@ -1,4 +1,4 @@
-import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Link } from "@anori/design-system/components/Link/Link";

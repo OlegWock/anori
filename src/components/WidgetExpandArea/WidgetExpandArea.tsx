@@ -1,3 +1,11 @@
+import { useParentWidgetCardRef } from "@anori/components/WidgetCard/context";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import { useHotkeys, usePrevious } from "@anori/utils/hooks";
+import { minmax } from "@anori/utils/misc";
+import { useDirection } from "@radix-ui/react-direction";
+import clsx from "clsx";
 import {
   m,
   type Transition,
@@ -7,18 +15,79 @@ import {
   usePresence,
   useTransform,
 } from "framer-motion";
-import "./WidgetExpandArea.scss";
-import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import { useSizeSettings } from "@anori/utils/compact";
-import { useHotkeys, usePrevious } from "@anori/utils/hooks";
-import { minmax } from "@anori/utils/misc";
-import { useDirection } from "@radix-ui/react-direction";
-import clsx from "clsx";
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useParentWidgetCardRef } from "./WidgetCard/context";
+import { useTranslation } from "react-i18next";
+import { css, cva } from "styled-system/css";
+
+const backdrop = css({ position: "fixed", top: 0, left: 0, width: "100dvw", height: "100dvh" });
+const area = cva({
+  base: {
+    width: "min-content",
+    maxWidth: "90vw",
+    maxHeight: "90vh",
+    overflow: "hidden",
+    padding: "3",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+  },
+  variants: { max: { true: { minWidth: "90vw", minHeight: "90vh" } } },
+});
+const controlStrip = css({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: "4",
+  paddingTop: "0",
+  paddingBottom: "2",
+  paddingInline: "2",
+  background: "modal",
+});
+const windowTitle = css({
+  flex: 1,
+  userSelect: "none",
+  lineHeight: "none",
+  marginTop: "0-5",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+});
+const windowButtons = css({ display: "flex", alignItems: "center", gap: "4" });
+// Consumer-provided extra buttons (raw icon links) keep the dimmed-glyph treatment; the close button
+// is a DS ghost IconButton and styles itself.
+const extraButtonsWrap = css({
+  display: "flex",
+  alignItems: "center",
+  "& > *": { cursor: "pointer", opacity: 0.65, display: "flex", "& svg": { color: "text.primary" } },
+});
+const content = cva({
+  base: {
+    position: "relative",
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    overflow: "hidden",
+    minWidth: "min(80vw, 500px)",
+    minHeight: "min(80vh, 300px)",
+    borderRadius: "calc(24px - 0.75rem)",
+    background: "surface.elevated",
+    padding: "4",
+    // The expandable content fills the scroll area; force Radix's table wrapper into a stretching flex column.
+    "& > .ScrollAreaRoot": {
+      flexGrow: 1,
+      alignSelf: "stretch",
+      "& .ScrollAreaViewport": { display: "flex", flexDirection: "column" },
+      "& .ScrollAreaViewport > div[style]": {
+        display: "flex !important",
+        flexDirection: "column !important",
+        flexGrow: 1,
+        alignSelf: "stretch",
+      },
+    },
+  },
+  variants: { noPadding: { true: { padding: "0" } } },
+});
 
 export type WidgetExpandAreaProps = {
   children: ReactNode;
@@ -78,7 +147,7 @@ export const WidgetExpandArea = ({
     transformOriginX.jump(originX);
     transformOriginY.jump(originY);
 
-    const bgLighter = getComputedStyle(document.documentElement).getPropertyValue("--background-lighter");
+    const bgLighter = getComputedStyle(document.documentElement).getPropertyValue("--ds-surface-elevated");
 
     animate(contentOpacity, 0, { ...transition, duration: duration / 2 })
       .then(() => {
@@ -115,7 +184,7 @@ export const WidgetExpandArea = ({
   const backdropOpacity = useMotionValue(0.7);
   const backgroundStr = useTransform(backdropOpacity, (v) => `rgba(0, 0, 0, ${v.toFixed(2)})`);
   const contentOpacity = useMotionValue(1);
-  const windowColor = useMotionValue("var(--background)");
+  const windowColor = useMotionValue("var(--ds-modal)");
 
   const areaRef = useRef<HTMLDivElement>(null);
   const cardRef = useParentWidgetCardRef();
@@ -124,7 +193,7 @@ export const WidgetExpandArea = ({
   const [isPresent, safeToRemove] = usePresence();
   const prevIsPresent = usePrevious(isPresent, true);
   const dir = useDirection();
-  const { rem } = useSizeSettings();
+  const { t } = useTranslation();
 
   const shouldShowControlStip = Boolean(title || extraButtons);
 
@@ -194,8 +263,8 @@ export const WidgetExpandArea = ({
 
     backdropOpacity.jump(0);
     contentOpacity.jump(0);
-    const bgLighter = getComputedStyle(document.documentElement).getPropertyValue("--background-lighter");
-    const bgDarker = getComputedStyle(document.documentElement).getPropertyValue("--background");
+    const bgLighter = getComputedStyle(document.documentElement).getPropertyValue("--ds-surface-elevated");
+    const bgDarker = getComputedStyle(document.documentElement).getPropertyValue("--ds-modal");
     windowColor.jump(bgLighter);
 
     animate(scaleX, 1, { ...transition, duration })
@@ -215,7 +284,7 @@ export const WidgetExpandArea = ({
 
   return createPortal(
     <m.div
-      className="WidgetExpandArea-backdrop"
+      className={backdrop}
       key="backdrop"
       dir="ltr"
       ref={scope}
@@ -229,12 +298,7 @@ export const WidgetExpandArea = ({
       }}
     >
       <m.div
-        className={clsx(
-          "WidgetExpandArea",
-          typeof size === "string" && `size-${size}`,
-          typeof size === "object" && `size-predefined`,
-          withoutScroll && "without-inner-padding",
-        )}
+        className={area({ max: size === "max" })}
         dir="ltr"
         ref={areaRef}
         key="area"
@@ -257,31 +321,29 @@ export const WidgetExpandArea = ({
       >
         {shouldShowControlStip && (
           <m.div
-            className="window-control-strip"
+            className={controlStrip}
             dir={dir}
             style={{
               opacity: contentOpacity,
             }}
           >
-            <m.h3 className="window-title">{title}</m.h3>
-            <m.div className="window-buttons">
-              {extraButtons}
+            <m.h3 className={windowTitle}>{title}</m.h3>
+            <m.div className={windowButtons}>
+              {extraButtons && <div className={extraButtonsWrap}>{extraButtons}</div>}
               {closable && (
-                <m.button
+                <IconButton
+                  variant="ghost"
+                  icon={builtinIcons.close}
+                  label={t("close")}
+                  showTooltip={false}
                   onClick={onClose}
-                  whileHover={{
-                    rotate: 180,
-                    transition: { duration: 0.2 },
-                  }}
-                >
-                  <Icon icon={builtinIcons.close} width={rem(1.5)} height={rem(1.5)} />
-                </m.button>
+                />
               )}
             </m.div>
           </m.div>
         )}
         <m.div
-          className={clsx("WidgetExpandArea-content", className)}
+          className={clsx(content({ noPadding: withoutScroll }), className)}
           style={{
             opacity: contentOpacity,
           }}

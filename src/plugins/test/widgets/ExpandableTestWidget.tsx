@@ -1,6 +1,6 @@
 import "../styles.scss";
 import { Button } from "@anori/components/Button";
-import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useSizeSettings } from "@anori/utils/compact";
