@@ -1,4 +1,3 @@
-import "./RecentlyClosedWidget.scss";
 import { RelativeTime } from "@anori/components/RelativeTime";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
@@ -11,7 +10,38 @@ import { m, useAnimationControls } from "framer-motion";
 import moment from "moment-timezone";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
+
+const widget = css({ display: "flex", flexDirection: "column", gap: "1-5", overflow: "hidden" });
+const sessionsList = css({ flexGrow: 1, minHeight: 0 });
+const sessionRow = css({
+  display: "flex",
+  alignItems: "center",
+  gap: "4",
+  padding: "1-5",
+  cursor: "pointer",
+  transition: "0.15s ease-in-out",
+  borderRadius: "md",
+  "& svg": { minWidth: "18px", maxWidth: "18px" },
+  "@media (any-hover: hover)": { "&:hover": { background: "frosted" } },
+});
+const favIconImg = css({ width: "18px", borderRadius: "md" });
+const sessionTitle = css({
+  flexGrow: 1,
+  flexShrink: 1,
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  fontSize: "sm",
+});
+const lastModifiedText = css({
+  fontSize: "2xs",
+  color: "text.placeholder",
+  whiteSpace: "nowrap",
+  minWidth: "95px",
+  textAlign: "end",
+});
 
 const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMock: boolean }) => {
   const restore = async () => {
@@ -38,7 +68,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
 
   return (
     <m.div
-      className="Session"
+      className={sessionRow}
       animate={controls}
       onClick={restore}
       variants={{
@@ -52,19 +82,19 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
         },
       }}
     >
-      {!!favIcon && <img className="fav-icon" src={favIcon} aria-hidden />}
+      {!!favIcon && <img className={favIconImg} src={favIcon} aria-hidden />}
       {!favIcon && (
         <Icon
           icon={session.tab ? builtinIcons.recentlyClosedTabs.tab : builtinIcons.recentlyClosedTabs.window}
           width={18}
         />
       )}
-      <div className="title">
+      <div className={sessionTitle}>
         {session.tab
           ? session.tab.title || t("recently-closed-plugin.tab")
           : session.window?.title || t("recently-closed-plugin.window")}
       </div>
-      <div className="last-modified">
+      <div className={lastModifiedText}>
         {session.lastModified !== 0 && <RelativeTime m={lastModified} withoutSuffix />}
       </div>
     </m.div>
@@ -91,9 +121,9 @@ export const WidgetScreen = ({ instanceId }: WidgetRenderProps<EmptyObject>) => 
   }, []);
 
   return (
-    <div className="RecentlyClosedWidget">
+    <div className={widget}>
       <h2>{t("recently-closed-plugin.widgetTitle")}</h2>
-      <ScrollArea className="sessions-list" type="hover">
+      <ScrollArea className={sessionsList} type="hover">
         {sessions
           .filter((s) => {
             const url = s.tab ? s.tab.url : "";
