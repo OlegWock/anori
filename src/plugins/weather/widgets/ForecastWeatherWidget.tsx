@@ -1,4 +1,3 @@
-import "../styles.scss";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
@@ -12,6 +11,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getForecast, type WeatherForecast } from "../api";
 import { useForecastWeatherStore } from "../storage";
+import { dayRow, location, temperature, weatherWidget, wind } from "../styles";
 import type { WeatherWidgetConfig } from "../types";
 import {
   CACHE_TIME,
@@ -158,10 +158,10 @@ export const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<Wea
       label={!lastUpdated ? t("loading") : t("lastUpdatedAt", { datetime: moment(lastUpdated).format("HH:mm") })}
       placement="top"
     >
-      <div className="WeatherWidget forecast">
+      <div className={weatherWidget({ type: "forecast" })}>
         <div>
           <h2>{t("weather-plugin.forecast")}</h2>
-          <div className="location">
+          <div className={location({ small: true })}>
             <Icon icon={builtinIcons.location} height={rem(1.2)} />
             <div>{config.location.name}</div>
           </div>
@@ -170,20 +170,20 @@ export const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<Wea
           <FloatingDelayGroup delay={500}>
             {forecast.map((f) => {
               return (
-                <div key={f.date.toISOString()} className="day-row">
+                <div key={f.date.toISOString()} className={dayRow}>
                   <Tooltip
                     label={`${weatherCodeDescription(f.weatherCode)} (${t("weather-plugin.weatherCode", { code: f.weatherCode })})`}
                   >
                     <Icon icon={weatherCodeToIcon(f.weatherCode)} width={rem(6)} height={rem(6)} />
                   </Tooltip>
                   <div>
-                    <div className="temperature">
+                    <div className={temperature({ small: true })}>
                       <div>
                         {formatTemperature(f.temperatureMin, config.temperatureUnit, false)} &ndash;{" "}
                         {formatTemperature(f.temperatureMax, config.temperatureUnit)}
                       </div>
                     </div>
-                    <div className="wind">
+                    <div className={wind}>
                       <Icon
                         icon={builtinIcons.arrowBack}
                         height={rem(1.2)}
@@ -191,7 +191,7 @@ export const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<Wea
                       />
                       <div>{formatSpeed(f.windSpeed, config.speedUnit)}</div>
                     </div>
-                    <div className="location">
+                    <div className={location({ small: true })}>
                       <Icon icon={builtinIcons.time} height={rem(1.2)} />
                       <div>{capitalize(f.date.format("dddd"))}</div>
                     </div>

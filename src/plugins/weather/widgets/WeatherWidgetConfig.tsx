@@ -1,12 +1,13 @@
-import "../styles.scss";
-import { Button } from "@anori/components/Button";
 import { Select } from "@anori/components/lazy-components";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
+import { Field } from "@anori/design-system/components/Field/Field";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { City, Speed, Temperature } from "../api";
 import { searchCity } from "../api";
+import { attribution, config, saveConfig } from "../styles";
 import type { WeatherWidgetConfig } from "../types";
 import { formatCityLabel } from "../utils";
 
@@ -45,9 +46,8 @@ export const WeatherWidgetConfigScreen = ({
   const { t } = useTranslation();
 
   return (
-    <div className="WeatherWidget-config">
-      <div>
-        <label>{t("weather-plugin.selectCity")}:</label>
+    <div className={config}>
+      <Field label={`${t("weather-plugin.selectCity")}:`}>
         <Combobox<City | null>
           options={cities}
           value={selectedCity}
@@ -59,10 +59,9 @@ export const WeatherWidgetConfigScreen = ({
           shouldDisplayOption={(o) => !!o}
           placeholder={t("weather-plugin.selectCity")}
         />
-      </div>
+      </Field>
 
-      <div>
-        <label>{t("weather-plugin.temperatureUnit")}:</label>
+      <Field label={`${t("weather-plugin.temperatureUnit")}:`}>
         <Select<Temperature>
           options={["c", "f"]}
           getOptionKey={(o) => o}
@@ -70,9 +69,8 @@ export const WeatherWidgetConfigScreen = ({
           value={temperatureUnit}
           onChange={setTemperatureUnit}
         />
-      </div>
-      <div>
-        <label>{t("weather-plugin.speedUnit")}</label>
+      </Field>
+      <Field label={t("weather-plugin.speedUnit")}>
         <Select<Speed>
           options={["km/h", "m/s", "mph"]}
           getOptionKey={(o) => o}
@@ -80,13 +78,13 @@ export const WeatherWidgetConfigScreen = ({
           value={speedUnit}
           onChange={setSpeedUnit}
         />
-      </div>
+      </Field>
 
-      <Button className="save-config" onClick={onConfirm}>
+      <Button className={saveConfig} onClick={onConfirm}>
         {t("save")}
       </Button>
 
-      <div className="attribution">
+      <div className={attribution}>
         <Trans t={t} i18nKey="weather-plugin.attribution">
           {/* biome-ignore lint/a11y/useAnchorContent: content injected by i18n */}
           <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" />

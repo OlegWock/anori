@@ -1,4 +1,3 @@
-import "../styles.scss";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
@@ -11,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gerCurrentWeather } from "../api";
 import { useCurrentWeatherStore } from "../storage";
+import { location, temperature, weatherWidget, wind } from "../styles";
 import type { WeatherWidgetConfig } from "../types";
 import {
   CACHE_TIME,
@@ -104,7 +104,7 @@ export const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<Weat
       label={!weather ? t("loading") : t("lastUpdatedAt", { datetime: moment(weather.lastUpdated).format("HH:mm") })}
       placement="top"
     >
-      <div className="WeatherWidget current">
+      <div className={weatherWidget({ type: "current" })}>
         {!!weather && (
           <>
             <Tooltip
@@ -113,10 +113,10 @@ export const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<Weat
               <Icon icon={weatherCodeToIcon(weather.weatherCode)} width={rem(6)} height={rem(6)} />
             </Tooltip>
             <div>
-              <div className="temperature">
+              <div className={temperature({})}>
                 <div>{formatTemperature(weather.temperature, config.temperatureUnit)}</div>
               </div>
-              <div className="wind">
+              <div className={wind}>
                 <Icon
                   icon={builtinIcons.arrowBack}
                   height={rem(1.2)}
@@ -124,7 +124,7 @@ export const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<Weat
                 />
                 <div>{formatSpeed(weather.windSpeed, config.speedUnit)}</div>
               </div>
-              <div className="location">
+              <div className={location({})}>
                 <Icon icon={builtinIcons.location} height={rem(1.2)} />
                 <div>{config.location.name}</div>
               </div>
