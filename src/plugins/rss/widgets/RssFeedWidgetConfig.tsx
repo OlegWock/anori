@@ -1,7 +1,8 @@
 import { listItemAnimation } from "@anori/components/animations";
-import { Button } from "@anori/components/Button";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
+import { Button } from "@anori/design-system/components/Button/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";
@@ -10,8 +11,16 @@ import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types"
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import type { RssFeedConfig } from "../types";
-import "./RssFeedWidgetConfig.scss";
+
+const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
+const presetsRow = css({ display: "flex", justifyContent: "center", gap: "4", marginTop: "4" });
+const urlsList = css({ marginTop: "3", display: "flex", flexDirection: "column", gap: "3" });
+const urlWrapper = css({ display: "flex", gap: "2", "& .Input": { flexGrow: 1 } });
+const addButtonWrapper = css({ display: "flex", justifyContent: "flex-start" });
+const compactField = css({ display: "flex", flexDirection: "column", alignItems: "flex-start" });
+const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
 
 export const RssFeedConfigScreen = ({
   saveConfiguration,
@@ -67,27 +76,24 @@ export const RssFeedConfigScreen = ({
   ];
 
   return (
-    <m.div className="RssFeed-config">
-      <div className="field">
-        <label>{t("title")}:</label>
+    <m.div className={config}>
+      <Field label={`${t("title")}:`}>
         <Input value={title} placeholder={t("title")} onChange={(e) => setTitle(e.target.value)} />
-      </div>
+      </Field>
 
-      <div className="field">
-        <label>{t("rss-plugin.feedUrls")}:</label>
-
+      <Field label={`${t("rss-plugin.feedUrls")}:`}>
         <Alert variant="info">
           <div>{t("rss-plugin.presetsTitle")}</div>
-          <div className="presets">
-            {presets.map(({ title, name, urls }) => {
+          <div className={presetsRow}>
+            {presets.map(({ title, name, urls: presetUrls }) => {
               return (
                 <Button
-                  className="preset"
+                  variant="secondary"
                   key={title}
                   onClick={() => {
                     setTitle(title);
                     setUrls((prev) => {
-                      return urls.map((url, ind) => ({ id: prev[ind]?.id || guid(), url }));
+                      return presetUrls.map((url, ind) => ({ id: prev[ind]?.id || guid(), url }));
                     });
                   }}
                 >
@@ -98,11 +104,11 @@ export const RssFeedConfigScreen = ({
           </div>
         </Alert>
 
-        <div className="urls">
+        <div className={urlsList}>
           <AnimatePresence initial={false}>
             {urls.map(({ id, url }, ind) => {
               return (
-                <m.div className="url-wrapper" layout key={id} {...listItemAnimation}>
+                <m.div className={urlWrapper} layout key={id} {...listItemAnimation}>
                   <Input
                     value={url}
                     placeholder={t("rss-plugin.feedUrl")}
@@ -114,7 +120,7 @@ export const RssFeedConfigScreen = ({
                       })
                     }
                   />
-                  <Button onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
+                  <Button variant="secondary" onClick={() => setUrls((p) => p.filter((_u, i) => i !== ind))}>
                     <Icon icon={builtinIcons.close} height={22} />
                   </Button>
                 </m.div>
@@ -122,24 +128,22 @@ export const RssFeedConfigScreen = ({
             })}
           </AnimatePresence>
         </div>
-      </div>
+      </Field>
 
-      <m.div layout className="button-wrapper">
-        <Button className="add-button" onClick={() => setUrls((p) => [...p, { id: guid(), url: "" }])}>
+      <m.div layout className={addButtonWrapper}>
+        <Button variant="secondary" onClick={() => setUrls((p) => [...p, { id: guid(), url: "" }])}>
           {t("add")}
         </Button>
       </m.div>
 
-      <m.div layout>
+      <m.div layout className={compactField}>
         <Checkbox checked={compactView} onChange={setCompactView}>
           {t("rss-plugin.compactView")}
         </Checkbox>
       </m.div>
 
-      <m.div layout className="button-wrapper">
-        <Button className="save-config" onClick={onConfirm}>
-          {t("save")}
-        </Button>
+      <m.div layout className={saveConfig}>
+        <Button onClick={onConfirm}>{t("save")}</Button>
       </m.div>
     </m.div>
   );

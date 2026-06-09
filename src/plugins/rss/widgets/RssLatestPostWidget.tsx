@@ -1,11 +1,21 @@
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import { sendMessage } from "../messaging";
 import type { RssLatestPostConfig } from "../types";
 import { useRssFeeds } from "../utils";
 import { Post } from "./Post";
-import "./RssLatestPostWidget.scss";
+
+const latestWidget = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "stretch",
+  textDecoration: "none",
+  flex: 1,
+  maxHeight: "100%",
+});
+const latestPost = css({ maxHeight: "100%" });
 
 export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>) => {
   const { t } = useTranslation();
@@ -15,8 +25,8 @@ export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>
   const lastPost = feed[0];
 
   return (
-    <div className="RssLatestPost">
-      {!!lastPost && <Post clampTitle post={lastPost} key={lastPost.url} />}
+    <div className={latestWidget}>
+      {!!lastPost && <Post className={latestPost} clampTitle post={lastPost} key={lastPost.url} />}
       {!lastPost && (
         <>
           {isRefreshing && <>{t("refreshing")}</>}
@@ -30,8 +40,9 @@ export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>
 export const RssLatestPostMock = () => {
   const { t } = useTranslation();
   return (
-    <div className="RssLatestPost">
+    <div className={latestWidget}>
       <Post
+        className={latestPost}
         post={{
           title: t("rss-plugin.examplePostTitle1"),
           description: "",
