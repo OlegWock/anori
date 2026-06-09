@@ -8,6 +8,20 @@ import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
 import type { Ref } from "react";
+import { css, cva } from "styled-system/css";
+
+const grid = css({ flexGrow: 1, alignSelf: "stretch", position: "relative", display: "flex" });
+// Force the ScrollArea viewport (and Radix's inner table wrapper) to flex so the grid fills it.
+const gridViewport = css({
+  display: "flex",
+  flexGrow: 1,
+  "& > div[style]": { display: "flex !important", flexGrow: 1, alignItems: "stretch" },
+});
+const relativeWrapper = cva({
+  base: { position: "relative", flexGrow: 1 },
+  // Empty folder: center the onboarding within the grid area.
+  variants: { onboarding: { true: { display: "flex", justifyContent: "center", alignItems: "center" } } },
+});
 
 type LayoutArg<WD extends WidgetDescriptor[] = WidgetDescriptor[], W extends WD[number] = WD[number]> = {
   pluginId: string;
@@ -123,8 +137,8 @@ export const WidgetsGrid = ({
 
   return (
     <MotionScrollArea
-      className="WidgetsGrid"
-      contentClassName="WidgetsGrid-viewport"
+      className={grid}
+      contentClassName={gridViewport}
       layout
       layoutRoot
       direction="both"
@@ -132,7 +146,7 @@ export const WidgetsGrid = ({
       color="translucent"
       ref={scrollAreaRef}
     >
-      <div className="widgets-relative-wrapper" ref={gridRef}>
+      <div className={relativeWrapper({ onboarding: showOnboarding })} ref={gridRef}>
         <AnimatePresence>
           {isEditing &&
             new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {

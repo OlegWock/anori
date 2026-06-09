@@ -1,11 +1,7 @@
-import { AnimatePresence, m } from "framer-motion";
-import "./FolderContent.scss";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
-import { Modal } from "@anori/design-system/components/Modal/Modal";
-import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
@@ -15,12 +11,14 @@ import type { ID } from "@anori/utils/types";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import clsx from "clsx";
+import { AnimatePresence, m } from "framer-motion";
 import { atom, useAtom } from "jotai";
 import { type CSSProperties, type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 import { NewWidgetWizard } from "../lazy-components";
+import { EditWidgetModal } from "./EditWidgetModal";
 import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
 
 type FolderContentProps = {
@@ -167,7 +165,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
       <m.div
         key={`FolderContent-${folder.id}`}
         data-folder-id={folder.id}
-        className={clsx(rootClass, "FolderContent", shouldShowOnboarding && "onboarding-visible")}
+        className={clsx(rootClass, "FolderContent")}
         transition={{
           duration: 0.2,
           type: "spring",
@@ -238,33 +236,13 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
           />
         )}
 
-        {!!editingWidget && editingWidget.widget.configurationScreen && (
-          <Modal
-            title={t("editWidget")}
+        {!!editingWidget && (
+          <EditWidgetModal
             key="edit-widget-modal"
-            className="edit-widget-modal"
-            flush
+            widget={editingWidget}
+            onUpdateConfig={updateWidgetConfig}
             onClose={() => setEditingWidget(null)}
-            closable
-          >
-            <ScrollArea className="edit-widget-scrollarea">
-              <m.div
-                className="edit-widget-content"
-                transition={{ duration: 0.18 }}
-                animate={{ opacity: 1, translateX: "0%" }}
-              >
-                <editingWidget.widget.configurationScreen
-                  instanceId={editingWidget.instanceId}
-                  widgetId={editingWidget.widgetId}
-                  currentConfig={editingWidget.configuration}
-                  saveConfiguration={(config) => {
-                    updateWidgetConfig(editingWidget.instanceId, config);
-                    setEditingWidget(null);
-                  }}
-                />
-              </m.div>
-            </ScrollArea>
-          </Modal>
+          />
         )}
       </AnimatePresence>
     </FolderContentContext.Provider>
