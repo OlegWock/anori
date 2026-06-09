@@ -164,8 +164,8 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "text-placeholder": neutral[byMode(mode, 9, 7)],
     "text-disabled": neutral[byMode(mode, 7, 8)],
     // Glyph foreground for decorative/secondary icons: softer than text so a solid fill does not
-    // out-weigh adjacent text.
-    icon: neutral[byMode(mode, 9, 5)],
+    // out-weigh adjacent text (a touch dimmer than text in dark mode so big glyphs don't glare).
+    icon: neutral[byMode(mode, 8, 5)],
     // An even quieter glyph — for large decorative icons (empty/error states) that should barely
     // register against the surface.
     "icon-subtle": withAlpha(neutral[byMode(mode, 9, 5)], 0.45),

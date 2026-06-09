@@ -1,12 +1,10 @@
 import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Textarea } from "@anori/design-system/components/Input/Input";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
@@ -126,7 +124,6 @@ const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
     };
 
     const controls = useDragControls();
-    const { rem } = useSizeSettings();
     const { t } = useTranslation();
     const [checked, setChecked] = useState(false);
     const [scope, animate] = useAnimate();
@@ -150,16 +147,6 @@ const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
         ref={mergedRef}
         data-task-id={task.id}
       >
-        <div className={cx(dragControl, "drag-control")}>
-          <Icon
-            icon={builtinIcons.dragHandle}
-            width={rem(1)}
-            onPointerDown={(e) => {
-              e.preventDefault();
-              controls.start(e);
-            }}
-          />
-        </div>
         <Checkbox
           ref={checkboxRef}
           checked={checked}
@@ -177,6 +164,7 @@ const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
           <Scribble progress={completionProgress} />
 
           <Textarea
+            variant="ghost"
             className={taskInput}
             value={task.text}
             onValueChange={(v) => onEdit(v)}
@@ -191,6 +179,18 @@ const TaskComponent = forwardRef<HTMLDivElement, TaskComponentProps>(
             spellCheck={false}
           />
         </m.div>
+        <IconButton
+          variant="ghost"
+          size="compact"
+          icon={builtinIcons.dragHandle}
+          label={t("reorder")}
+          showTooltip={false}
+          className={cx(dragControl, "drag-control")}
+          onPointerDown={(e) => {
+            e.preventDefault();
+            controls.start(e);
+          }}
+        />
       </ReorderItem>
     );
   },

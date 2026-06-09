@@ -31,7 +31,7 @@ export const Mock = () => {
               return (
                 <m.div key={t.id} className={taskRow} {...listItemAnimation}>
                   <Checkbox checked={false} />
-                  <Input className={taskInput} value={t.text} />
+                  <Input variant="ghost" className={taskInput} value={t.text} />
                 </m.div>
               );
             })}

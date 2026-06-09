@@ -15,7 +15,10 @@ const latestWidget = css({
   flex: 1,
   maxHeight: "100%",
 });
-const latestPost = css({ maxHeight: "100%" });
+// The card has no padding (the whole thing is a link); pad inside the link and keep the title pinned
+// to the top with its details at the bottom now that the title's height is capped.
+const latestPost = css({ maxHeight: "100%", padding: "4", justifyContent: "space-between" });
+const latestMessage = css({ padding: "4" });
 
 export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>) => {
   const { t } = useTranslation();
@@ -27,12 +30,7 @@ export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>
   return (
     <div className={latestWidget}>
       {!!lastPost && <Post className={latestPost} clampTitle post={lastPost} key={lastPost.url} />}
-      {!lastPost && (
-        <>
-          {isRefreshing && <>{t("refreshing")}</>}
-          {!isRefreshing && <>{t("rss-plugin.noPosts")}</>}
-        </>
-      )}
+      {!lastPost && <div className={latestMessage}>{isRefreshing ? t("refreshing") : t("rss-plugin.noPosts")}</div>}
     </div>
   );
 };

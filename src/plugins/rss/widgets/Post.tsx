@@ -1,5 +1,5 @@
-import { ClampTextToFit } from "@anori/components/ClampTextToFit";
 import { RelativeTime } from "@anori/components/RelativeTime";
+import { ClampTextToFit } from "@anori/design-system/components/ClampTextToFit/ClampTextToFit";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";

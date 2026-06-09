@@ -13,12 +13,12 @@ export const scrollArea = css({
   flexGrow: 1,
   "& .ScrollAreaViewport > div[style]": { display: "flex !important" },
 });
-export const tasksHeader = css({ display: "flex", justifyContent: "space-between", alignItems: "flex-start" });
+export const tasksHeader = css({ display: "flex", justifyContent: "space-between", alignItems: "center" });
 export const tasksList = css({
   display: "flex",
   flexDirection: "column",
   flexGrow: 1,
-  gap: "0-5",
+  gap: "1",
   paddingBlock: "0-5",
 });
 // The drag handle is hidden until the row is hovered (or always on touch devices).
@@ -27,22 +27,16 @@ export const taskRow = css({
   alignItems: "center",
   gap: "0-5",
   position: "relative",
+  background: "card",
+  borderRadius: "md",
   "@media (any-hover: hover)": { "&:hover .drag-control": { visibility: "visible" } },
 });
+// Reserves its column in the row (visibility, not display) but only shows on hover; always on touch.
 export const dragControl = css({
-  zIndex: 1,
   visibility: "hidden",
-  // Touch devices have no hover, so the drag handle is always shown there.
   ".is-touch-device &": { visibility: "visible" },
-  position: "absolute",
-  insetInlineEnd: 0,
-  background: "card",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "xs",
-  padding: "1",
-  cursor: "grab",
+  // `!` to beat the Button's own cursor: pointer.
+  cursor: "grab!",
 });
 export const inputWrapper = css({ position: "relative", flexGrow: 1, display: "flex" });
 export const scribble = css({
@@ -57,15 +51,10 @@ export const scribble = css({
 export const taskInput = css({
   flexGrow: 1,
   marginInline: "0-5",
-  marginTop: "1px",
-  paddingBlock: "1",
-  paddingInline: "2",
-  textOverflow: "ellipsis",
-  resize: "none",
-  "&::-webkit-scrollbar": { width: "7px", height: "7px" },
-  "&::-webkit-scrollbar-thumb": { borderRadius: "md", border: "2px solid var(--ds-card)", backgroundColor: "card" },
-  "&::-webkit-scrollbar-track": { backgroundColor: "surface.elevated", borderRadius: "md" },
-  scrollbarColor: "var(--ds-card) transparent",
+  // Override the DS Textarea wrapper's roomier py:3 — task rows want to be tight, especially vertically.
+  // `!` so it wins over the component's own atomic padding regardless of stylesheet order.
+  paddingBlock: "0-5!",
+  paddingInline: "2!",
 });
 export const noTasks = css({
   flexGrow: 1,

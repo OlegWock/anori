@@ -1,6 +1,6 @@
-import { Button } from "@anori/design-system/components/Button/Button";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Link } from "@anori/design-system/components/Link/Link";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
@@ -12,6 +12,7 @@ import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import type { EmptyObject } from "@anori/utils/types";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { css, cva, cx } from "styled-system/css";
 import browser from "webextension-polyfill";
 import { useTopSitesStore } from "../storage";
@@ -42,19 +43,8 @@ const linkPlate = css({
 });
 const plateIcon = css({ margin: "2", width: "2rem" });
 const loadingIcon = css({ margin: "2", width: "2rem", animation: "spin 1.5s ease-in-out infinite" });
-const removeLink = css({
-  display: "none",
-  position: "absolute",
-  top: 0,
-  right: 0,
-  zIndex: 1,
-  padding: "0-5",
-  background: "surface.elevated",
-  color: "accent",
-  borderWidth: "2px",
-  borderStyle: "solid",
-  borderColor: "accent",
-});
+// Hidden until the plate is hovered; the frosted IconButton supplies its own look.
+const removeLink = css({ display: "none", position: "absolute", top: 0, right: 0, zIndex: 1 });
 const siteTitle = cva({
   base: {
     lineHeight: "1.25rem",
@@ -85,6 +75,7 @@ const LinkPlate = ({
   const { onLinkClick, isNavigating } = useLinkNavigationState();
   const { isEditing } = useParentFolder();
   const trackInteraction = useWidgetInteractionTracker();
+  const { t } = useTranslation();
 
   return (
     <Link
@@ -99,17 +90,18 @@ const LinkPlate = ({
       {!isNavigating && <img className={plateIcon} src={favicon} aria-hidden />}
       <div className={siteTitle({ vertical })}>{title}</div>
       {isEditing && (
-        <Button
-          variant="ghost"
+        <IconButton
+          variant="frosted"
+          size="compact"
           className={cx(removeLink, "remove-link")}
+          icon={builtinIcons.close}
+          label={t("top-sites-plugin.removeSite")}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             onRemove();
           }}
-        >
-          <Icon icon={builtinIcons.close} width={16} height={16} />
-        </Button>
+        />
       )}
     </Link>
   );

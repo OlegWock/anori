@@ -26,14 +26,10 @@ const noteInput = css({
   margin: "0-5",
   minWidth: 0,
   paddingBlock: "1",
-  paddingInline: "2",
+  paddingInline: "2!",
   height: "auto",
-  "&::-webkit-scrollbar": { width: "7px", height: "7px" },
-  "&::-webkit-scrollbar-thumb": { borderRadius: "md", border: "2px solid var(--ds-card)", backgroundColor: "card" },
-  "&::-webkit-scrollbar-track": { backgroundColor: "surface.elevated", borderRadius: "md" },
-  scrollbarColor: "var(--ds-card) transparent",
 });
-const noteTitle = css({ fontSize: "xl" });
+const noteTitle = css({ fontSize: "xl!" });
 const noteBodyEditor = css({
   resize: "none",
   flexGrow: 1,
@@ -166,6 +162,7 @@ export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
       {isEditing && (
         <Textarea
           variant="ghost"
+          autosize={false}
           value={body}
           onValueChange={setBody}
           className={cx(noteInput, noteBodyEditor)}

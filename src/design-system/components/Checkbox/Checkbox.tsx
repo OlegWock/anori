@@ -28,7 +28,11 @@ const root = css({
   minHeight: "20px",
   borderRadius: "xs",
   bg: "control",
-  // Edge (DS-3): an inset ring for volume instead of a delineating border.
+  // Border (DS-3) delineates the box so it reads on any surface — including cards, whose fill is only
+  // a step off the control fill. The edge stays as the inset volume highlight.
+  borderWidth: "1px",
+  borderStyle: "solid",
+  borderColor: "control.border",
   boxShadow: "control.edge",
 });
 const indicator = css({ display: "flex" });

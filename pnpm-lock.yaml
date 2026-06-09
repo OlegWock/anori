@@ -11,9 +11,6 @@ patchedDependencies:
   framer-motion:
     hash: bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad
     path: patches/framer-motion.patch
-  react-textarea-autosize:
-    hash: 72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2
-    path: patches/react-textarea-autosize.patch
 
 importers:
 
@@ -196,9 +193,6 @@ importers:
       react-merge-refs:
         specifier: ^3.0.2
         version: 3.0.2(react@19.1.0)
-      react-textarea-autosize:
-        specifier: ^8.5.9
-        version: 8.5.9(patch_hash=72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2)(@types/react@19.1.5)(react@19.1.0)
       react-use-motion-measure:
         specifier: ^3.0.0
         version: 3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -5193,12 +5187,6 @@ packages:
       '@types/react':
         optional: true
 
-  react-textarea-autosize@8.5.9:
-    resolution: {integrity: sha512-U1DGlIQN5AwgjTyOEnI1oCcMuEr1pv1qOtklB2l4nyMGbHzWrI0eFsYK0zos2YWqAolJyG0IWJaqWmWj5ETh0A==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   react-use-motion-measure@3.0.0:
     resolution: {integrity: sha512-zOC1DWbBDmER+CmBvTk8pNQFY7qIUPVR6Wsj10RITSHRAskDYZgcNms1Lyp5gcbx2sarb4wtHtSAs43OS/ncKA==}
     peerDependencies:
@@ -6016,33 +6004,6 @@ packages:
     peerDependencies:
       '@types/react': '*'
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  use-composed-ref@1.4.0:
-    resolution: {integrity: sha512-djviaxuOOh7wkj0paeO1Q/4wMZ8Zrnag5H6yBvzN7AKKe8beOaED9SF5/ByLqsku8NP4zQqsvM2u3ew/tJK8/w==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  use-isomorphic-layout-effect@1.2.1:
-    resolution: {integrity: sha512-tpZZ+EX0gaghDAiFR37hj5MgY6ZN55kLiPkJsKxBMZ6GZdOSPJXiOzPM984oPYZ5AnehYx5WQp1+ME8I/P/pRA==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  use-latest@1.3.0:
-    resolution: {integrity: sha512-mhg3xdm9NaM8q+gLT8KryJPnRFOz1/5XPBhmDEVZK1webPzDjrPk7f/mbpeLqTgB9msytYWANxgALOCJKnLvcQ==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -11721,15 +11682,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.5
 
-  react-textarea-autosize@8.5.9(patch_hash=72f639073d39a37f6dc8cfb7b3287bd987cf0e2c2cc5d4a71fe64f07517e02a2)(@types/react@19.1.5)(react@19.1.0):
-    dependencies:
-      '@babel/runtime': 7.28.4
-      react: 19.1.0
-      use-composed-ref: 1.4.0(@types/react@19.1.5)(react@19.1.0)
-      use-latest: 1.3.0(@types/react@19.1.5)(react@19.1.0)
-    transitivePeerDependencies:
-      - '@types/react'
-
   react-use-motion-measure@3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       debounce: 1.2.1
@@ -12651,25 +12603,6 @@ snapshots:
     dependencies:
       react: 19.1.0
       tslib: 2.8.1
-    optionalDependencies:
-      '@types/react': 19.1.5
-
-  use-composed-ref@1.4.0(@types/react@19.1.5)(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-    optionalDependencies:
-      '@types/react': 19.1.5
-
-  use-isomorphic-layout-effect@1.2.1(@types/react@19.1.5)(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-    optionalDependencies:
-      '@types/react': 19.1.5
-
-  use-latest@1.3.0(@types/react@19.1.5)(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-      use-isomorphic-layout-effect: 1.2.1(@types/react@19.1.5)(react@19.1.0)
     optionalDependencies:
       '@types/react': 19.1.5
 

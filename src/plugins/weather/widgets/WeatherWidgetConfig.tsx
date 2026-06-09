@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { City, Speed, Temperature } from "../api";
 import { searchCity } from "../api";
-import { attribution, config, saveConfig } from "../styles";
+import { attribution, config, saveConfig, unitField, unitsRow } from "../styles";
 import type { WeatherWidgetConfig } from "../types";
 import { formatCityLabel } from "../utils";
 
@@ -61,24 +61,26 @@ export const WeatherWidgetConfigScreen = ({
         />
       </Field>
 
-      <Field label={`${t("weather-plugin.temperatureUnit")}:`}>
-        <Select<Temperature>
-          options={["c", "f"]}
-          getOptionKey={(o) => o}
-          getOptionLabel={(o) => (o === "c" ? "°C" : "°F")}
-          value={temperatureUnit}
-          onChange={setTemperatureUnit}
-        />
-      </Field>
-      <Field label={t("weather-plugin.speedUnit")}>
-        <Select<Speed>
-          options={["km/h", "m/s", "mph"]}
-          getOptionKey={(o) => o}
-          getOptionLabel={(o) => o}
-          value={speedUnit}
-          onChange={setSpeedUnit}
-        />
-      </Field>
+      <div className={unitsRow}>
+        <Field className={unitField} label={`${t("weather-plugin.temperatureUnit")}:`}>
+          <Select<Temperature>
+            options={["c", "f"]}
+            getOptionKey={(o) => o}
+            getOptionLabel={(o) => (o === "c" ? "°C" : "°F")}
+            value={temperatureUnit}
+            onChange={setTemperatureUnit}
+          />
+        </Field>
+        <Field className={unitField} label={t("weather-plugin.speedUnit")}>
+          <Select<Speed>
+            options={["km/h", "m/s", "mph"]}
+            getOptionKey={(o) => o}
+            getOptionLabel={(o) => o}
+            value={speedUnit}
+            onChange={setSpeedUnit}
+          />
+        </Field>
+      </div>
 
       <Button className={saveConfig} onClick={onConfirm}>
         {t("save")}

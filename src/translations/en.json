@@ -300,7 +300,8 @@
         "top-sites-plugin": {
             "name": "Top sites",
             "widgetHorizontal": "Top sites - horizontal",
-            "widgetVertical": "Top sites - vertical"
+            "widgetVertical": "Top sites - vertical",
+            "removeSite": "Remove site"
         },
         "weather-plugin": {
             "name": "Weather",
@@ -336,6 +337,8 @@
             "noPosts": "No posts in this feed yet",
             "compactView": "Compact view",
             "presetsTitle": "Put your favorite feeds here or select from one of the presets:",
+            "presetsText": "Didn't add any feeds yet? We have presets for <0>developers</0>, <1>designers</1>, and one with <2>all sorts of interesting bits</2>.",
+            "addFeed": "Add feed",
             "presetForDevelopers": "For developers",
             "presetForDesigners": "For designers",
             "presetInteresting": "Just interesting stuff",

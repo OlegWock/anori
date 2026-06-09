@@ -46,6 +46,8 @@ export const rssLastestPostDescriptor = defineWidget({
   mock: RssLatestPostMock,
   appearance: {
     withHoverAnimation: true,
+    // The whole card is a link, so drop the card padding and re-add it inside the link itself.
+    withoutPadding: true,
     resizable: {
       min: { width: 2, height: 1 },
       max: { width: 3, height: 1 },
