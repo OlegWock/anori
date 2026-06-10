@@ -28,7 +28,7 @@ const trigger = css({
   px: "4",
   gap: "3",
   height: "36px",
-  minWidth: "250px",
+  minWidth: "5rem",
   border: "none",
   fontSize: "sm",
   lineHeight: "none",

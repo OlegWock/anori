@@ -6,7 +6,6 @@ export const config = css({
   flexDirection: "column",
   gap: "3",
   alignItems: "stretch",
-  minWidth: "500px",
 });
 // A field-like wrapper that hugs its content instead of stretching (e.g. a lone checkbox shouldn't span the row).
 export const compactField = css({ display: "flex", flexDirection: "column", alignItems: "flex-start" });

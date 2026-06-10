@@ -17,7 +17,7 @@ import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, m } from "framer-motion";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 import { PluginWidgetsSection } from "./PluginWidgetsSection";
 
 export type NewWidgetWizardProps = {
@@ -28,7 +28,7 @@ export type NewWidgetWizardProps = {
 };
 
 const content = css({
-  width: "min(80vw, 1100px)",
+  maxWidth: "min(80vw, 1100px)",
   overflow: "hidden",
   display: "flex",
   flexDirection: "column",
@@ -36,6 +36,11 @@ const content = css({
   px: "4",
   pb: "4",
 });
+const pluginsScreen = css({
+  width: "min(80vw, 1100px)",
+});
+// Widget config screens get a uniform fixed width (the gallery screen stays wide via pluginsScreen).
+const configScreen = css({ width: "500px" });
 const searchInput = css({ margin: "0-5", width: "100%" });
 const twoColumn = css({ display: "flex", gap: "4", overflow: "hidden" });
 const sidebar = css({ width: "220px", flexShrink: 0, display: "flex", flexDirection: "column" });
@@ -137,7 +142,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         {inConfigurationStage && !!selectedWidget.configurationScreen && (
           <MotionScrollArea
             key="configuration"
-            className={content}
+            className={cx(content, configScreen)}
             transition={{ duration: 0.18 }}
             initial={{ translateX: "-50%", opacity: 0 }}
             animate={{ translateX: "0%", opacity: 1 }}
@@ -153,7 +158,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         {!inConfigurationStage && (
           <m.div
             key="select"
-            className={content}
+            className={cx(content, pluginsScreen)}
             transition={{ duration: 0.18 }}
             initial={{ translateX: "50%", opacity: 0 }}
             animate={{ translateX: "0%", opacity: 1 }}

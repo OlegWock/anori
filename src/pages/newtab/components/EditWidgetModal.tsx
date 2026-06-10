@@ -17,7 +17,7 @@ const content = css({
   paddingTop: 0,
   paddingInline: "3",
   paddingBottom: "3",
-  width: "800px",
+  width: "500px",
   maxWidth: "80vw",
   overflow: "hidden",
 });

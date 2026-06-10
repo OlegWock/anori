@@ -8,7 +8,7 @@ export type InputVariant = "filled" | "ghost";
 // blends into whatever it sits on (e.g. a list-row name field). Both take the accent focus outline.
 const input = cva({
   base: {
-    minWidth: "15rem",
+    minWidth: "5rem",
     borderRadius: "md",
     border: "none",
     px: "4",
