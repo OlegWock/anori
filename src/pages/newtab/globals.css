@@ -1,0 +1,63 @@
+/* Newtab-page globals: full-screen layout (#root), the dotted backdrop, the wallpaper body, and the
+   loading cover. These target elements in the generated HTML (not React-rendered), so they can't be
+   component classes — and they're page-specific, so they live here rather than in panda's app-wide
+   globalCss. Colours reference the design-system runtime vars (--ds-*). */
+
+html {
+  height: 100dvh;
+}
+
+body {
+  height: 100dvh;
+  /* The user's wallpaper, set at runtime. */
+  background: var(--background-image);
+  background-size: cover;
+  overflow: hidden;
+}
+
+#root {
+  height: 100dvh;
+  width: 100dvw;
+  z-index: 0;
+}
+
+#root::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  width: 100dvw;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  background-image: radial-gradient(
+    var(--ds-frosted-strong),
+    var(--ds-frosted-strong) 1px,
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0) 100%
+  );
+  background-size: 30px 30px;
+}
+
+.loading-cover {
+  position: fixed;
+  inset: 0;
+  background: var(--ds-surface-elevated);
+  pointer-events: none;
+  z-index: 999999999;
+}
+
+.loading-cover.active {
+  animation-name: loading-cover;
+  animation-duration: 500ms;
+  animation-delay: 150ms;
+  animation-iteration-count: 1;
+}
+
+@keyframes loading-cover {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

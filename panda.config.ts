@@ -189,4 +189,29 @@ export default defineConfig({
       },
     },
   },
+
+  globalFontface: {
+    Nunito: {
+      src: "url('/assets/Nunito.ttf') format('truetype-variations')",
+      fontWeight: "1 999",
+      fontDisplay: "swap",
+    },
+  },
+
+  // App-wide typography baseline (every page wants the font + base text styles). Page-specific layout
+  // globals (#root, the loading cover, the full-screen body) live with their page instead — see
+  // src/pages/newtab/globals.css.
+  globalCss: {
+    body: {
+      fontFamily:
+        "'Nunito', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+      WebkitFontSmoothing: "antialiased",
+      MozOsxFontSmoothing: "grayscale",
+      textRendering: "optimizeLegibility",
+      lineHeight: "1.65",
+      letterSpacing: "0.075rem",
+      color: "token(colors.text.primary)",
+      fontSize: "1rem",
+    },
+  },
 });

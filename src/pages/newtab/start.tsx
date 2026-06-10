@@ -1,7 +1,8 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
-import "./styles.scss";
+import "@anori/components/base.scss";
 import "../../panda.css";
+import "./globals.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { languageDirections } from "@anori/translations/metadata";
@@ -17,13 +18,47 @@ import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import { DirectionProvider } from "@radix-ui/react-direction";
-import clsx from "clsx";
 import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { css, cva } from "styled-system/css";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
 
 const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
+
+const startPage = css({ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column" });
+const startPageContent = cva({
+  base: { display: "flex", flex: 1, overflow: "hidden" },
+  variants: { orientation: { vertical: {}, horizontal: { flexDirection: "column-reverse" } } },
+});
+const widgetsArea = cva({
+  base: {
+    position: "relative",
+    flex: 1,
+    borderRadius: "2xl",
+    background: "frosted.subtle",
+    backdropFilter: "blur(10px)",
+    zIndex: 1,
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    minWidth: 0,
+  },
+  variants: {
+    orientation: {
+      vertical: { marginBlock: "8", marginInlineStart: 0, marginInlineEnd: "8" },
+      horizontal: { marginTop: "8", marginInline: "8", marginBottom: 0 },
+    },
+    // The bookmarks bar takes the top, so tighten the widgets-area top margin. `!` to win over orientation.
+    bookmarksBar: { true: { marginTop: "1!" } },
+  },
+});
+const bookmarksBarPlaceholder = css({
+  marginTop: "4",
+  marginInline: "8",
+  marginBottom: 0,
+  height: "calc(0.9rem * 1.2 + 1.55rem)",
+});
 
 const useSidebarOrientation = () => {
   const [sidebarOrientation] = useStorageValue(anoriSchema.sidebarOrientation);
@@ -109,14 +144,11 @@ const Start = () => {
     <DirectionProvider dir={dir}>
       <MotionConfig transition={{ duration: 0.2, ease: "easeInOut" }}>
         <AnimatePresence>
-          <m.div
-            className={clsx("StartPage", `${sidebarOrientation}-sidebar`, showBookmarksBar && "with-bookmarks-bar")}
-            key="start-page"
-          >
+          <m.div className={startPage} key="start-page">
             {showBookmarksBar && (
-              <BookmarksBar lazyOptions={{ fallback: <div className="bookmarks-bar-placeholder" /> }} />
+              <BookmarksBar lazyOptions={{ fallback: <div className={bookmarksBarPlaceholder} /> }} />
             )}
-            <div className={clsx("start-page-content")}>
+            <div className={startPageContent({ orientation: sidebarOrientation })}>
               <Sidebar
                 folders={folders}
                 activeFolder={activeFolder}
@@ -128,7 +160,7 @@ const Start = () => {
                 }}
               />
 
-              <div className="widgets-area">
+              <div className={widgetsArea({ orientation: sidebarOrientation, bookmarksBar: showBookmarksBar })}>
                 <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
               </div>
             </div>
