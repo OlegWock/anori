@@ -11,11 +11,11 @@ import type { Ref } from "react";
 import { css, cva } from "styled-system/css";
 
 const grid = css({ flexGrow: 1, alignSelf: "stretch", position: "relative", display: "flex" });
-// Force the ScrollArea viewport (and Radix's inner table wrapper) to flex so the grid fills it.
+// Make the ScrollArea content (and the grid wrapper inside it) flex so the grid fills the viewport.
 const gridViewport = css({
   display: "flex",
   flexGrow: 1,
-  "& > div[style]": { display: "flex !important", flexGrow: 1, alignItems: "stretch" },
+  "& > div": { display: "flex", flexGrow: 1, alignItems: "stretch" },
 });
 const relativeWrapper = cva({
   base: { position: "relative", flexGrow: 1 },
@@ -151,6 +151,7 @@ export const WidgetsGrid = ({
       contentClassName={gridViewport}
       layout
       layoutRoot
+      layoutScroll
       direction="both"
       type="hover"
       color="translucent"

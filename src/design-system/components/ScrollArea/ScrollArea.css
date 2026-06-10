@@ -1,8 +1,0 @@
-/*
- * radix sets an inline `display: table` on the viewport's inner wrapper which breaks width/height
- * layout (https://github.com/radix-ui/primitives/issues/926). Forcing `display: block` needs
- * `!important` to beat that inline style.
- */
-.ScrollAreaViewport > div[style] {
-  display: block !important;
-}

@@ -73,14 +73,14 @@ const content = cva({
     borderRadius: "calc(24px - 0.75rem)",
     background: "surface.elevated",
     padding: "4",
-    // The expandable content fills the scroll area; force Radix's table wrapper into a stretching flex column.
+    // The expandable content fills the scroll area; make the viewport + content a stretching flex column.
     "& > .ScrollAreaRoot": {
       flexGrow: 1,
       alignSelf: "stretch",
       "& .ScrollAreaViewport": { display: "flex", flexDirection: "column" },
-      "& .ScrollAreaViewport > div[style]": {
-        display: "flex !important",
-        flexDirection: "column !important",
+      "& .ScrollAreaContent": {
+        display: "flex",
+        flexDirection: "column",
         flexGrow: 1,
         alignSelf: "stretch",
       },

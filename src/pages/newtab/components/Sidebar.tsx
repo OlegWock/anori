@@ -59,17 +59,17 @@ const sidebarViewport = cva({
     flexGrow: 1,
     display: "flex",
     flexDirection: "column",
-    "& > div[style]:not(#specifity-bump)": {
+    "& > .ScrollAreaContent": {
       flexGrow: 1,
       height: "100%",
       minHeight: "100%",
-      display: "flex !important",
+      display: "flex",
     },
   },
   variants: {
     orientation: {
       vertical: {},
-      horizontal: { "& > div[style]:not(#specifity-bump)": { flexDirection: "column" } },
+      horizontal: { "& > .ScrollAreaContent": { flexDirection: "column" } },
     },
   },
 });

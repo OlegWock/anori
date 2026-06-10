@@ -8,10 +8,10 @@ export const tasksWidget = css({
   flexGrow: 1,
   overflow: "hidden",
 });
-// Fills the widget; force Radix's table wrapper to flex so the list can grow.
+// Fills the widget; make the scroll content a flex column so the list can grow.
 export const scrollArea = css({
   flexGrow: 1,
-  "& .ScrollAreaViewport > div[style]": { display: "flex !important" },
+  "& .ScrollAreaContent": { display: "flex", flexDirection: "column", flexGrow: 1 },
 });
 export const tasksHeader = css({ display: "flex", justifyContent: "space-between", alignItems: "center" });
 export const tasksList = css({
