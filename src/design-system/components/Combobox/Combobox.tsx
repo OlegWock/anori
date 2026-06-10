@@ -16,7 +16,7 @@ import {
   useRole,
 } from "@floating-ui/react";
 import { type HTMLMotionProps, m } from "framer-motion";
-import { type Ref, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, type HTMLProps, type ReactNode, type Ref, useEffect, useRef, useState } from "react";
 import { css, cva } from "styled-system/css";
 
 // Floating list panel — elevated surface + drop shadow on the tooltip layer (so it clears a modal it
@@ -78,19 +78,13 @@ export type ComboboxProps<T> = {
 } & Omit<HTMLMotionProps<"div">, "onChange">;
 
 interface ItemProps {
-  children: React.ReactNode;
+  children: ReactNode;
   active: boolean;
   checked: boolean;
   ref?: Ref<HTMLDivElement>;
 }
 
-const Item = ({
-  children,
-  active,
-  checked,
-  ref,
-  ...rest
-}: ItemProps & Omit<React.HTMLProps<HTMLDivElement>, "ref">) => {
+const Item = ({ children, active, checked, ref, ...rest }: ItemProps & Omit<HTMLProps<HTMLDivElement>, "ref">) => {
   const id = useId();
   return (
     <div
@@ -123,7 +117,7 @@ export const Combobox = <T,>({
   placeholder,
   className,
 }: ComboboxProps<T>) => {
-  const localOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const localOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inpValue = event.target.value;
     setInputValue(inpValue);
     if (onInputChange) onInputChange(inpValue);

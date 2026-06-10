@@ -21,9 +21,9 @@ import {
 } from "@floating-ui/react";
 import classNames from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import type React from "react";
 import {
   Children,
+  type CSSProperties,
   cloneElement,
   type ReactElement,
   type ReactNode,
@@ -52,7 +52,7 @@ export type PopoverProps<D = undefined> = {
   trigger?: "click" | "hover";
   placement?: Placement;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   children: ReactNode;
   onStateChange?: (open: boolean) => void;
   initialFocus?: number | RefObject<HTMLElement | null>;

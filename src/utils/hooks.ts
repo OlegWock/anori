@@ -1,6 +1,7 @@
 import { incrementDailyUsageMetric } from "@anori/utils/analytics";
 import {
   type DependencyList,
+  type EffectCallback,
   type MouseEventHandler,
   type RefObject,
   useEffect,
@@ -57,7 +58,7 @@ export const useMirrorStateToRef = <T>(val: T) => {
   return ref;
 };
 
-export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
+export const useOnChangeEffect = (fn: EffectCallback, deps?: DependencyList | undefined) => {
   const isFirstRun = useRef(true);
   useEffect(() => {
     if (isFirstRun.current) {
@@ -70,7 +71,7 @@ export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.Depende
   }, deps);
 };
 
-export const useOnChangeLayoutEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
+export const useOnChangeLayoutEffect = (fn: EffectCallback, deps?: DependencyList | undefined) => {
   const isFirstRun = useRef(true);
   useLayoutEffect(() => {
     if (isFirstRun.current) {

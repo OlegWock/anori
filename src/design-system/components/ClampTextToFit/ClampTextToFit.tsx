@@ -1,39 +1,38 @@
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import type { Mapping } from "@anori/utils/types";
-import type React from "react";
+import type {
+  ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
+  ElementType,
+  PropsWithChildren,
+  ReactElement,
+} from "react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { mergeRefs } from "react-merge-refs";
 
-type PolymorphicRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>["ref"];
+type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>["ref"];
 
-type AsProp<C extends React.ElementType> = {
+type AsProp<C extends ElementType> = {
   as?: C;
 };
 
-type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
+type PropsToOmit<C extends ElementType, P> = keyof (AsProp<C> & P);
 
-type PolymorphicComponentProp<C extends React.ElementType, Props = Mapping> = React.PropsWithChildren<
-  Props & AsProp<C>
-> &
-  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+type PolymorphicComponentProp<C extends ElementType, Props = Mapping> = PropsWithChildren<Props & AsProp<C>> &
+  Omit<ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
 
-type PolymorphicComponentPropWithRef<C extends React.ElementType, Props = Mapping> = PolymorphicComponentProp<
-  C,
-  Props
-> & {
+type PolymorphicComponentPropWithRef<C extends ElementType, Props = Mapping> = PolymorphicComponentProp<C, Props> & {
   ref?: PolymorphicRef<C>;
 };
 
-type ClampTextToFitProps<C extends React.ElementType> = PolymorphicComponentPropWithRef<
+type ClampTextToFitProps<C extends ElementType> = PolymorphicComponentPropWithRef<
   C,
   { text: string; withTooltip?: boolean; className?: string }
 >;
 
-type ClampTextToFitComponent = <C extends React.ElementType = "span">(
-  props: ClampTextToFitProps<C>,
-) => React.ReactElement | null;
+type ClampTextToFitComponent = <C extends ElementType = "span">(props: ClampTextToFitProps<C>) => ReactElement | null;
 
-export const ClampTextToFit: ClampTextToFitComponent = <C extends React.ElementType = "span">({
+export const ClampTextToFit: ClampTextToFitComponent = <C extends ElementType = "span">({
   as,
   text,
   withTooltip = false,
