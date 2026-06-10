@@ -5,6 +5,7 @@ import FaSolidListOl from "~icons/fa-solid/list-ol?raw";
 import FluentKey20Regular from "~icons/fluent/key-20-regular?raw";
 import PlugDisconnected48Regular from "~icons/fluent/plug-disconnected-48-regular?raw";
 import FluentSpinnerIos20Regular from "~icons/fluent/spinner-ios-20-regular?raw";
+import HumbleiconsLogout from "~icons/humbleicons/logout?raw";
 import IcBaselineDragIndicator from "~icons/ic/baseline-drag-indicator?raw";
 import IcBaselineTab from "~icons/ic/baseline-tab?raw";
 import IcOutlineWindow from "~icons/ic/outline-window?raw";
@@ -57,6 +58,7 @@ import LogosNotionIcon from "~icons/logos/notion-icon?raw";
 import LogosTwitter from "~icons/logos/twitter?raw";
 import LogosWhatsappIcon from "~icons/logos/whatsapp-icon?raw";
 import MingcutePlguinFill from "~icons/mingcute/plugin-2-fill?raw";
+import OcticonUnlink16 from "~icons/octicon/unlink-16?raw";
 import PhTabsFill from "~icons/ph/tabs-fill?raw";
 import SolarChecklistBold from "~icons/solar/checklist-bold?raw";
 import WiCloud from "~icons/wi/cloud?raw";
@@ -104,6 +106,8 @@ const builtinIconSvgsBySourceId = {
   "fluent:spinner-ios-20-regular": FluentSpinnerIos20Regular,
   "fluent:key-20-regular": FluentKey20Regular,
   "fluent:plug-disconnected-48-regular": PlugDisconnected48Regular,
+  "humbleicons:logout": HumbleiconsLogout,
+  "octicon:unlink-16": OcticonUnlink16,
   "ion:calculator": IonCalculator,
   "ion:open-outline": IonOpenOutline,
   "ion:albums": IonAlbums,
@@ -186,6 +190,8 @@ export const builtinIcons = {
   spinner: "fluent:spinner-ios-20-regular",
   disconnected: "fluent:plug-disconnected-48-regular",
   key: "fluent:key-20-regular",
+  logout: "humbleicons:logout",
+  unlink: "octicon:unlink-16",
   calculator: "ion:calculator",
   openOutline: "ion:open-outline",
   albums: "ion:albums",

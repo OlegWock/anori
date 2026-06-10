@@ -5,7 +5,7 @@ import { css, cva, cx } from "styled-system/css";
 export type ButtonSize = "normal" | "compact";
 export type ButtonVariant = "primary" | "secondary" | "frosted" | "ghost";
 
-export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   block?: boolean;
@@ -138,6 +138,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     children,
     iconStart,
     iconEnd,
+    // Default to "button" (never an accidental form submit), but allow opting into "submit"/"reset".
+    type = "button",
     ...props
   },
   ref,
@@ -145,7 +147,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   const isDisabled = disabled || loading;
   return (
     <button
-      type="button"
+      type={type}
       {...props}
       ref={ref}
       disabled={visuallyDisabled ? undefined : isDisabled}
