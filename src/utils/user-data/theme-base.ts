@@ -1,6 +1,6 @@
 import { applyDesignSystemTokens } from "@anori/design-system/apply";
 import type { Mode } from "@anori/design-system/color-engine";
-import { cssColorToHslValues, type OklchColor, oklchToCss, withAlphaCss } from "@anori/utils/color";
+import type { OklchColor } from "@anori/utils/color";
 import { setPageBackground } from "@anori/utils/page";
 import browser from "webextension-polyfill";
 
@@ -78,11 +78,10 @@ export const applyTheme = async (theme: Theme, mode: Mode) => {
   await prom;
 };
 
-// Generates the palette from the accent + mode, injects the `--ds-*` tokens, and projects the legacy
-// `--accent`/`--background`/`--text`/… vars from it (still consumed by un-migrated components).
+// Generates the palette from the accent + mode, injects the `--ds-*` tokens, and points the browser
+// theme-color meta at the resulting card surface.
 export const applyThemeColors = (accent: OklchColor, mode: Mode) => {
   const { tokens } = applyDesignSystemTokens(accent, mode);
-  const root = document.documentElement;
 
   let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
   if (!meta) {
@@ -91,18 +90,6 @@ export const applyThemeColors = (accent: OklchColor, mode: Mode) => {
     document.head.appendChild(meta);
   }
   meta.content = tokens.card;
-
-  root.style.setProperty("--accent", oklchToCss(accent));
-  root.style.setProperty("--accent-subtle", oklchToCss(accent, 0.5));
-  root.style.setProperty("--background", tokens.card);
-  root.style.setProperty("--background-lighter", tokens["surface-elevated"]);
-  root.style.setProperty("--text", tokens["text-primary"]);
-  // Legacy SCSS consumes this as `hsla(var(--text-hsl) / <alpha>)`, so it stays in HSL values.
-  root.style.setProperty("--text-hsl", cssColorToHslValues(tokens["text-primary"]));
-  root.style.setProperty("--text-subtle-1", tokens["text-subtle"]);
-  root.style.setProperty("--text-subtle-2", tokens["text-placeholder"]);
-  root.style.setProperty("--text-border", withAlphaCss(tokens["text-primary"], 0.25));
-  root.style.setProperty("--text-disabled", tokens["text-disabled"]);
 };
 
 type ThemeBackgroundResolver = (themeName: string) => Promise<Blob>;
