@@ -1,7 +1,3 @@
----
-alwaysApply: true
----
-
 - **Keep responses concise and purposeful.**
   Only provide information or code that directly helps solve the request.
 
@@ -27,7 +23,7 @@ Current project name is Anori. It's browser extension (web extension) which enab
 
 * We use React for components.
 
-* We use SCSS for styling.
+* We use Panda CSS + a token-based design system for styling (no SCSS). See the Styling rules.
 
 * Extension supports Chrome (Manifest V3) and Firefox (Manifest V2).
 

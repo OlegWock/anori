@@ -1,7 +1,3 @@
----
-description: When working with localization and/or translations
-alwaysApply: false
----
 # Localization
 
 * Anori supports multiple languages. 

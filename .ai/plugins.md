@@ -1,7 +1,3 @@
----
-alwaysApply: true
----
-
 Main building block on Anori start page is widget. Widgets are narrow in function. They are organized in folders, and each folder's widgets can be organized in grid. All widgets in Anori are provided by plugins. One plugin can provide multiple widgets.
 
 # Plugins
@@ -10,7 +6,7 @@ All plugins are stored in `src/plugins` folder.
 
 ## File structure
 
-Small plugins (under ~300 lines) can live in a single `plugin-name-plugin.tsx` file with a sibling SCSS file. Larger plugins should be split into multiple files:
+Small plugins (under ~300 lines) can live in a single `plugin-name-plugin.tsx` file (styles co-located via Panda `css`/`cva`). Larger plugins should be split into multiple files:
 
 ```
 src/plugins/plugin-name/
@@ -20,8 +16,7 @@ src/plugins/plugin-name/
 ├── messaging.ts                → createOnMessageHandlers + sendMessage export
 ├── background.ts               → scheduled callback logic
 ├── widgets/
-│   ├── SomeWidget.tsx          → main screen component
-│   ├── SomeWidget.scss         → styles for that widget
+│   ├── SomeWidget.tsx          → main screen component (styles co-located via Panda)
 │   ├── SomeWidgetConfig.tsx    → configuration screen component
 │   ├── AnotherWidget.tsx       → second widget main screen
 │   ├── AnotherWidgetConfig.tsx → second widget config screen
@@ -164,21 +159,17 @@ Those CSS variables set on folder's root element and thus are available for use 
 > `.is-touch-device`
 > `.is-android`
 
-Those classes applied to `body` and allow you to apply particular styles only in compact mode or target touch devices or Android. To make life easier, there are also mixin versions of those:
+Those classes are applied to `<body>` so you can target compact mode, touch devices, or Android. In Panda, use the `_compact` condition for compact (spacing tokens also auto-compress in compact mode); target the others with a selector:
 
-```scss
-@use "@anori/components/utils.scss" as utils;
+```tsx
+import { css } from "styled-system/css";
 
-.foo {
-    padding: 2rem;
-    @include utils.compact { 
-        padding: 1rem;
-    }
-}
-
-// Same with 
-// @include utils.touch {}
-// @include utils.android {}
+css({
+  padding: "8",
+  _compact: { padding: "4" },
+  ".is-touch-device &": { padding: "6" },
+  ".is-android &": { fontSize: "sm" },
+});
 ```
 
-Also, it's recommended to use `hover` mixin from `utils.scss` instead of `:hover` pseudo-class. This ensures that hover styles will be applied only on devices with mouse and won't be applied on touch devices.
+For hover styles use the `_hover` condition. If a hover effect should apply only on devices with a mouse (not touch), wrap it in `@media (hover: hover)`.
