@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes, forwardRef } from "react";
+import type { ButtonHTMLAttributes, Ref } from "react";
 import { css, cx } from "styled-system/css";
 
 // A button that reads as an inline text link — same colour as surrounding text, just underlined and
@@ -16,8 +16,10 @@ const textButton = css({
   cursor: "pointer",
 });
 
-export const TextButton = forwardRef<HTMLButtonElement, Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type">>(
-  function TextButton({ className, ...props }, ref) {
-    return <button ref={ref} type="button" className={cx(textButton, className)} {...props} />;
-  },
-);
+export const TextButton = ({
+  className,
+  ref,
+  ...props
+}: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> & { ref?: Ref<HTMLButtonElement> }) => {
+  return <button ref={ref} type="button" className={cx(textButton, className)} {...props} />;
+};

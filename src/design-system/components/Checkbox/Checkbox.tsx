@@ -5,7 +5,7 @@ import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import { clsx } from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import type { ReactNode } from "react";
-import { type ComponentProps, forwardRef, useId } from "react";
+import { type ComponentProps, useId } from "react";
 import { css } from "styled-system/css";
 
 const wrapper = css({
@@ -61,61 +61,57 @@ export type CheckboxProps = {
 
 const MotionIndicator = m.create(RadixCheckbox.Indicator);
 
-export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
-  (
-    {
-      children,
-      defaultChecked,
-      checked,
-      onChange,
-      disabled,
-      className,
-      variants,
-      transition,
-      indicatorAnimations = {},
-      ...props
-    },
-    ref,
-  ) => {
-    const getAnimationState = (): CheckboxVariant => {
-      if (disabled) return "disabled";
-      if (checked) return "checked";
-      return "unchecked";
-    };
+export const Checkbox = ({
+  children,
+  defaultChecked,
+  checked,
+  onChange,
+  disabled,
+  className,
+  variants,
+  transition,
+  indicatorAnimations = {},
+  ref,
+  ...props
+}: CheckboxProps) => {
+  const getAnimationState = (): CheckboxVariant => {
+    if (disabled) return "disabled";
+    if (checked) return "checked";
+    return "unchecked";
+  };
 
-    const id = useId();
-    const animate = getAnimationState();
+  const id = useId();
+  const animate = getAnimationState();
 
-    return (
-      <m.div
-        variants={variants}
-        transition={transition}
-        animate={animate}
-        ref={ref}
-        className={clsx(wrapper, className)}
-        data-disabled={disabled || undefined}
-        {...props}
+  return (
+    <m.div
+      variants={variants}
+      transition={transition}
+      animate={animate}
+      ref={ref}
+      className={clsx(wrapper, className)}
+      data-disabled={disabled || undefined}
+      {...props}
+    >
+      <RadixCheckbox.Root
+        disabled={disabled}
+        className={root}
+        defaultChecked={defaultChecked}
+        id={id}
+        checked={checked}
+        onCheckedChange={onChange}
       >
-        <RadixCheckbox.Root
-          disabled={disabled}
-          className={root}
-          defaultChecked={defaultChecked}
-          id={id}
-          checked={checked}
-          onCheckedChange={onChange}
-        >
-          <MotionIndicator forceMount={!!indicatorAnimations} className={indicator}>
-            <AnimatePresence>
-              {checked && <Icon {...indicatorAnimations} icon={builtinIcons.checkSharp} width={14} height={14} />}
-            </AnimatePresence>
-          </MotionIndicator>
-        </RadixCheckbox.Root>
-        {!!children && (
-          <label className={label} htmlFor={id}>
-            {children}
-          </label>
-        )}
-      </m.div>
-    );
-  },
-);
+        <MotionIndicator forceMount={!!indicatorAnimations} className={indicator}>
+          <AnimatePresence>
+            {checked && <Icon {...indicatorAnimations} icon={builtinIcons.checkSharp} width={14} height={14} />}
+          </AnimatePresence>
+        </MotionIndicator>
+      </RadixCheckbox.Root>
+      {!!children && (
+        <label className={label} htmlFor={id}>
+          {children}
+        </label>
+      )}
+    </m.div>
+  );
+};

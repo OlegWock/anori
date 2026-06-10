@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { type ChangeEvent, type ComponentProps, type CSSProperties, forwardRef, useState } from "react";
+import { type ChangeEvent, type ComponentProps, type CSSProperties, useState } from "react";
 import { css, cva } from "styled-system/css";
 
 export type InputVariant = "filled" | "ghost";
@@ -44,10 +44,14 @@ const input = cva({
 // squished below 36px.
 const inputControl = css({ height: "36px", lineHeight: "none", flexShrink: 0 });
 
-export const Input = forwardRef<
-  HTMLInputElement,
-  ComponentProps<"input"> & { onValueChange?: (val: string) => void; variant?: InputVariant }
->(({ className, onValueChange, onChange, variant, ...props }, ref) => {
+export const Input = ({
+  className,
+  onValueChange,
+  onChange,
+  variant,
+  ref,
+  ...props
+}: ComponentProps<"input"> & { onValueChange?: (val: string) => void; variant?: InputVariant }) => {
   const patchedOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onValueChange) onValueChange(e.target.value);
     if (onChange) return onChange(e);
@@ -61,7 +65,7 @@ export const Input = forwardRef<
       {...props}
     />
   );
-});
+};
 
 // Plain (non-autosizing) textarea: a fixed box that scrolls. Used when the field should fill a
 // height-constrained parent (`autosize={false}`) rather than grow with its content.
@@ -157,71 +161,67 @@ export type TextareaProps = ComponentProps<"textarea"> & {
   autosize?: boolean;
 };
 
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  (
-    {
-      className,
-      onValueChange,
-      onChange,
-      variant,
-      value,
-      defaultValue,
-      maxRows,
-      minRows = 1,
-      autosize = true,
-      style,
-      ...props
-    },
-    ref,
-  ) => {
-    const [internalValue, setInternalValue] = useState(() => String(defaultValue ?? ""));
-    // The mirror needs the current text: read it from the controlled value, or track it locally when uncontrolled.
-    const replicatedValue = value !== undefined ? String(value) : internalValue;
+export const Textarea = ({
+  className,
+  onValueChange,
+  onChange,
+  variant,
+  value,
+  defaultValue,
+  maxRows,
+  minRows = 1,
+  autosize = true,
+  style,
+  ref,
+  ...props
+}: TextareaProps) => {
+  const [internalValue, setInternalValue] = useState(() => String(defaultValue ?? ""));
+  // The mirror needs the current text: read it from the controlled value, or track it locally when uncontrolled.
+  const replicatedValue = value !== undefined ? String(value) : internalValue;
 
-    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      if (value === undefined) setInternalValue(e.target.value);
-      if (onValueChange) onValueChange(e.target.value);
-      if (onChange) onChange(e);
-    };
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (value === undefined) setInternalValue(e.target.value);
+    if (onValueChange) onValueChange(e.target.value);
+    if (onChange) onChange(e);
+  };
 
-    if (!autosize) {
-      return (
-        <textarea
-          ref={ref}
-          className={clsx(input({ variant }), textareaPlain, "Input", "TextArea", className)}
-          value={value}
-          defaultValue={defaultValue}
-          onChange={handleChange}
-          style={style}
-          {...props}
-        />
-      );
-    }
-
+  if (!autosize) {
     return (
-      // biome-ignore lint/a11y/noStaticElementInteractions: forwards clicks on its padding to the textarea it wraps
-      <div
-        className={clsx(textareaWrapper({ variant }), className)}
-        data-replicated-value={replicatedValue}
-        style={{ ...style, "--max-rows": maxRows } as CSSProperties}
-        onMouseDown={(e) => {
-          // Clicking the wrapper's padding (outside the textarea) should still focus the field.
-          if (e.target === e.currentTarget) {
-            e.preventDefault();
-            e.currentTarget.querySelector("textarea")?.focus();
-          }
-        }}
-      >
-        <textarea
-          ref={ref}
-          className={clsx("Input", "TextArea")}
-          value={value}
-          defaultValue={defaultValue}
-          rows={minRows}
-          onChange={handleChange}
-          {...props}
-        />
-      </div>
+      <textarea
+        ref={ref}
+        className={clsx(input({ variant }), textareaPlain, "Input", "TextArea", className)}
+        value={value}
+        defaultValue={defaultValue}
+        onChange={handleChange}
+        style={style}
+        {...props}
+      />
     );
-  },
-);
+  }
+
+  return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: forwards clicks on its padding to the textarea it wraps
+    <div
+      className={clsx(textareaWrapper({ variant }), className)}
+      data-replicated-value={replicatedValue}
+      style={{ ...style, "--max-rows": maxRows } as CSSProperties}
+      onMouseDown={(e) => {
+        // Clicking the wrapper's padding (outside the textarea) should still focus the field.
+        if (e.target === e.currentTarget) {
+          e.preventDefault();
+          e.currentTarget.querySelector("textarea")?.focus();
+        }
+      }}
+    >
+      <textarea
+        ref={ref}
+        className={clsx("Input", "TextArea")}
+        value={value}
+        defaultValue={defaultValue}
+        rows={minRows}
+        onChange={handleChange}
+        {...props}
+      />
+    </div>
+  );
+};

@@ -14,7 +14,7 @@ import { useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
-import { type ComponentProps, forwardRef, useEffect, useState } from "react";
+import { type ComponentProps, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import useMeasure from "react-use-motion-measure";
 import { css, cx } from "styled-system/css";
@@ -49,7 +49,7 @@ const spacer = css({ flexGrow: 1 });
 // The DS Button isn't a motion element; wrap it so the nav buttons can still fade in/out.
 const MotionButton = m.create(Button);
 
-const Section = forwardRef<HTMLDivElement, ComponentProps<typeof m.section>>(({ className, ...props }, ref) => {
+const Section = ({ className, ref, ...props }: ComponentProps<typeof m.section>) => {
   return (
     <m.section
       variants={slidingScreensAnimation}
@@ -61,7 +61,7 @@ const Section = forwardRef<HTMLDivElement, ComponentProps<typeof m.section>>(({ 
       {...props}
     />
   );
-});
+};
 
 const navigationButtonVariants = {
   initial: {

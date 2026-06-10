@@ -1,5 +1,5 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 import { css, cva, cx } from "styled-system/css";
 
 export type ButtonSize = "normal" | "compact";
@@ -17,6 +17,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   // button. Passing `<Icon>` as a child still works but is the caller's responsibility to align.
   iconStart?: string;
   iconEnd?: string;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export const button = cva({
@@ -125,25 +126,23 @@ export const ButtonContent = ({
   </>
 );
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  {
-    variant = "primary",
-    size = "normal",
-    block = false,
-    visuallyDisabled = false,
-    loading = false,
-    disabled,
-    onClick,
-    className,
-    children,
-    iconStart,
-    iconEnd,
-    // Default to "button" (never an accidental form submit), but allow opting into "submit"/"reset".
-    type = "button",
-    ...props
-  },
+export const Button = ({
+  variant = "primary",
+  size = "normal",
+  block = false,
+  visuallyDisabled = false,
+  loading = false,
+  disabled,
+  onClick,
+  className,
+  children,
+  iconStart,
+  iconEnd,
+  // Default to "button" (never an accidental form submit), but allow opting into "submit"/"reset".
+  type = "button",
   ref,
-) {
+  ...props
+}: ButtonProps) => {
   const isDisabled = disabled || loading;
   return (
     <button
@@ -160,4 +159,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       </ButtonContent>
     </button>
   );
-});
+};

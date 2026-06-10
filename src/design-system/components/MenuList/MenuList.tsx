@@ -1,5 +1,5 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 import { css, cva, cx } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -43,16 +43,14 @@ export type MenuItemProps = {
   icon?: string;
   active?: boolean;
   children: ReactNode;
+  ref?: Ref<HTMLButtonElement>;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type">;
 
-export const MenuItem = forwardRef<HTMLButtonElement, MenuItemProps>(function MenuItem(
-  { icon, active, children, className, ...props },
-  ref,
-) {
+export const MenuItem = ({ icon, active, children, className, ref, ...props }: MenuItemProps) => {
   return (
     <button ref={ref} type="button" className={cx(item({ active }), className)} {...props}>
       {icon && <Icon icon={icon} width={20} height={20} color="icon" />}
       <span className={label}>{children}</span>
     </button>
   );
-});
+};

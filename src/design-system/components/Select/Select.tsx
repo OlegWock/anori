@@ -17,7 +17,7 @@ import {
   SelectViewport as RadixSelectViewport,
 } from "@radix-ui/react-select";
 import { clsx } from "clsx";
-import React, { type ReactNode, useLayoutEffect, useState } from "react";
+import { type ReactNode, type Ref, useLayoutEffect, useState } from "react";
 import { css } from "styled-system/css";
 
 const trigger = css({
@@ -154,15 +154,13 @@ export const Select = <T,>({
   );
 };
 
-const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ children, className, ...props }, forwardedRef) => {
-    return (
-      <RadixSelectItem className={clsx(item, "SelectItem", className)} {...props} ref={forwardedRef}>
-        <RadixSelectItemText>{children}</RadixSelectItemText>
-        <RadixSelectItemIndicator className={itemIndicator}>
-          <Icon icon={builtinIcons.check} width={14} height={14} />
-        </RadixSelectItemIndicator>
-      </RadixSelectItem>
-    );
-  },
-);
+const SelectItem = ({ children, className, ref, ...props }: SelectItemProps & { ref?: Ref<HTMLDivElement> }) => {
+  return (
+    <RadixSelectItem className={clsx(item, "SelectItem", className)} {...props} ref={ref}>
+      <RadixSelectItemText>{children}</RadixSelectItemText>
+      <RadixSelectItemIndicator className={itemIndicator}>
+        <Icon icon={builtinIcons.check} width={14} height={14} />
+      </RadixSelectItemIndicator>
+    </RadixSelectItem>
+  );
+};

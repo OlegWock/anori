@@ -16,7 +16,7 @@ import {
   useRole,
 } from "@floating-ui/react";
 import { type HTMLMotionProps, m } from "framer-motion";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { type Ref, useEffect, useRef, useState } from "react";
 import { css, cva } from "styled-system/css";
 
 // Floating list panel — elevated surface + drop shadow on the tooltip layer (so it clears a modal it
@@ -81,31 +81,36 @@ interface ItemProps {
   children: React.ReactNode;
   active: boolean;
   checked: boolean;
+  ref?: Ref<HTMLDivElement>;
 }
 
-const Item = forwardRef<HTMLDivElement, ItemProps & React.HTMLProps<HTMLDivElement>>(
-  ({ children, active, checked, ...rest }, ref) => {
-    const id = useId();
-    return (
-      <div
-        ref={ref}
-        role="option"
-        tabIndex={0}
-        className={option({ active })}
-        id={id}
-        aria-selected={active}
-        data-active={active}
-        data-selected={checked}
-        {...rest}
-      >
-        <m.div className={optionContent}>
-          <Icon className={checkIcon({ visible: checked })} icon={builtinIcons.check} height={16} />
-          {children}
-        </m.div>
-      </div>
-    );
-  },
-);
+const Item = ({
+  children,
+  active,
+  checked,
+  ref,
+  ...rest
+}: ItemProps & Omit<React.HTMLProps<HTMLDivElement>, "ref">) => {
+  const id = useId();
+  return (
+    <div
+      ref={ref}
+      role="option"
+      tabIndex={0}
+      className={option({ active })}
+      id={id}
+      aria-selected={active}
+      data-active={active}
+      data-selected={checked}
+      {...rest}
+    >
+      <m.div className={optionContent}>
+        <Icon className={checkIcon({ visible: checked })} icon={builtinIcons.check} height={16} />
+        {children}
+      </m.div>
+    </div>
+  );
+};
 
 export const Combobox = <T,>({
   options,

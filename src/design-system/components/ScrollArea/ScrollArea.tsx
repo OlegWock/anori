@@ -2,7 +2,7 @@ import { combineRefs } from "@anori/utils/react";
 import { ScrollArea as Base } from "@base-ui/react/scroll-area";
 import { useDirection } from "@radix-ui/react-direction";
 import { m } from "framer-motion";
-import { type ComponentProps, forwardRef, type ReactNode, type Ref, useEffect, useRef, type WheelEvent } from "react";
+import { type ComponentProps, type ReactNode, type Ref, useEffect, useRef, type WheelEvent } from "react";
 import { css, cva, cx } from "styled-system/css";
 
 // `auto`/`always` keep the scrollbar visible whenever the content overflows; `hover`/`scroll` fade it in
@@ -124,23 +124,21 @@ const corner = css({ background: "transparent" });
 const checkVerticalOverflow = (el: Element) => el.clientHeight < el.scrollHeight;
 const checkHorizontalOverflow = (el: Element) => el.clientWidth < el.scrollWidth;
 
-export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(function ScrollArea(
-  {
-    children,
-    className,
-    contentClassName,
-    type = "auto",
-    direction = "vertical",
-    onHorizontalOverflowStatusChange,
-    onVerticalOverflowStatusChange,
-    size = "normal",
-    mirrorVerticalScrollToHorizontal = false,
-    viewportRef,
-    layoutScroll = false,
-    ...props
-  },
+export const ScrollArea = ({
+  children,
+  className,
+  contentClassName,
+  type = "auto",
+  direction = "vertical",
+  onHorizontalOverflowStatusChange,
+  onVerticalOverflowStatusChange,
+  size = "normal",
+  mirrorVerticalScrollToHorizontal = false,
+  viewportRef,
+  layoutScroll = false,
   ref,
-) {
+  ...props
+}: ScrollAreaProps) => {
   const localViewportRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const mergedViewportRef = combineRefs(localViewportRef, viewportRef);
@@ -218,6 +216,6 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(function S
       <Base.Corner className={cx(corner, "ScrollAreaCorner")} />
     </Base.Root>
   );
-});
+};
 
 export const MotionScrollArea = m.create(ScrollArea);

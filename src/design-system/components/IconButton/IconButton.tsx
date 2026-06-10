@@ -1,5 +1,5 @@
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
-import { forwardRef, type ReactNode, type Ref } from "react";
+import type { ReactNode, Ref } from "react";
 import { css, cx } from "styled-system/css";
 import { Button, type ButtonProps } from "../Button/Button";
 
@@ -24,10 +24,16 @@ export const ghostIcon = css({ "& svg": { height: "1.375em" } });
 // (primary keeps its on-accent fill for contrast).
 export const iconColor = css({ "& svg": { color: "icon" } });
 
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-  { icon, label, tooltip, showTooltip = true, variant, className, ...props },
+export const IconButton = ({
+  icon,
+  label,
+  tooltip,
+  showTooltip = true,
+  variant,
+  className,
   ref,
-) {
+  ...props
+}: IconButtonProps) => {
   // Always render the Tooltip wrapper (it adds no DOM node and `disabled` just suppresses opening), so
   // toggling `showTooltip` mid-gesture doesn't remount the button and break its pointer capture.
   return (
@@ -46,4 +52,4 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
       />
     </Tooltip>
   );
-});
+};

@@ -1,7 +1,7 @@
 import { ghostIcon, iconButton, iconColor } from "@anori/design-system/components/IconButton/IconButton";
 import { LinkButton, type LinkButtonProps } from "@anori/design-system/components/LinkButton/LinkButton";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
-import { forwardRef, type ReactNode, type Ref } from "react";
+import type { ReactNode, Ref } from "react";
 import { cx } from "styled-system/css";
 
 export type LinkIconButtonProps = Omit<
@@ -17,10 +17,16 @@ export type LinkIconButtonProps = Omit<
 
 // Square, icon-only navigation control: the LinkIconButton is to LinkButton what IconButton is to
 // Button — same square sizing, glyph treatment and delayed label tooltip, but it's a real <a>.
-export const LinkIconButton = forwardRef<HTMLAnchorElement, LinkIconButtonProps>(function LinkIconButton(
-  { icon, label, tooltip, showTooltip = true, variant, className, ...props },
+export const LinkIconButton = ({
+  icon,
+  label,
+  tooltip,
+  showTooltip = true,
+  variant,
+  className,
   ref,
-) {
+  ...props
+}: LinkIconButtonProps) => {
   return (
     <Tooltip label={tooltip ?? label} showDelay={1400} disabled={!showTooltip} targetRef={ref as Ref<HTMLElement>}>
       <LinkButton
@@ -37,4 +43,4 @@ export const LinkIconButton = forwardRef<HTMLAnchorElement, LinkIconButtonProps>
       />
     </Tooltip>
   );
-});
+};

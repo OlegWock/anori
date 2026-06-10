@@ -1,4 +1,4 @@
-import { type ComponentPropsWithoutRef, type ElementType, forwardRef, type ReactNode, type Ref } from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode, Ref } from "react";
 import { css, cva, cx } from "styled-system/css";
 import { splitCssProps } from "styled-system/jsx";
 import type { JsxStyleProps } from "styled-system/types";
@@ -41,10 +41,7 @@ export type HeadingProps = HeadingOwnProps &
   JsxStyleProps &
   Omit<ComponentPropsWithoutRef<"h2">, keyof JsxStyleProps | "color">;
 
-export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(function Heading(
-  { level = 2, size, singleLine = true, className, children, ...rest },
-  ref,
-) {
+export const Heading = ({ level = 2, size, singleLine = true, className, children, ref, ...rest }: HeadingProps) => {
   const [cssProps, htmlProps] = splitCssProps(rest);
   const Tag = `h${level}` as ElementType;
   const sizeKey = String(size ?? level) as `${HeadingLevel}`;
@@ -53,4 +50,4 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(function Hea
       {children}
     </Tag>
   );
-});
+};
