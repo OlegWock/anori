@@ -65,14 +65,19 @@ export const createLazyComponentWithSuspense = <P,>(
     //
     const val = useMemo(() => loader(), []);
 
+    // lazyOptions configures the Suspense fallback here; don't forward it to the wrapped component (it's
+    // not part of its props, and an inline object would defeat a memo on it).
+    const { lazyOptions, ...rest } = props;
+    const forwarded = rest as P & JSX.IntrinsicAttributes;
+
     if (val.status === "resolved") {
-      const Component = val.value;
-      return <Component {...props} />;
+      const Resolved = val.value;
+      return <Resolved {...forwarded} />;
     }
 
     return (
-      <Suspense fallback={props.lazyOptions?.fallback ?? fallbackFromOptions ?? null}>
-        <LazyComponent {...props} />
+      <Suspense fallback={lazyOptions?.fallback ?? fallbackFromOptions ?? null}>
+        <LazyComponent {...forwarded} />
       </Suspense>
     );
   };

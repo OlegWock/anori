@@ -5,7 +5,7 @@ import { usePermissionsQuery } from "@anori/utils/permissions";
 import { useDirection } from "@radix-ui/react-direction";
 import * as Menubar from "@radix-ui/react-menubar";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { css, cva, cx } from "styled-system/css";
 import { Bookmark } from "./Bookmark";
 import { useBookmarks } from "./useBookmarks";
@@ -87,7 +87,7 @@ const BookmarksBarComponent = () => {
   );
 };
 
-export const BookmarksBar = () => {
+export const BookmarksBar = memo(function BookmarksBar() {
   const hasPermissions = usePermissionsQuery({ permissions: ["bookmarks", "favicon"] });
   return (
     <div className={cx(container({ transparent: hasPermissions }), "BookmarksBar")}>
@@ -96,4 +96,4 @@ export const BookmarksBar = () => {
       </RequirePermissions>
     </div>
   );
-};
+});
