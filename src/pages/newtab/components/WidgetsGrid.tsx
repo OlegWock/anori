@@ -22,6 +22,16 @@ const relativeWrapper = cva({
   // Empty folder: center the onboarding within the grid area.
   variants: { onboarding: { true: { display: "flex", justifyContent: "center", alignItems: "center" } } },
 });
+// The faint grid cells shown behind widgets while editing (position/size are set per-cell inline).
+const placeholderCell = css({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  background: "frosted.strong",
+  borderRadius: "lg",
+  userSelect: "none",
+  pointerEvents: "none",
+});
 
 type LayoutArg<WD extends WidgetDescriptor[] = WidgetDescriptor[], W extends WD[number] = WD[number]> = {
   pluginId: string;
@@ -155,25 +165,18 @@ export const WidgetsGrid = ({
               const position = positionToPixelPosition({ grid: gridDimensions, position: { x, y } });
               return (
                 <m.div
+                  className={placeholderCell}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.18 }}
                   key={`${x}_${y}`}
                   style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
                     y: position.y,
                     x: position.x,
                     margin: gapSize,
                     width: gridDimensions.boxSize - gapSize * 2,
                     height: gridDimensions.boxSize - gapSize * 2,
-                    background: "hsla(var(--text-hsl) / 0.15)",
-                    borderRadius: 12,
-                    userSelect: "none",
-                    WebkitUserSelect: "none",
-                    pointerEvents: "none",
                   }}
                 />
               );
