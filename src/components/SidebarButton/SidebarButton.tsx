@@ -59,7 +59,7 @@ const redDot = css({
   right: "10%",
   width: "8px",
   height: "8px",
-  background: "var(--error-color)",
+  background: "hsl(0, 87%, 60%)",
   borderRadius: "xs",
 });
 

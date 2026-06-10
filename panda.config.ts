@@ -2,7 +2,9 @@ import { defineConfig } from "@pandacss/dev";
 
 // biome-ignore lint/style/noDefaultExport: Required by Panda
 export default defineConfig({
-  // We already ship a reset in base.scss; don't let Panda's preflight fight it.
+  // We use the deliberately minimal reset in globalCss (below) rather than Panda's preflight: preflight
+  // is a heavier normalize that strips list markers and link underlines, which the raw markdown content
+  // (notes, what's-new) relies on.
   preflight: false,
 
   include: ["./src/**/*.{ts,tsx}"],
@@ -202,6 +204,10 @@ export default defineConfig({
   // globals (#root, the loading cover, the full-screen body) live with their page instead — see
   // src/pages/newtab/globals.css.
   globalCss: {
+    html: { fontSize: "1rem" },
+    // Minimal reset (intentionally lighter than Panda's preflight — see the preflight note above).
+    // In @layer base, so component utilities still win.
+    "*": { margin: 0, boxSizing: "border-box", border: "none", background: "none", padding: 0 },
     body: {
       fontFamily:
         "'Nunito', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
@@ -213,5 +219,14 @@ export default defineConfig({
       color: "token(colors.text.primary)",
       fontSize: "1rem",
     },
+    "button, input": { fontSize: "inherit", color: "inherit", letterSpacing: "inherit", fontFamily: "inherit" },
+    "h1, h2, h3, h4, h5, h6": { fontWeight: "light" },
+    h1: { fontSize: "2xl" },
+    h2: { fontSize: "xl" },
+    h3: { fontSize: "lg" },
+    h4: { fontSize: "base" },
+    h5: { fontSize: "sm" },
+    h6: { fontSize: "xs" },
+    "a, a:visited": { color: "inherit" },
   },
 });

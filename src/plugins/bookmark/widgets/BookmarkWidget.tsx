@@ -83,8 +83,8 @@ export const BookmarkWidget = ({
   const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
   const statusColor = {
     loading: "var(--ds-text-disabled)",
-    up: "var(--success-color)",
-    down: "var(--error-color)",
+    up: "#2eb46a",
+    down: "hsl(0, 87%, 60%)",
   }[status];
 
   const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
