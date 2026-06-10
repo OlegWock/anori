@@ -7,6 +7,7 @@
     "author": "OlegWock",
     "license": "AGPL-3.0",
     "scripts": {
+        "react-devtools": "react-devtools",
         "dev": "rspack build --mode development",
         "production": "rspack build --mode production",
         "dev:rsdoctor": "cross-env RSDOCTOR='true' rspack build --mode development",
@@ -123,7 +124,10 @@
         "patchedDependencies": {
             "@radix-ui/react-scroll-area": "patches/@radix-ui__react-scroll-area.patch",
             "framer-motion": "patches/framer-motion.patch"
-        }
+        },
+        "onlyBuiltDependencies": [
+            "electron"
+        ]
     },
     "devDependencies": {
         "@biomejs/biome": "^2.4.16",
