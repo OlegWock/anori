@@ -14,10 +14,6 @@ export default defineConfig({
   // Generate JSX patterns (Box, Flex, Stack, styled, …).
   jsxFramework: "react",
 
-  // Namespace Panda's generated CSS vars (e.g. --ds-spacing-4) so they don't collide with the
-  // legacy --spacing-* still declared in base.scss during the migration.
-  prefix: "dsp",
-
   outdir: "styled-system",
 
   // Density: compact mode is toggled by `.compact-mode-active` on an ancestor (same class the legacy
