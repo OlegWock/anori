@@ -39,6 +39,7 @@
         "error": "Error",
         "next": "Next",
         "back": "Back",
+        "reorder": "Reorder",
         "icons": "Icons",
         "customIcons": "Custom icons",
         "canBeEmpty": "can be empty",
