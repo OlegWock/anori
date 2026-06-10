@@ -65,7 +65,6 @@
         "@types/react-dom": "^19.1.5",
         "@types/react-window": "^1.8.5",
         "@types/webextension-polyfill": "^0.10.0",
-        "@uiw/react-color": "^2.9.0",
         "apca-w3": "^0.1.9",
         "clsx": "^2.1.1",
         "cross-env": "^7.0.3",
