@@ -58,6 +58,9 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     react: {
       runtime: "automatic",
       development: mode === "development",
+      // Dev only: route JSX through our wrapper runtime that stamps `data-component`/`data-source`
+      // onto DOM elements (see src/dev-jsx). Not set in production, so it's compiled out entirely.
+      ...(mode === "development" ? { importSource: "@anori/dev-jsx" } : {}),
     },
   };
 
@@ -109,6 +112,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         "@anori/translations": path.resolve(__dirname, paths.src.translations),
         "@anori/cloud-integration": path.resolve(__dirname, paths.src.base, "cloud-integration"),
         "@anori/design-system": path.resolve(__dirname, paths.src.base, "design-system"),
+        "@anori/dev-jsx": path.resolve(__dirname, paths.src.base, "dev-jsx"),
         "styled-system": path.resolve(__dirname, "styled-system"),
       },
       aliasFields: ["browser", "worker"],
