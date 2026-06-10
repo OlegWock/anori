@@ -9,7 +9,7 @@ import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@anori/utils/hoo
 import { minmax } from "@anori/utils/misc";
 import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
-import { WidgetMetadataContext } from "@anori/utils/plugins/widget";
+import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
 import { m, type PanInfo, useMotionValue } from "framer-motion";
@@ -18,6 +18,8 @@ import {
   type ComponentProps,
   type ReactNode,
   type PointerEvent as ReactPointerEvent,
+  useCallback,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -25,6 +27,9 @@ import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { css, cva, cx } from "styled-system/css";
 import { WidgetCardContext } from "./context";
+
+// Stable empty config so the memoized widget metadata doesn't churn when a widget has no config.
+const EMPTY_CONFIG: Mapping = {};
 
 const cardCss = css({
   position: "relative",
@@ -161,7 +166,7 @@ type WidgetCardProps<WD extends WidgetDescriptor[], W extends WD[number]> = {
       instanceId: string;
       size: GridItemSize;
       position: GridPosition;
-      onUpdateConfig: (config: Partial<ConfigFromWidgetDescriptor<W>>) => void;
+      onUpdateConfig: (instanceId: string, config: Partial<ConfigFromWidgetDescriptor<W>>) => void;
       onRemove?: () => void;
       onEdit?: () => void;
       onResize?: (newWidth: number, newHeight: number) => boolean | undefined;
@@ -414,18 +419,41 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
     </m.div>
   );
 
+  // Memoized so a stray re-render of this card (scroll, resize, a sibling's update) doesn't change the
+  // context identity and re-render the whole widget subtree below it.
+  const cardContextValue = useMemo(() => ({ cardRef: ref }), []);
+  // onUpdateConfig is the folder's stable updateWidgetConfig(instanceId, config); bind this card's
+  // instanceId here so the metadata context exposes a stable `updateConfig(config)`.
+  const updateConfig = useCallback(
+    (newConf: Partial<Mapping>) =>
+      onUpdateConfig?.(instanceId ?? "mock", newConf as Partial<ConfigFromWidgetDescriptor<W>>),
+    [onUpdateConfig, instanceId],
+  );
+  const widgetMetadata = useMemo<WidgetMetadataContextType>(
+    () => ({
+      pluginId: plugin.id,
+      widgetId: widget.id,
+      instanceId: instanceId ?? "mock",
+      size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
+      config: config ?? EMPTY_CONFIG,
+      updateConfig,
+    }),
+    [
+      plugin.id,
+      widget.id,
+      instanceId,
+      isResizing,
+      resizeWidthUnits,
+      resizeHeightUnits,
+      sizeToUse,
+      config,
+      updateConfig,
+    ],
+  );
+
   return (
-    <WidgetCardContext.Provider value={{ cardRef: ref }}>
-      <WidgetMetadataContext.Provider
-        value={{
-          pluginId: plugin.id,
-          widgetId: widget.id,
-          instanceId: instanceId ?? "mock",
-          size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
-          config: config ?? {},
-          updateConfig: (newConf) => onUpdateConfig?.(newConf as Partial<ConfigFromWidgetDescriptor<W>>),
-        }}
-      >
+    <WidgetCardContext.Provider value={cardContextValue}>
+      <WidgetMetadataContext.Provider value={widgetMetadata}>
         {isDragging ? createPortal(card, document.body, `card-${instanceId}`) : card}
       </WidgetMetadataContext.Provider>
     </WidgetCardContext.Provider>

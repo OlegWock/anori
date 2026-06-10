@@ -15,7 +15,7 @@ import { clearWidgetStorage } from "@anori/utils/scoped-store";
 import { anoriSchema, type FolderDetails, getAnoriStorage, getAnoriStorageNoWait } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { type Folder, homeFolder, type WidgetInFolder, type WidgetInFolderWithMeta } from "./types";
 
@@ -229,28 +229,35 @@ export const useFolderWidgets = (folder: Folder) => {
     });
   };
 
-  const updateWidgetConfig = async (id: ID, newConfig: Mapping) => {
-    const updatedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
-    if (updatedWidget) {
-      trackEvent("Widget configuration edited", {
-        "Folder": folder.id === "home" ? "home" : "other",
-        "Plugin ID": updatedWidget.pluginId,
-        "Widget ID": updatedWidget.widgetId,
+  // Stable across renders (deps are stable) so consumers — and the widget metadata context that exposes
+  // it — don't churn. The analytics lookup reads current widgets from storage rather than React state.
+  const updateWidgetConfig = useCallback(
+    async (id: ID, newConfig: Mapping) => {
+      const updatedWidget = getAnoriStorageNoWait()
+        .get(anoriSchema.folderDetails.folder.byId(folder.id))
+        ?.widgets.find((w) => w.instanceId === id);
+      if (updatedWidget) {
+        trackEvent("Widget configuration edited", {
+          "Folder": folder.id === "home" ? "home" : "other",
+          "Plugin ID": updatedWidget.pluginId,
+          "Widget ID": updatedWidget.widgetId,
+        });
+      }
+      await setDetails((p) => {
+        const prev = p ?? { widgets: [] };
+        return {
+          ...prev,
+          widgets: prev.widgets.map((w) => {
+            if (w.instanceId === id) {
+              return { ...w, configuration: { ...w.configuration, ...newConfig } };
+            }
+            return w;
+          }),
+        };
       });
-    }
-    await setDetails((p) => {
-      const prev = p ?? { widgets: [] };
-      return {
-        ...prev,
-        widgets: prev.widgets.map((w) => {
-          if (w.instanceId === id) {
-            return { ...w, configuration: { ...w.configuration, ...newConfig } };
-          }
-          return w;
-        }),
-      };
-    });
-  };
+    },
+    [folder.id, setDetails],
+  );
 
   const widgets: WidgetInFolderWithMeta[] = useMemo(
     () =>

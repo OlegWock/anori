@@ -205,7 +205,7 @@ export const WidgetsGrid = ({
                 key={w.instanceId}
                 size={w}
                 position={w}
-                onUpdateConfig={(conf) => onUpdateWidgetConfig(w.instanceId, conf)}
+                onUpdateConfig={onUpdateWidgetConfig}
                 onRemove={() => onLayoutUpdate([{ type: "remove", instanceId: w.instanceId }])}
                 onEdit={w.widget.configurationScreen ? () => onEditWidget(w) : undefined}
                 onResize={(width, height) => tryResizeWidget(w, width, height)}
