@@ -2,7 +2,7 @@ import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { type AnoriStorage, getAnoriStorage } from "@anori/utils/storage";
 import { type CollectionByIdQuery, type EntityAccessor, getQueryId, useStorageValue } from "@anori/utils/storage-lib";
 import type { ID, Mapping } from "@anori/utils/types";
-import { type SetStateAction, useCallback, useMemo } from "react";
+import { type SetStateAction, useCallback, useMemo, useState } from "react";
 
 const widgetStoreAccessors: EntityAccessor[] = [];
 
@@ -71,20 +71,29 @@ export class ScopedStore<T extends Mapping> {
     await this.storage.delete(this.query);
   }
 
-  useValue<K extends keyof T>(key: K, defaultValue: T[K]): [T[K], (value: SetStateAction<T[K]>) => void] {
+  useValue<K extends keyof T>(
+    key: K,
+    defaultValue: T[K] | (() => T[K]),
+  ): [T[K], (value: SetStateAction<T[K]>) => void] {
     const [data, setData] = useStorageValue(this.query);
-    const value = (data as Partial<T> | undefined)?.[key] ?? defaultValue;
+    // Resolve the default once (lazy, like useState's initializer). An inline literal (`[]`, `{}`) or
+    // `() => …` would otherwise be a new reference every render, destabilizing `value` and anything
+    // that depends on it (effects/memos) — which can trigger render loops.
+    const [resolvedDefault] = useState<T[K]>(() =>
+      typeof defaultValue === "function" ? (defaultValue as () => T[K])() : defaultValue,
+    );
+    const value = (data as Partial<T> | undefined)?.[key] ?? resolvedDefault;
 
     const setValue = useCallback(
       (newValue: SetStateAction<T[K]>) => {
         setData((prevData) => {
-          const prevValue = (prevData as Partial<T> | undefined)?.[key] ?? defaultValue;
+          const prevValue = (prevData as Partial<T> | undefined)?.[key] ?? resolvedDefault;
           const resolvedValue =
             typeof newValue === "function" ? (newValue as (prev: T[K]) => T[K])(prevValue) : newValue;
           return { ...prevData, [key]: resolvedValue } as T;
         });
       },
-      [key, defaultValue, setData],
+      [key, resolvedDefault, setData],
     );
 
     return [value, setValue];
