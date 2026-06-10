@@ -322,7 +322,14 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       }
     : {};
 
-  const children = type === "mock" ? <widget.mock /> : <widget.mainScreen instanceId={instanceId} config={config} />;
+  // Memoize the widget body element. When this card re-renders for an unrelated reason (drag/resize of a
+  // sibling, a parent re-render), a stable element reference lets React bail out of re-rendering the
+  // whole widget subtree below — provided its inputs (config/instanceId) and the metadata context (now
+  // memoized) haven't changed.
+  const children = useMemo(
+    () => (type === "mock" ? <widget.mock /> : <widget.mainScreen instanceId={instanceId} config={config} />),
+    [type, widget, instanceId, config],
+  );
 
   useOnChangeLayoutEffect(() => {
     resizeWidth.set(convertUnitsToPixels(sizeToUse.width));
