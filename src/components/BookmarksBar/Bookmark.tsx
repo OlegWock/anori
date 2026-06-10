@@ -4,6 +4,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Link } from "@anori/design-system/components/Link/Link";
 import { useSizeSettings } from "@anori/utils/compact";
 import * as Menubar from "@radix-ui/react-menubar";
+import { memo } from "react";
 import { css, cva } from "styled-system/css";
 import { VirtualizedBookmarksMenuContent, zIndexFix } from "./BookmarksMenuContent";
 import type { BookmarkType } from "./useBookmarks";
@@ -38,7 +39,13 @@ const bookmark = cva({
 });
 const title = css({ textOverflow: "ellipsis", overflow: "hidden" });
 
-export const Bookmark = ({ bookmark: bm, fullWidth }: { bookmark: BookmarkType; fullWidth?: boolean }) => {
+export const Bookmark = memo(function Bookmark({
+  bookmark: bm,
+  fullWidth,
+}: {
+  bookmark: BookmarkType;
+  fullWidth?: boolean;
+}) {
   const { rem } = useSizeSettings();
 
   const content = (
@@ -67,4 +74,4 @@ export const Bookmark = ({ bookmark: bm, fullWidth }: { bookmark: BookmarkType; 
       </Menubar.Portal>
     </Menubar.Menu>
   );
-};
+});
