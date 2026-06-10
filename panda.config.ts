@@ -205,15 +205,19 @@ export default defineConfig({
     // In @layer base, so component utilities still win.
     "*": { margin: 0, boxSizing: "border-box", border: "none", background: "none", padding: 0 },
     body: {
+      // Chrome injects an *unlayered* stylesheet into extension pages (`body { font-family: system-ui;
+      // font-size: 75% }`). Unlayered styles beat any @layer, so font-family + font-size need
+      // `!important` (important author declarations outrank normal ones regardless of layer) for our
+      // base to win; the rest isn't in Chrome's rule and applies normally.
       fontFamily:
-        "'Nunito', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+        "'Nunito', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important",
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
       textRendering: "optimizeLegibility",
       lineHeight: "1.65",
       letterSpacing: "0.075rem",
       color: "token(colors.text.primary)",
-      fontSize: "1rem",
+      fontSize: "1rem !important",
     },
     "button, input": { fontSize: "inherit", color: "inherit", letterSpacing: "inherit", fontFamily: "inherit" },
     "h1, h2, h3, h4, h5, h6": { fontWeight: "light" },
