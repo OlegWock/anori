@@ -75,7 +75,7 @@ Builder methods (all optional, chain in any order):
 
 * `.build()` — **required**. Must be the last call (the builder type is intentionally incompatible with the registry until built).
 
-The `ctx` passed to `withScheduledCallback`/`withOnStart` is a **`PluginContext`**: `ctx.getWidgets()` returns this plugin's widget instances **typed and correlated per descriptor** (`{ instanceId, widgetId, config }` — narrow on `widgetId`), and `ctx.getConfig()` returns the plugin config. Define these behaviors in `background.ts` typed `(ctx: PluginnameContext) => …` and import `PluginnameContext` **type-only** from the plugin file — that's what avoids the plugin↔background circular import while keeping config types precise. (`getAllWidgetsByPlugin` still exists, but `ctx.getWidgets()` is preferred since it's typed.)
+The `ctx` passed to `withScheduledCallback`/`withOnStart` is a **`PluginContext`**: `ctx.getWidgets()` returns this plugin's widget instances **typed and correlated per descriptor** (`{ instanceId, widgetId, config }` — narrow on `widgetId`), and `ctx.getConfig()` returns the plugin config. Define these behaviors in `background.ts` typed `(ctx: PluginnameContext) => …` and import `PluginnameContext` **type-only** from the plugin file — that's what avoids the plugin↔background circular import while keeping config types precise.
 
 # Widgets
 
@@ -165,10 +165,6 @@ Same as previous, but for widget instances. I.e. each widget instance will have 
 ## `useWidgetMetadata()`
 
 This hook exposes metadata about current widget: configuration, function to update configuration, instance id, widget id, plugin id and current size. Size is updated in real time as user resizes widget. Will throw if called outside widget.
-
-## `getAllWidgetsByPlugin(pluginDescriptor)`
-
-Loads all widget instances of a plugin (config erased to an opaque `Mapping`). Inside a plugin's own background task prefer **`ctx.getWidgets()`** — it returns the same instances but with config typed and correlated per descriptor.
 
 ## CSS
 

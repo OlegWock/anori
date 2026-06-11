@@ -2,9 +2,6 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { translate } from "@anori/translations/utils";
 import { definePlugin } from "@anori/utils/plugins/define";
 import { weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast } from "./widgets/descriptors";
-
-export { weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast };
-
 export const weatherPlugin = definePlugin({
   id: "weather-plugin",
   get name() {

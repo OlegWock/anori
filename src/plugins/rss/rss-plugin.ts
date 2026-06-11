@@ -13,9 +13,5 @@ const base = definePlugin({
   icon: builtinIcons.rssIcon,
   widgets: [rssFeedDescriptor, rssLastestPostDescriptor],
 });
-
 export type RssContext = ContextOf<typeof base>;
-
 export const rssPlugin = base.withMessaging(handlers).withScheduledCallback(30, rssScheduledCallback).build();
-
-export { rssFeedDescriptor, rssLastestPostDescriptor };

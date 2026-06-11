@@ -14,9 +14,7 @@ const base = definePlugin({
   icon: builtinIcons.bookmark,
   widgets: [bookmarkWidgetDescriptor, bookmarkGroupWidgetDescriptor],
 });
-
 export type BookmarkContext = ContextOf<typeof base>;
-
 export const bookmarkPlugin = base
   .withMessaging(handlers)
   .withScheduledCallback(STATUS_CHECK_INTERVAL_MINUTES, updateStatusesForTrackedPages)
@@ -24,6 +22,4 @@ export const bookmarkPlugin = base
     plantWebRequestHandler();
   })
   .build();
-
 // Re-export for external consumers (apply-onboarding-preset.ts)
-export { bookmarkGroupWidgetDescriptor, bookmarkWidgetDescriptor };

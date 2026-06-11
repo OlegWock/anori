@@ -2,9 +2,6 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { translate } from "@anori/translations/utils";
 import { definePlugin } from "@anori/utils/plugins/define";
 import { topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical } from "./widgets/descriptors";
-
-export { topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical };
-
 export const topSitesPlugin = definePlugin({
   id: "top-sites-plugin",
   get name() {

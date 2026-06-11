@@ -1,6 +1,6 @@
-// New plugin framework (Identity → Behaviors → Assembly). Plugins keep precise config types in their own
+// Plugin framework (Identity → Behaviors → Assembly). Plugins keep precise config types in their own
 // folder; `definePlugin().build()` produces a config-erased SomePlugin for the registry/render pipeline,
-// while widgets and behaviors stay fully typed. Coexists with the legacy `define.ts` during migration.
+// while widgets and behaviors stay fully typed.
 
 import type { GridItemSize } from "@anori/utils/grid/types";
 import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
@@ -10,10 +10,10 @@ import type {
   SomeWidget,
   WidgetResizable,
 } from "@anori/utils/plugins/types";
-import { getAllWidgetsByPlugin } from "@anori/utils/plugins/widget";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { EmptyObject, Mapping } from "@anori/utils/types";
+import { homeFolder, type WidgetInFolder } from "@anori/utils/user-data/types";
 import type { ComponentType } from "react";
 
 type Appearance = {
@@ -154,15 +154,24 @@ export const definePlugin = <
         return raw === undefined ? undefined : ((spec.config ? spec.config.parse(raw) : raw) as PC | undefined);
       },
       getWidgets: async () => {
-        const instances = await getAllWidgetsByPlugin(plugin);
-        return instances.map((w) => {
-          const def = spec.widgets.find((d) => d.id === w.widgetId);
-          return {
-            instanceId: w.instanceId,
-            widgetId: w.widgetId,
-            config: def?.parse ? def.parse(w.configuration) : w.configuration,
-          };
-        }) as WidgetInstance<Widgets[number]>[];
+        const storage = await getAnoriStorage();
+        const folders = [homeFolder, ...(storage.get(anoriSchema.folders) || [])];
+        const instances: WidgetInFolder[] = [];
+        for (const folder of folders) {
+          const details = storage.get(anoriSchema.folderDetails.folder.byId(folder.id));
+          if (details?.widgets) instances.push(...details.widgets);
+        }
+
+        return instances
+          .filter((w) => w.pluginId === plugin.id)
+          .map((w) => {
+            const def = spec.widgets.find((d) => d.id === w.widgetId);
+            return {
+              instanceId: w.instanceId,
+              widgetId: w.widgetId,
+              config: def?.parse ? def.parse(w.configuration) : w.configuration,
+            };
+          }) as WidgetInstance<Widgets[number]>[];
       },
     };
   };
