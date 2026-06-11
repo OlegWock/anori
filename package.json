@@ -72,7 +72,7 @@
         "css-loader": "^6.7.1",
         "culori": "^4.0.2",
         "file-loader": "^6.2.0",
-        "filemanager-webpack-plugin": "^7.0.0",
+        "filemanager-webpack-plugin": "^10.0.1",
         "generate-file-webpack-plugin": "^1.0.1",
         "husky": "^9.1.7",
         "i18next": "^25.2.1",

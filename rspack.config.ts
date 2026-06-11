@@ -4,7 +4,6 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import { RsdoctorRspackPlugin } from "@rsdoctor/rspack-plugin";
 import { defineConfig } from "@rspack/cli";
-// @ts-expect-error Incompatible declarations
 import FileManagerPlugin from "filemanager-webpack-plugin";
 // @ts-expect-error No declarations for this module!
 import GenerateFiles from "generate-file-webpack-plugin";
