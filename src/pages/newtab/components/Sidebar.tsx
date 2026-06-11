@@ -11,7 +11,7 @@ import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { Folder } from "@anori/utils/user-data/types";
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";
 import { CloudAccountModal, SettingsModal } from "../lazy-components";
@@ -86,7 +86,13 @@ const sidebarContent = cva({
 
 const spacer = css({ flexGrow: 1 });
 
-export const Sidebar = ({ folders, activeFolder, orientation, bookmarksBarVisible, onFolderClick }: SidebarProps) => {
+export const Sidebar = memo(function Sidebar({
+  folders,
+  activeFolder,
+  orientation,
+  bookmarksBarVisible,
+  onFolderClick,
+}: SidebarProps) {
   const { t } = useTranslation();
   const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useStorageValue(anoriSchema.hasUnreadReleaseNotes);
   const [autoHideSidebar] = useStorageValue(anoriSchema.autoHideSidebar);
@@ -188,4 +194,4 @@ export const Sidebar = ({ folders, activeFolder, orientation, bookmarksBarVisibl
       </AnimatePresence>
     </>
   );
-};
+});

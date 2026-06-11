@@ -76,23 +76,28 @@ export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersO
     });
   };
 
-  const setActiveFolder = (f: ID | Folder) => {
-    const id = typeof f === "string" ? f : f.id;
-    if (activeId !== id) {
-      incrementDailyUsageMetric("Times navigated to another folder");
-    }
-    setFolderIdInHash(id);
-  };
-
   const [folderIdFromHash, setFolderIdInHash] = useLocationHash();
 
   const activeId = folderIdFromHash ?? defaultFolderId ?? homeFolder.id;
   const [folders, setFolders] = useStorageValue(anoriSchema.folders);
   const { t } = useTranslation();
-  const foldersFinal = [...folders];
-  if (includeHome) {
-    foldersFinal.unshift(homeFolder);
-  }
+
+  const setActiveFolder = useCallback(
+    (f: ID | Folder) => {
+      const id = typeof f === "string" ? f : f.id;
+      if (activeId !== id) {
+        incrementDailyUsageMetric("Times navigated to another folder");
+      }
+      setFolderIdInHash(id);
+    },
+    [activeId, setFolderIdInHash],
+  );
+
+  const foldersFinal = useMemo(() => {
+    const result = [...folders];
+    if (includeHome) result.unshift(homeFolder);
+    return result;
+  }, [folders, includeHome]);
 
   const activeFolder = (activeId === homeFolder.id ? homeFolder : folders.find((f) => f.id === activeId)) || homeFolder;
 

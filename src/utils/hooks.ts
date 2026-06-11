@@ -4,6 +4,7 @@ import {
   type EffectCallback,
   type MouseEventHandler,
   type RefObject,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -186,12 +187,12 @@ export const useAsyncLayoutEffect = (func: () => unknown, deps?: DependencyList 
 };
 
 export const useLocationHash = () => {
-  const setHash = (newHash: string) => {
+  const [hash, _setHash] = useState(() => window.location.hash.slice(window.location.hash.length > 0 ? 1 : 0));
+  const setHash = useCallback((newHash: string) => {
     window.location.hash = newHash;
     _setHash(newHash);
-  };
+  }, []);
 
-  const [hash, _setHash] = useState(() => window.location.hash.slice(window.location.hash.length > 0 ? 1 : 0));
   const hashStateRef = useMirrorStateToRef(hash);
 
   useEffect(() => {

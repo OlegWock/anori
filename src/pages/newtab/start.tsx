@@ -17,9 +17,10 @@ import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
+import type { Folder } from "@anori/utils/user-data/types";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { css, cva } from "styled-system/css";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
@@ -110,6 +111,13 @@ const Start = () => {
     includeHome: true,
     defaultFolderId: rememberLastFolder ? lastFolder : undefined,
   });
+  const onFolderClick = useCallback(
+    (f: Folder) => {
+      setActiveFolder(f);
+      if (rememberLastFolder) setLastFolder(f.id);
+    },
+    [setActiveFolder, rememberLastFolder, setLastFolder],
+  );
   const activeFolderIndex = folders.findIndex((f) => f.id === activeFolder.id) ?? 0;
   const previousActiveFolderIndex = usePrevious(activeFolderIndex);
   const animationDirection =
@@ -155,10 +163,7 @@ const Start = () => {
                   activeFolder={activeFolder}
                   orientation={sidebarOrientation}
                   bookmarksBarVisible={showBookmarksBar}
-                  onFolderClick={(f) => {
-                    setActiveFolder(f);
-                    if (rememberLastFolder) setLastFolder(f.id);
-                  }}
+                  onFolderClick={onFolderClick}
                 />
 
                 <div className={widgetsArea({ orientation: sidebarOrientation, bookmarksBar: showBookmarksBar })}>
