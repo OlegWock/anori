@@ -72,6 +72,6 @@ export const useWidgetMetadata = <WidgetConfigT extends Mapping = EmptyObject>()
 
 export const isWidgetNonConfigurable = <I extends ID>(
   descriptor: WidgetDescriptor<I>,
-): descriptor is WidgetDescriptor<I, EmptyObject> => {
+): descriptor is WidgetDescriptor<I> & { configurationScreen: null } => {
   return !descriptor.configurationScreen;
 };

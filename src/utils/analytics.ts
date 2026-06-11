@@ -60,9 +60,8 @@ export const plantPerformanceMetricsListeners = async () => {
   let idleTimer: ReturnType<typeof setTimeout>;
   new PerformanceObserver((list) => {
     for (const _entry of list.getEntries()) {
-      const entry = _entry as PerformanceEventTiming;
-      // @ts-expect-error Prop is missing in TS types, but it's real
-      const interactionId = entry.interactionId as number;
+      const entry = _entry as PerformanceEventTiming & { interactionId: number };
+      const interactionId = entry.interactionId;
       if (!interactionId) continue; // ignore non-interaction events
       const d = latest.get(interactionId) || 0;
       if (entry.duration > d) latest.set(interactionId, entry.duration);

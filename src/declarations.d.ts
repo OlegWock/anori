@@ -10,6 +10,10 @@ declare module "*?raw" {
   export default content;
 }
 
+// moment ships locale files but not type declarations for the `moment/locale/*` subpaths; they're
+// imported only for their side effect (registering the locale).
+declare module "moment/locale/*";
+
 declare module "*.css" {
   const content: string;
   export default content;
