@@ -5,11 +5,11 @@ import { WhatsNew } from "@anori/components/WhatsNew";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useHotkeys } from "@anori/utils/hooks";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { Folder } from "@anori/utils/user-data/types";
-import { FloatingDelayGroup } from "@floating-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -116,7 +116,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, bookmarksBarVisibl
           mirrorVerticalScrollToHorizontal
         >
           <div className={sidebarContent({ orientation })}>
-            <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
+            <TooltipProvider delay={50} closeDelay={50}>
               {folders.map((f) => {
                 return (
                   <SidebarButton
@@ -158,7 +158,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, bookmarksBarVisibl
                 name={t("settings.title")}
                 onClick={() => setSettingsVisible(true)}
               />
-            </FloatingDelayGroup>
+            </TooltipProvider>
           </div>
         </ScrollArea>
       </div>

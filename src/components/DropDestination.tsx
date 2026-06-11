@@ -19,6 +19,8 @@ type DropDestinationProps<T = unknown> = {
   onDragLeave?: (info: DndItemMeta, reason: "move" | "drop") => void;
   onDrop?: (info: DndItemMeta) => void;
   ref?: Ref<HTMLElement>;
+  // Any other props (e.g. those a wrapping Tooltip injects) are forwarded to the child element.
+  [key: string]: unknown;
 };
 
 export const DropDestination = ({
@@ -31,6 +33,7 @@ export const DropDestination = ({
   id,
   onDrop,
   ref,
+  ...rest
 }: DropDestinationProps) => {
   const mergeListeners = <T extends unknown[]>(...funcs: (((...args: T) => void) | undefined)[]) => {
     return (...args: T) => {
@@ -74,10 +77,12 @@ export const DropDestination = ({
 
   const [currentDrop, setCurrentDrop] = useCurrentDrop();
 
+  const extra = rest as ChildProps;
   return cloneElement(children, {
     ...children.props,
+    ...extra,
     ref: mergeRefs([ref, children.props.ref]),
-    onPointerEnter: mergeListeners(onPointerEnter, children.props.onPointerEnter),
-    onPointerLeave: mergeListeners(onPointerLeave, children.props.onPointerLeave),
+    onPointerEnter: mergeListeners(onPointerEnter, extra.onPointerEnter, children.props.onPointerEnter),
+    onPointerLeave: mergeListeners(onPointerLeave, extra.onPointerLeave, children.props.onPointerLeave),
   });
 };

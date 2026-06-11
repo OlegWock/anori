@@ -1,28 +1,16 @@
-import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import type { Mapping } from "@anori/utils/types";
-import {
-  autoUpdate,
-  FloatingPortal,
-  flip,
-  offset,
-  type Placement,
-  type Strategy,
-  safePolygon,
-  shift,
-  useClick,
-  useDelayGroup,
-  useDismiss,
-  useFloating,
-  useFocus,
-  useHover,
-  useInteractions,
-  useRole,
-} from "@floating-ui/react";
+import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
+import type { Placement, Strategy } from "@floating-ui/react";
 import { clsx } from "clsx";
-import { AnimatePresence, m } from "framer-motion";
-import { cloneElement, type ReactElement, type ReactNode, type Ref, useId, useState } from "react";
-import { mergeRefs } from "react-merge-refs";
-import { cva } from "styled-system/css";
+import type { ReactElement, ReactNode, Ref } from "react";
+import { css, cva } from "styled-system/css";
+
+type Side = "top" | "bottom" | "left" | "right";
+type Align = "start" | "center" | "end";
+
+// The portal-level positioned element owns the stacking — put it on the tooltip layer so it clears the
+// frosted widgets panel (which sits in its own stacking context).
+const positioner = css({ zIndex: "tooltip" });
 
 const tooltip = cva({
   base: {
@@ -35,9 +23,30 @@ const tooltip = cva({
     maxWidth: "400px",
     zIndex: "tooltip",
     pointerEvents: "none",
+    transitionProperty: "opacity, transform",
+    transitionDuration: "0.12s",
+    transitionTimingFunction: "ease-out",
+    // Enter/exit handled by Base UI's data-starting/ending-style markers: fade + a small slide from the
+    // trigger side (matching the popup placement).
+    "&[data-starting-style], &[data-ending-style]": { opacity: 0 },
+    "&[data-side='top'][data-starting-style], &[data-side='top'][data-ending-style]": { transform: "translateY(5px)" },
+    "&[data-side='bottom'][data-starting-style], &[data-side='bottom'][data-ending-style]": {
+      transform: "translateY(-5px)",
+    },
+    "&[data-side='left'][data-starting-style], &[data-side='left'][data-ending-style]": {
+      transform: "translateX(5px)",
+    },
+    "&[data-side='right'][data-starting-style], &[data-side='right'][data-ending-style]": {
+      transform: "translateX(-5px)",
+    },
   },
   variants: { clickable: { true: { pointerEvents: "auto" } } },
 });
+
+// Shares a delay across the tooltips it wraps: once one is shown, adjacent ones open instantly, and a
+// group can set its own open/close delay. A global provider supplies the app-wide default; nest another
+// for a tighter group (e.g. the sidebar).
+export const TooltipProvider = BaseTooltip.Provider;
 
 interface Props {
   label: ReactNode | (() => ReactNode);
@@ -49,6 +58,8 @@ interface Props {
   children: ReactElement<Mapping>;
   targetRef?: Ref<HTMLElement>;
   hasClickableContent?: boolean;
+  // Currently not honored by the Base UI implementation (it has no per-tooltip focus/touch toggles).
+  // Kept on the API for call-site compatibility.
   ignoreFocus?: boolean;
   enableOnTouch?: boolean;
   // Keep the tooltip wired up (no remount of the child) but never open it. Useful while the child is
@@ -62,109 +73,42 @@ export const Tooltip = ({
   placement = "bottom",
   strategy = "absolute",
   maxWidth = 0,
-  showDelay = 200,
-  resetDelay = 100,
+  showDelay,
+  resetDelay,
   targetRef,
   hasClickableContent = false,
-  ignoreFocus = false,
-  enableOnTouch = false,
   disabled = false,
 }: Props) => {
-  const [open, setOpen] = useState(false);
-  const id = useId();
-
-  const {
-    x,
-    y,
-    refs,
-    strategy: localStrategy,
-    context,
-  } = useFloating({
-    placement,
-    strategy,
-    open,
-    onOpenChange(open) {
-      setOpen(open);
-
-      if (open) {
-        setCurrentId(id);
-      }
-    },
-    middleware: [offset(5), flip(), shift({ padding: 8 })],
-    whileElementsMounted: autoUpdate,
-  });
-
-  const { delay = showDelay, setCurrentId } = useDelayGroup(context, { id });
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    useHover(context, {
-      enabled: !disabled,
-      handleClose: hasClickableContent ? safePolygon() : undefined,
-      mouseOnly: true,
-      delay:
-        typeof delay === "object"
-          ? delay
-          : {
-              open: showDelay,
-              close: resetDelay,
-            },
-    }),
-    useClick(context, {
-      enabled: IS_TOUCH_DEVICE && enableOnTouch,
-      ignoreMouse: true,
-      toggle: false,
-    }),
-    useFocus(context, {
-      enabled: !ignoreFocus,
-    }),
-    useRole(context, { role: "tooltip" }),
-    useDismiss(context),
-  ]);
-
-  const translate = {
-    top: { translateY: 5 },
-    bottom: { translateY: -5 },
-    left: { translateX: 5 },
-    right: { translateX: -5 },
-  }[placement.includes("-") ? placement.split("-")[0] : placement];
-
-  const refsToMerge: Ref<Element>[] = [refs.setReference];
-  if (targetRef) refsToMerge.push(targetRef);
-  const mergedRef = mergeRefs(refsToMerge);
+  const [sidePart, alignPart] = placement.split("-");
+  const side = sidePart as Side;
+  const align: Align = alignPart === "start" ? "start" : alignPart === "end" ? "end" : "center";
   const content = typeof label === "function" ? label() : label;
 
   return (
-    <>
-      {cloneElement(children, getReferenceProps({ ref: mergedRef, ...children.props }))}
-      <FloatingPortal root={document.body}>
-        <AnimatePresence>
-          {open && !disabled && (
-            <m.div
-              initial={{ opacity: 0, ...translate }}
-              animate={{ opacity: 1, translateX: 0, translateY: 0 }}
-              exit={{ opacity: 0, ...translate }}
-              transition={
-                // When in "grouped phase", make the transition faster
-                typeof delay === "object" && delay.open === 1
-                  ? { duration: 0.1 }
-                  : { type: "spring", damping: 20, stiffness: 300 }
-              }
-              {...getFloatingProps({
-                ref: refs.setFloating,
-                className: clsx(tooltip({ clickable: hasClickableContent }), "Tooltip"),
-                style: {
-                  position: localStrategy,
-                  maxWidth: maxWidth || undefined,
-                  top: y ?? 0,
-                  left: x ?? 0,
-                },
-              })}
-            >
-              {content}
-            </m.div>
-          )}
-        </AnimatePresence>
-      </FloatingPortal>
-    </>
+    <BaseTooltip.Root disabled={disabled} disableHoverablePopup={!hasClickableContent}>
+      <BaseTooltip.Trigger
+        ref={targetRef as Ref<HTMLButtonElement>}
+        delay={showDelay}
+        closeDelay={resetDelay}
+        render={children}
+      />
+      <BaseTooltip.Portal>
+        <BaseTooltip.Positioner
+          className={positioner}
+          side={side}
+          align={align}
+          sideOffset={5}
+          collisionPadding={8}
+          positionMethod={strategy}
+        >
+          <BaseTooltip.Popup
+            className={clsx(tooltip({ clickable: hasClickableContent }), "Tooltip")}
+            style={maxWidth ? { maxWidth } : undefined}
+          >
+            {content}
+          </BaseTooltip.Popup>
+        </BaseTooltip.Positioner>
+      </BaseTooltip.Portal>
+    </BaseTooltip.Root>
   );
 };

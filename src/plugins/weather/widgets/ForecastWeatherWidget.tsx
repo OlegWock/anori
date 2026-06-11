@@ -1,11 +1,10 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
+import { Tooltip, TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useMirrorStateToRef, useOnChangeEffect } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { capitalize } from "@anori/utils/strings";
-import { FloatingDelayGroup } from "@floating-ui/react";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -167,7 +166,7 @@ export const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<Wea
           </div>
         </div>
         {!!forecast && (
-          <FloatingDelayGroup delay={500}>
+          <TooltipProvider delay={500} closeDelay={500}>
             {forecast.map((f) => {
               return (
                 <div key={f.date.toISOString()} className={dayRow}>
@@ -199,7 +198,7 @@ export const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<Wea
                 </div>
               );
             })}
-          </FloatingDelayGroup>
+          </TooltipProvider>
         )}
       </div>
     </Tooltip>

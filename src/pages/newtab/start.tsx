@@ -4,6 +4,7 @@ import "../../panda.css";
 import "./globals.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
 import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
+import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { languageDirections } from "@anori/translations/metadata";
 import { initTranslation } from "@anori/translations/utils";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
@@ -142,29 +143,31 @@ const Start = () => {
   return (
     <DirectionProvider dir={dir}>
       <MotionConfig transition={{ duration: 0.2, ease: "easeInOut" }}>
-        <AnimatePresence>
-          <m.div className={startPage} key="start-page">
-            {showBookmarksBar && (
-              <BookmarksBar lazyOptions={{ fallback: <div className={bookmarksBarPlaceholder} /> }} />
-            )}
-            <div className={startPageContent({ orientation: sidebarOrientation })}>
-              <Sidebar
-                folders={folders}
-                activeFolder={activeFolder}
-                orientation={sidebarOrientation}
-                bookmarksBarVisible={showBookmarksBar}
-                onFolderClick={(f) => {
-                  setActiveFolder(f);
-                  if (rememberLastFolder) setLastFolder(f.id);
-                }}
-              />
+        <TooltipProvider delay={200} closeDelay={100} timeout={0}>
+          <AnimatePresence>
+            <m.div className={startPage} key="start-page">
+              {showBookmarksBar && (
+                <BookmarksBar lazyOptions={{ fallback: <div className={bookmarksBarPlaceholder} /> }} />
+              )}
+              <div className={startPageContent({ orientation: sidebarOrientation })}>
+                <Sidebar
+                  folders={folders}
+                  activeFolder={activeFolder}
+                  orientation={sidebarOrientation}
+                  bookmarksBarVisible={showBookmarksBar}
+                  onFolderClick={(f) => {
+                    setActiveFolder(f);
+                    if (rememberLastFolder) setLastFolder(f.id);
+                  }}
+                />
 
-              <div className={widgetsArea({ orientation: sidebarOrientation, bookmarksBar: showBookmarksBar })}>
-                <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
+                <div className={widgetsArea({ orientation: sidebarOrientation, bookmarksBar: showBookmarksBar })}>
+                  <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
+                </div>
               </div>
-            </div>
-          </m.div>
-        </AnimatePresence>
+            </m.div>
+          </AnimatePresence>
+        </TooltipProvider>
       </MotionConfig>
     </DirectionProvider>
   );
@@ -212,7 +215,6 @@ getAnoriStorage().then((storage) => {
           </LazyMotion>
         </CompactModeProvider>
       </QueryClientProvider>
-      ,
     </StorageContext.Provider>,
   );
 });
