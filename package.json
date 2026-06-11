@@ -6,6 +6,7 @@
     "repository": "git@github.com:OlegWock/anori.git",
     "author": "OlegWock",
     "license": "AGPL-3.0",
+    "packageManager": "pnpm@10.28.1",
     "scripts": {
         "react-devtools": "react-devtools",
         "dev": "rspack build --mode development",
