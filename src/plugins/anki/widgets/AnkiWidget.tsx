@@ -35,7 +35,7 @@ const mockCard = css({
 });
 const bigKanji = css({ fontSize: "3xl" });
 
-export const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
+export const AnkiWidget = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
   const { t } = useTranslation();
 
   const [currentCard, setCurrentCard] = useState<AnkiCardInfo | null>(null);
@@ -145,7 +145,7 @@ export const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigT
   );
 };
 
-export const MockScreen = () => {
+export const AnkiWidgetMock = () => {
   const { t } = useTranslation();
 
   return (

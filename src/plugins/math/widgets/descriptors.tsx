@@ -1,7 +1,7 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { MainScreen } from "./CalcWidget";
-import { MainScreenExpandable } from "./CalcWidgetExpandable";
+import { CalcWidget } from "./CalcWidget";
+import { CalcWidgetExpandable } from "./CalcWidgetExpandable";
 
 export const widgetDescriptor = defineWidget({
   id: "calc-widget",
@@ -9,9 +9,9 @@ export const widgetDescriptor = defineWidget({
     return translate("math-plugin.calculator");
   },
   configurationScreen: null,
-  mainScreen: MainScreen,
+  mainScreen: CalcWidget,
   mock: () => {
-    return <MainScreen instanceId="mock" config={{}} />;
+    return <CalcWidget instanceId="mock" config={{}} />;
   },
   appearance: {
     size: {
@@ -37,9 +37,9 @@ export const expandableWidgetDescriptor = defineWidget({
     return translate("math-plugin.expandWidgetName");
   },
   configurationScreen: null,
-  mainScreen: MainScreenExpandable,
+  mainScreen: CalcWidgetExpandable,
   mock: () => {
-    return <MainScreenExpandable instanceId="mock" config={{}} />;
+    return <CalcWidgetExpandable instanceId="mock" config={{}} />;
   },
   appearance: {
     size: {

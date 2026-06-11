@@ -1,6 +1,6 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { MainScreen } from "./CalendarWidget";
+import { CalendarWidget } from "./CalendarWidget";
 import { ConfigScreen } from "./CalendarWidgetConfig";
 
 export const widgetDescriptor = defineWidget({
@@ -9,9 +9,9 @@ export const widgetDescriptor = defineWidget({
     return translate("calendar-plugin.widgetName");
   },
   configurationScreen: ConfigScreen,
-  mainScreen: MainScreen,
+  mainScreen: CalendarWidget,
   mock: () => {
-    return <MainScreen instanceId="mock" config={{}} />;
+    return <CalendarWidget instanceId="mock" config={{}} />;
   },
   appearance: {
     resizable: false,

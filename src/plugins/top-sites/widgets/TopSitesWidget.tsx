@@ -107,7 +107,7 @@ const LinkPlate = ({
   );
 };
 
-export const MainScreen = ({ type }: WidgetRenderProps<EmptyObject> & { type: "horizontal" | "vertical" }) => {
+export const TopSitesWidget = ({ type }: WidgetRenderProps<EmptyObject> & { type: "horizontal" | "vertical" }) => {
   const addToBlacklist = (url: string) => {
     setBlacklist((b) => [...b, url]);
   };
@@ -166,7 +166,7 @@ export const MainScreen = ({ type }: WidgetRenderProps<EmptyObject> & { type: "h
   );
 };
 
-export const Mock = ({ type }: { type: "horizontal" | "vertical" }) => {
+export const TopSitesWidgetMock = ({ type }: { type: "horizontal" | "vertical" }) => {
   const { rem } = useSizeSettings();
   return (
     <div className={widget({ type })}>

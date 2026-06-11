@@ -101,7 +101,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   );
 };
 
-export const WidgetScreen = ({ instanceId }: WidgetRenderProps<EmptyObject>) => {
+export const RecentlyClosedWidget = ({ instanceId }: WidgetRenderProps<EmptyObject>) => {
   const [sessions, setSessions] = useState<browser.Sessions.Session[]>([]);
   const { t } = useTranslation();
 

@@ -12,7 +12,7 @@ const widget = css({
   flexGrow: 1,
 });
 
-export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
+export const CalcWidget = (_props: WidgetRenderProps<EmptyObject>) => {
   const meta = useWidgetMetadata();
 
   return (

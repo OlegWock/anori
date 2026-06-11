@@ -93,7 +93,7 @@ const useCurrentWeather = (config: WeatherWidgetConfig) => {
   };
 };
 
-export const MainScreenCurrent = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
+export const CurrentWeatherWidget = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
   // biome-ignore lint/correctness/useHookAtTopLevel: instanceId is stable for a mounted widget, so the branch never changes across renders
   const { weather } = instanceId === "mock" ? mockWeather : useCurrentWeather(config);
   const { rem } = useSizeSettings();

@@ -76,7 +76,7 @@ const secondaryText = cva({
   variants: { size: { s: { fontSize: "sm" }, m: { fontSize: "xl" } } },
 });
 
-export const WidgetScreen = ({ config, size }: WidgetRenderProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
+export const DatetimeWidget = ({ config, size }: WidgetRenderProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
   const { i18n } = useTranslation();
   const {
     size: { width },

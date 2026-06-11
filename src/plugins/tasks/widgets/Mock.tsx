@@ -9,7 +9,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { scrollArea, taskInput, taskRow, tasksHeader, tasksList, tasksWidget } from "../styles";
 
-export const Mock = () => {
+export const TasksWidgetMock = () => {
   const { t } = useTranslation();
   const tasks: Task[] = [
     { id: "0", text: t("tasks-plugin.exampleTask0") },

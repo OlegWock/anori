@@ -55,7 +55,7 @@ const calendarCell = cva({
   },
 });
 
-export const MainScreen = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => {
+export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => {
   const { t, i18n } = useTranslation();
   const dir = useDirection();
   const trackInteraction = useWidgetInteractionTracker();

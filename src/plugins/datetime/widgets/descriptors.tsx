@@ -2,7 +2,7 @@ import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
 import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
 import type { DatetimeWidgetConfig } from "../types";
-import { WidgetScreen } from "./DatetimeWidget";
+import { DatetimeWidget } from "./DatetimeWidget";
 import { ConfigScreen } from "./DatetimeWidgetConfig";
 
 export const datetimeWidgetDescriptorS = defineWidget({
@@ -23,9 +23,9 @@ export const datetimeWidgetDescriptorS = defineWidget({
   configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
     <ConfigScreen size="s" {...props} />
   ),
-  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <WidgetScreen size="s" {...props} />,
+  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <DatetimeWidget size="s" {...props} />,
   mock: () => (
-    <WidgetScreen
+    <DatetimeWidget
       config={{
         title: "Bratislava",
         tz: "Europe/Bratislava",
@@ -53,9 +53,9 @@ export const datetimeWidgetDescriptorM = defineWidget({
   configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
     <ConfigScreen size="m" {...props} />
   ),
-  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <WidgetScreen size="m" {...props} />,
+  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <DatetimeWidget size="m" {...props} />,
   mock: () => (
-    <WidgetScreen
+    <DatetimeWidget
       config={{
         title: "Bratislava",
         tz: "Europe/Bratislava",

@@ -1,7 +1,7 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { Mock } from "./Mock";
-import { MainScreen } from "./TasksWidget";
+import { TasksWidgetMock } from "./Mock";
+import { TasksWidget } from "./TasksWidget";
 import { TasksWidgetConfigScreen } from "./TasksWidgetConfig";
 
 export const tasksWidgetDescriptor = defineWidget({
@@ -10,8 +10,8 @@ export const tasksWidgetDescriptor = defineWidget({
     return translate("tasks-plugin.name");
   },
   configurationScreen: TasksWidgetConfigScreen,
-  mainScreen: MainScreen,
-  mock: Mock,
+  mainScreen: TasksWidget,
+  mock: TasksWidgetMock,
   appearance: {
     resizable: {
       min: { width: 2, height: 2 },

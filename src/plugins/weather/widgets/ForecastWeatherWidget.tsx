@@ -97,7 +97,7 @@ const useForecastWeather = (config: WeatherWidgetConfig) => {
   };
 };
 
-export const MainScreenForecast = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
+export const ForecastWeatherWidget = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
   const mockForecast = useMemo(
     () => ({
       forecast: [

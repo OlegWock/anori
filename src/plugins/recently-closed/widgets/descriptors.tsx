@@ -1,7 +1,7 @@
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { WidgetScreen } from "./RecentlyClosedWidget";
+import { RecentlyClosedWidget } from "./RecentlyClosedWidget";
 
 export const widgetDescriptor = defineWidget({
   id: "recently-closed-widget",
@@ -21,8 +21,8 @@ export const widgetDescriptor = defineWidget({
   configurationScreen: null,
   mainScreen: (props) => (
     <RequirePermissions permissions={["sessions", "tabs"]}>
-      <WidgetScreen {...props} />
+      <RecentlyClosedWidget {...props} />
     </RequirePermissions>
   ),
-  mock: () => <WidgetScreen config={{}} instanceId="mock" />,
+  mock: () => <RecentlyClosedWidget config={{}} instanceId="mock" />,
 });

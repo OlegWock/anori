@@ -23,7 +23,7 @@ const expandTrigger = css({
   "& svg": { color: "icon" },
 });
 
-export const MainScreenExpandable = (_props: WidgetRenderProps<EmptyObject>) => {
+export const CalcWidgetExpandable = (_props: WidgetRenderProps<EmptyObject>) => {
   const [show, setShow] = useState(false);
   const { rem } = useSizeSettings();
   const runAfterRender = useRunAfterNextRender();

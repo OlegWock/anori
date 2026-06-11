@@ -88,7 +88,7 @@ const noteBodyContent = css({
 });
 const notesBodyPlaceholder = css({ opacity: 0.5 });
 
-export const Mock = () => {
+export const NotesWidgetMock = () => {
   const { t } = useTranslation();
   return (
     <div className={notesWidget}>
@@ -107,7 +107,7 @@ const LinkWithoutPropagation = (props: ComponentProps<typeof Link>) => {
   return <Link onClick={(e) => e.stopPropagation()} onFocus={(e) => e.stopPropagation()} {...props} />;
 };
 
-export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
+export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
   const switchEditing = (newIsEditing: boolean) => {
     if (newIsEditing) {
       runAfterNextRender(() => {

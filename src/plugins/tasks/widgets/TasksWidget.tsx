@@ -195,7 +195,7 @@ const TaskComponent = ({ task, onEdit, onComplete, onEnterKeyPress, ref }: TaskC
   );
 };
 
-export const MainScreen = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
+export const TasksWidget = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
   const addTask = () => {
     const id = guid();
     trackInteraction("Add task");

@@ -1,7 +1,7 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { MainScreenCurrent, mockCity } from "./CurrentWeatherWidget";
-import { MainScreenForecast } from "./ForecastWeatherWidget";
+import { CurrentWeatherWidget, mockCity } from "./CurrentWeatherWidget";
+import { ForecastWeatherWidget } from "./ForecastWeatherWidget";
 import { WeatherWidgetConfigScreen } from "./WeatherWidgetConfig";
 
 export const weatherWidgetDescriptorCurrent = defineWidget({
@@ -10,10 +10,13 @@ export const weatherWidgetDescriptorCurrent = defineWidget({
     return translate("weather-plugin.currentWeather");
   },
   configurationScreen: WeatherWidgetConfigScreen,
-  mainScreen: MainScreenCurrent,
+  mainScreen: CurrentWeatherWidget,
   mock: () => {
     return (
-      <MainScreenCurrent instanceId="mock" config={{ location: mockCity, temperatureUnit: "c", speedUnit: "km/h" }} />
+      <CurrentWeatherWidget
+        instanceId="mock"
+        config={{ location: mockCity, temperatureUnit: "c", speedUnit: "km/h" }}
+      />
     );
   },
   appearance: {
@@ -31,10 +34,13 @@ export const weatherWidgetDescriptorForecast = defineWidget({
     return translate("weather-plugin.weatherForecast");
   },
   configurationScreen: WeatherWidgetConfigScreen,
-  mainScreen: MainScreenForecast,
+  mainScreen: ForecastWeatherWidget,
   mock: () => {
     return (
-      <MainScreenForecast instanceId="mock" config={{ location: mockCity, temperatureUnit: "c", speedUnit: "km/h" }} />
+      <ForecastWeatherWidget
+        instanceId="mock"
+        config={{ location: mockCity, temperatureUnit: "c", speedUnit: "km/h" }}
+      />
     );
   },
   appearance: {
