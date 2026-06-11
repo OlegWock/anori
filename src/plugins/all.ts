@@ -1,4 +1,3 @@
-import { erasePlugin } from "@anori/utils/plugins/erase";
 import type { SomePlugin } from "@anori/utils/plugins/types";
 import { ankiPlugin } from "./anki/anki-plugin";
 import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
@@ -33,10 +32,10 @@ export const allPlugins: SomePlugin[] = [
   systemStatusPlugin,
   picturePlugin,
   ankiPlugin,
-].map(erasePlugin);
+];
 
 if (X_MODE === "development") {
-  allPlugins.unshift(erasePlugin(testPlugin));
+  allPlugins.unshift(testPlugin);
 }
 
 export const availablePlugins = allPlugins.filter((plugin) => {

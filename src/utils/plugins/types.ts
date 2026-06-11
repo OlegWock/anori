@@ -79,8 +79,9 @@ export type AnoriPlugin<
 };
 
 // A plugin/widget with its config type erased — the form the registry holds and the render pipeline
-// consumes (produced from a concrete plugin by `erasePlugin`). Config is `unknown`; narrow/parse it at the
-// point of use. The concrete config types stay inside each plugin's own folder; only this boundary is opaque.
+// consumes (a plugin arrives erased from `definePlugin().build()`; widgets via `eraseWidget`). Config is
+// `unknown`; narrow/parse it at the point of use. The concrete config types stay inside each plugin's own
+// folder; only this boundary is opaque.
 export type SomeWidget = Omit<WidgetDescriptor, "mainScreen" | "configurationScreen"> & {
   mainScreen: ComponentType<WidgetRenderProps<unknown>>;
   configurationScreen: ComponentType<WidgetConfigurationScreenProps<unknown>> | null;

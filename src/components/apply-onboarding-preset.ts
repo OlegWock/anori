@@ -19,7 +19,7 @@ import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/gr
 import { canPlaceItemInGrid } from "@anori/utils/grid/utils";
 import { guid } from "@anori/utils/misc";
 import { getIpInfo } from "@anori/utils/network";
-import { erasePlugin, eraseWidget } from "@anori/utils/plugins/erase";
+import { eraseWidget } from "@anori/utils/plugins/erase";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { anoriSchema, getAnoriStorageNoWait } from "@anori/utils/storage";
 import type { TFunction } from "i18next";
@@ -93,14 +93,14 @@ export const applyOnboardingPreset = async ({
       : undefined;
 
   addIfPossible({
-    plugin: erasePlugin(topSitesPlugin),
+    plugin: topSitesPlugin,
     widget: eraseWidget(topSitesWidgetDescriptorHorizontal),
     config: {},
     position: { x: 0, y: 0 },
   });
 
   const tasksWidget = await addIfPossible({
-    plugin: erasePlugin(tasksPlugin),
+    plugin: tasksPlugin,
     widget: eraseWidget(tasksWidgetDescriptor),
     config: {
       title: t("tasks-plugin.todo"),
@@ -124,7 +124,7 @@ export const applyOnboardingPreset = async ({
 
   if (weatherConfig) {
     addIfPossible({
-      plugin: erasePlugin(weatherPlugin),
+      plugin: weatherPlugin,
       widget: eraseWidget(weatherWidgetDescriptorForecast),
       config: weatherConfig,
       position: { x: 6, y: 0 },
@@ -132,7 +132,7 @@ export const applyOnboardingPreset = async ({
   }
 
   addIfPossible({
-    plugin: erasePlugin(datetimePlugin),
+    plugin: datetimePlugin,
     widget: eraseWidget(datetimeWidgetDescriptorM),
     config: {
       title: ipInfo.city,
@@ -144,14 +144,14 @@ export const applyOnboardingPreset = async ({
   });
 
   addIfPossible({
-    plugin: erasePlugin(calendarPlugin),
+    plugin: calendarPlugin,
     widget: eraseWidget(calendarWidgetDescriptor),
     config: {},
     position: { x: 2, y: 1 },
   });
 
   const notesWidget = await addIfPossible({
-    plugin: erasePlugin(notesPlugin),
+    plugin: notesPlugin,
     widget: eraseWidget(notesWidgetDescriptor),
     config: {},
     position: { x: 4, y: 2 },
@@ -169,7 +169,7 @@ export const applyOnboardingPreset = async ({
   }
 
   addIfPossible({
-    plugin: erasePlugin(mathPlugin),
+    plugin: mathPlugin,
     widget: eraseWidget(calcExpandableDescriptor),
     config: {},
     position: { x: 0, y: 3 },
@@ -177,7 +177,7 @@ export const applyOnboardingPreset = async ({
 
   if (weatherConfig) {
     addIfPossible({
-      plugin: erasePlugin(weatherPlugin),
+      plugin: weatherPlugin,
       widget: eraseWidget(weatherWidgetDescriptorCurrent),
       config: weatherConfig,
       position: { x: 2, y: 3 },

@@ -150,9 +150,9 @@ This hook exposes info about parent folder of current widget. Info includes fold
 
 This hook exposes info about current mode: compact/normal and font size, ideal and minimal block sizes (to get actual value, use `useParentFolder()`) and gap size in that mode. As well as helper `rem` function which converts rems (preferrable stylng unit) into pixels.
 
-## `getPluginConfig(pluginDescriptor)` and `usePluginConfig(pluginDescriptor)`
+## `usePluginConfig(pluginDescriptor)`
 
-Those functions provide a way to load plugin configuration. Function is imperative and hook is reactive.
+Reactively loads a plugin's stored configuration. Because the descriptor here comes from the registry (config-erased), the value reads back as `unknown` — the settings UI hands it straight to the plugin's own configuration screen, which parses it. Inside a plugin's own code prefer the typed paths instead: the `pluginConfig` prop in widgets and `ctx.getConfig()` in background behaviors.
 
 ## `getPluginStorage<StorageT>(pluginId)` and `usePluginStorage<StorageT>()`
 
