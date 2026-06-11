@@ -36,6 +36,9 @@ const baseDist = "./dist";
 export default defineConfig(async (env, argv): Promise<RspackOptions> => {
   const { mode = "development" } = argv;
   const { targetBrowser = "chrome" } = env;
+  // Don't wipe the output dir in watch mode: a loaded unpacked extension would break each rebuild as its
+  // files vanish, and watch only rewrites what changed anyway. One-shot builds still clean.
+  const isWatch = process.argv.includes("--watch");
   const currentYear = new Date().getFullYear();
 
   const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
@@ -86,7 +89,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       ignored: /^(?!.*[\\/](?:src|styled-system)[\\/]).*$/,
     },
     output: {
-      clean: false,
+      clean: !isWatch,
       filename: (pathData) => {
         if (!pathData.chunk) {
           throw new Error("pathData.chunk not defined for some reason");
