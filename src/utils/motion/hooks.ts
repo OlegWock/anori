@@ -1,5 +1,5 @@
 import { useMirrorStateToRef } from "@anori/utils/hooks";
-import { type AnimationOptions, animate, type MotionValue, useMotionValue } from "framer-motion";
+import { type AnimationOptions, animate, type MotionValue, useMotionValue } from "motion/react";
 import { useEffect, useRef } from "react";
 
 // Source: https://github.com/framer/motion/issues/218#issuecomment-766101845

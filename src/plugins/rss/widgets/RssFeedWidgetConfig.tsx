@@ -8,7 +8,7 @@ import { Input } from "@anori/design-system/components/Input/Input";
 import { TextButton } from "@anori/design-system/components/TextButton/TextButton";
 import { guid } from "@anori/utils/misc";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

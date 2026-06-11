@@ -3,7 +3,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import type { NarrowVariants } from "@anori/utils/motion/types";
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import { clsx } from "clsx";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import type { ReactNode } from "react";
 import { type ComponentProps, useId } from "react";
 import { css } from "styled-system/css";

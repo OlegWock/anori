@@ -8,7 +8,7 @@ import { Input } from "@anori/design-system/components/Input/Input";
 import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import type { Folder } from "@anori/utils/user-data/types";
-import { useDragControls } from "framer-motion";
+import { useDragControls } from "motion/react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

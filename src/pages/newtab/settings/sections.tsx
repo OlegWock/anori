@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { availablePlugins } from "@anori/plugins/all";
-import type { m } from "framer-motion";
+import type { m } from "motion/react";
 import type { ComponentProps, ComponentType } from "react";
 import { CustomIconsScreen } from "./screens/CustomIconsScreen";
 import { FoldersScreen } from "./screens/FoldersScreen";

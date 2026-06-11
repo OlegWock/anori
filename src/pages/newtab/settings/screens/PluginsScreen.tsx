@@ -1,6 +1,6 @@
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { availablePlugins } from "@anori/plugins/all";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import type { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

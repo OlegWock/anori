@@ -20,7 +20,7 @@ import {
   useRole,
 } from "@floating-ui/react";
 import classNames from "clsx";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import {
   Children,
   type CSSProperties,

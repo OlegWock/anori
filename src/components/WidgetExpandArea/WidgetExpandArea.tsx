@@ -14,7 +14,7 @@ import {
   useMotionValue,
   usePresence,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";

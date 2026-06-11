@@ -12,7 +12,7 @@ import { useScreenWidth } from "@anori/utils/compact";
 import { setPageTitle } from "@anori/utils/page";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { type ComponentProps, useEffect, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

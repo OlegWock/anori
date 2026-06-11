@@ -19,13 +19,13 @@ import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import type { Folder } from "@anori/utils/user-data/types";
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
+import { AnimatePresence, LazyMotion, MotionConfig, m } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { css, cva } from "styled-system/css";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
 
-const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
+const loadMotionFeatures = () => import("@anori/utils/motion/motion-features").then(({ domMax }) => domMax);
 
 const startPage = css({ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column" });
 const startPageContent = cva({

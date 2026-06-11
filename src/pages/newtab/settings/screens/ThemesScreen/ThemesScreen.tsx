@@ -14,7 +14,7 @@ import {
   resolveColorScheme,
   themes,
 } from "@anori/utils/user-data/theme";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { type ComponentProps, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

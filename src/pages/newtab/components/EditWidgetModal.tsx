@@ -3,7 +3,7 @@ import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollAre
 import type { WidgetDescriptor } from "@anori/utils/plugins/types";
 import type { ID, Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 

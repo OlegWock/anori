@@ -10,7 +10,7 @@ import { useHotkeys } from "@anori/utils/hooks";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { Folder } from "@anori/utils/user-data/types";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "motion/react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";

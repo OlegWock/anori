@@ -1,7 +1,7 @@
 import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import type { ComponentProps } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

@@ -15,7 +15,7 @@ import {
   useListNavigation,
   useRole,
 } from "@floating-ui/react";
-import { type HTMLMotionProps, m } from "framer-motion";
+import { type HTMLMotionProps, m } from "motion/react";
 import { type ChangeEvent, type HTMLProps, type ReactNode, type Ref, useEffect, useRef, useState } from "react";
 import { css, cva } from "styled-system/css";
 

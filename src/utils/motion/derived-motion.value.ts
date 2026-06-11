@@ -1,5 +1,5 @@
 import { useLazyRef } from "@anori/utils/hooks";
-import { frame, MotionValue } from "framer-motion";
+import { frame, MotionValue } from "motion/react";
 
 const getCurrentDerivedValue = <I, V>(deps: MotionValue[], depsTransformer: (deps: I[]) => V) => {
   const newVal = depsTransformer(deps.map((d) => d.get()));

@@ -68,9 +68,13 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     mode,
     devtool: false,
     entry: entries,
-    // framer-motion optionally `require()`s @emotion/is-prop-valid inside a try/catch and works fine
-    // without it; silence the resulting "module not found" warning instead of adding the dependency.
-    ignoreWarnings: [/Can't resolve '@emotion\/is-prop-valid'/],
+    // motion (framer-motion) optionally `require()`s @emotion/is-prop-valid inside a try/catch and works
+    // fine without it. It builds the specifier dynamically, so the bundler flags a "Critical dependency"
+    // (and historically a "Can't resolve") warning; silence both instead of adding the dependency.
+    ignoreWarnings: [
+      /Can't resolve '@emotion\/is-prop-valid'/,
+      { module: /motion.*filter-props/, message: /Critical dependency: the request of a dependency is an expression/ },
+    ],
     experiments: {
       incremental: "safe",
     },

@@ -14,7 +14,7 @@ import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cx } from "styled-system/css";

@@ -12,7 +12,7 @@ import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "
 import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
-import { m, type PanInfo, useMotionValue } from "framer-motion";
+import { m, type PanInfo, useMotionValue } from "motion/react";
 import {
   Component,
   type ComponentProps,

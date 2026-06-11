@@ -1,7 +1,7 @@
 import { combineRefs } from "@anori/utils/react";
 import { ScrollArea as Base } from "@base-ui/react/scroll-area";
 import { useDirection } from "@radix-ui/react-direction";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { type ComponentProps, type ReactNode, type Ref, useEffect, useRef, type WheelEvent } from "react";
 import { css, cva, cx } from "styled-system/css";
 

@@ -4,7 +4,7 @@ import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { homeFolder } from "@anori/utils/user-data/types";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import type { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

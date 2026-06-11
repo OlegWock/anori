@@ -6,7 +6,7 @@ import { canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemO
 import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import { memo, type Ref } from "react";
 import { css, cva } from "styled-system/css";
 

@@ -13,7 +13,7 @@ import { useAnoriStorage } from "@anori/utils/storage/hooks";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import { useDirection } from "@radix-ui/react-direction";
-import { AnimatePresence, LayoutGroup, m, useTransform } from "framer-motion";
+import { AnimatePresence, LayoutGroup, m, useTransform } from "motion/react";
 import { type ComponentProps, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import useMeasure from "react-use-motion-measure";

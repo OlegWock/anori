@@ -1,8 +1,8 @@
 import { MenuItem, MenuList } from "@anori/design-system/components/MenuList/MenuList";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import { AnimatePresence } from "framer-motion";
 import { useAtom } from "jotai";
+import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

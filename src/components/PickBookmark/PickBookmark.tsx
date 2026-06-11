@@ -4,7 +4,7 @@ import type { PopoverRenderProps } from "@anori/design-system/components/Popover
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

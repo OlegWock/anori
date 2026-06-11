@@ -1,4 +1,4 @@
-import type { m } from "framer-motion";
+import type { m } from "motion/react";
 import type { ComponentPropsWithoutRef, Ref } from "react";
 import type { JsxStyleProps } from "styled-system/types";
 

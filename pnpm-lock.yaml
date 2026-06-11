@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  framer-motion:
-    hash: bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad
-    path: patches/framer-motion.patch
-
 importers:
 
   .:
@@ -124,9 +119,6 @@ importers:
       filemanager-webpack-plugin:
         specifier: ^7.0.0
         version: 7.0.0(webpack@5.101.3)
-      framer-motion:
-        specifier: ^12.17.0
-        version: 12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       generate-file-webpack-plugin:
         specifier: ^1.0.1
         version: 1.0.1
@@ -163,6 +155,9 @@ importers:
       moment-timezone-data-webpack-plugin:
         specifier: ^1.5.1
         version: 1.5.1(moment-timezone@0.6.0)(webpack@5.101.3)
+      motion:
+        specifier: ^12.40.0
+        version: 12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -189,7 +184,7 @@ importers:
         version: 3.0.2(react@19.1.0)
       react-use-motion-measure:
         specifier: ^3.0.0
-        version: 3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 3.0.0(framer-motion@12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-window:
         specifier: ^1.8.11
         version: 1.8.11(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -3369,8 +3364,8 @@ packages:
     resolution: {integrity: sha512-uXBDv5knpYmv/2gLzWQ5mBHGBRk9wcKTeWu6GLTUEQfjCxO09uM/mHDrojlL+Q1mVGIIFo149Gba7od1XPgSzQ==}
     engines: {node: '>= 12'}
 
-  framer-motion@12.17.0:
-    resolution: {integrity: sha512-2hISKgDk49yCLStwG1wf4Kdy/D6eBw9/eRNaWFIYoI9vMQ/Mqd1Fz+gzVlEtxJmtQ9y4IWnXm19/+UXD3dAYAA==}
+  framer-motion@12.40.0:
+    resolution: {integrity: sha512-uaBd3qC1v3KQqBEjwTUd183K6PbS+j0yR9w9VmEOLWA/tnUcSn8Xa3uck7t4dgpDoUss8xQTcj8W2L07lrnLFg==}
     peerDependencies:
       '@emotion/is-prop-valid': '*'
       react: ^18.0.0 || ^19.0.0
@@ -4490,11 +4485,25 @@ packages:
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
-  motion-dom@12.17.0:
-    resolution: {integrity: sha512-FA6/c70R9NKs3g41XDVONzmUUrEmyaifLVGCWtAmHP0usDnX9W+RN/tmbC4EUl0w6yLGvMTOwnWCFVgA5luhRg==}
+  motion-dom@12.40.0:
+    resolution: {integrity: sha512-HxU3ZaBwNPVQUBQf1xxgq+7JrPNZvjLVxgbpEZL7RrWJnsxOf0/OM+yrHG9ogLQ31Do/r57Oz2gQWPK+6q62mg==}
 
-  motion-utils@12.12.1:
-    resolution: {integrity: sha512-f9qiqUHm7hWSLlNW8gS9pisnsN7CRFRD58vNjptKdsqFLpkVnX00TNeD6Q0d27V9KzT7ySFyK1TZ/DShfVOv6w==}
+  motion-utils@12.39.0:
+    resolution: {integrity: sha512-8nadJAJjTtqRkmRF36FoJTrywK9nnFmnPwnSMyxaOCU7GDjN9RTMJIxx9De8ErM+vpPhMccr/6fo5WciyQLnMQ==}
+
+  motion@12.40.0:
+    resolution: {integrity: sha512-yjrHUrBFW6kQvjJwRsoiPSAhC5tRwRqNGJWmiJ4CrGnbKp0V88AdzkhBmDoqIsIPfarOe0Uddd37Xq43/gIocA==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -9571,10 +9580,10 @@ snapshots:
 
   fraction.js@5.2.2: {}
 
-  framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  framer-motion@12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
-      motion-dom: 12.17.0
-      motion-utils: 12.12.1
+      motion-dom: 12.40.0
+      motion-utils: 12.39.0
       tslib: 2.8.1
     optionalDependencies:
       react: 19.1.0
@@ -10874,11 +10883,19 @@ snapshots:
 
   moment@2.30.1: {}
 
-  motion-dom@12.17.0:
+  motion-dom@12.40.0:
     dependencies:
-      motion-utils: 12.12.1
+      motion-utils: 12.39.0
 
-  motion-utils@12.12.1: {}
+  motion-utils@12.39.0: {}
+
+  motion@12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      framer-motion: 12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   mrmime@2.0.1: {}
 
@@ -11380,10 +11397,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.5
 
-  react-use-motion-measure@3.0.0(framer-motion@12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-use-motion-measure@3.0.0(framer-motion@12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       debounce: 1.2.1
-      framer-motion: 12.17.0(patch_hash=bcebe6b1578276bd675562322a46d775cba9018154f60e43f2ab1a8a09fde7ad)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      framer-motion: 12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 

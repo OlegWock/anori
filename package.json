@@ -73,7 +73,6 @@
         "culori": "^4.0.2",
         "file-loader": "^6.2.0",
         "filemanager-webpack-plugin": "^7.0.0",
-        "framer-motion": "^12.17.0",
         "generate-file-webpack-plugin": "^1.0.1",
         "husky": "^9.1.7",
         "i18next": "^25.2.1",
@@ -86,6 +85,7 @@
         "moment-locales-webpack-plugin": "^1.2.0",
         "moment-timezone": "^0.6.0",
         "moment-timezone-data-webpack-plugin": "^1.5.1",
+        "motion": "^12.40.0",
         "react": "^19.1.0",
         "react-devtools": "^6.1.5",
         "react-devtools-core": "^6.1.5",
@@ -120,9 +120,6 @@
         "zod": "^4.2.1"
     },
     "pnpm": {
-        "patchedDependencies": {
-            "framer-motion": "patches/framer-motion.patch"
-        },
         "onlyBuiltDependencies": [
             "electron"
         ]

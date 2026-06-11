@@ -12,7 +12,7 @@ import {
   useAvailablePermissions,
 } from "@anori/utils/permissions";
 import clsx from "clsx";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "motion/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

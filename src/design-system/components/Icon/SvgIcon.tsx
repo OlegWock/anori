@@ -3,7 +3,7 @@ import { ICONIFY_API_BASE } from "@anori/design-system/components/Icon/remote-ic
 import { globalSvgIconsCache, SvgIconRenderer } from "@anori/design-system/components/Icon/SvgIconRenderer";
 import type { IconRenderProps } from "@anori/design-system/components/Icon/types";
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { useState } from "react";
 import { css } from "styled-system/css";
 

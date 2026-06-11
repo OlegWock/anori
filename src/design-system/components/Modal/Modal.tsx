@@ -4,7 +4,7 @@ import { IconButton } from "@anori/design-system/components/IconButton/IconButto
 import { useHotkeys } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
 import clsx from "clsx";
-import { LayoutGroup, m, useIsPresent } from "framer-motion";
+import { LayoutGroup, m, useIsPresent } from "motion/react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";

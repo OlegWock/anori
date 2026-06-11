@@ -8,7 +8,7 @@ import { Input } from "@anori/design-system/components/Input/Input";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
-import { AnimatePresence, LayoutGroup, m } from "framer-motion";
+import { AnimatePresence, LayoutGroup, m } from "motion/react";
 import { type ComponentProps, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

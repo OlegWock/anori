@@ -13,7 +13,7 @@ import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { guid } from "@anori/utils/misc";
 import { usePermissionsQuery } from "@anori/utils/permissions";
 import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { BookmarkGroupWidgetConfig } from "../types";

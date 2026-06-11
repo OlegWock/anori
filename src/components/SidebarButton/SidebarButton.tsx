@@ -2,7 +2,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";
 import clsx from "clsx";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { type ComponentProps, useState } from "react";
 import { css, cva } from "styled-system/css";
 import { DropDestination } from "../DropDestination";

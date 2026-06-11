@@ -8,7 +8,7 @@ import { normalizeUrl, parseHost } from "@anori/utils/misc";
 import { ensureDnrRules } from "@anori/utils/plugins/dnr";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";

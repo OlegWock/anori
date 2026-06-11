@@ -21,7 +21,7 @@ import {
   useDragControls,
   useMotionValue,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 import { type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cx } from "styled-system/css";

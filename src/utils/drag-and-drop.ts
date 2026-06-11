@@ -1,5 +1,5 @@
-import { type PanInfo, type TargetAndTransition, useDragControls } from "framer-motion";
 import { atom, getDefaultStore, useAtom, useStore } from "jotai";
+import { type PanInfo, type TargetAndTransition, useDragControls } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useMirrorStateToRef } from "./hooks";
 
@@ -50,22 +50,49 @@ export const useDraggable = (info: DndItemMeta, options?: UseDraggableOptions) =
     return currentDropRef.current;
   };
 
-  const onDragStart = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    registerDrag();
-    options?.onDragStart?.(e, info);
-  };
-
-  const onDrag = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    options?.onDrag?.(e, info);
-  };
-
-  const onDragEnd = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const finishDrag = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const destination = endDrag();
     options?.onDragEnd?.(destination, e, info);
   };
 
+  const onDragStart = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    registerDrag();
+    syncEndHandledRef.current = false;
+    lastInfoRef.current = info;
+    // motion fires onDragEnd on the *next* frame (frame.postRender), but dragSnapToOrigin starts animating
+    // this frame — so the element paints one frame toward its old slot before our (synchronous) reposition
+    // lands, which reads as a flicker. Finish the drag synchronously on pointer release instead, and skip
+    // motion's deferred onDragEnd. (The dragged element is pointer-events:none mid-drag, so listen on window.)
+    const handleRelease = (ev: PointerEvent) => {
+      window.removeEventListener("pointerup", handleRelease);
+      window.removeEventListener("pointercancel", handleRelease);
+      if (!isDragActiveRef.current || !lastInfoRef.current) return;
+      syncEndHandledRef.current = true;
+      finishDrag(ev, lastInfoRef.current);
+    };
+    window.addEventListener("pointerup", handleRelease);
+    window.addEventListener("pointercancel", handleRelease);
+    options?.onDragStart?.(e, info);
+  };
+
+  const onDrag = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    lastInfoRef.current = info;
+    options?.onDrag?.(e, info);
+  };
+
+  const onDragEnd = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    // Already finished synchronously on pointer release (see onDragStart).
+    if (syncEndHandledRef.current) {
+      syncEndHandledRef.current = false;
+      return;
+    }
+    finishDrag(e, info);
+  };
+
   const dragControls = useDragControls();
   const isDragActiveRef = useRef(false);
+  const lastInfoRef = useRef<PanInfo | null>(null);
+  const syncEndHandledRef = useRef(false);
   const [currentDraggable, setCurrentDraggable] = useAtom(currentDraggableAtom);
   const currentDraggableRef = useMirrorStateToRef(currentDraggable);
   const [currentDrop, setCurrentDrop] = useAtom(currentDropDestinationAtom);

@@ -2,7 +2,7 @@ import type { SvgIconCacheDescriptor } from "@anori/design-system/components/Ico
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { iife } from "@anori/utils/misc";
 import { combineRefs } from "@anori/utils/react";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { type ComponentPropsWithRef, useEffect, useMemo, useRef, useState } from "react";
 
 type SvgIconRenderedProps = {

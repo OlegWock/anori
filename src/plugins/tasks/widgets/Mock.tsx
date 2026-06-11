@@ -5,7 +5,7 @@ import { IconButton } from "@anori/design-system/components/IconButton/IconButto
 import { Input } from "@anori/design-system/components/Input/Input";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import type { Task } from "@anori/utils/storage";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { scrollArea, taskInput, taskRow, tasksHeader, tasksList, tasksWidget } from "../styles";
 

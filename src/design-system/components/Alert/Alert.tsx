@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import type { ComponentProps, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva, cx } from "styled-system/css";
