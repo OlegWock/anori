@@ -12,7 +12,7 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { guid } from "@anori/utils/misc";
 import { usePermissionsQuery } from "@anori/utils/permissions";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { AnimatePresence, m } from "motion/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,7 +32,7 @@ import {
 export const BookmarGroupkWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<BookmarkGroupWidgetConfig>) => {
+}: WidgetConfigScreenProps<BookmarkGroupWidgetConfig>) => {
   const onConfirm = () => {
     const cleanedUrls = urls.map((u) => u.url).filter((u) => !!u);
     if (!title || urls.length === 0) return;

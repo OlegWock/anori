@@ -1,24 +1,21 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
-import { definePlugin } from "@anori/utils/plugins/define";
+import { type ContextOf, definePlugin } from "@anori/utils/plugins/define";
 import { rssScheduledCallback } from "./background";
 import { handlers } from "./messaging";
 import { rssFeedDescriptor, rssLastestPostDescriptor } from "./widgets/descriptors";
 
-export const rssPlugin = definePlugin({
+const base = definePlugin({
   id: "rss-plugin",
   get name() {
     return translate("rss-plugin.name");
   },
   icon: builtinIcons.rssIcon,
-  configurationScreen: null,
-})
-  .withWidgets(rssFeedDescriptor, rssLastestPostDescriptor)
-  .withOnMessage(handlers)
-  .withScheduledCallback({
-    intervalInMinutes: 30,
-    callback: (self) => rssScheduledCallback(self),
-  })
-  .build();
+  widgets: [rssFeedDescriptor, rssLastestPostDescriptor],
+});
+
+export type RssContext = ContextOf<typeof base>;
+
+export const rssPlugin = base.withMessaging(handlers).withScheduledCallback(30, rssScheduledCallback).build();
 
 export { rssFeedDescriptor, rssLastestPostDescriptor };

@@ -1,5 +1,5 @@
 import { translate } from "@anori/translations/utils";
-import { defineWidget } from "@anori/utils/plugins/define2";
+import { defineWidget } from "@anori/utils/plugins/define";
 import { blueprintWidgetConfigSchema } from "../types";
 import { BlueprintWidget } from "./BlueprintWidget";
 import { BlueprintWidgetConfigScreen } from "./BlueprintWidgetConfig";

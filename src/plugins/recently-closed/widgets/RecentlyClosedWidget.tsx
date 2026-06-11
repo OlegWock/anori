@@ -4,7 +4,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { wait } from "@anori/utils/misc";
-import type { WidgetRenderProps } from "@anori/utils/plugins/define2";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import moment from "moment-timezone";
 import { m, useAnimationControls } from "motion/react";

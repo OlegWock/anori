@@ -2,7 +2,7 @@ import { Button } from "@anori/design-system/components/Button/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
-import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define2";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

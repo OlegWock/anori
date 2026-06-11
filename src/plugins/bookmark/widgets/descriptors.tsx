@@ -2,8 +2,8 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { parseHost } from "@anori/utils/misc";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { defineWidget } from "@anori/utils/plugins/define";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import type { BookmarkGroupWidgetConfig, BookmarkWidgetConfig } from "../types";

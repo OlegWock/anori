@@ -5,8 +5,8 @@ import { LinkIconButton } from "@anori/design-system/components/LinkIconButton/L
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { ensureDnrRules } from "@anori/utils/plugins/dnr";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { AnimatePresence } from "motion/react";
 import { useEffect, useMemo, useState } from "react";

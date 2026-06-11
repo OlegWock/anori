@@ -5,7 +5,7 @@ import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Popover } from "@anori/design-system/components/Popover/Popover";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { IframePluginWidgetConfig } from "../types";
@@ -14,7 +14,7 @@ import { compactField, config, saveConfig, urlImportWrapper } from "./config-sty
 export const MainWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<IframePluginWidgetConfig>) => {
+}: WidgetConfigScreenProps<IframePluginWidgetConfig>) => {
   const onConfirm = () => {
     saveConfiguration({ url, title, showLinkToPage });
   };

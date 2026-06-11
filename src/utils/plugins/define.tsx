@@ -43,14 +43,16 @@ type Parse<T> = (raw: unknown) => T;
 export type WidgetDef<Id extends string, WC extends Mapping, PC extends Mapping> = {
   id: Id;
   name: string;
-  parse: Parse<WC>;
+  // The unknown -> config seam. Optional: defaults to a cast (today's behavior). Provide a zod `.parse`
+  // (see blueprint) to additionally validate the persisted config at runtime.
+  parse?: Parse<WC>;
   appearance: Appearance;
   mainScreen: ComponentType<WidgetRenderProps<WC, PC>>;
   mock: ComponentType;
   configurationScreen: ComponentType<WidgetConfigScreenProps<WC>> | null;
 };
 
-export const defineWidget = <Id extends string, WC extends Mapping, PC extends Mapping = EmptyObject>(
+export const defineWidget = <Id extends string, WC extends Mapping = EmptyObject, PC extends Mapping = EmptyObject>(
   def: WidgetDef<Id, WC, PC>,
 ): WidgetDef<Id, WC, PC> => def;
 
@@ -111,6 +113,7 @@ const toSomeWidget = (
 ): SomeWidget => {
   const Main = def.mainScreen;
   const Config = def.configurationScreen;
+  const parse = def.parse ?? ((raw: unknown) => raw as Mapping);
   const widget: SomeWidget = {
     id: def.id,
     name: def.name,
@@ -118,11 +121,11 @@ const toSomeWidget = (
     mock: def.mock,
     mainScreen: ({ instanceId, config }) => {
       const pluginConfig = usePluginConfigValue(pluginId, parsePluginConfig);
-      return <Main instanceId={instanceId} config={def.parse(config)} pluginConfig={pluginConfig} />;
+      return <Main instanceId={instanceId} config={parse(config)} pluginConfig={pluginConfig} />;
     },
     configurationScreen: Config
       ? ({ currentConfig, ...rest }) => (
-          <Config {...rest} currentConfig={currentConfig === undefined ? undefined : def.parse(currentConfig)} />
+          <Config {...rest} currentConfig={currentConfig === undefined ? undefined : parse(currentConfig)} />
         )
       : null,
   };
@@ -157,7 +160,7 @@ export const definePlugin = <
           return {
             instanceId: w.instanceId,
             widgetId: w.widgetId,
-            config: def ? def.parse(w.configuration) : w.configuration,
+            config: def?.parse ? def.parse(w.configuration) : w.configuration,
           };
         }) as WidgetInstance<Widgets[number]>[];
       },

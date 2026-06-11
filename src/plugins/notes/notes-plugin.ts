@@ -9,9 +9,7 @@ export const notesPlugin = definePlugin({
     return translate("notes-plugin.name");
   },
   icon: builtinIcons.pencil,
-  configurationScreen: null,
-})
-  .withWidgets(notesWidgetDescriptor)
-  .build();
+  widgets: [notesWidgetDescriptor],
+}).build();
 
 export { notesWidgetDescriptor };

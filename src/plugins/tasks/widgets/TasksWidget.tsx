@@ -7,7 +7,7 @@ import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollAre
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { combineRefs } from "@anori/utils/react";
 import type { Task } from "@anori/utils/storage";
 import { useDirection } from "@radix-ui/react-direction";

@@ -1,7 +1,7 @@
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { config, saveConfig } from "../styles";
@@ -10,7 +10,7 @@ import type { TaskWidgetConfig } from "../types";
 export const TasksWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<TaskWidgetConfig>) => {
+}: WidgetConfigScreenProps<TaskWidgetConfig>) => {
   const onConfirm = () => {
     saveConfiguration({ title });
   };

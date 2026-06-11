@@ -10,7 +10,7 @@ import { Input } from "@anori/design-system/components/Input/Input";
 import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { BookmarkWidgetConfig } from "../types";
@@ -27,7 +27,7 @@ import {
 export const BookmarkWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<BookmarkWidgetConfig>) => {
+}: WidgetConfigScreenProps<BookmarkWidgetConfig>) => {
   const onConfirm = () => {
     if (!title || !url) return;
 

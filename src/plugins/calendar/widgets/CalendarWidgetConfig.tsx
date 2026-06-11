@@ -1,7 +1,7 @@
 import { Select } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Field } from "@anori/design-system/components/Field/Field";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
@@ -15,7 +15,7 @@ const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
 export const ConfigScreen = ({
   currentConfig,
   saveConfiguration,
-}: WidgetConfigurationScreenProps<CalendarWidgetConfigType>) => {
+}: WidgetConfigScreenProps<CalendarWidgetConfigType>) => {
   const { t, i18n } = useTranslation();
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components

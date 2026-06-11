@@ -1,7 +1,7 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { Fragment, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";

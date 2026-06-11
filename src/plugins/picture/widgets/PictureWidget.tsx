@@ -1,4 +1,4 @@
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageFile } from "@anori/utils/storage-lib/react";
 import { useTranslation } from "react-i18next";

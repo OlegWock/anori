@@ -4,7 +4,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import { AnimatePresence } from "motion/react";
 import { useRef, useState } from "react";

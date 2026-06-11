@@ -9,7 +9,5 @@ export const calendarPlugin = definePlugin({
     return translate("calendar-plugin.name");
   },
   icon: builtinIcons.calendar,
-  configurationScreen: null,
-})
-  .withWidgets(widgetDescriptor)
-  .build();
+  widgets: [widgetDescriptor],
+}).build();

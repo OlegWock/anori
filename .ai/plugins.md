@@ -34,42 +34,48 @@ Guidelines for when to extract into a separate file:
 
 The main plugin file (`plugin-name-plugin.ts`) should remain a thin wiring file: it imports descriptors, messaging handlers, and background callbacks, then chains them via the builder API.
 
-To create a plugin, invoke `definePlugin` with static fields (`id`, `name`, `icon`, `configurationScreen`), then chain `.withWidgets(...)` and optional builder methods, and finalize with `.build()`. The `.build()` call is **required** — the builder type is intentionally incompatible with `AnoriPlugin` to enforce this. The result can then be added to `src/plugins/all.ts` to make it available in the extension.
+A plugin is defined in two layers: its **identity** (`definePlugin({ id, name, icon, config?, widgets })`) and the **behaviors** (messaging, scheduling, onStart) chained on top, finalized with `.build()` (required). The result is added to `src/plugins/all.ts`.
 
 ```ts
-export const pluginnamePlugin = definePlugin({
+// 1. Identity. ContextOf<typeof base> recovers the behavior-context type, so background.ts can type its
+//    `ctx` param off it via a type-only import (no plugin <-> background runtime cycle).
+const base = definePlugin({
   id: "pluginname-plugin",
   get name() {
     return translate("blueprint-plugin.name");
   },
   icon: builtinIcons.plugin,
-  configurationScreen: null,
-})
-  .withWidgets(widgetDescriptor)
-  .withOnMessage(handlers)
-  .withScheduledCallback({
-    intervalInMinutes: 15,
-    callback: (self) => updateAllWidgets(self),
-  })
-  .withOnStart((self) => {
-    plantWebRequestHandler();
-  })
+  // Optional plugin-level config, shared by every widget of the plugin. Omit for plugins without one.
+  config: {
+    parse: (raw) => pluginConfigSchema.parse(raw),
+    configurationScreen: PluginConfigScreen, // ComponentType<{ currentConfig?: PC; saveConfiguration: (c: PC) => void }>
+  },
+  widgets: [widgetDescriptor],
+});
+
+export type PluginnameContext = ContextOf<typeof base>;
+
+// 2. Behaviors. Each receives a typed PluginContext; chain in any order.
+export const pluginnamePlugin = base
+  .withMessaging(handlers)
+  .withScheduledCallback(15, updateAllWidgets)
+  .withOnStart((ctx) => plantWebRequestHandler())
   .build();
 ```
 
-Plugin needs to define at least those fields: `id` (unique identificator), `name` (human-readable name, translatable), `configurationScreen` (null if plugin doesn't have plugin-wide configuration, otherwise React component which accepts `PluginConfigurationScreenProps<T>` props, where `T` is plugin configuration type).
+A plugin needs at least `id` (unique), `name` (translatable), `icon`, and `widgets`. `config` is optional — provide a `parse` + a `configurationScreen` (typed `{ currentConfig?: PC; saveConfiguration: (c: PC) => void }`) when the plugin has settings shared across its widgets; widgets then receive the value as `pluginConfig` and background tasks read it via `ctx.getConfig()`.
 
-After calling `.withWidgets(...)`, the following builder methods are available. Each returns the builder so they can be chained in any order. All are optional.
+Builder methods (all optional, chain in any order):
 
-* `.withOnStart(callback)` — registers a callback invoked in background worker/page on extension start. Intended for registering `browser.*` API listeners. The callback receives `self` (the fully-typed plugin instance).
+* `.withMessaging(handlers)` — registers message handlers (typed via `createOnMessageHandlers`). Plugin messages are isolated between plugins. Intended for invoking background-only APIs from widgets.
 
-* `.withOnMessage(handlers)` — registers message handlers. Plugin messages are isolated between plugins (i.e. plugin can't handle message from another plugin). This is intended for cases when plugin needs to invoke API available only to background page/worker. You should always prefer strongly-typed message definitions and handlers. They can be created with `createOnMessageHandlers` function.
+* `.withScheduledCallback(intervalInMinutes, callback)` — runs the callback every N minutes in the background. Anori checks for due callbacks every 5 minutes, so values under 5 don't make sense, and exact timing isn't guaranteed.
 
-* `.withScheduledCallback({ intervalInMinutes, callback })` — registers a callback invoked every N minutes in the background worker/page. The callback receives `self` (the fully-typed plugin instance). Example use case is background refresh of data from remote API. To limit impact on laptop battery, Anori checks for due callbacks every 5 minutes, so values less than 5 minutes don't make much sense. Also, because of this it's not guaranteed that your callback will be executed __precisely__ every `intervalInMinutes`.
+* `.withOnStart(callback)` — runs once on extension start in the background; for registering `browser.*` listeners.
 
-* `.build()` — **required**. Finalizes the builder and returns the `AnoriPlugin` instance. Must be the last call in the chain.
+* `.build()` — **required**. Must be the last call (the builder type is intentionally incompatible with the registry until built).
 
-The `self` parameter passed to `withScheduledCallback` and `withOnStart` callbacks is the fully-typed plugin instance. This is the recommended way to access the plugin from background logic (e.g. passing it to `getAllWidgetsByPlugin(self)`) — it avoids circular imports when the plugin is split across multiple files.
+The `ctx` passed to `withScheduledCallback`/`withOnStart` is a **`PluginContext`**: `ctx.getWidgets()` returns this plugin's widget instances **typed and correlated per descriptor** (`{ instanceId, widgetId, config }` — narrow on `widgetId`), and `ctx.getConfig()` returns the plugin config. Define these behaviors in `background.ts` typed `(ctx: PluginnameContext) => …` and import `PluginnameContext` **type-only** from the plugin file — that's what avoids the plugin↔background circular import while keeping config types precise. (`getAllWidgetsByPlugin` still exists, but `ctx.getWidgets()` is preferred since it's typed.)
 
 # Widgets
 
@@ -81,8 +87,11 @@ const widgetDescriptor = defineWidget({
   get name() { // User-facing name
     return translate("blueprint-plugin.widgetName");
   },
-  configurationScreen: WidgetConfigScreen, // Configuration screen for widget, can be null
-  mainScreen: MainScreen, // Actual widget
+  // Optional: the unknown -> config seam. Defaults to a cast (today's behavior); pass a zod `.parse`
+  // (e.g. `(raw) => widgetConfigSchema.parse(raw)`) to additionally validate the persisted config.
+  parse: (raw) => raw as WidgetConfig,
+  configurationScreen: WidgetConfigScreen, // ComponentType<WidgetConfigScreenProps<WidgetConfig>>, or null
+  mainScreen: MainScreen, // ComponentType<WidgetRenderProps<WidgetConfig, PluginConfig>>
   // Mock screen is rendered on "New widget" screen and is intended for user to get an idea 
   // how widget will look before adding and configuring it
   mock: () => {
@@ -101,7 +110,7 @@ const widgetDescriptor = defineWidget({
 });
 ```
 
-If widget allows for configuration, it should provide `configurationScreen` component (`ComponentType<WidgetConfigurationScreenProps<T>>`). User will be presented with config screen when adding widget to a folder. Configuration in then persisted per-widget and passed as `config` prop to `mainScreen` component.
+The `mainScreen` receives `WidgetRenderProps<WidgetConfig, PluginConfig>` — `config` (this widget's own config) and `pluginConfig` (the plugin-level config, if the plugin declares one). The `configurationScreen` (`ComponentType<WidgetConfigScreenProps<WidgetConfig>>`, or `null`) is shown when the user adds the widget; its config is persisted per-widget. Both `WidgetRenderProps` and `WidgetConfigScreenProps` are imported from `@anori/utils/plugins/define`.
 
 ## Memoize widget components
 
@@ -159,7 +168,7 @@ This hook exposes metadata about current widget: configuration, function to upda
 
 ## `getAllWidgetsByPlugin(pluginDescriptor)`
 
-This function loads all widget instances from selected plugin. Might be useful to loop over all widgets in background task.
+Loads all widget instances of a plugin (config erased to an opaque `Mapping`). Inside a plugin's own background task prefer **`ctx.getWidgets()`** — it returns the same instances but with config typed and correlated per descriptor.
 
 ## CSS
 

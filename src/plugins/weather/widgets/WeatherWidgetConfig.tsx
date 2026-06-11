@@ -2,7 +2,7 @@ import { Select } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
 import { Field } from "@anori/design-system/components/Field/Field";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { City, Speed, Temperature } from "../api";
@@ -14,7 +14,7 @@ import { formatCityLabel } from "../utils";
 export const WeatherWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<WeatherWidgetConfig>) => {
+}: WidgetConfigScreenProps<WeatherWidgetConfig>) => {
   const onConfirm = () => {
     if (!selectedCity) return;
     saveConfiguration({

@@ -9,7 +9,5 @@ export const systemStatusPlugin = definePlugin({
     return translate("system-status-plugin.name");
   },
   icon: builtinIcons.speedometer,
-  configurationScreen: null,
-})
-  .withWidgets(cpuWidgetDescriptor, ramWidgetDescriptor)
-  .build();
+  widgets: [cpuWidgetDescriptor, ramWidgetDescriptor],
+}).build();

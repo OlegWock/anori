@@ -7,7 +7,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { TextButton } from "@anori/design-system/components/TextButton/TextButton";
 import { guid } from "@anori/utils/misc";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { AnimatePresence, m } from "motion/react";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -21,10 +21,7 @@ const addButtonWrapper = css({ display: "flex", justifyContent: "flex-start" });
 const compactField = css({ display: "flex", flexDirection: "column", alignItems: "flex-start" });
 const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
 
-export const RssFeedConfigScreen = ({
-  saveConfiguration,
-  currentConfig,
-}: WidgetConfigurationScreenProps<RssFeedConfig>) => {
+export const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigScreenProps<RssFeedConfig>) => {
   const onConfirm = () => {
     const cleanedUrls = urls.map((u) => u.url).filter((u) => !!u);
     if (cleanedUrls.length) {

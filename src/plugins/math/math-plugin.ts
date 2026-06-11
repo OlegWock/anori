@@ -9,7 +9,5 @@ export const mathPlugin = definePlugin({
     return translate("math-plugin.name");
   },
   icon: builtinIcons.calculator,
-  configurationScreen: null,
-})
-  .withWidgets(widgetDescriptor, expandableWidgetDescriptor)
-  .build();
+  widgets: [widgetDescriptor, expandableWidgetDescriptor],
+}).build();

@@ -10,9 +10,8 @@ export const iframePlugin = definePlugin({
     return translate("iframe-plugin.name");
   },
   icon: builtinIcons.pip,
-  configurationScreen: null,
+  widgets: [widgetDescriptor, widgetDescriptorExpandable],
 })
-  .withWidgets(widgetDescriptor, widgetDescriptorExpandable)
   .withOnStart(() => {
     plantWebRequestHandler();
   })

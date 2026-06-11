@@ -1,4 +1,4 @@
-import type { WidgetRenderProps } from "@anori/utils/plugins/define2";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

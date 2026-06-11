@@ -11,7 +11,5 @@ export const topSitesPlugin = definePlugin({
     return translate("top-sites-plugin.name");
   },
   icon: builtinIcons.listOl,
-  configurationScreen: null,
-})
-  .withWidgets(topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical)
-  .build();
+  widgets: [topSitesWidgetDescriptorHorizontal, topSitesWidgetDescriptorVertical],
+}).build();

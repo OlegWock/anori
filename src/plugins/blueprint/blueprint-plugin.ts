@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
-import { type ContextOf, definePlugin } from "@anori/utils/plugins/define2";
+import { type ContextOf, definePlugin } from "@anori/utils/plugins/define";
 import { updateAllWidgets } from "./background";
 import { handlers } from "./messaging";
 import { blueprintPluginConfigSchema } from "./types";

@@ -4,7 +4,7 @@ import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageFile } from "@anori/utils/storage-lib/react";
 import { useEffect, useMemo, useState } from "react";
@@ -30,7 +30,7 @@ const ACCEPTED_IMAGE_TYPES = ".png,.jpg,.jpeg,.gif,.webp,.svg";
 export const PictureConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<PicturePluginWidgetConfig>) => {
+}: WidgetConfigScreenProps<PicturePluginWidgetConfig>) => {
   const { t } = useTranslation();
   const [source, setSource] = useState<Source>(currentConfig?.source === "local" ? "local" : "url");
   const [url, setUrl] = useState(currentConfig?.url ?? "https://picsum.photos/800");

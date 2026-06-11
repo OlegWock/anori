@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
-import { definePlugin } from "@anori/utils/plugins/define2";
+import { definePlugin } from "@anori/utils/plugins/define";
 import { datetimeWidgetDescriptorM, datetimeWidgetDescriptorS } from "./widgets/descriptors";
 
 export const datetimePlugin = definePlugin({

@@ -4,8 +4,8 @@
 
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { LinkIconButton } from "@anori/design-system/components/LinkIconButton/LinkIconButton";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { ensureDnrRules } from "@anori/utils/plugins/dnr";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";

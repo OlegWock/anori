@@ -1,5 +1,5 @@
 import { translate } from "@anori/translations/utils";
-import { defineWidget, type WidgetConfigScreenProps, type WidgetRenderProps } from "@anori/utils/plugins/define2";
+import { defineWidget, type WidgetConfigScreenProps, type WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { DatetimeWidgetConfig } from "../types";
 import { DatetimeWidget } from "./DatetimeWidget";
 import { ConfigScreen } from "./DatetimeWidgetConfig";

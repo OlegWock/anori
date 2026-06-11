@@ -11,7 +11,5 @@ export const weatherPlugin = definePlugin({
     return translate("weather-plugin.name");
   },
   icon: builtinIcons.weather.partlyCloudy,
-  configurationScreen: null,
-})
-  .withWidgets(weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast)
-  .build();
+  widgets: [weatherWidgetDescriptorCurrent, weatherWidgetDescriptorForecast],
+}).build();

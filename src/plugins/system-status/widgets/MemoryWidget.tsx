@@ -1,5 +1,5 @@
 import { isChromeLike } from "@anori/utils/browser";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import { useEffect, useState } from "react";
 import browser from "webextension-polyfill";

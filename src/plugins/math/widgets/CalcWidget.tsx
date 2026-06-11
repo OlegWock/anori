@@ -1,4 +1,4 @@
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import type { EmptyObject } from "@anori/utils/types";
 import { css } from "styled-system/css";

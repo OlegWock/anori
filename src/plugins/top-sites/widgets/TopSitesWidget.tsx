@@ -8,7 +8,7 @@ import { useParentFolder } from "@anori/utils/FolderContentContext";
 import { useLinkNavigationState } from "@anori/utils/hooks";
 import { parseHost } from "@anori/utils/misc";
 import type { CorrectPermission } from "@anori/utils/permissions";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import type { EmptyObject } from "@anori/utils/types";
 import { useEffect, useMemo, useState } from "react";

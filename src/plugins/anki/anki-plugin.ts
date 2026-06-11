@@ -9,7 +9,5 @@ export const ankiPlugin = definePlugin({
     return translate("anki-plugin.name");
   },
   icon: builtinIcons.albums,
-  configurationScreen: null,
-})
-  .withWidgets(widgetDescriptor)
-  .build();
+  widgets: [widgetDescriptor],
+}).build();

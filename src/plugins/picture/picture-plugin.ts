@@ -9,7 +9,5 @@ export const picturePlugin = definePlugin({
     return translate("picture-plugin.name");
   },
   icon: builtinIcons.picture,
-  configurationScreen: null,
-})
-  .withWidgets(widgetDescriptor)
-  .build();
+  widgets: [widgetDescriptor],
+}).build();

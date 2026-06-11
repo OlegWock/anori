@@ -3,7 +3,7 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { usePrevious } from "@anori/utils/hooks";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useDirection } from "@radix-ui/react-direction";
 import moment from "moment-timezone";
 import { AnimatePresence, m } from "motion/react";

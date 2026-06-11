@@ -2,7 +2,7 @@ import { Select } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { useAsyncEffect } from "@anori/utils/hooks";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
@@ -16,7 +16,7 @@ const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 export const WidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<AnkiPluginWidgetConfigType>) => {
+}: WidgetConfigScreenProps<AnkiPluginWidgetConfigType>) => {
   const [deckName, setDeckName] = useState(currentConfig?.deckName ?? "Default");
   const [decks, setDecks] = useState<Record<string, number>>({});
   const [reachable, setReachable] = useState(false);

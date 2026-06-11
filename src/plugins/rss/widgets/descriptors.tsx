@@ -1,8 +1,8 @@
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { parseHost } from "@anori/utils/misc";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { defineWidget } from "@anori/utils/plugins/define";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import type { RssFeedConfig, RssLatestPostConfig } from "../types";
 import { RssFeed, RssFeedMock } from "./RssFeedWidget";
 import { RssFeedConfigScreen } from "./RssFeedWidgetConfig";

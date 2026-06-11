@@ -8,7 +8,5 @@ export const testPlugin = definePlugin({
     return "Test plugin";
   },
   icon: builtinIcons.plugin,
-  configurationScreen: null,
-})
-  .withWidgets(expandableWidgetDescriptor, resizableWidgetDescriptor)
-  .build();
+  widgets: [expandableWidgetDescriptor, resizableWidgetDescriptor],
+}).build();

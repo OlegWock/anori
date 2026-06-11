@@ -4,7 +4,7 @@ import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useLinkNavigationState } from "@anori/utils/hooks";
 import { normalizeUrl } from "@anori/utils/misc";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { isMacLike } from "@anori/utils/shortcuts";
 import type { MouseEventHandler } from "react";

@@ -10,7 +10,7 @@ Browser extension (Chrome MV3 + Firefox MV2) that lets users compose their own n
 
 ## Project Structure
 
-- `src/plugins/` — all plugins, each provides widgets via `definePlugin().withWidgets()`
+- `src/plugins/` — all plugins, each provides widgets via `definePlugin({ widgets })`
 - `src/components/` — shared React components
 - `src/pages/` — extension pages (auto-discovered by rspack)
 - `src/contentscripts/` — content scripts (auto-discovered)
@@ -27,7 +27,7 @@ TypeScript only. Use `assertValue()` from `@anori/utils/asserts` instead of `!` 
 Full rules: @.ai/base.md
 
 ### Plugins & Widgets
-Widgets are the main building block. Plugins provide widgets via `definePlugin`/`defineWidget` and are registered in `src/plugins/all.ts`. `definePlugin` accepts static fields (id, name, icon, configurationScreen); after `.withWidgets()`, optional builder methods `.withOnMessage()`, `.withScheduledCallback()`, `.withOnStart()` can be chained in any order; `.build()` is required as the final call. `withScheduledCallback` and `withOnStart` callbacks receive `self` (the fully-typed plugin), avoiding circular imports in multi-file plugins. Widgets have access to hooks like `useWidgetMetadata()`, `useParentFolder()`, `useSizeSettings()`, and storage APIs (`usePluginStorage`, `useWidgetStorage`). Small plugins live in a single file; larger ones split into `types.ts`, `storage.ts`, `messaging.ts`, `background.ts`, and a `widgets/` subfolder with per-widget components, config screens, and `descriptors.ts`. Wrap every widget `mainScreen`/`mock` component in `React.memo` (named function, not anonymous arrow) — the folder grid re-renders for reasons unrelated to any one widget, and `memo` lets it bail; see `blueprint`'s `BlueprintWidget`.
+Widgets are the main building block. Plugins provide widgets via `definePlugin`/`defineWidget` (from `@anori/utils/plugins/define`) and are registered in `src/plugins/all.ts`. A plugin has an **identity** — `definePlugin({ id, name, icon, config?, widgets })` — and **behaviors** chained on it: `.withMessaging()`, `.withScheduledCallback(intervalMinutes, cb)`, `.withOnStart(cb)`, then `.build()` (required). Behavior callbacks receive a typed `PluginContext` (`ctx.getWidgets()` — instances typed/correlated per descriptor; `ctx.getConfig()` — plugin config); recover its type with `export type FooContext = ContextOf<typeof base>` and import it **type-only** into `background.ts` (avoids the plugin↔background cycle). `config?: { parse, configurationScreen }` declares plugin-level config shared across widgets (delivered to widgets as `pluginConfig`). `defineWidget` takes an optional `parse` (zod seam; defaults to a cast); widgets get `WidgetRenderProps<WidgetConfig, PluginConfig>`. Widgets also have hooks like `useWidgetMetadata()`, `useParentFolder()`, `useSizeSettings()`, and storage APIs (`usePluginStorage`, `useWidgetStorage`). Small plugins live in a single file; larger ones split into `types.ts`, `storage.ts`, `messaging.ts`, `background.ts`, and a `widgets/` subfolder with per-widget components, config screens, and `descriptors.ts`. Wrap every widget `mainScreen`/`mock` component in `React.memo` (named function, not anonymous arrow) — the folder grid re-renders for reasons unrelated to any one widget, and `memo` lets it bail; see `blueprint`'s `BlueprintWidget`.
 Full rules: @.ai/plugins.md
 
 ### Styling

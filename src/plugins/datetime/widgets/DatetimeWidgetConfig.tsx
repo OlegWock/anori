@@ -3,7 +3,7 @@ import { Button } from "@anori/design-system/components/Button/Button";
 import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
-import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define2";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { capitalize } from "@anori/utils/strings";
 import moment from "moment-timezone";
 import { useMemo, useState } from "react";

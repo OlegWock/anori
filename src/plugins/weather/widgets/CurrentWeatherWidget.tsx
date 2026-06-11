@@ -3,7 +3,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useMirrorStateToRef } from "@anori/utils/hooks";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { WeatherCurrentWidgetStore } from "@anori/utils/storage";
 import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
