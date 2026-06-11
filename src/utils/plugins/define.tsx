@@ -56,11 +56,27 @@ export const defineWidget = <Id extends string, WC extends Mapping = EmptyObject
   def: WidgetDef<Id, WC, PC>,
 ): WidgetDef<Id, WC, PC> => def;
 
+// Both `WC` and `PC` sit in contravariant (component-prop) positions inside `WidgetDef`, so a concrete
+// `WidgetDef<Id, SpecificConfig, SpecificPluginConfig>` is NOT assignable to `WidgetDef<…, Mapping, Mapping>`
+// (TS 6 enforces this; TS 5.9 let it slide). Every registry/assembly boundary below erases widgets to
+// `SomeWidget` anyway, so bound the heterogeneous widget list with `any` in those slots to opt out of the
+// variance check. The concrete `Widgets` tuple a plugin passes is still inferred precisely, so
+// `WidgetInstance` / `getWidgets()` config types stay fully typed.
+// biome-ignore lint/suspicious/noExplicitAny: deliberate variance erasure at the registry boundary
+type AnyWidgetDef = WidgetDef<string, any, any>;
+
+// Same story for message handlers: a concrete handler's `args` is an input, so the typed bag
+// `createOnMessageHandlers` returns isn't assignable to the erased `Record<string, (args: unknown) => …>`
+// on SomePlugin under TS 6. Accept it via a bivariant `any` arg (which is still assignable to the erased
+// `unknown` form on storage), keeping the per-command typing the author wrote intact at the call site.
+// biome-ignore lint/suspicious/noExplicitAny: bivariant arg position to accept any concrete handler bag
+type MessageHandlers = Record<string, (args: any, senderTab?: number) => unknown>;
+
 // ── Behaviour context — derived from the standalone widget list + plugin config, never the assembled plugin ──
 type WidgetInstance<W> =
   W extends WidgetDef<infer Id, infer WC, infer _PC> ? { instanceId: string; widgetId: Id; config: WC } : never;
 
-export type PluginContext<Widgets extends readonly WidgetDef<string, Mapping, Mapping>[], PC extends Mapping> = {
+export type PluginContext<Widgets extends readonly AnyWidgetDef[], PC extends Mapping> = {
   pluginId: string;
   getConfig: () => Promise<PC | undefined>;
   getWidgets: () => Promise<WidgetInstance<Widgets[number]>[]>;
@@ -74,7 +90,7 @@ const usePluginConfigValue = <PC extends Mapping>(pluginId: string, parse: Parse
 };
 
 // ── Assembly ──
-type PluginSpec<Id extends string, PC extends Mapping, Widgets extends readonly WidgetDef<string, Mapping, PC>[]> = {
+type PluginSpec<Id extends string, PC extends Mapping, Widgets extends readonly AnyWidgetDef[]> = {
   id: Id;
   name: string;
   icon: string;
@@ -86,14 +102,14 @@ type PluginSpec<Id extends string, PC extends Mapping, Widgets extends readonly 
   };
 };
 
-type Behaviors<Widgets extends readonly WidgetDef<string, Mapping, Mapping>[], PC extends Mapping> = {
+type Behaviors<Widgets extends readonly AnyWidgetDef[], PC extends Mapping> = {
   onMessage?: SomePlugin["onMessage"];
   onStart?: (ctx: PluginContext<Widgets, PC>) => void;
   scheduled?: { intervalInMinutes: number; callback: (ctx: PluginContext<Widgets, PC>) => void };
 };
 
-export type PluginBuilder<Widgets extends readonly WidgetDef<string, Mapping, Mapping>[], PC extends Mapping> = {
-  withMessaging: (handlers: NonNullable<SomePlugin["onMessage"]>) => PluginBuilder<Widgets, PC>;
+export type PluginBuilder<Widgets extends readonly AnyWidgetDef[], PC extends Mapping> = {
+  withMessaging: (handlers: MessageHandlers) => PluginBuilder<Widgets, PC>;
   withScheduledCallback: (
     intervalInMinutes: number,
     callback: (ctx: PluginContext<Widgets, PC>) => void,
@@ -106,11 +122,7 @@ export type PluginBuilder<Widgets extends readonly WidgetDef<string, Mapping, Ma
 // separate file can type its `ctx` without hand-writing `PluginContext<…>`.
 export type ContextOf<B> = B extends PluginBuilder<infer Widgets, infer PC> ? PluginContext<Widgets, PC> : never;
 
-const toSomeWidget = (
-  def: WidgetDef<string, Mapping, Mapping>,
-  pluginId: string,
-  parsePluginConfig?: Parse<Mapping>,
-): SomeWidget => {
+const toSomeWidget = (def: AnyWidgetDef, pluginId: string, parsePluginConfig?: Parse<Mapping>): SomeWidget => {
   const Main = def.mainScreen;
   const Config = def.configurationScreen;
   const parse = def.parse ?? ((raw: unknown) => raw as Mapping);
@@ -137,7 +149,7 @@ const toSomeWidget = (
 export const definePlugin = <
   Id extends string,
   PC extends Mapping = EmptyObject,
-  const Widgets extends readonly WidgetDef<string, Mapping, PC>[] = readonly WidgetDef<string, Mapping, PC>[],
+  const Widgets extends readonly AnyWidgetDef[] = readonly AnyWidgetDef[],
 >(
   spec: PluginSpec<Id, PC, Widgets>,
 ) => {
