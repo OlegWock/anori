@@ -120,13 +120,6 @@ export const setFolderDetails = async (id: ID, details: FolderDetails): Promise<
 
 export const useFolderWidgets = (folder: Folder) => {
   const [details, setDetails] = useStorageValue(anoriSchema.folderDetails.folder.byId(folder.id));
-  console.log(
-    "Folder",
-    folder.id,
-    folder.name,
-    "details",
-    getAnoriStorageNoWait().get(anoriSchema.folderDetails.folder.byId(folder.id)),
-  );
   const currentDetails = details ?? { widgets: [] };
 
   const addWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>({
