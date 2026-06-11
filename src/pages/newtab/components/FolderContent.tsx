@@ -151,7 +151,6 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
 
   useHotkeys("alt+e", () => {
     setIsEditing(true);
-    setNewWidgetWizardVisible(true);
   });
 
   useHotkeys("alt+a", () => {
