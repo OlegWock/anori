@@ -8,7 +8,7 @@ import { positionToPixelPosition, snapToSector } from "@anori/utils/grid/utils";
 import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
 import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
-import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import clsx from "clsx";
@@ -143,9 +143,9 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
   }
 }
 
-type WidgetCardProps<WD extends WidgetDescriptor[], W extends WD[number]> = {
-  widget: W;
-  plugin: AnoriPlugin<string, Mapping, WD>;
+type WidgetCardProps = {
+  widget: SomeWidget;
+  plugin: SomePlugin;
 } & (
   | {
       type: "mock";
@@ -162,11 +162,11 @@ type WidgetCardProps<WD extends WidgetDescriptor[], W extends WD[number]> = {
     }
   | {
       type: "widget";
-      config: ConfigFromWidgetDescriptor<W>;
+      config: unknown;
       instanceId: string;
       size: GridItemSize;
       position: GridPosition;
-      onUpdateConfig: (instanceId: string, config: Partial<ConfigFromWidgetDescriptor<W>>) => void;
+      onUpdateConfig: (instanceId: string, config: Partial<Mapping>) => void;
       onRemove?: () => void;
       onEdit?: () => void;
       onResize?: (newWidth: number, newHeight: number) => boolean | undefined;
@@ -176,7 +176,7 @@ type WidgetCardProps<WD extends WidgetDescriptor[], W extends WD[number]> = {
 ) &
   Omit<ComponentProps<typeof m.div>, "children" | "onDragEnd" | "onResize">;
 
-export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>({
+export const WidgetCard = ({
   className,
   style,
   widget,
@@ -193,7 +193,7 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
   onPositionChange,
   onMoveToFolder,
   ...props
-}: WidgetCardProps<WD, W>) => {
+}: WidgetCardProps) => {
   const convertUnitsToPixels = (unit: number) => unit * grid.boxSize - gapSize * 2;
 
   const convertPixelsToUnits = (px: number) => Math.round((px + gapSize * 2) / grid.boxSize);
@@ -432,8 +432,7 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
   // onUpdateConfig is the folder's stable updateWidgetConfig(instanceId, config); bind this card's
   // instanceId here so the metadata context exposes a stable `updateConfig(config)`.
   const updateConfig = useCallback(
-    (newConf: Partial<Mapping>) =>
-      onUpdateConfig?.(instanceId ?? "mock", newConf as Partial<ConfigFromWidgetDescriptor<W>>),
+    (newConf: Partial<Mapping>) => onUpdateConfig?.(instanceId ?? "mock", newConf),
     [onUpdateConfig, instanceId],
   );
   const widgetMetadata = useMemo<WidgetMetadataContextType>(
@@ -442,7 +441,7 @@ export const WidgetCard = <WD extends WidgetDescriptor[], W extends WD[number]>(
       widgetId: widget.id,
       instanceId: instanceId ?? "mock",
       size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
-      config: config ?? EMPTY_CONFIG,
+      config: (config ?? EMPTY_CONFIG) as Mapping,
       updateConfig,
     }),
     [

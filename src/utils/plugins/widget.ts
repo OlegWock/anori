@@ -1,18 +1,14 @@
 import type { GridItemSize } from "@anori/utils/grid/types";
-import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
-import type { EmptyObject, ID, Mapping } from "@anori/utils/types";
-import {
-  type DistributedWidgetInFolderWithMeta,
-  homeFolder,
-  type WidgetInFolder,
-  type WidgetInFolderWithMeta,
-} from "@anori/utils/user-data/types";
+import type { EmptyObject, Mapping } from "@anori/utils/types";
+import { homeFolder, type WidgetInFolder, type WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { createContext, useContext } from "react";
 
-export const getAllWidgetsByPlugin = async <PID extends ID, WD extends WidgetDescriptor[]>(
-  plugin: AnoriPlugin<PID, Mapping, WD>,
-) => {
+// Erased in, erased out: every caller is a plugin background task that's generic over its plugin (to dodge
+// the plugin↔background circular import), so the concrete config types are unavailable to them anyway —
+// they narrow `configuration` (an opaque Mapping) at use. No point pretending the input/output is specific.
+export const getAllWidgetsByPlugin = async (plugin: SomePlugin): Promise<WidgetInFolderWithMeta[]> => {
   const storage = await getAnoriStorage();
 
   const foldersFromStorage = storage.get(anoriSchema.folders);
@@ -27,19 +23,14 @@ export const getAllWidgetsByPlugin = async <PID extends ID, WD extends WidgetDes
   }
 
   return allWidgets
-    .filter((w): w is WidgetInFolder<PID, WD> => w.pluginId === plugin.id)
+    .filter((w) => w.pluginId === plugin.id)
     .map((w) => {
       const widget = plugin.widgets.find((d) => d.id === w.widgetId);
       if (!widget) {
         throw new Error(`couldn't find widget with id ${w.widgetId} for plugin ${plugin.id}`);
       }
-
-      return {
-        ...w,
-        widget,
-        plugin,
-      } satisfies WidgetInFolderWithMeta<PID, WD>;
-    }) as DistributedWidgetInFolderWithMeta<PID, WD>[];
+      return { ...w, widget, plugin } satisfies WidgetInFolderWithMeta;
+    });
 };
 
 export type WidgetMetadataContextType<WidgetConfigT extends Mapping = Mapping> = {
@@ -70,8 +61,8 @@ export const useWidgetMetadata = <WidgetConfigT extends Mapping = EmptyObject>()
   return val;
 };
 
-export const isWidgetNonConfigurable = <I extends ID>(
-  descriptor: WidgetDescriptor<I>,
-): descriptor is WidgetDescriptor<I> & { configurationScreen: null } => {
+export const isWidgetNonConfigurable = (
+  descriptor: SomeWidget,
+): descriptor is SomeWidget & { configurationScreen: null } => {
   return !descriptor.configurationScreen;
 };

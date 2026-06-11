@@ -6,8 +6,6 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
 import { useHotkeys } from "@anori/utils/hooks";
-import type { WidgetDescriptor } from "@anori/utils/plugins/types";
-import type { ID } from "@anori/utils/types";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import clsx from "clsx";
@@ -115,11 +113,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig } = useFolderWidgets(folder);
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
   const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
-  const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta<
-    ID,
-    WidgetDescriptor[],
-    WidgetDescriptor
-  >>(null);
+  const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta>(null);
 
   const { blockSize, minBlockSize, gapSize } = useSizeSettings();
   const { t } = useTranslation();

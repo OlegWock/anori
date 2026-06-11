@@ -1,7 +1,6 @@
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import type { WidgetDescriptor } from "@anori/utils/plugins/types";
-import type { ID, Mapping } from "@anori/utils/types";
+import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { m } from "motion/react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +22,7 @@ const content = css({
 });
 
 type EditWidgetModalProps = {
-  widget: WidgetInFolderWithMeta<ID, WidgetDescriptor[], WidgetDescriptor>;
+  widget: WidgetInFolderWithMeta;
   onUpdateConfig: (instanceId: string, config: Partial<Mapping>) => void;
   onClose: () => void;
 };
@@ -41,8 +40,8 @@ export const EditWidgetModal = ({ widget, onUpdateConfig, onClose }: EditWidgetM
             instanceId={widget.instanceId}
             widgetId={widget.widgetId}
             currentConfig={widget.configuration}
-            saveConfiguration={(config) => {
-              onUpdateConfig(widget.instanceId, config);
+            saveConfiguration={(config: unknown) => {
+              onUpdateConfig(widget.instanceId, config as Partial<Mapping>);
               onClose();
             }}
           />

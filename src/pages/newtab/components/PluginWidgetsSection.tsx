@@ -1,12 +1,12 @@
 import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
-import type { AnoriPlugin, WidgetDescriptor } from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import type { Ref } from "react";
 import { css } from "styled-system/css";
 
 export type PluginWidgetsSectionProps = {
-  plugin: AnoriPlugin;
-  onWidgetClick: (widget: WidgetDescriptor, plugin: AnoriPlugin) => void;
+  plugin: SomePlugin;
+  onWidgetClick: (widget: SomeWidget, plugin: SomePlugin) => void;
   ref?: Ref<HTMLElement>;
 };
 

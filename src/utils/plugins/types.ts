@@ -2,19 +2,19 @@ import type { GridItemSize } from "@anori/utils/grid/types";
 import type { EmptyObject, ID, Mapping } from "@anori/utils/types";
 import type { ComponentType } from "react";
 
-export type WidgetConfigurationScreenProps<T extends Mapping> = {
+export type WidgetConfigurationScreenProps<T> = {
   widgetId: ID;
   instanceId?: ID;
   currentConfig?: T;
   saveConfiguration: (config: T) => void;
 };
 
-export type PluginConfigurationScreenProps<T extends Mapping> = {
+export type PluginConfigurationScreenProps<T> = {
   currentConfig?: T;
   saveConfiguration: (config: T) => void;
 };
 
-export type WidgetRenderProps<T extends Mapping = Mapping> = {
+export type WidgetRenderProps<T = Mapping> = {
   config: T;
   instanceId: string;
 };
@@ -76,4 +76,17 @@ export type AnoriPlugin<
     intervalInMinutes: number;
     callback: () => void;
   };
+};
+
+// A plugin/widget with its config type erased — the form the registry holds and the render pipeline
+// consumes (produced from a concrete plugin by `erasePlugin`). Config is `unknown`; narrow/parse it at the
+// point of use. The concrete config types stay inside each plugin's own folder; only this boundary is opaque.
+export type SomeWidget = Omit<WidgetDescriptor, "mainScreen" | "configurationScreen"> & {
+  mainScreen: ComponentType<WidgetRenderProps<unknown>>;
+  configurationScreen: ComponentType<WidgetConfigurationScreenProps<unknown>> | null;
+};
+
+export type SomePlugin = Omit<AnoriPlugin, "widgets" | "configurationScreen"> & {
+  widgets: SomeWidget[];
+  configurationScreen: ComponentType<PluginConfigurationScreenProps<unknown>> | null;
 };

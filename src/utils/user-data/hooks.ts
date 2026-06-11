@@ -5,12 +5,7 @@ import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/gr
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
 import { useLocationHash } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
-import type {
-  AnoriPlugin,
-  ConfigFromWidgetDescriptor,
-  IDFromWidgetDescriptor,
-  WidgetDescriptor,
-} from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { clearWidgetStorage } from "@anori/utils/scoped-store";
 import { anoriSchema, type FolderDetails, getAnoriStorage, getAnoriStorageNoWait } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
@@ -127,24 +122,24 @@ export const useFolderWidgets = (folder: Folder) => {
   const [details, setDetails] = useStorageValue(anoriSchema.folderDetails.folder.byId(folder.id));
   const currentDetails = details ?? { widgets: [] };
 
-  const addWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>({
+  const addWidget = async ({
     plugin,
     widget,
     config,
     position,
     size,
   }: {
-    widget: W;
-    plugin: AnoriPlugin<string, Mapping, WD>;
-    config: ConfigFromWidgetDescriptor<W>;
+    widget: SomeWidget;
+    plugin: SomePlugin;
+    config: Mapping;
     position: GridPosition;
     size?: GridItemSize;
   }) => {
     const instanceId = guid();
 
-    const data: WidgetInFolder<ID, WD, W> = {
+    const data: WidgetInFolder = {
       pluginId: plugin.id,
-      widgetId: widget.id as IDFromWidgetDescriptor<W>,
+      widgetId: widget.id,
       instanceId,
       configuration: config,
       ...(size ? size : widget.appearance.size),
@@ -283,8 +278,8 @@ export const useFolderWidgets = (folder: Folder) => {
           return !!plugin.widgets.flat().find((d) => d.id === w.widgetId);
         })
         .map((w) => {
-          const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId) as AnoriPlugin;
-          const widget = plugin.widgets.flat().find((d) => d.id === w.widgetId) as WidgetDescriptor;
+          const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId) as SomePlugin;
+          const widget = plugin.widgets.find((d) => d.id === w.widgetId) as SomeWidget;
 
           return {
             ...w,

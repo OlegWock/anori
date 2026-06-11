@@ -1,12 +1,7 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
 import type { GridItem } from "@anori/utils/grid/types";
-import type {
-  AnoriPlugin,
-  ConfigFromWidgetDescriptor,
-  IDFromWidgetDescriptor,
-  WidgetDescriptor,
-} from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import type { ID, Mapping } from "@anori/utils/types";
 
 export type Folder = {
@@ -19,32 +14,19 @@ export type FolderDetailsInStorage = {
   widgets: WidgetInFolder[];
 };
 
-export type WidgetInFolder<
-  PID extends ID = ID,
-  WD extends WidgetDescriptor[] = WidgetDescriptor[],
-  W extends WD[number] = WD[number],
-  WID extends IDFromWidgetDescriptor<W> = IDFromWidgetDescriptor<W>,
-> = {
-  pluginId: PID;
-  widgetId: WID;
+// A widget instance as stored in a folder. `configuration` is the persisted JSON object; its concrete
+// shape lives inside the owning widget, so consumers get the opaque `Mapping` and narrow at the point of use.
+export type WidgetInFolder = {
+  pluginId: string;
+  widgetId: string;
   instanceId: ID;
-  configuration: ConfigFromWidgetDescriptor<W>;
+  configuration: Mapping;
 } & GridItem;
 
-export type WidgetInFolderWithMeta<
-  PID extends ID = ID,
-  WD extends WidgetDescriptor[] = WidgetDescriptor[],
-  W extends WD[number] = WD[number],
-  WID extends IDFromWidgetDescriptor<W> = IDFromWidgetDescriptor<W>,
-> = WidgetInFolder<PID, WD, W, WID> & {
-  plugin: AnoriPlugin<PID, Mapping, WD>;
-  widget: W;
+export type WidgetInFolderWithMeta = WidgetInFolder & {
+  plugin: SomePlugin;
+  widget: SomeWidget;
 };
-
-export type DistributedWidgetInFolderWithMeta<
-  PID extends ID = ID,
-  WD extends WidgetDescriptor[] = WidgetDescriptor[],
-> = WD extends (infer W)[] ? (W extends WD[number] ? WidgetInFolderWithMeta<PID, WD, W> : never) : never;
 
 export const homeFolder = {
   id: "home",

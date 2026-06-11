@@ -1,9 +1,13 @@
-import type { AnoriPlugin } from "@anori/utils/plugins/types";
+import type { AnoriPlugin, SomePlugin } from "@anori/utils/plugins/types";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { Mapping } from "@anori/utils/types";
 import type { SetStateAction } from "react";
 
+// Config-erased plugin (from the registry): config is `unknown`, the consumer narrows it.
+export function usePluginConfig(
+  plugin: SomePlugin,
+): readonly [value: unknown, setValue: (val: SetStateAction<unknown>) => Promise<void>];
 export function usePluginConfig<T extends Mapping>(
   plugin: AnoriPlugin<string, T>,
 ): readonly [value: T | undefined, setValue: (val: SetStateAction<T | undefined>) => Promise<void>];
@@ -12,7 +16,7 @@ export function usePluginConfig<T extends Mapping>(
   defaultConfig: T,
 ): readonly [value: T, setValue: (val: SetStateAction<T | undefined>) => Promise<void>];
 export function usePluginConfig<T extends Mapping>(
-  plugin: AnoriPlugin<string, T>,
+  plugin: AnoriPlugin<string, T> | SomePlugin,
   defaultConfig?: T,
 ): readonly [value: T | undefined, setValue: (val: SetStateAction<T | undefined>) => Promise<void>] {
   const query = anoriSchema.pluginConfig.config.byId(plugin.id);

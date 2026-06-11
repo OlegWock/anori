@@ -8,7 +8,7 @@ import { MotionScrollArea, ScrollArea } from "@anori/design-system/components/Sc
 import { availablePluginsWithWidgets } from "@anori/plugins/all";
 import type { GridContent, GridDimensions } from "@anori/utils/grid/types";
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
-import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { isWidgetNonConfigurable } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import { useFolderWidgets } from "@anori/utils/user-data/hooks";
@@ -55,11 +55,7 @@ const widgetsArea = css({ flex: 1, pr: "4" });
 const widgetsContent = css({ display: "flex", flexDirection: "column", gap: "6" });
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
-  const tryAddWidget = async <WD extends WidgetDescriptor[], W extends WD[number]>(
-    plugin: AnoriPlugin<string, Mapping, WD>,
-    widget: W,
-    config: ConfigFromWidgetDescriptor<W>,
-  ) => {
+  const tryAddWidget = async (plugin: SomePlugin, widget: SomeWidget, config: Mapping) => {
     console.log({ gridDimensions, layout });
     let position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
     if (!position) {
@@ -80,12 +76,9 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
     onClose();
   };
 
-  const onWidgetClick = <WD extends WidgetDescriptor[], W extends WD[number]>(
-    widget: W,
-    plugin: AnoriPlugin<string, Mapping, WD>,
-  ) => {
+  const onWidgetClick = (widget: SomeWidget, plugin: SomePlugin) => {
     if (isWidgetNonConfigurable(widget)) {
-      tryAddWidget(plugin, widget, {} as ConfigFromWidgetDescriptor<typeof widget>);
+      tryAddWidget(plugin, widget, {});
     } else {
       setSelectedPlugin(plugin);
       setSelectedWidget(widget);
@@ -95,8 +88,8 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
   const { addWidget } = useFolderWidgets(folder);
   const [_searchQuery, setSearchQuery] = useState("");
   const searchQuery = _searchQuery.toLowerCase();
-  const [selectedPlugin, setSelectedPlugin] = useState<AnoriPlugin | undefined>(undefined);
-  const [selectedWidget, setSelectedWidget] = useState<WidgetDescriptor | undefined>(undefined);
+  const [selectedPlugin, setSelectedPlugin] = useState<SomePlugin | undefined>(undefined);
+  const [selectedWidget, setSelectedWidget] = useState<SomeWidget | undefined>(undefined);
   const { t } = useTranslation();
   const dir = useDirection();
   const pluginSectionRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -150,7 +143,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
           >
             <selectedWidget.configurationScreen
               widgetId={selectedWidget.id}
-              saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config)}
+              saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config as Mapping)}
             />
           </MotionScrollArea>
         )}

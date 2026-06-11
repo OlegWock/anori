@@ -1,4 +1,5 @@
 import { normalizeUrl } from "@anori/utils/misc";
+import { erasePlugin } from "@anori/utils/plugins/erase";
 import type { AnoriPlugin } from "@anori/utils/plugins/types";
 import { getAllWidgetsByPlugin } from "@anori/utils/plugins/widget";
 import type { BookmarkWidgetStore } from "@anori/utils/storage";
@@ -17,8 +18,8 @@ const getPageStatus = async (url: string): Promise<"up" | "down"> => {
   }
 };
 
-export const updateStatusesForTrackedPages = async <P extends AnoriPlugin>(plugin: P) => {
-  const widgets = await getAllWidgetsByPlugin(plugin);
+export const updateStatusesForTrackedPages = async (plugin: AnoriPlugin) => {
+  const widgets = await getAllWidgetsByPlugin(erasePlugin(plugin));
   const widgetsToCheck = widgets
     .filter((w) => w.widgetId === "bookmark")
     .filter((w) => (w.configuration as BookmarkWidgetConfig).checkStatus);

@@ -1,9 +1,8 @@
 import { Onboarding } from "@anori/components/Onboarding";
 import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { MotionScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import type { GridContent, GridDimensions, GridItem, GridPosition } from "@anori/utils/grid/types";
+import type { GridDimensions, GridPosition } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@anori/utils/grid/utils";
-import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "motion/react";
@@ -33,15 +32,6 @@ const placeholderCell = css({
   pointerEvents: "none",
 });
 
-type LayoutArg<WD extends WidgetDescriptor[] = WidgetDescriptor[], W extends WD[number] = WD[number]> = {
-  pluginId: string;
-  widgetId: string;
-  instanceId: string;
-  plugin: AnoriPlugin<string, Mapping, WD>;
-  widget: W;
-  configuration: ConfigFromWidgetDescriptor<W>;
-};
-
 export type LayoutChange =
   | {
       type: "change-position";
@@ -68,8 +58,8 @@ export type WidgetsGridProps = {
   isEditing: boolean;
   gridDimensions: GridDimensions;
   gapSize: number;
-  layout: GridContent<LayoutArg>;
-  onEditWidget: (w: GridItem<LayoutArg>) => void;
+  layout: WidgetInFolderWithMeta[];
+  onEditWidget: (w: WidgetInFolderWithMeta) => void;
   onUpdateWidgetConfig: (instaceId: string, config: Partial<Mapping>) => void;
   onLayoutUpdate?: (changes: LayoutChange[]) => void;
   showOnboarding?: boolean;
