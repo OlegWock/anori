@@ -2,7 +2,7 @@ import { Button } from "@anori/design-system/components/Button/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define2";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
@@ -14,7 +14,7 @@ const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 export const BlueprintWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<BlueprintWidgetConfig>) => {
+}: WidgetConfigScreenProps<BlueprintWidgetConfig>) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState(currentConfig?.title ?? "");
   const [showIcon, setShowIcon] = useState(currentConfig?.showIcon ?? false);

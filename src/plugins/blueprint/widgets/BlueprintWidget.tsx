@@ -1,8 +1,8 @@
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define2";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
-import type { BlueprintWidgetConfig } from "../types";
+import type { BlueprintPluginConfig, BlueprintWidgetConfig } from "../types";
 
 const widget = css({
   display: "flex",
@@ -20,8 +20,9 @@ const instanceId = css({ fontSize: "sm", color: "text.placeholder" });
 // any new widget.
 export const BlueprintWidget = memo(function BlueprintWidget({
   config,
+  pluginConfig,
   instanceId: id,
-}: WidgetRenderProps<BlueprintWidgetConfig>) {
+}: WidgetRenderProps<BlueprintWidgetConfig, BlueprintPluginConfig>) {
   const { t } = useTranslation();
 
   return (
@@ -29,6 +30,8 @@ export const BlueprintWidget = memo(function BlueprintWidget({
       <div className={title}>{config.title || t("blueprint-plugin.name")}</div>
       <div className={instanceId}>Instance: {id}</div>
       {config.showIcon && <div>Icon here</div>}
+      {/* Shared plugin-level config, available to every widget of this plugin. */}
+      {pluginConfig?.apiKey && <div className={instanceId}>Using shared API key</div>}
     </div>
   );
 });
