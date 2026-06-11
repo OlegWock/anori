@@ -41,7 +41,20 @@ const root = cva({
   },
   variants: {
     size: { normal: { "--scrollbar-size": "10px" }, thin: { "--scrollbar-size": "7px" } },
-    direction: { vertical: { overflowX: "hidden" }, horizontal: {}, both: {} },
+    // Constrain the off-axis on the scrolling viewport itself. Base UI sets `overflow: scroll` inline on
+    // it, so this needs `!important` to win — otherwise a vertical area still scrolls horizontally when
+    // content is too wide (it should clip instead).
+    direction: {
+      vertical: {
+        "& .ScrollAreaViewport": { overflowX: "hidden!" },
+        // Base UI sets `min-width: fit-content` inline on the content so it can size to wide content for
+        // horizontal scrolling; in a vertical-only area that lets children ignore the viewport width.
+        // Clear it so they're constrained to the viewport (and can wrap / ellipsis instead of overflowing).
+        "& .ScrollAreaContent": { minWidth: "0!" },
+      },
+      horizontal: { "& .ScrollAreaViewport": { overflowY: "hidden!" } },
+      both: {},
+    },
   },
   defaultVariants: { size: "normal", direction: "vertical" },
 });
