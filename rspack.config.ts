@@ -182,24 +182,6 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         },
         // Styles
         {
-          test: /\.s[ac]ss$/i,
-          resourceQuery: { not: [/raw/] },
-          use: [
-            {
-              loader: "style-loader",
-            },
-            {
-              loader: "css-loader",
-              options: {
-                url: false,
-              },
-            },
-            {
-              loader: "sass-loader",
-            },
-          ],
-        },
-        {
           test: /\.css$/,
           use: [
             {
