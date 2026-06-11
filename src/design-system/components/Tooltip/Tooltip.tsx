@@ -10,7 +10,14 @@ type Align = "start" | "center" | "end";
 
 // The portal-level positioned element owns the stacking — put it on the tooltip layer so it clears the
 // frosted widgets panel (which sits in its own stacking context).
-const positioner = css({ zIndex: "tooltip" });
+const positioner = css({
+  zIndex: "tooltip",
+  // Base UI flags the positioner with data-anchor-hidden when the trigger is hidden or detached (e.g. a
+  // hover-revealed button that reverts to display:none, or a trigger that unmounts). Hide the tooltip
+  // outright in that case — otherwise the positioner reads the now-empty trigger rect and snaps to the
+  // top-left corner for the duration of its close animation.
+  "&[data-anchor-hidden]": { visibility: "hidden" },
+});
 
 const tooltip = cva({
   base: {
