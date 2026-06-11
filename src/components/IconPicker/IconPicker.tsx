@@ -1,4 +1,5 @@
 import { Select } from "@anori/components/lazy-components";
+import { Field } from "@anori/design-system/components/Field/Field";
 import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/custom-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useIconSets, useIconsSuspense } from "@anori/design-system/components/Icon/remote-icons";
@@ -234,28 +235,29 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
     <IconPickerContext.Provider value={{ rowRefs, moveFocus }}>
       <div className={iconPicker} style={{ width: GRID_WIDTH }}>
         <section className={section}>
-          <label>{t("iconsPicker.iconFamily")}:</label>
-          <Select<string>
-            options={[ALL_SETS, ...iconSetIds]}
-            value={selectedFamily}
-            onChange={setSelectedFamily}
-            getOptionKey={(o) => o}
-            getOptionLabel={(o) => (o === ALL_SETS ? t("iconsPicker.allIcons") : prettyNames[o])}
-          />
+          <Field label={`${t("iconsPicker.iconFamily")}:`}>
+            <Select<string>
+              options={[ALL_SETS, ...iconSetIds]}
+              value={selectedFamily}
+              onChange={setSelectedFamily}
+              getOptionKey={(o) => o}
+              getOptionLabel={(o) => (o === ALL_SETS ? t("iconsPicker.allIcons") : prettyNames[o])}
+            />
+          </Field>
         </section>
 
         <section className={section}>
-          <label>{t("icons")}: </label>
-
-          <div className={searchWrapper}>
-            <Input
-              ref={data.inputRef}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={t("search")}
-              onKeyUp={onInputKeydown}
-            />
-          </div>
+          <Field label={`${t("icons")}:`}>
+            <div className={searchWrapper}>
+              <Input
+                ref={data.inputRef}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t("search")}
+                onKeyUp={onInputKeydown}
+              />
+            </div>
+          </Field>
           {selectedFamily === ALL_SETS && !query && (
             <div className={tooBroadAlert}>
               <p>{t("iconsPicker.selectFamilyOrSearch")}</p>

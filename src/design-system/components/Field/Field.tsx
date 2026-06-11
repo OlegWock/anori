@@ -20,6 +20,7 @@ export type FieldProps = {
 // alignment. The wrapping <label> implicitly associates clicks/focus with the control inside.
 export const Field = ({ label, description, children, className }: FieldProps) => {
   return (
+    // biome-ignore lint/a11y/noLabelWithoutControl: control is passed as children and wrapped by this label (implicit association), which biome can't see through the children prop
     <label className={cx(field, className)}>
       <span className={fieldLabel}>{label}</span>
       {!!description && <span className={fieldDescription}>{description}</span>}
