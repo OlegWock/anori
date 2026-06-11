@@ -15,7 +15,9 @@ export const RssLatestPostConfigScreen = ({
   currentConfig,
 }: WidgetConfigurationScreenProps<RssLatestPostConfig>) => {
   const onConfirm = async () => {
-    saveConfiguration({ feedUrl });
+    const trimmedUrl = feedUrl.trim();
+    if (!trimmedUrl) return;
+    saveConfiguration({ feedUrl: trimmedUrl });
   };
 
   const [feedUrl, setFeedUrl] = useState(currentConfig ? currentConfig.feedUrl : "");
@@ -27,7 +29,7 @@ export const RssLatestPostConfigScreen = ({
         <Input value={feedUrl} onValueChange={setFeedUrl} />
       </Field>
 
-      <Button className={saveConfig} onClick={onConfirm}>
+      <Button className={saveConfig} disabled={!feedUrl.trim()} onClick={onConfirm}>
         {t("save")}
       </Button>
     </div>
