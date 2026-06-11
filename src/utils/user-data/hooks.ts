@@ -135,6 +135,12 @@ export const useFolderWidgets = (folder: Folder) => {
     position: GridPosition;
     size?: GridItemSize;
   }) => {
+    // The plugin/widget are config-erased here, so verify at runtime that the widget actually belongs to
+    // the plugin before persisting the (pluginId, widgetId) pair — a mismatch would store an unresolvable widget.
+    if (!plugin.widgets.some((w) => w.id === widget.id)) {
+      throw new Error(`Widget "${widget.id}" does not belong to plugin "${plugin.id}"`);
+    }
+
     const instanceId = guid();
 
     const data: WidgetInFolder = {
