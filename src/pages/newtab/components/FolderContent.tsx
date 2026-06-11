@@ -13,7 +13,7 @@ import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/type
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import { atom, useAtom } from "jotai";
-import { type CSSProperties, type Ref, useCallback, useRef, useState } from "react";
+import { type CSSProperties, type Ref, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -148,6 +148,13 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
 
   const shouldShowOnboarding = widgets.length === 0 && !isEditing;
 
+  // Memoized so re-renders that don't touch these values (e.g. opening the new-widget wizard / edit
+  // modal) don't change the context identity and re-render every widget reading useParentFolder.
+  const parentFolderContext = useMemo(
+    () => ({ activeFolder: folder, isEditing, grid: gridDimensions, gridRef: mainRef }),
+    [folder, isEditing, gridDimensions],
+  );
+
   useHotkeys("alt+e", () => {
     setIsEditing(true);
     setNewWidgetWizardVisible(true);
@@ -159,14 +166,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   });
 
   return (
-    <FolderContentContext.Provider
-      value={{
-        activeFolder: folder,
-        isEditing,
-        grid: gridDimensions,
-        gridRef: mainRef,
-      }}
-    >
+    <FolderContentContext.Provider value={parentFolderContext}>
       <m.div
         key={`FolderContent-${folder.id}`}
         data-folder-id={folder.id}
