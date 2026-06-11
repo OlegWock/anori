@@ -159,68 +159,85 @@ export const useFolderWidgets = (folder: Folder) => {
     return data;
   };
 
-  const removeWidget = async (id: ID) => {
-    clearWidgetStorage(id);
-    const removedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
-    if (removedWidget) {
-      trackEvent("Widget removed", {
-        "Folder": folder.id === "home" ? "home" : "other",
-        "Plugin ID": removedWidget.pluginId,
-        "Widget ID": removedWidget.widgetId,
+  // Stable across renders (deps are stable: folder.id + the jotai setter). The analytics lookup reads
+  // current widgets from storage rather than React state, so these don't need to depend on currentDetails.
+  const removeWidget = useCallback(
+    async (id: ID) => {
+      clearWidgetStorage(id);
+      const removedWidget = getAnoriStorageNoWait()
+        .get(anoriSchema.folderDetails.folder.byId(folder.id))
+        ?.widgets.find((w) => w.instanceId === id);
+      if (removedWidget) {
+        trackEvent("Widget removed", {
+          "Folder": folder.id === "home" ? "home" : "other",
+          "Plugin ID": removedWidget.pluginId,
+          "Widget ID": removedWidget.widgetId,
+        });
+      }
+      await setDetails((p) => {
+        const prev = p ?? { widgets: [] };
+        return { ...prev, widgets: prev.widgets.filter((w) => w.instanceId !== id) };
       });
-    }
-    await setDetails((p) => {
-      const prev = p ?? { widgets: [] };
-      return { ...prev, widgets: prev.widgets.filter((w) => w.instanceId !== id) };
-    });
-  };
+    },
+    [folder.id, setDetails],
+  );
 
-  const moveWidget = async (id: ID, position: GridPosition) => {
-    const movedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
-    if (movedWidget) {
-      trackEvent("Widget moved", {
-        "Folder": folder.id === "home" ? "home" : "other",
-        "To another folder": false,
-        "Plugin ID": movedWidget.pluginId,
-        "Widget ID": movedWidget.widgetId,
+  const moveWidget = useCallback(
+    async (id: ID, position: GridPosition) => {
+      const movedWidget = getAnoriStorageNoWait()
+        .get(anoriSchema.folderDetails.folder.byId(folder.id))
+        ?.widgets.find((w) => w.instanceId === id);
+      if (movedWidget) {
+        trackEvent("Widget moved", {
+          "Folder": folder.id === "home" ? "home" : "other",
+          "To another folder": false,
+          "Plugin ID": movedWidget.pluginId,
+          "Widget ID": movedWidget.widgetId,
+        });
+      }
+      await setDetails((p) => {
+        const prev = p ?? { widgets: [] };
+        return {
+          ...prev,
+          widgets: prev.widgets.map((w) => {
+            if (w.instanceId === id) {
+              return { ...w, ...position };
+            }
+            return w;
+          }),
+        };
       });
-    }
-    await setDetails((p) => {
-      const prev = p ?? { widgets: [] };
-      return {
-        ...prev,
-        widgets: prev.widgets.map((w) => {
-          if (w.instanceId === id) {
-            return { ...w, ...position };
-          }
-          return w;
-        }),
-      };
-    });
-  };
+    },
+    [folder.id, setDetails],
+  );
 
-  const resizeWidget = async (id: ID, size: GridItemSize) => {
-    const resizedWidget = currentDetails.widgets.find((w) => w.instanceId === id);
-    if (resizedWidget) {
-      trackEvent("Widget resized", {
-        "Folder": folder.id === "home" ? "home" : "other",
-        "Plugin ID": resizedWidget.pluginId,
-        "Widget ID": resizedWidget.widgetId,
+  const resizeWidget = useCallback(
+    async (id: ID, size: GridItemSize) => {
+      const resizedWidget = getAnoriStorageNoWait()
+        .get(anoriSchema.folderDetails.folder.byId(folder.id))
+        ?.widgets.find((w) => w.instanceId === id);
+      if (resizedWidget) {
+        trackEvent("Widget resized", {
+          "Folder": folder.id === "home" ? "home" : "other",
+          "Plugin ID": resizedWidget.pluginId,
+          "Widget ID": resizedWidget.widgetId,
+        });
+      }
+      await setDetails((p) => {
+        const prev = p ?? { widgets: [] };
+        return {
+          ...prev,
+          widgets: prev.widgets.map((w) => {
+            if (w.instanceId === id) {
+              return { ...w, width: size.width, height: size.height };
+            }
+            return w;
+          }),
+        };
       });
-    }
-    await setDetails((p) => {
-      const prev = p ?? { widgets: [] };
-      return {
-        ...prev,
-        widgets: prev.widgets.map((w) => {
-          if (w.instanceId === id) {
-            return { ...w, width: size.width, height: size.height };
-          }
-          return w;
-        }),
-      };
-    });
-  };
+    },
+    [folder.id, setDetails],
+  );
 
   // Stable across renders (deps are stable) so consumers — and the widget metadata context that exposes
   // it — don't churn. The analytics lookup reads current widgets from storage rather than React state.

@@ -13,7 +13,7 @@ import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/type
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
 import { atom, useAtom } from "jotai";
-import { type CSSProperties, type Ref, useRef, useState } from "react";
+import { type CSSProperties, type Ref, useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -112,20 +112,6 @@ const Header = styled("header", {
 const isEditingModeActiveAtom = atom(false);
 
 export const FolderContent = ({ folder, animationDirection, ref }: FolderContentProps) => {
-  const onLayoutUpdate = (changes: LayoutChange[]) => {
-    changes.forEach(async (ch) => {
-      if (ch.type === "remove") {
-        removeWidget(ch.instanceId);
-      } else if (ch.type === "change-position") {
-        moveWidget(ch.instanceId, ch.newPosition);
-      } else if (ch.type === "move-to-folder") {
-        tryMoveWidgetToFolder(folder.id, ch.folderId, ch.instanceId, gridDimensions);
-      } else if (ch.type === "resize") {
-        resizeWidget(ch.instanceId, { width: ch.width, height: ch.height });
-      }
-    });
-  };
-
   const { widgets, removeWidget, moveWidget, resizeWidget, updateWidgetConfig } = useFolderWidgets(folder);
   const [isEditing, setIsEditing] = useAtom(isEditingModeActiveAtom);
   const [newWidgetWizardVisible, setNewWidgetWizardVisible] = useState(false);
@@ -140,6 +126,25 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   const mainRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const gridDimensions = useGridDimensions(scrollAreaRef, blockSize, minBlockSize, widgets);
+
+  // Stable: the folder mutators are now memoized and gridDimensions keeps a stable ref until it actually
+  // changes, so WidgetsGrid receives a stable onLayoutUpdate.
+  const onLayoutUpdate = useCallback(
+    (changes: LayoutChange[]) => {
+      changes.forEach(async (ch) => {
+        if (ch.type === "remove") {
+          removeWidget(ch.instanceId);
+        } else if (ch.type === "change-position") {
+          moveWidget(ch.instanceId, ch.newPosition);
+        } else if (ch.type === "move-to-folder") {
+          tryMoveWidgetToFolder(folder.id, ch.folderId, ch.instanceId, gridDimensions);
+        } else if (ch.type === "resize") {
+          resizeWidget(ch.instanceId, { width: ch.width, height: ch.height });
+        }
+      });
+    },
+    [folder.id, gridDimensions, removeWidget, moveWidget, resizeWidget],
+  );
 
   const shouldShowOnboarding = widgets.length === 0 && !isEditing;
 
