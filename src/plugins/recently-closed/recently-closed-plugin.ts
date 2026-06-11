@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
-import { definePlugin } from "@anori/utils/plugins/define";
+import { definePlugin } from "@anori/utils/plugins/define2";
 import { widgetDescriptor } from "./widgets/descriptors";
 
 export const recentlyClosedPlugin = definePlugin({
@@ -9,7 +9,5 @@ export const recentlyClosedPlugin = definePlugin({
     return translate("recently-closed-plugin.name");
   },
   icon: builtinIcons.tabsFill,
-  configurationScreen: null,
-})
-  .withWidgets(widgetDescriptor)
-  .build();
+  widgets: [widgetDescriptor],
+}).build();

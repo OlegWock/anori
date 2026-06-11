@@ -1,15 +1,18 @@
 import { translate } from "@anori/translations/utils";
-import { defineWidget } from "@anori/utils/plugins/define";
-import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
+import { defineWidget, type WidgetConfigScreenProps, type WidgetRenderProps } from "@anori/utils/plugins/define2";
 import type { DatetimeWidgetConfig } from "../types";
 import { DatetimeWidget } from "./DatetimeWidget";
 import { ConfigScreen } from "./DatetimeWidgetConfig";
+
+// TODO: replace the cast with a zod schema for runtime validation (see blueprint for the pattern).
+const parse = (raw: unknown) => raw as DatetimeWidgetConfig;
 
 export const datetimeWidgetDescriptorS = defineWidget({
   id: "datetime-widget",
   get name() {
     return translate("datetime-plugin.widgetNameS");
   },
+  parse,
   appearance: {
     resizable: {
       min: { width: 1, height: 1 },
@@ -20,9 +23,7 @@ export const datetimeWidgetDescriptorS = defineWidget({
       height: 1,
     },
   },
-  configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
-    <ConfigScreen size="s" {...props} />
-  ),
+  configurationScreen: (props: WidgetConfigScreenProps<DatetimeWidgetConfig>) => <ConfigScreen size="s" {...props} />,
   mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <DatetimeWidget size="s" {...props} />,
   mock: () => (
     <DatetimeWidget
@@ -43,6 +44,7 @@ export const datetimeWidgetDescriptorM = defineWidget({
   get name() {
     return translate("datetime-plugin.widgetNameM");
   },
+  parse,
   appearance: {
     resizable: false,
     size: {
@@ -50,9 +52,7 @@ export const datetimeWidgetDescriptorM = defineWidget({
       height: 2,
     },
   },
-  configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
-    <ConfigScreen size="m" {...props} />
-  ),
+  configurationScreen: (props: WidgetConfigScreenProps<DatetimeWidgetConfig>) => <ConfigScreen size="m" {...props} />,
   mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <DatetimeWidget size="m" {...props} />,
   mock: () => (
     <DatetimeWidget

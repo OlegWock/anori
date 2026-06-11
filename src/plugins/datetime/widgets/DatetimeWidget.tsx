@@ -1,5 +1,5 @@
 import { useForceRerender, useLazyRef } from "@anori/utils/hooks";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define2";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { capitalize } from "@anori/utils/strings";
 import moment from "moment-timezone";

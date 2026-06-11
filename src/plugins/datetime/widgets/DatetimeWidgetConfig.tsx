@@ -3,7 +3,7 @@ import { Button } from "@anori/design-system/components/Button/Button";
 import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define2";
 import { capitalize } from "@anori/utils/strings";
 import moment from "moment-timezone";
 import { useMemo, useState } from "react";
@@ -18,7 +18,7 @@ export const ConfigScreen = ({
   currentConfig,
   saveConfiguration,
   size,
-}: WidgetConfigurationScreenProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
+}: WidgetConfigScreenProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
   const { t } = useTranslation();
 
   const date = moment({

@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
-import { definePlugin } from "@anori/utils/plugins/define";
+import { definePlugin } from "@anori/utils/plugins/define2";
 import { datetimeWidgetDescriptorM, datetimeWidgetDescriptorS } from "./widgets/descriptors";
 
 export const datetimePlugin = definePlugin({
@@ -9,9 +9,7 @@ export const datetimePlugin = definePlugin({
     return translate("datetime-plugin.name");
   },
   icon: builtinIcons.clock,
-  configurationScreen: null,
-})
-  .withWidgets(datetimeWidgetDescriptorS, datetimeWidgetDescriptorM)
-  .build();
+  widgets: [datetimeWidgetDescriptorS, datetimeWidgetDescriptorM],
+}).build();
 
 export { datetimeWidgetDescriptorM, datetimeWidgetDescriptorS };
