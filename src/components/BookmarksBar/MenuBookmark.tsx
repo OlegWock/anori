@@ -5,6 +5,7 @@ import { Link } from "@anori/design-system/components/Link/Link";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useDirection } from "@radix-ui/react-direction";
 import * as Menubar from "@radix-ui/react-menubar";
+import { memo } from "react";
 import { css } from "styled-system/css";
 import { VirtualizedBookmarksMenuContent, zIndexFix } from "./BookmarksMenuContent";
 import type { BookmarkType } from "./useBookmarks";
@@ -39,7 +40,13 @@ const content = css({
 });
 const title = css({ textOverflow: "ellipsis", overflow: "hidden", flexGrow: 1 });
 
-export const MenuBookmark = ({ bookmark: bm, shiftSubmenu }: { bookmark: BookmarkType; shiftSubmenu?: boolean }) => {
+export const MenuBookmark = memo(function MenuBookmark({
+  bookmark: bm,
+  shiftSubmenu,
+}: {
+  bookmark: BookmarkType;
+  shiftSubmenu?: boolean;
+}) {
   const { rem } = useSizeSettings();
   const dir = useDirection();
 
@@ -72,4 +79,4 @@ export const MenuBookmark = ({ bookmark: bm, shiftSubmenu }: { bookmark: Bookmar
       </Menubar.Portal>
     </Menubar.Sub>
   );
-};
+});
