@@ -14,7 +14,9 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
     const val = getCurrentDerivedValue(deps, transformer);
     super(val);
     this.deps = [...deps];
-    this.depsTransformer = transformer;
+    // The field erases the dep element type (deps are stored heterogeneously and read back as unknown);
+    // transformer was written for the matching dep type, so this narrowing-out cast is safe by construction.
+    this.depsTransformer = transformer as (deps: unknown[]) => O;
     this.deps.forEach((d) => {
       d.on("change", this.deriveCurrentValue);
     });
@@ -24,7 +26,9 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
   deriveFrom<T>(deps: MotionValue<T>[], transformer: (deps: T[]) => O) {
     this.detach();
     this.deps = [...deps];
-    this.depsTransformer = transformer;
+    // The field erases the dep element type (deps are stored heterogeneously and read back as unknown);
+    // transformer was written for the matching dep type, so this narrowing-out cast is safe by construction.
+    this.depsTransformer = transformer as (deps: unknown[]) => O;
     this.deps.forEach((d) => {
       d.on("change", this.deriveCurrentValue);
     });
@@ -75,7 +79,7 @@ export function useDerivedMotionValue<I, O>(
   if (!Array.isArray(values)) {
     values = [values];
     const origTransformer = transformer as (val: I) => O;
-    transformer = (vals: I[]) => origTransformer(vals[0]);
+    transformer = ((vals: I[]) => origTransformer(vals[0])) as (val: I | I[]) => O;
   }
 
   const value = useLazyRef(() => new DerivedMotionValue(values as MotionValue<I>[], transformer));

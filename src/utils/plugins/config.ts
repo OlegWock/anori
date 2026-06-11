@@ -14,5 +14,6 @@ export function usePluginConfig(
 
   const finalValue = meta.isDefault ? undefined : val;
 
-  return [finalValue, setVal] as const;
+  // The cell-typed setter accepts a concrete config; widen it to the erased setter the consumer sees.
+  return [finalValue, setVal as (val: SetStateAction<unknown>) => Promise<void>] as const;
 }

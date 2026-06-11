@@ -63,35 +63,42 @@ export const VirtualizedBookmarksMenuContent = ({
   const virtualizedItems = virtualizer.getVirtualItems();
   const firstItemOffset = virtualizedItems[0]?.start ?? 0;
 
-  const WrapperComponent = isSubmenu ? Menubar.SubContent : Menubar.Content;
-  const wrapperProps = isSubmenu
-    ? {
-        // Cancel the panel's own top padding so the first item lines up with the hovered folder row.
-        alignOffset: rem(-0.5),
-        sideOffset: rem(0.75),
-        collisionPadding: 10,
-      }
-    : {
-        align: "start",
-        sideOffset: 5,
-        alignOffset: -3,
-        collisionPadding: 10,
-      };
-
   const shift = isSubmenu && shiftSubmenu ? (dir === "ltr" ? "right" : "left") : undefined;
 
-  return (
-    <WrapperComponent className={menuContent({ shift })} {...wrapperProps}>
-      <ScrollArea onVerticalOverflowStatusChange={setScrollAreaOverflows} size="thin" viewportRef={scrollAreaRef}>
-        <div style={{ height: virtualizer.getTotalSize() }}>
-          <div style={{ transform: `translateY(${firstItemOffset}px)` }}>
-            {virtualizedItems.map((virtualItem) => {
-              const bm = items[virtualItem.index];
-              return <MenuBookmark shiftSubmenu={scrollAreaOverflows} bookmark={bm} key={bm.id} />;
-            })}
-          </div>
+  const content = (
+    <ScrollArea onVerticalOverflowStatusChange={setScrollAreaOverflows} size="thin" viewportRef={scrollAreaRef}>
+      <div style={{ height: virtualizer.getTotalSize() }}>
+        <div style={{ transform: `translateY(${firstItemOffset}px)` }}>
+          {virtualizedItems.map((virtualItem) => {
+            const bm = items[virtualItem.index];
+            return <MenuBookmark shiftSubmenu={scrollAreaOverflows} bookmark={bm} key={bm.id} />;
+          })}
         </div>
-      </ScrollArea>
-    </WrapperComponent>
+      </div>
+    </ScrollArea>
+  );
+
+  // Rendered as two explicit branches rather than a dynamic component + spread props: SubContent and
+  // Content take different prop shapes, and a union of both can't be soundly spread onto a union component.
+  return isSubmenu ? (
+    // Negative alignOffset cancels the panel's own top padding so the first item lines up with the hovered row.
+    <Menubar.SubContent
+      className={menuContent({ shift })}
+      alignOffset={rem(-0.5)}
+      sideOffset={rem(0.75)}
+      collisionPadding={10}
+    >
+      {content}
+    </Menubar.SubContent>
+  ) : (
+    <Menubar.Content
+      className={menuContent({ shift })}
+      align="start"
+      sideOffset={5}
+      alignOffset={-3}
+      collisionPadding={10}
+    >
+      {content}
+    </Menubar.Content>
   );
 };

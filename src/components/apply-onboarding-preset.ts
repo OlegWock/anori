@@ -22,6 +22,7 @@ import { getIpInfo } from "@anori/utils/network";
 import { eraseWidget } from "@anori/utils/plugins/erase";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { anoriSchema, getAnoriStorageNoWait } from "@anori/utils/storage";
+import type { Mapping } from "@anori/utils/types";
 import type { TFunction } from "i18next";
 
 export const applyOnboardingPreset = async ({
@@ -34,7 +35,7 @@ export const applyOnboardingPreset = async ({
   addWidget: (args: {
     plugin: SomePlugin;
     widget: SomeWidget;
-    config: unknown;
+    config: Mapping;
     position: GridPosition;
     size?: GridItemSize;
   }) => Promise<{ instanceId: string }>;
@@ -48,7 +49,7 @@ export const applyOnboardingPreset = async ({
   }: {
     plugin: SomePlugin;
     widget: SomeWidget;
-    config: unknown;
+    config: Mapping;
     position: GridPosition;
     size?: GridItemSize;
   }) => {
