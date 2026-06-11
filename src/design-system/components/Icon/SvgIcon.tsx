@@ -11,20 +11,21 @@ import { css } from "styled-system/css";
 const placeholder = css({ background: "text.primary", borderRadius: "md", opacity: 0.35 });
 
 export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRenderProps) => {
-  const [prevIcon, setPrevIcon] = useState<unknown>(icon);
   const [family, iconName] = icon.split(":");
-  const [svgText, setSvgText] = useState<string | null>(null);
+  // Built-in icons resolve synchronously — seed state during render so there's no placeholder flash or
+  // extra commit per icon; only remote/custom icons fall through to the async effect below.
+  const [svgText, setSvgText] = useState<string | null>(() => getBuiltinIcon(icon) ?? null);
+  const [prevIcon, setPrevIcon] = useState<unknown>(icon);
 
   if (prevIcon !== icon) {
     setPrevIcon(icon);
-    setSvgText(null);
+    setSvgText(getBuiltinIcon(icon) ?? null);
   }
 
   useAsyncLayoutEffect(async () => {
-    const builtinIcon = getBuiltinIcon(icon);
-    if (builtinIcon) {
-      // This is built-in icon, not need to load it
-      return setSvgText(builtinIcon);
+    if (getBuiltinIcon(icon)) {
+      // Resolved synchronously during render.
+      return;
     }
 
     if (family === "custom") {

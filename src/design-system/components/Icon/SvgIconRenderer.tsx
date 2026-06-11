@@ -3,7 +3,7 @@ import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { iife } from "@anori/utils/misc";
 import { combineRefs } from "@anori/utils/react";
 import { m } from "framer-motion";
-import { type ComponentPropsWithRef, useEffect, useRef, useState } from "react";
+import { type ComponentPropsWithRef, useEffect, useMemo, useRef, useState } from "react";
 
 type SvgIconRenderedProps = {
   icon: string;
@@ -23,9 +23,29 @@ export const SvgIconRenderer = ({
   ref,
   ...props
 }: SvgIconRenderedProps) => {
-  const [aspectRatio, setAspectRatio] = useState<string>();
-  const [viewBox, setViewBox] = useState<string>();
+  // Resolve the parsed icon synchronously when we already have what we need (a cached descriptor, or the
+  // svgText handed to us) so there's no extra commit; only a remote `src` (or a cache entry still in
+  // flight) needs the async effect below.
+  const syncDescriptor = useMemo<SvgIconCacheDescriptor | null>(() => {
+    const fromCache = globalSvgIconsCache.get(icon);
+    if (cache && fromCache && !(fromCache instanceof Promise)) return fromCache;
+    if (svgTextFromProps && !src) {
+      const parsed = parseSvgToIconInfo(svgTextFromProps);
+      if (parsed) {
+        if (cache) globalSvgIconsCache.set(icon, parsed);
+        return parsed;
+      }
+    }
+    return null;
+  }, [icon, src, svgTextFromProps, cache]);
+
+  const [asyncDescriptor, setAsyncDescriptor] = useState<SvgIconCacheDescriptor | null>(null);
+  const descriptor = syncDescriptor ?? asyncDescriptor;
+  const aspectRatio = descriptor?.aspectRatio.toString();
+  const viewBox = descriptor?.viewbox;
+
   const iconCacheDescriptorRef = useRef<SvgIconCacheDescriptor | null>(null);
+  iconCacheDescriptorRef.current = descriptor;
   const svgElementRef = useRef<SVGSVGElement>(null);
 
   const patchSvgRef = (root: SVGSVGElement | null) => {
@@ -44,6 +64,10 @@ export const SvgIconRenderer = ({
   const mergedRef = combineRefs(ref, svgElementRef, patchSvgRef);
 
   useAsyncLayoutEffect(async () => {
+    if (syncDescriptor) {
+      // Already resolved during render; the ref callback patches the SVG on mount.
+      return;
+    }
     let iconInfo: SvgIconCacheDescriptor;
     const fromCache = globalSvgIconsCache.get(icon);
     if (cache && fromCache) {
@@ -71,8 +95,7 @@ export const SvgIconRenderer = ({
     }
 
     iconCacheDescriptorRef.current = iconInfo;
-    setAspectRatio(iconInfo.aspectRatio.toString());
-    setViewBox(iconInfo.viewbox);
+    setAsyncDescriptor(iconInfo);
     if (svgElementRef.current) patchSvgRef(svgElementRef.current);
   }, [icon]);
 
