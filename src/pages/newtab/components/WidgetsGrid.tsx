@@ -7,7 +7,7 @@ import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "framer-motion";
-import type { Ref } from "react";
+import { memo, type Ref } from "react";
 import { css, cva } from "styled-system/css";
 
 const grid = css({ flexGrow: 1, alignSelf: "stretch", position: "relative", display: "flex" });
@@ -77,7 +77,7 @@ export type WidgetsGridProps = {
   scrollAreaRef?: Ref<HTMLDivElement>;
 };
 
-export const WidgetsGrid = ({
+export const WidgetsGrid = memo(function WidgetsGrid({
   isEditing,
   gridDimensions,
   gapSize,
@@ -88,7 +88,7 @@ export const WidgetsGrid = ({
   onLayoutUpdate = () => {},
   gridRef,
   scrollAreaRef,
-}: WidgetsGridProps) => {
+}: WidgetsGridProps) {
   const tryRepositionWidget = (widget: WidgetInFolderWithMeta, position: GridPosition) => {
     const canPlaceThere = canPlaceItemInGrid({
       grid: gridDimensions,
@@ -222,4 +222,4 @@ export const WidgetsGrid = ({
       </div>
     </MotionScrollArea>
   );
-};
+});
