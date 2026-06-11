@@ -103,6 +103,20 @@ const widgetDescriptor = defineWidget({
 
 If widget allows for configuration, it should provide `configurationScreen` component (`ComponentType<WidgetConfigurationScreenProps<T>>`). User will be presented with config screen when adding widget to a folder. Configuration in then persisted per-widget and passed as `config` prop to `mainScreen` component.
 
+## Memoize widget components
+
+**Wrap every widget `mainScreen` (and `mock`) component in `React.memo`** — see `blueprint` plugin's `BlueprintWidget` for the canonical shape:
+
+```tsx
+export const BlueprintWidget = memo(function BlueprintWidget({ config, instanceId }: WidgetRenderProps<BlueprintWidgetConfig>) {
+  // ...
+});
+```
+
+A widget is rendered deep inside the folder grid, which re-renders for reasons unrelated to any single widget (a sibling being dragged/resized, the folder's edit state, the new-widget wizard opening, …). Without `memo`, every such ancestor re-render cascades into every widget's whole subtree. `memo` lets a widget bail and re-render only when its own `config`/props change or one of its hooks fires. Its props (`config`, `instanceId`) are stable references from storage, so the shallow compare bails cleanly.
+
+Use a **named function inside `memo`** (`memo(function WidgetName(...) {...})`) rather than an anonymous arrow, so the widget shows by name in React DevTools / profiles instead of `Anonymous`/`Memo`.
+
 # Widgets and plugins API
 
 Widgets and plugins have access to set of useful APIs.

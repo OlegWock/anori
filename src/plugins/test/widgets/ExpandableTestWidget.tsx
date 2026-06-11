@@ -6,10 +6,10 @@ import { useSizeSettings } from "@anori/utils/compact";
 import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import type { EmptyObject } from "@anori/utils/types";
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { widget } from "../styles";
 
-export const ExpandableTestWidget = (_props: WidgetRenderProps<EmptyObject>) => {
+export const ExpandableTestWidget = memo(function ExpandableTestWidget(_props: WidgetRenderProps<EmptyObject>) {
   const { rem } = useSizeSettings();
   const [showExpandableArea, setShowExpandableArea] = useState(false);
 
@@ -89,4 +89,4 @@ export const ExpandableTestWidget = (_props: WidgetRenderProps<EmptyObject>) => 
       </AnimatePresence>
     </button>
   );
-};
+});
