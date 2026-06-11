@@ -3,7 +3,7 @@ import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { iife } from "@anori/utils/misc";
 import { combineRefs } from "@anori/utils/react";
 import { m } from "motion/react";
-import { type ComponentPropsWithRef, useEffect, useMemo, useRef, useState } from "react";
+import { type ComponentPropsWithRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 type SvgIconRenderedProps = {
   icon: string;
@@ -62,6 +62,16 @@ export const SvgIconRenderer = ({
   };
 
   const mergedRef = combineRefs(ref, svgElementRef, patchSvgRef);
+
+  // The callback ref only patches the children when it (re)attaches — i.e. on mount. When the same <svg>
+  // instance is reused for a different icon (e.g. a bookmark icon swapped for the loading spinner, both
+  // going through this renderer), the reactive attributes (viewBox, class) update but the imperatively
+  // injected children would stay stale, leaving the old icon's paths under the new viewBox. Re-inject
+  // whenever the resolved descriptor changes.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: patchSvgRef is recreated every render and reads the descriptor via a ref
+  useLayoutEffect(() => {
+    if (svgElementRef.current) patchSvgRef(svgElementRef.current);
+  }, [descriptor]);
 
   useAsyncLayoutEffect(async () => {
     if (syncDescriptor) {
