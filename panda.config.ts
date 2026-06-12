@@ -100,10 +100,10 @@ export default defineConfig({
             },
           },
           control: {
-            edge: { value: "inset 0 0 0 2px var(--ds-control-edge)" },
+            edge: { value: "inset 0 0 0 1px var(--ds-control-edge)" },
           },
           accent: {
-            edge: { value: "inset 0 0 0 2px var(--ds-accent-edge)" },
+            edge: { value: "inset 0 0 0 1px var(--ds-accent-edge)" },
           },
         },
       },

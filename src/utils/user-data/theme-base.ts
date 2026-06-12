@@ -43,27 +43,55 @@ export type ColorScheme = "light" | "dark" | "system";
 // imagery exists — at that point pass a distinct light file (e.g. `bg("greenery.jpg", "greenery-light.jpg")`).
 const bg = (dark: string, light: string = dark): Record<Mode, string> => ({ light, dark });
 
-// NOTE: light and dark currently point at the same file — the light-mode imagery is a follow-up. The
-// wiring (per-mode selection in apply + preview) is in place so swapping the light files in is a data change.
 export const themes: BuiltinTheme[] = [
-  { name: "Greenery", type: "builtin", background: bg("greenery.jpg"), accent: { l: 0.6886, c: 0.13, h: 160.26 } },
+  {
+    name: "Greenery",
+    type: "builtin",
+    background: bg("greenery.jpg", "greenery-light.jpg"),
+    accent: { l: 0.6886, c: 0.13, h: 160.26 },
+  },
   {
     name: "Forest lake",
     type: "builtin",
-    background: bg("forest-lake.jpg"),
+    background: bg("forest-lake.jpg", "forest-lake-light.jpg"),
     accent: { l: 0.7706, c: 0.114, h: 219.46 },
   },
-  { name: "Mountains", type: "builtin", background: bg("mountains.jpg"), accent: { l: 0.5443, c: 0.1589, h: 251.13 } },
-  { name: "Sakura", type: "builtin", background: bg("sakura.jpg"), accent: { l: 0.7831, c: 0.0838, h: 345.08 } },
+  {
+    name: "Mountains",
+    type: "builtin",
+    background: bg("mountains.jpg", "mountains-light.jpg"),
+    accent: { l: 0.5443, c: 0.1589, h: 251.13 },
+  },
+  {
+    name: "Sakura",
+    type: "builtin",
+    background: bg("sakura.jpg", "sakura-light.jpg"),
+    accent: { l: 0.7831, c: 0.0838, h: 345.08 },
+  },
   {
     name: "Sunflowers",
     type: "builtin",
-    background: bg("sunflowers.jpg"),
+    background: bg("sunflowers.jpg", "sunflowers-light.jpg"),
     accent: { l: 0.5325, c: 0.0831, h: 225.82 },
   },
-  { name: "Hygge", type: "builtin", background: bg("table.jpg"), accent: { l: 0.6574, c: 0.0063, h: 84.57 } },
-  { name: "Maples", type: "builtin", background: bg("maple.jpg"), accent: { l: 0.5572, c: 0.1783, h: 32.38 } },
-  { name: "Highlands", type: "builtin", background: bg("highlands.jpg"), accent: { l: 0.7612, c: 0.1611, h: 73.8 } },
+  {
+    name: "Hygge",
+    type: "builtin",
+    background: bg("table.jpg", "table-light.jpg"),
+    accent: { l: 0.6574, c: 0.0063, h: 84.57 },
+  },
+  {
+    name: "Maples",
+    type: "builtin",
+    background: bg("maple.jpg", "maple-light.jpg"),
+    accent: { l: 0.5572, c: 0.1783, h: 32.38 },
+  },
+  {
+    name: "Highlands",
+    type: "builtin",
+    background: bg("highlands.jpg", "highlands-light.jpg"),
+    accent: { l: 0.7612, c: 0.1611, h: 73.8 },
+  },
 ];
 
 export const defaultTheme = themes[0];

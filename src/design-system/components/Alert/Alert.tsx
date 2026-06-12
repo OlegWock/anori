@@ -28,8 +28,10 @@ const grid = cva({
     alignItems: "start",
     padding: "4",
     borderRadius: "lg",
-    bg: "card",
-    boxShadow: "card.edge",
+    // Alerts read as a saturated fill (like the controls they sit among) rather than a near-white box —
+    // the `control` family is a few steps darker/greener than `card` in light mode.
+    bg: "control",
+    boxShadow: "control.edge",
   },
   variants: {
     layout: {

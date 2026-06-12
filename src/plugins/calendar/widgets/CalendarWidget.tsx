@@ -51,7 +51,7 @@ const calendarCell = cva({
   variants: {
     weekday: { true: { color: "text.primary" } },
     currentMonth: { true: { color: "text.primary" } },
-    today: { true: { background: "accent", borderRadius: "lg" } },
+    today: { true: { background: "accent", borderRadius: "lg", color: "on-accent" } },
   },
 });
 
