@@ -35,9 +35,12 @@ const colorCircle = css({
   position: "absolute",
   bottom: "1-5",
   left: "1-5",
-  width: "18px",
-  height: "18px",
+  width: "1.5rem",
+  height: "1.5rem",
   borderRadius: "full",
+  borderWidth: "2px",
+  borderStyle: "solid",
+  borderColor: "frosted.strong",
 });
 const plateActions = css({ position: "absolute", top: "1", right: "1", display: "flex", gap: "1" });
 

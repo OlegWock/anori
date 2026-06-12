@@ -153,7 +153,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
       PRIMITIVE_LS[controlIdx],
       byMode(mode, CONTROL_EDGE_DARK_DELTA, -CONTROL_EDGE_LIGHT_DELTA),
     ),
-    "control-hover": shade(sampleSurface, PRIMITIVE_LS[controlIdx], byMode(mode, HOVER_DELTA, -HOVER_DELTA)),
+    "control-hover": shade(sampleSurface, PRIMITIVE_LS[controlIdx], HOVER_DELTA),
     // Disabled secondary — a muted (low-chroma) shade of the control family, not surface.
     "control-disabled": tintedColorAt(accentColor.h, surfaceChroma * 0.5, PRIMITIVE_LS[controlIdx], gamut),
 
@@ -164,7 +164,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     // A touch lighter than the fill in dark mode, darker in light mode — a delineating border.
     "accent-border": accent[byMode(mode, 7, 5)],
     "accent-edge": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], EDGE_DELTA * 1.5),
-    "accent-hover": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], byMode(mode, HOVER_DELTA, -HOVER_DELTA)),
+    "accent-hover": shade(sampleAccent, PRIMITIVE_LS[accentFillIdx], HOVER_DELTA),
     // Disabled primary — a muted (desaturated) shade of the accent family, not surface.
     "accent-disabled": accentDisabled,
     // Foreground on the disabled accent fill — subtle neutrals (not the active extremes), APCA-picked
@@ -180,16 +180,16 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "text-disabled": neutral[byMode(mode, 7, 7)],
     // Glyph foreground for decorative/secondary icons: softer than text so a solid fill does not
     // out-weigh adjacent text (a touch dimmer than text in dark mode so big glyphs don't glare).
-    icon: neutral[byMode(mode, 8, 7)],
+    icon: neutral[byMode(mode, 8, 6)],
     // An even quieter glyph — for large decorative icons (empty/error states) that should barely
     // register against the surface.
-    "icon-subtle": withAlpha(neutral[byMode(mode, 9, 7)], 0.45),
+    "icon-subtle": withAlpha(neutral[byMode(mode, 9, 7)], 0.55),
 
     // Frosted overlays: text-primary at low alpha (so they adapt to mode) for translucent surfaces
     // over a backdrop blur — bookmarks bar/menus, and the frosted/ghost buttons.
-    "frosted-subtle": withAlpha(neutral[byMode(mode, 13, 1)], 0.04),
-    frosted: withAlpha(neutral[byMode(mode, 13, 1)], 0.1),
-    "frosted-strong": withAlpha(neutral[byMode(mode, 13, 1)], 0.18),
+    "frosted-subtle": withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.04, 0.1)),
+    frosted: withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.1, 0.2)),
+    "frosted-strong": withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.18, 0.3)),
   };
 
   return { mode, scales, tokens };
