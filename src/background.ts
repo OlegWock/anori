@@ -1,10 +1,20 @@
 import { performSync } from "@anori/cloud-integration/sync-manager";
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
+import type { AnalyticEvents, UsageQuantifiableMetrics } from "@anori/utils/analytics-events";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { runOrphanGc } from "@anori/utils/storage/orphan-gc";
-import browser from "webextension-polyfill";
+import browser, { type Runtime } from "webextension-polyfill";
 import { availableTranslations, type Language } from "./translations/metadata";
+
+// The polyfill's onMessage listener type is overloaded, which suppresses contextual typing of the
+// callback params (the old @types defaulted them to `any`). Type the message explicitly as the union of
+// shapes the extension actually posts (see the sendMessage call sites).
+type BackgroundMessage =
+  | { type: "plugin-command"; pluginId: string; command: string; args: unknown }
+  | { type: "open-url"; url: string; inNewTab?: boolean; active?: boolean }
+  | { type: "track-event"; eventName: keyof AnalyticEvents; props: AnalyticEvents[keyof AnalyticEvents] }
+  | { type: "increment-daily-usage-metric"; name: UsageQuantifiableMetrics };
 
 console.log("Background init");
 
@@ -88,7 +98,8 @@ browser.runtime.onInstalled.addListener(async (details) => {
   }
 });
 
-browser.runtime.onMessage.addListener(async (message, sender) => {
+browser.runtime.onMessage.addListener(async (rawMessage: unknown, sender: Runtime.MessageSender) => {
+  const message = rawMessage as BackgroundMessage;
   if (message.type === "plugin-command") {
     const plugin = availablePlugins.find((p) => p.id === message.pluginId);
     if (!plugin) {
@@ -129,9 +140,9 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 });
 
 const runScheduledCallbacks = async () => {
-  const { scheduledCallbacksInfo } = await browser.storage.session.get({
+  const { scheduledCallbacksInfo } = (await browser.storage.session.get({
     scheduledCallbacksInfo: {},
-  });
+  })) as { scheduledCallbacksInfo: Record<string, number> };
 
   const now = Date.now();
   availablePlugins.forEach((plugin) => {
