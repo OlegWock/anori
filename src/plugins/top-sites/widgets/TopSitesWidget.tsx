@@ -39,7 +39,7 @@ const linkPlate = css({
   width: 0,
   minWidth: "100%",
   position: "relative",
-  "@media (any-hover: hover)": { "&:hover": { background: "frosted", "& .remove-link": { display: "flex" } } },
+  "@media (any-hover: hover)": { "&:hover": { background: "ghost.hover", "& .remove-link": { display: "flex" } } },
 });
 const plateIcon = css({ margin: "2", width: "1.75rem" });
 const loadingIcon = css({ margin: "2", width: "1.75rem", animation: "spin 1.5s ease-in-out infinite" });

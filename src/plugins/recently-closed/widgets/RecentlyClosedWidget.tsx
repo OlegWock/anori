@@ -24,7 +24,7 @@ const sessionRow = css({
   transition: "0.15s ease-in-out",
   borderRadius: "md",
   "& svg": { minWidth: "18px", maxWidth: "18px" },
-  "@media (any-hover: hover)": { "&:hover": { background: "frosted" } },
+  "@media (any-hover: hover)": { "&:hover": { background: "ghost.hover" } },
 });
 const favIconImg = css({ width: "18px", borderRadius: "md" });
 const sessionTitle = css({

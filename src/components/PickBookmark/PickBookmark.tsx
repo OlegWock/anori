@@ -25,7 +25,7 @@ const bookmark = css({
   borderRadius: "md",
   cursor: "pointer",
   transition: "0.15s ease-in-out",
-  "@media (any-hover: hover)": { "&:hover": { background: "frosted" } },
+  "@media (any-hover: hover)": { "&:hover": { background: "ghost.hover" } },
   "& svg": { minWidth: "18px", maxWidth: "18px" },
 });
 const bookmarkTitle = css({

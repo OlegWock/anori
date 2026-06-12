@@ -67,13 +67,13 @@ export const button = cva({
         bg: "transparent",
         color: "text.primary",
         boxShadow: "inset 0 0 0 2px {colors.frosted.strong}",
-        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "frosted" },
+        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "ghost.hover" },
       },
       // Like frosted but with no edge — a quiet, borderless button (e.g. a modal close).
       ghost: {
         bg: "transparent",
         color: "text.primary",
-        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "frosted" },
+        "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "ghost.hover" },
       },
     },
     // Fixed heights (no vertical padding) — the design-system control sizes.

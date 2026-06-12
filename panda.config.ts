@@ -142,6 +142,10 @@ export default defineConfig({
           },
           // Hairline for dividers/separators on solid surfaces.
           divider: { value: "var(--ds-divider)" },
+          // Hover wash for ghost/transparent interactive elements (frosted in dark, dark in light).
+          ghost: {
+            hover: { value: "var(--ds-ghost-hover)" },
+          },
           modal: {
             DEFAULT: { value: "var(--ds-modal)" },
             edge: { value: "var(--ds-modal-edge)" },

@@ -31,7 +31,7 @@ const bookmark = cva({
     fontSize: "sm",
     userSelect: "none",
     flexShrink: 0,
-    _hover: { background: "frosted" },
+    _hover: { background: "ghost.hover" },
   },
   variants: {
     fullWidth: { true: { maxWidth: "unset" } },

@@ -189,12 +189,17 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     // over a backdrop blur — bookmarks bar/menus, and the frosted/ghost buttons.
     "frosted-subtle": withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.04, 0.1)),
     frosted: withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.1, 0.2)),
-    "frosted-strong": withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.18, 0.3)),
+    "frosted-strong": withAlpha(neutral[byMode(mode, 13, 10)], byMode(mode, 0.18, 0.3)),
 
     // Hairline for dividers/separators. Matches the dark-mode frosted overlay (a faint light line),
     // but in light mode frosted lightens to stay readable on a blurred backdrop — too light to read as
     // a divider on a solid surface — so here it flips to a dark, low-alpha line instead.
     divider: withAlpha(neutral[byMode(mode, 13, 1)], 0.15),
+
+    // Hover wash for ghost/transparent interactive elements (ghost & frosted buttons, bookmark and
+    // list-item hovers). Like frosted in dark mode (a faint light wash); in light mode it flips to a
+    // translucent dark wash, since a light overlay would be invisible on a light surface.
+    "ghost-hover": withAlpha(neutral[byMode(mode, 13, 0)], byMode(mode, 0.1, 0.07)),
   };
 
   return { mode, scales, tokens };

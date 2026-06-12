@@ -32,8 +32,8 @@ const input = cva({
       ghost: {
         bg: "transparent",
         transition: "background-color 0.15s ease",
-        _hover: { bg: "frosted" },
-        _focus: { bg: "frosted" },
+        _hover: { bg: "ghost.hover" },
+        _focus: { bg: "ghost.hover" },
       },
     },
   },
@@ -142,8 +142,8 @@ const textareaWrapper = cva({
       ghost: {
         bg: "transparent",
         transition: "background-color 0.15s ease",
-        _hover: { bg: "frosted" },
-        "&:focus-within": { bg: "frosted" },
+        _hover: { bg: "ghost.hover" },
+        "&:focus-within": { bg: "ghost.hover" },
       },
     },
   },

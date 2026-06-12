@@ -27,8 +27,8 @@ const menuItem = css({
   lineHeight: "tight",
   fontSize: "sm",
   userSelect: "none",
-  _hover: { background: "frosted" },
-  "&:focus-visible": { outline: "none", background: "frosted" },
+  _hover: { background: "ghost.hover" },
+  "&:focus-visible": { outline: "none", background: "ghost.hover" },
 });
 const content = css({
   flexGrow: 1,
