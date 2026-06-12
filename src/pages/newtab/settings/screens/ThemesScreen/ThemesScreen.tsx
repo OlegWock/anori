@@ -70,6 +70,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
             theme={theme}
             active={theme.name === currentTheme}
             gamut={gamut}
+            mode={mode}
             onSelect={() => {
               setTheme(theme.name);
               applyTheme(theme, mode);

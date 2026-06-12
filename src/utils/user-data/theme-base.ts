@@ -10,7 +10,10 @@ import browser from "webextension-polyfill";
 export type BuiltinTheme = {
   name: string;
   type: "builtin";
-  background: string;
+  // Built-in themes ship one background per mode: the light variant uses imagery that keeps the
+  // directly-on-background text (bookmarks, folder titles/icons) readable against dark text. Custom themes
+  // have a single user-provided image instead (the user owns picking one that works for their scheme).
+  background: Record<Mode, string>;
   accent: OklchColor;
 };
 
@@ -36,15 +39,31 @@ export type Theme = BuiltinTheme | CustomTheme;
 // Global light/dark knob; `system` follows the OS preference.
 export type ColorScheme = "light" | "dark" | "system";
 
+// Pairs a dark- and light-mode background filename. `light` defaults to `dark` until the light-mode
+// imagery exists — at that point pass a distinct light file (e.g. `bg("greenery.jpg", "greenery-light.jpg")`).
+const bg = (dark: string, light: string = dark): Record<Mode, string> => ({ light, dark });
+
+// NOTE: light and dark currently point at the same file — the light-mode imagery is a follow-up. The
+// wiring (per-mode selection in apply + preview) is in place so swapping the light files in is a data change.
 export const themes: BuiltinTheme[] = [
-  { name: "Greenery", type: "builtin", background: "greenery.jpg", accent: { l: 0.6886, c: 0.13, h: 160.26 } },
-  { name: "Forest lake", type: "builtin", background: "forest-lake.jpg", accent: { l: 0.7706, c: 0.114, h: 219.46 } },
-  { name: "Mountains", type: "builtin", background: "mountains.jpg", accent: { l: 0.5443, c: 0.1589, h: 251.13 } },
-  { name: "Sakura", type: "builtin", background: "sakura.jpg", accent: { l: 0.7831, c: 0.0838, h: 345.08 } },
-  { name: "Sunflowers", type: "builtin", background: "sunflowers.jpg", accent: { l: 0.5325, c: 0.0831, h: 225.82 } },
-  { name: "Hygge", type: "builtin", background: "table.jpg", accent: { l: 0.6574, c: 0.0063, h: 84.57 } },
-  { name: "Maples", type: "builtin", background: "maple.jpg", accent: { l: 0.5572, c: 0.1783, h: 32.38 } },
-  { name: "Highlands", type: "builtin", background: "highlands.jpg", accent: { l: 0.7612, c: 0.1611, h: 73.8 } },
+  { name: "Greenery", type: "builtin", background: bg("greenery.jpg"), accent: { l: 0.6886, c: 0.13, h: 160.26 } },
+  {
+    name: "Forest lake",
+    type: "builtin",
+    background: bg("forest-lake.jpg"),
+    accent: { l: 0.7706, c: 0.114, h: 219.46 },
+  },
+  { name: "Mountains", type: "builtin", background: bg("mountains.jpg"), accent: { l: 0.5443, c: 0.1589, h: 251.13 } },
+  { name: "Sakura", type: "builtin", background: bg("sakura.jpg"), accent: { l: 0.7831, c: 0.0838, h: 345.08 } },
+  {
+    name: "Sunflowers",
+    type: "builtin",
+    background: bg("sunflowers.jpg"),
+    accent: { l: 0.5325, c: 0.0831, h: 225.82 },
+  },
+  { name: "Hygge", type: "builtin", background: bg("table.jpg"), accent: { l: 0.6574, c: 0.0063, h: 84.57 } },
+  { name: "Maples", type: "builtin", background: bg("maple.jpg"), accent: { l: 0.5572, c: 0.1783, h: 32.38 } },
+  { name: "Highlands", type: "builtin", background: bg("highlands.jpg"), accent: { l: 0.7612, c: 0.1611, h: 73.8 } },
 ];
 
 export const defaultTheme = themes[0];
@@ -66,10 +85,10 @@ export const applyBuiltinTheme = (themeName: Theme["name"], mode: Mode) => {
 export const applyTheme = async (theme: Theme, mode: Mode) => {
   let prom = Promise.resolve();
   if (theme.type === "builtin") {
-    setPageBackground(browser.runtime.getURL(`/assets/images/backgrounds/${theme.background}`));
+    setPageBackground(browser.runtime.getURL(`/assets/images/backgrounds/${theme.background[mode]}`));
   } else {
-    prom = getThemeBackgroundImpl(theme.name).then((bg) => {
-      const url = URL.createObjectURL(bg);
+    prom = getThemeBackgroundImpl(theme.name).then((blob) => {
+      const url = URL.createObjectURL(blob);
       setPageBackground(url);
     });
   }

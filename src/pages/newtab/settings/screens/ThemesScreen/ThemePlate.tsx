@@ -1,7 +1,6 @@
-import { buildPalette, type Gamut } from "@anori/design-system/color-engine";
+import { buildPalette, type Gamut, type Mode } from "@anori/design-system/color-engine";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
-import { useMirrorStateToRef } from "@anori/utils/hooks";
 import { getThemeBackground, type Theme } from "@anori/utils/user-data/theme";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -46,6 +45,7 @@ export const ThemePlate = ({
   theme,
   active,
   gamut,
+  mode,
   onSelect,
   onEdit,
   onDelete,
@@ -53,6 +53,7 @@ export const ThemePlate = ({
   theme: Theme;
   active: boolean;
   gamut: Gamut;
+  mode: Mode;
   onSelect: VoidFunction;
   onEdit?: VoidFunction;
   onDelete?: VoidFunction;
@@ -61,30 +62,27 @@ export const ThemePlate = ({
   // Show the palette's accent step, not the raw input colour — the input lightness is ignored, so the
   // raw value can look off; this is the swatch the theme actually produces.
   const accentSwatch = useMemo(() => buildPalette(theme.accent, "dark", gamut).scales.accent[7], [theme.accent, gamut]);
-  const [backgroundUrl, setBackgroundUrl] = useState(() => {
-    return theme.type === "builtin"
-      ? browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background}`)
-      : null;
-  });
-  const backgroundUrlRef = useMirrorStateToRef(backgroundUrl);
+  // Custom themes have a single image loaded from storage (mode-independent); built-in previews are derived
+  // from the per-mode filename below.
+  const [customBackgroundUrl, setCustomBackgroundUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    const main = async () => {
-      if (theme.type === "custom") {
-        const blob = await getThemeBackground(theme.name);
-        const url = URL.createObjectURL(blob);
-        setBackgroundUrl(url);
-      }
+    if (theme.type !== "custom") return;
+    let objectUrl: string | null = null;
+    getThemeBackground(theme.name).then((blob) => {
+      objectUrl = URL.createObjectURL(blob);
+      setCustomBackgroundUrl(objectUrl);
+    });
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-    main();
-    if (theme.type === "custom") {
-      return () => {
-        if (backgroundUrlRef.current) {
-          URL.revokeObjectURL(backgroundUrlRef.current);
-        }
-      };
-    }
   }, [theme]);
+
+  // Built-in previews follow the currently-selected mode; custom themes use their single stored image.
+  const backgroundUrl =
+    theme.type === "builtin"
+      ? browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background[mode]}`)
+      : customBackgroundUrl;
 
   return (
     <div className={plate}>
