@@ -7,7 +7,6 @@ import { Input } from "@anori/design-system/components/Input/Input";
 import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import {
-  type CSSProperties,
   createContext,
   type KeyboardEvent,
   type Ref,
@@ -19,7 +18,7 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { FixedSizeList } from "react-window";
+import { List, type RowComponentProps } from "react-window";
 import { css } from "styled-system/css";
 
 const iconPicker = css({ display: "flex", flexDirection: "column", gap: "4" });
@@ -121,14 +120,14 @@ const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void;
   );
 };
 
-const IconRow = ({ index, data, style }: { index: number; style: CSSProperties; data: GridItemData }) => {
+const IconRow = ({ index, iconsList, onSelected, style }: RowComponentProps<GridItemData>) => {
   const indexStart = index * COLUMNS;
-  const indexEnd = Math.min(indexStart + COLUMNS, data.iconsList.length);
+  const indexEnd = Math.min(indexStart + COLUMNS, iconsList.length);
 
   return (
     <div className={iconRow} style={style}>
-      {data.iconsList.slice(indexStart, indexEnd).map((icon, currentX) => {
-        return <IconCell key={icon} icon={icon} onClick={() => data.onSelected(icon)} x={currentX} y={index} />;
+      {iconsList.slice(indexStart, indexEnd).map((icon, currentX) => {
+        return <IconCell key={icon} icon={icon} onClick={() => onSelected(icon)} x={currentX} y={index} />;
       })}
     </div>
   );
@@ -165,19 +164,14 @@ const IconsGrid = ({
       <p>{t("iconsPicker.customIconsAbsent")}</p>
     </div>
   ) : (
-    <FixedSizeList<GridItemData>
+    <List<GridItemData>
       className={iconsGrid}
-      height={350}
-      itemCount={ROWS}
-      itemSize={ICON_SIZE + PADDING * 2}
-      width={GRID_WIDTH}
-      itemData={{
-        iconsList,
-        onSelected,
-      }}
-    >
-      {IconRow}
-    </FixedSizeList>
+      style={{ height: 350, width: GRID_WIDTH }}
+      rowCount={ROWS}
+      rowHeight={ICON_SIZE + PADDING * 2}
+      rowComponent={IconRow}
+      rowProps={{ iconsList, onSelected }}
+    />
   );
 };
 
