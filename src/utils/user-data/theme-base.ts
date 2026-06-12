@@ -72,7 +72,7 @@ export const themes: BuiltinTheme[] = [
     name: "Sunflowers",
     type: "builtin",
     background: bg("sunflowers.jpg", "sunflowers-light.jpg"),
-    accent: { l: 0.5325, c: 0.0831, h: 225.82 },
+    accent: { l: 0.5325, c: 0.0831, h: 213.82 },
   },
   {
     name: "Hygge",

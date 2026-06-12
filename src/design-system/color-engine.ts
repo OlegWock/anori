@@ -123,7 +123,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   // white, modals stay the lightest/cleanest surface (it's a focused dialog), and controls/alerts go a few
   // steps darker so they read as saturated fills rather than washed-out near-white boxes.
   const cardIdx = byMode(mode, 4, 12);
-  const modalIdx = byMode(mode, 2, 12);
+  const modalIdx = byMode(mode, 2, 10);
   const elevatedIdx = byMode(mode, 4, 12);
   const accentFillIdx = byMode(mode, 7, 7);
   const controlIdx = byMode(mode, 3, 11);
@@ -180,10 +180,10 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "text-disabled": neutral[byMode(mode, 7, 7)],
     // Glyph foreground for decorative/secondary icons: softer than text so a solid fill does not
     // out-weigh adjacent text (a touch dimmer than text in dark mode so big glyphs don't glare).
-    icon: neutral[byMode(mode, 8, 8)],
+    icon: neutral[byMode(mode, 8, 7)],
     // An even quieter glyph — for large decorative icons (empty/error states) that should barely
     // register against the surface.
-    "icon-subtle": withAlpha(neutral[byMode(mode, 9, 8)], 0.45),
+    "icon-subtle": withAlpha(neutral[byMode(mode, 9, 7)], 0.45),
 
     // Frosted overlays: text-primary at low alpha (so they adapt to mode) for translucent surfaces
     // over a backdrop blur — bookmarks bar/menus, and the frosted/ghost buttons.
