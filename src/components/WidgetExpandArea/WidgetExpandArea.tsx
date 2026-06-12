@@ -76,7 +76,7 @@ const content = cva({
     "& > .ScrollAreaRoot": {
       flexGrow: 1,
       alignSelf: "stretch",
-      "& .ScrollAreaViewport": { display: "flex", flexDirection: "column" },
+      "& .ScrollAreaViewport": { display: "flex", flexDirection: "column", flexGrow: 1 },
       "& .ScrollAreaContent": {
         display: "flex",
         flexDirection: "column",
