@@ -8,6 +8,7 @@ import { positionToPixelPosition, snapToSector } from "@anori/utils/grid/utils";
 import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
 import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
+import { usePluginConfigValue } from "@anori/utils/plugins/define";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
@@ -113,6 +114,15 @@ const control = cva({
   },
 });
 
+// Shown when a widget can't be rendered — either it threw (caught by ErrorBoundary) or its stored config
+// failed to parse (caught in WidgetCard before render). Isolated to this one card; the rest of the page is fine.
+const WidgetRenderError = () => (
+  <>
+    <h2>Oops</h2>
+    <div className={errorDescriptionCss}>Widget failed to render, check console for details.</div>
+  </>
+);
+
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   constructor(props: { children: ReactNode }) {
     super(props);
@@ -130,12 +140,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 
   render() {
     if (this.state.hasError) {
-      return (
-        <>
-          <h2>Oops</h2>
-          <div className={errorDescriptionCss}>Widget failed to render, check console for details.</div>
-        </>
-      );
+      return <WidgetRenderError />;
     }
 
     return this.props.children;
@@ -325,10 +330,25 @@ export const WidgetCard = ({
   // sibling, a parent re-render), a stable element reference lets React bail out of re-rendering the
   // whole widget subtree below — provided its inputs (config/instanceId) and the metadata context (now
   // memoized) haven't changed.
-  const children = useMemo(
-    () => (type === "mock" ? <widget.mock /> : <widget.mainScreen instanceId={instanceId} config={config} />),
-    [type, widget, instanceId, config],
-  );
+  // Parse the stored config once per change (stable reference) and read the plugin config; both are passed
+  // to the widget as already-parsed props, so the widget's own React.memo stays effective. A parse failure
+  // (e.g. a corrupt or outdated stored config) is isolated to this card — it renders the error card rather
+  // than throwing out of WidgetCard, which sits above its own ErrorBoundary and would crash the page.
+  const { config: parsedConfig, failed: configParseFailed } = useMemo(() => {
+    try {
+      return { config: widget.parse(config ?? EMPTY_CONFIG), failed: false };
+    } catch (e) {
+      console.error(`Widget "${widget.id}" failed to parse its config`, e);
+      return { config: EMPTY_CONFIG, failed: true };
+    }
+  }, [widget, config]);
+  const pluginConfig = usePluginConfigValue(plugin.id, plugin.parseConfig);
+
+  const children = useMemo(() => {
+    if (type === "mock") return <widget.mock />;
+    if (configParseFailed) return <WidgetRenderError />;
+    return <widget.mainScreen instanceId={instanceId} config={parsedConfig} pluginConfig={pluginConfig} />;
+  }, [type, widget, instanceId, configParseFailed, parsedConfig, pluginConfig]);
 
   useOnChangeLayoutEffect(() => {
     resizeWidth.set(convertUnitsToPixels(sizeToUse.width));
@@ -440,7 +460,7 @@ export const WidgetCard = ({
       widgetId: widget.id,
       instanceId: instanceId ?? "mock",
       size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
-      config: (config ?? EMPTY_CONFIG) as Mapping,
+      config: parsedConfig,
       updateConfig,
     }),
     [
@@ -451,7 +471,7 @@ export const WidgetCard = ({
       resizeWidthUnits,
       resizeHeightUnits,
       sizeToUse,
-      config,
+      parsedConfig,
       updateConfig,
     ],
   );

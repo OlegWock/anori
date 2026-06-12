@@ -14,9 +14,10 @@ export type PluginConfigurationScreenProps<T> = {
   saveConfiguration: (config: T) => void;
 };
 
-export type WidgetRenderProps<T = Mapping> = {
+export type WidgetRenderProps<T = Mapping, P = Mapping> = {
   config: T;
   instanceId: string;
+  pluginConfig?: P;
 };
 
 export type WidgetResizable =
@@ -83,11 +84,17 @@ export type AnoriPlugin<
 // `unknown`; narrow/parse it at the point of use. The concrete config types stay inside each plugin's own
 // folder; only this boundary is opaque.
 export type SomeWidget = Omit<WidgetDescriptor, "mainScreen" | "configurationScreen"> & {
-  mainScreen: ComponentType<WidgetRenderProps<unknown>>;
+  // The raw -> config seam, exposed so the renderer can parse the stored config once (memoized) and pass
+  // the result to mainScreen/configurationScreen — these components receive already-parsed config.
+  parse: (raw: unknown) => Mapping;
+  mainScreen: ComponentType<WidgetRenderProps<unknown, unknown>>;
   configurationScreen: ComponentType<WidgetConfigurationScreenProps<unknown>> | null;
 };
 
 export type SomePlugin = Omit<AnoriPlugin, "widgets" | "configurationScreen"> & {
   widgets: SomeWidget[];
+  // Parses the plugin-level config; the renderer parses once and passes it down (as a widget's pluginConfig
+  // or the plugin config screen's currentConfig).
+  parseConfig: (raw: unknown) => Mapping;
   configurationScreen: ComponentType<PluginConfigurationScreenProps<unknown>> | null;
 };

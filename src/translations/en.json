@@ -30,6 +30,8 @@
         "resizeWidget": "Resize widget",
         "configureWidget": "Configure widget",
         "addWidget": "Add widget",
+        "addWidgetConfigInvalid": "Couldn't add the widget: its configuration is invalid. Check the console for details.",
+        "saveWidgetConfigInvalid": "Couldn't save: the widget configuration is invalid. Check the console for details.",
         "edit": "Edit",
         "done": "Done",
         "close": "Close",

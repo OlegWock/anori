@@ -1,3 +1,4 @@
+import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
@@ -56,7 +57,6 @@ const widgetsContent = css({ display: "flex", flexDirection: "column", gap: "6" 
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
   const tryAddWidget = async (plugin: SomePlugin, widget: SomeWidget, config: Mapping) => {
-    console.log({ gridDimensions, layout });
     let position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
     if (!position) {
       const numberOfColumns = Math.max(...layout.map((w) => w.x + w.width), 0);
@@ -65,18 +65,25 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
         y: 0,
       };
     }
-    const { instanceId } = await addWidget({ plugin, widget, config, position });
-    setTimeout(() => {
-      document.querySelector(`#WidgetCard-${instanceId}`)?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
-      });
-    }, 200);
-    onClose();
+    try {
+      const { instanceId } = await addWidget({ plugin, widget, config, position });
+      setTimeout(() => {
+        document.querySelector(`#WidgetCard-${instanceId}`)?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+      }, 200);
+      onClose();
+    } catch (e) {
+      // Write was blocked (config failed validation) — keep the wizard open instead of persisting bad config.
+      console.error("Failed to add widget", e);
+      setAddFailed(true);
+    }
   };
 
   const onWidgetClick = (widget: SomeWidget, plugin: SomePlugin) => {
+    setAddFailed(false);
     if (isWidgetNonConfigurable(widget)) {
       tryAddWidget(plugin, widget, {});
     } else {
@@ -90,6 +97,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
   const searchQuery = _searchQuery.toLowerCase();
   const [selectedPlugin, setSelectedPlugin] = useState<SomePlugin | undefined>(undefined);
   const [selectedWidget, setSelectedWidget] = useState<SomeWidget | undefined>(undefined);
+  const [addFailed, setAddFailed] = useState(false);
   const { t } = useTranslation();
   const dir = useDirection();
   const pluginSectionRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -141,6 +149,7 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
             animate={{ translateX: "0%", opacity: 1 }}
             exit={{ translateX: "-50%", opacity: 0 }}
           >
+            {addFailed && <Alert variant="danger">{t("addWidgetConfigInvalid")}</Alert>}
             <selectedWidget.configurationScreen
               widgetId={selectedWidget.id}
               saveConfiguration={(config) => tryAddWidget(selectedPlugin, selectedWidget, config as Mapping)}

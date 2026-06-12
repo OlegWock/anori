@@ -19,6 +19,10 @@ type UseFoldersOptions = {
   defaultFolderId?: string;
 };
 
+// Look up a widget descriptor (carrying its config parser) from the registry by its plugin/widget id.
+const findWidgetDescriptor = (pluginId: string, widgetId: string): SomeWidget | undefined =>
+  availablePluginsWithWidgets.find((p) => p.id === pluginId)?.widgets.find((d) => d.id === widgetId);
+
 export const useFolders = ({ includeHome = false, defaultFolderId }: UseFoldersOptions = {}) => {
   const createFolder = async (name = "", icon = builtinIcons.folder) => {
     const newFolder = {
@@ -141,6 +145,12 @@ export const useFolderWidgets = (folder: Folder) => {
       throw new Error(`Widget "${widget.id}" does not belong to plugin "${plugin.id}"`);
     }
 
+    // Validate (don't normalize) the config before persisting: a config-screen bug must not write a config
+    // the widget can't read back, so parse throws here and aborts the write. We store the raw value, not the
+    // parsed one — parse may transform (e.g. string -> Date) and storage must keep the serializable form;
+    // the transform is applied at read time.
+    widget.parse(config);
+
     const instanceId = guid();
 
     const data: WidgetInFolder = {
@@ -252,23 +262,26 @@ export const useFolderWidgets = (folder: Folder) => {
       const updatedWidget = getAnoriStorageNoWait()
         .get(anoriSchema.folderDetails.folder.byId(folder.id))
         ?.widgets.find((w) => w.instanceId === id);
-      if (updatedWidget) {
-        trackEvent("Widget configuration edited", {
-          "Folder": folder.id === "home" ? "home" : "other",
-          "Plugin ID": updatedWidget.pluginId,
-          "Widget ID": updatedWidget.widgetId,
-        });
-      }
+      if (!updatedWidget) return;
+
+      // Edits are partial, so validate the *merged* result is parseable — aborting the write if a
+      // config-screen bug produced something the widget can't read back. Store the raw merged value, not the
+      // parsed one (parse may transform, e.g. string -> Date; storage keeps the serializable form and the
+      // transform is applied at read time).
+      const configuration = { ...updatedWidget.configuration, ...newConfig };
+      findWidgetDescriptor(updatedWidget.pluginId, updatedWidget.widgetId)?.parse(configuration);
+
+      trackEvent("Widget configuration edited", {
+        "Folder": folder.id === "home" ? "home" : "other",
+        "Plugin ID": updatedWidget.pluginId,
+        "Widget ID": updatedWidget.widgetId,
+      });
+
       await setDetails((p) => {
         const prev = p ?? { widgets: [] };
         return {
           ...prev,
-          widgets: prev.widgets.map((w) => {
-            if (w.instanceId === id) {
-              return { ...w, configuration: { ...w.configuration, ...newConfig } };
-            }
-            return w;
-          }),
+          widgets: prev.widgets.map((w) => (w.instanceId === id ? { ...w, configuration } : w)),
         };
       });
     },

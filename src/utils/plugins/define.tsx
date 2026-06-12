@@ -4,17 +4,12 @@
 
 import type { GridItemSize } from "@anori/utils/grid/types";
 import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
-import type {
-  PluginConfigurationScreenProps,
-  SomePlugin,
-  SomeWidget,
-  WidgetResizable,
-} from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget, WidgetResizable } from "@anori/utils/plugins/types";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { EmptyObject, Mapping } from "@anori/utils/types";
 import { homeFolder, type WidgetInFolder } from "@anori/utils/user-data/types";
-import type { ComponentType } from "react";
+import { type ComponentType, useMemo } from "react";
 
 type Appearance = {
   withHoverAnimation?: boolean;
@@ -82,11 +77,20 @@ export type PluginContext<Widgets extends readonly AnyWidgetDef[], PC extends Ma
   getWidgets: () => Promise<WidgetInstance<Widgets[number]>[]>;
 };
 
-// ── usePluginConfig for the (config-erased) render side: read + parse the plugin's stored config ──
-const usePluginConfigValue = <PC extends Mapping>(pluginId: string, parse: Parse<PC> | undefined): PC | undefined => {
+// Reads a plugin's stored config and parses it with the plugin's parser, memoized on the raw value so the
+// parse runs once per change (and returns a stable reference, keeping downstream React.memo effective).
+export const usePluginConfigValue = (pluginId: string, parse: (raw: unknown) => Mapping): Mapping | undefined => {
   const [raw] = useStorageValue(anoriSchema.pluginConfig.config.byId(pluginId));
-  if (raw === undefined || parse === undefined) return raw as PC | undefined;
-  return parse(raw);
+  return useMemo(() => {
+    if (raw === undefined) return undefined;
+    try {
+      return parse(raw);
+    } catch (e) {
+      // pluginConfig is optional, so degrade to "no config" rather than crashing every widget of the plugin.
+      console.error(`Failed to parse plugin config for "${pluginId}"`, e);
+      return undefined;
+    }
+  }, [raw, parse, pluginId]);
 };
 
 // ── Assembly ──
@@ -122,24 +126,17 @@ export type PluginBuilder<Widgets extends readonly AnyWidgetDef[], PC extends Ma
 // separate file can type its `ctx` without hand-writing `PluginContext<…>`.
 export type ContextOf<B> = B extends PluginBuilder<infer Widgets, infer PC> ? PluginContext<Widgets, PC> : never;
 
-const toSomeWidget = (def: AnyWidgetDef, pluginId: string, parsePluginConfig?: Parse<Mapping>): SomeWidget => {
-  const Main = def.mainScreen;
-  const Config = def.configurationScreen;
-  const parse = def.parse ?? ((raw: unknown) => raw as Mapping);
+const toSomeWidget = (def: AnyWidgetDef): SomeWidget => {
+  // No wrapper: expose the parser and the raw author components. The renderer (WidgetCard, the config-screen
+  // hosts) parses the stored config once and passes the result down as the typed config/pluginConfig props.
   const widget: SomeWidget = {
     id: def.id,
     name: def.name,
     appearance: def.appearance,
     mock: def.mock,
-    mainScreen: ({ instanceId, config }) => {
-      const pluginConfig = usePluginConfigValue(pluginId, parsePluginConfig);
-      return <Main instanceId={instanceId} config={parse(config)} pluginConfig={pluginConfig} />;
-    },
-    configurationScreen: Config
-      ? ({ currentConfig, ...rest }) => (
-          <Config {...rest} currentConfig={currentConfig === undefined ? undefined : parse(currentConfig)} />
-        )
-      : null,
+    parse: def.parse ?? ((raw: unknown) => raw as Mapping),
+    mainScreen: def.mainScreen,
+    configurationScreen: def.configurationScreen,
   };
   // Preserve `name` as a getter (translations resolve lazily).
   Object.defineProperty(widget, "name", Object.getOwnPropertyDescriptor(def, "name") ?? { value: def.name });
@@ -193,18 +190,9 @@ export const definePlugin = <
   const built = Object.defineProperties(
     {
       icon: spec.icon,
-      widgets: spec.widgets.map((d) => toSomeWidget(d, spec.id, parsePluginConfig)),
-      configurationScreen: pluginConfigSpec
-        ? ({ currentConfig, saveConfiguration }: PluginConfigurationScreenProps<unknown>) => {
-            const Screen = pluginConfigSpec.configurationScreen;
-            return (
-              <Screen
-                currentConfig={currentConfig === undefined ? undefined : pluginConfigSpec.parse(currentConfig)}
-                saveConfiguration={saveConfiguration as (c: PC) => void}
-              />
-            );
-          }
-        : null,
+      widgets: spec.widgets.map((d) => toSomeWidget(d)),
+      parseConfig: parsePluginConfig ?? ((raw: unknown) => raw as Mapping),
+      configurationScreen: pluginConfigSpec ? pluginConfigSpec.configurationScreen : null,
       get onMessage() {
         return behaviors.onMessage;
       },
