@@ -145,11 +145,10 @@ export const useFolderWidgets = (folder: Folder) => {
       throw new Error(`Widget "${widget.id}" does not belong to plugin "${plugin.id}"`);
     }
 
-    // Validate (don't normalize) the config before persisting: a config-screen bug must not write a config
-    // the widget can't read back, so parse throws here and aborts the write. We store the raw value, not the
-    // parsed one — parse may transform (e.g. string -> Date) and storage must keep the serializable form;
-    // the transform is applied at read time.
-    widget.parse(config);
+    // Encode the (decoded) config the screen produced back to its serializable storage form. Encode
+    // validates and throws on invalid config, aborting the write so a config-screen bug can't persist
+    // something the widget can't read back; for a codec it also reverses any transform (e.g. Date -> string).
+    const configuration = widget.encode(config);
 
     const instanceId = guid();
 
@@ -157,7 +156,7 @@ export const useFolderWidgets = (folder: Folder) => {
       pluginId: plugin.id,
       widgetId: widget.id,
       instanceId,
-      configuration: config,
+      configuration,
       ...(size ? size : widget.appearance.size),
       ...position,
     };
@@ -264,12 +263,21 @@ export const useFolderWidgets = (folder: Folder) => {
         ?.widgets.find((w) => w.instanceId === id);
       if (!updatedWidget) return;
 
-      // Edits are partial, so validate the *merged* result is parseable — aborting the write if a
-      // config-screen bug produced something the widget can't read back. Store the raw merged value, not the
-      // parsed one (parse may transform, e.g. string -> Date; storage keeps the serializable form and the
-      // transform is applied at read time).
-      const configuration = { ...updatedWidget.configuration, ...newConfig };
-      findWidgetDescriptor(updatedWidget.pluginId, updatedWidget.widgetId)?.parse(configuration);
+      // Edits are partial. Merge in the DECODED domain — stored config is encoded (storage form) while
+      // newConfig from the screen is decoded — then encode the merged result back to storage form. Encode
+      // validates and throws on invalid, aborting the write. A corrupt prior config decodes to {} so the
+      // edit can still proceed (and re-saves a clean value).
+      const descriptor = findWidgetDescriptor(updatedWidget.pluginId, updatedWidget.widgetId);
+      let decoded: Mapping = updatedWidget.configuration;
+      if (descriptor) {
+        try {
+          decoded = descriptor.decode(updatedWidget.configuration);
+        } catch {
+          decoded = {};
+        }
+      }
+      const merged = { ...decoded, ...newConfig };
+      const configuration = descriptor ? descriptor.encode(merged) : merged;
 
       trackEvent("Widget configuration edited", {
         "Folder": folder.id === "home" ? "home" : "other",

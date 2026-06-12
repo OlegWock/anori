@@ -10,6 +10,7 @@ import { useStorageValue } from "@anori/utils/storage-lib";
 import type { EmptyObject, Mapping } from "@anori/utils/types";
 import { homeFolder, type WidgetInFolder } from "@anori/utils/user-data/types";
 import { type ComponentType, useMemo } from "react";
+import { z } from "zod";
 
 type Appearance = {
   withHoverAnimation?: boolean;
@@ -31,16 +32,14 @@ export type WidgetConfigScreenProps<WC extends Mapping> = {
   saveConfiguration: (config: WC) => void;
 };
 
-// A widget's parse step turns the persisted unknown into its config type (zod `.parse` in practice).
-type Parse<T> = (raw: unknown) => T;
-
 // ── Widget identity — carries the precise types; produced by defineWidget ──
 export type WidgetDef<Id extends string, WC extends Mapping, PC extends Mapping> = {
   id: Id;
   name: string;
-  // The unknown -> config seam. Optional: defaults to a cast (today's behavior). Provide a zod `.parse`
-  // (see blueprint) to additionally validate the persisted config at runtime.
-  parse?: Parse<WC>;
+  // The storage <-> config seam, as a zod schema (a plain object today, or a codec with transforms later).
+  // The renderer DECODEs it on read (storage -> WC, error card on failure) and ENCODEs on write (WC ->
+  // storage, blocking invalid configs). Optional: omitted for config-less widgets (passthrough).
+  schema?: z.ZodType<WC>;
   appearance: Appearance;
   mainScreen: ComponentType<WidgetRenderProps<WC, PC>>;
   mock: ComponentType;
@@ -77,20 +76,20 @@ export type PluginContext<Widgets extends readonly AnyWidgetDef[], PC extends Ma
   getWidgets: () => Promise<WidgetInstance<Widgets[number]>[]>;
 };
 
-// Reads a plugin's stored config and parses it with the plugin's parser, memoized on the raw value so the
-// parse runs once per change (and returns a stable reference, keeping downstream React.memo effective).
-export const usePluginConfigValue = (pluginId: string, parse: (raw: unknown) => Mapping): Mapping | undefined => {
+// Reads a plugin's stored config and decodes it with the plugin's schema, memoized on the raw value so the
+// decode runs once per change (and returns a stable reference, keeping downstream React.memo effective).
+export const usePluginConfigValue = (pluginId: string, decode: (raw: unknown) => Mapping): Mapping | undefined => {
   const [raw] = useStorageValue(anoriSchema.pluginConfig.config.byId(pluginId));
   return useMemo(() => {
     if (raw === undefined) return undefined;
     try {
-      return parse(raw);
+      return decode(raw);
     } catch (e) {
       // pluginConfig is optional, so degrade to "no config" rather than crashing every widget of the plugin.
-      console.error(`Failed to parse plugin config for "${pluginId}"`, e);
+      console.error(`Failed to decode plugin config for "${pluginId}"`, e);
       return undefined;
     }
-  }, [raw, parse, pluginId]);
+  }, [raw, decode, pluginId]);
 };
 
 // ── Assembly ──
@@ -99,9 +98,9 @@ type PluginSpec<Id extends string, PC extends Mapping, Widgets extends readonly 
   name: string;
   icon: string;
   widgets: Widgets;
-  // Optional plugin-level config: a schema/parse + a screen to edit it. Widgets receive the value as `pluginConfig`.
+  // Optional plugin-level config: a schema + a screen to edit it. Widgets receive the value as `pluginConfig`.
   config?: {
-    parse: Parse<PC>;
+    schema: z.ZodType<PC>;
     configurationScreen: ComponentType<{ currentConfig?: PC; saveConfiguration: (config: PC) => void }>;
   };
 };
@@ -126,15 +125,28 @@ export type PluginBuilder<Widgets extends readonly AnyWidgetDef[], PC extends Ma
 // separate file can type its `ctx` without hand-writing `PluginContext<…>`.
 export type ContextOf<B> = B extends PluginBuilder<infer Widgets, infer PC> ? PluginContext<Widgets, PC> : never;
 
+// Derive the erased decode/encode pair from a widget/plugin config schema. Decode (storage -> config) runs
+// on read; encode (config -> storage) runs on write. A missing schema means config-less / passthrough.
+const codecFns = (schema: z.ZodType<Mapping> | undefined) => ({
+  decode: schema ? (raw: unknown) => z.decode(schema, raw) : (raw: unknown) => raw as Mapping,
+  // encode returns the schema's input (storage) type — erased to Mapping at this registry boundary.
+  encode: schema
+    ? (config: unknown) => z.encode(schema, config as Mapping) as Mapping
+    : (config: unknown) => config as Mapping,
+});
+
 const toSomeWidget = (def: AnyWidgetDef): SomeWidget => {
-  // No wrapper: expose the parser and the raw author components. The renderer (WidgetCard, the config-screen
-  // hosts) parses the stored config once and passes the result down as the typed config/pluginConfig props.
+  // No wrapper: expose decode/encode and the raw author components. The renderer (WidgetCard, the
+  // config-screen hosts) decodes the stored config once and passes the result down as typed props; the
+  // write path encodes it back to storage form.
+  const { decode, encode } = codecFns(def.schema);
   const widget: SomeWidget = {
     id: def.id,
     name: def.name,
     appearance: def.appearance,
     mock: def.mock,
-    parse: def.parse ?? ((raw: unknown) => raw as Mapping),
+    decode,
+    encode,
     mainScreen: def.mainScreen,
     configurationScreen: def.configurationScreen,
   };
@@ -151,7 +163,9 @@ export const definePlugin = <
   spec: PluginSpec<Id, PC, Widgets>,
 ) => {
   const pluginConfigSpec = spec.config;
-  const parsePluginConfig = pluginConfigSpec?.parse as Parse<Mapping> | undefined;
+  const { decode: decodePluginConfig, encode: encodePluginConfig } = codecFns(
+    pluginConfigSpec?.schema as z.ZodType<Mapping> | undefined,
+  );
 
   const buildContext = (): PluginContext<Widgets, PC> => {
     const plugin = built;
@@ -160,7 +174,7 @@ export const definePlugin = <
       getConfig: async () => {
         const storage = await getAnoriStorage();
         const raw = storage.get(anoriSchema.pluginConfig.config.byId(spec.id));
-        return raw === undefined ? undefined : ((spec.config ? spec.config.parse(raw) : raw) as PC | undefined);
+        return raw === undefined ? undefined : (decodePluginConfig(raw) as PC | undefined);
       },
       getWidgets: async () => {
         const storage = await getAnoriStorage();
@@ -175,11 +189,15 @@ export const definePlugin = <
           .filter((w) => w.pluginId === plugin.id)
           .map((w) => {
             const def = spec.widgets.find((d) => d.id === w.widgetId);
-            return {
-              instanceId: w.instanceId,
-              widgetId: w.widgetId,
-              config: def?.parse ? def.parse(w.configuration) : w.configuration,
-            };
+            let config: unknown = w.configuration;
+            if (def?.schema) {
+              try {
+                config = z.decode(def.schema, w.configuration);
+              } catch (e) {
+                console.error(`Failed to decode config for widget "${w.widgetId}"`, e);
+              }
+            }
+            return { instanceId: w.instanceId, widgetId: w.widgetId, config };
           }) as WidgetInstance<Widgets[number]>[];
       },
     };
@@ -191,7 +209,8 @@ export const definePlugin = <
     {
       icon: spec.icon,
       widgets: spec.widgets.map((d) => toSomeWidget(d)),
-      parseConfig: parsePluginConfig ?? ((raw: unknown) => raw as Mapping),
+      decodeConfig: decodePluginConfig,
+      encodeConfig: encodePluginConfig,
       configurationScreen: pluginConfigSpec ? pluginConfigSpec.configurationScreen : null,
       get onMessage() {
         return behaviors.onMessage;

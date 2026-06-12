@@ -9,7 +9,7 @@ export const widgetDescriptor = defineWidget<"recently-closed-widget", EmptyObje
   get name() {
     return translate("recently-closed-plugin.name");
   },
-  parse: () => ({}), // config-less widget
+  // config-less widget — no schema (decode/encode pass through)
   appearance: {
     resizable: {
       min: { width: 2, height: 2 },

@@ -1,18 +1,15 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget, type WidgetConfigScreenProps, type WidgetRenderProps } from "@anori/utils/plugins/define";
-import type { DatetimeWidgetConfig } from "../types";
+import { type DatetimeWidgetConfig, datetimeWidgetConfigSchema } from "../types";
 import { DatetimeWidget } from "./DatetimeWidget";
 import { ConfigScreen } from "./DatetimeWidgetConfig";
-
-// TODO: replace the cast with a zod schema for runtime validation (see blueprint for the pattern).
-const parse = (raw: unknown) => raw as DatetimeWidgetConfig;
 
 export const datetimeWidgetDescriptorS = defineWidget({
   id: "datetime-widget",
   get name() {
     return translate("datetime-plugin.widgetNameS");
   },
-  parse,
+  schema: datetimeWidgetConfigSchema,
   appearance: {
     resizable: {
       min: { width: 1, height: 1 },
@@ -44,7 +41,7 @@ export const datetimeWidgetDescriptorM = defineWidget({
   get name() {
     return translate("datetime-plugin.widgetNameM");
   },
-  parse,
+  schema: datetimeWidgetConfigSchema,
   appearance: {
     resizable: false,
     size: {

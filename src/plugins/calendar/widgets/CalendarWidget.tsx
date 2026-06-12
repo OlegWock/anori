@@ -11,7 +11,7 @@ import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";
-import { DEFAULT_CALENDAR, makeCalendarAdapter } from "../calendar-adapter";
+import { makeCalendarAdapter } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
 
@@ -67,17 +67,14 @@ export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfi
     direction = direction === "right" ? "left" : "right";
   }
 
-  const calendar = useMemo(
-    () => makeCalendarAdapter(config.calendar ?? DEFAULT_CALENDAR, i18n.language),
-    [config.calendar, i18n.language],
-  );
+  const calendar = useMemo(() => makeCalendarAdapter(config.calendar, i18n.language), [config.calendar, i18n.language]);
 
   const currentMonthStart = useMemo(
     () => calendar.addMonths(today.toDate(), offsetMonths),
     [calendar, today, offsetMonths],
   );
 
-  const firstDayShift = config.firstDay ?? 0;
+  const firstDayShift = config.firstDay;
 
   const monthName = useMemo(() => {
     const todayDate = today.toDate();

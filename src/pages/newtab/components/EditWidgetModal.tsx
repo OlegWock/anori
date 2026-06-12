@@ -35,10 +35,10 @@ export const EditWidgetModal = ({ widget, onUpdateConfig, onClose }: EditWidgetM
   const ConfigurationScreen = widget.widget.configurationScreen;
   const currentConfig = useMemo(() => {
     try {
-      return widget.widget.parse(widget.configuration);
+      return widget.widget.decode(widget.configuration);
     } catch (e) {
       // Start the form from defaults rather than blocking — lets the user re-save a valid config.
-      console.error(`Failed to parse config for widget "${widget.widgetId}"`, e);
+      console.error(`Failed to decode config for widget "${widget.widgetId}"`, e);
       return undefined;
     }
   }, [widget.widget, widget.configuration, widget.widgetId]);

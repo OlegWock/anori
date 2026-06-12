@@ -84,17 +84,20 @@ export type AnoriPlugin<
 // `unknown`; narrow/parse it at the point of use. The concrete config types stay inside each plugin's own
 // folder; only this boundary is opaque.
 export type SomeWidget = Omit<WidgetDescriptor, "mainScreen" | "configurationScreen"> & {
-  // The raw -> config seam, exposed so the renderer can parse the stored config once (memoized) and pass
-  // the result to mainScreen/configurationScreen — these components receive already-parsed config.
-  parse: (raw: unknown) => Mapping;
+  // The storage <-> config seam (a zod schema underneath). `decode` (storage -> config) runs on read and
+  // `encode` (config -> storage) on write; the renderer parses once (memoized) and passes the decoded value
+  // to mainScreen/configurationScreen, and encodes back to the serializable form before persisting.
+  decode: (raw: unknown) => Mapping;
+  encode: (config: unknown) => Mapping;
   mainScreen: ComponentType<WidgetRenderProps<unknown, unknown>>;
   configurationScreen: ComponentType<WidgetConfigurationScreenProps<unknown>> | null;
 };
 
 export type SomePlugin = Omit<AnoriPlugin, "widgets" | "configurationScreen"> & {
   widgets: SomeWidget[];
-  // Parses the plugin-level config; the renderer parses once and passes it down (as a widget's pluginConfig
-  // or the plugin config screen's currentConfig).
-  parseConfig: (raw: unknown) => Mapping;
+  // Same seam for the plugin-level config: decode on read (widget pluginConfig / config-screen currentConfig),
+  // encode on write.
+  decodeConfig: (raw: unknown) => Mapping;
+  encodeConfig: (config: unknown) => Mapping;
   configurationScreen: ComponentType<PluginConfigurationScreenProps<unknown>> | null;
 };

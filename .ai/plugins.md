@@ -47,7 +47,7 @@ const base = definePlugin({
   icon: builtinIcons.plugin,
   // Optional plugin-level config, shared by every widget of the plugin. Omit for plugins without one.
   config: {
-    parse: (raw) => pluginConfigSchema.parse(raw),
+    schema: pluginConfigSchema, // a zod schema (or codec); decoded on read, encoded on write
     configurationScreen: PluginConfigScreen, // ComponentType<{ currentConfig?: PC; saveConfiguration: (c: PC) => void }>
   },
   widgets: [widgetDescriptor],
@@ -63,7 +63,7 @@ export const pluginnamePlugin = base
   .build();
 ```
 
-A plugin needs at least `id` (unique), `name` (translatable), `icon`, and `widgets`. `config` is optional — provide a `parse` + a `configurationScreen` (typed `{ currentConfig?: PC; saveConfiguration: (c: PC) => void }`) when the plugin has settings shared across its widgets; widgets then receive the value as `pluginConfig` and background tasks read it via `ctx.getConfig()`.
+A plugin needs at least `id` (unique), `name` (translatable), `icon`, and `widgets`. `config` is optional — provide a `schema` (a zod schema) + a `configurationScreen` (typed `{ currentConfig?: PC; saveConfiguration: (c: PC) => void }`) when the plugin has settings shared across its widgets; widgets then receive the value as `pluginConfig` and background tasks read it via `ctx.getConfig()`.
 
 Builder methods (all optional, chain in any order):
 
@@ -87,9 +87,12 @@ const widgetDescriptor = defineWidget({
   get name() { // User-facing name
     return translate("blueprint-plugin.widgetName");
   },
-  // Optional: the unknown -> config seam. Defaults to a cast (today's behavior); pass a zod `.parse`
-  // (e.g. `(raw) => widgetConfigSchema.parse(raw)`) to additionally validate the persisted config.
-  parse: (raw) => raw as WidgetConfig,
+  // Optional storage <-> config seam: a zod schema (whose output is WidgetConfig). The framework DECODEs it
+  // on read (storage -> config; an error card is shown if a stored config fails) and ENCODEs on write
+  // (config -> storage; an invalid config blocks the add/edit). Omit for config-less widgets. Use a plain
+  // `z.object({...})` for serializable configs, or a `z.codec(...)` when you want the in-component shape to
+  // differ from what's stored (e.g. a stored ISO string decoded to a Date).
+  schema: widgetConfigSchema,
   configurationScreen: WidgetConfigScreen, // ComponentType<WidgetConfigScreenProps<WidgetConfig>>, or null
   mainScreen: MainScreen, // ComponentType<WidgetRenderProps<WidgetConfig, PluginConfig>>
   // Mock screen is rendered on "New widget" screen and is intended for user to get an idea 

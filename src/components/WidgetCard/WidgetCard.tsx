@@ -336,13 +336,13 @@ export const WidgetCard = ({
   // than throwing out of WidgetCard, which sits above its own ErrorBoundary and would crash the page.
   const { config: parsedConfig, failed: configParseFailed } = useMemo(() => {
     try {
-      return { config: widget.parse(config ?? EMPTY_CONFIG), failed: false };
+      return { config: widget.decode(config ?? EMPTY_CONFIG), failed: false };
     } catch (e) {
-      console.error(`Widget "${widget.id}" failed to parse its config`, e);
+      console.error(`Widget "${widget.id}" failed to decode its config`, e);
       return { config: EMPTY_CONFIG, failed: true };
     }
   }, [widget, config]);
-  const pluginConfig = usePluginConfigValue(plugin.id, plugin.parseConfig);
+  const pluginConfig = usePluginConfigValue(plugin.id, plugin.decodeConfig);
 
   const children = useMemo(() => {
     if (type === "mock") return <widget.mock />;

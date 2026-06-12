@@ -1,6 +1,9 @@
-export type AnkiPluginWidgetConfigType = {
-  deckName: string;
-};
+import { z } from "zod";
+
+export const ankiPluginWidgetConfigSchema = z.object({
+  deckName: z.string(),
+});
+export type AnkiPluginWidgetConfigType = z.infer<typeof ankiPluginWidgetConfigSchema>;
 
 export type AnkiCardInfo = {
   question: string;

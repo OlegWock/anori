@@ -7,7 +7,12 @@ import { defineWidget } from "@anori/utils/plugins/define";
 import { dnrPermissions } from "@anori/utils/plugins/dnr";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
-import type { IframePluginExpandableWidgetConfig, IframePluginWidgetConfig } from "../types";
+import {
+  type IframePluginExpandableWidgetConfig,
+  type IframePluginWidgetConfig,
+  iframePluginExpandableWidgetConfigSchema,
+  iframePluginWidgetConfigSchema,
+} from "../types";
 import { ExpandableWidget } from "./ExpandableIframeWidget";
 import { ExpandableWidgetConfigScreen } from "./ExpandableIframeWidgetConfig";
 import { MainWidget } from "./IframeWidget";
@@ -18,6 +23,7 @@ export const widgetDescriptor = defineWidget({
   get name() {
     return translate("iframe-plugin.name");
   },
+  schema: iframePluginWidgetConfigSchema,
   configurationScreen: MainWidgetConfigScreen,
   mainScreen: (props: WidgetRenderProps<IframePluginWidgetConfig>) => {
     return (
@@ -45,6 +51,7 @@ export const widgetDescriptorExpandable = defineWidget({
   get name() {
     return translate("iframe-plugin.expandWidgetName");
   },
+  schema: iframePluginExpandableWidgetConfigSchema,
   configurationScreen: ExpandableWidgetConfigScreen,
   mainScreen: (props: WidgetRenderProps<IframePluginExpandableWidgetConfig>) => {
     return (

@@ -7,18 +7,26 @@ export const PluginConfigurationSection = ({ plugin }: { plugin: SomePlugin }) =
   const currentConfig = useMemo(() => {
     if (config === undefined) return undefined;
     try {
-      return plugin.parseConfig(config);
+      return plugin.decodeConfig(config);
     } catch (e) {
-      console.error(`Failed to parse plugin config for "${plugin.id}"`, e);
+      console.error(`Failed to decode plugin config for "${plugin.id}"`, e);
       return undefined;
     }
   }, [plugin, config]);
   if (plugin.configurationScreen) {
     const ConfigScreen = plugin.configurationScreen;
+    const saveConfiguration = (value: unknown) => {
+      try {
+        // Encode to the serializable storage form (validates; throws on invalid) before persisting.
+        setConfig(plugin.encodeConfig(value));
+      } catch (e) {
+        console.error(`Failed to save plugin config for "${plugin.id}"`, e);
+      }
+    };
     return (
       <section>
         <h2>{plugin.name}</h2>
-        <ConfigScreen currentConfig={currentConfig} saveConfiguration={setConfig} />
+        <ConfigScreen currentConfig={currentConfig} saveConfiguration={saveConfiguration} />
       </section>
     );
   }

@@ -1,5 +1,6 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
+import { picturePluginWidgetConfigSchema } from "../types";
 import { PictureWidget } from "./PictureWidget";
 import { PictureConfigScreen } from "./PictureWidgetConfig";
 
@@ -8,17 +9,11 @@ export const widgetDescriptor = defineWidget({
   get name() {
     return translate("picture-plugin.widgetName");
   },
+  schema: picturePluginWidgetConfigSchema,
   configurationScreen: PictureConfigScreen,
   mainScreen: PictureWidget,
   mock: () => {
-    return (
-      <PictureWidget
-        instanceId="mock"
-        config={{
-          url: "https://picsum.photos/800",
-        }}
-      />
-    );
+    return <PictureWidget instanceId="mock" config={{ source: "url", url: "https://picsum.photos/800" }} />;
   },
   appearance: {
     withoutPadding: true,

@@ -9,7 +9,7 @@ export const blueprintWidgetDescriptor = defineWidget({
   get name() {
     return translate("blueprint-plugin.widgetName");
   },
-  parse: (raw) => blueprintWidgetConfigSchema.parse(raw),
+  schema: blueprintWidgetConfigSchema,
   configurationScreen: BlueprintWidgetConfigScreen,
   mainScreen: BlueprintWidget,
   mock: () => <BlueprintWidget instanceId="mock" config={{ title: "Example", showIcon: true }} />,

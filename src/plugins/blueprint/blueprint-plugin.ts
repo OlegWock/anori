@@ -17,7 +17,7 @@ const base = definePlugin({
   icon: builtinIcons.plugin,
   // Optional plugin-level config. Omit this whole block for a plugin without shared settings.
   config: {
-    parse: (raw) => blueprintPluginConfigSchema.parse(raw),
+    schema: blueprintPluginConfigSchema,
     configurationScreen: BlueprintPluginConfigScreen,
   },
   widgets: [blueprintWidgetDescriptor],
