@@ -47,12 +47,14 @@ const twoColumn = css({ display: "flex", gap: "4", overflow: "hidden" });
 const sidebar = css({ width: "220px", flexShrink: 0, display: "flex", flexDirection: "column" });
 const pluginsListScroll = css({ flex: 1 });
 const divider = css({
-  height: "100%",
+  // Stretch to the flex row's height instead of `height: 100%` — the row has no definite height in the
+  // modal, so a percentage height would collapse to 0.
+  alignSelf: "stretch",
   borderRightWidth: "1px",
   borderRightStyle: "solid",
-  borderRightColor: "control.border",
+  borderRightColor: "divider",
 });
-const widgetsArea = css({ flex: 1, pr: "4" });
+const widgetsArea = css({ flex: 1, paddingInline: "4" });
 const widgetsContent = css({ display: "flex", flexDirection: "column", gap: "6" });
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {

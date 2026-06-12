@@ -24,7 +24,7 @@ const divider = css({
   height: "100%",
   borderRightWidth: "1px",
   borderRightStyle: "solid",
-  borderRightColor: "frosted",
+  borderRightColor: "divider",
 });
 const screenScroll = css({ flex: 1 });
 const screenPad = css({ paddingInline: "4", paddingBottom: "4" });

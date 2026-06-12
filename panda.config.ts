@@ -140,6 +140,8 @@ export default defineConfig({
             subtle: { value: "var(--ds-frosted-subtle)" },
             strong: { value: "var(--ds-frosted-strong)" },
           },
+          // Hairline for dividers/separators on solid surfaces.
+          divider: { value: "var(--ds-divider)" },
           modal: {
             DEFAULT: { value: "var(--ds-modal)" },
             edge: { value: "var(--ds-modal-edge)" },
