@@ -95,9 +95,6 @@ importers:
       apca-w3:
         specifier: ^0.1.9
         version: 0.1.9
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
@@ -2742,10 +2739,6 @@ packages:
 
   clone-response@1.0.3:
     resolution: {integrity: sha512-ROoL94jJH2dUVML2Y/5PEDNaSHgeOdSDicUyS7izcF63G6sTc/FTjLub4b8Il9S8S0beOfYt0TaA5qvFK+w0wA==}
-
-  clsx@2.1.1:
-    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
-    engines: {node: '>=6'}
 
   code-block-writer@13.0.3:
     resolution: {integrity: sha512-Oofo0pq3IKnsFtuHqSF7TqBfr71aeyZDVJ0HpmqB7FBM2qEigL0iPONSCZSO9pE9dZTAxANe5XHG9Uy0YMv8cg==}
@@ -8684,8 +8677,6 @@ snapshots:
   clone-response@1.0.3:
     dependencies:
       mimic-response: 1.0.1
-
-  clsx@2.1.1: {}
 
   code-block-writer@13.0.3: {}
 

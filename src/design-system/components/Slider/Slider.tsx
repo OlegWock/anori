@@ -1,7 +1,6 @@
 import * as RadixSlider from "@radix-ui/react-slider";
-import { clsx } from "clsx";
 import { useMemo } from "react";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 
 const root = css({
   position: "relative",
@@ -41,16 +40,16 @@ export const Slider = ({ className, value, onChange, onCommit, ...props }: Slide
   const val = useMemo(() => [value], [value]);
   return (
     <RadixSlider.Root
-      className={clsx(root, "Slider", className)}
+      className={cx(root, "Slider", className)}
       value={val}
       onValueChange={(val) => onChange?.(val[0])}
       onValueCommit={(val) => onCommit?.(val[0])}
       {...props}
     >
-      <RadixSlider.Track className={clsx(track, "SliderTrack")}>
-        <RadixSlider.Range className={clsx(range, "SliderRange")} />
+      <RadixSlider.Track className={cx(track, "SliderTrack")}>
+        <RadixSlider.Range className={cx(range, "SliderRange")} />
       </RadixSlider.Track>
-      <RadixSlider.Thumb className={clsx(thumb, "SliderThumb")} />
+      <RadixSlider.Thumb className={cx(thumb, "SliderThumb")} />
     </RadixSlider.Root>
   );
 };

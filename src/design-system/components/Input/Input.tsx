@@ -1,6 +1,5 @@
-import { clsx } from "clsx";
 import { type ChangeEvent, type ComponentProps, type CSSProperties, useState } from "react";
-import { css, cva } from "styled-system/css";
+import { css, cva, cx } from "styled-system/css";
 
 export type InputVariant = "filled" | "ghost";
 
@@ -61,7 +60,7 @@ export const Input = ({
     <input
       onChange={patchedOnChange}
       ref={ref}
-      className={clsx(input({ variant }), inputControl, "Input", className)}
+      className={cx(input({ variant }), inputControl, "Input", className)}
       {...props}
     />
   );
@@ -189,7 +188,7 @@ export const Textarea = ({
     return (
       <textarea
         ref={ref}
-        className={clsx(input({ variant }), textareaPlain, "Input", "TextArea", className)}
+        className={cx(input({ variant }), textareaPlain, "Input", "TextArea", className)}
         value={value}
         defaultValue={defaultValue}
         onChange={handleChange}
@@ -202,7 +201,7 @@ export const Textarea = ({
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: forwards clicks on its padding to the textarea it wraps
     <div
-      className={clsx(textareaWrapper({ variant }), className)}
+      className={cx(textareaWrapper({ variant }), className)}
       data-replicated-value={replicatedValue}
       style={{ ...style, "--max-rows": maxRows } as CSSProperties}
       onMouseDown={(e) => {
@@ -215,7 +214,7 @@ export const Textarea = ({
     >
       <textarea
         ref={ref}
-        className={clsx("Input", "TextArea")}
+        className={cx("Input", "TextArea")}
         value={value}
         defaultValue={defaultValue}
         rows={minRows}

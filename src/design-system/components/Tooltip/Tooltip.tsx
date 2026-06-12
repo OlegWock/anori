@@ -1,9 +1,8 @@
 import type { Mapping } from "@anori/utils/types";
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { Placement, Strategy } from "@floating-ui/react";
-import { clsx } from "clsx";
 import type { ReactElement, ReactNode, Ref } from "react";
-import { css, cva } from "styled-system/css";
+import { css, cva, cx } from "styled-system/css";
 
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
@@ -109,7 +108,7 @@ export const Tooltip = ({
           positionMethod={strategy}
         >
           <BaseTooltip.Popup
-            className={clsx(tooltip({ clickable: hasClickableContent }), "Tooltip")}
+            className={cx(tooltip({ clickable: hasClickableContent }), "Tooltip")}
             style={maxWidth ? { maxWidth } : undefined}
           >
             {content}

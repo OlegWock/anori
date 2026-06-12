@@ -19,7 +19,6 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react";
-import classNames from "clsx";
 import { AnimatePresence, m } from "motion/react";
 import {
   Children,
@@ -33,7 +32,7 @@ import {
   useState,
 } from "react";
 import { mergeRefs } from "react-merge-refs";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 
 // Floating content panel (icon picker, config forms, permission prompts). Elevated surface + drop
 // shadow; `tooltip` z-layer so it sits above any modal it's opened from.
@@ -162,7 +161,7 @@ export const Popover = <D = undefined>({
             <FloatingFocusManager initialFocus={initialFocus} context={context} key="popover">
               <m.div
                 ref={refs.setFloating}
-                className={classNames(popover, "Popover", className)}
+                className={cx(popover, "Popover", className)}
                 style={{
                   ...style,
                   position: strategy,

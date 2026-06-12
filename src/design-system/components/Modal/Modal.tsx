@@ -3,13 +3,12 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useHotkeys } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
-import clsx from "clsx";
 import { LayoutGroup, m, useIsPresent } from "motion/react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import useMeasure from "react-use-motion-measure";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 
 export type ModalProps = {
   title: string;
@@ -113,12 +112,12 @@ export const Modal = ({
         transition={{ y: { duration: 0.2 } }}
       >
         <m.div
-          className={clsx(modalCss, !flush && contentPadding, className)}
+          className={cx(modalCss, !flush && contentPadding, className)}
           onClick={(e) => e.stopPropagation()}
           layoutId={layoutId}
           ref={ref}
         >
-          <div className={clsx(headerCss, flush && headerFlushPadding)}>
+          <div className={cx(headerCss, flush && headerFlushPadding)}>
             {headerButton}
             <Heading level={1} flexGrow={1}>
               {title}

@@ -16,9 +16,8 @@ import {
   SelectValue as RadixSelectValue,
   SelectViewport as RadixSelectViewport,
 } from "@radix-ui/react-select";
-import { clsx } from "clsx";
 import { type ReactNode, type Ref, useLayoutEffect, useState } from "react";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 
 const trigger = css({
   display: "inline-flex",
@@ -124,14 +123,14 @@ export const Select = <T,>({
 
   return (
     <RadixSelectRoot value={innerValue} onValueChange={innerOnChange} dir={dir}>
-      <RadixSelectTrigger className={clsx(trigger, "SelectTrigger", triggerClassname)} aria-label={placeholder}>
+      <RadixSelectTrigger className={cx(trigger, "SelectTrigger", triggerClassname)} aria-label={placeholder}>
         <RadixSelectValue placeholder={placeholder} />
         <RadixSelectIcon className={triggerIcon}>
           <Icon icon={builtinIcons.chevronDown} />
         </RadixSelectIcon>
       </RadixSelectTrigger>
       <RadixSelectPortal>
-        <RadixSelectContent className={clsx(content, "SelectContent", contentClassname)}>
+        <RadixSelectContent className={cx(content, "SelectContent", contentClassname)}>
           <RadixSelectScrollUpButton className={scrollButton}>
             <Icon icon={builtinIcons.chevronUp} />
           </RadixSelectScrollUpButton>
@@ -156,7 +155,7 @@ export const Select = <T,>({
 
 const SelectItem = ({ children, className, ref, ...props }: SelectItemProps & { ref?: Ref<HTMLDivElement> }) => {
   return (
-    <RadixSelectItem className={clsx(item, "SelectItem", className)} {...props} ref={ref}>
+    <RadixSelectItem className={cx(item, "SelectItem", className)} {...props} ref={ref}>
       <RadixSelectItemText>{children}</RadixSelectItemText>
       <RadixSelectItemIndicator className={itemIndicator}>
         <Icon icon={builtinIcons.check} width={14} height={14} />

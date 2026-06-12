@@ -11,7 +11,6 @@ import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value"
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
-import clsx from "clsx";
 import { m, type PanInfo, useMotionValue } from "motion/react";
 import {
   Component,
@@ -344,7 +343,7 @@ export const WidgetCard = ({
       id={instanceId ? `WidgetCard-${instanceId}` : undefined}
       ref={ref}
       key={`card-${instanceId}`}
-      className={clsx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
+      className={cx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
       data-busy={isDragging || isResizing ? true : undefined}
       data-resizing={isResizing ? true : undefined}
       transition={{ ease: "easeInOut", duration: 0.15 }}

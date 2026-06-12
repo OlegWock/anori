@@ -5,7 +5,6 @@ import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollAre
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
 import { useDirection } from "@radix-ui/react-direction";
-import clsx from "clsx";
 import {
   m,
   type Transition,
@@ -18,7 +17,7 @@ import {
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import { css, cva } from "styled-system/css";
+import { css, cva, cx } from "styled-system/css";
 
 const backdrop = css({ position: "fixed", top: 0, left: 0, width: "100dvw", height: "100dvh" });
 const area = cva({
@@ -343,7 +342,7 @@ export const WidgetExpandArea = ({
           </m.div>
         )}
         <m.div
-          className={clsx(content({ noPadding: withoutScroll }), className)}
+          className={cx(content({ noPadding: withoutScroll }), className)}
           style={{
             opacity: contentOpacity,
           }}

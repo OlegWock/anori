@@ -66,7 +66,6 @@
         "@types/react-dom": "^19.2.3",
         "@types/webextension-polyfill": "^0.12.5",
         "apca-w3": "^0.1.9",
-        "clsx": "^2.1.1",
         "cross-env": "^10.1.0",
         "css-loader": "^7.1.4",
         "culori": "^4.0.2",

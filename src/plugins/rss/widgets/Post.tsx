@@ -4,11 +4,10 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
-import clsx from "clsx";
 import moment from "moment-timezone";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { css, cva } from "styled-system/css";
+import { css, cva, cx } from "styled-system/css";
 import type { RssPost } from "../utils";
 
 const postRoot = css({ textDecoration: "none", display: "flex", flexDirection: "column", flex: 1 });
@@ -62,7 +61,7 @@ export const Post = ({
   const subtitle = useMemo(() => decodeHtmlEntities(post.description), [post.description]);
 
   return (
-    <a className={clsx(postRoot, className)} href={post.url} onClick={() => trackInteraction("Open post")}>
+    <a className={cx(postRoot, className)} href={post.url} onClick={() => trackInteraction("Open post")}>
       {clampTitle && <ClampTextToFit withTooltip text={title} as="h3" className={postTitle({ compact })} />}
       {!clampTitle && (
         <>

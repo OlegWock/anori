@@ -13,11 +13,11 @@ import { usePermissionsQuery } from "@anori/utils/permissions";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { dnrPermissions, ensureDnrRules } from "@anori/utils/plugins/dnr";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
-import clsx from "clsx";
 import moment from "moment-timezone";
 import { AnimatePresence } from "motion/react";
 import { type MouseEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { cx } from "styled-system/css";
 import { updatePageStatusForWidget } from "../background";
 import { useBookmarkStore } from "../storage";
 import type { BookmarkWidgetConfig } from "../types";
@@ -162,7 +162,7 @@ export const BookmarkWidget = ({
               icon={builtinIcons.expand}
               label={t("bookmark-plugin.openInIframe")}
               onClick={openIframe}
-              className={clsx(expandButton, "open-in-iframe")}
+              className={cx(expandButton, "open-in-iframe")}
             />
           )}
         </div>

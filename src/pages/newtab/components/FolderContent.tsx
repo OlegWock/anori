@@ -8,12 +8,11 @@ import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
 import { useHotkeys } from "@anori/utils/hooks";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
-import clsx from "clsx";
 import { atom, useAtom } from "jotai";
 import { AnimatePresence, m } from "motion/react";
 import { type CSSProperties, type Ref, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 import { NewWidgetWizard } from "../lazy-components";
 import { EditWidgetModal } from "./EditWidgetModal";
@@ -163,7 +162,7 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
       <m.div
         key={`FolderContent-${folder.id}`}
         data-folder-id={folder.id}
-        className={clsx(rootClass, "FolderContent")}
+        className={cx(rootClass, "FolderContent")}
         transition={{
           duration: 0.2,
           type: "spring",

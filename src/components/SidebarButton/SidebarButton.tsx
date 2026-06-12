@@ -1,10 +1,9 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";
-import clsx from "clsx";
 import { m } from "motion/react";
 import { type ComponentProps, useState } from "react";
-import { css, cva } from "styled-system/css";
+import { css, cva, cx } from "styled-system/css";
 import { DropDestination } from "../DropDestination";
 
 export type SidebarButtonProps = {
@@ -78,7 +77,7 @@ export const SidebarButton = ({
 
   const content = (
     <m.button
-      className={clsx(
+      className={cx(
         "SidebarButton",
         folderButton({ dropTarget: currentlyDraggingWidget && !!dropDestination, highlight: highlightDrop }),
         className,

@@ -11,12 +11,11 @@ import {
   updateAvailablePermissions,
   useAvailablePermissions,
 } from "@anori/utils/permissions";
-import clsx from "clsx";
 import { AnimatePresence } from "motion/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 import browser from "webextension-polyfill";
 
 // Both modes render inside a ScrollArea so the content scrolls in a small widget. Compact is a
@@ -123,7 +122,7 @@ export const RequirePermissions = ({
     return (
       <>
         <ScrollArea
-          className={clsx(compactRoot, className)}
+          className={cx(compactRoot, className)}
           contentClassName={centeredViewport}
           size="thin"
           role="button"
@@ -159,7 +158,7 @@ export const RequirePermissions = ({
   }
 
   return (
-    <ScrollArea className={clsx(prompt, className)} contentClassName={centeredViewport} size="thin">
+    <ScrollArea className={cx(prompt, className)} contentClassName={centeredViewport} size="thin">
       <EmptyState className={promptEmptyState} icon={builtinIcons.key} title={t("requirePermissions.modalTitle")}>
         {permDetails}
         {grantBtn}
