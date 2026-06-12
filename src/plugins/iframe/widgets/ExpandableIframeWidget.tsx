@@ -31,7 +31,7 @@ const content = cva({
     alignItems: "center",
     flexGrow: 1,
     overflow: "hidden",
-    "& svg": { color: "icon" },
+    "& svg": { color: "icon.subtle" },
   },
   variants: { size: { s: { flexFlow: "column-reverse", alignItems: "flex-start" }, m: {} } },
 });

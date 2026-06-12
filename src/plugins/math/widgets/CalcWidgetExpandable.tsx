@@ -20,7 +20,7 @@ const expandTrigger = css({
   alignSelf: "stretch",
   cursor: "pointer",
   textAlign: "start",
-  "& svg": { color: "icon" },
+  "& svg": { color: "icon.subtle" },
 });
 
 export const CalcWidgetExpandable = (_props: WidgetRenderProps<EmptyObject>) => {

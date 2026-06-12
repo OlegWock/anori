@@ -25,7 +25,7 @@ const postDetails = css({
   columnGap: "3",
   rowGap: "2",
   marginTop: "2",
-  "& svg": { color: "icon" },
+  "& svg": { color: "icon.subtle" },
 });
 const detailItem = css({ display: "flex", alignItems: "center", gap: "1-5", lineHeight: "none", color: "text.subtle" });
 

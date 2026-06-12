@@ -22,7 +22,7 @@ export const bookmarkContent = cva({
     textDecoration: "none",
     flexGrow: 1,
     overflow: "hidden",
-    "& svg": { color: "icon" },
+    "& svg": { color: "icon.subtle" },
   },
   variants: {
     size: {
