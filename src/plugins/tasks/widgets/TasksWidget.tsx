@@ -154,11 +154,6 @@ const TaskComponent = ({ task, onEdit, onComplete, onEnterKeyPress, ref }: TaskC
         transition={{
           duration: 0.15,
         }}
-        variants={{
-          checked: {
-            scale: [null, 1.3, 1],
-          },
-        }}
       />
       <m.div className={inputWrapper}>
         <Scribble progress={completionProgress} />
