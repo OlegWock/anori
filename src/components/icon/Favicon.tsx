@@ -3,6 +3,8 @@ import { availablePermissionsAtom } from "@anori/utils/permissions";
 import { useAtomValue } from "jotai";
 import { useMemo, useState } from "react";
 import browser from "webextension-polyfill";
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 
 export type FaviconProps = {
   url: string;
