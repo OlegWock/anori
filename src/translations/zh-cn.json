@@ -32,6 +32,11 @@
         "icons": "图标",
         "customIcons": "自定义图标",
         "canBeEmpty": "可以为空",
+        "unsupportedWidget": {
+            "short": "不可用",
+            "title": "小组件不可用",
+            "description": "此小组件类型在当前浏览器中不可用。它仍保留在其他已同步的浏览器上，您仍可在此处移动、调整大小或将其删除。"
+        },
         "cloud": {
             "connect": "连接",
             "connected": "已连接",

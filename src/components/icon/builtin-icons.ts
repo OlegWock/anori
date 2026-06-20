@@ -2,6 +2,7 @@ import BiInboxFill from "~icons/bi/inbox-fill?raw";
 import BiPip from "~icons/bi/pip?raw";
 import ClarityPictureSolid from "~icons/clarity/picture-solid?raw";
 import FaSolidListOl from "~icons/fa-solid/list-ol?raw";
+import FluentPlugDisconnected48Regular from "~icons/fluent/plug-disconnected-48-regular?raw";
 import FluentSpinnerIos20Regular from "~icons/fluent/spinner-ios-20-regular?raw";
 import IcBaselineDragIndicator from "~icons/ic/baseline-drag-indicator?raw";
 import IcBaselineTab from "~icons/ic/baseline-tab?raw";
@@ -92,6 +93,7 @@ const builtinIconSvgsBySourceId = {
   "ion:time-outline": IonTimeOutline,
   "jam:refresh": JamRefresh,
   "fluent:spinner-ios-20-regular": FluentSpinnerIos20Regular,
+  "fluent:plug-disconnected-48-regular": FluentPlugDisconnected48Regular,
   "ion:calculator": IonCalculator,
   "ion:open-outline": IonOpenOutline,
   "ion:albums": IonAlbums,
@@ -164,6 +166,7 @@ export const builtinIcons = {
   check: "ion:checkmark",
   checkSharp: "ion:checkmark-sharp",
   helpCircle: "ion:help-circle",
+  disconnected: "fluent:plug-disconnected-48-regular",
   location: "ion:location-sharp",
   time: "ion:time-outline",
   refresh: "jam:refresh",

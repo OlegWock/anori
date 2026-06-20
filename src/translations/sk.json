@@ -32,6 +32,11 @@
         "icons": "Ikony",
         "customIcons": "Vlastné ikony",
         "canBeEmpty": "môže byť prázdne",
+        "unsupportedWidget": {
+            "short": "Nedostupné",
+            "title": "Widget nedostupný",
+            "description": "Tento typ widgetu nie je dostupný v tomto prehliadači. Zostáva na vašich ostatných synchronizovaných prehliadačoch a stále ho tu môžete presunúť, zmeniť jeho veľkosť alebo ho odstrániť."
+        },
         "cloud": {
             "connect": "Pripojiť",
             "connected": "Pripojené",

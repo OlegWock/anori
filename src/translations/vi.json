@@ -32,6 +32,11 @@
         "icons": "Biểu tượng",
         "customIcons": "Biểu tượng tùy chỉnh",
         "canBeEmpty": "có thể để trống",
+        "unsupportedWidget": {
+            "short": "Không khả dụng",
+            "title": "Widget không khả dụng",
+            "description": "Loại widget này không khả dụng trên trình duyệt này. Nó vẫn còn trên các trình duyệt đồng bộ khác của bạn, và bạn vẫn có thể di chuyển, thay đổi kích thước hoặc xóa nó tại đây."
+        },
         "cloud": {
             "connect": "Kết nối",
             "connected": "Đã kết nối",

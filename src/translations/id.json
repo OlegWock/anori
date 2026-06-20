@@ -32,6 +32,11 @@
         "icons": "Ikon",
         "customIcons": "Ikon kustom",
         "canBeEmpty": "boleh kosong",
+        "unsupportedWidget": {
+            "short": "Tidak tersedia",
+            "title": "Widget tidak tersedia",
+            "description": "Jenis widget ini tidak tersedia di browser ini. Widget tetap ada di browser lain yang tersinkronisasi, dan Anda masih dapat memindahkan, mengubah ukuran, atau menghapusnya di sini."
+        },
         "cloud": {
             "connect": "Hubungkan",
             "connected": "Terhubung",

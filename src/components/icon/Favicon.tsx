@@ -1,3 +1,5 @@
+import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { Icon } from "@anori/components/icon/Icon";
 import type { BaseIconProps } from "@anori/components/icon/types";
 import { availablePermissionsAtom } from "@anori/utils/permissions";
 import { useAtomValue } from "jotai";
@@ -37,6 +39,5 @@ export const Favicon = ({ useFaviconApiIfPossible, ref, ...props }: FaviconProps
     return <img src={iconUrl} onError={() => setImageError(true)} {...props} ref={ref} aria-hidden />;
   }
 
-  // @ts-expect-error incorrect ref typing
   return <Icon icon={props.fallback || builtinIcons.recentlyClosedTabs.tab} {...props} ref={ref} />;
 };

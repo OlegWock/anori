@@ -32,6 +32,11 @@
         "icons": "アイコン",
         "customIcons": "カスタムアイコン",
         "canBeEmpty": "空にできます",
+        "unsupportedWidget": {
+            "short": "利用不可",
+            "title": "ウィジェットは利用できません",
+            "description": "このウィジェットタイプはこのブラウザでは利用できません。他の同期済みブラウザには残り、ここで移動、サイズ変更、または削除することができます。"
+        },
         "cloud": {
             "connect": "クラウドに接続",
             "connected": "接続済み",

@@ -32,6 +32,11 @@
         "icons": "Icons",
         "customIcons": "Custom icons",
         "canBeEmpty": "can be empty",
+        "unsupportedWidget": {
+            "short": "Unavailable",
+            "title": "Widget unavailable",
+            "description": "This widget type isn't available in this browser. It stays on your other synced browsers, and you still can move, resize, or remove it here."
+        },
         "cloud": {
             "connect": "Connect",
             "connected": "Connected",

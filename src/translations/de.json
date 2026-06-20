@@ -32,6 +32,11 @@
         "icons": "Symbole",
         "customIcons": "Benutzerdefinierte Symbole",
         "canBeEmpty": "kann leer sein",
+        "unsupportedWidget": {
+            "short": "Nicht verfügbar",
+            "title": "Widget nicht verfügbar",
+            "description": "Dieser Widget-Typ ist in diesem Browser nicht verfügbar. Er bleibt in deinen anderen synchronisierten Browsern erhalten, und du kannst ihn hier trotzdem verschieben, skalieren oder entfernen."
+        },
         "cloud": {
             "connect": "Verbinden",
             "connected": "Verbunden",

@@ -32,6 +32,11 @@
         "icons": "Ikony",
         "customIcons": "Własne ikony",
         "canBeEmpty": "może być puste",
+        "unsupportedWidget": {
+            "short": "Niedostępny",
+            "title": "Widget niedostępny",
+            "description": "Ten typ widgetu nie jest dostępny w tej przeglądarce. Pozostaje on w innych zsynchronizowanych przeglądarkach, a tutaj nadal możesz go przenosić, zmieniać rozmiar lub usuwać."
+        },
         "cloud": {
             "connect": "Połącz",
             "connected": "Połączono",

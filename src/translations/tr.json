@@ -32,6 +32,11 @@
         "icons": "İkonlar",
         "customIcons": "Özel ikonlar",
         "canBeEmpty": "Boş olabilir",
+        "unsupportedWidget": {
+            "short": "Kullanılamıyor",
+            "title": "Widget kullanılamıyor",
+            "description": "Bu widget türü bu tarayıcıda kullanılamıyor. Diğer senkronize tarayıcılarınızda kalmaya devam eder ve burada taşıyabilir, yeniden boyutlandırabilir veya kaldırabilirsiniz."
+        },
         "cloud": {
             "connect": "Bağlan",
             "connected": "Bağlandı",
