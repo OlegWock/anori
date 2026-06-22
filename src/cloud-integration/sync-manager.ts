@@ -23,7 +23,6 @@ type KvMutation = {
   key: string;
   value: unknown;
   deleted: boolean;
-  schemaVersion: number;
   hlc: { pt: number; lc: number; node: string };
   brand?: string;
 };
@@ -232,7 +231,6 @@ export class SyncManager {
       key,
       value: record.deleted ? null : record.value,
       deleted: record.deleted ?? false,
-      schemaVersion: currentSchemaVersion,
       hlc: record.hlc,
       brand: record.brand,
     }));
@@ -244,7 +242,6 @@ export class SyncManager {
           key,
           value: null,
           deleted: true,
-          schemaVersion: currentSchemaVersion,
           hlc: record.hlc,
           brand: record.brand,
         });
@@ -262,6 +259,7 @@ export class SyncManager {
     if (kvMutations.length > 0) {
       await client.sync.writeKv.mutate({
         profileId,
+        schemaVersion: currentSchemaVersion,
         mutations: kvMutations,
       });
       syncedEntries.push(...kvMutations.map((m) => ({ key: m.key, hlc: m.hlc })));
@@ -445,12 +443,12 @@ export class SyncManager {
               key: entry.key,
               value: null,
               deleted: true,
-              schemaVersion: currentSchemaVersion,
               hlc: entry.record.hlc,
               brand: entry.record.brand,
             };
             await client.sync.writeKv.mutate({
               profileId,
+              schemaVersion: currentSchemaVersion,
               mutations: [kvMutation],
             });
             syncedEntries.push({ key: entry.key, hlc: entry.record.hlc });
@@ -513,13 +511,13 @@ export class SyncManager {
             key: entry.key,
             value: entry.record.deleted ? null : entry.record.value,
             deleted: entry.record.deleted ?? false,
-            schemaVersion: currentSchemaVersion,
             hlc: entry.record.hlc,
             brand: entry.record.brand,
           };
 
           await client.sync.writeKv.mutate({
             profileId,
+            schemaVersion: currentSchemaVersion,
             mutations: [kvMutation],
           });
           syncedEntries.push({ key: entry.key, hlc: entry.record.hlc });
