@@ -153,12 +153,13 @@ async function runSingleMigration(schema: VersionedSchema, migration: Migration)
   const hlc = hlcState ? createHlc(hlcState.nodeId, hlcState.last) : createHlc(generateNodeId());
 
   const fromAccessor = createFromAccessor(fromSchema.definition, snapshot);
-  const toAccessor = createToAccessor(toSchema.definition, target, () => hlc.tick());
+  const toAccessor = createToAccessor(toSchema.definition, target, snapshot, () => hlc.tick());
 
   await migration.migrate({
     from: {
       schema: fromSchema.definition,
       get: fromAccessor.get.bind(fromAccessor) as typeof fromAccessor.get,
+      getRecord: fromAccessor.getRecord.bind(fromAccessor) as typeof fromAccessor.getRecord,
     },
     to: {
       schema: toSchema.definition,
