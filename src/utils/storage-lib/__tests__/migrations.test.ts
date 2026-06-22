@@ -133,6 +133,7 @@ describe("Migration System", () => {
           createMigration(v1, v2, async (ctx) => {
             const oldTheme = ctx.from.get(ctx.from.schema.theme);
             ctx.to.set(ctx.to.schema.themeMode, oldTheme ?? "light");
+            ctx.to.delete(ctx.from.schema.theme);
           }),
         ],
       });
@@ -148,10 +149,89 @@ describe("Migration System", () => {
       expect(browserState.storage.themeMode).toBeDefined();
       expect((browserState.storage.themeMode as { value: string }).value).toBe("dark");
 
-      // Old tracked key should have tombstone, not be deleted
       const themeTombstone = browserState.storage.theme as { deleted: boolean; value: null };
       expect(themeTombstone.deleted).toBe(true);
       expect(themeTombstone.value).toBeNull();
+    });
+
+    it("should carry forward keys the migration doesn't touch", async () => {
+      await setStoredSchemaVersion(1);
+      browserState.storage.kept = {
+        hlc: { pt: 1000, lc: 0, node: "abc123" },
+        value: "untouched",
+      };
+
+      const v1 = defineSchemaVersion(1, {
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        added: cell({ key: "added", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [
+          createMigration(v1, v2, async (ctx) => {
+            ctx.to.set(ctx.to.schema.added, "new");
+          }),
+        ],
+      });
+
+      const result = await runMigrations(schema);
+
+      expect(result.success).toBe(true);
+      // The untouched key is preserved as-is (not tombstoned or removed).
+      const kept = browserState.storage.kept as { value: string; deleted?: boolean };
+      expect(kept.value).toBe("untouched");
+      expect(kept.deleted).toBeUndefined();
+      expect((browserState.storage.added as { value: string }).value).toBe("new");
+    });
+
+    it("should tombstone tracked deletions but remove untracked ones", async () => {
+      await setStoredSchemaVersion(1);
+      browserState.storage.trackedKey = { hlc: { pt: 1000, lc: 0, node: "abc123" }, value: "t" };
+      browserState.storage.localKey = { hlc: { pt: 1001, lc: 0, node: "abc123" }, value: "l" };
+
+      const v1 = defineSchemaVersion(1, {
+        trackedKey: cell({
+          key: "trackedKey",
+          schema: z.string(),
+          defaultValue: "",
+          tracked: true,
+          includedInBackup: true,
+        }),
+        localKey: cell({
+          key: "localKey",
+          schema: z.string(),
+          defaultValue: "",
+          tracked: false,
+          includedInBackup: true,
+        }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [
+          createMigration(v1, v2, async (ctx) => {
+            ctx.to.delete(ctx.from.schema.trackedKey);
+            ctx.to.delete(ctx.from.schema.localKey);
+          }),
+        ],
+      });
+
+      const result = await runMigrations(schema);
+      expect(result.success).toBe(true);
+
+      // Tracked deletion → tombstone (so it syncs to peers).
+      const tracked = browserState.storage.trackedKey as { deleted?: boolean; value: null };
+      expect(tracked.deleted).toBe(true);
+      expect(tracked.value).toBeNull();
+      // Untracked deletion → actually removed from local storage.
+      expect(browserState.storage.localKey).toBeUndefined();
     });
 
     it("should run multiple migrations in sequence", async () => {

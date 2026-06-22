@@ -167,33 +167,23 @@ async function runSingleMigration(schema: VersionedSchema, migration: Migration)
     },
   });
 
-  const keysToRemove: string[] = [];
-  const tombstones: Record<string, StorageRecord<null>> = {};
-
-  for (const key of Object.keys(snapshot)) {
-    if (!(key in target)) {
-      const wasTracked = isKeyTrackedInSchema(key, fromSchema.definition);
-      const existingRecord = snapshot[key] as StorageRecord<unknown> | undefined;
-
-      if (wasTracked && existingRecord && !existingRecord.deleted) {
-        tombstones[key] = {
-          hlc: hlc.tick(),
-          value: null,
-          deleted: true,
-          brand: existingRecord.brand,
-        };
-      } else {
-        keysToRemove.push(key);
-      }
+  const toWrite: Record<string, StorageRecord<unknown>> = {};
+  const toRemove: string[] = [];
+  for (const [key, record] of Object.entries(target)) {
+    const isTracked =
+      isKeyTrackedInSchema(key, fromSchema.definition) || isKeyTrackedInSchema(key, toSchema.definition);
+    if (record.deleted && !isTracked) {
+      toRemove.push(key);
+    } else {
+      toWrite[key] = record;
     }
   }
 
-  if (keysToRemove.length > 0) {
-    await browser.storage.local.remove(keysToRemove);
+  if (Object.keys(toWrite).length > 0) {
+    await browser.storage.local.set(toWrite);
   }
-
-  if (Object.keys(target).length > 0 || Object.keys(tombstones).length > 0) {
-    await browser.storage.local.set({ ...target, ...tombstones });
+  if (toRemove.length > 0) {
+    await browser.storage.local.remove(toRemove);
   }
 
   await browser.storage.local.set({
