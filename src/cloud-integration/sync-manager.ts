@@ -113,6 +113,7 @@ export class SyncManager {
       });
 
       await this.applyRemoteCells(deltaData.cells);
+      await this.storage.set(anoriSchema.cloudProfileSchemaVersion, deltaData.profileSchemaVersion);
 
       await this.storage.set(anoriSchema.cloudSyncSettings, {
         profileId,
@@ -125,6 +126,7 @@ export class SyncManager {
         const fullData = await client.sync.fullSync.query({ profileId });
         await this.applyRemoteCells(fullData.cells);
         await this.reconcileAfterFullSync(fullData.cells, getTotalCount(fullData), true);
+        await this.storage.set(anoriSchema.cloudProfileSchemaVersion, fullData.profileSchemaVersion);
 
         await this.storage.set(anoriSchema.cloudSyncSettings, {
           profileId,
@@ -210,6 +212,7 @@ export class SyncManager {
     await this.storage.sync.applyRemoteChangesIgnoringHlc(changes, fileBlobs);
     await this.reconcileAfterFullSync(remoteData.cells, getTotalCount(remoteData), false);
     await this.storage.sync.clearOutbox();
+    await this.storage.set(anoriSchema.cloudProfileSchemaVersion, remoteData.profileSchemaVersion);
 
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       profileId,
@@ -333,6 +336,7 @@ export class SyncManager {
     this.storage.sync.disableOutbox();
     this.stop();
     await this.storage.set(anoriSchema.cloudSyncSettings, null);
+    await this.storage.set(anoriSchema.cloudProfileSchemaVersion, 0);
   }
 
   /**
@@ -428,7 +432,16 @@ export class SyncManager {
     return this.subscriptionClient;
   }
 
+  private isBehindCloudSchema(): boolean {
+    const observed = this.storage.get(anoriSchema.cloudProfileSchemaVersion);
+    return observed > 0 && anoriVersionedSchema.currentVersion < observed;
+  }
+
   private async flushOutbox(profileId: string): Promise<void> {
+    if (this.isBehindCloudSchema()) {
+      return;
+    }
+
     const client = getApiClient();
     const currentSchemaVersion = anoriVersionedSchema.currentVersion;
     const outbox = this.storage.sync.exportOutbox();

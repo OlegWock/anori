@@ -289,6 +289,13 @@ export const schemaV1 = defineSchemaVersion(1, {
     tracked: false,
     includedInBackup: false,
   }),
+  cloudProfileSchemaVersion: cell({
+    key: "cloudProfileSchemaVersion",
+    schema: z.number(),
+    defaultValue: 0,
+    tracked: false,
+    includedInBackup: false,
+  }),
 
   // Plugin storage collections
   pluginConfig: collection({

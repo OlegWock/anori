@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { trpc } from "../api-client";
 import { login, logout } from "../auth";
 import { ACCOUNT_URL } from "../consts";
-import { useCloudAccount } from "../hooks";
+import { useCloudAccount, useIsBehindCloudSchema } from "../hooks";
 import { connectToProfile, disconnectFromProfile } from "../sync-manager";
 import "./CloudAccountModal.scss";
 import { useAnoriStorage } from "@anori/utils/storage/hooks";
@@ -39,6 +39,7 @@ export const CloudAccountModal = ({ onClose }: Props) => {
 
 const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof useCloudAccount>["account"]> }) => {
   const { t } = useTranslation();
+  const isBehindCloudSchema = useIsBehindCloudSchema();
   const storage = useAnoriStorage();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [connectingProfileId, setConnectingProfileId] = useState<string | null>(null);
@@ -167,6 +168,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
 
   return (
     <div className="CloudAccountModal-connected">
+      {isBehindCloudSchema && <Alert level="attention">{t("cloud.syncPausedBehind")}</Alert>}
       <div className="account-info">
         <div className="account-info-row">
           <div>

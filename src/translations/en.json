@@ -48,6 +48,7 @@
             "email": "Email",
             "password": "Password",
             "connectedAs": "Connected as",
+            "syncPausedBehind": "This version of Anori is older than another device connected to this profile, so syncing is paused here. It resumes automatically once this browser updates. Any changes you make here while it's paused will NOT sync, and will be overwritten with the data from your other devices when this browser updates.",
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
             "plusDescription": "Anori Plus is an additional service for Anori that lets you sync your configuration between multiple browsers and devices in real time.",
