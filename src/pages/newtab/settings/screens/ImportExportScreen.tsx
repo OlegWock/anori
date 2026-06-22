@@ -14,6 +14,13 @@ import "./ImportExportScreen.scss";
 
 const BACKUP_FORMAT_VERSION = 1;
 
+type BackupMeta = {
+  formatVersion: number;
+  extensionVersion: string;
+  schemaVersion: number;
+  date: string;
+};
+
 export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
   const storage = useStorage();
@@ -33,21 +40,15 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       exportableStorage[key] = record;
     }
 
+    const meta: BackupMeta = {
+      formatVersion: BACKUP_FORMAT_VERSION,
+      extensionVersion: browser.runtime.getManifest().version,
+      schemaVersion: anoriVersionedSchema.currentVersion,
+      date: moment().toISOString(),
+    };
+
     zip.file("storage.json", JSON.stringify(exportableStorage, null, 2), { compression: "DEFLATE" });
-    zip.file(
-      "meta.json",
-      JSON.stringify(
-        {
-          formatVersion: BACKUP_FORMAT_VERSION,
-          extensionVersion: browser.runtime.getManifest().version,
-          schemaVersion: anoriVersionedSchema.currentVersion,
-          date: moment().toISOString(),
-        },
-        null,
-        2,
-      ),
-      { compression: "DEFLATE" },
-    );
+    zip.file("meta.json", JSON.stringify(meta, null, 2), { compression: "DEFLATE" });
 
     for (const { record, path } of Object.values(files)) {
       if (record.deleted) continue;
@@ -80,12 +81,13 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       if (!metaJsonFile) {
         throw new Error("Invalid backup: missing meta.json");
       }
-      const backupMeta = JSON.parse(await metaJsonFile.async("string")) as { formatVersion?: number };
+      const backupMeta = JSON.parse(await metaJsonFile.async("string")) as Partial<BackupMeta>;
       if (backupMeta.formatVersion !== BACKUP_FORMAT_VERSION) {
         throw new Error(
           `Unsupported backup format version: ${backupMeta.formatVersion}. Expected ${BACKUP_FORMAT_VERSION}. This backup was created with a different version of Anori.`,
         );
       }
+      const backupSchemaVersion = backupMeta.schemaVersion ?? anoriVersionedSchema.currentVersion;
 
       const storageFile = zip.file("storage.json");
       if (!storageFile) {
@@ -108,7 +110,7 @@ export const ImportExportScreen = (props: ComponentProps<typeof m.div>) => {
       // Preserve cloud account credentials so user stays logged in
       const currentCloudAccount = storage.get(anoriSchema.cloudAccount);
 
-      await storage.importFromBackup({ kv: storageData, fileBlobs });
+      await storage.importFromBackup({ kv: storageData, fileBlobs, schemaVersion: backupSchemaVersion });
 
       if (currentCloudAccount) {
         await storage.set(anoriSchema.cloudAccount, currentCloudAccount);

@@ -115,7 +115,11 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
   };
 
-  importFromBackup(data: { kv: Record<string, unknown>; fileBlobs: Map<string, Blob> }): Promise<void>;
+  importFromBackup(data: {
+    kv: Record<string, unknown>;
+    fileBlobs: Map<string, Blob>;
+    schemaVersion: number;
+  }): Promise<void>;
 
   files: FilesStorage;
 };
