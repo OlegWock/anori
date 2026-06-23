@@ -2,6 +2,7 @@ import { type AnoriStorage, anoriSchema, anoriVersionedSchema } from "@anori/uti
 import { capturePreUpdateBackup } from "@anori/utils/storage/pre-update-backup";
 import { compareHlc, type HlcTimestamp } from "@anori/utils/storage-lib/hlc";
 import { migrateSnapshot } from "@anori/utils/storage-lib/migrations/runner";
+import { fileExists } from "@anori/utils/storage-lib/opfs";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
 import { type ApiClientWithReconnect, createApiClient, isAppErrorOfType } from "@anori-app/api-client";
@@ -37,6 +38,31 @@ type KvMutation = {
 function getTotalCount(response: unknown): number | undefined {
   const value = (response as { totalCount?: unknown }).totalCount;
   return typeof value === "number" ? value : undefined;
+}
+
+/**
+ * Downloads blobs for the given file cells, skipping any whose blob we already have locally
+ * (a path uniquely identifies a blob, so an existing OPFS file at that path is the same blob).
+ */
+async function downloadFileBlobs(
+  candidates: Array<{ key: string; fileDownloadUrl: string; path?: string }>,
+): Promise<Map<string, Blob>> {
+  const fileBlobs = new Map<string, Blob>();
+  await Promise.all(
+    candidates.map(async ({ key, fileDownloadUrl, path }) => {
+      if (path && (await fileExists(path))) return;
+      try {
+        const response = await fetch(fileDownloadUrl);
+        if (!response.ok) {
+          throw new Error(`Failed to download file: ${response.statusText}`);
+        }
+        fileBlobs.set(key, await response.blob());
+      } catch (error) {
+        console.error(`Failed to download file ${key}:`, error);
+      }
+    }),
+  );
+  return fileBlobs;
 }
 
 /** Per-key last-write-wins merge of two record maps; the higher HLC wins. */
@@ -301,6 +327,7 @@ export class SyncManager {
     const fileDownloads: Array<{
       key: string;
       fileDownloadUrl: string;
+      path?: string;
     }> = [];
 
     for (const cell of remoteData.cells) {
@@ -323,25 +350,12 @@ export class SyncManager {
         fileDownloads.push({
           key: cell.key,
           fileDownloadUrl: cell.fileDownloadUrl,
+          path: (cell.value as FileMetaValue<unknown> | null)?.path,
         });
       }
     }
 
-    const fileBlobs = new Map<string, Blob>();
-    await Promise.all(
-      fileDownloads.map(async ({ key, fileDownloadUrl }) => {
-        try {
-          const response = await fetch(fileDownloadUrl);
-          if (!response.ok) {
-            throw new Error(`Failed to download file: ${response.statusText}`);
-          }
-          const blob = await response.blob();
-          fileBlobs.set(key, blob);
-        } catch (error) {
-          console.error(`Failed to download file ${key}:`, error);
-        }
-      }),
-    );
+    const fileBlobs = await downloadFileBlobs(fileDownloads);
 
     await this.storage.sync.applyRemoteChangesIgnoringHlc(changes, fileBlobs);
     await this.reconcileAfterFullSync(remoteData.cells, getTotalCount(remoteData), false);
@@ -725,6 +739,7 @@ export class SyncManager {
     const fileDownloads: Array<{
       key: string;
       fileDownloadUrl: string;
+      path?: string;
     }> = [];
 
     for (const cell of cells) {
@@ -747,25 +762,12 @@ export class SyncManager {
         fileDownloads.push({
           key: cell.key,
           fileDownloadUrl: cell.fileDownloadUrl,
+          path: (cell.value as FileMetaValue<unknown> | null)?.path,
         });
       }
     }
 
-    const fileBlobs = new Map<string, Blob>();
-    await Promise.all(
-      fileDownloads.map(async ({ key, fileDownloadUrl }) => {
-        try {
-          const response = await fetch(fileDownloadUrl);
-          if (!response.ok) {
-            throw new Error(`Failed to download file: ${response.statusText}`);
-          }
-          const blob = await response.blob();
-          fileBlobs.set(key, blob);
-        } catch (error) {
-          console.error(`Failed to download file ${key}:`, error);
-        }
-      }),
-    );
+    const fileBlobs = await downloadFileBlobs(fileDownloads);
 
     await this.storage.sync.mergeRemoteChanges(changes, fileBlobs);
   }
