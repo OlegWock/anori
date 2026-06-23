@@ -1,10 +1,11 @@
 import { type AnoriStorage, anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
 import { capturePreUpdateBackup } from "@anori/utils/storage/pre-update-backup";
-import type { HlcTimestamp } from "@anori/utils/storage-lib/hlc";
+import { compareHlc, type HlcTimestamp } from "@anori/utils/storage-lib/hlc";
+import { migrateSnapshot } from "@anori/utils/storage-lib/migrations/runner";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
 import { type ApiClientWithReconnect, createApiClient, isAppErrorOfType } from "@anori-app/api-client";
-import { CommitLogPrunedError } from "@anori-app/api-types";
+import { CommitLogPrunedError, SchemaUpgradeConflictError, SchemaVersionMismatchError } from "@anori-app/api-types";
 import { getApiClient } from "./api-client";
 import { clearSession, isSessionError } from "./auth";
 import { API_BASE_URL } from "./consts";
@@ -36,6 +37,21 @@ type KvMutation = {
 function getTotalCount(response: unknown): number | undefined {
   const value = (response as { totalCount?: unknown }).totalCount;
   return typeof value === "number" ? value : undefined;
+}
+
+/** Per-key last-write-wins merge of two record maps; the higher HLC wins. */
+function mergeByHlc(
+  base: Record<string, StorageRecord<unknown>>,
+  other: Record<string, StorageRecord<unknown>>,
+): Record<string, StorageRecord<unknown>> {
+  const merged: Record<string, StorageRecord<unknown>> = { ...base };
+  for (const [key, record] of Object.entries(other)) {
+    const existing = merged[key];
+    if (!existing || compareHlc(record.hlc, existing.hlc) > 0) {
+      merged[key] = record;
+    }
+  }
+  return merged;
 }
 
 /**
@@ -138,17 +154,16 @@ export class SyncManager {
     }
 
     if (profileSchemaVersion < localVersion) {
-      // This extension's instance updated first and now need to migrate cloud profile
+      // This extension's instance updated first and now needs to migrate the cloud profile.
       await this.storage.set(anoriSchema.cloudSyncSettings, { ...syncSettings, profileSchemaVersion });
-      await this.upgradeProfileSchema(profileId, profileSchemaVersion);
+      await this.upgradeProfileSchema(profileId);
       return;
     }
 
     if (syncedVersion < localVersion) {
       // Straggler: the cloud is already at our version but we migrated locally without
       // reconciling. Adopt the cloud (force-pull), discarding our edits into a backup first.
-      await capturePreUpdateBackup(this.storage);
-      await this.pullFromProfile(profileId);
+      await this.adoptAsStraggler(profileId);
       return;
     }
 
@@ -166,9 +181,95 @@ export class SyncManager {
     });
   }
 
-  private async upgradeProfileSchema(_profileId: string, _profileSchemaVersion: number): Promise<void> {
-    // First-upgrader path (F2): migrate the cloud head, HLC-merge with local, upgradeSchema.
-    console.warn("First-upgrader path not yet implemented");
+  private async adoptAsStraggler(profileId: string): Promise<void> {
+    await capturePreUpdateBackup(this.storage);
+    await this.pullFromProfile(profileId);
+  }
+
+  /**
+   * First-upgrader: the profile is still at an older schema than this client. Fetch the raw
+   * old-schema head, migrate it, HLC-merge with local, and push the result via the seq-guarded
+   * upgradeSchema. The merge is safe because an un-upgraded cloud has no newer-schema edits to
+   * clobber; it preserves this device's own edits.
+   */
+  private async upgradeProfileSchema(profileId: string): Promise<void> {
+    const client = getApiClient();
+    const localVersion = anoriVersionedSchema.currentVersion;
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const head = await client.sync.fullSync.query({ profileId });
+
+      if (head.profileSchemaVersion >= localVersion) {
+        // Someone upgraded the profile before us; adopt their result as a straggler.
+        await this.adoptAsStraggler(profileId);
+        return;
+      }
+      const fromVersion = head.profileSchemaVersion;
+
+      const cloudSnapshot: Record<string, StorageRecord<unknown>> = {};
+      const fileKeys = new Set<string>();
+      for (const cell of head.cells) {
+        cloudSnapshot[cell.key] = {
+          hlc: cell.hlc,
+          value: cell.deleted ? null : cell.value,
+          deleted: cell.deleted,
+          brand: cell.brand,
+        };
+        if (cell.fileDownloadUrl !== null) fileKeys.add(cell.key);
+      }
+
+      const { snapshot: migrated } = await migrateSnapshot(
+        anoriVersionedSchema,
+        fromVersion,
+        localVersion,
+        cloudSnapshot,
+        () => this.storage.sync.tickHlc(),
+      );
+
+      const { kv, files } = this.storage.sync.exportForFullSync();
+      const local: Record<string, StorageRecord<unknown>> = { ...kv };
+      for (const [key, { record }] of Object.entries(files)) {
+        local[key] = record;
+        fileKeys.add(key);
+      }
+
+      const merged = mergeByHlc(migrated, local);
+
+      // Every file cell keeps its server blob (fileRef:existing); no blob is uploaded here. A
+      // migration that transforms file content, or an unsynced local file edit that wins the
+      // merge, will NOT have its new blob propagated by the upgrade.
+      const mutations = Object.entries(merged).map(([key, record]) => ({
+        key,
+        value: record.deleted ? null : record.value,
+        deleted: record.deleted ?? false,
+        hlc: record.hlc,
+        brand: record.brand,
+        fileRef: fileKeys.has(key) && !record.deleted ? ("existing" as const) : undefined,
+      }));
+
+      try {
+        await client.sync.upgradeSchema.mutate({
+          profileId,
+          fromVersion,
+          toVersion: localVersion,
+          expectedSeq: head.latestSeq,
+          mutations,
+        });
+      } catch (error) {
+        if (isAppErrorOfType(error, SchemaUpgradeConflictError)) {
+          continue; // a write landed since we synced; re-fetch and retry
+        }
+        if (isAppErrorOfType(error, SchemaVersionMismatchError)) {
+          await this.adoptAsStraggler(profileId); // lost the race
+          return;
+        }
+        throw error;
+      }
+
+      // Adopt the now-upgraded cloud (equal to the merged result) so local matches it.
+      await this.pullFromProfile(profileId);
+      return;
+    }
   }
 
   /**

@@ -86,6 +86,8 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     enableOutbox(): void;
     disableOutbox(): void;
     getOutbox(): Outbox;
+    /** Advances the device clock and returns a fresh timestamp (persisted). */
+    tickHlc(): HlcTimestamp;
     removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void>;
     clearOutbox(): Promise<void>;
     subscribeToOutbox(callback: OutboxChangeCallback): () => void;
