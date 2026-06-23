@@ -1,4 +1,5 @@
 import { type AnoriStorage, anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
+import { capturePreUpdateBackup } from "@anori/utils/storage/pre-update-backup";
 import type { HlcTimestamp } from "@anori/utils/storage-lib/hlc";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
@@ -104,38 +105,70 @@ export class SyncManager {
     const { profileId, latestSeq } = syncSettings;
     const client = getApiClient();
 
-    await this.flushOutbox(profileId);
-
+    // Pull the head first (without applying) to learn the cloud's current schema version, then
+    // route. We must decide before flushing so we never push a newer-schema write to an
+    // older-schema profile.
+    let cells: RemoteCell[];
+    let newLatestSeq: number;
+    let profileSchemaVersion: number;
+    let fullData: { totalCount?: number } | null = null;
     try {
-      const deltaData = await client.sync.deltaSync.query({
-        profileId,
-        sinceSeq: latestSeq,
-      });
-
-      await this.applyRemoteCells(deltaData.cells);
-      await this.storage.set(anoriSchema.cloudProfileSchemaVersion, deltaData.profileSchemaVersion);
-
-      await this.storage.set(anoriSchema.cloudSyncSettings, {
-        profileId,
-        latestSeq: deltaData.latestSeq,
-      });
+      const deltaData = await client.sync.deltaSync.query({ profileId, sinceSeq: latestSeq });
+      cells = deltaData.cells;
+      newLatestSeq = deltaData.latestSeq;
+      profileSchemaVersion = deltaData.profileSchemaVersion;
     } catch (error) {
-      if (isAppErrorOfType(error, CommitLogPrunedError)) {
-        console.log("Delta sync failed due to pruned history, falling back to full sync");
-
-        const fullData = await client.sync.fullSync.query({ profileId });
-        await this.applyRemoteCells(fullData.cells);
-        await this.reconcileAfterFullSync(fullData.cells, getTotalCount(fullData), true);
-        await this.storage.set(anoriSchema.cloudProfileSchemaVersion, fullData.profileSchemaVersion);
-
-        await this.storage.set(anoriSchema.cloudSyncSettings, {
-          profileId,
-          latestSeq: fullData.latestSeq,
-        });
-      } else {
-        throw error;
-      }
+      if (!isAppErrorOfType(error, CommitLogPrunedError)) throw error;
+      console.log("Delta sync failed due to pruned history, falling back to full sync");
+      const full = await client.sync.fullSync.query({ profileId });
+      cells = full.cells;
+      newLatestSeq = full.latestSeq;
+      profileSchemaVersion = full.profileSchemaVersion;
+      fullData = full;
     }
+
+    const localVersion = anoriVersionedSchema.currentVersion;
+    const syncedVersion = syncSettings.syncedSchemaVersion ?? localVersion;
+
+    if (profileSchemaVersion > localVersion) {
+      // Behind: this extension is older than the profile. Pause (badge shown via the observed
+      // version); don't apply, flush, or advance latestSeq.
+      await this.storage.set(anoriSchema.cloudSyncSettings, { ...syncSettings, profileSchemaVersion });
+      return;
+    }
+
+    if (profileSchemaVersion < localVersion) {
+      // This extension's instance updated first and now need to migrate cloud profile
+      await this.storage.set(anoriSchema.cloudSyncSettings, { ...syncSettings, profileSchemaVersion });
+      await this.upgradeProfileSchema(profileId, profileSchemaVersion);
+      return;
+    }
+
+    if (syncedVersion < localVersion) {
+      // Straggler: the cloud is already at our version but we migrated locally without
+      // reconciling. Adopt the cloud (force-pull), discarding our edits into a backup first.
+      await capturePreUpdateBackup(this.storage);
+      await this.pullFromProfile(profileId);
+      return;
+    }
+
+    // Normal sync path
+    await this.flushOutbox(profileId);
+    await this.applyRemoteCells(cells);
+    if (fullData) {
+      await this.reconcileAfterFullSync(cells, getTotalCount(fullData), true);
+    }
+    await this.storage.set(anoriSchema.cloudSyncSettings, {
+      ...syncSettings,
+      latestSeq: newLatestSeq,
+      profileSchemaVersion,
+      syncedSchemaVersion: localVersion,
+    });
+  }
+
+  private async upgradeProfileSchema(_profileId: string, _profileSchemaVersion: number): Promise<void> {
+    // First-upgrader path (F2): migrate the cloud head, HLC-merge with local, upgradeSchema.
+    console.warn("First-upgrader path not yet implemented");
   }
 
   /**
@@ -212,11 +245,13 @@ export class SyncManager {
     await this.storage.sync.applyRemoteChangesIgnoringHlc(changes, fileBlobs);
     await this.reconcileAfterFullSync(remoteData.cells, getTotalCount(remoteData), false);
     await this.storage.sync.clearOutbox();
-    await this.storage.set(anoriSchema.cloudProfileSchemaVersion, remoteData.profileSchemaVersion);
 
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       profileId,
       latestSeq: remoteData.latestSeq,
+      profileSchemaVersion: remoteData.profileSchemaVersion,
+      // Adopting the cloud reconciles us to its schema version.
+      syncedSchemaVersion: remoteData.profileSchemaVersion,
     });
 
     this.setupRemoteSubscription();
@@ -324,6 +359,8 @@ export class SyncManager {
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       profileId,
       latestSeq: 0,
+      profileSchemaVersion: anoriVersionedSchema.currentVersion,
+      syncedSchemaVersion: anoriVersionedSchema.currentVersion,
     });
 
     this.setupRemoteSubscription();
@@ -336,7 +373,6 @@ export class SyncManager {
     this.storage.sync.disableOutbox();
     this.stop();
     await this.storage.set(anoriSchema.cloudSyncSettings, null);
-    await this.storage.set(anoriSchema.cloudProfileSchemaVersion, 0);
   }
 
   /**
@@ -433,8 +469,8 @@ export class SyncManager {
   }
 
   private isBehindCloudSchema(): boolean {
-    const observed = this.storage.get(anoriSchema.cloudProfileSchemaVersion);
-    return observed > 0 && anoriVersionedSchema.currentVersion < observed;
+    const observed = this.storage.get(anoriSchema.cloudSyncSettings)?.profileSchemaVersion;
+    return observed !== undefined && anoriVersionedSchema.currentVersion < observed;
   }
 
   private async flushOutbox(profileId: string): Promise<void> {

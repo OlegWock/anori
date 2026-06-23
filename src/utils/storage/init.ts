@@ -57,45 +57,37 @@ export function getAnoriStorageNoWait(): AnoriStorage {
   throw new Error("Storage is not ready yet");
 }
 
+async function finishInit(sync: boolean): Promise<AnoriStorage> {
+  const storage = createStorage({ schema: anoriVersionedSchema });
+  await storage.initialize();
+
+  if (sync) {
+    startSync(storage);
+  }
+  return storage;
+}
+
 async function initAnoriStorage(options: AnoriStorageOptions): Promise<AnoriStorage> {
   const { sync = true } = options;
-  const isLegacy = await isLegacyStorage();
 
-  if (isLegacy) {
+  if (await isLegacyStorage()) {
     await migrateFromLegacy();
-    const storage = createStorage({ schema: anoriVersionedSchema });
-    await storage.initialize();
-    if (sync) {
-      startSync(storage);
-    }
-    return storage;
+    return finishInit(sync);
   }
 
-  const currentVersion = await getStoredSchemaVersion();
+  const storedVersion = await getStoredSchemaVersion();
 
-  if (currentVersion === 0) {
-    // Fresh install - just set the version
+  if (storedVersion === 0) {
+    // Fresh install, just set the version
     await setStoredSchemaVersion(anoriVersionedSchema.currentVersion);
-    const storage = createStorage({ schema: anoriVersionedSchema });
-    await storage.initialize();
-    if (sync) {
-      startSync(storage);
-    }
-    return storage;
+    return finishInit(sync);
   }
 
-  // Run schema migrations if needed
   const result = await runMigrations(anoriVersionedSchema);
-
   if (!result.success) {
     console.error("Storage migration failed", result.error);
     throw result.error;
   }
 
-  const storage = createStorage({ schema: anoriVersionedSchema });
-  await storage.initialize();
-  if (sync) {
-    startSync(storage);
-  }
-  return storage;
+  return finishInit(sync);
 }

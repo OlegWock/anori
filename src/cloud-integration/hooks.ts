@@ -20,8 +20,9 @@ export const useCloudAccount = () => {
 };
 
 export const useIsBehindCloudSchema = (): boolean => {
-  const [observed] = useStorageValue(anoriSchema.cloudProfileSchemaVersion);
-  return observed > 0 && anoriVersionedSchema.currentVersion < observed;
+  const [syncSettings] = useStorageValue(anoriSchema.cloudSyncSettings);
+  const observed = syncSettings?.profileSchemaVersion;
+  return observed !== undefined && anoriVersionedSchema.currentVersion < observed;
 };
 
 export const useApiClient = () => {
