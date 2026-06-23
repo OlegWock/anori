@@ -3,7 +3,7 @@ import { Button } from "@anori/components/Button";
 import { Input } from "@anori/components/Input";
 import { Modal } from "@anori/components/Modal";
 import { downloadBlob } from "@anori/utils/files";
-import { anoriSchema } from "@anori/utils/storage";
+import { anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
 import { getLatestPreUpdateBackup, type PreUpdateBackup } from "@anori/utils/storage/pre-update-backup";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import { getAppError, isAppErrorOfType } from "@anori-app/api-client";
@@ -121,7 +121,10 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
     setIsPushingProfile(true);
 
     try {
-      const newProfile = await createProfileMutation.mutateAsync({ name: newProfileName.trim() });
+      const newProfile = await createProfileMutation.mutateAsync({
+        name: newProfileName.trim(),
+        schemaVersion: anoriVersionedSchema.currentVersion,
+      });
       await connectToProfile(storage, newProfile.id, "push");
       setNewProfileName("");
       setCreateProfileSuccess(true);

@@ -583,13 +583,21 @@ export class SyncManager {
     return this.subscriptionClient;
   }
 
-  private isBehindCloudSchema(): boolean {
-    const observed = this.storage.get(anoriSchema.cloudSyncSettings)?.profileSchemaVersion;
-    return observed !== undefined && anoriVersionedSchema.currentVersion < observed;
+  // We may flush only when the profile is at our schema version and we've reconciled there.
+  // Otherwise pushing would be behind (rejected), ahead (rejected — a transition is pending), or
+  // a straggler's stale edits (which a force-pull will discard).
+  private isSchemaReconciled(): boolean {
+    const settings = this.storage.get(anoriSchema.cloudSyncSettings);
+    if (!settings) return false;
+    const localVersion = anoriVersionedSchema.currentVersion;
+    return (
+      (settings.profileSchemaVersion ?? localVersion) === localVersion &&
+      (settings.syncedSchemaVersion ?? localVersion) === localVersion
+    );
   }
 
   private async flushOutbox(profileId: string): Promise<void> {
-    if (this.isBehindCloudSchema()) {
+    if (!this.isSchemaReconciled()) {
       return;
     }
 
