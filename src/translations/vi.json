@@ -32,6 +32,11 @@
         "icons": "Biểu tượng",
         "customIcons": "Biểu tượng tùy chỉnh",
         "canBeEmpty": "có thể để trống",
+        "unsupportedWidget": {
+            "short": "Không khả dụng",
+            "title": "Widget không khả dụng",
+            "description": "Loại widget này không khả dụng trên trình duyệt này. Nó vẫn còn trên các trình duyệt đồng bộ khác của bạn, và bạn vẫn có thể di chuyển, thay đổi kích thước hoặc xóa nó tại đây."
+        },
         "cloud": {
             "connect": "Kết nối",
             "connected": "Đã kết nối",
@@ -43,6 +48,9 @@
             "email": "Email",
             "password": "Mật khẩu",
             "connectedAs": "Đã kết nối với",
+            "syncPausedBehind": "Bản sao Anori này cũ hơn một thiết bị khác trên hồ sơ này, vì vậy đồng bộ hóa bị tạm dừng cho đến khi cập nhật. Các thay đổi bạn thực hiện trong thời gian đó sẽ không được đồng bộ với các thiết bị khác, nhưng chúng sẽ được lưu vào bản sao lưu trước khi cập nhật, phòng khi bạn cần.",
+            "preUpdateBackup": "Bản sao lưu trước lần cập nhật gần nhất của bạn ({{date}})",
+            "downloadBackup": "Tải xuống",
             "noAccount": "Chưa có tài khoản?",
             "createAccount": "Tạo tại đây",
             "plusDescription": "Anori Plus giúp bạn đồng bộ cấu hình giữa các trình duyệt và thiết bị theo thời gian thực.",

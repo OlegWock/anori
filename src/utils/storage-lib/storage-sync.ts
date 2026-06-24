@@ -57,6 +57,13 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
       return ctx.getOutboxFromCache();
     },
 
+    tickHlc(): HlcTimestamp {
+      ctx.ensureInitialized();
+      const ts = ctx.getHlc().tick();
+      ctx.persistHlcState();
+      return ts;
+    },
+
     async removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void> {
       ctx.ensureInitialized();
       const outbox = ctx.getOutboxFromCache();

@@ -1,4 +1,5 @@
 import browser from "webextension-polyfill";
+import { SCHEMA_VERSION_KEY } from "./keys";
 import { deleteFile, listFiles, writeFile } from "./opfs";
 import type { StorageInternalContext } from "./storage-types";
 import { type FileMetaValue, isStorageRecord, type StorageRecord } from "./types";
@@ -34,6 +35,7 @@ export function createBackupInterface(ctx: StorageInternalContext) {
     async importFromBackup(data: {
       kv: Record<string, StorageRecord<unknown>>;
       fileBlobs: Map<string, Blob>;
+      schemaVersion: number;
     }): Promise<void> {
       ctx.ensureInitialized();
 
@@ -46,9 +48,10 @@ export function createBackupInterface(ctx: StorageInternalContext) {
         await writeFile(path, blob);
       }
 
-      // Replace all browser storage with backup data
+      // Replace all browser storage with backup data, restoring the backup's schema version so
+      // the next init migrates it forward (a backup is in the schema it was exported at).
       await browser.storage.local.clear();
-      await browser.storage.local.set(data.kv);
+      await browser.storage.local.set({ ...data.kv, [SCHEMA_VERSION_KEY]: data.schemaVersion });
     },
   };
 }

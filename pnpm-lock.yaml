@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@anori-app/api-client':
-        specifier: ^1.0.22
-        version: 1.0.22(react@19.2.7)(typescript@6.0.3)
+        specifier: ^2.0.24
+        version: 2.0.24(react@19.2.7)(typescript@6.0.3)
       '@anori-app/api-types':
-        specifier: ^1.0.22
-        version: 1.0.22
+        specifier: ^2.0.24
+        version: 2.0.24
       '@base-ui/react':
         specifier: ^1.5.0
         version: 1.5.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -267,11 +267,11 @@ importers:
 
 packages:
 
-  '@anori-app/api-client@1.0.22':
-    resolution: {integrity: sha512-U1htn2NwLI0ulYyXNLF2oj1+FJkczqnSUFo0zxK7ZvUu0EHQCzlQK9ybJhch2HR5o1IYH+KRDtgTmkK2DuTbdA==}
+  '@anori-app/api-client@2.0.24':
+    resolution: {integrity: sha512-IqjPUftqNpz2GhlpM4G88ncscPeNWEKH5WALOrfJITqDIWRO0axO4pQ/F1LiiBigTY//EFsTDvDPa1W7mj35Ng==}
 
-  '@anori-app/api-types@1.0.22':
-    resolution: {integrity: sha512-NkUW/VvJyHm4CW2dE3KXQfpnr+z5bYjmykDDaG4cdtNoz9yoBTUWuPnjPzzQNm8ZblIBLjILrauuZMyTRpYp2w==}
+  '@anori-app/api-types@2.0.24':
+    resolution: {integrity: sha512-vsOzlepZF6LkqpHvW8xyl7cMlvtXGwtao7Q9YknRa8r1zxhYS72Lbl4v8IZ9oG1iviOB81qrexo/EqWZJ8TBpQ==}
 
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
@@ -6092,9 +6092,9 @@ packages:
 
 snapshots:
 
-  '@anori-app/api-client@1.0.22(react@19.2.7)(typescript@6.0.3)':
+  '@anori-app/api-client@2.0.24(react@19.2.7)(typescript@6.0.3)':
     dependencies:
-      '@anori-app/api-types': 1.0.22
+      '@anori-app/api-types': 2.0.24
       '@tanstack/react-query': 5.101.0(react@19.2.7)
       '@trpc/client': 11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3)
       '@trpc/react-query': 11.17.0(@tanstack/react-query@5.101.0(react@19.2.7))(@trpc/client@11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3))(@trpc/server@11.17.0(typescript@6.0.3))(react@19.2.7)(typescript@6.0.3)
@@ -6103,7 +6103,7 @@ snapshots:
       - react
       - typescript
 
-  '@anori-app/api-types@1.0.22':
+  '@anori-app/api-types@2.0.24':
     dependencies:
       zod: 4.4.3
 

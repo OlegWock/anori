@@ -5,7 +5,13 @@ const browserState = vi.hoisted<MockBrowserStorageState>(() => ({ storage: {}, c
 
 vi.mock("webextension-polyfill", () => createMockBrowserStorage(browserState));
 
-import { getStoredSchemaVersion, needsMigration, runMigrations, setStoredSchemaVersion } from "../migrations/runner";
+import {
+  getStoredSchemaVersion,
+  migrateSnapshot,
+  needsMigration,
+  runMigrations,
+  setStoredSchemaVersion,
+} from "../migrations/runner";
 import { cell, collection, createMigration, defineSchemaVersion, defineVersionedSchema, entity } from "../schema";
 
 describe("Migration System", () => {
@@ -377,6 +383,123 @@ describe("Migration System", () => {
       expect(await getStoredSchemaVersion()).toBe(1);
     });
 
+    it("should preserve the source hlc for a same-key re-encoding", async () => {
+      await setStoredSchemaVersion(1);
+      const sourceHlc = { pt: 1000, lc: 3, node: "abc123" };
+      browserState.storage.theme = { hlc: sourceHlc, value: { hsl: 1 } };
+
+      const v1 = defineSchemaVersion(1, {
+        theme: cell({
+          key: "theme",
+          schema: z.object({ hsl: z.number() }),
+          defaultValue: { hsl: 0 },
+          tracked: true,
+          includedInBackup: true,
+        }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        theme: cell({
+          key: "theme",
+          schema: z.object({ oklch: z.number() }),
+          defaultValue: { oklch: 0 },
+          tracked: true,
+          includedInBackup: true,
+        }),
+      });
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [
+          createMigration(v1, v2, async (ctx) => {
+            const old = ctx.from.get(ctx.from.schema.theme);
+            ctx.to.set(ctx.to.schema.theme, { oklch: old?.hsl ?? 0 });
+          }),
+        ],
+      });
+
+      await runMigrations(schema);
+
+      const theme = browserState.storage.theme as { hlc: typeof sourceHlc; value: { oklch: number } };
+      expect(theme.value).toEqual({ oklch: 1 });
+      expect(theme.hlc).toEqual(sourceHlc);
+    });
+
+    it("should tick a fresh hlc for a brand-new key", async () => {
+      await setStoredSchemaVersion(1);
+      browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "abc123" }, value: "dark" };
+
+      const v1 = defineSchemaVersion(1, {
+        theme: cell({ key: "theme", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        theme: cell({ key: "theme", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        added: cell({ key: "added", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [createMigration(v1, v2, async (ctx) => ctx.to.set(ctx.to.schema.added, "new"))],
+      });
+
+      await runMigrations(schema);
+
+      const added = browserState.storage.added as { hlc: { pt: number; node: string } };
+      // A new key gets a real, current hlc (not the source's pt:1000, not node abc123).
+      expect(added.hlc.pt).toBeGreaterThan(1000);
+      expect(added.hlc.node).not.toBe("abc123");
+    });
+
+    it("should tick when { tick: true } is passed for an existing key", async () => {
+      await setStoredSchemaVersion(1);
+      browserState.storage.token = { hlc: { pt: 1000, lc: 0, node: "abc123" }, value: "old" };
+
+      const v1 = defineSchemaVersion(1, {
+        token: cell({ key: "token", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        token: cell({ key: "token", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [
+          createMigration(v1, v2, async (ctx) => ctx.to.set(ctx.to.schema.token, "rotated", { tick: true })),
+        ],
+      });
+
+      await runMigrations(schema);
+
+      const token = browserState.storage.token as { hlc: { pt: number; node: string } };
+      expect(token.hlc.pt).toBeGreaterThan(1000);
+      expect(token.hlc.node).not.toBe("abc123");
+    });
+
+    it("should carry a renamed key's source hlc via getRecord + explicit hlc", async () => {
+      await setStoredSchemaVersion(1);
+      const sourceHlc = { pt: 2000, lc: 1, node: "src" };
+      browserState.storage.oldName = { hlc: sourceHlc, value: "v" };
+
+      const v1 = defineSchemaVersion(1, {
+        oldName: cell({ key: "oldName", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        newName: cell({ key: "newName", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [
+          createMigration(v1, v2, async (ctx) => {
+            const rec = ctx.from.getRecord(ctx.from.schema.oldName);
+            ctx.to.set(ctx.to.schema.newName, rec?.value ?? "", { hlc: rec?.hlc });
+            ctx.to.delete(ctx.from.schema.oldName);
+          }),
+        ],
+      });
+
+      await runMigrations(schema);
+
+      const newName = browserState.storage.newName as { hlc: typeof sourceHlc; value: string };
+      expect(newName.value).toBe("v");
+      expect(newName.hlc).toEqual(sourceHlc);
+    });
+
     it("should stop on first failing migration in sequence", async () => {
       await setStoredSchemaVersion(1);
 
@@ -415,6 +538,129 @@ describe("Migration System", () => {
       expect(result.migrationsRun).toBe(1);
       expect(await getStoredSchemaVersion()).toBe(2);
       expect(migration2to3).toHaveBeenCalled();
+    });
+  });
+
+  describe("migrateSnapshot (pure)", () => {
+    let tickCounter = 0;
+    const hlcTick = () => ({ pt: 9000 + ++tickCounter, lc: 0, node: "migrator" });
+
+    beforeEach(() => {
+      tickCounter = 0;
+    });
+
+    const themeV1 = (def: { hsl: number }, hlc = { pt: 1000, lc: 2, node: "src" }) => ({ hlc, value: def }) as const;
+
+    function buildSchema() {
+      const v1 = defineSchemaVersion(1, {
+        theme: cell({
+          key: "theme",
+          schema: z.object({ hsl: z.number() }),
+          defaultValue: { hsl: 0 },
+          tracked: true,
+          includedInBackup: true,
+        }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        theme: cell({
+          key: "theme",
+          schema: z.object({ oklch: z.number() }),
+          defaultValue: { oklch: 0 },
+          tracked: true,
+          includedInBackup: true,
+        }),
+        scheme: cell({
+          key: "scheme",
+          schema: z.string(),
+          defaultValue: "dark",
+          tracked: true,
+          includedInBackup: true,
+        }),
+      });
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [
+          createMigration(v1, v2, async (ctx) => {
+            const old = ctx.from.get(ctx.from.schema.theme);
+            ctx.to.set(ctx.to.schema.theme, { oklch: old?.hsl ?? 0 });
+            ctx.to.set(ctx.to.schema.scheme, "dark");
+          }),
+        ],
+      });
+      return schema;
+    }
+
+    it("returns the diff with preserved + ticked hlcs, without touching storage", async () => {
+      const sourceHlc = { pt: 1000, lc: 2, node: "src" };
+      const snapshot = { theme: themeV1({ hsl: 7 }, sourceHlc) };
+
+      const { diff } = await migrateSnapshot(buildSchema(), 1, 2, snapshot, hlcTick);
+
+      // re-encoded same-key cell keeps the source hlc
+      expect(diff.theme.value).toEqual({ oklch: 7 });
+      expect(diff.theme.hlc).toEqual(sourceHlc);
+      // new cell gets a ticked hlc
+      expect(diff.scheme.value).toBe("dark");
+      expect(diff.scheme.hlc.node).toBe("migrator");
+      // pure: storage untouched, input snapshot not mutated
+      expect(Object.keys(browserState.storage)).toHaveLength(0);
+      expect(snapshot.theme.value).toEqual({ hsl: 7 });
+    });
+
+    it("accumulates the net diff across a chain, later step winning", async () => {
+      const v1 = defineSchemaVersion(1, {
+        n: cell({ key: "n", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        n: cell({ key: "n", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+      });
+      const v3 = defineSchemaVersion(3, {
+        n: cell({ key: "n", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+      });
+      const schema = defineVersionedSchema({
+        versions: [v1, v2, v3],
+        migrations: [
+          createMigration(v1, v2, async (ctx) =>
+            ctx.to.set(ctx.to.schema.n, (ctx.from.get(ctx.from.schema.n) ?? 0) + 1),
+          ),
+          createMigration(v2, v3, async (ctx) =>
+            ctx.to.set(ctx.to.schema.n, (ctx.from.get(ctx.from.schema.n) ?? 0) * 10),
+          ),
+        ],
+      });
+
+      const { diff } = await migrateSnapshot(
+        schema,
+        1,
+        3,
+        { n: { hlc: { pt: 1, lc: 0, node: "s" }, value: 5 } },
+        hlcTick,
+      );
+      // (5 + 1) * 10 = 60
+      expect(diff.n.value).toBe(60);
+    });
+
+    it("includes tombstones for deleted keys in the diff", async () => {
+      const v1 = defineSchemaVersion(1, {
+        old: cell({ key: "old", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const v2 = defineSchemaVersion(2, {
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+      });
+      const schema = defineVersionedSchema({
+        versions: [v1, v2],
+        migrations: [createMigration(v1, v2, async (ctx) => ctx.to.delete(ctx.from.schema.old))],
+      });
+
+      const { diff } = await migrateSnapshot(
+        schema,
+        1,
+        2,
+        { old: { hlc: { pt: 1, lc: 0, node: "s" }, value: "x" } },
+        hlcTick,
+      );
+      expect(diff.old.deleted).toBe(true);
+      expect(diff.old.value).toBeNull();
     });
   });
 });

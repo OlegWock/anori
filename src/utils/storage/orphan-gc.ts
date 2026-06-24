@@ -1,4 +1,4 @@
-import { availablePlugins } from "@anori/plugins/all";
+import { allPlugins } from "@anori/plugins/all";
 import { type AnoriStorage, anoriSchema } from "@anori/utils/storage";
 import { type EntityAccessor, listFiles } from "@anori/utils/storage-lib";
 import { deleteFile as deleteOpfsFile } from "@anori/utils/storage-lib/opfs";
@@ -42,8 +42,7 @@ export async function runOrphanGc(storage: AnoriStorage): Promise<GcResult> {
     }
   }
 
-  // Valid plugin IDs
-  const validPluginIds = new Set(availablePlugins.map((p) => p.id));
+  const validPluginIds = new Set(allPlugins.map((p) => p.id));
 
   // Valid custom theme names (for theme background reachability)
   const customThemes = storage.get(anoriSchema.customThemes) ?? [];

@@ -1,4 +1,4 @@
-import { useCloudAccount } from "@anori/cloud-integration/hooks";
+import { useCloudAccount, useIsBehindCloudSchema } from "@anori/cloud-integration/hooks";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { SidebarButton } from "@anori/components/SidebarButton/SidebarButton";
 import { WhatsNew } from "@anori/components/WhatsNew";
@@ -101,6 +101,7 @@ export const Sidebar = memo(function Sidebar({
   const [whatsNewVisible, setWhatsNewVisible] = useState(false);
   const [cloudModalVisible, setCloudModalVisible] = useState(false);
   const { isConnected } = useCloudAccount();
+  const isBehindCloudSchema = useIsBehindCloudSchema();
 
   useHotkeys("alt+h", () => setShortcutsHelpVisible((v) => !v));
   useHotkeys("alt+s", () => setSettingsVisible((v) => !v));
@@ -155,6 +156,7 @@ export const Sidebar = memo(function Sidebar({
                 layoutId="cloud-account"
                 icon={builtinIcons.personCircle}
                 name={isConnected ? t("cloud.account") : t("cloud.connect")}
+                withRedDot={isBehindCloudSchema}
                 onClick={() => setCloudModalVisible(true)}
               />
               <SidebarButton

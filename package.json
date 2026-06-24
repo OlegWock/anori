@@ -1,7 +1,7 @@
 {
     "name": "Anori",
     "description": "Customizable new tab: compose your own page from widgets",
-    "version": "1.27.0",
+    "version": "1.27.2",
     "type": "module",
     "repository": "git@github.com:OlegWock/anori.git",
     "author": "OlegWock",
@@ -37,8 +37,8 @@
         ]
     },
     "dependencies": {
-        "@anori-app/api-client": "^1.0.22",
-        "@anori-app/api-types": "^1.0.22",
+        "@anori-app/api-client": "^2.0.24",
+        "@anori-app/api-types": "^2.0.24",
         "@base-ui/react": "^1.5.0",
         "@floating-ui/react": "^0.27.19",
         "@iconify/json": "^2.2.485",

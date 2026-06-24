@@ -86,6 +86,8 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     enableOutbox(): void;
     disableOutbox(): void;
     getOutbox(): Outbox;
+    /** Advances the device clock and returns a fresh timestamp (persisted). */
+    tickHlc(): HlcTimestamp;
     removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void>;
     clearOutbox(): Promise<void>;
     subscribeToOutbox(callback: OutboxChangeCallback): () => void;
@@ -115,7 +117,11 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
   };
 
-  importFromBackup(data: { kv: Record<string, unknown>; fileBlobs: Map<string, Blob> }): Promise<void>;
+  importFromBackup(data: {
+    kv: Record<string, unknown>;
+    fileBlobs: Map<string, Blob>;
+    schemaVersion: number;
+  }): Promise<void>;
 
   files: FilesStorage;
 };

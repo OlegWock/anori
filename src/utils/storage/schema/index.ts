@@ -297,6 +297,10 @@ export const schemaV1 = defineSchemaVersion(1, {
       .object({
         profileId: z.string(),
         latestSeq: z.number(),
+        // Observed current schema version of the cloud profile.
+        profileSchemaVersion: z.number().optional(),
+        // Cloud schema version our local data is reconciled to.
+        syncedSchemaVersion: z.number().optional(),
       })
       .nullable(),
     defaultValue: null,

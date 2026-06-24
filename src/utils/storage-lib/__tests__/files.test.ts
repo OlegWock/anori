@@ -379,4 +379,19 @@ describe("FilesStorage", () => {
       expect(outbox.some((e) => e.key === "profileImage")).toBe(true);
     });
   });
+
+  describe("importFromBackup", () => {
+    it("restores the backup's schema version so the next init migrates it forward", async () => {
+      const { storage } = await createTestFilesStorage();
+
+      await storage.importFromBackup({
+        kv: { theme: { hlc: { pt: 1, lc: 0, node: "backup" }, value: "Ocean" } },
+        fileBlobs: new Map(),
+        schemaVersion: 1,
+      });
+
+      expect(browserState.storage.__schema_version).toBe(1);
+      expect((browserState.storage.theme as { value: string }).value).toBe("Ocean");
+    });
+  });
 });

@@ -1,9 +1,12 @@
 import { type AnoriStorage, anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
-import type { HlcTimestamp } from "@anori/utils/storage-lib/hlc";
+import { capturePreUpdateBackup } from "@anori/utils/storage/pre-update-backup";
+import { compareHlc, type HlcTimestamp } from "@anori/utils/storage-lib/hlc";
+import { migrateSnapshot } from "@anori/utils/storage-lib/migrations/runner";
+import { fileExists } from "@anori/utils/storage-lib/opfs";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
 import { type ApiClientWithReconnect, createApiClient, isAppErrorOfType } from "@anori-app/api-client";
-import { CommitLogPrunedError } from "@anori-app/api-types";
+import { CommitLogPrunedError, SchemaUpgradeConflictError, SchemaVersionMismatchError } from "@anori-app/api-types";
 import { getApiClient } from "./api-client";
 import { clearSession, isSessionError } from "./auth";
 import { API_BASE_URL } from "./consts";
@@ -23,7 +26,6 @@ type KvMutation = {
   key: string;
   value: unknown;
   deleted: boolean;
-  schemaVersion: number;
   hlc: { pt: number; lc: number; node: string };
   brand?: string;
 };
@@ -36,6 +38,46 @@ type KvMutation = {
 function getTotalCount(response: unknown): number | undefined {
   const value = (response as { totalCount?: unknown }).totalCount;
   return typeof value === "number" ? value : undefined;
+}
+
+/**
+ * Downloads blobs for the given file cells, skipping any whose blob we already have locally
+ * (a path uniquely identifies a blob, so an existing OPFS file at that path is the same blob).
+ */
+async function downloadFileBlobs(
+  candidates: Array<{ key: string; fileDownloadUrl: string; path?: string }>,
+): Promise<Map<string, Blob>> {
+  const fileBlobs = new Map<string, Blob>();
+  await Promise.all(
+    candidates.map(async ({ key, fileDownloadUrl, path }) => {
+      if (path && (await fileExists(path))) return;
+      try {
+        const response = await fetch(fileDownloadUrl);
+        if (!response.ok) {
+          throw new Error(`Failed to download file: ${response.statusText}`);
+        }
+        fileBlobs.set(key, await response.blob());
+      } catch (error) {
+        console.error(`Failed to download file ${key}:`, error);
+      }
+    }),
+  );
+  return fileBlobs;
+}
+
+/** Per-key last-write-wins merge of two record maps; the higher HLC wins. */
+function mergeByHlc(
+  base: Record<string, StorageRecord<unknown>>,
+  other: Record<string, StorageRecord<unknown>>,
+): Record<string, StorageRecord<unknown>> {
+  const merged: Record<string, StorageRecord<unknown>> = { ...base };
+  for (const [key, record] of Object.entries(other)) {
+    const existing = merged[key];
+    if (!existing || compareHlc(record.hlc, existing.hlc) > 0) {
+      merged[key] = record;
+    }
+  }
+  return merged;
 }
 
 /**
@@ -105,35 +147,154 @@ export class SyncManager {
     const { profileId, latestSeq } = syncSettings;
     const client = getApiClient();
 
-    await this.flushOutbox(profileId);
-
+    // Pull the head first (without applying) to learn the cloud's current schema version, then
+    // route. We must decide before flushing so we never push a newer-schema write to an
+    // older-schema profile.
+    let cells: RemoteCell[];
+    let newLatestSeq: number;
+    let profileSchemaVersion: number;
+    let fullData: { totalCount?: number } | null = null;
     try {
-      const deltaData = await client.sync.deltaSync.query({
-        profileId,
-        sinceSeq: latestSeq,
-      });
-
-      await this.applyRemoteCells(deltaData.cells);
-
-      await this.storage.set(anoriSchema.cloudSyncSettings, {
-        profileId,
-        latestSeq: deltaData.latestSeq,
-      });
+      const deltaData = await client.sync.deltaSync.query({ profileId, sinceSeq: latestSeq });
+      cells = deltaData.cells;
+      newLatestSeq = deltaData.latestSeq;
+      profileSchemaVersion = deltaData.profileSchemaVersion;
     } catch (error) {
-      if (isAppErrorOfType(error, CommitLogPrunedError)) {
-        console.log("Delta sync failed due to pruned history, falling back to full sync");
+      if (!isAppErrorOfType(error, CommitLogPrunedError)) throw error;
+      console.log("Delta sync failed due to pruned history, falling back to full sync");
+      const full = await client.sync.fullSync.query({ profileId });
+      cells = full.cells;
+      newLatestSeq = full.latestSeq;
+      profileSchemaVersion = full.profileSchemaVersion;
+      fullData = full;
+    }
 
-        const fullData = await client.sync.fullSync.query({ profileId });
-        await this.applyRemoteCells(fullData.cells);
-        await this.reconcileAfterFullSync(fullData.cells, getTotalCount(fullData), true);
+    const localVersion = anoriVersionedSchema.currentVersion;
+    const syncedVersion = syncSettings.syncedSchemaVersion ?? localVersion;
 
-        await this.storage.set(anoriSchema.cloudSyncSettings, {
+    if (profileSchemaVersion > localVersion) {
+      // Behind: this extension is older than the profile. Pause (badge shown via the observed
+      // version); don't apply, flush, or advance latestSeq.
+      await this.storage.set(anoriSchema.cloudSyncSettings, { ...syncSettings, profileSchemaVersion });
+      return;
+    }
+
+    if (profileSchemaVersion < localVersion) {
+      // This extension's instance updated first and now needs to migrate the cloud profile.
+      await this.storage.set(anoriSchema.cloudSyncSettings, { ...syncSettings, profileSchemaVersion });
+      await this.upgradeProfileSchema(profileId);
+      return;
+    }
+
+    if (syncedVersion < localVersion) {
+      // Straggler: the cloud is already at our version but we migrated locally without
+      // reconciling. Adopt the cloud (force-pull), discarding our edits into a backup first.
+      await this.adoptAsStraggler(profileId);
+      return;
+    }
+
+    // Normal sync path
+    await this.flushOutbox(profileId);
+    await this.applyRemoteCells(cells);
+    if (fullData) {
+      await this.reconcileAfterFullSync(cells, getTotalCount(fullData), true);
+    }
+    await this.storage.set(anoriSchema.cloudSyncSettings, {
+      ...syncSettings,
+      latestSeq: newLatestSeq,
+      profileSchemaVersion,
+      syncedSchemaVersion: localVersion,
+    });
+  }
+
+  private async adoptAsStraggler(profileId: string): Promise<void> {
+    await capturePreUpdateBackup(this.storage);
+    await this.pullFromProfile(profileId);
+  }
+
+  /**
+   * First-upgrader: the profile is still at an older schema than this client. Fetch the raw
+   * old-schema head, migrate it, HLC-merge with local, and push the result via the seq-guarded
+   * upgradeSchema. The merge is safe because an un-upgraded cloud has no newer-schema edits to
+   * clobber; it preserves this device's own edits.
+   */
+  private async upgradeProfileSchema(profileId: string): Promise<void> {
+    const client = getApiClient();
+    const localVersion = anoriVersionedSchema.currentVersion;
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const head = await client.sync.fullSync.query({ profileId });
+
+      if (head.profileSchemaVersion >= localVersion) {
+        // Someone upgraded the profile before us; adopt their result as a straggler.
+        await this.adoptAsStraggler(profileId);
+        return;
+      }
+      const fromVersion = head.profileSchemaVersion;
+
+      const cloudSnapshot: Record<string, StorageRecord<unknown>> = {};
+      const fileKeys = new Set<string>();
+      for (const cell of head.cells) {
+        cloudSnapshot[cell.key] = {
+          hlc: cell.hlc,
+          value: cell.deleted ? null : cell.value,
+          deleted: cell.deleted,
+          brand: cell.brand,
+        };
+        if (cell.fileDownloadUrl !== null) fileKeys.add(cell.key);
+      }
+
+      const { snapshot: migrated } = await migrateSnapshot(
+        anoriVersionedSchema,
+        fromVersion,
+        localVersion,
+        cloudSnapshot,
+        () => this.storage.sync.tickHlc(),
+      );
+
+      const { kv, files } = this.storage.sync.exportForFullSync();
+      const local: Record<string, StorageRecord<unknown>> = { ...kv };
+      for (const [key, { record }] of Object.entries(files)) {
+        local[key] = record;
+        fileKeys.add(key);
+      }
+
+      const merged = mergeByHlc(migrated, local);
+
+      // Every file cell keeps its server blob (fileRef:existing); no blob is uploaded here. A
+      // migration that transforms file content, or an unsynced local file edit that wins the
+      // merge, will NOT have its new blob propagated by the upgrade.
+      const mutations = Object.entries(merged).map(([key, record]) => ({
+        key,
+        value: record.deleted ? null : record.value,
+        deleted: record.deleted ?? false,
+        hlc: record.hlc,
+        brand: record.brand,
+        fileRef: fileKeys.has(key) && !record.deleted ? ("existing" as const) : undefined,
+      }));
+
+      try {
+        await client.sync.upgradeSchema.mutate({
           profileId,
-          latestSeq: fullData.latestSeq,
+          fromVersion,
+          toVersion: localVersion,
+          expectedSeq: head.latestSeq,
+          mutations,
         });
-      } else {
+      } catch (error) {
+        if (isAppErrorOfType(error, SchemaUpgradeConflictError)) {
+          continue; // a write landed since we synced; re-fetch and retry
+        }
+        if (isAppErrorOfType(error, SchemaVersionMismatchError)) {
+          await this.adoptAsStraggler(profileId); // lost the race
+          return;
+        }
         throw error;
       }
+
+      // Adopt the now-upgraded cloud (equal to the merged result) so local matches it.
+      await this.pullFromProfile(profileId);
+      return;
     }
   }
 
@@ -166,6 +327,7 @@ export class SyncManager {
     const fileDownloads: Array<{
       key: string;
       fileDownloadUrl: string;
+      path?: string;
     }> = [];
 
     for (const cell of remoteData.cells) {
@@ -188,25 +350,12 @@ export class SyncManager {
         fileDownloads.push({
           key: cell.key,
           fileDownloadUrl: cell.fileDownloadUrl,
+          path: (cell.value as FileMetaValue<unknown> | null)?.path,
         });
       }
     }
 
-    const fileBlobs = new Map<string, Blob>();
-    await Promise.all(
-      fileDownloads.map(async ({ key, fileDownloadUrl }) => {
-        try {
-          const response = await fetch(fileDownloadUrl);
-          if (!response.ok) {
-            throw new Error(`Failed to download file: ${response.statusText}`);
-          }
-          const blob = await response.blob();
-          fileBlobs.set(key, blob);
-        } catch (error) {
-          console.error(`Failed to download file ${key}:`, error);
-        }
-      }),
-    );
+    const fileBlobs = await downloadFileBlobs(fileDownloads);
 
     await this.storage.sync.applyRemoteChangesIgnoringHlc(changes, fileBlobs);
     await this.reconcileAfterFullSync(remoteData.cells, getTotalCount(remoteData), false);
@@ -215,6 +364,9 @@ export class SyncManager {
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       profileId,
       latestSeq: remoteData.latestSeq,
+      profileSchemaVersion: remoteData.profileSchemaVersion,
+      // Adopting the cloud reconciles us to its schema version.
+      syncedSchemaVersion: remoteData.profileSchemaVersion,
     });
 
     this.setupRemoteSubscription();
@@ -232,7 +384,6 @@ export class SyncManager {
       key,
       value: record.deleted ? null : record.value,
       deleted: record.deleted ?? false,
-      schemaVersion: currentSchemaVersion,
       hlc: record.hlc,
       brand: record.brand,
     }));
@@ -244,7 +395,6 @@ export class SyncManager {
           key,
           value: null,
           deleted: true,
-          schemaVersion: currentSchemaVersion,
           hlc: record.hlc,
           brand: record.brand,
         });
@@ -262,6 +412,7 @@ export class SyncManager {
     if (kvMutations.length > 0) {
       await client.sync.writeKv.mutate({
         profileId,
+        schemaVersion: currentSchemaVersion,
         mutations: kvMutations,
       });
       syncedEntries.push(...kvMutations.map((m) => ({ key: m.key, hlc: m.hlc })));
@@ -323,6 +474,8 @@ export class SyncManager {
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       profileId,
       latestSeq: 0,
+      profileSchemaVersion: anoriVersionedSchema.currentVersion,
+      syncedSchemaVersion: anoriVersionedSchema.currentVersion,
     });
 
     this.setupRemoteSubscription();
@@ -430,7 +583,24 @@ export class SyncManager {
     return this.subscriptionClient;
   }
 
+  // We may flush only when the profile is at our schema version and we've reconciled there.
+  // Otherwise pushing would be behind (rejected), ahead (rejected — a transition is pending), or
+  // a straggler's stale edits (which a force-pull will discard).
+  private isSchemaReconciled(): boolean {
+    const settings = this.storage.get(anoriSchema.cloudSyncSettings);
+    if (!settings) return false;
+    const localVersion = anoriVersionedSchema.currentVersion;
+    return (
+      (settings.profileSchemaVersion ?? localVersion) === localVersion &&
+      (settings.syncedSchemaVersion ?? localVersion) === localVersion
+    );
+  }
+
   private async flushOutbox(profileId: string): Promise<void> {
+    if (!this.isSchemaReconciled()) {
+      return;
+    }
+
     const client = getApiClient();
     const currentSchemaVersion = anoriVersionedSchema.currentVersion;
     const outbox = this.storage.sync.exportOutbox();
@@ -445,12 +615,12 @@ export class SyncManager {
               key: entry.key,
               value: null,
               deleted: true,
-              schemaVersion: currentSchemaVersion,
               hlc: entry.record.hlc,
               brand: entry.record.brand,
             };
             await client.sync.writeKv.mutate({
               profileId,
+              schemaVersion: currentSchemaVersion,
               mutations: [kvMutation],
             });
             syncedEntries.push({ key: entry.key, hlc: entry.record.hlc });
@@ -513,13 +683,13 @@ export class SyncManager {
             key: entry.key,
             value: entry.record.deleted ? null : entry.record.value,
             deleted: entry.record.deleted ?? false,
-            schemaVersion: currentSchemaVersion,
             hlc: entry.record.hlc,
             brand: entry.record.brand,
           };
 
           await client.sync.writeKv.mutate({
             profileId,
+            schemaVersion: currentSchemaVersion,
             mutations: [kvMutation],
           });
           syncedEntries.push({ key: entry.key, hlc: entry.record.hlc });
@@ -577,6 +747,7 @@ export class SyncManager {
     const fileDownloads: Array<{
       key: string;
       fileDownloadUrl: string;
+      path?: string;
     }> = [];
 
     for (const cell of cells) {
@@ -599,25 +770,12 @@ export class SyncManager {
         fileDownloads.push({
           key: cell.key,
           fileDownloadUrl: cell.fileDownloadUrl,
+          path: (cell.value as FileMetaValue<unknown> | null)?.path,
         });
       }
     }
 
-    const fileBlobs = new Map<string, Blob>();
-    await Promise.all(
-      fileDownloads.map(async ({ key, fileDownloadUrl }) => {
-        try {
-          const response = await fetch(fileDownloadUrl);
-          if (!response.ok) {
-            throw new Error(`Failed to download file: ${response.statusText}`);
-          }
-          const blob = await response.blob();
-          fileBlobs.set(key, blob);
-        } catch (error) {
-          console.error(`Failed to download file ${key}:`, error);
-        }
-      }),
-    );
+    const fileBlobs = await downloadFileBlobs(fileDownloads);
 
     await this.storage.sync.mergeRemoteChanges(changes, fileBlobs);
   }

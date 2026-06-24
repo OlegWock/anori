@@ -32,6 +32,11 @@
         "icons": "Symbole",
         "customIcons": "Benutzerdefinierte Symbole",
         "canBeEmpty": "kann leer sein",
+        "unsupportedWidget": {
+            "short": "Nicht verfügbar",
+            "title": "Widget nicht verfügbar",
+            "description": "Dieser Widget-Typ ist in diesem Browser nicht verfügbar. Er bleibt in deinen anderen synchronisierten Browsern erhalten, und du kannst ihn hier trotzdem verschieben, skalieren oder entfernen."
+        },
         "cloud": {
             "connect": "Verbinden",
             "connected": "Verbunden",
@@ -43,6 +48,9 @@
             "email": "E-Mail",
             "password": "Passwort",
             "connectedAs": "Verbunden als",
+            "syncPausedBehind": "Diese Kopie von Anori ist älter als ein anderes Gerät in diesem Profil, daher ist die Synchronisierung pausiert, bis sie aktualisiert wird. Änderungen, die du bis dahin vornimmst, werden nicht mit deinen anderen Geräten synchronisiert, aber sie werden vor dem Update in einem Backup gespeichert, falls du sie jemals benötigst.",
+            "preUpdateBackup": "Backup von vor deinem letzten Update ({{date}})",
+            "downloadBackup": "Herunterladen",
             "noAccount": "Kein Konto?",
             "createAccount": "Hier erstellen",
             "plusDescription": "Anori Plus ist ein zusätzlicher Dienst für Anori, mit dem du deine Konfiguration in Echtzeit zwischen mehreren Browsern und Geräten synchronisieren kannst.",

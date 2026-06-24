@@ -1,3 +1,5 @@
+import type { HlcTimestamp } from "../hlc";
+import type { StorageRecord } from "../types";
 import type { CellDescriptor } from "./cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "./collection";
 import type { SchemaDefinition, SchemaVersion } from "./version";
@@ -9,14 +11,23 @@ export type MigrationFromAccessor<S extends SchemaDefinition> = {
   get<T>(query: CellDescriptor<T, boolean>): T | undefined;
   get<T>(query: CollectionByIdQuery<T>): T | undefined;
   get<T>(query: CollectionAllQuery<T>): Record<string, T>;
+  // Source record (value + hlc) for a single key — used to carry a renamed/merged key's hlc.
+  getRecord<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>): StorageRecord<T> | undefined;
+};
+
+export type MigrationWriteOptions = {
+  // Stamp a fresh hlc instead of preserving the source cell's (for a genuinely new value).
+  tick?: boolean;
+  // Use this explicit hlc (e.g. carry a renamed/merged source key's hlc).
+  hlc?: HlcTimestamp;
 };
 
 export type MigrationToAccessor<S extends SchemaDefinition> = {
   readonly schema: S;
-  set<T>(query: CellDescriptor<T>, value: T): void;
-  set<T>(query: CollectionByIdQuery<T>, value: T): void;
-  delete(query: CellDescriptor): void;
-  delete(query: CollectionByIdQuery): void;
+  set<T>(query: CellDescriptor<T>, value: T, options?: MigrationWriteOptions): void;
+  set<T>(query: CollectionByIdQuery<T>, value: T, options?: MigrationWriteOptions): void;
+  delete(query: CellDescriptor, options?: MigrationWriteOptions): void;
+  delete(query: CollectionByIdQuery, options?: MigrationWriteOptions): void;
 };
 
 export type MigrationContext<From extends SchemaDefinition, To extends SchemaDefinition> = {
