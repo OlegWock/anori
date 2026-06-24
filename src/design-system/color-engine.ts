@@ -91,6 +91,11 @@ const EDGE_DELTA = 0.02;
 // against the lighter control fill. Dark mode keeps the standard EDGE_DELTA lift.
 const CONTROL_EDGE_LIGHT_DELTA = 0.065;
 const CONTROL_EDGE_DARK_DELTA = 0.04;
+// Controls (inputs, secondary button, checkbox) sit a fraction of a step *lighter* than the surface they
+// rest on — a subtle raised bump, not a full primitive step (which jumps too far here), and not an indent.
+// A bit more lift in dark mode, where the surfaces are darker and need more separation to read as raised.
+const CONTROL_BUMP_DARK_DELTA = 0.045;
+const CONTROL_BUMP_LIGHT_DELTA = 0.03;
 const shade = (sampleAt: (l: number) => string, baseL: number, delta: number): string => sampleAt(baseL + delta);
 
 // Adds an alpha channel to an emitted oklch() string → a translucent overlay.
@@ -115,47 +120,42 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const surfaceChroma = Math.min(accentColor.c, SURFACE_CHROMA);
   const sampleSurface = (l: number) => tintedColorAt(accentColor.h, surfaceChroma, l, gamut);
   const sampleAccent = (l: number) => colorAt(accentColor.h, accentColor.c, l, gamut);
-  // Two genuinely separate filled surfaces (off the same tinted `surface` scale): `card` (lighter)
-  // and `modal` (darker, so dialogs read deeper / more focused). `elevated` stays for raised UI
-  // (dropdowns/popovers).
+  // One unified `surface` tone backs cards, dialogs, and popovers, so a given component (a checkbox, an
+  // input) feels identical wherever it sits. `elevated` shares the tone but lifts its edge to read as
+  // floating.
   // Light mode deliberately runs greener/darker than a naive "near-white surfaces" scheme so filled
-  // surfaces don't fight the (often green/colourful) photo background: cards sit a couple steps off pure
-  // white, modals stay the lightest/cleanest surface (it's a focused dialog), and controls/alerts go a few
-  // steps darker so they read as saturated fills rather than washed-out near-white boxes.
-  const cardIdx = byMode(mode, 4, 12);
-  const modalIdx = byMode(mode, 2, 10);
-  const elevatedIdx = byMode(mode, 4, 12);
+  // surfaces don't fight the (often green/colourful) photo background: surfaces sit a couple steps off
+  // pure white.
+  const surfaceIdx = byMode(mode, 4, 12);
   const accentFillIdx = byMode(mode, 7, 7);
-  const controlIdx = byMode(mode, 3, 11);
+  // Controls and the elevated surface share one tone — a relational bump off the (unified) base surface.
+  const controlL = PRIMITIVE_LS[surfaceIdx] + byMode(mode, CONTROL_BUMP_DARK_DELTA, CONTROL_BUMP_LIGHT_DELTA);
   const accentFill = accent[accentFillIdx];
   const accentDisabled = colorAt(accentColor.h, accentColor.c * 0.4, PRIMITIVE_LS[accentFillIdx], gamut);
 
   const tokens: Record<string, string> = {
-    // Filled surfaces (card, modal, control) sign their edge delta per mode — lighter in dark, but *darker*
-    // in light — so they read as softly inset panels rather than raised boxes in light mode. The always-
-    // lighter lift (a positive delta) is reserved for floating elements (popovers, the accent button).
-    card: surface[cardIdx],
-    "card-edge": shade(sampleSurface, PRIMITIVE_LS[cardIdx], byMode(mode, EDGE_DELTA, -EDGE_DELTA)),
-    // Modal/dialog fill — its own matching (inset) edge.
-    modal: surface[modalIdx],
-    "modal-edge": shade(sampleSurface, PRIMITIVE_LS[modalIdx], byMode(mode, EDGE_DELTA, -EDGE_DELTA)),
-    // Elevated surface (popovers, dropdowns) — a step lighter than the card in dark mode.
-    "surface-elevated": surface[elevatedIdx],
-    "surface-elevated-edge": shade(sampleSurface, PRIMITIVE_LS[elevatedIdx], EDGE_DELTA),
-
-    // Filled control (inputs, secondary button) on the tinted family. `border` delineates it (DS-3);
-    // `edge` is its inset volume highlight.
-    control: surface[controlIdx],
-    "control-border": neutral[byMode(mode, 6, 8)],
-    // "control-edge": shade(sampleSurface, PRIMITIVE_LS[controlIdx], byMode(mode, EDGE_DELTA, -CONTROL_EDGE_LIGHT_DELTA)),
-    "control-edge": shade(
+    // The unified filled surface (cards, dialogs, panels). Its edge signs per mode — lighter in dark, but
+    // *darker* in light — so it reads as a softly inset panel rather than a raised box in light mode. The
+    // always-lighter lift (a positive delta) is reserved for floating elements (popovers, the accent button).
+    surface: surface[surfaceIdx],
+    "surface-edge": shade(sampleSurface, PRIMITIVE_LS[surfaceIdx], byMode(mode, EDGE_DELTA, -EDGE_DELTA)),
+    // Elevated surface (nested cards, folder/icon tiles, popovers) — shares the control tone and edge, so
+    // it reads as a raised, tactile surface above the base. Same value as `control`, named for surfaces.
+    "surface-elevated": sampleSurface(controlL),
+    "surface-elevated-edge": shade(
       sampleSurface,
-      PRIMITIVE_LS[controlIdx],
+      controlL,
       byMode(mode, CONTROL_EDGE_DARK_DELTA, -CONTROL_EDGE_LIGHT_DELTA),
     ),
-    "control-hover": shade(sampleSurface, PRIMITIVE_LS[controlIdx], HOVER_DELTA),
+
+    // Filled control (inputs, secondary button) — a slight raised bump above the surface. `border`
+    // delineates it (DS-3); `edge` is its volume highlight; hover lifts the bump a touch more.
+    control: sampleSurface(controlL),
+    "control-border": neutral[byMode(mode, 6, 8)],
+    "control-edge": shade(sampleSurface, controlL, byMode(mode, CONTROL_EDGE_DARK_DELTA, -CONTROL_EDGE_LIGHT_DELTA)),
+    "control-hover": shade(sampleSurface, controlL, HOVER_DELTA),
     // Disabled secondary — a muted (low-chroma) shade of the control family, not surface.
-    "control-disabled": tintedColorAt(accentColor.h, surfaceChroma * 0.5, PRIMITIVE_LS[controlIdx], gamut),
+    "control-disabled": tintedColorAt(accentColor.h, surfaceChroma * 0.5, controlL, gamut),
 
     accent: accentFill,
     // `on-accent` family: foreground (text/icon) for content sitting on the accent fill — APCA picks
@@ -199,7 +199,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     // Hover wash for ghost/transparent interactive elements (ghost & frosted buttons, bookmark and
     // list-item hovers). Like frosted in dark mode (a faint light wash); in light mode it flips to a
     // translucent dark wash, since a light overlay would be invisible on a light surface.
-    "ghost-hover": withAlpha(neutral[byMode(mode, 13, 0)], byMode(mode, 0.1, 0.07)),
+    "ghost-hover": withAlpha(neutral[byMode(mode, 13, 0)], byMode(mode, 0.07, 0.05)),
 
     // Scrollbar thumb: a translucent neutral that reads against the surface in both modes. Matches the
     // dark-mode frosted overlay, but flips to a dark neutral in light mode (a light overlay would vanish

@@ -158,7 +158,7 @@ export const BookmarkWidget = ({
 
           {["chrome", "firefox"].includes(X_BROWSER) && (
             <IconButton
-              variant="frosted"
+              variant="secondary"
               icon={builtinIcons.expand}
               label={t("bookmark-plugin.openInIframe")}
               onClick={openIframe}

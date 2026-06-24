@@ -22,8 +22,8 @@ const row = css({
   paddingBlock: "2",
   paddingInline: "3",
   borderRadius: "md",
-  bg: "control",
-  boxShadow: "control.edge",
+  bg: "surface.elevated",
+  boxShadow: "surface.elevated.edge",
 });
 const handle = css({ cursor: "grab!", touchAction: "none", flexShrink: 0 });
 const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center", flexShrink: 0 });

@@ -41,7 +41,7 @@ const controlStrip = css({
   paddingTop: "0",
   paddingBottom: "2",
   paddingInline: "2",
-  background: "modal",
+  background: "surface",
 });
 const windowTitle = css({
   flex: 1,
@@ -183,7 +183,7 @@ export const WidgetExpandArea = ({
   const backdropOpacity = useMotionValue(0.7);
   const backgroundStr = useTransform(backdropOpacity, (v) => `rgba(0, 0, 0, ${v.toFixed(2)})`);
   const contentOpacity = useMotionValue(1);
-  const windowColor = useMotionValue("var(--ds-modal)");
+  const windowColor = useMotionValue("var(--ds-surface)");
 
   const areaRef = useRef<HTMLDivElement>(null);
   const cardRef = useParentWidgetCardRef();
@@ -263,7 +263,7 @@ export const WidgetExpandArea = ({
     backdropOpacity.jump(0);
     contentOpacity.jump(0);
     const bgLighter = getComputedStyle(document.documentElement).getPropertyValue("--ds-surface-elevated");
-    const bgDarker = getComputedStyle(document.documentElement).getPropertyValue("--ds-modal");
+    const bgDarker = getComputedStyle(document.documentElement).getPropertyValue("--ds-surface");
     windowColor.jump(bgLighter);
 
     animate(scaleX, 1, { ...transition, duration })

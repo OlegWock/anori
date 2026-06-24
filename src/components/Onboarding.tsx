@@ -25,7 +25,7 @@ const screens = ["start", "folders", "customization", "analytics", "presets"] as
 
 const onboarding = css({
   padding: "6",
-  background: "card",
+  background: "surface",
   borderRadius: "lg",
   display: "flex",
   flexDirection: "column",

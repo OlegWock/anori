@@ -126,7 +126,7 @@ export const applyTheme = async (theme: Theme, mode: Mode) => {
 };
 
 // Generates the palette from the accent + mode, injects the `--ds-*` tokens, and points the browser
-// theme-color meta at the resulting card surface.
+// theme-color meta at the resulting surface color.
 export const applyThemeColors = (accent: OklchColor, mode: Mode) => {
   const { tokens } = applyDesignSystemTokens(accent, mode);
 
@@ -136,7 +136,7 @@ export const applyThemeColors = (accent: OklchColor, mode: Mode) => {
     meta.name = "theme-color";
     document.head.appendChild(meta);
   }
-  meta.content = tokens.card;
+  meta.content = tokens.surface;
 };
 
 type ThemeBackgroundResolver = (themeName: string) => Promise<Blob>;

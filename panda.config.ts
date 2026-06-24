@@ -88,13 +88,8 @@ export default defineConfig({
           popover: {
             value: "0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)",
           },
-          card: {
-            edge: { value: "inset 0 0 0 2px var(--ds-card-edge)" },
-          },
-          modal: {
-            edge: { value: "inset 0 0 0 2px var(--ds-modal-edge)" },
-          },
           surface: {
+            edge: { value: "inset 0 0 0 2px var(--ds-surface-edge)" },
             elevated: {
               edge: { value: "inset 0 0 0 2px var(--ds-surface-elevated-edge)" },
             },
@@ -130,10 +125,6 @@ export default defineConfig({
         // Colors aren't known at build time — injected at runtime as --ds-* vars by the design
         // system (src/design-system/apply.ts). Panda only needs the names; values resolve at runtime.
         colors: {
-          card: {
-            DEFAULT: { value: "var(--ds-card)" },
-            edge: { value: "var(--ds-card-edge)" },
-          },
           // Translucent text-primary overlays for frosted surfaces (over a backdrop blur).
           frosted: {
             DEFAULT: { value: "var(--ds-frosted)" },
@@ -150,11 +141,10 @@ export default defineConfig({
           scrollbar: {
             thumb: { value: "var(--ds-scrollbar-thumb)" },
           },
-          modal: {
-            DEFAULT: { value: "var(--ds-modal)" },
-            edge: { value: "var(--ds-modal-edge)" },
-          },
+          // Unified filled surface (cards, dialogs, panels); `elevated` is the floating variant (popovers).
           surface: {
+            DEFAULT: { value: "var(--ds-surface)" },
+            edge: { value: "var(--ds-surface-edge)" },
             elevated: {
               DEFAULT: { value: "var(--ds-surface-elevated)" },
               edge: { value: "var(--ds-surface-elevated-edge)" },

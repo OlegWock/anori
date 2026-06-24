@@ -78,7 +78,7 @@ export const statusDot = css({
   width: "1rem",
   height: "1rem",
   borderRadius: "md",
-  border: "0.2rem solid var(--ds-card)",
+  border: "0.2rem solid var(--ds-surface)",
 });
 
 // The "open in iframe" button is hidden until the card is hovered (revealed by `widget`'s :hover rule).

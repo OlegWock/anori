@@ -75,10 +75,14 @@ const textareaPlain = css({
   overflowY: "auto",
   minHeight: 0,
   "&::-webkit-scrollbar": { width: "7px", height: "7px" },
-  "&::-webkit-scrollbar-thumb": { borderRadius: "md", border: "2px solid var(--ds-card)", backgroundColor: "card" },
+  "&::-webkit-scrollbar-thumb": {
+    borderRadius: "md",
+    border: "2px solid var(--ds-surface)",
+    backgroundColor: "surface",
+  },
   "&::-webkit-scrollbar-track": { backgroundColor: "surface.elevated", borderRadius: "md" },
   scrollbarWidth: "thin",
-  scrollbarColor: "var(--ds-card) transparent",
+  scrollbarColor: "var(--ds-surface) transparent",
 });
 
 // Autosizing textarea via the CSS "replicated content" grid trick: the wrapper is a single grid cell
@@ -130,10 +134,14 @@ const textareaWrapper = cva({
       color: "inherit",
       "&::placeholder": { color: "text.placeholder" },
       "&::-webkit-scrollbar": { width: "7px", height: "7px" },
-      "&::-webkit-scrollbar-thumb": { borderRadius: "md", border: "2px solid var(--ds-card)", backgroundColor: "card" },
+      "&::-webkit-scrollbar-thumb": {
+        borderRadius: "md",
+        border: "2px solid var(--ds-surface)",
+        backgroundColor: "surface",
+      },
       "&::-webkit-scrollbar-track": { backgroundColor: "surface.elevated", borderRadius: "md" },
       scrollbarWidth: "thin",
-      scrollbarColor: "var(--ds-card) transparent",
+      scrollbarColor: "var(--ds-surface) transparent",
     },
   },
   variants: {

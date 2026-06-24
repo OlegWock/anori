@@ -51,7 +51,7 @@ const iconsGrid = css({
     border: "2px solid var(--ds-surface-elevated)",
     backgroundColor: "surface.elevated",
   },
-  "&::-webkit-scrollbar-track": { backgroundColor: "card", borderRadius: "md" },
+  "&::-webkit-scrollbar-track": { backgroundColor: "surface", borderRadius: "md" },
   scrollbarColor: "var(--ds-surface-elevated) transparent",
 });
 const iconRow = css({ display: "flex" });

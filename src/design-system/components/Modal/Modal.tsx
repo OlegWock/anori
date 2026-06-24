@@ -39,8 +39,8 @@ const backdrop = css({
 // The animated-height wrapper owns the modal's (darker) surface + rounding.
 const wrapper = css({
   borderRadius: "xl",
-  bg: "modal",
-  boxShadow: "modal.edge",
+  bg: "surface",
+  boxShadow: "surface.edge",
   overflow: "hidden",
 });
 

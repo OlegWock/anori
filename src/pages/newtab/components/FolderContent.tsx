@@ -186,7 +186,11 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
           <AnimatePresence initial={false} mode="wait">
             {isEditing && (
               <m.div className={actionButtonsClass} key="editing-buttons" {...actionButtonAnimations}>
-                <Button variant="frosted" iconStart={builtinIcons.add} onClick={() => setNewWidgetWizardVisible(true)}>
+                <Button
+                  variant="secondary"
+                  iconStart={builtinIcons.add}
+                  onClick={() => setNewWidgetWizardVisible(true)}
+                >
                   {t("addWidget")}
                 </Button>
 

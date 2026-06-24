@@ -26,8 +26,8 @@ const row = css({
   paddingBlock: "2",
   paddingInline: "3",
   borderRadius: "md",
-  bg: "control",
-  boxShadow: "control.edge",
+  bg: "surface.elevated",
+  boxShadow: "surface.elevated.edge",
 });
 const rowIcon = css({ flexShrink: 0 });
 const rowName = css({ flex: 1, fontSize: "sm", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" });
@@ -40,8 +40,8 @@ const draftList = css({
   gap: "4",
   padding: "4",
   borderRadius: "lg",
-  bg: "control",
-  boxShadow: "control.edge",
+  bg: "surface.elevated",
+  boxShadow: "surface.elevated.edge",
 });
 const draftRow = css({ display: "flex", alignItems: "center", gap: "4" });
 const draftPreview = css({ flexShrink: 0, borderRadius: "md" });

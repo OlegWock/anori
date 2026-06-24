@@ -74,10 +74,10 @@ const noteBodyContent = css({
   },
   "& > * ul, & > * ol": { marginLeft: "6" },
   "& li > p": { display: "contents" },
-  "& code": { background: "card", paddingBlock: "0-5", paddingInline: "2", borderRadius: "xs" },
+  "& code": { background: "surface", paddingBlock: "0-5", paddingInline: "2", borderRadius: "xs" },
   "& pre": {
     padding: "2",
-    background: "card",
+    background: "surface",
     borderRadius: "md",
     "& code": { background: "inherit", padding: 0, borderRadius: 0 },
   },

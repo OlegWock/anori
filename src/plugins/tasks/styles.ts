@@ -27,7 +27,7 @@ export const taskRow = css({
   alignItems: "center",
   gap: "0-5",
   position: "relative",
-  background: "card",
+  background: "surface",
   borderRadius: "md",
   "@media (any-hover: hover)": { "&:hover .drag-control": { visibility: "visible" } },
 });

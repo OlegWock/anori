@@ -23,7 +23,7 @@ const badge = cva({
   variants: {
     background: {
       surface: { bg: "surface.elevated" },
-      modal: { bg: "modal" },
+      modal: { bg: "surface" },
     },
   },
   defaultVariants: { background: "surface" },

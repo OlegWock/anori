@@ -348,7 +348,13 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                 const showDeleteConfirm = confirmDeleteProfileId === profile.id;
                 const isDeleting = deletingProfileId === profile.id;
                 return (
-                  <Card key={profile.id} padding="3" borderRadius="md">
+                  <Card
+                    key={profile.id}
+                    padding="3"
+                    borderRadius="md"
+                    bg="surface.elevated"
+                    boxShadow="surface.elevated.edge"
+                  >
                     <div className={profileItem}>
                       {isEditing ? (
                         <div className={profileRenameForm}>
