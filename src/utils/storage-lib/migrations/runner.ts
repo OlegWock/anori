@@ -1,10 +1,13 @@
 import browser from "webextension-polyfill";
-import { createHlc, generateNodeId, type HlcState } from "../hlc";
+import { createHlc, generateNodeId, type HlcState, type HlcTimestamp } from "../hlc";
 import { HLC_STATE_KEY, SCHEMA_VERSION_KEY } from "../keys";
 import type { SchemaDefinition } from "../schema/version";
 import { getMigrationPath, type Migration, type VersionedSchema } from "../schema/versioned";
 import type { StorageRecord } from "../types";
 import { createFromAccessor, createToAccessor } from "./context";
+
+/** Records the migration explicitly wrote or tombstoned (the change to apply on top of a head). */
+export type MigrationDiff = Record<string, StorageRecord<unknown>>;
 
 function isKeyTrackedInSchema(key: string, schema: SchemaDefinition): boolean {
   for (const descriptor of Object.values(schema)) {
@@ -120,22 +123,22 @@ export async function runMigrations(schema: VersionedSchema): Promise<MigrationR
   };
 }
 
-async function runSingleMigration(schema: VersionedSchema, migration: Migration): Promise<void> {
+function findSchemas(schema: VersionedSchema, migration: Migration) {
   const fromSchema = schema.versions.find((v) => v.version === migration.fromVersion);
   const toSchema = schema.versions.find((v) => v.version === migration.toVersion);
-
   if (!fromSchema || !toSchema) {
     throw new Error(`Schema version not found: from=${migration.fromVersion}, to=${migration.toVersion}`);
   }
+  return { fromSchema, toSchema };
+}
 
-  const allData = await browser.storage.local.get(null);
-
+/** Extracts the records relevant to `fromDef` (tracked or not) from a flat key→record map. */
+function buildSnapshot(fromDef: SchemaDefinition, allData: Record<string, unknown>): Record<string, unknown> {
   const snapshot: Record<string, unknown> = {};
-  for (const descriptor of Object.values(fromSchema.definition)) {
+  for (const descriptor of Object.values(fromDef)) {
     if ("key" in descriptor) {
-      const key = descriptor.key;
-      if (key in allData) {
-        snapshot[key] = allData[key];
+      if (descriptor.key in allData) {
+        snapshot[descriptor.key] = allData[descriptor.key];
       }
     } else if ("keyPrefix" in descriptor) {
       const prefixWithColon = `${descriptor.keyPrefix}:`;
@@ -146,54 +149,94 @@ async function runSingleMigration(schema: VersionedSchema, migration: Migration)
       }
     }
   }
+  return snapshot;
+}
 
-  const target: Record<string, StorageRecord<unknown>> = {};
-
-  const hlcState = allData[HLC_STATE_KEY] as HlcState | undefined;
-  const hlc = hlcState ? createHlc(hlcState.nodeId, hlcState.last) : createHlc(generateNodeId());
-
-  const fromAccessor = createFromAccessor(fromSchema.definition, snapshot);
-  const toAccessor = createToAccessor(toSchema.definition, target, () => hlc.tick());
+/** Runs one migration's `migrate()` against an in-memory snapshot, returning the records it wrote. */
+async function runMigrationStep(
+  fromDef: SchemaDefinition,
+  toDef: SchemaDefinition,
+  migration: Migration,
+  snapshot: Record<string, unknown>,
+  hlcTick: () => HlcTimestamp,
+): Promise<MigrationDiff> {
+  const target: MigrationDiff = {};
+  const fromAccessor = createFromAccessor(fromDef, snapshot);
+  const toAccessor = createToAccessor(toDef, target, snapshot, hlcTick);
 
   await migration.migrate({
     from: {
-      schema: fromSchema.definition,
+      schema: fromDef,
       get: fromAccessor.get.bind(fromAccessor) as typeof fromAccessor.get,
+      getRecord: fromAccessor.getRecord.bind(fromAccessor) as typeof fromAccessor.getRecord,
     },
     to: {
-      schema: toSchema.definition,
+      schema: toDef,
       set: toAccessor.set.bind(toAccessor) as typeof toAccessor.set,
       delete: toAccessor.delete.bind(toAccessor) as typeof toAccessor.delete,
     },
   });
 
-  const keysToRemove: string[] = [];
-  const tombstones: Record<string, StorageRecord<null>> = {};
+  return target;
+}
 
-  for (const key of Object.keys(snapshot)) {
-    if (!(key in target)) {
-      const wasTracked = isKeyTrackedInSchema(key, fromSchema.definition);
-      const existingRecord = snapshot[key] as StorageRecord<unknown> | undefined;
+/**
+ * Migrates an in-memory snapshot through the migration path, without touching
+ * `browser.storage.local`. Returns the net diff (records the migrations wrote/tombstoned) and
+ * the resulting full snapshot. Used by the first-upgrader to migrate the cloud head it fetched.
+ */
+export async function migrateSnapshot(
+  schema: VersionedSchema,
+  fromVersion: number,
+  toVersion: number,
+  snapshot: Record<string, StorageRecord<unknown>>,
+  hlcTick: () => HlcTimestamp,
+): Promise<{ diff: MigrationDiff; snapshot: Record<string, StorageRecord<unknown>> }> {
+  const working: Record<string, unknown> = { ...snapshot };
+  const diff: MigrationDiff = {};
 
-      if (wasTracked && existingRecord && !existingRecord.deleted) {
-        tombstones[key] = {
-          hlc: hlc.tick(),
-          value: null,
-          deleted: true,
-          brand: existingRecord.brand,
-        };
-      } else {
-        keysToRemove.push(key);
-      }
+  for (const migration of getMigrationPath(schema, fromVersion, toVersion)) {
+    const { fromSchema, toSchema } = findSchemas(schema, migration);
+    const target = await runMigrationStep(fromSchema.definition, toSchema.definition, migration, working, hlcTick);
+    for (const [key, record] of Object.entries(target)) {
+      working[key] = record;
+      diff[key] = record;
     }
   }
 
-  if (keysToRemove.length > 0) {
-    await browser.storage.local.remove(keysToRemove);
+  return { diff, snapshot: working as Record<string, StorageRecord<unknown>> };
+}
+
+async function runSingleMigration(schema: VersionedSchema, migration: Migration): Promise<void> {
+  const { fromSchema, toSchema } = findSchemas(schema, migration);
+
+  const allData = await browser.storage.local.get(null);
+  const snapshot = buildSnapshot(fromSchema.definition, allData);
+
+  const hlcState = allData[HLC_STATE_KEY] as HlcState | undefined;
+  const hlc = hlcState ? createHlc(hlcState.nodeId, hlcState.last) : createHlc(generateNodeId());
+
+  const target = await runMigrationStep(fromSchema.definition, toSchema.definition, migration, snapshot, () =>
+    hlc.tick(),
+  );
+
+  const toWrite: Record<string, StorageRecord<unknown>> = {};
+  const toRemove: string[] = [];
+  for (const [key, record] of Object.entries(target)) {
+    const isTracked =
+      isKeyTrackedInSchema(key, fromSchema.definition) || isKeyTrackedInSchema(key, toSchema.definition);
+    if (record.deleted && !isTracked) {
+      toRemove.push(key);
+    } else {
+      toWrite[key] = record;
+    }
   }
 
-  if (Object.keys(target).length > 0 || Object.keys(tombstones).length > 0) {
-    await browser.storage.local.set({ ...target, ...tombstones });
+  if (Object.keys(toWrite).length > 0) {
+    await browser.storage.local.set(toWrite);
+  }
+  if (toRemove.length > 0) {
+    await browser.storage.local.remove(toRemove);
   }
 
   await browser.storage.local.set({

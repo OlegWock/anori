@@ -32,6 +32,11 @@
         "icons": "İkonlar",
         "customIcons": "Özel ikonlar",
         "canBeEmpty": "Boş olabilir",
+        "unsupportedWidget": {
+            "short": "Kullanılamıyor",
+            "title": "Widget kullanılamıyor",
+            "description": "Bu widget türü bu tarayıcıda kullanılamıyor. Diğer senkronize tarayıcılarınızda kalmaya devam eder ve burada taşıyabilir, yeniden boyutlandırabilir veya kaldırabilirsiniz."
+        },
         "cloud": {
             "connect": "Bağlan",
             "connected": "Bağlandı",
@@ -43,6 +48,9 @@
             "email": "E-posta",
             "password": "Şifre",
             "connectedAs": "Bağlı kullanıcı",
+            "syncPausedBehind": "Bu Anori kopyası, bu profildeki başka bir cihazdan daha eski olduğundan, güncellenene kadar senkronizasyon duraklatıldı. O zamana kadar yaptığınız değişiklikler diğer cihazlarınıza senkronize edilmeyecek, ancak ihtiyaç duymanız ihtimaline karşı güncelleme öncesinde bir yedeğe kaydedilecek.",
+            "preUpdateBackup": "Son güncellemeden önceki yedek ({{date}})",
+            "downloadBackup": "İndir",
             "noAccount": "Hesabınız yok mu?",
             "createAccount": "Buradan oluşturun",
             "plusDescription": "Anori Plus, yapılandırmanızı birden fazla tarayıcı ve cihaz arasında gerçek zamanlı olarak senkronize etmenizi sağlayan Anori için ek bir hizmettir.",

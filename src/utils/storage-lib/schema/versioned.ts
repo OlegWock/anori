@@ -1,3 +1,5 @@
+import type { HlcTimestamp } from "../hlc";
+import type { StorageRecord } from "../types";
 import type { CellDescriptor } from "./cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "./collection";
 import type { SchemaDefinition, SchemaVersion } from "./version";
@@ -9,14 +11,23 @@ export type MigrationFromAccessor<S extends SchemaDefinition> = {
   get<T>(query: CellDescriptor<T, boolean>): T | undefined;
   get<T>(query: CollectionByIdQuery<T>): T | undefined;
   get<T>(query: CollectionAllQuery<T>): Record<string, T>;
+  // Source record (value + hlc) for a single key — used to carry a renamed/merged key's hlc.
+  getRecord<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>): StorageRecord<T> | undefined;
+};
+
+export type MigrationWriteOptions = {
+  // Stamp a fresh hlc instead of preserving the source cell's (for a genuinely new value).
+  tick?: boolean;
+  // Use this explicit hlc (e.g. carry a renamed/merged source key's hlc).
+  hlc?: HlcTimestamp;
 };
 
 export type MigrationToAccessor<S extends SchemaDefinition> = {
   readonly schema: S;
-  set<T>(query: CellDescriptor<T>, value: T): void;
-  set<T>(query: CollectionByIdQuery<T>, value: T): void;
-  delete(query: CellDescriptor): void;
-  delete(query: CollectionByIdQuery): void;
+  set<T>(query: CellDescriptor<T>, value: T, options?: MigrationWriteOptions): void;
+  set<T>(query: CollectionByIdQuery<T>, value: T, options?: MigrationWriteOptions): void;
+  delete(query: CellDescriptor, options?: MigrationWriteOptions): void;
+  delete(query: CollectionByIdQuery, options?: MigrationWriteOptions): void;
 };
 
 export type MigrationContext<From extends SchemaDefinition, To extends SchemaDefinition> = {
@@ -39,6 +50,14 @@ export type Migration<
   readonly migrate: MigrationFn<From, To>;
 };
 
+// `From`/`To` are reached only through `migrate`'s `ctx` parameter, so they sit in a contravariant
+// position: a concrete `Migration<…, ConcreteSchema, ConcreteSchema>` is NOT assignable to one declared
+// over the base `SchemaDefinition` (TS 6 enforces this; TS 5.9 let it slide). Migrations are erased to the
+// base `Migration` for the runner anyway, and each callback keeps its precise `ctx.from`/`ctx.to` types, so
+// bound migration *lists* with `any` in those slots to opt out of the variance check.
+// biome-ignore lint/suspicious/noExplicitAny: deliberate variance erasure for heterogeneous migration lists
+type AnyMigration = Migration<number, number, any, any>;
+
 export function createMigration<
   FromVersion extends number,
   ToVersion extends number,
@@ -58,7 +77,7 @@ export function createMigration<
 
 export type VersionedSchema<
   Versions extends SchemaVersion[] = SchemaVersion[],
-  Migrations extends Migration[] = Migration[],
+  Migrations extends AnyMigration[] = AnyMigration[],
 > = {
   readonly versions: Versions;
   readonly migrations: Migrations;
@@ -66,12 +85,12 @@ export type VersionedSchema<
   readonly latestSchema: Versions[number];
 };
 
-export type DefineVersionedSchemaOptions<Versions extends SchemaVersion[], Migrations extends Migration[]> = {
+export type DefineVersionedSchemaOptions<Versions extends SchemaVersion[], Migrations extends AnyMigration[]> = {
   versions: Versions;
   migrations: Migrations;
 };
 
-export function defineVersionedSchema<Versions extends SchemaVersion[], Migrations extends Migration[]>(
+export function defineVersionedSchema<Versions extends SchemaVersion[], Migrations extends AnyMigration[]>(
   options: DefineVersionedSchemaOptions<Versions, Migrations>,
 ): VersionedSchema<Versions, Migrations> {
   if (options.versions.length === 0) {

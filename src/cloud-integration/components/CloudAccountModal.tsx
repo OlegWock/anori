@@ -2,17 +2,19 @@ import { Alert } from "@anori/components/Alert";
 import { Button } from "@anori/components/Button";
 import { Input } from "@anori/components/Input";
 import { Modal } from "@anori/components/Modal";
-import { anoriSchema } from "@anori/utils/storage";
+import { downloadBlob } from "@anori/utils/files";
+import { anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
+import { getLatestPreUpdateBackup, type PreUpdateBackup } from "@anori/utils/storage/pre-update-backup";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import { getAppError, isAppErrorOfType } from "@anori-app/api-client";
 import { InvalidCredentialsError } from "@anori-app/api-types";
 import moment from "moment";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trpc } from "../api-client";
 import { login, logout } from "../auth";
 import { ACCOUNT_URL } from "../consts";
-import { useCloudAccount } from "../hooks";
+import { useCloudAccount, useIsBehindCloudSchema } from "../hooks";
 import { connectToProfile, disconnectFromProfile } from "../sync-manager";
 import "./CloudAccountModal.scss";
 import { useAnoriStorage } from "@anori/utils/storage/hooks";
@@ -39,7 +41,13 @@ export const CloudAccountModal = ({ onClose }: Props) => {
 
 const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof useCloudAccount>["account"]> }) => {
   const { t } = useTranslation();
+  const isBehindCloudSchema = useIsBehindCloudSchema();
+  const [preUpdateBackup, setPreUpdateBackup] = useState<PreUpdateBackup | null>(null);
   const storage = useAnoriStorage();
+
+  useEffect(() => {
+    getLatestPreUpdateBackup().then(setPreUpdateBackup);
+  }, []);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [connectingProfileId, setConnectingProfileId] = useState<string | null>(null);
   const [disconnectingProfileId, setDisconnectingProfileId] = useState<string | null>(null);
@@ -113,7 +121,10 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
     setIsPushingProfile(true);
 
     try {
-      const newProfile = await createProfileMutation.mutateAsync({ name: newProfileName.trim() });
+      const newProfile = await createProfileMutation.mutateAsync({
+        name: newProfileName.trim(),
+        schemaVersion: anoriVersionedSchema.currentVersion,
+      });
       await connectToProfile(storage, newProfile.id, "push");
       setNewProfileName("");
       setCreateProfileSuccess(true);
@@ -167,6 +178,17 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
 
   return (
     <div className="CloudAccountModal-connected">
+      {isBehindCloudSchema && <Alert level="attention">{t("cloud.syncPausedBehind")}</Alert>}
+      {preUpdateBackup && (
+        <Alert level="info">
+          <div className="pre-update-backup-row">
+            <span>{t("cloud.preUpdateBackup", { date: moment(preUpdateBackup.date).format("lll") })}</span>
+            <Button size="compact" onClick={() => downloadBlob("anori-pre-update-backup.zip", preUpdateBackup.blob)}>
+              {t("cloud.downloadBackup")}
+            </Button>
+          </div>
+        </Alert>
+      )}
       <div className="account-info">
         <div className="account-info-row">
           <div>

@@ -1,5 +1,9 @@
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { availablePluginsWithWidgets } from "@anori/plugins/all";
+import {
+  makeUnsupportedWidgetDescriptor,
+  unsupportedWidgetPlugin,
+} from "@anori/components/UnsupportedWidget/UnsupportedWidget";
+import { allPlugins, availablePluginsWithWidgets } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, trackEvent } from "@anori/utils/analytics";
 import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
 import { findPositionForItemInGrid } from "@anori/utils/grid/utils";
@@ -254,22 +258,22 @@ export const useFolderWidgets = (folder: Folder) => {
 
   const widgets: WidgetInFolderWithMeta[] = useMemo(
     () =>
-      currentDetails.widgets
-        .filter((w) => {
-          const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId);
-          if (!plugin) return false;
-          return !!plugin.widgets.flat().find((d) => d.id === w.widgetId);
-        })
-        .map((w) => {
-          const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId) as AnoriPlugin;
-          const widget = plugin.widgets.flat().find((d) => d.id === w.widgetId) as WidgetDescriptor;
+      currentDetails.widgets.map((w) => {
+        const plugin = availablePluginsWithWidgets.find((p) => p.id === w.pluginId);
+        const widget = plugin?.widgets.flat().find((d) => d.id === w.widgetId);
 
-          return {
-            ...w,
-            widget,
-            plugin,
-          };
-        }),
+        if (plugin && widget) {
+          return { ...w, widget, plugin: plugin as AnoriPlugin };
+        }
+
+        const knownPlugin = allPlugins.find((p) => p.id === w.pluginId);
+        const knownWidget = knownPlugin?.widgets.flat().find((d) => d.id === w.widgetId);
+        return {
+          ...w,
+          widget: makeUnsupportedWidgetDescriptor(knownWidget),
+          plugin: (knownPlugin ?? unsupportedWidgetPlugin) as AnoriPlugin,
+        };
+      }),
     [currentDetails.widgets],
   );
 

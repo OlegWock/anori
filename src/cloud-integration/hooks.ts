@@ -1,4 +1,4 @@
-import { anoriSchema } from "@anori/utils/storage";
+import { anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 
 import { getApiClient } from "./api-client";
@@ -17,6 +17,12 @@ export const useCloudAccount = () => {
     status,
     isConnected,
   };
+};
+
+export const useIsBehindCloudSchema = (): boolean => {
+  const [syncSettings] = useStorageValue(anoriSchema.cloudSyncSettings);
+  const observed = syncSettings?.profileSchemaVersion;
+  return observed !== undefined && anoriVersionedSchema.currentVersion < observed;
 };
 
 export const useApiClient = () => {

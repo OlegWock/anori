@@ -1,8 +1,19 @@
+import type { HlcTimestamp } from "../hlc";
 import type { CellDescriptor } from "../schema/cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "../schema/collection";
 import type { SchemaDefinition } from "../schema/version";
-import type { MigrationFromAccessor, MigrationToAccessor } from "../schema/versioned";
+import type { MigrationFromAccessor, MigrationToAccessor, MigrationWriteOptions } from "../schema/versioned";
 import { isStorageRecord, type StorageRecord } from "../types";
+
+function resolveKey(query: CellDescriptor | CollectionByIdQuery): { key: string; brand?: string } {
+  if ("key" in query) {
+    return { key: query.key };
+  }
+  if ("queryType" in query && query.queryType === "byId") {
+    return { key: `${query.keyPrefix}:${query.id}`, brand: query.brand };
+  }
+  throw new Error("Cannot resolve key from collection.all() query");
+}
 
 export function createFromAccessor<S extends SchemaDefinition>(
   schema: S,
@@ -52,64 +63,51 @@ export function createFromAccessor<S extends SchemaDefinition>(
 
       return undefined;
     },
+    getRecord<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>): StorageRecord<T> | undefined {
+      const { key } = resolveKey(query);
+      const record = snapshot[key];
+      return isStorageRecord(record) ? (record as StorageRecord<T>) : undefined;
+    },
   } as MigrationFromAccessor<S>;
 }
 
 export function createToAccessor<S extends SchemaDefinition>(
   schema: S,
   target: Record<string, StorageRecord<unknown>>,
-  hlcTick: () => { pt: number; lc: number; node: string },
+  snapshot: Record<string, unknown>,
+  hlcTick: () => HlcTimestamp,
 ): MigrationToAccessor<S> {
+  // A migration re-encodes existing edits, so by default a write inherits the source cell's
+  // hlc (same key) and only ticks a fresh one for a genuinely new key. `tick`/`hlc` override.
+  function resolveHlc(key: string, options?: MigrationWriteOptions): HlcTimestamp {
+    if (options?.hlc) return options.hlc;
+    if (options?.tick) return hlcTick();
+    const source = snapshot[key];
+    if (isStorageRecord(source)) return source.hlc;
+    return hlcTick();
+  }
+
   return {
     schema,
-    set<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>, value: T): void {
-      let key: string;
-      let brand: string | undefined;
-
-      if ("key" in query) {
-        key = query.key;
-      } else if ("queryType" in query && query.queryType === "byId") {
-        key = `${query.keyPrefix}:${query.id}`;
-        brand = query.brand;
-      } else {
-        throw new Error("Cannot set with collection.all() query");
-      }
-
-      const record: StorageRecord<T> = {
-        hlc: hlcTick(),
-        value,
-      };
-
+    set<T>(query: CellDescriptor<T> | CollectionByIdQuery<T>, value: T, options?: MigrationWriteOptions): void {
+      const { key, brand } = resolveKey(query);
+      const record: StorageRecord<T> = { hlc: resolveHlc(key, options), value };
       if (brand) {
         record.brand = brand;
       }
-
       target[key] = record as StorageRecord<unknown>;
     },
 
-    delete(query: CellDescriptor | CollectionByIdQuery): void {
-      let key: string;
-      let brand: string | undefined;
-
-      if ("key" in query) {
-        key = query.key;
-      } else if ("queryType" in query && query.queryType === "byId") {
-        key = `${query.keyPrefix}:${query.id}`;
-        brand = query.brand;
-      } else {
-        throw new Error("Cannot delete with collection.all() query");
-      }
-
+    delete(query: CellDescriptor | CollectionByIdQuery, options?: MigrationWriteOptions): void {
+      const { key, brand } = resolveKey(query);
       const record: StorageRecord<null> = {
-        hlc: hlcTick(),
+        hlc: resolveHlc(key, options),
         value: null,
         deleted: true,
       };
-
       if (brand) {
         record.brand = brand;
       }
-
       target[key] = record;
     },
   } as MigrationToAccessor<S>;

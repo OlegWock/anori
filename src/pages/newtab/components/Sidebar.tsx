@@ -11,7 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Sidebar.scss";
-import { useCloudAccount } from "@anori/cloud-integration/hooks";
+import { useCloudAccount, useIsBehindCloudSchema } from "@anori/cloud-integration/hooks";
 import { builtinIcons } from "@anori/components/icon/builtin-icons";
 import { WhatsNew } from "@anori/components/WhatsNew";
 import { anoriSchema } from "@anori/utils/storage";
@@ -34,6 +34,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
   const [whatsNewVisible, setWhatsNewVisible] = useState(false);
   const [cloudModalVisible, setCloudModalVisible] = useState(false);
   const { isConnected } = useCloudAccount();
+  const isBehindCloudSchema = useIsBehindCloudSchema();
 
   useHotkeys("alt+h", () => setShortcutsHelpVisible((v) => !v));
   useHotkeys("alt+s", () => setSettingsVisible((v) => !v));
@@ -83,6 +84,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                 layoutId="cloud-account"
                 icon={builtinIcons.personCircle}
                 name={isConnected ? t("cloud.account") : t("cloud.connect")}
+                withRedDot={isBehindCloudSchema}
                 onClick={() => setCloudModalVisible(true)}
               />
               <FolderButton
