@@ -48,7 +48,7 @@
             "email": "Email",
             "password": "Password",
             "connectedAs": "Connected as",
-            "syncPausedBehind": "This version of Anori is older than another device connected to this profile, so syncing is paused here. It resumes automatically once this browser updates. Any changes you make here while it's paused will NOT sync, and will be overwritten with the data from your other devices when this browser updates.",
+            "syncPausedBehind": "This copy of Anori is older than another device on this profile, so syncing is paused until it updates. Changes you make until then won't sync to your other devices, but they're saved to a backup before the update, in case you ever need them.",
             "preUpdateBackup": "Backup from before your last update ({{date}})",
             "downloadBackup": "Download",
             "noAccount": "Don't have an account?",
