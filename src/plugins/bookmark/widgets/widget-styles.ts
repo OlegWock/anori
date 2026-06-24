@@ -1,6 +1,5 @@
 import { css, cva } from "styled-system/css";
 
-// Shared styles for BookmarkWidget and BookmarkGroupWidget (both render the same card layout).
 export const widget = css({
   display: "flex",
   alignItems: "stretch",
@@ -11,7 +10,6 @@ export const widget = css({
   position: "relative",
   cursor: "pointer",
   textAlign: "start",
-  // The "open in iframe" affordance is revealed while the card is hovered.
   "&:hover .open-in-iframe": { display: "flex" },
 });
 
@@ -81,10 +79,8 @@ export const statusDot = css({
   border: "0.2rem solid var(--ds-surface)",
 });
 
-// The "open in iframe" button is hidden until the card is hovered (revealed by `widget`'s :hover rule).
 export const expandButton = css({ display: "none" });
 
-// Applied to the WidgetExpandArea content when a bookmark is opened in an iframe.
 export const expandArea = css({
   justifyContent: "center",
   alignItems: "center !important",

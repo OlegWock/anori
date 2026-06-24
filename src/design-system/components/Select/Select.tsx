@@ -33,14 +33,12 @@ const trigger = css({
   lineHeight: "none",
   color: "text.primary",
   bg: "control",
-  // Edge (DS-3): an inset ring for volume instead of a delineating border.
   boxShadow: "control.edge",
   cursor: "pointer",
   "&[data-placeholder]": { color: "text.placeholder" },
   _focusVisible: { outlineWidth: "2px", outlineStyle: "solid", outlineColor: "accent" },
 });
 const triggerIcon = css({ color: "text.subtle" });
-// Portaled dropdown — needs to sit above modals it may be opened from, hence the high z layer.
 const content = css({
   overflow: "hidden",
   bg: "control",

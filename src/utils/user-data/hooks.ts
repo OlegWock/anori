@@ -23,7 +23,6 @@ type UseFoldersOptions = {
   defaultFolderId?: string;
 };
 
-// Look up a widget descriptor (carrying its config parser) from the registry by its plugin/widget id.
 const findWidgetDescriptor = (pluginId: string, widgetId: string): SomeWidget | undefined =>
   availablePluginsWithWidgets.find((p) => p.id === pluginId)?.widgets.find((d) => d.id === widgetId);
 
@@ -178,8 +177,6 @@ export const useFolderWidgets = (folder: Folder) => {
     return data;
   };
 
-  // Stable across renders (deps are stable: folder.id + the jotai setter). The analytics lookup reads
-  // current widgets from storage rather than React state, so these don't need to depend on currentDetails.
   const removeWidget = useCallback(
     async (id: ID) => {
       clearWidgetStorage(id);
@@ -258,8 +255,6 @@ export const useFolderWidgets = (folder: Folder) => {
     [folder.id, setDetails],
   );
 
-  // Stable across renders (deps are stable) so consumers — and the widget metadata context that exposes
-  // it — don't churn. The analytics lookup reads current widgets from storage rather than React state.
   const updateWidgetConfig = useCallback(
     async (id: ID, newConfig: Mapping) => {
       const updatedWidget = getAnoriStorageNoWait()

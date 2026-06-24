@@ -17,7 +17,6 @@ const screen = css({ display: "flex", flexDirection: "column", gap: "4" });
 const header = css({ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "4" });
 const emptyState = css({ color: "text.subtle", textAlign: "center", paddingBlock: "6" });
 
-// One row per icon: a prominent preview, the name, and a delete affordance on the trailing edge.
 const list = css({ display: "flex", flexDirection: "column", gap: "2" });
 const row = css({
   display: "flex",
@@ -32,8 +31,6 @@ const row = css({
 const rowIcon = css({ flexShrink: 0 });
 const rowName = css({ flex: 1, fontSize: "sm", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" });
 
-// The pending-import drafts sit at the top (right under the header) so they're never hidden below a
-// long list of existing icons.
 const draftList = css({
   display: "flex",
   flexDirection: "column",
@@ -48,7 +45,6 @@ const draftPreview = css({ flexShrink: 0, borderRadius: "md" });
 const draftNameWrapper = css({ flexGrow: 1, display: "flex", flexDirection: "column", gap: "2" });
 const draftNameError = css({ color: "text.subtle", fontSize: "xs" });
 const draftActions = css({ display: "flex", justifyContent: "flex-end", gap: "3" });
-// Trim the ghost IconButton's bumped glyph (1.375em) down a touch for the row's delete affordance.
 const deleteIcon = css({ "& svg": { height: "1.2em!" } });
 
 type DraftCustomIcon = {
@@ -66,7 +62,6 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
   const [recentlySavedNames, setRecentlySavedNames] = useState<string[]>([]);
   const hasDraftIconsWithInvalidName = draftCustomIcons.some((i) => !isValidCustomIconName(i.name));
 
-  // Surface just-saved icons at the top so it's obvious they were added (they re-sort on next load).
   const orderedIcons = useMemo(() => {
     if (recentlySavedNames.length === 0) return customIcons;
     const recentSet = new Set(recentlySavedNames);

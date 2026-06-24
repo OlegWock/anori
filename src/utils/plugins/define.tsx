@@ -1,7 +1,3 @@
-// Plugin framework (Identity → Behaviors → Assembly). Plugins keep precise config types in their own
-// folder; `definePlugin().build()` produces a config-erased SomePlugin for the registry/render pipeline,
-// while widgets and behaviors stay fully typed.
-
 import type { GridItemSize } from "@anori/utils/grid/types";
 import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
 import type { SomePlugin, SomeWidget, WidgetResizable } from "@anori/utils/plugins/types";
@@ -19,11 +15,10 @@ type Appearance = {
   resizable: WidgetResizable;
 };
 
-// ── Typed authoring surfaces (what a widget author writes) ──
 export type WidgetRenderProps<WC extends Mapping, PC extends Mapping = EmptyObject> = {
   instanceId: string;
   config: WC;
-  pluginConfig?: PC; // shared plugin-level config (undefined until the user sets it / absent for plugins without one)
+  pluginConfig?: PC;
 };
 export type WidgetConfigScreenProps<WC extends Mapping> = {
   widgetId: string;
@@ -32,13 +27,9 @@ export type WidgetConfigScreenProps<WC extends Mapping> = {
   saveConfiguration: (config: WC) => void;
 };
 
-// ── Widget identity — carries the precise types; produced by defineWidget ──
 export type WidgetDef<Id extends string, WC extends Mapping, PC extends Mapping> = {
   id: Id;
   name: string;
-  // The storage <-> config seam, as a zod schema (a plain object today, or a codec with transforms later).
-  // The renderer DECODEs it on read (storage -> WC, error card on failure) and ENCODEs on write (WC ->
-  // storage, blocking invalid configs). Optional: omitted for config-less widgets (passthrough).
   schema?: z.ZodType<WC>;
   appearance: Appearance;
   mainScreen: ComponentType<WidgetRenderProps<WC, PC>>;
@@ -50,23 +41,12 @@ export const defineWidget = <Id extends string, WC extends Mapping = EmptyObject
   def: WidgetDef<Id, WC, PC>,
 ): WidgetDef<Id, WC, PC> => def;
 
-// Both `WC` and `PC` sit in contravariant (component-prop) positions inside `WidgetDef`, so a concrete
-// `WidgetDef<Id, SpecificConfig, SpecificPluginConfig>` is NOT assignable to `WidgetDef<…, Mapping, Mapping>`
-// (TS 6 enforces this; TS 5.9 let it slide). Every registry/assembly boundary below erases widgets to
-// `SomeWidget` anyway, so bound the heterogeneous widget list with `any` in those slots to opt out of the
-// variance check. The concrete `Widgets` tuple a plugin passes is still inferred precisely, so
-// `WidgetInstance` / `getWidgets()` config types stay fully typed.
 // biome-ignore lint/suspicious/noExplicitAny: deliberate variance erasure at the registry boundary
 type AnyWidgetDef = WidgetDef<string, any, any>;
 
-// Same story for message handlers: a concrete handler's `args` is an input, so the typed bag
-// `createOnMessageHandlers` returns isn't assignable to the erased `Record<string, (args: unknown) => …>`
-// on SomePlugin under TS 6. Accept it via a bivariant `any` arg (which is still assignable to the erased
-// `unknown` form on storage), keeping the per-command typing the author wrote intact at the call site.
 // biome-ignore lint/suspicious/noExplicitAny: bivariant arg position to accept any concrete handler bag
 type MessageHandlers = Record<string, (args: any, senderTab?: number) => unknown>;
 
-// ── Behaviour context — derived from the standalone widget list + plugin config, never the assembled plugin ──
 type WidgetInstance<W> =
   W extends WidgetDef<infer Id, infer WC, infer _PC> ? { instanceId: string; widgetId: Id; config: WC } : never;
 
@@ -76,8 +56,6 @@ export type PluginContext<Widgets extends readonly AnyWidgetDef[], PC extends Ma
   getWidgets: () => Promise<WidgetInstance<Widgets[number]>[]>;
 };
 
-// Reads a plugin's stored config and decodes it with the plugin's schema, memoized on the raw value so the
-// decode runs once per change (and returns a stable reference, keeping downstream React.memo effective).
 export const usePluginConfigValue = (pluginId: string, decode: (raw: unknown) => Mapping): Mapping | undefined => {
   const [raw] = useStorageValue(anoriSchema.pluginConfig.config.byId(pluginId));
   return useMemo(() => {
@@ -85,20 +63,17 @@ export const usePluginConfigValue = (pluginId: string, decode: (raw: unknown) =>
     try {
       return decode(raw);
     } catch (e) {
-      // pluginConfig is optional, so degrade to "no config" rather than crashing every widget of the plugin.
       console.error(`Failed to decode plugin config for "${pluginId}"`, e);
       return undefined;
     }
   }, [raw, decode, pluginId]);
 };
 
-// ── Assembly ──
 type PluginSpec<Id extends string, PC extends Mapping, Widgets extends readonly AnyWidgetDef[]> = {
   id: Id;
   name: string;
   icon: string;
   widgets: Widgets;
-  // Optional plugin-level config: a schema + a screen to edit it. Widgets receive the value as `pluginConfig`.
   config?: {
     schema: z.ZodType<PC>;
     configurationScreen: ComponentType<{ currentConfig?: PC; saveConfiguration: (config: PC) => void }>;
@@ -121,24 +96,16 @@ export type PluginBuilder<Widgets extends readonly AnyWidgetDef[], PC extends Ma
   build: () => SomePlugin;
 };
 
-// Recover a plugin's behavior-context type from `typeof definePlugin(identity)`, so a behavior defined in a
-// separate file can type its `ctx` without hand-writing `PluginContext<…>`.
 export type ContextOf<B> = B extends PluginBuilder<infer Widgets, infer PC> ? PluginContext<Widgets, PC> : never;
 
-// Derive the erased decode/encode pair from a widget/plugin config schema. Decode (storage -> config) runs
-// on read; encode (config -> storage) runs on write. A missing schema means config-less / passthrough.
 const codecFns = (schema: z.ZodType<Mapping> | undefined) => ({
   decode: schema ? (raw: unknown) => z.decode(schema, raw) : (raw: unknown) => raw as Mapping,
-  // encode returns the schema's input (storage) type — erased to Mapping at this registry boundary.
   encode: schema
     ? (config: unknown) => z.encode(schema, config as Mapping) as Mapping
     : (config: unknown) => config as Mapping,
 });
 
 const toSomeWidget = (def: AnyWidgetDef): SomeWidget => {
-  // No wrapper: expose decode/encode and the raw author components. The renderer (WidgetCard, the
-  // config-screen hosts) decodes the stored config once and passes the result down as typed props; the
-  // write path encodes it back to storage form.
   const { decode, encode } = codecFns(def.schema);
   const widget: SomeWidget = {
     id: def.id,

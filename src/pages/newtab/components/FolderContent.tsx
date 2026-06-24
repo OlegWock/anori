@@ -120,8 +120,6 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const gridDimensions = useGridDimensions(scrollAreaRef, blockSize, minBlockSize, widgets);
 
-  // Stable: the folder mutators are now memoized and gridDimensions keeps a stable ref until it actually
-  // changes, so WidgetsGrid receives a stable onLayoutUpdate.
   const onLayoutUpdate = useCallback(
     (changes: LayoutChange[]) => {
       changes.forEach(async (ch) => {
@@ -141,8 +139,6 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
 
   const shouldShowOnboarding = widgets.length === 0 && !isEditing;
 
-  // Memoized so re-renders that don't touch these values (e.g. opening the new-widget wizard / edit
-  // modal) don't change the context identity and re-render every widget reading useParentFolder.
   const parentFolderContext = useMemo(
     () => ({ activeFolder: folder, isEditing, grid: gridDimensions, gridRef: mainRef }),
     [folder, isEditing, gridDimensions],

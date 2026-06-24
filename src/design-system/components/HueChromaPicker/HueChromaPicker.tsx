@@ -5,7 +5,7 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 import { css } from "styled-system/css";
 
 const C_MAX = 0.37;
-const RENDER_L = 0.72; // lightness the hue×chroma map is previewed at (accent lightness is irrelevant)
+const RENDER_L = 0.72; // lightness the hue×chroma map is previewed at
 const FIELD_W = 160;
 const FIELD_H = 72;
 
@@ -36,8 +36,7 @@ const handle = css({
   pointerEvents: "none",
 });
 
-// P3 displays render OKLCH directly (no gamut loss); on sRGB we fall back to a hex code. OKLCH is
-// rounded to 4 decimals for lightness/chroma and 1 for hue.
+// P3 displays render OKLCH directly (no gamut loss); on sRGB we fall back to a hex code
 const formatCode = (value: OklchInput, gamut: Gamut): string => {
   const clamped = clampChroma({ mode: "oklch", l: value.l, c: value.c, h: value.h }, "oklch", gamut);
   if (gamut === "p3") {
@@ -46,8 +45,6 @@ const formatCode = (value: OklchInput, gamut: Gamut): string => {
   return formatHex(clamped) ?? "#000000";
 };
 
-// Static hue (x) × chroma (y) map at a fixed lightness — depends only on the gamut. Top = vivid,
-// bottom = muted/gray; left→right = hue.
 function PickerCanvas({ gamut }: { gamut: Gamut }) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -83,8 +80,6 @@ function PickerCanvas({ gamut }: { gamut: Gamut }) {
   return <canvas ref={ref} className={fieldCanvas} />;
 }
 
-// Picks an accent by hue × chroma only (lightness/alpha aren't used — the palette is derived from the
-// hue+chroma). Shows a colour-code field below: OKLCH on P3 displays, hex on sRGB.
 export function HueChromaPicker({
   label,
   value,
@@ -99,8 +94,6 @@ export function HueChromaPicker({
   const ref = useRef<HTMLDivElement>(null);
   const [code, setCode] = useState(() => formatCode(value, gamut));
 
-  // Keep the code field in sync with the value (e.g. while dragging the map); typing only commits on
-  // blur/Enter, so this doesn't clobber a half-typed code.
   // biome-ignore lint/correctness/useExhaustiveDependencies: re-sync only when the resolved value changes
   useEffect(() => {
     setCode(formatCode(value, gamut));

@@ -78,8 +78,6 @@ export const VirtualizedBookmarksMenuContent = ({
     </ScrollArea>
   );
 
-  // Rendered as two explicit branches rather than a dynamic component + spread props: SubContent and
-  // Content take different prop shapes, and a union of both can't be soundly spread onto a union component.
   return isSubmenu ? (
     // Negative alignOffset cancels the panel's own top padding so the first item lines up with the hovered row.
     <Menubar.SubContent

@@ -7,7 +7,6 @@ import { m } from "motion/react";
 import { useState } from "react";
 import { css } from "styled-system/css";
 
-// Shown while the icon is still loading.
 const placeholder = css({ background: "text.primary", borderRadius: "md", opacity: 0.35 });
 
 export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRenderProps) => {

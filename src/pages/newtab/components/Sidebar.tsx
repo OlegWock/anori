@@ -20,7 +20,6 @@ export type SidebarProps = {
   folders: Folder[];
   activeFolder: Folder;
   orientation: "vertical" | "horizontal";
-  // Whether the (horizontal) bookmarks bar is shown above the page — tightens the vertical sidebar's top.
   bookmarksBarVisible?: boolean;
   onFolderClick: (folder: Folder) => void;
 };
@@ -32,14 +31,11 @@ const sidebarWrapper = cva({
       vertical: { paddingBlock: "7", paddingInline: "2" },
       horizontal: { paddingBlock: "4", paddingInline: "6" },
     },
-    // Real `:hover` (not @media hover) so touch users can reveal the hidden sidebar by tapping it.
     autohide: { true: { "--sidebar-display": "none", "&:hover": { "--sidebar-display": "flex" } } },
     bookmarksBar: { true: {} },
   },
   compoundVariants: [
-    // Vertical autohide collapses to a narrow hover strip; widen back on hover.
     { orientation: "vertical", autohide: true, css: { paddingInline: "4!", "&:hover": { paddingInline: "2!" } } },
-    // A horizontal bookmarks bar sits above the vertical sidebar, so tighten its top padding.
     { orientation: "vertical", bookmarksBar: true, css: { paddingTop: "2!" } },
   ],
 });
@@ -50,7 +46,6 @@ const sidebar = css({
   zIndex: 1,
   maxHeight: "100%",
   minHeight: "100%",
-  // Shown by default; the wrapper's autohide variant flips this var. `!` to beat the ScrollArea's own display.
   display: "var(--sidebar-display, flex) !important",
 });
 

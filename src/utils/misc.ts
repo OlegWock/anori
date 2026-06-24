@@ -43,6 +43,8 @@ export const minmax = (num: number, min: number, max: number) => {
   return Math.min(Math.max(num, min), max);
 };
 
+export const round = (value: number, places = 0) => Math.round(value * 10 ** places) / 10 ** places;
+
 export const cachedFunc = <T>(func: () => T) => {
   const called = false;
   let val: T | undefined;

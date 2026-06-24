@@ -11,13 +11,10 @@ export default defineConfig({
   dependencies: ["./src/**/*.{ts,tsx}"],
   exclude: [],
 
-  // Generate JSX patterns (Box, Flex, Stack, styled, …).
   jsxFramework: "react",
 
   outdir: "styled-system",
 
-  // Density: compact mode is toggled by `.compact-mode-active` on an ancestor (same class the legacy
-  // app uses). Used as `_compact` in conditional token values below.
   conditions: {
     extend: {
       compact: ".compact-mode-active &",
@@ -30,8 +27,6 @@ export default defineConfig({
         spin: { to: { transform: "rotate(360deg)" } },
       },
 
-      // Static scales: actual values live here (Panda owns them). The legacy --spacing-*/--radius-*/
-      // --font-size-* in base.scss go away once everything is migrated.
       tokens: {
         radii: {
           xs: { value: "4px" },
@@ -53,7 +48,6 @@ export default defineConfig({
           "3xl": { value: "3rem" },
           display: { value: "3.75rem" },
         },
-        // Light register, no bold (matches the audited app + the decision in design-system-notes).
         fontWeights: {
           light: { value: 300 },
           regular: { value: 400 },
@@ -66,7 +60,6 @@ export default defineConfig({
           normal: { value: 1.5 },
           relaxed: { value: 1.65 },
         },
-        // Named layering ladder (replaces the ad-hoc 0/1/5/99/999/9999/… z-index war).
         zIndex: {
           base: { value: 0 },
           docked: { value: 100 },
@@ -76,15 +69,9 @@ export default defineConfig({
           tooltip: { value: 4000 },
           "app-cover": { value: 9000 },
         },
-        // Elevation. `raised` = small floating affordances (e.g. widget edit controls); `overlay` =
-        // an element lifted above its peers (e.g. a widget card being dragged/resized).
-        // The `*.edge` shadows are the volume edge (DS-3) as a 2px inset ring instead of a border, so
-        // it costs no layout and composes with other shadows. Paths mirror the `*.edge` color tokens
-        // (`boxShadow: "accent.edge"` ↔ `borderColor: "accent.border"`).
         shadows: {
           raised: { value: "rgba(0, 0, 0, 0.25) 0px 4px 6px 4px" },
           overlay: { value: "0px 4px 4px 3px rgba(0, 0, 0, 0.4)" },
-          // Dropdown / popover menus (e.g. the bookmarks menu).
           popover: {
             value: "0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)",
           },
@@ -104,8 +91,6 @@ export default defineConfig({
       },
 
       semanticTokens: {
-        // Spacing is density-aware: `base` is the normal value, `_compact` compresses.
-        // Compact values are a tunable first pass; small steps are left alone.
         spacing: {
           "0-5": { value: "0.125rem" },
           "1": { value: "0.25rem" },
@@ -125,23 +110,18 @@ export default defineConfig({
         // Colors aren't known at build time — injected at runtime as --ds-* vars by the design
         // system (src/design-system/apply.ts). Panda only needs the names; values resolve at runtime.
         colors: {
-          // Translucent text-primary overlays for frosted surfaces (over a backdrop blur).
           frosted: {
             DEFAULT: { value: "var(--ds-frosted)" },
             subtle: { value: "var(--ds-frosted-subtle)" },
             strong: { value: "var(--ds-frosted-strong)" },
           },
-          // Hairline for dividers/separators on solid surfaces.
           divider: { value: "var(--ds-divider)" },
-          // Hover wash for ghost/transparent interactive elements (frosted in dark, dark in light).
           ghost: {
             hover: { value: "var(--ds-ghost-hover)" },
           },
-          // Scrollbar thumb (frosted in dark, dark in light).
           scrollbar: {
             thumb: { value: "var(--ds-scrollbar-thumb)" },
           },
-          // Unified filled surface (cards, dialogs, panels); `elevated` is the floating variant (popovers).
           surface: {
             DEFAULT: { value: "var(--ds-surface)" },
             edge: { value: "var(--ds-surface-edge)" },
@@ -164,7 +144,6 @@ export default defineConfig({
             hover: { value: "var(--ds-accent-hover)" },
             disabled: { value: "var(--ds-accent-disabled)" },
           },
-          // Foreground for content on the accent fill (its own family, mirroring accent/accent.disabled).
           "on-accent": {
             DEFAULT: { value: "var(--ds-on-accent)" },
             disabled: { value: "var(--ds-on-accent-disabled)" },
@@ -173,8 +152,6 @@ export default defineConfig({
             DEFAULT: { value: "var(--ds-icon)" },
             subtle: { value: "var(--ds-icon-subtle)" },
           },
-          // Tooltip: a fixed dark, slightly-translucent overlay — intentionally outside the themed
-          // scale — with a light foreground. High contrast over any background, in both modes.
           tooltip: { value: "rgba(0, 0, 0, 0.82)" },
           "on-tooltip": { value: "white" },
           text: {
@@ -196,13 +173,8 @@ export default defineConfig({
     },
   },
 
-  // App-wide typography baseline (every page wants the font + base text styles). Page-specific layout
-  // globals (#root, the loading cover, the full-screen body) live with their page instead — see
-  // src/pages/newtab/globals.css.
   globalCss: {
     html: { fontSize: "1rem" },
-    // Minimal reset (intentionally lighter than Panda's preflight — see the preflight note above).
-    // In @layer base, so component utilities still win.
     "*": { margin: 0, boxSizing: "border-box", border: "none", background: "none", padding: 0 },
     body: {
       // Chrome injects an *unlayered* stylesheet into extension pages (`body { font-family: system-ui;

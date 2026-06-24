@@ -40,8 +40,7 @@ const emptyStateAlert = css({
   paddingInline: "6",
   textAlign: "center",
 });
-// react-window owns the scroll container, so we can't wrap it in <ScrollArea>; style the native
-// scrollbar directly (mirrors the legacy scroll-mixin: thumb on the elevated surface, track on card).
+// react-window owns the scroll container, so we can't wrap it in <ScrollArea>; style the native scrollbar directly.
 const iconsGrid = css({
   alignSelf: "center",
   overflowX: "hidden !important",
@@ -81,8 +80,6 @@ const IconPickerContext = createContext<IconPickerContextType>({
 const COLUMNS = 8;
 const ICON_SIZE = 32;
 const PADDING = 10;
-// The grid and the picker share this width so the search input/select line up with the icon columns
-// (+8 for the scrollbar gutter).
 const GRID_WIDTH = COLUMNS * (ICON_SIZE + PADDING * 2) + 8;
 
 const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void; x: number; y: number }) => {
@@ -105,7 +102,7 @@ const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void;
   const { moveFocus, rowRefs } = useContext(IconPickerContext);
 
   return (
-    <Tooltip label={icon} placement="bottom" showDelay={2000} resetDelay={0} targetRef={registerRef} ignoreFocus>
+    <Tooltip label={icon} placement="bottom" showDelay={2000} resetDelay={0} targetRef={registerRef}>
       <button
         type="button"
         style={{ padding: PADDING }}

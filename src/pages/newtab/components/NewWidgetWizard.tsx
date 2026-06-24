@@ -40,15 +40,12 @@ const content = css({
 const pluginsScreen = css({
   width: "min(80vw, 1100px)",
 });
-// Widget config screens get a uniform fixed width (the gallery screen stays wide via pluginsScreen).
 const configScreen = css({ width: "500px" });
 const searchInput = css({ margin: "0-5", width: "100%" });
 const twoColumn = css({ display: "flex", gap: "4", overflow: "hidden" });
 const sidebar = css({ width: "220px", flexShrink: 0, display: "flex", flexDirection: "column" });
 const pluginsListScroll = css({ flex: 1 });
 const divider = css({
-  // Stretch to the flex row's height instead of `height: 100%` — the row has no definite height in the
-  // modal, so a percentage height would collapse to 0.
   alignSelf: "stretch",
   borderRightWidth: "1px",
   borderRightStyle: "solid",

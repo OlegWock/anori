@@ -4,7 +4,6 @@ import { css, cva, cx } from "styled-system/css";
 
 export type BadgeBackground = "surface" | "modal";
 
-// A small neutral chip (an optional leading icon + text), on a caller-chosen surface.
 const badge = cva({
   base: {
     display: "inline-flex",
@@ -32,7 +31,6 @@ const badgeIcon = css({ flexShrink: 0 });
 
 export type BadgeProps = {
   background?: BadgeBackground;
-  // Optional leading icon (name).
   icon?: string;
   children?: ReactNode;
   className?: string;

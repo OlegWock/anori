@@ -28,7 +28,6 @@ import { useTranslation } from "react-i18next";
 import { css, cva, cx } from "styled-system/css";
 import { WidgetCardContext } from "./context";
 
-// Stable empty config so the memoized widget metadata doesn't churn when a widget has no config.
 const EMPTY_CONFIG: Mapping = {};
 
 const cardCss = css({
@@ -39,14 +38,11 @@ const cardCss = css({
   color: "text.primary",
   borderRadius: "lg",
   zIndex: "base",
-  // Edge (DS-3): a 1px inset ring for volume instead of a border (no box-model impact).
   boxShadow: "surface.edge",
-  // Lifted above its peers while being dragged or resized — keep the edge, add the overlay elevation.
   "&[data-busy]": {
     zIndex: "docked",
     boxShadow: "{shadows.surface.edge}, {shadows.overlay}",
   },
-  // Edit controls (drag/remove/edit/resize) only appear while the card is hovered or focused.
   "& .widget-control": {
     opacity: 0,
     pointerEvents: "none",
@@ -70,8 +66,7 @@ const cardCss = css({
     pointerEvents: "auto",
   },
 });
-// Padding is applied as exactly one of these (never both) — base `cardCss` sets no padding, so there's
-// no `p_0` vs `p_4` atom conflict where cascade order, not class order, would pick the winner.
+
 const cardPaddedCss = css({ padding: "4" });
 const cardFlushCss = css({ padding: 0 });
 const overflowProtectionCss = css({
@@ -85,16 +80,12 @@ const overflowProtectionCss = css({
 const interactionBlockerCss = css({ position: "absolute", inset: 0 });
 const errorDescriptionCss = css({ marginTop: "3" });
 
-// Placement + floating drop shadow for the edit controls. The look (accent fill, on-accent icon)
-// comes from IconButton variant="primary"; this just pins them at the card corners, adds the `raised`
-// shadow so they read as floating, and marks them with `.widget-control` for the hover-reveal above.
 const control = cva({
   base: { position: "absolute", zIndex: 1, boxShadow: "raised" },
   variants: {
     position: {
       remove: { top: "-14px", right: "-14px", _compact: { top: "-8px", right: "-4px" } },
       edit: { top: "30px", right: "-14px", _compact: { right: "-4px" } },
-      // `grab!` (important): override the Button base's `cursor: pointer` (same single-class specificity).
       drag: {
         top: "-14px",
         left: "-14px",
@@ -114,8 +105,6 @@ const control = cva({
   },
 });
 
-// Shown when a widget can't be rendered — either it threw (caught by ErrorBoundary) or its stored config
-// failed to parse (caught in WidgetCard before render). Isolated to this one card; the rest of the page is fine.
 const WidgetRenderError = () => (
   <>
     <h2>Oops</h2>
@@ -202,8 +191,6 @@ export const WidgetCard = ({
 
   const convertPixelsToUnits = (px: number) => Math.round((px + gapSize * 2) / grid.boxSize);
 
-  // Resize via native pointer events (pointer capture) so the handle can be a plain IconButton — no
-  // framer gesture, which would need a motion element.
   const startResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -301,8 +288,6 @@ export const WidgetCard = ({
   const [resizeHeightUnits, setResizeHeightUnits] = useState(sizeToUse.height);
 
   const [isDragging, setIsDragging] = useState(false);
-  // Another widget is being dragged (not this one) — suppress this card's hover controls so the
-  // dragged card passing over it doesn't reveal them.
   const otherWidgetDragging = useCurrentlyDragging({ type: "widget" }) && !isDragging;
 
   const pixelPosition = position ? positionToPixelPosition({ grid, position }) : { x: 0, y: 0 };
@@ -326,14 +311,8 @@ export const WidgetCard = ({
       }
     : {};
 
-  // Memoize the widget body element. When this card re-renders for an unrelated reason (drag/resize of a
-  // sibling, a parent re-render), a stable element reference lets React bail out of re-rendering the
-  // whole widget subtree below — provided its inputs (config/instanceId) and the metadata context (now
-  // memoized) haven't changed.
-  // Parse the stored config once per change (stable reference) and read the plugin config; both are passed
-  // to the widget as already-parsed props, so the widget's own React.memo stays effective. A parse failure
-  // (e.g. a corrupt or outdated stored config) is isolated to this card — it renders the error card rather
-  // than throwing out of WidgetCard, which sits above its own ErrorBoundary and would crash the page.
+  // A parse failure (corrupt/outdated stored config) is isolated to this card — it renders the error card
+  // rather than throwing out of WidgetCard, which sits above its own ErrorBoundary and would crash the page.
   const { config: parsedConfig, failed: configParseFailed } = useMemo(() => {
     try {
       return { config: widget.decode(config ?? EMPTY_CONFIG), failed: false };
@@ -445,11 +424,7 @@ export const WidgetCard = ({
     </m.div>
   );
 
-  // Memoized so a stray re-render of this card (scroll, resize, a sibling's update) doesn't change the
-  // context identity and re-render the whole widget subtree below it.
   const cardContextValue = useMemo(() => ({ cardRef: ref }), []);
-  // onUpdateConfig is the folder's stable updateWidgetConfig(instanceId, config); bind this card's
-  // instanceId here so the metadata context exposes a stable `updateConfig(config)`.
   const updateConfig = useCallback(
     (newConf: Partial<Mapping>) => onUpdateConfig?.(instanceId ?? "mock", newConf),
     [onUpdateConfig, instanceId],

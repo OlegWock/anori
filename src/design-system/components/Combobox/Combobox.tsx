@@ -19,8 +19,6 @@ import { type HTMLMotionProps, m } from "motion/react";
 import { type ChangeEvent, type HTMLProps, type ReactNode, type Ref, useEffect, useRef, useState } from "react";
 import { css, cva } from "styled-system/css";
 
-// Floating list panel — elevated surface + drop shadow on the tooltip layer (so it clears a modal it
-// was opened from); thin frosted scrollbar.
 const optionsPanel = css({
   backgroundColor: "surface.elevated",
   borderRadius: "sm",

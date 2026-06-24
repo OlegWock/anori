@@ -19,7 +19,6 @@ type DropDestinationProps<T = unknown> = {
   onDragLeave?: (info: DndItemMeta, reason: "move" | "drop") => void;
   onDrop?: (info: DndItemMeta) => void;
   ref?: Ref<HTMLElement>;
-  // Any other props (e.g. those a wrapping Tooltip injects) are forwarded to the child element.
   [key: string]: unknown;
 };
 

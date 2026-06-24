@@ -8,8 +8,7 @@ export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 const heading = cva({
   base: { margin: 0, fontWeight: "light" },
   variants: {
-    // Visual size. Mirrors the global h1–h6 type scale; decoupled from the semantic `level` so a
-    // heading can be e.g. an <h2> that looks like an h1.
+    // Visual size, decoupled from the semantic `level` (so an <h2> can look like an h1).
     size: {
       "1": { fontSize: "2xl" },
       "2": { fontSize: "xl" },
@@ -18,17 +17,12 @@ const heading = cva({
       "5": { fontSize: "sm" },
       "6": { fontSize: "xs" },
     },
-    // Trim the heading's box to its cap-height/alphabetic edges so it hugs the glyphs — lets it align
-    // cleanly when vertically centered next to controls. Progressive enhancement (ignored where
-    // text-box isn't supported).
     singleLine: { true: { lineHeight: "none" } },
   },
 });
 
 type HeadingOwnProps = {
-  // Semantic heading level → the rendered tag (h1…h6).
   level?: HeadingLevel;
-  // Visual size; defaults to `level`. Use to decouple appearance from semantics.
   size?: HeadingLevel;
   singleLine?: boolean;
   children?: ReactNode;
@@ -36,7 +30,6 @@ type HeadingOwnProps = {
   ref?: Ref<HTMLHeadingElement>;
 };
 
-// Panda style props + native heading attrs (Panda owns the overlapping keys, like Icon's split).
 export type HeadingProps = HeadingOwnProps &
   JsxStyleProps &
   Omit<ComponentPropsWithoutRef<"h2">, keyof JsxStyleProps | "color">;

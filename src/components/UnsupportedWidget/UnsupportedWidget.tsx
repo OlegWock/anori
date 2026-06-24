@@ -25,8 +25,6 @@ const titleCss = css({ fontWeight: "medium" });
 const descriptionCss = css({ fontSize: "xs", color: "text.placeholder", lineHeight: "tight" });
 const iconCss = css({ color: "icon.subtle" });
 
-// Placeholder shown for a widget whose plugin isn't available in the current browser. It keeps the
-// widget's footprint so the grid layout (and the widget itself, on other synced browsers) is preserved.
 const UnsupportedWidgetScreen = memo(function UnsupportedWidgetScreen() {
   const { t } = useTranslation();
   const { size } = useWidgetMetadata();
@@ -78,9 +76,6 @@ export const unsupportedWidgetPlugin = definePlugin({
 
 const baseUnsupportedWidget = unsupportedWidgetPlugin.widgets[0];
 
-// Wraps a widget that can't be rendered (its plugin isn't available here): keeps the original's id, name,
-// and appearance so the grid slot is unchanged, but swaps in the placeholder screen and a passthrough
-// config seam (the stored config is preserved untouched for other browsers).
 export function makeUnsupportedWidgetDescriptor(original?: SomeWidget): SomeWidget {
   if (!original) return baseUnsupportedWidget;
   return {

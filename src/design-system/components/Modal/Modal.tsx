@@ -36,7 +36,6 @@ const backdrop = css({
   background: "rgba(0, 0, 0, 0.5)",
 });
 
-// The animated-height wrapper owns the modal's (darker) surface + rounding.
 const wrapper = css({
   borderRadius: "xl",
   bg: "surface",
@@ -52,8 +51,6 @@ const modalCss = css({
   maxWidth: "80dvw",
   maxHeight: "80dvh",
 });
-// Default: pad the whole content. `flush` drops this — the body then lays out edge-to-edge and pads
-// itself, while the header keeps its own padding (below) so the title/close stay inset.
 const contentPadding = css({ padding: "6" });
 
 const headerCss = css({
@@ -62,11 +59,8 @@ const headerCss = css({
   alignItems: "center",
   marginBottom: "6",
 });
-// In flush modals the content has no padding, so the header carries its own.
 const headerFlushPadding = css({ pt: "6", px: "6" });
 
-// Spin the close icon on hover (the old flourish), via the inner svg so the button's own transition
-// is untouched.
 const closeButton = css({
   "& svg": { transition: "transform 0.2s ease" },
   "&:hover svg": { transform: "rotate(180deg)" },

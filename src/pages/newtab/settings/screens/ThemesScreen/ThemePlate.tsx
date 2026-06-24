@@ -62,11 +62,7 @@ export const ThemePlate = ({
   onDelete?: VoidFunction;
 }) => {
   const { t } = useTranslation();
-  // Show the palette's accent step, not the raw input colour — the input lightness is ignored, so the
-  // raw value can look off; this is the swatch the theme actually produces.
   const accentSwatch = useMemo(() => buildPalette(theme.accent, "dark", gamut).scales.accent[7], [theme.accent, gamut]);
-  // Custom themes have a single image loaded from storage (mode-independent); built-in previews are derived
-  // from the per-mode filename below.
   const [customBackgroundUrl, setCustomBackgroundUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -81,7 +77,6 @@ export const ThemePlate = ({
     };
   }, [theme]);
 
-  // Built-in previews follow the currently-selected mode; custom themes use their single stored image.
   const backgroundUrl =
     theme.type === "builtin"
       ? browser.runtime.getURL(`/assets/images/backgrounds/previews/${theme.background[mode]}`)

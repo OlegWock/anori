@@ -7,8 +7,6 @@ import { css, cva, cx } from "styled-system/css";
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
 
-// The portal-level positioned element owns the stacking — put it on the tooltip layer so it clears the
-// frosted widgets panel (which sits in its own stacking context).
 const positioner = css({
   zIndex: "tooltip",
   // Base UI flags the positioner with data-anchor-hidden when the trigger is hidden or detached (e.g. a
@@ -32,8 +30,6 @@ const tooltip = cva({
     transitionProperty: "opacity, transform",
     transitionDuration: "0.12s",
     transitionTimingFunction: "ease-out",
-    // Enter/exit handled by Base UI's data-starting/ending-style markers: fade + a small slide from the
-    // trigger side (matching the popup placement).
     "&[data-starting-style], &[data-ending-style]": { opacity: 0 },
     "&[data-side='top'][data-starting-style], &[data-side='top'][data-ending-style]": { transform: "translateY(5px)" },
     "&[data-side='bottom'][data-starting-style], &[data-side='bottom'][data-ending-style]": {
@@ -49,9 +45,6 @@ const tooltip = cva({
   variants: { clickable: { true: { pointerEvents: "auto" } } },
 });
 
-// Shares a delay across the tooltips it wraps: once one is shown, adjacent ones open instantly, and a
-// group can set its own open/close delay. A global provider supplies the app-wide default; nest another
-// for a tighter group (e.g. the sidebar).
 export const TooltipProvider = BaseTooltip.Provider;
 
 interface Props {
@@ -64,9 +57,6 @@ interface Props {
   children: ReactElement<Mapping>;
   targetRef?: Ref<HTMLElement>;
   hasClickableContent?: boolean;
-  // Currently not honored by the Base UI implementation (it has no per-tooltip focus/touch toggles).
-  // Kept on the API for call-site compatibility.
-  ignoreFocus?: boolean;
   enableOnTouch?: boolean;
   // Keep the tooltip wired up (no remount of the child) but never open it. Useful while the child is
   // mid-gesture (dragging/resizing), where a popup would be noise.

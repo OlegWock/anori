@@ -29,7 +29,6 @@ const item = cva({
       true: {
         background: "color-mix(in srgb, var(--ds-accent) 22%, transparent)",
         fontWeight: "semibold",
-        // Keep the active tint even on hover (don't fall back to the plain hover fill).
         _hover: { background: "color-mix(in srgb, var(--ds-accent) 22%, transparent)" },
       },
     },
@@ -39,7 +38,6 @@ const item = cva({
 const label = css({ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" });
 
 export type MenuItemProps = {
-  // Optional leading icon (name).
   icon?: string;
   active?: boolean;
   children: ReactNode;

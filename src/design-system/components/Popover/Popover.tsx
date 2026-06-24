@@ -34,8 +34,6 @@ import {
 import { mergeRefs } from "react-merge-refs";
 import { css, cx } from "styled-system/css";
 
-// Floating content panel (icon picker, config forms, permission prompts). Elevated surface + drop
-// shadow; `tooltip` z-layer so it sits above any modal it's opened from.
 const popover = css({
   width: "max-content",
   padding: "4",
@@ -136,7 +134,6 @@ export const Popover = <D = undefined>({
     useDismiss(context),
   ]);
 
-  // Preserve the consumer's ref
   const ref = useMemo(
     () => mergeRefs([refs.setReference, childrenReactElement.props.ref as Ref<Element>]) as Ref<Element>,
     [refs.setReference, childrenReactElement.props.ref],

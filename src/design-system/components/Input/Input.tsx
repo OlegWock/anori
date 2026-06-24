@@ -3,8 +3,6 @@ import { css, cva, cx } from "styled-system/css";
 
 export type InputVariant = "filled" | "ghost";
 
-// Filled (default): the `control` surface with an inset edge. Ghost: transparent until focus, so it
-// blends into whatever it sits on (e.g. a list-row name field). Both take the accent focus outline.
 const input = cva({
   base: {
     minWidth: "5rem",
@@ -28,7 +26,6 @@ const input = cva({
   variants: {
     variant: {
       filled: { bg: "control", boxShadow: "control.edge" },
-      // Transparent at rest; a faint fill on hover hints it's an editable field.
       ghost: {
         bg: "transparent",
         transition: "background-color 0.15s ease",
@@ -39,8 +36,7 @@ const input = cva({
   },
   defaultVariants: { variant: "filled" },
 });
-// flexShrink: 0 — as a flex item in a height-constrained column the fixed height would otherwise be
-// squished below 36px.
+
 const inputControl = css({ height: "36px", lineHeight: "none", flexShrink: 0 });
 
 export const Input = ({
@@ -66,8 +62,6 @@ export const Input = ({
   );
 };
 
-// Plain (non-autosizing) textarea: a fixed box that scrolls. Used when the field should fill a
-// height-constrained parent (`autosize={false}`) rather than grow with its content.
 const textareaPlain = css({
   py: "3",
   lineHeight: "inherit",
@@ -161,10 +155,8 @@ const textareaWrapper = cva({
 export type TextareaProps = ComponentProps<"textarea"> & {
   onValueChange?: (val: string) => void;
   variant?: InputVariant;
-  // Cap the autosized height to this many lines; beyond it the textarea scrolls. Ignored when autosize is off.
   maxRows?: number;
   minRows?: number;
-  // Grow with content (default). Set false to fill a height-constrained parent and scroll instead.
   autosize?: boolean;
 };
 

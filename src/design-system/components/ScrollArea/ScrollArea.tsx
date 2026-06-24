@@ -5,8 +5,6 @@ import { m } from "motion/react";
 import { type ComponentProps, type ReactNode, type Ref, useEffect, useRef, type WheelEvent } from "react";
 import { css, cva, cx } from "styled-system/css";
 
-// `auto`/`always` keep the scrollbar visible whenever the content overflows; `hover`/`scroll` fade it in
-// only while the pointer is over the area or while scrolling (Base UI exposes those as data attributes).
 type ScrollAreaVisibility = "auto" | "always" | "hover" | "scroll";
 
 type ScrollAreaProps = {
@@ -21,15 +19,15 @@ type ScrollAreaProps = {
   onHorizontalOverflowStatusChange?: (overflows: boolean) => void;
   viewportRef?: Ref<HTMLDivElement>;
   // Opt in to framer-motion layout projection through this scroll container — needed only when the
-  // content has `layout`-animating children that must stay aligned while the area scrolls (the draggable
-  // widget grid). It adds per-scroll projection work that makes the scrollbar thumb lag, so it's off by
-  // default.
+  // content has `layout`-animating children that must stay aligned while the area scrolls. It adds
+  // per-scroll projection work that could make the scrollbar thumb lag, so it's off by default.
   layoutScroll?: boolean;
 } & ComponentProps<typeof m.div>;
 
 // Each part is styled directly and keeps its marker class (ScrollAreaRoot/Viewport/Content/Scrollbar/
-// Thumb) — a public hook some widgets target from their own styles. `--scrollbar-size` is set on the
-// root by the `size` variant and inherited by the rail/thumb.
+// Thumb) — a public hook some widgets target from their own styles.
+// TODO: verify if this is really needed or if we could migrate to providing adequate default behavior/styles + props to
+// adjust it when really needed
 const root = cva({
   base: {
     position: "relative",
@@ -64,7 +62,6 @@ const viewport = css({
   height: "100%",
   borderRadius: "inherit",
   flexShrink: 1,
-  // Keep nested scrolling from chaining to the page.
   overscrollBehavior: "contain",
 });
 
@@ -97,7 +94,6 @@ const scrollbar = cva({
         height: "var(--scrollbar-size)",
       },
     },
-    // Base UI only mounts the scrollbar when scrollable; `type` then drives its resting opacity.
     type: {
       auto: {},
       always: {},

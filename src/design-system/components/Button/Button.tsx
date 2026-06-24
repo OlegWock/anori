@@ -12,9 +12,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   visuallyDisabled?: boolean;
   loading?: boolean;
   children?: ReactNode;
-  // Icon *name* (not an element) rendered before/after the label. The Button owns the icon's size,
-  // color and spacing so it can't be misaligned or recoloured — the blessed way to put an icon in a
-  // button. Passing `<Icon>` as a child still works but is the caller's responsibility to align.
+  // Icon *name* (not an element); the Button owns its size/colour/spacing.
   iconStart?: string;
   iconEnd?: string;
   ref?: Ref<HTMLButtonElement>;
@@ -33,11 +31,8 @@ export const button = cva({
     whiteSpace: "nowrap",
     userSelect: "none",
     borderRadius: "xl",
-    // Trim the label's box to cap-height/alphabetic so it matches the cap-height icons → precise
-    // icon↔text alignment. Progressive enhancement: ignored where text-box isn't supported.
     textBox: "trim-both cap alphabetic",
     transition: "background 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
-    // Disabled/loading: common bits; each variant supplies a muted fill from its own palette below.
     "&:disabled, &[aria-disabled=true]": {
       color: "text.subtle",
       cursor: "not-allowed",
@@ -60,23 +55,18 @@ export const button = cva({
         "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "control.hover" },
         "&:disabled, &[aria-disabled=true]": { bg: "control.disabled" },
       },
-      // Matches the legacy button: transparent, with a faint text-colored inset edge + hover fill —
-      // meant to sit on the frosted plate (so it uses text.primary per DS-1). Disabled drops the edge
-      // (base) and just dims the text.
       frosted: {
         bg: "transparent",
         color: "text.primary",
         boxShadow: "inset 0 0 0 2px {colors.frosted.strong}",
         "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "ghost.hover" },
       },
-      // Like frosted but with no edge — a quiet, borderless button (e.g. a modal close).
       ghost: {
         bg: "transparent",
         color: "text.primary",
         "&:hover:not(:disabled):not([aria-disabled=true])": { bg: "ghost.hover" },
       },
     },
-    // Fixed heights (no vertical padding) — the design-system control sizes.
     size: {
       normal: { height: "36px", px: "5", fontSize: "base" },
       compact: { height: "28px", px: "4", fontSize: "sm" },
@@ -103,8 +93,6 @@ const content = css({ display: "contents" });
 const contentHidden = css({ visibility: "hidden" });
 const buttonIcon = css({ flexShrink: 0 });
 
-// The inner content of a button-styled control (the loading spinner + label/icons). Shared so
-// link-flavoured buttons (LinkButton/LinkIconButton) render identically to <button> ones.
 export const ButtonContent = ({
   loading,
   iconStart,

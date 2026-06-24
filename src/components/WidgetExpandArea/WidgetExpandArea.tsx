@@ -52,8 +52,6 @@ const windowTitle = css({
   textOverflow: "ellipsis",
 });
 const windowButtons = css({ display: "flex", alignItems: "center", gap: "2" });
-// Consumer-provided extra buttons (raw icon links) keep the dimmed-glyph treatment; the close button
-// is a DS ghost IconButton and styles itself.
 const extraButtonsWrap = css({
   display: "flex",
   alignItems: "center",
@@ -72,7 +70,6 @@ const content = cva({
     borderRadius: "calc(24px - 0.75rem)",
     background: "surface.elevated",
     padding: "4",
-    // The expandable content fills the scroll area; make the viewport + content a stretching flex column.
     "& > .ScrollAreaRoot": {
       flexGrow: 1,
       alignSelf: "stretch",

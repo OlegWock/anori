@@ -75,7 +75,6 @@ export const SvgIconRenderer = ({
 
   useAsyncLayoutEffect(async () => {
     if (syncDescriptor) {
-      // Already resolved during render; the ref callback patches the SVG on mount.
       return;
     }
     let iconInfo: SvgIconCacheDescriptor;

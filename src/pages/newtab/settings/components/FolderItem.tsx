@@ -13,8 +13,6 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 
-// A control card per folder (matches the custom-icons rows): drag handle, an editable icon (a frosted
-// button opening the picker), the name field, and a trash delete on the trailing edge.
 const row = css({
   display: "flex",
   alignItems: "center",

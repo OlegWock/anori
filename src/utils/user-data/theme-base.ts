@@ -4,15 +4,11 @@ import type { OklchColor } from "@anori/utils/color";
 import { setPageBackground } from "@anori/utils/page";
 import browser from "webextension-polyfill";
 
-// A theme is now just an accent colour (OKLCH, the source of truth) + a background image. The full
-// palette — surfaces, text, controls — is generated from the accent, and whether it renders light or
-// dark is a separate global knob (`colorScheme`), not a per-theme property.
+// A theme is just an accent colour (OKLCH) + a background image; the full palette is generated from the
+// accent, and light/dark is a separate global knob (`colorScheme`), not a per-theme property.
 export type BuiltinTheme = {
   name: string;
   type: "builtin";
-  // Built-in themes ship one background per mode: the light variant uses imagery that keeps the
-  // directly-on-background text (bookmarks, folder titles/icons) readable against dark text. Custom themes
-  // have a single user-provided image instead (the user owns picking one that works for their scheme).
   background: Record<Mode, string>;
   accent: OklchColor;
 };
@@ -24,7 +20,6 @@ export type CustomTheme = {
   accent: OklchColor;
 };
 
-// In-editor draft: a custom theme plus the pending (not-yet-saved) background image URLs.
 export type PartialCustomTheme = {
   name: string;
   type: "custom";
@@ -36,11 +31,8 @@ export type PartialCustomTheme = {
 
 export type Theme = BuiltinTheme | CustomTheme;
 
-// Global light/dark knob; `system` follows the OS preference.
 export type ColorScheme = "light" | "dark" | "system";
 
-// Pairs a dark- and light-mode background filename. `light` defaults to `dark` until the light-mode
-// imagery exists — at that point pass a distinct light file (e.g. `bg("greenery.jpg", "greenery-light.jpg")`).
 const bg = (dark: string, light: string = dark): Record<Mode, string> => ({ light, dark });
 
 export const themes: BuiltinTheme[] = [
@@ -96,7 +88,6 @@ export const themes: BuiltinTheme[] = [
 
 export const defaultTheme = themes[0];
 
-// Resolves the stored color-scheme knob to a concrete mode (following the OS for `system`).
 export const resolveColorScheme = (scheme: ColorScheme): Mode => {
   if (scheme !== "system") return scheme;
   const prefersLight =
@@ -125,8 +116,6 @@ export const applyTheme = async (theme: Theme, mode: Mode) => {
   await prom;
 };
 
-// Generates the palette from the accent + mode, injects the `--ds-*` tokens, and points the browser
-// theme-color meta at the resulting surface color.
 export const applyThemeColors = (accent: OklchColor, mode: Mode) => {
   const { tokens } = applyDesignSystemTokens(accent, mode);
 

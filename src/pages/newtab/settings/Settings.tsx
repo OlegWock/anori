@@ -9,8 +9,6 @@ import { css } from "styled-system/css";
 import { settingsSections } from "./sections";
 import { currentScreenAtom, type SettingScreen } from "./settings-atoms";
 
-// A fixed-size two-column shell (sidebar list + screen), so the modal doesn't jump as sections of
-// different heights swap; each column scrolls on its own.
 const content = css({
   display: "flex",
   flexDirection: "column",
@@ -29,8 +27,6 @@ const divider = css({
 const screenScroll = css({ flex: 1 });
 const screenPad = css({ paddingInline: "4", paddingBottom: "4" });
 
-// Screens slide vertically by their relative position (like switching folders): going to a later
-// section enters from below / exits upward, and vice-versa.
 const screenVariants = {
   center: { y: "0%", opacity: 1 },
   enter: (dir: "up" | "down") => ({ y: dir === "down" ? "12%" : "-12%", opacity: 0 }),

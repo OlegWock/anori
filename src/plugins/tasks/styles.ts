@@ -8,7 +8,6 @@ export const tasksWidget = css({
   flexGrow: 1,
   overflow: "hidden",
 });
-// Fills the widget; make the scroll content a flex column so the list can grow.
 export const scrollArea = css({
   flexGrow: 1,
   "& .ScrollAreaContent": { display: "flex", flexDirection: "column", flexGrow: 1 },
@@ -21,7 +20,6 @@ export const tasksList = css({
   gap: "1",
   paddingBlock: "0-5",
 });
-// The drag handle is hidden until the row is hovered (or always on touch devices).
 export const taskRow = css({
   display: "flex",
   alignItems: "center",
