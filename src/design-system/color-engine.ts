@@ -46,7 +46,7 @@ export const colorAt = (hue: number, chroma: number, l: number, gamut: Gamut): s
 // (Index 10 = 0.82 was inserted between the old 9/10 to densify the light end; everything from the old
 // step 10 up shifted one higher, so old-10/11/12 are now 11/12/13.)
 const PRIMITIVE_LS = [0.16, 0.22, 0.31, 0.35, 0.38, 0.45, 0.52, 0.61, 0.7, 0.78, 0.82, 0.87, 0.91, 0.98];
-//                     0     1     2     3     4     5     6     7     8    9    10    11    12    13
+//                     0     1     2     3     4     5     6     7     8    9     10    11    12    13
 export const PRIMITIVE_STEPS = PRIMITIVE_LS.length;
 
 const scale = (hue: number, chroma: number, gamut: Gamut): string[] =>
@@ -200,6 +200,11 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     // list-item hovers). Like frosted in dark mode (a faint light wash); in light mode it flips to a
     // translucent dark wash, since a light overlay would be invisible on a light surface.
     "ghost-hover": withAlpha(neutral[byMode(mode, 13, 0)], byMode(mode, 0.1, 0.07)),
+
+    // Scrollbar thumb: a translucent neutral that reads against the surface in both modes. Matches the
+    // dark-mode frosted overlay, but flips to a dark neutral in light mode (a light overlay would vanish
+    // on the light surfaces scrollbars usually sit on).
+    "scrollbar-thumb": withAlpha(neutral[byMode(mode, 13, 1)], 0.1),
   };
 
   return { mode, scales, tokens };

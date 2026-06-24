@@ -109,7 +109,7 @@ const scrollbar = cva({
 
 const thumb = cva({
   base: {
-    background: "frosted",
+    background: "scrollbar.thumb",
     borderRadius: "var(--scrollbar-size)",
     position: "relative",
     // Larger touch target than the visible thumb (WCAG target size).

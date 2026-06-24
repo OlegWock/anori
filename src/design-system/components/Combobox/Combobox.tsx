@@ -28,7 +28,7 @@ const optionsPanel = css({
   zIndex: "tooltip",
   padding: "1-5",
   "&::-webkit-scrollbar": { width: "8px", height: "8px" },
-  "&::-webkit-scrollbar-thumb": { backgroundColor: "frosted.strong", borderRadius: "md" },
+  "&::-webkit-scrollbar-thumb": { backgroundColor: "scrollbar.thumb", borderRadius: "md" },
   "&::-webkit-scrollbar-track": { backgroundColor: "transparent" },
   scrollbarWidth: "thin",
   scrollbarColor: "var(--ds-frosted-strong) transparent",

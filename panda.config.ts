@@ -146,6 +146,10 @@ export default defineConfig({
           ghost: {
             hover: { value: "var(--ds-ghost-hover)" },
           },
+          // Scrollbar thumb (frosted in dark, dark in light).
+          scrollbar: {
+            thumb: { value: "var(--ds-scrollbar-thumb)" },
+          },
           modal: {
             DEFAULT: { value: "var(--ds-modal)" },
             edge: { value: "var(--ds-modal-edge)" },
