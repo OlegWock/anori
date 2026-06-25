@@ -18,7 +18,13 @@ import packageJson from "./package.json" with { type: "json" };
 const require = createRequire(import.meta.url);
 
 import type { RspackOptions } from "@rspack/core";
-import { CopyRspackPlugin, DefinePlugin, ProgressPlugin } from "@rspack/core";
+import {
+  CopyRspackPlugin,
+  CssExtractRspackPlugin,
+  DefinePlugin,
+  ProgressPlugin,
+  SwcJsMinimizerRspackPlugin,
+} from "@rspack/core";
 import { generateManifest } from "./build_helpers/manifest.ts";
 import {
   constructEntriesAndOutputs,
@@ -83,6 +89,9 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     performance: {
       maxAssetSize: 1024 * 1024 * 20,
       maxEntrypointSize: 1024 * 1024 * 20,
+    },
+    optimization: {
+      minimizer: [new SwcJsMinimizerRspackPlugin()],
     },
     watchOptions: {
       // Ignore everything not in /src and /styled-system
@@ -185,7 +194,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
           test: /\.css$/,
           use: [
             {
-              loader: "style-loader",
+              loader: CssExtractRspackPlugin.loader,
             },
             {
               loader: "css-loader",
@@ -219,6 +228,14 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     plugins: [
       new TsCheckerRspackPlugin({ typescript: { mode: "write-references" } }),
       new ProgressPlugin(),
+      new CssExtractRspackPlugin({
+        filename: (pathData) => {
+          const predefined = outputs[pathData.chunk?.name ?? ""];
+          if (predefined) return predefined.replace(/\.js$/, ".css");
+          return `${paths.dist.chunks}/${pathData.chunk?.name ?? pathData.chunk?.id}.css`;
+        },
+        chunkFilename: `${paths.dist.chunks}/[id].css`,
+      }),
       new DefinePlugin({
         X_MODE: JSON.stringify(mode),
         X_BROWSER: JSON.stringify(targetBrowser),

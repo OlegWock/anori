@@ -135,6 +135,7 @@ export function constructGenerateFileInvocations(
       new GenerateFiles({
         file: joinPath(paths.dist.pages, `${cleanName}.html`),
         content: generatePageContentForScript(pageTemplate, {
+          styles: `<link rel="stylesheet" href="/${paths.dist.pages}/${cleanName}.css" />`,
           scripts: scriptsToInject
             .map((url) => {
               return `<script src="${url}" async></script>`;
