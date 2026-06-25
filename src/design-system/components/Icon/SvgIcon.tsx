@@ -1,13 +1,10 @@
 import { getBuiltinIcon } from "@anori/design-system/components/Icon/builtin-icons";
+import { IconPlaceholder, iconEnter } from "@anori/design-system/components/Icon/IconPlaceholder";
 import { ICONIFY_API_BASE } from "@anori/design-system/components/Icon/remote-icons";
 import { globalSvgIconsCache, SvgIconRenderer } from "@anori/design-system/components/Icon/SvgIconRenderer";
 import type { IconRenderProps } from "@anori/design-system/components/Icon/types";
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
-import { m } from "motion/react";
 import { useState } from "react";
-import { css } from "styled-system/css";
-
-const placeholder = css({ background: "text.primary", borderRadius: "md", opacity: 0.35 });
 
 export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRenderProps) => {
   const [family, iconName] = icon.split(":");
@@ -44,17 +41,12 @@ export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRen
     }
   }, [icon]);
 
+  // Built-in icons resolve synchronously and should appear instantly; only remote icons fade in.
+  const enterProps = getBuiltinIcon(icon) ? {} : iconEnter;
+
   if (svgText) {
-    return <SvgIconRenderer ref={ref} icon={icon} svgText={svgText} cache={cache} {...props} />;
+    return <SvgIconRenderer ref={ref} icon={icon} svgText={svgText} cache={cache} {...enterProps} {...props} />;
   }
 
-  return (
-    <m.div
-      className={placeholder}
-      style={{
-        width: props.width || props.height || 24,
-        height: props.height || props.width || 24,
-      }}
-    />
-  );
+  return <IconPlaceholder width={props.width || props.height || 24} height={props.height || props.width || 24} />;
 };

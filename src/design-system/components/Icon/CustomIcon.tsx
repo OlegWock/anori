@@ -1,4 +1,5 @@
 import { useCustomIcon } from "@anori/design-system/components/Icon/custom-icons";
+import { IconPlaceholder, iconEnter } from "@anori/design-system/components/Icon/IconPlaceholder";
 import { SvgIconRenderer } from "@anori/design-system/components/Icon/SvgIconRenderer";
 import type { IconRenderProps } from "@anori/design-system/components/Icon/types";
 import { m } from "motion/react";
@@ -7,7 +8,6 @@ import { css, cx } from "styled-system/css";
 
 // 20% is relative, so the radius scales with whatever unit width/height use (see the sizing note below).
 const customImage = css({ borderRadius: "20%" });
-const placeholder = css({ borderRadius: "20%", background: "text.primary", opacity: 0.35 });
 
 export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...props }: IconRenderProps) => {
   const customIconInfo = useCustomIcon(icon);
@@ -18,7 +18,7 @@ export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...
   const height = props.height || props.width || 24;
 
   if (!customIconInfo) {
-    return <div ref={ref as Ref<HTMLDivElement>} className={placeholder} style={{ width, height }} />;
+    return <IconPlaceholder shape="image" width={width} height={height} ref={ref as Ref<HTMLDivElement>} />;
   }
 
   if (customIconInfo.isSvg) {
@@ -28,6 +28,7 @@ export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...
         src={customIconInfo.objectUrl}
         ref={ref as Ref<SVGSVGElement>}
         cache={cache}
+        {...iconEnter}
         {...props}
       />
     );
@@ -39,6 +40,7 @@ export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...
       ref={ref as Ref<HTMLImageElement>}
       style={{ width, height, ...(style as CSSProperties) }}
       src={customIconInfo.objectUrl}
+      {...iconEnter}
     />
   );
 };
