@@ -20,13 +20,11 @@ import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import type { Folder } from "@anori/utils/user-data/types";
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { AnimatePresence, LazyMotion, MotionConfig, m } from "motion/react";
+import { AnimatePresence, domMax, LazyMotion, MotionConfig, m } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { css, cva } from "styled-system/css";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
-
-const loadMotionFeatures = () => import("@anori/utils/motion/motion-features").then(({ domMax }) => domMax);
 
 const startPage = css({ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column" });
 const startPageContent = cva({
@@ -202,8 +200,8 @@ getAnoriStorage().then((storage) => {
     <StorageContext.Provider value={storage}>
       <QueryClientProvider>
         <CompactModeProvider>
-          {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
-          <LazyMotion features={loadMotionFeatures}>
+          {/* strict mode temporary disabled due to https://github.com/framer/motion/issues/2094 */}
+          <LazyMotion features={domMax}>
             <Start />
           </LazyMotion>
         </CompactModeProvider>
