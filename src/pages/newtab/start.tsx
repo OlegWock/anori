@@ -3,7 +3,8 @@ import { mountPage } from "@anori/utils/react";
 import "../../panda.css";
 import "./globals.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
-import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
+import { BookmarksBar } from "@anori/components/BookmarksBar/BookmarksBar";
+import { scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { languageDirections } from "@anori/translations/metadata";
 import { initTranslation } from "@anori/translations/utils";
@@ -53,12 +54,6 @@ const widgetsArea = cva({
     // The bookmarks bar takes the top, so tighten the widgets-area top margin. `!` to win over orientation.
     bookmarksBar: { true: { marginTop: "1!" } },
   },
-});
-const bookmarksBarPlaceholder = css({
-  marginTop: "4",
-  marginInline: "8",
-  marginBottom: 0,
-  height: "calc(0.9rem * 1.2 + 1.55rem)",
 });
 
 const useSidebarOrientation = () => {
@@ -154,9 +149,7 @@ const Start = () => {
         <TooltipProvider delay={200} closeDelay={100} timeout={0}>
           <AnimatePresence>
             <m.div className={startPage} key="start-page">
-              {showBookmarksBar && (
-                <BookmarksBar lazyOptions={{ fallback: <div className={bookmarksBarPlaceholder} /> }} />
-              )}
+              {showBookmarksBar && <BookmarksBar />}
               <div className={startPageContent({ orientation: sidebarOrientation })}>
                 <Sidebar
                   folders={folders}
@@ -186,11 +179,6 @@ getAnoriStorage().then((storage) => {
   setPageTitle(title);
 
   storage.files.get(anoriSchema.customIcons.all()); // This preloads custom icon blobs into cache
-
-  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
-  if (showBookmarksBar) {
-    BookmarksBar.preload();
-  }
 
   const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation);
   const div = document.querySelector(".loading-cover");

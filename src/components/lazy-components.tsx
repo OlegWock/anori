@@ -11,9 +11,6 @@ const loaders = {
   ReorderGroup: cachedPromiseFunc(() => import("@anori/utils/motion/lazy-load-reorder").then((m) => m.ReorderGroup)),
   ReorderItem: cachedPromiseFunc(() => import("@anori/utils/motion/lazy-load-reorder").then((m) => m.ReorderItem)),
   ReactMarkdown: cachedPromiseFunc(() => import("react-markdown").then((m) => m.default)),
-  BookmarksBar: cachedPromiseFunc(() =>
-    import("@anori/components/BookmarksBar/BookmarksBar").then((m) => m.BookmarksBar),
-  ),
   WhatsNew: cachedPromiseFunc(() => import("@anori/components/WhatsNew").then((m) => m.WhatsNew)),
 } as const;
 
@@ -92,5 +89,4 @@ export const Select = createLazyComponentWithSuspense(loaders.Select) as typeof 
 export const ReorderGroup = createLazyComponentWithSuspense(loaders.ReorderGroup) as typeof ReorderGroupType;
 export const ReorderItem = createLazyComponentWithSuspense(loaders.ReorderItem);
 export const ReactMarkdown = createLazyComponentWithSuspense(loaders.ReactMarkdown);
-export const BookmarksBar = createLazyComponentWithSuspense(loaders.BookmarksBar);
 export const WhatsNew = createLazyComponentWithSuspense(loaders.WhatsNew);
