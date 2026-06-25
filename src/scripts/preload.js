@@ -1,3 +1,5 @@
+// Runs before the main page script: applies the saved theme pre-paint (avoids a flash) and warms the
+// active language's lazily-loaded chunks so the page resolves them from cache.
 import { momentLocaleLoaders, translationLoaders } from "@anori/translations/loaders";
 import { applyTheme, defaultTheme, resolveColorScheme, themes } from "@anori/utils/user-data/theme-base";
 import browser from 'webextension-polyfill';
