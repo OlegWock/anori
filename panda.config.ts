@@ -11,6 +11,9 @@ export default defineConfig({
   dependencies: ["./src/**/*.{ts,tsx}"],
   exclude: [],
 
+  eject: true,
+  presets: ["@pandacss/preset-base"],
+
   jsxFramework: "react",
 
   outdir: "styled-system",
@@ -29,12 +32,12 @@ export default defineConfig({
 
       tokens: {
         radii: {
-          xs: { value: "4px" },
-          sm: { value: "6px" },
-          md: { value: "8px" },
-          lg: { value: "12px" },
-          xl: { value: "24px" },
-          "2xl": { value: "36px" },
+          xs: { value: "0.25rem" },
+          sm: { value: "0.375rem" },
+          md: { value: "0.5rem" },
+          lg: { value: "0.75rem" },
+          xl: { value: "1.5rem" },
+          "2xl": { value: "2.25rem" },
           full: { value: "9999px" },
         },
         fontSizes: {

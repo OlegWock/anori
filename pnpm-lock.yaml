@@ -243,6 +243,9 @@ importers:
       '@pandacss/dev':
         specifier: ^1.11.3
         version: 1.11.3(jsdom@29.1.1)(typescript@6.0.3)
+      '@pandacss/preset-base':
+        specifier: 1.11.3
+        version: 1.11.3
       '@testing-library/react':
         specifier: ^16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)

@@ -122,6 +122,7 @@
     "devDependencies": {
         "@biomejs/biome": "^2.4.16",
         "@pandacss/dev": "^1.11.3",
+        "@pandacss/preset-base": "1.11.3",
         "@testing-library/react": "^16.3.2",
         "@types/culori": "^4.0.1",
         "jsdom": "^29.1.1",
