@@ -1,4 +1,3 @@
-import { ReorderGroup, ReorderItem } from "@anori/components/lazy-components";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
@@ -7,6 +6,7 @@ import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollAre
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
+import { ReorderGroup, ReorderItem } from "@anori/utils/motion/reorder";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { combineRefs } from "@anori/utils/react";
 import type { Task } from "@anori/utils/storage";
