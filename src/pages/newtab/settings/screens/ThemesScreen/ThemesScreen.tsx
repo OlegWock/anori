@@ -31,6 +31,7 @@ const COLOR_SCHEME_LABEL_KEY: Record<ColorScheme, string> = {
 const screen = css({ display: "flex", flexDirection: "column", gap: "4" });
 const header = css({ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "4" });
 const grid = css({ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "3" });
+const editorDivider = css({ height: "1px", bg: "divider" });
 
 export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
@@ -54,13 +55,18 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
         <Heading level={2} size={1}>
           {t("settings.theme.title")}
         </Heading>
-        <DSButton iconStart={builtinIcons.add} onClick={() => openEditor()}>
-          {t("settings.theme.newTheme")}
-        </DSButton>
+        {!editorActive && (
+          <DSButton iconStart={builtinIcons.add} onClick={() => openEditor()}>
+            {t("settings.theme.newTheme")}
+          </DSButton>
+        )}
       </div>
 
       {editorActive && (
-        <ThemeEditor key={editorTheme?.name ?? "new"} theme={editorTheme} onClose={() => setEditorActive(false)} />
+        <>
+          <ThemeEditor key={editorTheme?.name ?? "new"} theme={editorTheme} onClose={() => setEditorActive(false)} />
+          <div className={editorDivider} />
+        </>
       )}
 
       <div className={grid}>

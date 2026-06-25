@@ -24,15 +24,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 
-const editorPanel = css({
-  display: "flex",
-  flexDirection: "column",
-  gap: "4",
-  padding: "4",
-  borderRadius: "lg",
-  bg: "control",
-  boxShadow: "control.edge",
-});
+const editorPanel = css({ display: "flex", flexDirection: "column", gap: "4" });
 const preview = css({
   position: "relative",
   overflow: "hidden",
@@ -237,7 +229,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
       </Field>
 
       <HueChromaPicker
-        label={t("settings.theme.colorAccent")}
+        label={`${t("settings.theme.colorAccent")}:`}
         value={theme.accent}
         gamut={gamut}
         onChange={(accent) => {
