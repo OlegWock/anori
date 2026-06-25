@@ -10,8 +10,8 @@ const root = css({
   touchAction: "none",
   height: "20px",
 });
-const track = css({ position: "relative", flexGrow: 1, height: "3px", borderRadius: "full", bg: "surface.elevated" });
-const range = css({ position: "absolute", height: "100%", borderRadius: "full", bg: "frosted.strong" });
+const track = css({ position: "relative", flexGrow: 1, height: "3px", borderRadius: "full", bg: "divider" });
+const range = css({ position: "absolute", height: "100%", borderRadius: "full", bg: "accent" });
 const thumb = css({
   display: "block",
   width: "20px",
