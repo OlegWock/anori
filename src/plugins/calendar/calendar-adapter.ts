@@ -62,6 +62,11 @@ export const makeCalendarAdapter = (calendar: string, locale: string): CalendarA
   const monthFormat = new Intl.DateTimeFormat(`${locale}-u-ca-${calendar}`, { month: "long" });
   const labelFormat = new Intl.DateTimeFormat(`${locale}-u-ca-${calendar}`, { month: "long", year: "numeric" });
 
+  // Several locales (e.g. uk, ru, cs, pl) render `month: "long"` lowercase; the widget shows it as a
+  // heading, so uppercase the first letter. No-op for scripts without letter case (Arabic, Hebrew, …).
+  const capitalizeFirst = (value: string): string =>
+    value ? value.charAt(0).toLocaleUpperCase(locale) + value.slice(1) : value;
+
   const read = (date: Date) => {
     const parts = partsFormat.formatToParts(date);
     const get = (type: Intl.DateTimeFormatPartTypes) => parts.find((p) => p.type === type)?.value ?? "";
@@ -94,8 +99,8 @@ export const makeCalendarAdapter = (calendar: string, locale: string): CalendarA
     isSameMonth: (a, b) => read(a).month === read(b).month,
     isSameYear: (a, b) => read(a).year === read(b).year,
     dayLabel: (date) => dayFormat.format(date),
-    monthName: (date) => monthFormat.format(date),
-    monthLabel: (date) => labelFormat.format(date),
+    monthName: (date) => capitalizeFirst(monthFormat.format(date)),
+    monthLabel: (date) => capitalizeFirst(labelFormat.format(date)),
     monthKey: (date) => read(date).month,
   };
 };
