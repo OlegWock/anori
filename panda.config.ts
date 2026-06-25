@@ -81,7 +81,7 @@ export default defineConfig({
           surface: {
             edge: { value: "inset 0 0 0 2px var(--ds-surface-edge)" },
             elevated: {
-              edge: { value: "inset 0 0 0 2px var(--ds-surface-elevated-edge)" },
+              edge: { value: "inset 0 0 0 1px var(--ds-surface-elevated-edge)" },
             },
           },
           control: {
