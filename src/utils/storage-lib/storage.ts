@@ -40,6 +40,30 @@ export type {
   ValueWithMeta,
 } from "./storage-types";
 
+function outboxEqual(a: Outbox, b: Outbox): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    const x = a[i];
+    const y = b[i];
+    if (x.key !== y.key || x.type !== y.type || x.addedAt !== y.addedAt || compareHlc(x.hlc, y.hlc) !== 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function hlcStateEqual(a: HlcState, b: HlcState): boolean {
+  return a.nodeId === b.nodeId && compareHlc(a.last, b.last) === 0;
+}
+
+function cloneOutbox(outbox: Outbox): Outbox {
+  return outbox.map((e) => ({ ...e, hlc: { ...e.hlc } }));
+}
+
+function cloneHlcState(state: HlcState): HlcState {
+  return { nodeId: state.nodeId, last: { ...state.last } };
+}
+
 export function createStorage<S extends VersionedSchema>(options: CreateStorageOptions<S>): Storage<S> {
   const versionedSchema = options.schema;
   const latestSchema = versionedSchema.latestSchema;
@@ -54,6 +78,15 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
   const outboxSubscriptions: OutboxSubscription[] = [];
   // Track HLCs of records we've already notified about (to skip duplicate onChanged events)
   const pendingNotifications = new Map<string, HlcTimestamp>();
+
+  // Snapshots of internal-key (outbox, HLC state) writes made by this instance.
+  // browser.storage.local.onChanged echoes our own writes back asynchronously, and on Firefox
+  // those echoes can arrive out of order — a stale snapshot would otherwise clobber the
+  // authoritative in-memory copy. We skip any echo that structurally matches one of our own
+  // pending writes, while still applying genuinely foreign writes (so other contexts stay in sync).
+  const pendingSelfOutboxWrites: Outbox[] = [];
+  const pendingSelfHlcWrites: HlcState[] = [];
+  const MAX_PENDING_SELF_WRITES = 64;
 
   // Batched persistence: accumulates dirty keys and flushes them in a single browser.storage.local.set call
   const pendingPersistKeys = new Set<string>();
@@ -75,6 +108,13 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     const batch: Record<string, unknown> = {};
     for (const key of pendingPersistKeys) {
       batch[key] = cache[key];
+      if (key === OUTBOX_KEY && cache[key]) {
+        pendingSelfOutboxWrites.push(cloneOutbox(cache[key] as Outbox));
+        if (pendingSelfOutboxWrites.length > MAX_PENDING_SELF_WRITES) pendingSelfOutboxWrites.shift();
+      } else if (key === HLC_STATE_KEY && cache[key]) {
+        pendingSelfHlcWrites.push(cloneHlcState(cache[key] as HlcState));
+        if (pendingSelfHlcWrites.length > MAX_PENDING_SELF_WRITES) pendingSelfHlcWrites.shift();
+      }
     }
     pendingPersistKeys.clear();
     const resolve = persistFlushResolve;
@@ -222,10 +262,28 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     browser.storage.local.onChanged.addListener((changes) => {
       for (const [key, change] of Object.entries(changes)) {
         if (key === HLC_STATE_KEY || key === OUTBOX_KEY) {
-          // Just update cache for internal keys
           if (change.newValue === undefined) {
             delete cache[key];
+            continue;
+          }
+          // Skip echoes of this instance's own writes
+          let isOwnEcho = false;
+          if (key === OUTBOX_KEY) {
+            const incoming = change.newValue as Outbox;
+            const idx = pendingSelfOutboxWrites.findIndex((snap) => outboxEqual(snap, incoming));
+            if (idx >= 0) {
+              pendingSelfOutboxWrites.splice(idx, 1);
+              isOwnEcho = true;
+            }
           } else {
+            const incoming = change.newValue as HlcState;
+            const idx = pendingSelfHlcWrites.findIndex((snap) => hlcStateEqual(snap, incoming));
+            if (idx >= 0) {
+              pendingSelfHlcWrites.splice(idx, 1);
+              isOwnEcho = true;
+            }
+          }
+          if (!isOwnEcho) {
             cache[key] = change.newValue;
           }
           continue;
