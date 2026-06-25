@@ -171,8 +171,10 @@ const Start = () => {
 
 watchForPermissionChanges();
 
-getAnoriStorage().then((storage) => {
-  initTranslation();
+getAnoriStorage().then(async (storage) => {
+  // Kick off translation loading immediately (the active language may be a lazily-loaded chunk), then
+  // await it just before mount so React never renders raw i18n keys.
+  const translationReady = initTranslation();
   const title = storage.get(anoriSchema.newTabTitle);
   setPageTitle(title);
 
@@ -196,6 +198,7 @@ getAnoriStorage().then((storage) => {
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();
   incrementDailyUsageMetric("Times new tab opened");
+  await translationReady;
   mountPage(
     <StorageContext.Provider value={storage}>
       <QueryClientProvider>
