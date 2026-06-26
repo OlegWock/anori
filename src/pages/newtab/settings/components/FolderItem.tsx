@@ -47,6 +47,8 @@ const nameText = css({
 const slot = css({ width: "36px", flexShrink: 0 });
 const deleteIcon = css({ "& svg": { height: "1.2em!" } });
 
+export const FOLDER_NAME_INPUT_ATTR = "data-folder-name-input";
+
 export const FolderItem = ({
   folder,
   editable = false,
@@ -78,7 +80,16 @@ export const FolderItem = ({
   }
 
   return (
-    <ReorderItem value={folder} dragListener={false} dragControls={controls} as="div" className={row}>
+    <ReorderItem
+      value={folder}
+      dragListener={false}
+      dragControls={controls}
+      as="div"
+      className={row}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1, transition: { duration: 0.12 } }}
+      exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.12 } }}
+    >
       <IconButton
         variant="ghost"
         icon={builtinIcons.dragHandle}
@@ -102,7 +113,13 @@ export const FolderItem = ({
           <Icon icon={folder.icon} size="md" />
         </Button>
       </Popover>
-      <Input variant="ghost" className={nameInput} value={folder.name} onValueChange={(name) => onNameChange?.(name)} />
+      <Input
+        variant="ghost"
+        className={nameInput}
+        value={folder.name}
+        onValueChange={(name) => onNameChange?.(name)}
+        {...{ [FOLDER_NAME_INPUT_ATTR]: folder.id }}
+      />
       <IconButton
         variant="ghost"
         className={deleteIcon}

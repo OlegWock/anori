@@ -7,11 +7,14 @@ import { IconButton } from "@anori/design-system/components/IconButton/IconButto
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { showOpenFilePicker } from "@anori/utils/files";
+import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
 import { AnimatePresence, LayoutGroup, m } from "motion/react";
 import { type ComponentProps, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
+
+const DRAFT_NAME_INPUT_ATTR = "data-draft-name-input";
 
 const screen = css({ display: "flex", flexDirection: "column", gap: "4" });
 const header = css({ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "4" });
@@ -69,7 +72,7 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
   const { customIcons, addNewCustomIcon, removeCustomIcon } = useCustomIcons();
   const [draftCustomIcons, setDraftCustomIcons] = useState<DraftCustomIcon[]>([]);
   const [recentlySavedNames, setRecentlySavedNames] = useState<string[]>([]);
-  const [autofocusDraftId, setAutofocusDraftId] = useState<string | null>(null);
+  const runAfterRender = useRunAfterNextRender();
   const hasDraftIconsWithInvalidName = draftCustomIcons.some((i) => !isValidCustomIconName(i.name));
 
   const orderedIcons = useMemo(() => {
@@ -105,8 +108,15 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
       alert(t("settings.customIcons.incorrectFormat"));
       return;
     }
+    const firstId = importedFiles[0]?.id;
+    if (firstId) {
+      runAfterRender(() => {
+        const input = document.querySelector<HTMLInputElement>(`[${DRAFT_NAME_INPUT_ATTR}="${firstId}"]`);
+        input?.focus();
+        input?.select();
+      });
+    }
     setDraftCustomIcons((p) => [...p, ...importedFiles]);
-    setAutofocusDraftId(importedFiles[0]?.id ?? null);
   };
 
   const saveDraftCustomIcons = async () => {
@@ -163,10 +173,10 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                     className={draftNameInput}
                     placeholder={t("settings.customIcons.iconName")}
                     value={draftCustomIcon.name}
-                    autoFocus={draftCustomIcon.id === autofocusDraftId}
                     onValueChange={(name) =>
                       setDraftCustomIcons((p) => p.map((i) => (i.id === draftCustomIcon.id ? { ...i, name } : i)))
                     }
+                    {...{ [DRAFT_NAME_INPUT_ATTR]: draftCustomIcon.id }}
                   />
                   {!validName && (
                     <div className={draftNameError}>{t("settings.customIcons.nameContainsInvalidChars")}</div>
@@ -213,9 +223,9 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                   layoutId={icon.name}
                   layoutDependency={orderedIcons}
                   className={row}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1, transition: { duration: 0.12 } }}
+                  exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.12 } }}
                 >
                   <Icon className={rowIcon} icon={`custom:${icon.name}`} height={40} width={40} />
                   <div className={rowName}>{icon.name}</div>
