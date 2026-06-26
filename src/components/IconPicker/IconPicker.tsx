@@ -1,10 +1,10 @@
-import { Select } from "@anori/components/lazy-components";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/custom-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useIconSets, useIconsSuspense } from "@anori/design-system/components/Icon/remote-icons";
 import { Input } from "@anori/design-system/components/Input/Input";
 import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
+import { Select } from "@anori/design-system/components/Select/Select";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import {
   createContext,

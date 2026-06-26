@@ -57,39 +57,6 @@ export const cachedFunc = <T>(func: () => T) => {
   };
 };
 
-export type CachedPromiseFuncReturn<T> =
-  | {
-      status: "unresolved";
-      promise: Promise<T>;
-    }
-  | {
-      status: "resolved";
-      promise: Promise<T>;
-      value: T;
-    };
-
-export const cachedPromiseFunc = <T>(func: () => Promise<T>) => {
-  let promise: Promise<T> | undefined;
-  let value: T | undefined;
-  let valueSet = false;
-
-  return () => {
-    if (!promise) {
-      promise = func();
-      promise.then((resolvedValue) => {
-        value = resolvedValue;
-        valueSet = true;
-      });
-    }
-
-    return {
-      status: valueSet ? "resolved" : "unresolved",
-      promise,
-      value,
-    } as CachedPromiseFuncReturn<T>;
-  };
-};
-
 const namedCallOnceCache: Map<string, ReturnType<typeof cachedFunc<unknown>>> = new Map();
 export const globalCallOnce = <T>(name: string, func: () => T) => {
   const fromCache = namedCallOnceCache.get(name);

@@ -1,7 +1,7 @@
-import { ReorderGroup } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { ReorderGroup } from "@anori/utils/motion/reorder";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { m } from "motion/react";

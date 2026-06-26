@@ -12,7 +12,7 @@ import { currentScreenAtom, type SettingScreen } from "./settings-atoms";
 const content = css({
   display: "flex",
   flexDirection: "column",
-  width: "min(90vw, 880px)",
+  width: "min(80dvw, 880px)",
   height: "calc(80dvh - 6rem)",
 });
 const twoColumn = css({ display: "flex", gap: "4", flex: 1, overflow: "hidden", px: "4", pb: "4" });

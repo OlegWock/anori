@@ -1,9 +1,9 @@
-import { Select } from "@anori/components/lazy-components";
 import { detectGamut } from "@anori/design-system/color-engine";
 import { Button as DSButton } from "@anori/design-system/components/Button/Button";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Select } from "@anori/design-system/components/Select/Select";
 import { anoriSchema, type CustomTheme } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import {

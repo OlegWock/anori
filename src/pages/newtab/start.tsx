@@ -4,7 +4,6 @@ import "../../panda.css";
 import "./globals.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
 import { BookmarksBar } from "@anori/components/BookmarksBar/BookmarksBar";
-import { scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
 import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { languageDirections } from "@anori/translations/metadata";
 import { initTranslation } from "@anori/translations/utils";
@@ -25,6 +24,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { css, cva } from "styled-system/css";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
+import { scheduleLazyComponentsPreload } from "./lazy-components";
 
 const startPage = css({ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column" });
 const startPageContent = cva({

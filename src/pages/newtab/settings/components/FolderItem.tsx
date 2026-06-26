@@ -1,5 +1,4 @@
 import { IconPicker } from "@anori/components/IconPicker/IconPicker";
-import { ReorderItem } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
@@ -7,6 +6,7 @@ import { IconButton } from "@anori/design-system/components/IconButton/IconButto
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
+import { ReorderItem } from "@anori/utils/motion/reorder";
 import type { Folder } from "@anori/utils/user-data/types";
 import { useDragControls } from "motion/react";
 import { useRef } from "react";

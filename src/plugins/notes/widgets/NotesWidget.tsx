@@ -1,4 +1,4 @@
-import { ReactMarkdown } from "@anori/components/lazy-components";
+import { ReactMarkdown } from "@anori/components/ReactMarkdown";
 import { Input, Textarea } from "@anori/design-system/components/Input/Input";
 import { Link } from "@anori/design-system/components/Link/Link";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";

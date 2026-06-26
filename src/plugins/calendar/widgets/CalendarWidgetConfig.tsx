@@ -1,6 +1,6 @@
-import { Select } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Field } from "@anori/design-system/components/Field/Field";
+import { Select } from "@anori/design-system/components/Select/Select";
 import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

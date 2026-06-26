@@ -1,8 +1,8 @@
-import { Select } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Select } from "@anori/design-system/components/Select/Select";
 import { availableTranslations, availableTranslationsPrettyNames, type Language } from "@anori/translations/metadata";
 import { switchTranslationLanguage } from "@anori/translations/utils";
 import type { GridDimensions } from "@anori/utils/grid/types";

@@ -1,7 +1,7 @@
-import { Select } from "@anori/components/lazy-components";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Input } from "@anori/design-system/components/Input/Input";
+import { Select } from "@anori/design-system/components/Select/Select";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { guid } from "@anori/utils/misc";
 import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
