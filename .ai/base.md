@@ -4,8 +4,9 @@
 - **Do not add filler or fluff.**
   Avoid phrases like _“You’re absolutely right”_, motivational comments, or unnecessary small talk.
 
-- **Code comments must be functional, not decorative.**
-  Include comments only when they clarify logic, mark assumptions, or explain non-obvious choices. No redundant “this line does X” comments.
+- **Default to NO code comments.** This is a hard rule, not a preference — decorative comments are a recurring problem.
+  Add a comment only when it is genuinely functional and the code cannot convey it on its own: a third-party quirk/workaround, a non-obvious "why" (a tricky algorithm, an unobvious invariant, a deliberate trick around a bug), a `biome-ignore`/`@ts-expect-error` justification, or a TODO. If it doesn't fall in one of those buckets, do not write it.
+  Never restate what the code does, label a token/prop/variable/branch, narrate design rationale the names already convey, or reference the task/conversation/how the code used to be. Write for someone reading in 6 months with no memory of why it was written; when in doubt, leave it out and match the (usually zero) comment density of surrounding code.
 
 - **End responses with precision.**
   If a closing note is needed, use short bullet points to summarize critical outcomes, decisions, or next steps—no long narrative recaps.
