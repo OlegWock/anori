@@ -62,7 +62,7 @@ const variants = {
 };
 
 const folderChangeTransition = { type: "spring", duration: 0.4, bounce: 0.17 } as const;
-const appearTransition = { ease: "easeOut", duration: 0.15 } as const;
+const appearTransition = { ease: "easeOut", duration: 0.1 } as const;
 
 const actionButtonAnimations = {
   transition: {
