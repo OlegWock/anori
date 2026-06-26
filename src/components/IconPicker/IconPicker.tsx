@@ -19,9 +19,16 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { List, type RowComponentProps } from "react-window";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 
-const iconPicker = css({ display: "flex", flexDirection: "column", gap: "4" });
+const iconPicker = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "4",
+  minHeight: 0,
+  maxHeight: "calc(var(--available-height, 100vh) - 2rem - 4px)",
+});
+const gridSection = css({ minHeight: 0 });
 const section = css({ display: "flex", flexDirection: "column", alignItems: "stretch" });
 const searchWrapper = css({ display: "flex", gap: "2", marginBottom: "3", "& .Input": { flexGrow: 1 } });
 const tooBroadAlert = css({
@@ -29,6 +36,8 @@ const tooBroadAlert = css({
   backgroundColor: "surface.elevated",
   fontSize: "sm",
   marginBottom: "2",
+  paddingBlock: "2",
+  paddingInline: "4",
 });
 const emptyStateAlert = css({
   display: "flex",
@@ -163,7 +172,8 @@ const IconsGrid = ({
   ) : (
     <List<GridItemData>
       className={iconsGrid}
-      style={{ height: 350, width: GRID_WIDTH }}
+      style={{ flexGrow: 0, flexShrink: 1, flexBasis: 350, minHeight: 0, width: GRID_WIDTH }}
+      defaultHeight={350}
       rowCount={ROWS}
       rowHeight={ICON_SIZE + PADDING * 2}
       rowComponent={IconRow}
@@ -237,7 +247,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
           </Field>
         </section>
 
-        <section className={section}>
+        <section className={cx(section, gridSection)}>
           <Field label={`${t("icons")}:`}>
             <div className={searchWrapper}>
               <Input

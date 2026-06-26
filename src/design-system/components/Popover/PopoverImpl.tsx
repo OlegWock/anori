@@ -98,7 +98,14 @@ export const PopoverImpl = <D = undefined>({
     >
       <BasePopover.Trigger render={childrenReactElement} openOnHover={trigger === "hover"} delay={0} closeDelay={0} />
       <BasePopover.Portal>
-        <BasePopover.Positioner className={positioner} side={side} align={align} sideOffset={5} collisionPadding={5}>
+        <BasePopover.Positioner
+          className={positioner}
+          side={side}
+          align={align}
+          sideOffset={5}
+          collisionPadding={5}
+          collisionAvoidance={{ side: "flip", fallbackAxisSide: "none" }}
+        >
           <BasePopover.Popup
             className={cx(popover, "Popover", className)}
             style={style}
