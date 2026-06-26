@@ -309,9 +309,12 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         }),
       process.env.RSDOCTOR &&
         new RsdoctorRspackPlugin({
-          supports: {
-            generateTileGraph: true,
-          },
+          // The live analyzer server crashes serializing this project's graph: socket.io-parser's hasBinary
+          // recurses without cycle detection and overflows the stack on the graph's circular references.
+          // Brief mode writes a static HTML report (build-time + bundle-size analysis) instead; disabling the
+          // client server avoids that crash and lets the build process exit (the server otherwise hangs it).
+          mode: "brief",
+          disableClientServer: true,
         }),
     ].filter(Boolean),
   };
