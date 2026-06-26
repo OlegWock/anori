@@ -29,21 +29,30 @@ const row = css({
   boxShadow: "surface.elevated.edge",
 });
 const rowIcon = css({ flexShrink: 0 });
-const rowName = css({ flex: 1, fontSize: "sm", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" });
+const rowName = css({
+  flex: 1,
+  fontSize: "sm",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  paddingInline: "2",
+});
 
-const draftList = css({
+const draftSection = css({ display: "flex", flexDirection: "column", gap: "4" });
+const divider = css({ height: "1px", bg: "divider" });
+const draftPreview = css({ flexShrink: 0, borderRadius: "sm", objectFit: "contain" });
+// Ghost field pulled left so its own padding doesn't push the name away from the icon; `rowName` adds
+// matching padding so saved rows line up with the draft input's text.
+const draftName = css({
+  flexGrow: 1,
+  minWidth: 0,
   display: "flex",
   flexDirection: "column",
-  gap: "4",
-  padding: "4",
-  borderRadius: "lg",
-  bg: "surface.elevated",
-  boxShadow: "surface.elevated.edge",
+  gap: "1",
+  marginLeft: "-2",
 });
-const draftRow = css({ display: "flex", alignItems: "center", gap: "4" });
-const draftPreview = css({ flexShrink: 0, borderRadius: "md" });
-const draftNameWrapper = css({ flexGrow: 1, display: "flex", flexDirection: "column", gap: "2" });
-const draftNameError = css({ color: "text.subtle", fontSize: "xs" });
+const draftNameInput = css({ minWidth: "0!", fontSize: "sm!" });
+const draftNameError = css({ color: "text.subtle", fontSize: "xs", paddingInline: "4" });
 const draftActions = css({ display: "flex", justifyContent: "flex-end", gap: "3" });
 const deleteIcon = css({ "& svg": { height: "1.2em!" } });
 
@@ -60,6 +69,7 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
   const { customIcons, addNewCustomIcon, removeCustomIcon } = useCustomIcons();
   const [draftCustomIcons, setDraftCustomIcons] = useState<DraftCustomIcon[]>([]);
   const [recentlySavedNames, setRecentlySavedNames] = useState<string[]>([]);
+  const [autofocusDraftId, setAutofocusDraftId] = useState<string | null>(null);
   const hasDraftIconsWithInvalidName = draftCustomIcons.some((i) => !isValidCustomIconName(i.name));
 
   const orderedIcons = useMemo(() => {
@@ -96,6 +106,7 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
       return;
     }
     setDraftCustomIcons((p) => [...p, ...importedFiles]);
+    setAutofocusDraftId(importedFiles[0]?.id ?? null);
   };
 
   const saveDraftCustomIcons = async () => {
@@ -128,28 +139,31 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
       </div>
 
       {draftCustomIcons.length !== 0 && (
-        <m.div className={draftList}>
+        <m.div className={draftSection}>
           <Heading level={3}>{t("settings.customIcons.newIcons")}</Heading>
           {draftCustomIcons.map((draftCustomIcon) => {
             const validName = isValidCustomIconName(draftCustomIcon.name) || draftCustomIcon.name.length === 0;
             return (
               <m.div
-                className={draftRow}
+                className={row}
                 key={draftCustomIcon.id}
                 initial={{ translateY: "10%", opacity: 0 }}
                 animate={{ translateY: "0%", opacity: 1 }}
               >
                 <img
-                  height={64}
-                  width={64}
+                  height={40}
+                  width={40}
                   className={draftPreview}
                   src={draftCustomIcon.preview}
                   alt={draftCustomIcon.name}
                 />
-                <div className={draftNameWrapper}>
+                <div className={draftName}>
                   <Input
+                    variant="ghost"
+                    className={draftNameInput}
                     placeholder={t("settings.customIcons.iconName")}
                     value={draftCustomIcon.name}
+                    autoFocus={draftCustomIcon.id === autofocusDraftId}
                     onValueChange={(name) =>
                       setDraftCustomIcons((p) => p.map((i) => (i.id === draftCustomIcon.id ? { ...i, name } : i)))
                     }
@@ -181,6 +195,8 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
           </div>
         </m.div>
       )}
+
+      {draftCustomIcons.length !== 0 && customIcons.length > 0 && <div className={divider} />}
 
       {customIcons.length === 0 && draftCustomIcons.length === 0 && (
         <div className={emptyState}>{t("settings.customIcons.noIcons")}</div>
