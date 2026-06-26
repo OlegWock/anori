@@ -119,6 +119,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
       controlL,
       byMode(mode, CONTROL_EDGE_DARK_DELTA, -CONTROL_EDGE_LIGHT_DELTA),
     ),
+    "surface-elevated-border": accent[byMode(mode, 6, 7)],
 
     control: sampleSurface(controlL),
     "control-border": neutral[byMode(mode, 6, 8)],

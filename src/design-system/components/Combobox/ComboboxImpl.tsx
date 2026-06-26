@@ -8,7 +8,10 @@ import { css } from "styled-system/css";
 const positioner = css({ zIndex: "tooltip" });
 
 const optionsPanel = css({
-  backgroundColor: "surface.elevated",
+  backgroundColor: "control",
+  borderWidth: "2px",
+  borderStyle: "solid",
+  borderColor: "surface.elevated.border",
   borderRadius: "sm",
   boxShadow: "popover",
   padding: "1-5",

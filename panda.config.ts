@@ -131,6 +131,7 @@ export default defineConfig({
             elevated: {
               DEFAULT: { value: "var(--ds-surface-elevated)" },
               edge: { value: "var(--ds-surface-elevated-edge)" },
+              border: { value: "var(--ds-surface-elevated-border)" },
             },
           },
           control: {

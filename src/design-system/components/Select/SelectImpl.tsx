@@ -47,7 +47,7 @@ const content = css({
   zIndex: "tooltip",
   borderWidth: "2px",
   borderStyle: "solid",
-  borderColor: "accent",
+  borderColor: "surface.elevated.border",
 });
 const viewport = css({ padding: "1-5" });
 const item = css({
