@@ -91,6 +91,8 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       maxEntrypointSize: 1024 * 1024 * 20,
     },
     optimization: {
+      // `--env unminified` keeps production React (NODE_ENV/jsx) but skips minification for readable output.
+      minimize: mode === "production" && !env.unminified,
       minimizer: [new SwcJsMinimizerRspackPlugin()],
     },
     watchOptions: {
