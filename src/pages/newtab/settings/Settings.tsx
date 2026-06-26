@@ -28,9 +28,9 @@ const screenScroll = css({ flex: 1 });
 const screenPad = css({ paddingInline: "4", paddingBottom: "4" });
 
 const screenVariants = {
-  center: { y: "0%", opacity: 1 },
-  enter: (dir: "up" | "down") => ({ y: dir === "down" ? "12%" : "-12%", opacity: 0 }),
-  exit: (dir: "up" | "down") => ({ y: dir === "down" ? "-12%" : "12%", opacity: 0 }),
+  center: { y: "0", opacity: 1 },
+  enter: (dir: "up" | "down") => ({ y: dir === "down" ? "80px" : "-80px", opacity: 0 }),
+  exit: (dir: "up" | "down") => ({ y: dir === "down" ? "-80px" : "80px", opacity: 0 }),
 };
 
 export const SettingsModal = ({ onClose }: { onClose: () => void }) => {

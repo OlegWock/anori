@@ -128,14 +128,12 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
       </div>
 
       {draftCustomIcons.length !== 0 && (
-        <m.div className={draftList} layout layoutRoot>
+        <m.div className={draftList}>
           <Heading level={3}>{t("settings.customIcons.newIcons")}</Heading>
           {draftCustomIcons.map((draftCustomIcon) => {
             const validName = isValidCustomIconName(draftCustomIcon.name) || draftCustomIcon.name.length === 0;
             return (
               <m.div
-                layout="position"
-                layoutId={draftCustomIcon.id}
                 className={draftRow}
                 key={draftCustomIcon.id}
                 initial={{ translateY: "10%", opacity: 0 }}
@@ -189,7 +187,7 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
       )}
 
       {customIcons.length > 0 && (
-        <m.div className={list} layout>
+        <m.div className={list} layout layoutDependency={draftCustomIcons.length}>
           <LayoutGroup>
             <AnimatePresence initial={false} mode="sync">
               {orderedIcons.map((icon) => (
@@ -197,6 +195,7 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                   key={icon.name}
                   layout
                   layoutId={icon.name}
+                  layoutDependency={orderedIcons}
                   className={row}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
