@@ -36,7 +36,7 @@ export const WeatherWidgetConfigScreen = ({
     }
   };
 
-  const [cities, setCities] = useState<City[]>([]);
+  const [cities, setCities] = useState<City[]>(currentConfig?.location ? [currentConfig.location] : []);
   const [selectedCity, setCity] = useState<City | null>(currentConfig ? currentConfig.location : null);
   const [loadingCities, setLoadingCities] = useState(false);
   const [temperatureUnit, setTemperatureUnit] = useState<Temperature>(
@@ -51,7 +51,10 @@ export const WeatherWidgetConfigScreen = ({
         <Combobox<City | null>
           options={cities}
           value={selectedCity}
-          onChange={setCity}
+          onChange={(city) => {
+            setCity(city);
+            setCities(city ? [city] : []);
+          }}
           onInputChange={onCitySearch}
           isLoading={loadingCities}
           getOptionKey={(o) => (o ? o.id.toString() : "")}

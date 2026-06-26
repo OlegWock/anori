@@ -1,11 +1,12 @@
 import type { Mapping } from "@anori/utils/types";
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import type { Placement, Strategy } from "@floating-ui/react";
 import type { ReactElement, ReactNode, Ref } from "react";
 import { css, cva, cx } from "styled-system/css";
 
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
+type Placement = Side | `${Side}-start` | `${Side}-end`;
+type Strategy = "absolute" | "fixed";
 
 const positioner = css({
   zIndex: "tooltip",

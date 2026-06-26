@@ -1,48 +1,43 @@
 import type { Mapping } from "@anori/utils/types";
-import {
-  autoPlacement,
-  autoUpdate,
-  FloatingFocusManager,
-  FloatingPortal,
-  offset,
-  type Placement,
-  type Side,
-  type SizeOptions,
-  safePolygon,
-  shift,
-  size,
-  useClick,
-  useDismiss,
-  useFloating,
-  useHover,
-  useId,
-  useInteractions,
-  useRole,
-} from "@floating-ui/react";
-import { AnimatePresence, m } from "motion/react";
+import { Popover as BasePopover } from "@base-ui/react/popover";
 import {
   Children,
   type CSSProperties,
-  cloneElement,
   type ReactElement,
   type ReactNode,
-  type Ref,
   type RefObject,
-  useMemo,
+  useId,
   useState,
 } from "react";
-import { mergeRefs } from "react-merge-refs";
 import { css, cx } from "styled-system/css";
+
+const positioner = css({ zIndex: "tooltip" });
 
 const popover = css({
   width: "max-content",
+  maxWidth: "632px",
   padding: "4",
   borderRadius: "sm",
   bg: "surface.elevated",
   color: "text.primary",
   boxShadow: "popover",
-  zIndex: "tooltip",
+  transitionProperty: "opacity, transform",
+  transitionDuration: "0.2s",
+  transitionTimingFunction: "ease-out",
+  "&[data-starting-style], &[data-ending-style]": { opacity: 0 },
+  "&[data-side='top'][data-starting-style], &[data-side='top'][data-ending-style]": { transform: "translateY(5px)" },
+  "&[data-side='bottom'][data-starting-style], &[data-side='bottom'][data-ending-style]": {
+    transform: "translateY(-5px)",
+  },
+  "&[data-side='left'][data-starting-style], &[data-side='left'][data-ending-style]": { transform: "translateX(5px)" },
+  "&[data-side='right'][data-starting-style], &[data-side='right'][data-ending-style]": {
+    transform: "translateX(-5px)",
+  },
 });
+
+type Side = "top" | "bottom" | "left" | "right";
+type Align = "start" | "center" | "end";
+type Placement = Side | `${Side}-${"start" | "end"}`;
 
 export type PopoverProps<D = undefined> = {
   component: (data: PopoverRenderProps<D>) => ReactNode;
@@ -68,7 +63,7 @@ export const Popover = <D = undefined>({
   placement = "top",
   additionalData = undefined,
   className,
-  style = {},
+  style,
   onStateChange,
   trigger = "click",
   initialFocus = 0,
@@ -76,118 +71,48 @@ export const Popover = <D = undefined>({
   if (!Children.only(children)) {
     throw new Error("Popover children should be single element");
   }
-
   const childrenReactElement = children as ReactElement<Mapping>;
 
   const [open, setOpen] = useState(false);
-
-  const {
-    x,
-    y,
-    refs,
-    strategy,
-    context,
-    placement: computedPlacement,
-  } = useFloating({
-    open,
-    onOpenChange: (open: boolean) => {
-      setOpen(open);
-      if (onStateChange) onStateChange(open);
-    },
-    middleware: [
-      offset(5),
-      size({
-        apply: ({ elements }) => {
-          Object.assign(elements.floating.style, {
-            maxWidth: `632px`,
-          });
-        },
-        padding: 5,
-      } satisfies SizeOptions),
-      autoPlacement({
-        allowedPlacements: ["top", "bottom"],
-      }),
-      shift({
-        padding: 5,
-        crossAxis: true,
-      }),
-    ],
-    placement,
-    whileElementsMounted: autoUpdate,
-  });
 
   const id = useId();
   const labelId = `${id}-label`;
   const descriptionId = `${id}-description`;
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    useClick(context, {
-      enabled: trigger === "click",
-    }),
-    useHover(context, {
-      enabled: trigger === "hover",
-      delay: 0,
-      restMs: 0,
-      handleClose: safePolygon(),
-    }),
-    useRole(context),
-    useDismiss(context),
-  ]);
+  const [sidePart, alignPart] = placement.split("-");
+  const side = sidePart as Side;
+  const align: Align = alignPart === "start" ? "start" : alignPart === "end" ? "end" : "center";
 
-  const ref = useMemo(
-    () => mergeRefs([refs.setReference, childrenReactElement.props.ref as Ref<Element>]) as Ref<Element>,
-    [refs.setReference, childrenReactElement.props.ref],
-  );
-
-  const OFFSET = 5;
-
-  const side = computedPlacement.split("-")[0] as Side;
-  const initialXY = {
-    top: { x: 0, y: OFFSET },
-    bottom: { x: 0, y: -OFFSET },
-    left: { x: OFFSET, y: 0 },
-    right: { x: -OFFSET, y: 0 },
-  }[side];
+  const resolvedInitialFocus = typeof initialFocus === "number" ? initialFocus >= 0 : initialFocus;
 
   return (
-    <>
-      {cloneElement(childrenReactElement, getReferenceProps({ ref, ...childrenReactElement.props }))}
-      <FloatingPortal>
-        <AnimatePresence>
-          {open && (
-            <FloatingFocusManager initialFocus={initialFocus} context={context} key="popover">
-              <m.div
-                ref={refs.setFloating}
-                className={cx(popover, "Popover", className)}
-                style={{
-                  ...style,
-                  position: strategy,
-                  top: y ?? 0,
-                  left: x ?? 0,
-                }}
-                aria-labelledby={labelId}
-                aria-describedby={descriptionId}
-                initial={{ opacity: 0, ...initialXY }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                exit={{ opacity: 0, ...initialXY }}
-                transition={{ duration: 0.2 }}
-                {...getFloatingProps()}
-              >
-                <ContentComponent
-                  labelId={labelId}
-                  descriptionId={descriptionId}
-                  // @ts-expect-error Additional data typing is kind ad-hoc, couldn't figure out better way to do it
-                  data={additionalData}
-                  close={() => {
-                    setOpen(false);
-                    if (onStateChange) onStateChange(false);
-                  }}
-                />
-              </m.div>
-            </FloatingFocusManager>
-          )}
-        </AnimatePresence>
-      </FloatingPortal>
-    </>
+    <BasePopover.Root
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        onStateChange?.(nextOpen);
+      }}
+    >
+      <BasePopover.Trigger render={childrenReactElement} openOnHover={trigger === "hover"} delay={0} closeDelay={0} />
+      <BasePopover.Portal>
+        <BasePopover.Positioner className={positioner} side={side} align={align} sideOffset={5} collisionPadding={5}>
+          <BasePopover.Popup
+            className={cx(popover, "Popover", className)}
+            style={style}
+            initialFocus={resolvedInitialFocus}
+            aria-labelledby={labelId}
+            aria-describedby={descriptionId}
+          >
+            <ContentComponent
+              labelId={labelId}
+              descriptionId={descriptionId}
+              // @ts-expect-error Additional data typing is kind ad-hoc, couldn't figure out better way to do it
+              data={additionalData}
+              close={() => setOpen(false)}
+            />
+          </BasePopover.Popup>
+        </BasePopover.Positioner>
+      </BasePopover.Portal>
+    </BasePopover.Root>
   );
 };
