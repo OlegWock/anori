@@ -142,6 +142,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "text-disabled": neutral[byMode(mode, 7, 7)],
     icon: neutral[byMode(mode, 9, 6)],
     "icon-subtle": withAlpha(neutral[byMode(mode, 9, 7)], 0.55),
+    "icon-placeholder": neutral[byMode(mode, 13, 8)],
 
     "frosted-subtle": withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.04, 0.1)),
     frosted: withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.1, 0.2)),

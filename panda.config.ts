@@ -155,6 +155,7 @@ export default defineConfig({
           icon: {
             DEFAULT: { value: "var(--ds-icon)" },
             subtle: { value: "var(--ds-icon-subtle)" },
+            placeholder: { value: "var(--ds-icon-placeholder)" },
           },
           tooltip: { value: "rgba(0, 0, 0, 0.82)" },
           "on-tooltip": { value: "white" },

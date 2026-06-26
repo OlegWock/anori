@@ -12,7 +12,7 @@ const PLACEHOLDER_DELAY = 0.15;
 const PLACEHOLDER_OPACITY = 0.35;
 
 const placeholder = cva({
-  base: { background: "text.primary" },
+  base: { background: "icon.placeholder" },
   variants: { shape: { icon: { borderRadius: "md" }, image: { borderRadius: "20%" } } },
   defaultVariants: { shape: "icon" },
 });
