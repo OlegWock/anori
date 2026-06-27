@@ -27,7 +27,7 @@ export const Favicon = ({ useFaviconApiIfPossible, ref, ...props }: FaviconProps
     }
     try {
       const host = new URL(props.url).host;
-      return `https://magnificent-orange-damselfly.faviconkit.com/${host}/${size}`;
+      return `https://favicon.vemetric.com/${host}?size=${size}`;
     } catch (_err) {
       console.log("Error parsing host from", props.url);
       return "";

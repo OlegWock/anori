@@ -61,7 +61,7 @@ const BookmarkList = memo(({ bookmarks, faviconSize, emptyLabel, onPick }: Bookm
     <ScrollArea>
       {bookmarks.map((bk) => (
         <m.div key={bk.id} className={bookmark} onClick={() => onPick(bk.title, bk.url)}>
-          <Favicon url={bk.url} height={faviconSize} />
+          <Favicon url={bk.url} useFaviconApiIfPossible height={faviconSize} width={faviconSize} />
           <div className={bookmarkTitle}>{bk.title || bk.url}</div>
         </m.div>
       ))}
