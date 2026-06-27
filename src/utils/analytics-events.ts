@@ -1,4 +1,4 @@
-import type { SidebarOrientation } from "@anori/utils/storage";
+import type { ColorScheme, SidebarOrientation } from "@anori/utils/storage";
 import type { EmptyObject } from "@anori/utils/types";
 
 type NoParams = EmptyObject;
@@ -28,6 +28,7 @@ export type AnalyticEvents = {
     "Open animation enabled": boolean;
     "Language": string;
     "Theme": string;
+    "Color mode": ColorScheme;
     "Performance / Avg LCP": number | null;
     "Performance / INP": number | null;
   } & DailyUsageMetrics &

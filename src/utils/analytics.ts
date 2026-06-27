@@ -149,6 +149,7 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
   const sidebarOrientation = storage.get(anoriSchema.sidebarOrientation);
   const autoHideSidebar = storage.get(anoriSchema.autoHideSidebar);
   const usedTheme = storage.get(anoriSchema.theme);
+  const colorScheme = storage.get(anoriSchema.colorScheme);
   const language = storage.get(anoriSchema.language);
   const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
   const compactMode = storage.get(anoriSchema.compactMode);
@@ -174,6 +175,7 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
     "Open animation enabled": showLoadAnimation,
     "Language": language,
     "Theme": themes.find((t) => t.name === usedTheme) ? usedTheme : "custom",
+    "Color mode": colorScheme,
     "Performance / Avg LCP": performanceAvgLcp.avg || null,
     "Performance / INP": aggregateInp(performanceRawInp),
     ...dailyUsageMetrics,
