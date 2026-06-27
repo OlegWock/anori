@@ -1,7 +1,7 @@
 import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
-import type { Ref } from "react";
+import { memo, type Ref } from "react";
 import { css } from "styled-system/css";
 
 export type PluginWidgetsSectionProps = {
@@ -24,7 +24,11 @@ const mocks = css({
 const widgetButton = css({ textAlign: "start", cursor: "pointer" });
 const widgetName = css({ marginTop: "1-5", marginLeft: "2", wordWrap: "normal" });
 
-export const PluginWidgetsSection = ({ plugin, onWidgetClick, ref }: PluginWidgetsSectionProps) => {
+export const PluginWidgetsSection = memo(function PluginWidgetsSection({
+  plugin,
+  onWidgetClick,
+  ref,
+}: PluginWidgetsSectionProps) {
   return (
     <section ref={ref} className={section}>
       <Heading level={2}>{plugin.name}</Heading>
@@ -49,4 +53,4 @@ export const PluginWidgetsSection = ({ plugin, onWidgetClick, ref }: PluginWidge
       </div>
     </section>
   );
-};
+});

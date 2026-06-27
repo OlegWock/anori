@@ -129,53 +129,56 @@ export const useFolderWidgets = (folder: Folder) => {
   const [details, setDetails] = useStorageValue(anoriSchema.folderDetails.folder.byId(folder.id));
   const currentDetails = details ?? { widgets: [] };
 
-  const addWidget = async ({
-    plugin,
-    widget,
-    config,
-    position,
-    size,
-  }: {
-    widget: SomeWidget;
-    plugin: SomePlugin;
-    config: Mapping;
-    position: GridPosition;
-    size?: GridItemSize;
-  }) => {
-    // The plugin/widget are config-erased here, so verify at runtime that the widget actually belongs to
-    // the plugin before persisting the (pluginId, widgetId) pair — a mismatch would store an unresolvable widget.
-    if (!plugin.widgets.some((w) => w.id === widget.id)) {
-      throw new Error(`Widget "${widget.id}" does not belong to plugin "${plugin.id}"`);
-    }
+  const addWidget = useCallback(
+    async ({
+      plugin,
+      widget,
+      config,
+      position,
+      size,
+    }: {
+      widget: SomeWidget;
+      plugin: SomePlugin;
+      config: Mapping;
+      position: GridPosition;
+      size?: GridItemSize;
+    }) => {
+      // The plugin/widget are config-erased here, so verify at runtime that the widget actually belongs to
+      // the plugin before persisting the (pluginId, widgetId) pair
+      if (!plugin.widgets.some((w) => w.id === widget.id)) {
+        throw new Error(`Widget "${widget.id}" does not belong to plugin "${plugin.id}"`);
+      }
 
-    // Encode the (decoded) config the screen produced back to its serializable storage form. Encode
-    // validates and throws on invalid config, aborting the write so a config-screen bug can't persist
-    // something the widget can't read back; for a codec it also reverses any transform (e.g. Date -> string).
-    const configuration = widget.encode(config);
+      // Encode the (decoded) config the screen produced back to its serializable storage form. Encode
+      // validates and throws on invalid config, aborting the write so a config-screen bug can't persist
+      // something the widget can't read back; for a codec it also reverses any transform (e.g. Date -> string).
+      const configuration = widget.encode(config);
 
-    const instanceId = guid();
+      const instanceId = guid();
 
-    const data: WidgetInFolder = {
-      pluginId: plugin.id,
-      widgetId: widget.id,
-      instanceId,
-      configuration,
-      ...(size ? size : widget.appearance.size),
-      ...position,
-    };
+      const data: WidgetInFolder = {
+        pluginId: plugin.id,
+        widgetId: widget.id,
+        instanceId,
+        configuration,
+        ...(size ? size : widget.appearance.size),
+        ...position,
+      };
 
-    await setDetails((p) => {
-      const prev = p ?? { widgets: [] };
-      return { ...prev, widgets: [...prev.widgets, data] };
-    });
-    trackEvent("Widget added", {
-      "Folder": folder.id === "home" ? "home" : "other",
-      "Plugin ID": plugin.id,
-      "Widget ID": widget.id,
-    });
+      await setDetails((p) => {
+        const prev = p ?? { widgets: [] };
+        return { ...prev, widgets: [...prev.widgets, data] };
+      });
+      trackEvent("Widget added", {
+        "Folder": folder.id === "home" ? "home" : "other",
+        "Plugin ID": plugin.id,
+        "Widget ID": widget.id,
+      });
 
-    return data;
-  };
+      return data;
+    },
+    [folder.id, setDetails],
+  );
 
   const removeWidget = useCallback(
     async (id: ID) => {

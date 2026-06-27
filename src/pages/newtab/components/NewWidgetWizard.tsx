@@ -16,7 +16,7 @@ import { useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder } from "@anori/utils/user-data/types";
 import { useDirection } from "@radix-ui/react-direction";
 import { AnimatePresence, m } from "motion/react";
-import { useRef, useState } from "react";
+import { useCallback, useDeferredValue, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cx } from "styled-system/css";
 import { PluginWidgetsSection } from "./PluginWidgetsSection";
@@ -55,45 +55,9 @@ const widgetsArea = css({ flex: 1, paddingInline: "4" });
 const widgetsContent = css({ display: "flex", flexDirection: "column", gap: "6" });
 
 export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: NewWidgetWizardProps) => {
-  const tryAddWidget = async (plugin: SomePlugin, widget: SomeWidget, config: Mapping) => {
-    let position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
-    if (!position) {
-      const numberOfColumns = Math.max(...layout.map((w) => w.x + w.width), 0);
-      position = {
-        x: numberOfColumns,
-        y: 0,
-      };
-    }
-    try {
-      const { instanceId } = await addWidget({ plugin, widget, config, position });
-      setTimeout(() => {
-        document.querySelector(`#WidgetCard-${instanceId}`)?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
-      }, 200);
-      onClose();
-    } catch (e) {
-      // Write was blocked (config failed validation) — keep the wizard open instead of persisting bad config.
-      console.error("Failed to add widget", e);
-      setAddFailed(true);
-    }
-  };
-
-  const onWidgetClick = (widget: SomeWidget, plugin: SomePlugin) => {
-    setAddFailed(false);
-    if (isWidgetNonConfigurable(widget)) {
-      tryAddWidget(plugin, widget, {});
-    } else {
-      setSelectedPlugin(plugin);
-      setSelectedWidget(widget);
-    }
-  };
-
   const { addWidget } = useFolderWidgets(folder);
   const [_searchQuery, setSearchQuery] = useState("");
-  const searchQuery = _searchQuery.toLowerCase();
+  const searchQuery = useDeferredValue(_searchQuery).toLowerCase();
   const [selectedPlugin, setSelectedPlugin] = useState<SomePlugin | undefined>(undefined);
   const [selectedWidget, setSelectedWidget] = useState<SomeWidget | undefined>(undefined);
   const [addFailed, setAddFailed] = useState(false);
@@ -101,15 +65,60 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
   const dir = useDirection();
   const pluginSectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
-  console.log("Render NewWidgetWizard", { selectedPlugin, selectedWidget });
+  const tryAddWidget = useCallback(
+    async (plugin: SomePlugin, widget: SomeWidget, config: Mapping) => {
+      let position = findPositionForItemInGrid({ grid: gridDimensions, layout, item: widget.appearance.size });
+      if (!position) {
+        const numberOfColumns = Math.max(...layout.map((w) => w.x + w.width), 0);
+        position = {
+          x: numberOfColumns,
+          y: 0,
+        };
+      }
+      try {
+        const { instanceId } = await addWidget({ plugin, widget, config, position });
+        setTimeout(() => {
+          document.querySelector(`#WidgetCard-${instanceId}`)?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+          });
+        }, 200);
+        onClose();
+      } catch (e) {
+        // Write was blocked (config failed validation) — keep the wizard open instead of persisting bad config.
+        console.error("Failed to add widget", e);
+        setAddFailed(true);
+      }
+    },
+    [gridDimensions, layout, addWidget, onClose],
+  );
+
+  const onWidgetClick = useCallback(
+    (widget: SomeWidget, plugin: SomePlugin) => {
+      setAddFailed(false);
+      if (isWidgetNonConfigurable(widget)) {
+        tryAddWidget(plugin, widget, {});
+      } else {
+        setSelectedPlugin(plugin);
+        setSelectedWidget(widget);
+      }
+    },
+    [tryAddWidget],
+  );
+
   const inConfigurationStage = !!(selectedPlugin && selectedWidget);
 
-  const pluginsList = availablePluginsWithWidgets.filter((plugin) => {
-    return (
-      plugin.name.toLowerCase().includes(searchQuery) ||
-      plugin.widgets.some((widget) => widget.name.toLowerCase().includes(searchQuery))
-    );
-  });
+  const pluginsList = useMemo(
+    () =>
+      availablePluginsWithWidgets.filter((plugin) => {
+        return (
+          plugin.name.toLowerCase().includes(searchQuery) ||
+          plugin.widgets.some((widget) => widget.name.toLowerCase().includes(searchQuery))
+        );
+      }),
+    [searchQuery],
+  );
 
   const scrollToPlugin = (pluginId: string) => {
     const section = pluginSectionRefs.current[pluginId];

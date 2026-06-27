@@ -5,7 +5,7 @@ import { RequirePermissions } from "@anori/design-system/components/RequirePermi
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
 import { m } from "motion/react";
-import { useEffect, useState } from "react";
+import { memo, useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
@@ -49,6 +49,27 @@ type PickBookmarkProps = {
   onSelected: (title: string, url: string) => void;
 };
 
+type BookmarkListProps = {
+  bookmarks: BrowserBookmark[];
+  faviconSize: number;
+  emptyLabel: string;
+  onPick: (title: string, url: string) => void;
+};
+
+const BookmarkList = memo(({ bookmarks, faviconSize, emptyLabel, onPick }: BookmarkListProps) => {
+  return (
+    <ScrollArea>
+      {bookmarks.map((bk) => (
+        <m.div key={bk.id} className={bookmark} onClick={() => onPick(bk.title, bk.url)}>
+          <Favicon url={bk.url} height={faviconSize} />
+          <div className={bookmarkTitle}>{bk.title || bk.url}</div>
+        </m.div>
+      ))}
+      {bookmarks.length === 0 && <div className={noResults}>{emptyLabel}</div>}
+    </ScrollArea>
+  );
+});
+
 const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickBookmarkProps>) => {
   const [bookmarks, setBookmarks] = useState<BrowserBookmark[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -81,32 +102,24 @@ const _PickBookmark = ({ data: { onSelected }, close }: PopoverRenderProps<PickB
 
   const { rem } = useSizeSettings();
 
-  const filteredBookmarks = bookmarks.filter(({ title, url }) => {
-    const q = searchQuery.toLowerCase();
-    return title.toLowerCase().includes(q) || url.toLowerCase().includes(q);
-  });
+  const deferredQuery = useDeferredValue(searchQuery);
+  const filteredBookmarks = useMemo(() => {
+    const q = deferredQuery.toLowerCase();
+    return bookmarks.filter(({ title, url }) => title.toLowerCase().includes(q) || url.toLowerCase().includes(q));
+  }, [bookmarks, deferredQuery]);
+
+  const onPick = useCallback(
+    (title: string, url: string) => {
+      onSelected(title, url);
+      close();
+    },
+    [onSelected, close],
+  );
 
   return (
     <div className={pickBookmark}>
       <Input value={searchQuery} onValueChange={setSearchQuery} placeholder={t("bookmark-plugin.searchBookmarks")} />
-      <ScrollArea>
-        {filteredBookmarks.map((bk) => {
-          return (
-            <m.div
-              key={bk.id}
-              className={bookmark}
-              onClick={() => {
-                onSelected(bk.title, bk.url);
-                close();
-              }}
-            >
-              <Favicon url={bk.url} height={rem(1)} />
-              <div className={bookmarkTitle}>{bk.title || bk.url}</div>
-            </m.div>
-          );
-        })}
-        {filteredBookmarks.length === 0 && <div className={noResults}>{t("noResults")}</div>}
-      </ScrollArea>
+      <BookmarkList bookmarks={filteredBookmarks} faviconSize={rem(1)} emptyLabel={t("noResults")} onPick={onPick} />
     </div>
   );
 };
