@@ -41,7 +41,6 @@ import IonInformationCircle from "~icons/ion/information-circle?raw";
 import IonLocationSharp from "~icons/ion/location-sharp?raw";
 import IonLogoRss from "~icons/ion/logo-rss?raw";
 import IonNewspaperOutline from "~icons/ion/newspaper-outline?raw";
-import IonOpenOutline from "~icons/ion/open-outline?raw";
 import IonPencil from "~icons/ion/pencil?raw";
 import IonPersonCircle from "~icons/ion/person-circle?raw";
 import IonResize from "~icons/ion/resize?raw";
@@ -57,6 +56,7 @@ import LogosJira from "~icons/logos/jira?raw";
 import LogosNotionIcon from "~icons/logos/notion-icon?raw";
 import LogosTwitter from "~icons/logos/twitter?raw";
 import LogosWhatsappIcon from "~icons/logos/whatsapp-icon?raw";
+import MajesticonsOpen from "~icons/majesticons/open?raw";
 import MingcutePlguinFill from "~icons/mingcute/plugin-2-fill?raw";
 import OcticonUnlink16 from "~icons/octicon/unlink-16?raw";
 import PhTabsFill from "~icons/ph/tabs-fill?raw";
@@ -109,7 +109,6 @@ const builtinIconSvgsBySourceId = {
   "humbleicons:logout": HumbleiconsLogout,
   "octicon:unlink-16": OcticonUnlink16,
   "ion:calculator": IonCalculator,
-  "ion:open-outline": IonOpenOutline,
   "ion:albums": IonAlbums,
   "ion:newspaper-outline": IonNewspaperOutline,
   "ion:expand": IonExpand,
@@ -118,6 +117,8 @@ const builtinIconSvgsBySourceId = {
   "ion:cloud": IonCloud,
   "ion:compass": IonCompass,
   "ion:dice": IonDice,
+
+  "majesticons:open": MajesticonsOpen,
 
   "mingcute:plugin-2-fill": MingcutePlguinFill,
 
@@ -193,7 +194,7 @@ export const builtinIcons = {
   logout: "humbleicons:logout",
   unlink: "octicon:unlink-16",
   calculator: "ion:calculator",
-  openOutline: "ion:open-outline",
+  openOutline: "majesticons:open",
   albums: "ion:albums",
   newspaper: "ion:newspaper-outline",
   expand: "ion:expand",

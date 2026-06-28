@@ -51,12 +51,8 @@ const windowTitle = css({
   overflow: "hidden",
   textOverflow: "ellipsis",
 });
-const windowButtons = css({ display: "flex", alignItems: "center", gap: "2" });
-const extraButtonsWrap = css({
-  display: "flex",
-  alignItems: "center",
-  "& > *": { cursor: "pointer", opacity: 0.65, display: "flex", "& svg": { color: "text.primary" } },
-});
+const windowButtons = css({ display: "flex", alignItems: "center", gap: "1" });
+const extraButtonsWrap = css({ display: "flex", alignItems: "center", gap: "1" });
 const content = cva({
   base: {
     position: "relative",

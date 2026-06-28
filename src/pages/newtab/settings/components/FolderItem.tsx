@@ -108,11 +108,11 @@ export const FolderItem = ({
         additionalData={{
           onSelected: (icon: string) => onIconChange?.(icon),
           inputRef: iconSearchRef,
-          iconColor: token("colors.text.subtle"),
+          iconColor: token("colors.icon.strong"),
         }}
       >
         <Button variant="frosted" className={iconButton} aria-label={t("settings.folders.changeIcon")}>
-          <Icon icon={folder.icon} size="md" color="text.subtle" />
+          <Icon icon={folder.icon} size="md" color="icon.strong" />
         </Button>
       </Popover>
       <Input

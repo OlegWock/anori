@@ -51,7 +51,7 @@ export const Bookmark = memo(function Bookmark({
   const content = (
     <>
       {bm.type === "bookmark" && <Favicon url={bm.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />}
-      {bm.type === "folder" && <Icon color="text.subtle" icon={builtinIcons.folder} height={rem(1)} width={rem(1)} />}
+      {bm.type === "folder" && <Icon color="icon.strong" icon={builtinIcons.folder} height={rem(1)} width={rem(1)} />}
       {!!bm.title && <span className={title}>{bm.title}</span>}
     </>
   );

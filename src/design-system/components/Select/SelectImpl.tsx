@@ -38,7 +38,7 @@ const trigger = css({
   "&[data-placeholder]": { color: "text.placeholder" },
   _focusVisible: { outlineWidth: "2px", outlineStyle: "solid", outlineColor: "accent" },
 });
-const triggerIcon = css({ color: "text.subtle" });
+const triggerIcon = css({ color: "icon" });
 const content = css({
   overflow: "hidden",
   bg: "control",

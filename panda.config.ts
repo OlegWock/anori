@@ -154,6 +154,7 @@ export default defineConfig({
           },
           icon: {
             DEFAULT: { value: "var(--ds-icon)" },
+            strong: { value: "var(--ds-icon-strong)" },
             subtle: { value: "var(--ds-icon-subtle)" },
             placeholder: { value: "var(--ds-icon-placeholder)" },
           },
