@@ -94,6 +94,7 @@ const plusDescription = css({
   "& a": mutedLink,
 });
 const authForm = css({ display: "flex", flexDirection: "column", gap: "4" });
+const loginActions = css({ display: "flex", flexDirection: "column", alignItems: "center", gap: "4" });
 const registerLink = css({ textAlign: "center", fontSize: "sm", opacity: 0.8, margin: 0, "& a": mutedLink });
 
 type Props = {
@@ -544,16 +545,17 @@ const AuthView = () => {
         <Input type="email" placeholder={t("cloud.email")} value={email} onValueChange={setEmail} />
         <Input type="password" placeholder={t("cloud.password")} value={password} onValueChange={setPassword} />
 
-        <Button variant="frosted" type="submit" loading={isLoading} block>
-          {t("cloud.login")}
-        </Button>
-
-        <p className={registerLink}>
-          {t("cloud.noAccount")}{" "}
-          <a href={`${ACCOUNT_URL}/register`} target="_blank" rel="noopener noreferrer">
-            {t("cloud.createAccount")}
-          </a>
-        </p>
+        <div className={loginActions}>
+          <Button variant="primary" type="submit" loading={isLoading}>
+            {t("cloud.login")}
+          </Button>
+          <p className={registerLink}>
+            {t("cloud.noAccount")}{" "}
+            <a href={`${ACCOUNT_URL}/register`} target="_blank" rel="noopener noreferrer">
+              {t("cloud.createAccount")}
+            </a>
+          </p>
+        </div>
       </form>
     </div>
   );

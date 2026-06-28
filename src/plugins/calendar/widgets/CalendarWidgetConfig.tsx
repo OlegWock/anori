@@ -10,7 +10,7 @@ import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
 
 const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
-const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
+const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 
 export const ConfigScreen = ({
   currentConfig,

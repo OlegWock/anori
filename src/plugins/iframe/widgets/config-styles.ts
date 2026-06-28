@@ -12,4 +12,4 @@ export const mainColumn = css({ display: "flex", flexDirection: "column", gap: "
 // The icon-picker trigger previews the chosen icon; drop the Button's fixed height so it hugs the glyph.
 export const iconPickerTrigger = css({ alignSelf: "center", height: "auto", px: "2", py: "2" });
 export const urlImportWrapper = css({ display: "flex", gap: "2", "& .Input": { flexGrow: 1 } });
-export const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
+export const saveConfig = css({ alignSelf: "center", marginTop: "4" });

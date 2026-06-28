@@ -19,7 +19,7 @@ const urlsList = css({ display: "flex", flexDirection: "column", gap: "3" });
 const urlWrapper = css({ display: "flex", gap: "2", "& .Input": { flexGrow: 1 } });
 const addButtonWrapper = css({ display: "flex", justifyContent: "flex-start" });
 const compactField = css({ display: "flex", flexDirection: "column", alignItems: "flex-start" });
-const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
+const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 
 export const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: WidgetConfigScreenProps<RssFeedConfig>) => {
   const onConfirm = () => {

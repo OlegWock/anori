@@ -21,7 +21,7 @@ const imagePreview = css({
   objectFit: "contain",
 });
 const selectButton = css({ alignSelf: "flex-start", marginTop: "2" });
-const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
+const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 
 type Source = "url" | "local";
 

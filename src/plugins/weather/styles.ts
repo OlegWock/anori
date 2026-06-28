@@ -31,7 +31,7 @@ export const dayRow = css({ display: "flex", alignItems: "center", textDecoratio
 export const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
 export const unitsRow = css({ display: "flex", gap: "3" });
 export const unitField = css({ flex: 1 });
-export const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });
+export const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 export const attribution = css({
   fontSize: "xs",
   textAlign: "center",
