@@ -1,5 +1,6 @@
 import BiInboxFill from "~icons/bi/inbox-fill?raw";
 import BiPip from "~icons/bi/pip?raw";
+import BoxiconsBookBookmarkFilled from "~icons/boxicons/book-bookmark-filled?raw";
 import ClarityPictureSolid from "~icons/clarity/picture-solid?raw";
 import FaSolidListOl from "~icons/fa-solid/list-ol?raw";
 import FluentKey20Regular from "~icons/fluent/key-20-regular?raw";
@@ -143,6 +144,7 @@ const builtinIconSvgsBySourceId = {
   "ion:calendar": IonCalendar,
   "ion:clock": IonClock,
   "bi:pip": BiPip,
+  "boxicons:book-bookmark-filled": BoxiconsBookBookmarkFilled,
   "clarity:picture-solid": ClarityPictureSolid,
   "ph:tabs-fill": PhTabsFill,
   "ion:speedometer": IonSpeedometer,
@@ -201,6 +203,7 @@ export const builtinIcons = {
   rssIcon: "ion:logo-rss",
   plugin: "mingcute:plugin-2-fill",
   bookmark: "ion:bookmark",
+  bookmarksManager: "boxicons:book-bookmark-filled",
   calendar: "ion:calendar",
   clock: "ion:clock",
   pip: "bi:pip",

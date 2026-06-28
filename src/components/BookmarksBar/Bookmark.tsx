@@ -48,9 +48,16 @@ export const Bookmark = memo(function Bookmark({
 }) {
   const { rem } = useSizeSettings();
 
+  const isBookmarksManager = bm.type === "bookmark" && bm.url.startsWith("chrome://bookmarks");
+
   const content = (
     <>
-      {bm.type === "bookmark" && <Favicon url={bm.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />}
+      {bm.type === "bookmark" &&
+        (isBookmarksManager ? (
+          <Icon color="icon.strong" icon={builtinIcons.bookmarksManager} height={rem(1)} width={rem(1)} />
+        ) : (
+          <Favicon url={bm.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />
+        ))}
       {bm.type === "folder" && <Icon color="icon.strong" icon={builtinIcons.folder} height={rem(1)} width={rem(1)} />}
       {!!bm.title && <span className={title}>{bm.title}</span>}
     </>
