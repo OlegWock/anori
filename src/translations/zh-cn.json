@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "新鲜事",
         "editWidget": "编辑小部件",
+        "removeWidget": "移除小部件",
+        "moveWidget": "移动小部件",
+        "resizeWidget": "调整小部件大小",
         "configureWidget": "配置小部件",
         "addWidget": "添加小部件",
+        "addWidgetConfigInvalid": "无法添加小部件：其配置无效。请查看控制台以了解详情。",
+        "saveWidgetConfigInvalid": "无法保存：小部件配置无效。请查看控制台以了解详情。",
+        "edit": "编辑",
+        "done": "完成",
+        "close": "关闭",
+        "info": "信息",
+        "success": "成功",
+        "warning": "警告",
+        "error": "错误",
         "next": "下一个",
         "back": "上一个",
+        "reorder": "重新排序",
         "icons": "图标",
         "customIcons": "自定义图标",
         "canBeEmpty": "可以为空",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "名称包含无效字符，只接受字母、数字、- 和 _ 的组合。",
                 "saveIcons": "保存图标",
                 "supportedFormats": "Anori 支持 .png, .jpg, .gif 和 .svg 格式. 推荐使用 128x128 或 256x256 像素的方形图片 （.svg 除外）。",
-                "importIcons": "导入图标"
+                "addIcons": "添加图标",
+                "removeIcon": "移除图标",
+                "newIcons": "新图标",
+                "discardIcons": "放弃"
             },
             "folders": {
                 "title": "目录",
-                "createNew": "创建新目录",
-                "defaultName": "新建目录"
+                "createNew": "新建目录",
+                "defaultName": "新建目录",
+                "reorder": "重新排序",
+                "changeIcon": "更改图标",
+                "removeFolder": "移除目录"
             },
             "pluginSettings": {
                 "title": "插件设置"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "主题",
                 "createCustom": "创建自定义主题",
+                "newTheme": "新主题",
+                "editTheme": "编辑主题",
+                "removeTheme": "移除主题",
                 "selectBackground": "选择背景",
+                "changeBackground": "更改背景",
                 "blur": "模糊",
                 "colorAccent": "强调色",
                 "colorBackground": "背景色",
                 "colorText": "文字颜色",
-                "colorCode": "颜色代码"
+                "colorCode": "颜色代码",
+                "colorScheme": "配色方案",
+                "colorSchemeSystem": "系统",
+                "colorSchemeLight": "浅色",
+                "colorSchemeDark": "深色"
             },
             "importExport": {
                 "title": "导入 & 导出",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Eh?",
             "modalTitle": "需要额外的权限",
             "compactText": "需要额外的权限。点击查看细节。",
             "text": "这个小部件需要额外的权限：",
@@ -231,13 +257,18 @@
             "statusUp": "正常",
             "statusDown": "宕机",
             "permissionExplanation": "Anori 需要此权限来解决 CORS 问题。浏览器显示的措辞可能令人望而生畏，但 Anori 不会更改或读取任何书签网站的数据。",
-            "openInNewTab": "在新标签页中打开"
+            "openInNewTab": "在新标签页中打开",
+            "openInIframe": "在弹窗中打开",
+            "pages": "页面",
+            "addPage": "添加页面"
         },
         "calendar-plugin": {
             "name": "日历",
             "widgetName": "日历",
             "firstDayOfWeek": "每周的第一天",
-            "calendarType": "日历类型"
+            "calendarType": "日历类型",
+            "previousMonth": "上个月",
+            "nextMonth": "下个月"
         },
         "datetime-plugin": {
             "name": "日期和时间",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "热门网页",
             "widgetHorizontal": "热门网页 - 横向",
-            "widgetVertical": "热门网页 - 纵向"
+            "widgetVertical": "热门网页 - 纵向",
+            "removeSite": "移除网站"
         },
         "weather-plugin": {
             "name": "天气",
@@ -316,6 +348,8 @@
             "noPosts": "这个订阅还没有发表文章",
             "compactView": "紧凑视图",
             "presetsTitle": "在这里放置您喜欢的源，或从预设中选择一个：",
+            "presetsText": "还没有添加任何订阅源？我们为<0>开发者</0>、<1>设计师</1>以及<2>各类有趣内容</2>提供了预设。",
+            "addFeed": "添加订阅源",
             "presetForDevelopers": "针对开发人员",
             "presetForDesigners": "针对设计师",
             "presetInteresting": "有趣的东西",
@@ -336,6 +370,7 @@
             "name": "嵌入网页",
             "expandWidgetName": "嵌入网页 — 点击可扩展",
             "showLink": "显示跳转原始页面的按钮",
+            "openPage": "打开页面",
             "limitations": "嵌入并不适用于所有页面。有些网站抵制作为嵌入页面显示，不幸的是，Anori 无能为力。这可能导致页面无法加载或异常。"
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "再来",
             "good": "好",
             "hard": "难",
-            "error": "AnkiConnect 无法连接，请确保 Anki 正在运行并且已安装 AnkiConnect 扩展。",
+            "errorTitle": "无法连接到 AnkiConnect",
+            "error": "请确保 Anki 正在运行并且已安装 AnkiConnect 扩展。",
             "widgetName": "Anki"
         }
     }

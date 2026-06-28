@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "O que há de novo",
         "editWidget": "Editar widget",
+        "removeWidget": "Remover widget",
+        "moveWidget": "Mover widget",
+        "resizeWidget": "Redimensionar widget",
         "configureWidget": "Configurar widget",
         "addWidget": "Adicionar widget",
+        "addWidgetConfigInvalid": "Não foi possível adicionar o widget: sua configuração é inválida. Verifique o console para mais detalhes.",
+        "saveWidgetConfigInvalid": "Não foi possível salvar: a configuração do widget é inválida. Verifique o console para mais detalhes.",
+        "edit": "Editar",
+        "done": "Concluído",
+        "close": "Fechar",
+        "info": "Informação",
+        "success": "Sucesso",
+        "warning": "Aviso",
+        "error": "Erro",
         "next": "Próximo",
         "back": "Voltar",
+        "reorder": "Reordenar",
         "icons": "Ícones",
         "customIcons": "Ícones customizados",
         "canBeEmpty": "pode estar vazio",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "O nome contém caracteres inválidos, apenas letras, dígitos, -, e _ são aceitos.",
                 "saveIcons": "Salvar ícones",
                 "supportedFormats": "O Anori suporta .png, .jpg, .gif e .svg. É melhor usar imagens quadradas entre 128 e 256 pixels de largura (não aplicável a .svg).",
-                "importIcons": "Importar ícones"
+                "addIcons": "Adicionar ícones",
+                "removeIcon": "Remover ícone",
+                "newIcons": "Novos ícones",
+                "discardIcons": "Descartar"
             },
             "folders": {
                 "title": "Pastas",
-                "createNew": "Criar nova pasta",
-                "defaultName": "Nova pasta"
+                "createNew": "Nova pasta",
+                "defaultName": "Nova pasta",
+                "reorder": "Reordenar",
+                "changeIcon": "Alterar ícone",
+                "removeFolder": "Remover pasta"
             },
             "pluginSettings": {
                 "title": "Configurações de plugin"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Tema",
                 "createCustom": "Criar tema personalizado",
+                "newTheme": "Novo tema",
+                "editTheme": "Editar tema",
+                "removeTheme": "Remover tema",
                 "selectBackground": "Selecionar plano de fundo",
+                "changeBackground": "Alterar plano de fundo",
                 "blur": "Desfoque",
                 "colorAccent": "Destaque",
                 "colorBackground": "Plano de fundo",
                 "colorText": "Texto",
-                "colorCode": "Código de cor"
+                "colorCode": "Código de cor",
+                "colorScheme": "Esquema de cores",
+                "colorSchemeSystem": "Sistema",
+                "colorSchemeLight": "Claro",
+                "colorSchemeDark": "Escuro"
             },
             "importExport": {
                 "title": "Importar & exportar",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Ahn?",
             "modalTitle": "Permissões adicionais necessárias",
             "compactText": "Permissões adicionais necessárias. Clique para ver detalhes.",
             "text": "Este widget requer permissões adicionais:",
@@ -231,13 +257,18 @@
             "statusUp": "ativo",
             "statusDown": "inativo",
             "permissionExplanation": "O Anori precisa dessa permissão para contornar o CORS. O texto apresentado pelo seu navegador pode ser assustador, mas o Anori não altera nem lê nenhum dado de sites marcados como favoritos.",
-            "openInNewTab": "Open in a new tab"
+            "openInNewTab": "Open in a new tab",
+            "openInIframe": "Abrir em popup",
+            "pages": "Páginas",
+            "addPage": "Adicionar página"
         },
         "calendar-plugin": {
             "name": "Calendário",
             "widgetName": "Calendário",
             "firstDayOfWeek": "Primeiro dia da semana",
-            "calendarType": "Tipo de calendário"
+            "calendarType": "Tipo de calendário",
+            "previousMonth": "Mês anterior",
+            "nextMonth": "Próximo mês"
         },
         "datetime-plugin": {
             "name": "Data e hora",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Top sites",
             "widgetHorizontal": "Top sites - horizontal",
-            "widgetVertical": "Top sites - vertical"
+            "widgetVertical": "Top sites - vertical",
+            "removeSite": "Remover site"
         },
         "weather-plugin": {
             "name": "Tempo",
@@ -316,6 +348,8 @@
             "noPosts": "Nenhum post nesse feed ainda",
             "compactView": "Visualização compacta",
             "presetsTitle": "Ponha seus feeds favoritos aqui ou selecione um dos predefinidos:",
+            "presetsText": "Ainda não adicionou nenhum feed? Temos predefinições para <0>desenvolvedores</0>, <1>designers</1> e uma com <2>todo tipo de conteúdo interessante</2>.",
+            "addFeed": "Adicionar feed",
             "presetForDevelopers": "Para desenvolvedores",
             "presetForDesigners": "Para designers",
             "presetInteresting": "Só coisas interessantes",
@@ -336,6 +370,7 @@
             "name": "Incorporar página da web",
             "expandWidgetName": "Incorporar página da web — expansível",
             "showLink": "Mostrar link para a página original",
+            "openPage": "Abrir página",
             "limitations": "A incorporação não funciona com todas as páginas. Alguns sites resistem ativamente a serem exibidos como uma página incorporada e, infelizmente, o Anori não pode fazer muito a respeito. Isso pode fazer com que as páginas não carreguem (como é o caso do Gmail) ou funcionem mal."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Repetir",
             "good": "Bom",
             "hard": "Difícil",
-            "error": "O AnkiConnect não pode ser acessado. Certifique-se de que o Anki está em execução e o AnkiConnect está instalado.",
+            "errorTitle": "O AnkiConnect não pode ser acessado",
+            "error": "Certifique-se de que o Anki está em execução e o AnkiConnect está instalado.",
             "widgetName": "Anki"
         }
     }

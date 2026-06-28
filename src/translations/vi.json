@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "Có gì mới",
         "editWidget": "Sửa tiện ích",
+        "removeWidget": "Xóa widget",
+        "moveWidget": "Di chuyển widget",
+        "resizeWidget": "Thay đổi kích thước widget",
         "configureWidget": "Cấu hình tiện ích",
         "addWidget": "Thêm tiện ích",
+        "addWidgetConfigInvalid": "Không thể thêm widget: cấu hình không hợp lệ. Kiểm tra console để biết thêm chi tiết.",
+        "saveWidgetConfigInvalid": "Không thể lưu: cấu hình widget không hợp lệ. Kiểm tra console để biết thêm chi tiết.",
+        "edit": "Chỉnh sửa",
+        "done": "Xong",
+        "close": "Đóng",
+        "info": "Thông tin",
+        "success": "Thành công",
+        "warning": "Cảnh báo",
+        "error": "Lỗi",
         "next": "Tiếp theo",
         "back": "Quay lại",
+        "reorder": "Sắp xếp lại",
         "icons": "Biểu tượng",
         "customIcons": "Biểu tượng tùy chỉnh",
         "canBeEmpty": "có thể để trống",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Tên chứa ký tự không hợp lệ (chỉ cho phép chữ, số, - và _).",
                 "saveIcons": "Lưu biểu tượng",
                 "supportedFormats": "Hỗ trợ .png, .jpg, .gif, .svg. Nên dùng ảnh vuông, 128px-256px.",
-                "importIcons": "Nhập biểu tượng"
+                "addIcons": "Thêm biểu tượng",
+                "removeIcon": "Xóa biểu tượng",
+                "newIcons": "Biểu tượng mới",
+                "discardIcons": "Hủy bỏ"
             },
             "folders": {
                 "title": "Thư mục",
-                "createNew": "Tạo thư mục mới",
-                "defaultName": "Thư mục mới"
+                "createNew": "Thư mục mới",
+                "defaultName": "Thư mục mới",
+                "reorder": "Sắp xếp lại",
+                "changeIcon": "Đổi biểu tượng",
+                "removeFolder": "Xóa thư mục"
             },
             "pluginSettings": {
                 "title": "Cài đặt plugin"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Giao diện",
                 "createCustom": "Tạo giao diện",
+                "newTheme": "Giao diện mới",
+                "editTheme": "Chỉnh sửa giao diện",
+                "removeTheme": "Xóa giao diện",
                 "selectBackground": "Chọn hình nền",
+                "changeBackground": "Đổi hình nền",
                 "blur": "Độ mờ",
                 "colorAccent": "Màu nhấn",
                 "colorBackground": "Nền",
                 "colorText": "Văn bản",
-                "colorCode": "Mã màu"
+                "colorCode": "Mã màu",
+                "colorScheme": "Bảng màu",
+                "colorSchemeSystem": "Hệ thống",
+                "colorSchemeLight": "Sáng",
+                "colorSchemeDark": "Tối"
             },
             "importExport": {
                 "title": "Nhập & Xuất",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Hả?",
             "modalTitle": "Cần thêm quyền hạn",
             "compactText": "Cần thêm quyền hạn. Nhấp để xem chi tiết.",
             "text": "Tiện ích này yêu cầu thêm quyền hạn:",
@@ -231,13 +257,18 @@
             "statusUp": "hoạt động",
             "statusDown": "ngưng hoạt động",
             "permissionExplanation": "Anori cần quyền này để vượt qua CORS. Anori không thay đổi hay đọc dữ liệu từ các trang bạn lưu.",
-            "openInNewTab": "Mở trong tab mới"
+            "openInNewTab": "Mở trong tab mới",
+            "openInIframe": "Mở trong cửa sổ bật lên",
+            "pages": "Trang",
+            "addPage": "Thêm trang"
         },
         "calendar-plugin": {
             "name": "Lịch",
             "widgetName": "Lịch",
             "firstDayOfWeek": "Ngày đầu tuần",
-            "calendarType": "Loại lịch"
+            "calendarType": "Loại lịch",
+            "previousMonth": "Tháng trước",
+            "nextMonth": "Tháng sau"
         },
         "datetime-plugin": {
             "name": "Ngày và giờ",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Trang xem nhiều",
             "widgetHorizontal": "Trang xem nhiều (Ngang)",
-            "widgetVertical": "Trang xem nhiều (Dọc)"
+            "widgetVertical": "Trang xem nhiều (Dọc)",
+            "removeSite": "Xóa trang web"
         },
         "weather-plugin": {
             "name": "Thời tiết",
@@ -316,6 +348,8 @@
             "noPosts": "Chưa có bài viết nào",
             "compactView": "Giao diện thu gọn",
             "presetsTitle": "Thêm nguồn yêu thích hoặc chọn mẫu sau:",
+            "presetsText": "Chưa thêm nguồn tin nào? Chúng tôi có các cài đặt sẵn cho <0>lập trình viên</0>, <1>nhà thiết kế</1>, và một bộ với <2>đủ loại nội dung thú vị</2>.",
+            "addFeed": "Thêm nguồn tin",
             "presetForDevelopers": "Cho Dev",
             "presetForDesigners": "Cho Designer",
             "presetInteresting": "Tin tức thú vị",
@@ -336,6 +370,7 @@
             "name": "Nhúng trang web",
             "expandWidgetName": "Nhúng web (Mở rộng)",
             "showLink": "Hiện liên kết gốc",
+            "openPage": "Mở trang",
             "limitations": "Việc nhúng có thể không hoạt động với một số trang web do họ chặn hiển thị. Anori không thể can thiệp."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Lại",
             "good": "Tốt",
             "hard": "Khó",
-            "error": "Không thể kết nối AnkiConnect. Hãy đảm bảo Anki đang chạy và đã cài AnkiConnect.",
+            "errorTitle": "Không thể kết nối AnkiConnect",
+            "error": "Hãy đảm bảo Anki đang chạy và đã cài đặt tiện ích AnkiConnect.",
             "widgetName": "Anki"
         }
     }

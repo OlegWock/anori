@@ -25,10 +25,23 @@
         "px": "بكسل",
         "whatsNew": "ما الجديد",
         "editWidget": "تحرير الأداة",
+        "removeWidget": "إزالة الأداة",
+        "moveWidget": "نقل الأداة",
+        "resizeWidget": "تغيير حجم الأداة",
         "configureWidget": "تكوين الأداة",
         "addWidget": "إضافة أداة",
+        "addWidgetConfigInvalid": "تعذّر إضافة الأداة: تكوينها غير صالح. تحقق من وحدة التحكم للاطلاع على التفاصيل.",
+        "saveWidgetConfigInvalid": "تعذّر الحفظ: تكوين الأداة غير صالح. تحقق من وحدة التحكم للاطلاع على التفاصيل.",
+        "edit": "تعديل",
+        "done": "تم",
+        "close": "إغلاق",
+        "info": "معلومات",
+        "success": "نجاح",
+        "warning": "تحذير",
+        "error": "خطأ",
         "next": "التالي",
         "back": "السابق",
+        "reorder": "إعادة الترتيب",
         "icons": "الأيقونات",
         "customIcons": "الأيقونات المخصصة",
         "canBeEmpty": "يمكن أن يكون فارغًا",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "يحتوي الاسم على أحرف غير صالحة ، يتم قبول الأحرف والأرقام و - و _ فقط.",
                 "saveIcons": "حفظ الأيقونات",
                 "supportedFormats": "يدعم Anori .png و .jpg و .gif و .svg. من الأفضل استخدام صور مربعة بين 128 و 256 بكسل عرضًا (غير قابلة للتطبيق على .svg).",
-                "importIcons": "استيراد الأيقونات"
+                "addIcons": "إضافة أيقونات",
+                "removeIcon": "إزالة أيقونة",
+                "newIcons": "أيقونات جديدة",
+                "discardIcons": "تجاهل"
             },
             "folders": {
                 "title": "المجلدات",
-                "createNew": "إنشاء مجلد جديد",
-                "defaultName": "مجلد جديد"
+                "createNew": "مجلد جديد",
+                "defaultName": "مجلد جديد",
+                "reorder": "إعادة الترتيب",
+                "changeIcon": "تغيير الأيقونة",
+                "removeFolder": "إزالة المجلد"
             },
             "pluginSettings": {
                 "title": "إعدادات المكونات الإضافية"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "الوضع",
                 "createCustom": "إنشاء سمة مخصصة",
+                "newTheme": "سمة جديدة",
+                "editTheme": "تعديل السمة",
+                "removeTheme": "إزالة السمة",
                 "selectBackground": "اختيار الخلفية",
+                "changeBackground": "تغيير الخلفية",
                 "blur": "تمويه",
                 "colorAccent": "لون التمييز",
                 "colorBackground": "الخلفية",
                 "colorText": "النص",
-                "colorCode": "رمز اللون"
+                "colorCode": "رمز اللون",
+                "colorScheme": "نظام الألوان",
+                "colorSchemeSystem": "النظام",
+                "colorSchemeLight": "فاتح",
+                "colorSchemeDark": "داكن"
             },
             "importExport": {
                 "title": "استيراد وتصدير",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Eh?",
             "modalTitle": "مطلوب أذونات إضافية",
             "compactText": "مطلوب أذونات إضافية. انقر لمعرفة التفاصيل.",
             "text": "تتطلب هذه الأداة أذونات إضافية:",
@@ -231,13 +257,18 @@
             "statusUp": "متاح",
             "statusDown": "متوقف",
             "permissionExplanation": "يحتاج Anori إلى هذا الإذن للعمل حول CORS. قد يكون الصياغة التي يقدمها متصفحك مربكًا ، ولكن Anori لا يقوم بتغيير أو قراءة أي بيانات من مواقع الويب المحفوظة.",
-            "openInNewTab": "فتح في علامة تبويب جديدة"
+            "openInNewTab": "فتح في علامة تبويب جديدة",
+            "openInIframe": "فتح في نافذة منبثقة",
+            "pages": "الصفحات",
+            "addPage": "إضافة صفحة"
         },
         "calendar-plugin": {
             "name": "التقويم",
             "widgetName": "التقويم",
             "firstDayOfWeek": "أول يوم من الأسبوع",
-            "calendarType": "نوع التقويم"
+            "calendarType": "نوع التقويم",
+            "previousMonth": "الشهر السابق",
+            "nextMonth": "الشهر التالي"
         },
         "datetime-plugin": {
             "name": "التاريخ والوقت",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "أهم المواقع",
             "widgetHorizontal": "أهم المواقع - أفقي",
-            "widgetVertical": "أهم المواقع - عمودي"
+            "widgetVertical": "أهم المواقع - عمودي",
+            "removeSite": "إزالة الموقع"
         },
         "weather-plugin": {
             "name": "الطقس",
@@ -316,6 +348,8 @@
             "noPosts": "لا توجد مشاركات في هذه التغذية بعد",
             "compactView": "العرض المضغوط",
             "presetsTitle": "ضع تغذياتك المفضلة هنا أو حدد من أحد الإعدادات الأساسية:",
+            "presetsText": "لم تضف أي موجزات بعد؟ لدينا إعدادات مسبقة لـ<0>المطورين</0>، و<1>المصممين</1>، وأخرى تضم <2>مواضيع متنوعة ومثيرة للاهتمام</2>.",
+            "addFeed": "إضافة موجز",
             "presetForDevelopers": "للمطورين",
             "presetForDesigners": "للمصممين",
             "presetInteresting": "أشياء مثيرة للاهتمام فقط",
@@ -336,6 +370,7 @@
             "name": "تضمين صفحة ويب",
             "expandWidgetName": "تضمين صفحة ويب - قابل للتوسيع",
             "showLink": "إظهار رابط إلى الصفحة الأصلية",
+            "openPage": "فتح الصفحة",
             "limitations": "التضمين لا يعمل مع جميع الصفحات. تقاوم بعض المواقع بنشاط عرضها كصفحة مضمنة ، وللأسف ، لا يمكن لـ Anori القيام بكثير من ذلك. قد يؤدي هذا إلى عدم تحميل الصفحات (كما هو الحال مع Gmail) أو عملها بشكل سيء."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "مرة أخرى",
             "good": "جيد",
             "hard": "صعب",
-            "error": "تعذّر الوصول إلى AnkiConnect، يرجى التأكد من أن Anki يعمل وأن AnkiConnect مثبَّت.",
+            "errorTitle": "تعذّر الوصول إلى AnkiConnect",
+            "error": "تأكد من أن Anki يعمل وأن إضافة AnkiConnect مثبَّتة.",
             "widgetName": "Anki"
         }
     }

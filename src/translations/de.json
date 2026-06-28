@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "Was ist neu",
         "editWidget": "Widget editieren",
+        "removeWidget": "Widget entfernen",
+        "moveWidget": "Widget verschieben",
+        "resizeWidget": "Widget skalieren",
         "configureWidget": "Widget konfigurieren",
         "addWidget": "Widget hinzufügen",
+        "addWidgetConfigInvalid": "Widget konnte nicht hinzugefügt werden: Die Konfiguration ist ungültig. Details in der Konsole.",
+        "saveWidgetConfigInvalid": "Speichern fehlgeschlagen: Die Widget-Konfiguration ist ungültig. Details in der Konsole.",
+        "edit": "Bearbeiten",
+        "done": "Fertig",
+        "close": "Schließen",
+        "info": "Info",
+        "success": "Erfolg",
+        "warning": "Warnung",
+        "error": "Fehler",
         "next": "Weiter",
         "back": "Zurück",
+        "reorder": "Neu anordnen",
         "icons": "Symbole",
         "customIcons": "Benutzerdefinierte Symbole",
         "canBeEmpty": "kann leer sein",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Der Name enthält ungültige Zeichen, nur Buchstaben, Ziffern, - und _ werden akzeptiert.",
                 "saveIcons": "Symbole speichern",
                 "supportedFormats": "Wir unterstützen PNG, JPG, GIF und SVG und empfehlen, quadratische Bilder mit einer Größe zwischen 128 und 256 Pixeln zu verwenden (gilt nicht für SVG).",
-                "importIcons": "Symbole importieren"
+                "addIcons": "Icons hinzufügen",
+                "removeIcon": "Icon entfernen",
+                "newIcons": "Neue Icons",
+                "discardIcons": "Verwerfen"
             },
             "folders": {
                 "title": "Ordner",
-                "createNew": "Neuen Ordner erstellen",
-                "defaultName": "Neuer Ordner"
+                "createNew": "Neuer Ordner",
+                "defaultName": "Neuer Ordner",
+                "reorder": "Neu anordnen",
+                "changeIcon": "Icon ändern",
+                "removeFolder": "Ordner entfernen"
             },
             "pluginSettings": {
                 "title": "Plugin Einstellungen"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Theme",
                 "createCustom": "Eigenes Theme erstellen",
+                "newTheme": "Neues Design",
+                "editTheme": "Design bearbeiten",
+                "removeTheme": "Design entfernen",
                 "selectBackground": "Hintergrund auswählen",
+                "changeBackground": "Hintergrund ändern",
                 "blur": "Unschärfe",
                 "colorAccent": "Akzent",
                 "colorBackground": "Hintergrund",
                 "colorText": "Text",
-                "colorCode": "Farbcode"
+                "colorCode": "Farbcode",
+                "colorScheme": "Farbschema",
+                "colorSchemeSystem": "System",
+                "colorSchemeLight": "Hell",
+                "colorSchemeDark": "Dunkel"
             },
             "importExport": {
                 "title": "Import & Export",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Eh?",
             "modalTitle": "Es sind zusätzliche Genehmigungen erforderlich",
             "compactText": "Zusätzliche Berechtigungen sind erforderlich. Klicken Sie, um Details zu sehen.",
             "text": "Dieses Widget erfordert zusätzliche Berechtigungen. Diese sind:",
@@ -231,13 +257,18 @@
             "statusUp": "erreichbar",
             "statusDown": "nicht erreichbar",
             "permissionExplanation": "Anori benötigt die Berechtigung CORS zu umgehen. Die Formulierung der Berechtigungen klingt etwas inversiv, aber Anori liest und ändert keine Daten von deinen Lesezeichen.",
-            "openInNewTab": "In einem neuen Tab öffnen"
+            "openInNewTab": "In einem neuen Tab öffnen",
+            "openInIframe": "Im Popup öffnen",
+            "pages": "Seiten",
+            "addPage": "Seite hinzufügen"
         },
         "calendar-plugin": {
             "name": "Kalendar",
             "widgetName": "Kalendar",
             "firstDayOfWeek": "Woche beginnt mit",
-            "calendarType": "Kalendertyp"
+            "calendarType": "Kalendertyp",
+            "previousMonth": "Vorheriger Monat",
+            "nextMonth": "Nächster Monat"
         },
         "datetime-plugin": {
             "name": "Datum und Uhrzeit",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Top Webseiten",
             "widgetHorizontal": "Top Webseiten - horizontal",
-            "widgetVertical": "Top Webseiten - vertikal"
+            "widgetVertical": "Top Webseiten - vertikal",
+            "removeSite": "Website entfernen"
         },
         "weather-plugin": {
             "name": "Wetter",
@@ -316,6 +348,8 @@
             "noPosts": "Keine Posts in diesem Feed",
             "compactView": "Kompakte Ansicht",
             "presetsTitle": "Fügen Sie hier Ihre bevorzugten Feeds ein oder wählen Sie aus einer der Voreinstellungen:",
+            "presetsText": "Noch keine Feeds hinzugefügt? Wir haben Voreinstellungen für <0>Entwickler</0>, <1>Designer</1> und eine mit <2>allerlei Interessantem</2>.",
+            "addFeed": "Feed hinzufügen",
             "presetForDevelopers": "Für Entwickler",
             "presetForDesigners": "Für Designer",
             "presetInteresting": "interessantes Zeug",
@@ -336,6 +370,7 @@
             "name": "Eingebettete Webseite",
             "expandWidgetName": "Eingebettete Webseite — ausklappbar",
             "showLink": "Link zur originalen Webseite anzeigen",
+            "openPage": "Seite öffnen",
             "limitations": "Das Widget funktioniert leider nicht mit allen Webseiten. Einige Webseiten haben aktive Maßmahmen getroffen um nicht einbettbar zu sein, und unglücklicherweise kann Anori nichts in solchen Fällen tun. Was darin resukltieren kann, dass manche Webseiten nicht geladen werden können (wie z.B. Gmail) oder nicht richtig funktionieren."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Nochmal",
             "good": "Gut",
             "hard": "Schwer",
-            "error": "AnkiConnect konnte nicht erreicht werden, bitte stelle sicher, dass Anki läuft und AnkiConnect installiert ist.",
+            "errorTitle": "AnkiConnect ist nicht erreichbar",
+            "error": "Stelle sicher, dass Anki läuft und das AnkiConnect-Add-on installiert ist.",
             "widgetName": "Anki"
         }
     }

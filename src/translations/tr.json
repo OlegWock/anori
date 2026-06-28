@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "Yenilikler",
         "editWidget": "Widget'ı düzenle",
+        "removeWidget": "Widget'ı kaldır",
+        "moveWidget": "Widget'ı taşı",
+        "resizeWidget": "Widget'ı yeniden boyutlandır",
         "configureWidget": "Widget'ı yapılandır",
         "addWidget": "Widget ekle",
+        "addWidgetConfigInvalid": "Widget eklenemedi: yapılandırması geçersiz. Ayrıntılar için konsolu kontrol edin.",
+        "saveWidgetConfigInvalid": "Kaydedilemedi: widget yapılandırması geçersiz. Ayrıntılar için konsolu kontrol edin.",
+        "edit": "Düzenle",
+        "done": "Bitti",
+        "close": "Kapat",
+        "info": "Bilgi",
+        "success": "Başarılı",
+        "warning": "Uyarı",
+        "error": "Hata",
         "next": "İleri",
         "back": "Geri",
+        "reorder": "Yeniden sırala",
         "icons": "İkonlar",
         "customIcons": "Özel ikonlar",
         "canBeEmpty": "Boş olabilir",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Ad geçersiz karakterler içeriyor, yalnızca harfler, rakamlar, - ve _ kabul edilir.",
                 "saveIcons": "İkonları kaydet",
                 "supportedFormats": "Anori, .png, .jpg, .gif ve .svg formatlarını destekler. Kare görüntüler kullanmak en iyisidir (128 ile 256 piksel genişliğinde, .svg için geçerli değildir).",
-                "importIcons": "İkonları içe aktar"
+                "addIcons": "Simge ekle",
+                "removeIcon": "Simgeyi kaldır",
+                "newIcons": "Yeni simgeler",
+                "discardIcons": "Vazgeç"
             },
             "folders": {
                 "title": "Klasörler",
-                "createNew": "Yeni klasör oluştur",
-                "defaultName": "Yeni klasör"
+                "createNew": "Yeni klasör",
+                "defaultName": "Yeni klasör",
+                "reorder": "Yeniden sırala",
+                "changeIcon": "Simgeyi değiştir",
+                "removeFolder": "Klasörü kaldır"
             },
             "pluginSettings": {
                 "title": "Eklenti ayarları"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Tema",
                 "createCustom": "Özel tema oluştur",
+                "newTheme": "Yeni tema",
+                "editTheme": "Temayı düzenle",
+                "removeTheme": "Temayı kaldır",
                 "selectBackground": "Arka plan seç",
+                "changeBackground": "Arka planı değiştir",
                 "blur": "Bulanıklık",
                 "colorAccent": "Vurgu",
                 "colorBackground": "Arka plan",
                 "colorText": "Metin",
-                "colorCode": "Renk kodu"
+                "colorCode": "Renk kodu",
+                "colorScheme": "Renk şeması",
+                "colorSchemeSystem": "Sistem",
+                "colorSchemeLight": "Açık",
+                "colorSchemeDark": "Koyu"
             },
             "importExport": {
                 "title": "İçe aktar & dışa aktar",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Hm?",
             "modalTitle": "Ek izinler gerekli",
             "compactText": "Ek izinler gerekli. Ayrıntılar için tıklayın.",
             "text": "Bu widget ek izinler gerektiriyor:",
@@ -231,13 +257,18 @@
             "statusUp": "çalışıyor",
             "statusDown": "çalışmıyor",
             "permissionExplanation": "Anori, CORS'u aşmak için bu izne ihtiyaç duyar. Tarayıcınızın gösterdiği ifade ürkütücü görünebilir, ancak Anori yer imlerinizdeki web sitelerinden herhangi bir veri okumaz veya değiştirmez.",
-            "openInNewTab": "Yeni sekmede aç"
+            "openInNewTab": "Yeni sekmede aç",
+            "openInIframe": "Açılır pencerede aç",
+            "pages": "Sayfalar",
+            "addPage": "Sayfa ekle"
         },
         "calendar-plugin": {
             "name": "Takvim",
             "widgetName": "Takvim",
             "firstDayOfWeek": "Haftanın ilk günü",
-            "calendarType": "Takvim türü"
+            "calendarType": "Takvim türü",
+            "previousMonth": "Önceki ay",
+            "nextMonth": "Sonraki ay"
         },
         "datetime-plugin": {
             "name": "Tarih ve saat",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "En çok ziyaret edilenler",
             "widgetHorizontal": "En çok ziyaret edilenler - yatay",
-            "widgetVertical": "En çok ziyaret edilenler - dikey"
+            "widgetVertical": "En çok ziyaret edilenler - dikey",
+            "removeSite": "Siteyi kaldır"
         },
         "weather-plugin": {
             "name": "Hava durumu",
@@ -316,6 +348,8 @@
             "noPosts": "Bu akışta henüz gönderi yok",
             "compactView": "Kompakt görünüm",
             "presetsTitle": "Favori akışlarınızı buraya ekleyin veya hazır seçeneklerden birini seçin:",
+            "presetsText": "Henüz akış eklemedi mi? <0>Geliştiriciler</0>, <1>tasarımcılar</1> ve <2>her türden ilginç içerikler</2> için ön ayarlarımız var.",
+            "addFeed": "Akış ekle",
             "presetForDevelopers": "Geliştiriciler için",
             "presetForDesigners": "Tasarımcılar için",
             "presetInteresting": "İlginç şeyler",
@@ -336,6 +370,7 @@
             "name": "Web sayfası göm",
             "expandWidgetName": "Web sayfası göm — genişletilebilir",
             "showLink": "Orijinal sayfaya bağlantı göster",
+            "openPage": "Sayfayı aç",
             "limitations": "Gömme işlemi tüm sayfalarla çalışmaz. Bazı siteler gömülü sayfa olarak görüntülenmeye aktif olarak direnir ve ne yazık ki Anori bu konuda fazla bir şey yapamaz. Bu durum sayfaların yüklenmemesiyle (Gmail'de olduğu gibi) veya düzgün çalışmamasıyla sonuçlanabilir."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Tekrar",
             "good": "İyi",
             "hard": "Zor",
-            "error": "AnkiConnect'e ulaşılamıyor, lütfen Anki'nin çalıştığından ve AnkiConnect'in yüklü olduğundan emin olun.",
+            "errorTitle": "AnkiConnect'e ulaşılamıyor",
+            "error": "Anki'nin çalıştığından ve AnkiConnect eklentisinin yüklü olduğundan emin olun.",
             "widgetName": "Anki"
         }
     }
