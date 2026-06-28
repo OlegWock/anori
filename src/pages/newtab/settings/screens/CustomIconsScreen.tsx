@@ -1,4 +1,5 @@
 import { Button } from "@anori/design-system/components/Button/Button";
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { isValidCustomIconName, useCustomIcons } from "@anori/design-system/components/Icon/custom-icons";
@@ -18,7 +19,6 @@ const DRAFT_NAME_INPUT_ATTR = "data-draft-name-input";
 
 const screen = css({ display: "flex", flexDirection: "column", gap: "4" });
 const header = css({ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "4" });
-const emptyState = css({ color: "text.subtle", textAlign: "center", paddingBlock: "6" });
 
 const list = css({ display: "flex", flexDirection: "column", gap: "2" });
 const row = css({
@@ -209,7 +209,7 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
       {draftCustomIcons.length !== 0 && customIcons.length > 0 && <div className={divider} />}
 
       {customIcons.length === 0 && draftCustomIcons.length === 0 && (
-        <div className={emptyState}>{t("settings.customIcons.noIcons")}</div>
+        <EmptyState muted title={t("settings.customIcons.noIcons")} />
       )}
 
       {customIcons.length > 0 && (

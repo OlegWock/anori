@@ -1,3 +1,4 @@
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +20,7 @@ const latestWidget = css({
 // to the top with its details at the bottom now that the title's height is capped.
 const latestPost = css({ maxHeight: "100%", padding: "4", justifyContent: "space-between" });
 const latestMessage = css({ padding: "4" });
+const emptyPost = css({ flexGrow: 1, justifyContent: "center" });
 
 export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>) => {
   const { t } = useTranslation();
@@ -30,7 +32,8 @@ export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>
   return (
     <div className={latestWidget}>
       {!!lastPost && <Post className={latestPost} clampTitle post={lastPost} key={lastPost.url} />}
-      {!lastPost && <div className={latestMessage}>{isRefreshing ? t("refreshing") : t("rss-plugin.noPosts")}</div>}
+      {!lastPost && isRefreshing && <div className={latestMessage}>{t("refreshing")}</div>}
+      {!lastPost && !isRefreshing && <EmptyState muted className={emptyPost} title={t("rss-plugin.noPosts")} />}
     </div>
   );
 };

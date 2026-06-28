@@ -54,13 +54,7 @@ export const taskInput = css({
   paddingBlock: "0-5!",
   paddingInline: "2!",
 });
-export const noTasks = css({
-  flexGrow: 1,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  color: "text.placeholder",
-});
+export const noTasks = css({ flexGrow: 1, justifyContent: "center" });
 
 export const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
 export const saveConfig = css({ alignSelf: "flex-end", marginTop: "4" });

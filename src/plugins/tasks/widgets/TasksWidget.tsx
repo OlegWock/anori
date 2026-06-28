@@ -1,4 +1,5 @@
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Textarea } from "@anori/design-system/components/Input/Input";
@@ -247,11 +248,7 @@ export const TasksWidget = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => 
           </ReorderGroup>
         </LayoutGroup>
       </ScrollArea>
-      {tasks.length === 0 && (
-        <m.div key="no-tasks" className={noTasks}>
-          {t("tasks-plugin.noTasks")}
-        </m.div>
-      )}
+      {tasks.length === 0 && <EmptyState muted className={noTasks} title={t("tasks-plugin.noTasks")} />}
     </m.div>
   );
 };

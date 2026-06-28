@@ -3,6 +3,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 
 const positioner = css({ zIndex: "tooltip" });
@@ -84,6 +85,7 @@ export const ComboboxImpl = <T,>({
   className,
 }: ComboboxProps<T>) => {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <BaseCombobox.Root<T>
@@ -119,7 +121,7 @@ export const ComboboxImpl = <T,>({
         <BaseCombobox.Positioner className={positioner} sideOffset={4}>
           <BaseCombobox.Popup className={optionsPanel}>
             <BaseCombobox.Empty>
-              <div className={noResults}>No results</div>
+              <div className={noResults}>{t("noResults")}</div>
             </BaseCombobox.Empty>
             <BaseCombobox.List>
               {(item: T) => (

@@ -1,3 +1,4 @@
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
@@ -28,6 +29,7 @@ const separator = css({
   borderBottomColor: "frosted.strong",
 });
 const feedPost = css({ padding: "1", borderRadius: "sm" });
+const emptyFeed = css({ flexGrow: 1, justifyContent: "center" });
 
 export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
   const { t } = useTranslation();
@@ -55,20 +57,24 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
           onClick={() => refresh()}
         />
       </div>
-      <ScrollArea type="hover">
-        <div className={posts({ compact: config.compactView })}>
-          {trimmedFeed.map((post, i) => {
-            if (i === 0) return <Post className={feedPost} post={post} key={post.url} compact={config.compactView} />;
+      {trimmedFeed.length === 0 ? (
+        <EmptyState muted className={emptyFeed} title={t("rss-plugin.noPosts")} />
+      ) : (
+        <ScrollArea type="hover">
+          <div className={posts({ compact: config.compactView })}>
+            {trimmedFeed.map((post, i) => {
+              if (i === 0) return <Post className={feedPost} post={post} key={post.url} compact={config.compactView} />;
 
-            return (
-              <Fragment key={post.url}>
-                <div className={separator} />
-                <Post className={feedPost} post={post} compact={config.compactView} />
-              </Fragment>
-            );
-          })}
-        </div>
-      </ScrollArea>
+              return (
+                <Fragment key={post.url}>
+                  <div className={separator} />
+                  <Post className={feedPost} post={post} compact={config.compactView} />
+                </Fragment>
+              );
+            })}
+          </div>
+        </ScrollArea>
+      )}
     </div>
   );
 };

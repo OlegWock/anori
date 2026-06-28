@@ -2,6 +2,7 @@ import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Badge } from "@anori/design-system/components/Badge/Badge";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
@@ -337,7 +338,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
         {profilesData && (
           <div className={profilesList}>
             {sortedProfiles.length === 0 && !isCreatingProfile ? (
-              <div className={mutedNote}>{t("cloud.noProfiles")}</div>
+              <EmptyState title={t("cloud.noProfiles")} />
             ) : (
               sortedProfiles.map((profile) => {
                 const isConnected = connectedProfileId === profile.id;

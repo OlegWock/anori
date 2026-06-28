@@ -1,3 +1,4 @@
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { Favicon } from "@anori/design-system/components/Icon/Favicon";
 import { Input } from "@anori/design-system/components/Input/Input";
 import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
@@ -36,8 +37,6 @@ const bookmarkTitle = css({
   whiteSpace: "nowrap",
   fontSize: "sm",
 });
-const noResults = css({ display: "flex", justifyContent: "center", alignItems: "center", padding: "16" });
-
 type BrowserBookmark = {
   id: string;
   title: string;
@@ -65,7 +64,7 @@ const BookmarkList = memo(({ bookmarks, faviconSize, emptyLabel, onPick }: Bookm
           <div className={bookmarkTitle}>{bk.title || bk.url}</div>
         </m.div>
       ))}
-      {bookmarks.length === 0 && <div className={noResults}>{emptyLabel}</div>}
+      {bookmarks.length === 0 && <EmptyState title={emptyLabel} />}
     </ScrollArea>
   );
 });

@@ -1,3 +1,4 @@
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { CUSTOM_ICONS_SET_NAME } from "@anori/design-system/components/Icon/custom-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
@@ -38,16 +39,6 @@ const tooBroadAlert = css({
   marginBottom: "2",
   paddingBlock: "2",
   paddingInline: "4",
-});
-const emptyStateAlert = css({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "6",
-  paddingBlock: "12",
-  paddingInline: "6",
-  textAlign: "center",
 });
 // react-window owns the scroll container, so we can't wrap it in <ScrollArea>; style the native scrollbar directly.
 const iconsGrid = css({
@@ -164,12 +155,18 @@ const IconsGrid = ({
 
   const ROWS = Math.ceil(iconsList.length / COLUMNS);
 
-  return iconsList.length === 0 && selectedFamily === CUSTOM_ICONS_SET_NAME ? (
-    <div className={emptyStateAlert}>
-      <p>{t("iconsPicker.customIconsInfo")}</p>
-      <p>{t("iconsPicker.customIconsAbsent")}</p>
-    </div>
-  ) : (
+  if (iconsList.length === 0) {
+    if (selectedFamily === CUSTOM_ICONS_SET_NAME) {
+      return <EmptyState title={t("iconsPicker.customIconsAbsent")} description={t("iconsPicker.customIconsInfo")} />;
+    }
+    // Browsing all sets without a query isn't a search yet — the "pick a family or search" hint covers it.
+    if (selectedFamily === ALL_SETS && !searchQuery) {
+      return null;
+    }
+    return <EmptyState title={t("noResults")} />;
+  }
+
+  return (
     <List<GridItemData>
       className={iconsGrid}
       style={{ flexGrow: 0, flexShrink: 1, flexBasis: 350, minHeight: 0, width: GRID_WIDTH }}
