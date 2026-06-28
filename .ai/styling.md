@@ -23,7 +23,7 @@ const badge = cva({
 });
 
 // A styled element → styled()
-const Card = styled("div", { base: { bg: "card", boxShadow: "card.edge", borderRadius: "lg", padding: "5" } });
+const Card = styled("div", { base: { bg: "surface", boxShadow: "surface.edge", borderRadius: "lg", padding: "5" } });
 
 <div className={cx(row, badge({ tone: "accent" }))} />
 ```
@@ -42,12 +42,13 @@ Colours are **not** known at build time: the design system computes an OKLCH pal
 **use the semantic token names — never hardcode hex/hsl/oklch** (and don't reintroduce legacy `--text`,
 `--background`, etc.; they're gone).
 
-* **Surfaces**: `card` / `card.edge`, `modal` / `modal.edge`, `surface.elevated` / `surface.elevated.edge`
+* **Surfaces**: `surface` / `surface.edge`, `surface.elevated` / `surface.elevated.edge` / `surface.elevated.border`
+  (cards, modals, and panels all use this one family; there is no separate `card`/`modal` token)
 * **Controls**: `control` / `control.border` / `control.hover` / `control.disabled` / `control.edge`
 * **Accent**: `accent` / `accent.hover` / `accent.disabled` / `accent.border` / `accent.edge`, and
   `on-accent` / `on-accent.disabled` for content on an accent fill
 * **Text**: `text.primary` → `text.subtle` → `text.placeholder` → `text.disabled` (hierarchy)
-* **Icons**: `icon`, `icon.subtle`
+* **Icons**: `icon`, `icon.strong`, `icon.subtle`, `icon.placeholder`
 * **Frosted overlays** (translucent text-primary, for blurred surfaces): `frosted` / `frosted.subtle` / `frosted.strong`
 * **Tooltip** (fixed, theme-independent): `tooltip` / `on-tooltip`
 
@@ -59,9 +60,10 @@ Other scales:
 * **Font sizes**: `2xs` `xs` `sm` `base` `lg` `xl` `2xl` `3xl` `display`.
 * **Font weights**: `light` (300) `regular` (400) `medium` (500) `semibold` (600). **No bold** — the design
   uses a light register; don't use 700+.
-* **Shadows**: `raised`, `overlay`, `popover`, and the `*.edge` tokens (`card.edge`, `control.edge`, …)
-  which are a **2px inset ring** standing in for a border (`boxShadow: "card.edge"` ≈ a `card.border`),
-  costing no layout. Pair the shadow with the matching colour token.
+* **Shadows**: `raised`, `overlay`, `popover`, and the `*.edge` tokens (`surface.edge`,
+  `surface.elevated.edge`, `control.edge`, `accent.edge`) which are a **1–2px inset ring** standing in for
+  a border (`boxShadow: "surface.edge"` ≈ a `surface.border`), costing no layout. Pair the shadow with the
+  matching colour token.
 * **z-index**: named ladder — `base` `docked` `dropdown` `modal` `toast` `tooltip` `app-cover`. Don't use
   raw z-index numbers.
 
