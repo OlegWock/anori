@@ -28,6 +28,7 @@
         "biome:check": "biome check --write .",
         "typecheck": "tsc --noEmit -p tsconfig.json",
         "translations:status": "ts-node translations-manager.ts status",
+        "translations:check": "ts-node translations-manager.ts status --strict",
         "translations:translate": "ts-node translations-manager.ts translate",
         "translations:clean": "ts-node translations-manager.ts remove-excessive",
         "translations:locales": "ts-node translations-manager.ts generate-locales"
