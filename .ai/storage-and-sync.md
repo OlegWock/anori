@@ -81,9 +81,9 @@ const migration = createMigration(schemaV1, schemaV2, async (ctx) => {
 });
 ```
 
-* Migrations run on in-memory snapshot
-* Only persist on full success (atomic)
-* Removed tracked keys get tombstones
+* Each migration runs on an in-memory snapshot; its writes get fresh HLC timestamps, so migrated records sync like any other change
+* Atomic **per migration step** — a step persists and bumps `__schema_version` only on full success; a failing step writes nothing (earlier steps in the path stay applied)
+* Removed tracked keys get tombstones (untracked removed keys are deleted outright)
 
 ## Initialization
 
@@ -99,3 +99,13 @@ storage.sync.exportForFullSync();   // All tracked data
 storage.sync.exportOutbox();        // Only outbox entries
 storage.sync.mergeRemoteChanges([...]); // Apply remote changes with LWW
 ```
+
+## Schema Upgrades & Sync
+
+Schema upgrades are gated at the **profile** level, not per cell. The profile carries a `profileSchemaVersion` (the schema version); bumping it is an atomic compare-and-swap on the profile, guarded by the commit-log sequence (`upgradeSchema` with `expectedSeq`), so only one client moves the epoch and a concurrent write can't be lost.
+
+* **A migration is not authoritative over the cloud.** The first client whose local schema is newer than the profile becomes the *first-upgrader* (`upgradeProfileSchema`): it fetches the cloud head, migrates that snapshot in memory (`migrateSnapshot`), then **merges it with local data by HLC** (last-write-wins) and pushes the result via `upgradeSchema`. Lose the CAS race (a write landed, or another client upgraded first) → re-fetch & retry, or adopt the already-upgraded head (straggler).
+* A client **behind** the profile epoch (local `currentVersion` < `profileSchemaVersion`, via `useIsBehindCloudSchema`) **pauses syncing** until it updates (the UI shows `cloud.syncPausedBehind`), so it never pushes stale-version data.
+* **Transitional detail:** every cloud cell *also* still carries a per-cell `schemaVersion`, and pull / `mergeRemoteChanges` skip cells whose `schemaVersion` ≠ the local `currentVersion`. This per-cell column is **temporary** — kept during the protocol migration (per-cell schema → per-profile epoch) for rollback safety, and is slated for **removal once the per-profile epoch is fully rolled out**. Treat `profileSchemaVersion` as the source of truth.
+
+For the full design — first-upgrader / straggler / lagging state machine, the phased rollout, and file handling — see `sync-schema-migration-design.md` in the workspace parent folder (one level above this repo).
