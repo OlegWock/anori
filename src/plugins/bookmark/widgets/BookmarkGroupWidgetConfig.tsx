@@ -16,6 +16,7 @@ import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { AnimatePresence, m } from "motion/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { token } from "styled-system/tokens";
 import type { BookmarkGroupWidgetConfig } from "../types";
 import {
   addButtonWrapper,
@@ -63,10 +64,11 @@ export const BookmarGroupkWidgetConfigScreen = ({
             additionalData={{
               onSelected: setIcon,
               inputRef: iconSearchRef,
+              iconColor: token("colors.icon.subtle"),
             }}
           >
             <Button variant="secondary" className={iconPickerTrigger}>
-              <Icon icon={icon} width={rem(3)} />
+              <Icon icon={icon} width={rem(3)} color="icon.subtle" />
             </Button>
           </Popover>
         </Field>

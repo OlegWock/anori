@@ -13,6 +13,7 @@ import { IS_TOUCH_DEVICE } from "@anori/utils/device";
 import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { token } from "styled-system/tokens";
 import type { IframePluginExpandableWidgetConfig } from "../types";
 import {
   compactField,
@@ -52,10 +53,11 @@ export const ExpandableWidgetConfigScreen = ({
             additionalData={{
               onSelected: setIcon,
               inputRef: iconSearchRef,
+              iconColor: token("colors.icon.subtle"),
             }}
           >
             <Button variant="secondary" className={iconPickerTrigger}>
-              <Icon icon={icon} width={rem(3)} />
+              <Icon icon={icon} width={rem(3)} color="icon.subtle" />
             </Button>
           </Popover>
         </Field>

@@ -12,6 +12,7 @@ import { useDragControls } from "motion/react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
+import { token } from "styled-system/tokens";
 
 const row = css({
   display: "flex",
@@ -107,10 +108,11 @@ export const FolderItem = ({
         additionalData={{
           onSelected: (icon: string) => onIconChange?.(icon),
           inputRef: iconSearchRef,
+          iconColor: token("colors.text.subtle"),
         }}
       >
         <Button variant="frosted" className={iconButton} aria-label={t("settings.folders.changeIcon")}>
-          <Icon icon={folder.icon} size="md" />
+          <Icon icon={folder.icon} size="md" color="text.subtle" />
         </Button>
       </Popover>
       <Input

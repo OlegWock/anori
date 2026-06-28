@@ -65,6 +65,7 @@ const iconCell = css({
 type IconPickerProps = PopoverRenderProps<{
   onSelected: (icon: string) => void;
   inputRef?: Ref<HTMLInputElement>;
+  iconColor?: string;
 }>;
 
 type IconPickerContextType = {
@@ -141,10 +142,12 @@ const IconsGrid = ({
   searchQuery,
   selectedFamily,
   onSelected,
+  iconColor,
 }: {
   selectedFamily: string;
   searchQuery: string;
   onSelected: (icon: string) => void;
+  iconColor?: string;
 }) => {
   const { t } = useTranslation();
 
@@ -169,7 +172,7 @@ const IconsGrid = ({
   return (
     <List<GridItemData>
       className={iconsGrid}
-      style={{ flexGrow: 0, flexShrink: 1, flexBasis: 350, minHeight: 0, width: GRID_WIDTH }}
+      style={{ flexGrow: 0, flexShrink: 1, flexBasis: 350, minHeight: 0, width: GRID_WIDTH, color: iconColor }}
       defaultHeight={350}
       rowCount={ROWS}
       rowHeight={ICON_SIZE + PADDING * 2}
@@ -265,6 +268,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
             <IconsGrid
               selectedFamily={deferredSelectedFamily}
               searchQuery={deferredQuery}
+              iconColor={data.iconColor}
               onSelected={(icon) => {
                 close();
                 data.onSelected(icon);
