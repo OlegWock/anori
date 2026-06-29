@@ -10,8 +10,6 @@ import { css, cva, cx } from "styled-system/css";
 import { Bookmark } from "./Bookmark";
 import { useBookmarks } from "./useBookmarks";
 
-// The bookmarks read as frosted glass: translucent `frosted` fills over a backdrop blur (so DS-1's
-// no-subtle-text rule applies — text stays primary).
 const container = cva({
   base: {
     borderRadius: "lg",
@@ -28,7 +26,6 @@ const container = cva({
     minHeight: "calc(0.9rem * 1.2 + 1.55rem)",
   },
   variants: {
-    // Once permissions are granted the bar sits flush over the page (no frosted plate of its own).
     transparent: { true: { padding: 0, borderRadius: 0, background: "transparent", backdropFilter: "none" } },
   },
 });

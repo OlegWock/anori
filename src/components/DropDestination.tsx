@@ -76,10 +76,6 @@ export const DropDestination = ({
 
   const [currentDrop, setCurrentDrop] = useCurrentDrop();
 
-  // Merge what a wrapper injected (e.g. a Tooltip trigger's data attributes + handlers) with the child's
-  // own props. Spread `extra` first so the child's plain props (className, etc.) win, then chain the
-  // event handlers so neither side clobbers the other — otherwise the trigger's onClick/onPointerDown
-  // would shadow the child's (e.g. a folder button's click).
   const extra = rest as ChildProps;
   const asHandler = (fn: unknown) => (typeof fn === "function" ? (fn as (...args: unknown[]) => void) : undefined);
   return cloneElement(children, {

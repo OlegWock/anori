@@ -103,7 +103,7 @@ const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void;
   const { moveFocus, rowRefs } = useContext(IconPickerContext);
 
   return (
-    <Tooltip label={icon} placement="bottom" showDelay={2000} resetDelay={0} targetRef={registerRef}>
+    <Tooltip label={icon} placement="bottom" showDelay={2000} resetDelay={0} targetRef={registerRef} ignoreFocus>
       <button
         type="button"
         style={{ padding: PADDING }}
@@ -162,7 +162,6 @@ const IconsGrid = ({
     if (selectedFamily === CUSTOM_ICONS_SET_NAME) {
       return <EmptyState title={t("iconsPicker.customIconsAbsent")} description={t("iconsPicker.customIconsInfo")} />;
     }
-    // Browsing all sets without a query isn't a search yet — the "pick a family or search" hint covers it.
     if (selectedFamily === ALL_SETS && !searchQuery) {
       return null;
     }

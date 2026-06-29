@@ -36,14 +36,11 @@ const folderButton = cva({
     _hover: { transform: "scale(1.15)", color: "accent" },
   },
   variants: {
-    // A widget is being dragged and this folder is a valid drop target — outline it faintly.
     dropTarget: { true: { borderColor: "color-mix(in srgb, var(--ds-text-primary) 25%, transparent)" } },
-    // The dragged widget is hovering over this folder.
     highlight: { true: { background: "color-mix(in srgb, var(--ds-text-primary) 25%, transparent)" } },
   },
 });
 
-// Active-folder highlight: an accent outline ring (a spread-only, blur-less box-shadow), not a glow.
 const activeRing = css({
   position: "absolute",
   inset: 0,

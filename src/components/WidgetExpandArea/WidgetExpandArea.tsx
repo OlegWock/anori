@@ -19,7 +19,7 @@ import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { css, cva, cx } from "styled-system/css";
 
-const backdrop = css({ position: "fixed", top: 0, left: 0, width: "100dvw", height: "100dvh" });
+const backdrop = css({ position: "fixed", top: 0, left: 0, width: "100dvw", height: "100dvh", zIndex: "modal" });
 const area = cva({
   base: {
     width: "min-content",
@@ -30,6 +30,7 @@ const area = cva({
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
+    zIndex: "modal",
   },
   variants: { max: { true: { minWidth: "90vw", minHeight: "90vh" } } },
 });
@@ -163,7 +164,6 @@ export const WidgetExpandArea = ({
   const positionYCorrected = useTransform<number, number>(positionY, (y) => {
     return minmax(y, 0, window.innerHeight - 100);
   });
-  const zIndexMotion = useMotionValue(100);
 
   const transformOriginX = useMotionValue(50);
   const transformOriginY = useMotionValue(50);
@@ -286,7 +286,6 @@ export const WidgetExpandArea = ({
       }}
       style={{
         backgroundColor: backgroundStr,
-        zIndex: 100,
       }}
     >
       <m.div
@@ -303,7 +302,6 @@ export const WidgetExpandArea = ({
           left: positionXCorrected,
           borderRadius: borderRadiusStr,
           position: "relative",
-          zIndex: zIndexMotion,
           width: typeof size === "object" && size.width ? width : undefined,
           height: typeof size === "object" && size.height ? height : undefined,
           boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",

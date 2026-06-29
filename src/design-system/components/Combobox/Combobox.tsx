@@ -1,7 +1,6 @@
 import { Input } from "@anori/design-system/components/Input/Input";
 import { createLazyComponent } from "@anori/utils/lazy-component";
-import type { ComponentType } from "react";
-import type { ComboboxImpl, ComboboxProps } from "./ComboboxImpl";
+import type { ComboboxProps } from "./ComboboxImpl";
 
 export type { ComboboxProps };
 
@@ -10,7 +9,6 @@ const ComboboxFallback = <T,>({ getOptionLabel, value, placeholder, className }:
   <Input value={getOptionLabel(value)} placeholder={placeholder} className={className} readOnly />
 );
 
-export const Combobox = createLazyComponent(
-  () => import("./ComboboxImpl").then((m) => m.ComboboxImpl as ComponentType<ComboboxProps<unknown>>),
-  { fallback: ComboboxFallback as ComponentType<ComboboxProps<unknown>> },
-) as typeof ComboboxImpl & { preload: () => Promise<unknown> };
+export const Combobox = createLazyComponent(() => import("./ComboboxImpl").then((m) => m.ComboboxImpl), {
+  fallback: ComboboxFallback,
+});

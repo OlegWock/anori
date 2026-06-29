@@ -126,7 +126,7 @@ export const Button = ({
   children,
   iconStart,
   iconEnd,
-  // Default to "button" (never an accidental form submit), but allow opting into "submit"/"reset".
+  // Default to "button" to avoid accidental form submits (default vanilla `button` type)
   type = "button",
   ref,
   ...props

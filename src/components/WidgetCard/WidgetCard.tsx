@@ -54,8 +54,7 @@ const cardCss = css({
   },
   // While dragging or resizing, the only control still mounted is the active one — keep it visible
   // regardless of hover (the pointer may leave the card as it moves). Stay pointer-transparent so a
-  // drop target beneath the dragged card (e.g. a sidebar folder) still receives the pointer; the card
-  // itself is already `pointer-events: none` while framer-dragging (see useDraggable whileDrag).
+  // drop target beneath the dragged card (e.g. a sidebar folder) still receives the pointer;
   "&[data-busy] .widget-control": {
     opacity: 1,
     pointerEvents: "none",
@@ -311,8 +310,6 @@ export const WidgetCard = ({
       }
     : {};
 
-  // A parse failure (corrupt/outdated stored config) is isolated to this card — it renders the error card
-  // rather than throwing out of WidgetCard, which sits above its own ErrorBoundary and would crash the page.
   const { config: parsedConfig, failed: configParseFailed } = useMemo(() => {
     try {
       return { config: widget.decode(config ?? EMPTY_CONFIG), failed: false };

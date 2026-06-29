@@ -26,7 +26,7 @@ const separator = css({
   alignSelf: "stretch",
   borderBottomWidth: "1px",
   borderBottomStyle: "solid",
-  borderBottomColor: "frosted.strong",
+  borderBottomColor: "divider",
 });
 const feedPost = css({ padding: "1", borderRadius: "sm" });
 const emptyFeed = css({ flexGrow: 1, justifyContent: "center" });

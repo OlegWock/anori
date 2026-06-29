@@ -1,6 +1,6 @@
 import type { Mapping } from "@anori/utils/types";
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import type { ReactElement, ReactNode, Ref } from "react";
+import { type ReactElement, type ReactNode, type Ref, useState } from "react";
 import { css, cva, cx } from "styled-system/css";
 
 type Side = "top" | "bottom" | "left" | "right";
@@ -59,9 +59,10 @@ interface Props {
   targetRef?: Ref<HTMLElement>;
   hasClickableContent?: boolean;
   enableOnTouch?: boolean;
-  // Keep the tooltip wired up (no remount of the child) but never open it. Useful while the child is
-  // mid-gesture (dragging/resizing), where a popup would be noise.
+  // Keep the tooltip wired up (no remount of the child) but never open it
   disabled?: boolean;
+  // Open on hover/press only, not on focus
+  ignoreFocus?: boolean;
 }
 
 export const Tooltip = ({
@@ -75,14 +76,29 @@ export const Tooltip = ({
   targetRef,
   hasClickableContent = false,
   disabled = false,
+  ignoreFocus = false,
 }: Props) => {
   const [sidePart, alignPart] = placement.split("-");
   const side = sidePart as Side;
   const align: Align = alignPart === "start" ? "start" : alignPart === "end" ? "end" : "center";
   const content = typeof label === "function" ? label() : label;
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <BaseTooltip.Root disabled={disabled} disableHoverablePopup={!hasClickableContent}>
+    <BaseTooltip.Root
+      disabled={disabled}
+      disableHoverablePopup={!hasClickableContent}
+      {...(ignoreFocus
+        ? {
+            open,
+            onOpenChange: (next: boolean, details: { reason: string }) => {
+              if (next && details.reason === "trigger-focus") return;
+              setOpen(next);
+            },
+          }
+        : {})}
+    >
       <BaseTooltip.Trigger
         ref={targetRef as Ref<HTMLButtonElement>}
         delay={showDelay}

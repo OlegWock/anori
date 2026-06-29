@@ -31,7 +31,6 @@ const onboarding = css({
   flexDirection: "column",
   color: "text.primary",
   maxWidth: "800px",
-  zIndex: 5,
   boxShadow: "rgba(0, 0, 0, 0.25) 0px 0px 6px 4px",
 });
 const contentWrapper = css({ padding: "2", overflow: "hidden", boxSizing: "content-box" });
@@ -46,7 +45,6 @@ const navigationButtons = css({
 });
 const spacer = css({ flexGrow: 1 });
 
-// The DS Button isn't a motion element; wrap it so the nav buttons can still fade in/out.
 const MotionButton = m.create(Button);
 
 const Section = ({ className, ref, ...props }: ComponentProps<typeof m.section>) => {

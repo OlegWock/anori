@@ -43,7 +43,8 @@ body {
   inset: 0;
   background: var(--ds-surface-elevated);
   pointer-events: none;
-  z-index: 999999999;
+  /* Matches the app-cover z-index rung (plain CSS can't reference the Panda token). */
+  z-index: 9000;
 }
 
 .loading-cover.active {
