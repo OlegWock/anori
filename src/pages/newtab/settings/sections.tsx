@@ -2,6 +2,7 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { availablePlugins } from "@anori/plugins/all";
 import type { m } from "motion/react";
 import type { ComponentProps, ComponentType } from "react";
+import type { SettingScreen } from "./Settings";
 import { CustomIconsScreen } from "./screens/CustomIconsScreen";
 import { FoldersScreen } from "./screens/FoldersScreen";
 import { GeneralSettingsScreen } from "./screens/GeneralSettingsScreen";
@@ -9,7 +10,6 @@ import { HelpAboutScreen } from "./screens/HelpAboutScreen";
 import { ImportExportScreen } from "./screens/ImportExportScreen";
 import { PluginsScreen } from "./screens/PluginsScreen";
 import { ThemesScreen } from "./screens/ThemesScreen/ThemesScreen";
-import type { SettingScreen } from "./settings-atoms";
 
 export type SettingsSection = {
   id: SettingScreen;
@@ -21,7 +21,6 @@ export type SettingsSection = {
 
 const hasPluginsWithSettings = availablePlugins.some((p) => p.configurationScreen !== null);
 
-// The sidebar order also drives the slide direction when switching (down = later, up = earlier).
 export const settingsSections: SettingsSection[] = [
   { id: "general", icon: builtinIcons.settings, titleKey: "settings.general.title", Component: GeneralSettingsScreen },
   {

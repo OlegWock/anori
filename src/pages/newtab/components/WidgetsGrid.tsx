@@ -21,7 +21,7 @@ const relativeWrapper = cva({
   // Empty folder: center the onboarding within the grid area.
   variants: { onboarding: { true: { display: "flex", justifyContent: "center", alignItems: "center" } } },
 });
-// The faint grid cells shown behind widgets while editing (position/size are set per-cell inline).
+
 const placeholderCell = css({
   position: "absolute",
   top: 0,

@@ -83,8 +83,6 @@ const actionButtonAnimations = {
   },
 } as const;
 
-// The animated root + action group stay `m.div` (Panda's `styled` would swallow framer's `transition`
-// prop), so they take a Panda `css()` class. Non-motion elements use `styled`/style props.
 const rootClass = css({
   display: "flex",
   flexDirection: "column",

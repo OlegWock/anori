@@ -1,13 +1,20 @@
 import { MenuItem, MenuList } from "@anori/design-system/components/MenuList/MenuList";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
-import { useAtom } from "jotai";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { settingsSections } from "./sections";
-import { currentScreenAtom, type SettingScreen } from "./settings-atoms";
+
+export type SettingScreen =
+  | "general"
+  | "custom-icons"
+  | "folders"
+  | "plugins"
+  | "theme"
+  | "import-export"
+  | "about-help";
 
 const content = css({
   display: "flex",
@@ -35,7 +42,7 @@ const screenVariants = {
 
 export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
-  const [screen, setScreen] = useAtom(currentScreenAtom);
+  const [screen, setScreen] = useState<SettingScreen>("general");
   const [direction, setDirection] = useState<"up" | "down">("down");
 
   const currentIndex = Math.max(

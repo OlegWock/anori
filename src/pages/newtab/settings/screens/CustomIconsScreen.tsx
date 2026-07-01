@@ -44,8 +44,6 @@ const rowName = css({
 const draftSection = css({ display: "flex", flexDirection: "column", gap: "4" });
 const divider = css({ height: "1px", bg: "divider" });
 const draftPreview = css({ flexShrink: 0, borderRadius: "sm", objectFit: "contain" });
-// Ghost field pulled left so its own padding doesn't push the name away from the icon; `rowName` adds
-// matching padding so saved rows line up with the draft input's text.
 const draftName = css({
   flexGrow: 1,
   minWidth: 0,

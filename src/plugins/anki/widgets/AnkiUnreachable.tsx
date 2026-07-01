@@ -5,7 +5,6 @@ import { css } from "styled-system/css";
 
 const fill = css({ flexGrow: 1 });
 
-// Shared error state for when AnkiConnect can't be reached — used by the widget and its config screen.
 export const AnkiUnreachable = () => {
   const { t } = useTranslation();
   return (

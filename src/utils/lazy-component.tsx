@@ -9,7 +9,7 @@ export type LazyModule<T> = {
 
 /**
  * Background-loads a dynamically imported module and exposes it through an external store, so consumers can
- * render a placeholder via conditional rendering until it arrives — no Suspense. Loading can be triggered
+ * render a placeholder via conditional rendering until it arrives. Loading can be triggered
  * either by rendering (`useModule`) or imperatively (`preload`).
  */
 export const createLazyModule = <T,>(loader: () => Promise<T>): LazyModule<T> => {
@@ -46,15 +46,13 @@ export const createLazyModule = <T,>(loader: () => Promise<T>): LazyModule<T> =>
   return { useModule, preload };
 };
 
-// Parameterized by the wrapped component type `C` (not its props), so a generic component keeps its own
-// call signature through the wrapper — callers get `typeof Foo & { preload }` with no cast needed. The
-// `any` upper bound is the standard "any component" bound; a narrower props type collapses ComponentProps<C>.
+// The `any` upper bound is the standard "any component" bound; a narrower props type collapses ComponentProps<C>.
 // biome-ignore lint/suspicious/noExplicitAny: see above.
 export type LazyComponent<C extends ComponentType<any>> = C & { preload: () => Promise<C> };
 
 /**
  * Wraps a dynamically imported component so it loads in the background and renders a fallback until ready —
- * conditional rendering via {@link createLazyModule}, no Suspense. The `fallback` may be a ReactNode or a
+ * conditional rendering via {@link createLazyModule}. The `fallback` may be a ReactNode or a
  * component (which receives the same props, e.g. to mirror the real component's footprint while loading).
  * The returned component exposes `preload()` for warming the chunk imperatively.
  */

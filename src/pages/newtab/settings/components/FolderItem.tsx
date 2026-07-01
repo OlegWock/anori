@@ -34,8 +34,6 @@ const staticIcon = css({
   height: "36px",
   flexShrink: 0,
 });
-// Pull the (border-less) field left so its text doesn't sit too far from the icon — its own left
-// padding already adds visual space, making the row gap look uneven here.
 const nameInput = css({ flex: 1, minWidth: "0!", marginLeft: "-2" });
 const nameText = css({
   flex: 1,
@@ -44,7 +42,6 @@ const nameText = css({
   whiteSpace: "nowrap",
   paddingInline: "3",
 });
-// Spacer matching the 36px square buttons, so the static home row lines up with the editable ones.
 const slot = css({ width: "36px", flexShrink: 0 });
 const deleteIcon = css({ "& svg": { height: "1.2em!" } });
 

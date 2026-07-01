@@ -2,7 +2,6 @@ import { m } from "motion/react";
 import type { Ref } from "react";
 import { cva } from "styled-system/css";
 
-// Fade the resolved icon in. Shared by SvgIcon/CustomIcon for the async paths; built-in icons skip it.
 export const iconEnter = { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.15 } } as const;
 
 // The placeholder only reveals after this delay: most icons resolve faster (cache/local), so the

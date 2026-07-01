@@ -6,7 +6,6 @@ import { m } from "motion/react";
 import type { CSSProperties, Ref } from "react";
 import { css, cx } from "styled-system/css";
 
-// 20% is relative, so the radius scales with whatever unit width/height use (see the sizing note below).
 const customImage = css({ borderRadius: "20%" });
 
 export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...props }: IconRenderProps) => {

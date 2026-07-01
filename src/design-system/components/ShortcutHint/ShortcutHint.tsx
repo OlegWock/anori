@@ -9,7 +9,6 @@ const shortcut = css({
   borderRadius: "xs",
   bg: "accent",
   color: "on-accent",
-  // Offset, spread-out solid shadow in a darker accent shade — gives the key-cap its raised look.
   boxShadow: "0 2px 0 2px var(--ds-shortcut-shadow)",
 });
 

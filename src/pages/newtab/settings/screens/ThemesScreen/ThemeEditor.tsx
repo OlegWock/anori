@@ -33,8 +33,7 @@ const preview = css({
   // Tiny checkerboard placeholder, shown until an image is selected.
   background: "repeating-conic-gradient(var(--ds-frosted-strong) 0% 25%, transparent 0% 50%) 50% / 18px 18px",
 });
-// The image layer is blurred live with a cheap CSS filter; it's oversized (negative inset scales with
-// the blur radius) so the blur has real pixels to sample at the edges instead of fading to transparent.
+
 const previewImage = css({ position: "absolute", backgroundSize: "cover", backgroundPosition: "center" });
 const editorActions = css({ display: "flex", justifyContent: "flex-end", gap: "3" });
 

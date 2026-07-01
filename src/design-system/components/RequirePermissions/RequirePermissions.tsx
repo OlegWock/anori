@@ -60,7 +60,7 @@ export const RequirePermissions = ({
 }: RequirePermissionsProps) => {
   const grantPermissions = async () => {
     const granted = await browser.permissions.request({
-      // @ts-expect-error I know what I'm doing
+      // @ts-expect-error Incompatible types between webextension-polyfill and what is actually available in Chrome
       permissions: missingPermissions,
       origins: missingHostPermissions.map((host) => {
         return `*://${normalizeHost(host)}/*`;

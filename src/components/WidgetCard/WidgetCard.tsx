@@ -311,13 +311,14 @@ export const WidgetCard = ({
     : {};
 
   const { config: parsedConfig, failed: configParseFailed } = useMemo(() => {
+    if (type === "mock") return { config: EMPTY_CONFIG, failed: false };
     try {
       return { config: widget.decode(config ?? EMPTY_CONFIG), failed: false };
     } catch (e) {
       console.error(`Widget "${widget.id}" failed to decode its config`, e);
       return { config: EMPTY_CONFIG, failed: true };
     }
-  }, [widget, config]);
+  }, [type, widget, config]);
   const pluginConfig = usePluginConfigValue(plugin.id, plugin.decodeConfig);
 
   const children = useMemo(() => {

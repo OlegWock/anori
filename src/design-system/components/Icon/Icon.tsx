@@ -6,8 +6,6 @@ import { css, cx } from "styled-system/css";
 import { splitCssProps } from "styled-system/jsx";
 
 export const Icon = ({ icon, cache = true, size = "md", className, width, height, transition, ...rest }: IconProps) => {
-  // Split Panda style props (color, mx, opacity, …) from the rest. width/height/transition are pulled
-  // out above so Panda doesn't hijack them (sizing stays numeric; transition stays framer-motion's).
   const [cssProps, forwardProps] = splitCssProps(rest);
   const mergedClassName = cx(css(cssProps), className) || undefined;
   // `size` sets the height; width stays automatic so non-square icons keep their aspect ratio. An

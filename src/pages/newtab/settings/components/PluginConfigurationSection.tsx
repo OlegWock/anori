@@ -17,7 +17,6 @@ export const PluginConfigurationSection = ({ plugin }: { plugin: SomePlugin }) =
     const ConfigScreen = plugin.configurationScreen;
     const saveConfiguration = (value: unknown) => {
       try {
-        // Encode to the serializable storage form (validates; throws on invalid) before persisting.
         setConfig(plugin.encodeConfig(value));
       } catch (e) {
         console.error(`Failed to save plugin config for "${plugin.id}"`, e);

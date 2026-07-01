@@ -11,7 +11,6 @@ export type PluginWidgetsSectionProps = {
 };
 
 const section = css({ display: "flex", flexDirection: "column", gap: "2" });
-// The widget mocks sit on the current wallpaper so they preview as they'd look on the board.
 const mockBackground = css({ backgroundImage: "var(--background-image)", backgroundSize: "cover", borderRadius: "lg" });
 const mocks = css({
   display: "flex",
