@@ -1,12 +1,5 @@
 import { type DndItemMeta, getCurrentDraggable, useCurrentDrop } from "@anori/utils/drag-and-drop";
-import {
-  cloneElement,
-  forwardRef,
-  type JSXElementConstructor,
-  type PointerEvent,
-  type ReactElement,
-  type Ref,
-} from "react";
+import { cloneElement, type JSXElementConstructor, type PointerEvent, type ReactElement, type Ref } from "react";
 import { mergeRefs } from "react-merge-refs";
 
 type ChildProps = {
@@ -25,57 +18,73 @@ type DropDestinationProps<T = unknown> = {
   onDragEnter?: (info: DndItemMeta) => void;
   onDragLeave?: (info: DndItemMeta, reason: "move" | "drop") => void;
   onDrop?: (info: DndItemMeta) => void;
+  ref?: Ref<HTMLElement>;
+  [key: string]: unknown;
 };
 
-export const DropDestination = forwardRef<HTMLElement, DropDestinationProps>(
-  ({ type, data, filter, children, onDragEnter, onDragLeave, id, onDrop }, ref) => {
-    const mergeListeners = <T extends unknown[]>(...funcs: (((...args: T) => void) | undefined)[]) => {
-      return (...args: T) => {
-        funcs.forEach((f) => {
-          if (f) f(...args);
-        });
-      };
+export const DropDestination = ({
+  type,
+  data,
+  filter,
+  children,
+  onDragEnter,
+  onDragLeave,
+  id,
+  onDrop,
+  ref,
+  ...rest
+}: DropDestinationProps) => {
+  const mergeListeners = <T extends unknown[]>(...funcs: (((...args: T) => void) | undefined)[]) => {
+    return (...args: T) => {
+      funcs.forEach((f) => {
+        if (f) f(...args);
+      });
     };
+  };
 
-    const checkAgainstFilter = (draggable: DndItemMeta | null): draggable is DndItemMeta => {
-      if (!draggable) return false;
-      if (!filter) return true;
-      if (Array.isArray(filter)) return filter.includes(draggable.type);
-      return filter === draggable.type;
-    };
+  const checkAgainstFilter = (draggable: DndItemMeta | null): draggable is DndItemMeta => {
+    if (!draggable) return false;
+    if (!filter) return true;
+    if (Array.isArray(filter)) return filter.includes(draggable.type);
+    return filter === draggable.type;
+  };
 
-    const localOnDrop = (draggable: DndItemMeta) => {
-      if (onDrop) onDrop(draggable);
-      if (onDragLeave) onDragLeave(draggable, "drop");
-    };
+  const localOnDrop = (draggable: DndItemMeta) => {
+    if (onDrop) onDrop(draggable);
+    if (onDragLeave) onDragLeave(draggable, "drop");
+  };
 
-    const onPointerEnter = (_e: PointerEvent<HTMLElement>) => {
-      const draggable = getCurrentDraggable();
-      if (checkAgainstFilter(draggable)) {
-        setCurrentDrop({
-          type,
-          data,
-          id,
-          onDrop: localOnDrop,
-        });
-        if (onDragEnter) onDragEnter(draggable);
-      }
-    };
-    const onPointerLeave = (_e: PointerEvent<HTMLElement>) => {
-      const draggable = getCurrentDraggable();
-      if (checkAgainstFilter(draggable)) {
-        if (currentDrop?.id === id) setCurrentDrop(null);
-        if (onDragLeave) onDragLeave(draggable, "move");
-      }
-    };
+  const onPointerEnter = (_e: PointerEvent<HTMLElement>) => {
+    const draggable = getCurrentDraggable();
+    if (checkAgainstFilter(draggable)) {
+      setCurrentDrop({
+        type,
+        data,
+        id,
+        onDrop: localOnDrop,
+      });
+      if (onDragEnter) onDragEnter(draggable);
+    }
+  };
+  const onPointerLeave = (_e: PointerEvent<HTMLElement>) => {
+    const draggable = getCurrentDraggable();
+    if (checkAgainstFilter(draggable)) {
+      if (currentDrop?.id === id) setCurrentDrop(null);
+      if (onDragLeave) onDragLeave(draggable, "move");
+    }
+  };
 
-    const [currentDrop, setCurrentDrop] = useCurrentDrop();
+  const [currentDrop, setCurrentDrop] = useCurrentDrop();
 
-    return cloneElement(children, {
-      ...children.props,
-      ref: mergeRefs([ref, children.props.ref]),
-      onPointerEnter: mergeListeners(onPointerEnter, children.props.onPointerEnter),
-      onPointerLeave: mergeListeners(onPointerLeave, children.props.onPointerLeave),
-    });
-  },
-);
+  const extra = rest as ChildProps;
+  const asHandler = (fn: unknown) => (typeof fn === "function" ? (fn as (...args: unknown[]) => void) : undefined);
+  return cloneElement(children, {
+    ...extra,
+    ...children.props,
+    ref: mergeRefs([ref, children.props.ref]),
+    onClick: mergeListeners(asHandler(extra.onClick), asHandler(children.props.onClick)),
+    onPointerDown: mergeListeners(asHandler(extra.onPointerDown), asHandler(children.props.onPointerDown)),
+    onPointerEnter: mergeListeners(onPointerEnter, extra.onPointerEnter, children.props.onPointerEnter),
+    onPointerLeave: mergeListeners(onPointerLeave, extra.onPointerLeave, children.props.onPointerLeave),
+  });
+};

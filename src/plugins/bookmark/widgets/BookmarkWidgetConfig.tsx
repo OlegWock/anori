@@ -1,24 +1,34 @@
-import { Button } from "@anori/components/Button";
-import { Checkbox } from "@anori/components/Checkbox";
-import { Hint } from "@anori/components/Hint";
-import { IconPicker } from "@anori/components/IconPicker";
-import { Input } from "@anori/components/Input";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
-import { PickBookmark } from "@anori/components/PickBookmark";
-import { Popover } from "@anori/components/Popover";
+import { IconPicker } from "@anori/components/IconPicker/IconPicker";
+import { PickBookmark } from "@anori/components/PickBookmark/PickBookmark";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Field } from "@anori/design-system/components/Field/Field";
+import { Hint } from "@anori/design-system/components/Hint/Hint";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Input } from "@anori/design-system/components/Input/Input";
+import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { token } from "styled-system/tokens";
 import type { BookmarkWidgetConfig } from "../types";
-import "./BookmarkWidgetConfig.scss";
+import {
+  compactField,
+  config,
+  iconPickerTrigger,
+  mainColumn,
+  row,
+  saveConfig,
+  urlImportWrapper,
+} from "./config-styles";
 
 export const BookmarkWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<BookmarkWidgetConfig>) => {
+}: WidgetConfigScreenProps<BookmarkWidgetConfig>) => {
   const onConfirm = () => {
     if (!title || !url) return;
 
@@ -37,56 +47,58 @@ export const BookmarkWidgetConfigScreen = ({
   console.log("BookmarkWidgetConfigScreen", { currentConfig });
 
   return (
-    <div className="BookmarkWidget-config">
-      <div className="field">
-        <label>{t("icon")}:</label>
-        <Popover
-          component={IconPicker}
-          initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
-          additionalData={{
-            onSelected: setIcon,
-            inputRef: iconSearchRef,
-          }}
-        >
-          <Button className="icon-picker-trigger">
-            <Icon icon={icon} width={rem(3)} />
-          </Button>
-        </Popover>
-      </div>
-      <div className="field">
-        <label>{t("title")}:</label>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-      </div>
-      <div className="field">
-        <label>{t("url")}:</label>
-        <div className="url-import-wrapper">
-          <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+    <div className={config}>
+      <div className={row}>
+        <Field label={`${t("icon")}:`}>
           <Popover
-            component={PickBookmark}
+            component={IconPicker}
+            initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
             additionalData={{
-              onSelected: (title, url) => {
-                console.log("Selected bookmark", title, url);
-                setTitle(title);
-                setUrl(url);
-              },
+              onSelected: setIcon,
+              inputRef: iconSearchRef,
+              iconColor: token("colors.icon.subtle"),
             }}
           >
-            <Button>{t("import")}</Button>
+            <Button variant="secondary" className={iconPickerTrigger}>
+              <Icon icon={icon} width={rem(3)} color="icon.subtle" />
+            </Button>
           </Popover>
+        </Field>
+        <div className={mainColumn}>
+          <Field label={`${t("title")}:`}>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+          </Field>
+          <Field label={`${t("url")}:`}>
+            <div className={urlImportWrapper}>
+              <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+              <Popover
+                component={PickBookmark}
+                additionalData={{
+                  onSelected: (title, url) => {
+                    console.log("Selected bookmark", title, url);
+                    setTitle(title);
+                    setUrl(url);
+                  },
+                }}
+              >
+                <Button variant="secondary">{t("import")}</Button>
+              </Popover>
+            </div>
+          </Field>
         </div>
       </div>
-      <div className="field">
+      <div className={compactField}>
         <Checkbox checked={checkStatus} onChange={setCheckStatus}>
           {t("bookmark-plugin.checkStatus")} <Hint content={t("bookmark-plugin.checkStatusHint")} />
         </Checkbox>
       </div>
-      <div className="field">
+      <div className={compactField}>
         <Checkbox checked={openInNewTab} onChange={setOpenInNewTab}>
           {t("bookmark-plugin.openInNewTab")}
         </Checkbox>
       </div>
 
-      <Button className="save-config" onClick={onConfirm}>
+      <Button className={saveConfig} onClick={onConfirm}>
         {t("save")}
       </Button>
     </div>

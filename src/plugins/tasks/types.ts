@@ -1,3 +1,6 @@
-export type TaskWidgetConfig = {
-  title: string;
-};
+import { z } from "zod";
+
+export const taskWidgetConfigSchema = z.object({
+  title: z.string(),
+});
+export type TaskWidgetConfig = z.infer<typeof taskWidgetConfigSchema>;

@@ -1,7 +1,7 @@
-import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { MainScreen, Mock, REQUIRED_PERMISSIONS } from "./TopSitesWidget";
+import { REQUIRED_PERMISSIONS, TopSitesWidget, TopSitesWidgetMock } from "./TopSitesWidget";
 
 export const topSitesWidgetDescriptorHorizontal = defineWidget({
   id: "top-sites-horizontal",
@@ -11,10 +11,10 @@ export const topSitesWidgetDescriptorHorizontal = defineWidget({
   configurationScreen: null,
   mainScreen: (props) => (
     <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}>
-      <MainScreen type="horizontal" {...props} />
+      <TopSitesWidget type="horizontal" {...props} />
     </RequirePermissions>
   ),
-  mock: () => <Mock type="horizontal" />,
+  mock: () => <TopSitesWidgetMock type="horizontal" />,
   appearance: {
     size: {
       width: 4,
@@ -41,10 +41,10 @@ export const topSitesWidgetDescriptorVertical = defineWidget({
   configurationScreen: null,
   mainScreen: (props) => (
     <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}>
-      <MainScreen type="vertical" {...props} />
+      <TopSitesWidget type="vertical" {...props} />
     </RequirePermissions>
   ),
-  mock: () => <Mock type="vertical" />,
+  mock: () => <TopSitesWidgetMock type="vertical" />,
   appearance: {
     size: {
       width: 1,

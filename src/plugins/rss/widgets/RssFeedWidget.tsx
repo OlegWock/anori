@@ -1,22 +1,38 @@
-import { Button } from "@anori/components/Button";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
-import { ScrollArea } from "@anori/components/ScrollArea";
-import { Tooltip } from "@anori/components/Tooltip";
-import { useSizeSettings } from "@anori/utils/compact";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
-import clsx from "clsx";
+import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { Fragment, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { css, cva } from "styled-system/css";
 import { sendMessage } from "../messaging";
 import type { RssFeedConfig } from "../types";
 import { type RssPost, useRssFeeds } from "../utils";
 import { Post } from "./Post";
-import "./RssFeedWidget.scss";
+
+const feedWidget = css({ display: "flex", flexDirection: "column", flexGrow: 1, overflow: "hidden" });
+const titleWrapper = css({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: "1",
+});
+const posts = cva({
+  base: { display: "flex", flexDirection: "column", gap: "3" },
+  variants: { compact: { true: { gap: "1" } } },
+});
+const separator = css({
+  alignSelf: "stretch",
+  borderBottomWidth: "1px",
+  borderBottomStyle: "solid",
+  borderBottomColor: "divider",
+});
+const feedPost = css({ padding: "1", borderRadius: "sm" });
+const emptyFeed = css({ flexGrow: 1, justifyContent: "center" });
 
 export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
   const { t } = useTranslation();
-  const { rem } = useSizeSettings();
   const { feed, isRefreshing, refresh, lastUpdated } = useRssFeeds(config.feedUrls, (url) =>
     sendMessage("getFeedText", { url }),
   );
@@ -28,49 +44,43 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
   const trimmedFeed = feed.slice(0, 100);
 
   return (
-    <div className="RssFeed">
-      <div className="title-wrapper">
+    <div className={feedWidget}>
+      <div className={titleWrapper}>
         <h2>{config.title}</h2>
-        <Tooltip label={lastRefresh}>
-          <Button className="refresh-button" visuallyDisabled={isRefreshing} onClick={() => refresh()}>
-            <Icon
-              icon={builtinIcons.refresh}
-              height={rem(1.25)}
-              variants={{
-                loading: { rotate: [0, 360] },
-              }}
-              animate={isRefreshing ? "loading" : undefined}
-              transition={{
-                duration: 2,
-                repeat: isRefreshing ? Number.POSITIVE_INFINITY : 0,
-                repeatDelay: 0.2,
-                ease: "easeInOut",
-              }}
-            />
-          </Button>
-        </Tooltip>
+        <IconButton
+          variant="frosted"
+          size="compact"
+          icon={builtinIcons.refresh}
+          label={t("refresh")}
+          tooltip={lastRefresh}
+          loading={isRefreshing}
+          onClick={() => refresh()}
+        />
       </div>
-      <ScrollArea type="hover" color="dark">
-        <div className={clsx("posts", config.compactView && "compact")}>
-          {trimmedFeed.map((post, i) => {
-            if (i === 0) return <Post post={post} key={post.url} compact={config.compactView} />;
+      {trimmedFeed.length === 0 ? (
+        <EmptyState muted className={emptyFeed} title={t("rss-plugin.noPosts")} />
+      ) : (
+        <ScrollArea type="hover">
+          <div className={posts({ compact: config.compactView })}>
+            {trimmedFeed.map((post, i) => {
+              if (i === 0) return <Post className={feedPost} post={post} key={post.url} compact={config.compactView} />;
 
-            return (
-              <Fragment key={post.url}>
-                <div className="separator" />
-                <Post post={post} compact={config.compactView} />
-              </Fragment>
-            );
-          })}
-        </div>
-      </ScrollArea>
+              return (
+                <Fragment key={post.url}>
+                  <div className={separator} />
+                  <Post className={feedPost} post={post} compact={config.compactView} />
+                </Fragment>
+              );
+            })}
+          </div>
+        </ScrollArea>
+      )}
     </div>
   );
 };
 
 export const RssFeedMock = () => {
   const { t } = useTranslation();
-  const { rem } = useSizeSettings();
 
   const feed: RssPost[] = [
     {
@@ -109,22 +119,20 @@ export const RssFeedMock = () => {
   ];
 
   return (
-    <div className="RssFeed">
-      <div className="title-wrapper">
+    <div className={feedWidget}>
+      <div className={titleWrapper}>
         <h2>{t("rss-plugin.name")}</h2>
-        <Button className="refresh-button">
-          <Icon icon={builtinIcons.refresh} height={rem(1.25)} />
-        </Button>
+        <IconButton variant="frosted" icon={builtinIcons.refresh} label={t("refresh")} />
       </div>
-      <ScrollArea type="hover" color="dark">
-        <div className="posts">
+      <ScrollArea type="hover">
+        <div className={posts({})}>
           {feed.map((post, i) => {
-            if (i === 0) return <Post post={post} key={i.toString()} />;
+            if (i === 0) return <Post className={feedPost} post={post} key={i.toString()} />;
 
             return (
               <Fragment key={i.toString()}>
-                <div className="separator" />
-                <Post post={post} />
+                <div className={separator} />
+                <Post className={feedPost} post={post} />
               </Fragment>
             );
           })}

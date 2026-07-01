@@ -1,10 +1,11 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { parseHost } from "@anori/utils/misc";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { defineWidget } from "@anori/utils/plugins/define";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import type { BookmarkGroupWidgetConfig, BookmarkWidgetConfig } from "../types";
 import { BookmarkGroupWidget } from "./BookmarkGroupWidget";
 import { BookmarGroupkWidgetConfigScreen } from "./BookmarkGroupWidgetConfig";
@@ -21,7 +22,7 @@ export const bookmarkWidgetDescriptor = defineWidget({
     const { t } = useTranslation();
     return (
       <RequirePermissions
-        className="rp-paddings"
+        className={css({ padding: "4" })}
         additionalInfo={t("bookmark-plugin.permissionExplanation")}
         hosts={[parseHost(config.url)]}
         enabled={config.checkStatus === true}

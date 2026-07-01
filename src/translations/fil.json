@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "Ano ang bago",
         "editWidget": "I-edit ang widget",
+        "removeWidget": "Alisin ang widget",
+        "moveWidget": "Ilipat ang widget",
+        "resizeWidget": "Baguhin ang laki ng widget",
         "configureWidget": "I-configure ang widget",
         "addWidget": "Magdagdag ng widget",
+        "addWidgetConfigInvalid": "Hindi maidagdag ang widget: invalid ang configuration nito. Tingnan ang console para sa mga detalye.",
+        "saveWidgetConfigInvalid": "Hindi ma-save: invalid ang configuration ng widget. Tingnan ang console para sa mga detalye.",
+        "edit": "I-edit",
+        "done": "Tapos na",
+        "close": "Isara",
+        "info": "Impormasyon",
+        "success": "Matagumpay",
+        "warning": "Babala",
+        "error": "Error",
         "next": "Susunod",
         "back": "Bumalik",
+        "reorder": "Muling ayusin",
         "icons": "Mga icon",
         "customIcons": "Mga custom na icon",
         "canBeEmpty": "maaaring walang laman",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Ang pangalan ay naglalaman ng mga hindi wastong karakter, tanging mga letra, digit, - at _ lamang ang tinatanggap.",
                 "saveIcons": "I-save ang mga icon",
                 "supportedFormats": "Sinusuportahan ng Anori ang .png, .jpg, .gif at .svg. Pinakamainam na gumamit ng mga square na larawan na may lapad na 128 hanggang 256 pixel (hindi naaangkop sa .svg).",
-                "importIcons": "Mag-import ng mga icon"
+                "addIcons": "Magdagdag ng mga icon",
+                "removeIcon": "Alisin ang icon",
+                "newIcons": "Mga bagong icon",
+                "discardIcons": "Itapon"
             },
             "folders": {
                 "title": "Mga folder",
-                "createNew": "Lumikha ng bagong folder",
-                "defaultName": "Bagong folder"
+                "createNew": "Bagong folder",
+                "defaultName": "Bagong folder",
+                "reorder": "Muling ayusin",
+                "changeIcon": "Baguhin ang icon",
+                "removeFolder": "Alisin ang folder"
             },
             "pluginSettings": {
                 "title": "Mga setting ng plugin"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Tema",
                 "createCustom": "Lumikha ng custom na tema",
+                "newTheme": "Bagong tema",
+                "editTheme": "I-edit ang tema",
+                "removeTheme": "Alisin ang tema",
                 "selectBackground": "Pumili ng background",
+                "changeBackground": "Baguhin ang background",
                 "blur": "Blur",
                 "colorAccent": "Accent",
                 "colorBackground": "Background",
                 "colorText": "Teksto",
-                "colorCode": "Color code"
+                "colorCode": "Color code",
+                "colorScheme": "Kulay ng scheme",
+                "colorSchemeSystem": "System",
+                "colorSchemeLight": "Maliwanag",
+                "colorSchemeDark": "Madilim"
             },
             "importExport": {
                 "title": "Import at export",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Ano?",
             "modalTitle": "Kailangan ng karagdagang pahintulot",
             "compactText": "Kailangan ng karagdagang pahintulot. I-click para sa mga detalye.",
             "text": "Ang widget na ito ay nangangailangan ng karagdagang pahintulot:",
@@ -231,13 +257,18 @@
             "statusUp": "aktibo",
             "statusDown": "hindi aktibo",
             "permissionExplanation": "Kailangan ng Anori ang pahintulot na ito upang maiwasan ang CORS. Ang pagkakasalita na ipinakita ng iyong browser ay maaaring nakakatakot, ngunit hindi binabago o binabasa ng Anori ang anumang data mula sa mga naka-bookmark na website.",
-            "openInNewTab": "Buksan sa bagong tab"
+            "openInNewTab": "Buksan sa bagong tab",
+            "openInIframe": "Buksan sa popup",
+            "pages": "Mga pahina",
+            "addPage": "Magdagdag ng pahina"
         },
         "calendar-plugin": {
             "name": "Kalendaryo",
             "widgetName": "Kalendaryo",
             "firstDayOfWeek": "Unang araw ng linggo",
-            "calendarType": "Uri ng kalendaryo"
+            "calendarType": "Uri ng kalendaryo",
+            "previousMonth": "Nakaraang buwan",
+            "nextMonth": "Susunod na buwan"
         },
         "datetime-plugin": {
             "name": "Petsa at oras",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Mga nangungunang site",
             "widgetHorizontal": "Mga nangungunang site - pahalang",
-            "widgetVertical": "Mga nangungunang site - patayo"
+            "widgetVertical": "Mga nangungunang site - patayo",
+            "removeSite": "Alisin ang site"
         },
         "weather-plugin": {
             "name": "Panahon",
@@ -316,6 +348,8 @@
             "noPosts": "Wala pang mga post sa feed na ito",
             "compactView": "Compact na view",
             "presetsTitle": "Ilagay ang iyong mga paboritong feed dito o pumili mula sa isa sa mga preset:",
+            "presetsText": "Wala pang mga feed na naidagdag? Mayroon kaming mga preset para sa <0>mga developer</0>, <1>mga designer</1>, at isa na may <2>lahat ng uri ng kawili-wiling nilalaman</2>.",
+            "addFeed": "Magdagdag ng feed",
             "presetForDevelopers": "Para sa mga developer",
             "presetForDesigners": "Para sa mga designer",
             "presetInteresting": "Mga kawili-wiling bagay",
@@ -336,6 +370,7 @@
             "name": "I-embed ang webpage",
             "expandWidgetName": "I-embed ang webpage — expandable",
             "showLink": "Ipakita ang link sa orihinal na pahina",
+            "openPage": "Buksan ang pahina",
             "limitations": "Hindi gumagana ang pag-embed sa lahat ng pahina. Aktibong lumalaban ang ilang site sa pagiging ipinapakita bilang naka-embed na pahina, at sa kasamaang-palad, kaunti lang ang magagawa ng Anori tungkol dito. Maaari itong magresulta sa hindi pag-load ng mga pahina (tulad ng Gmail) o mahinang paggana."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Muli",
             "good": "Mabuti",
             "hard": "Mahirap",
-            "error": "Hindi maaabot ang AnkiConnect, pakitiyak na tumatakbo ang Anki at naka-install ang AnkiConnect.",
+            "errorTitle": "Hindi maaabot ang AnkiConnect",
+            "error": "Tiyaking tumatakbo ang Anki at naka-install ang AnkiConnect add-on.",
             "widgetName": "Anki"
         }
     }

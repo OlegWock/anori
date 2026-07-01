@@ -19,7 +19,7 @@ export const generateManifest = (
     action: {
       default_title: "__MSG_appActionTitle__",
     },
-    minimum_chrome_version: "104",
+    minimum_chrome_version: "132",
     background: {
       service_worker: "background-wrapper.js",
     },
@@ -114,7 +114,7 @@ export const generateManifest = (
     if (targetBrowser === "firefox") {
       manifest.browser_specific_settings = {
         gecko: {
-          strict_min_version: "111.0",
+          strict_min_version: "134.0",
         },
       };
     }

@@ -1,9 +1,9 @@
-import "../styles.scss";
 import { isChromeLike } from "@anori/utils/browser";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import { useEffect, useState } from "react";
 import browser from "webextension-polyfill";
+import { metricValue, spacer, widget } from "../styles";
 
 const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
 
@@ -45,10 +45,10 @@ export const CpuWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
   }, []);
 
   return (
-    <div className="SystemStatusWidget">
-      <div className="metric-value">{(load * 100).toFixed(1)}%</div>
-      <div className="spacer" />
-      <div className="metric-name">CPU</div>
+    <div className={widget}>
+      <div className={metricValue}>{(load * 100).toFixed(1)}%</div>
+      <div className={spacer} />
+      <div>CPU</div>
     </div>
   );
 };

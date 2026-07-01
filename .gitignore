@@ -109,3 +109,6 @@ dist
 .vscode
 
 .pnpm-store
+## Panda
+styled-system
+styled-system-studio

@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "Yang baru",
         "editWidget": "Edit widget",
+        "removeWidget": "Hapus widget",
+        "moveWidget": "Pindah widget",
+        "resizeWidget": "Ubah ukuran widget",
         "configureWidget": "Konfigurasi widget",
         "addWidget": "Tambah widget",
+        "addWidgetConfigInvalid": "Tidak dapat menambahkan widget: konfigurasinya tidak valid. Periksa konsol untuk detailnya.",
+        "saveWidgetConfigInvalid": "Tidak dapat menyimpan: konfigurasi widget tidak valid. Periksa konsol untuk detailnya.",
+        "edit": "Edit",
+        "done": "Selesai",
+        "close": "Tutup",
+        "info": "Info",
+        "success": "Berhasil",
+        "warning": "Peringatan",
+        "error": "Error",
         "next": "Berikutnya",
         "back": "Kembali",
+        "reorder": "Urutkan ulang",
         "icons": "Ikon",
         "customIcons": "Ikon kustom",
         "canBeEmpty": "boleh kosong",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Nama mengandung karakter yang tidak valid, hanya huruf, angka, - dan _ yang diterima.",
                 "saveIcons": "Simpan ikon",
                 "supportedFormats": "Anori mendukung .png, .jpg, .gif dan .svg. Sebaiknya gunakan gambar persegi antara 128 hingga 256 piksel (tidak berlaku untuk .svg).",
-                "importIcons": "Impor ikon"
+                "addIcons": "Tambah ikon",
+                "removeIcon": "Hapus ikon",
+                "newIcons": "Ikon baru",
+                "discardIcons": "Buang"
             },
             "folders": {
                 "title": "Folder",
-                "createNew": "Buat folder baru",
-                "defaultName": "Folder baru"
+                "createNew": "Folder baru",
+                "defaultName": "Folder baru",
+                "reorder": "Urutkan ulang",
+                "changeIcon": "Ganti ikon",
+                "removeFolder": "Hapus folder"
             },
             "pluginSettings": {
                 "title": "Pengaturan plugin"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Tema",
                 "createCustom": "Buat tema kustom",
+                "newTheme": "Tema baru",
+                "editTheme": "Edit tema",
+                "removeTheme": "Hapus tema",
                 "selectBackground": "Pilih latar belakang",
+                "changeBackground": "Ganti latar belakang",
                 "blur": "Blur",
                 "colorAccent": "Aksen",
                 "colorBackground": "Latar belakang",
                 "colorText": "Teks",
-                "colorCode": "Kode warna"
+                "colorCode": "Kode warna",
+                "colorScheme": "Skema warna",
+                "colorSchemeSystem": "Sistem",
+                "colorSchemeLight": "Terang",
+                "colorSchemeDark": "Gelap"
             },
             "importExport": {
                 "title": "Impor & ekspor",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Eh?",
             "modalTitle": "Izin tambahan diperlukan",
             "compactText": "Izin tambahan diperlukan. Klik untuk melihat detail.",
             "text": "Widget ini memerlukan izin tambahan:",
@@ -231,13 +257,18 @@
             "statusUp": "aktif",
             "statusDown": "tidak aktif",
             "permissionExplanation": "Anori memerlukan izin ini untuk mengatasi CORS. Kata-kata yang ditampilkan oleh browser Anda mungkin terkesan mengkhawatirkan, tetapi Anori tidak mengubah atau membaca data apa pun dari situs web yang di-bookmark.",
-            "openInNewTab": "Buka di tab baru"
+            "openInNewTab": "Buka di tab baru",
+            "openInIframe": "Buka di popup",
+            "pages": "Halaman",
+            "addPage": "Tambah halaman"
         },
         "calendar-plugin": {
             "name": "Kalender",
             "widgetName": "Kalender",
             "firstDayOfWeek": "Hari pertama dalam seminggu",
-            "calendarType": "Tipe kalender"
+            "calendarType": "Tipe kalender",
+            "previousMonth": "Bulan sebelumnya",
+            "nextMonth": "Bulan berikutnya"
         },
         "datetime-plugin": {
             "name": "Tanggal dan waktu",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Situs teratas",
             "widgetHorizontal": "Situs teratas - horizontal",
-            "widgetVertical": "Situs teratas - vertikal"
+            "widgetVertical": "Situs teratas - vertikal",
+            "removeSite": "Hapus situs"
         },
         "weather-plugin": {
             "name": "Cuaca",
@@ -316,6 +348,8 @@
             "noPosts": "Belum ada postingan di feed ini",
             "compactView": "Tampilan ringkas",
             "presetsTitle": "Tambahkan feed favorit Anda atau pilih dari salah satu preset:",
+            "presetsText": "Belum menambahkan feed? Kami punya preset untuk <0>developer</0>, <1>desainer</1>, dan satu dengan <2>berbagai hal menarik</2>.",
+            "addFeed": "Tambah feed",
             "presetForDevelopers": "Untuk pengembang",
             "presetForDesigners": "Untuk desainer",
             "presetInteresting": "Hal-hal menarik",
@@ -336,6 +370,7 @@
             "name": "Sematkan halaman web",
             "expandWidgetName": "Sematkan halaman web — dapat diperluas",
             "showLink": "Tampilkan tautan ke halaman asli",
+            "openPage": "Buka halaman",
             "limitations": "Penyematan tidak berfungsi untuk semua halaman. Beberapa situs secara aktif menolak ditampilkan sebagai halaman yang disematkan, dan sayangnya Anori tidak banyak bisa melakukan hal tersebut. Ini dapat mengakibatkan halaman tidak dapat dimuat (seperti Gmail) atau bekerja dengan buruk."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Ulangi",
             "good": "Baik",
             "hard": "Sulit",
-            "error": "AnkiConnect tidak dapat dijangkau, pastikan Anki sedang berjalan dan AnkiConnect telah terpasang.",
+            "errorTitle": "AnkiConnect tidak dapat dijangkau",
+            "error": "Pastikan Anki sedang berjalan dan add-on AnkiConnect telah terpasang.",
             "widgetName": "Anki"
         }
     }

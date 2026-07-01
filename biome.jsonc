@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": false,
-        "includes": ["**", "!**/dist", "!**/*.js", "!**/src/assets"]
+        "includes": ["**", "!**/dist", "!**/*.js", "!**/src/assets", "!**/styled-system"]
     },
     "formatter": {
         "enabled": true,
@@ -63,9 +63,7 @@
                 "noThenProperty": "off"
             },
             "a11y": {
-                "useSemanticElements": "off",
-                // TODO: we should fix these issues and reenable rule at some point
-                "noLabelWithoutControl": "off"
+                "useSemanticElements": "off"
             }
         }
     },

@@ -2,7 +2,7 @@
 // Adapted from https://codesandbox.io/s/create-react-app-forked-h3rmcy?file=/src/sequentialNewlinePlugin.js:0-774
 // biome-ignore lint/suspicious/noExplicitAny: Original code wasn't typed and I have no idea how to type it correctly, so leaving it as isolated chaos
 type LegalAny = any;
-function enterLineEndingBlank(token: LegalAny) {
+function enterLineEndingBlank(this: LegalAny, token: LegalAny) {
   this.enter(
     {
       type: "break",
@@ -14,7 +14,7 @@ function enterLineEndingBlank(token: LegalAny) {
   );
 }
 
-function exitLineEndingBlank(token: LegalAny) {
+function exitLineEndingBlank(this: LegalAny, token: LegalAny) {
   this.exit(token);
 }
 
@@ -30,7 +30,7 @@ const sequentialNewlinesFromMarkdown = {
   },
 };
 
-export function sequentialNewlinesPlugin() {
+export function sequentialNewlinesPlugin(this: LegalAny) {
   const data = this.data();
 
   function add(field: LegalAny, value: LegalAny) {

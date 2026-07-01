@@ -1,16 +1,28 @@
-import { createLazyComponentWithSuspense, registerLazyComponentsForPreload } from "@anori/components/lazy-components";
-import { cachedPromiseFunc } from "@anori/utils/misc";
+import { ReactMarkdown } from "@anori/components/ReactMarkdown";
+import { WhatsNew } from "@anori/components/WhatsNew";
+import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
+import { Popover } from "@anori/design-system/components/Popover/Popover";
+import { Select } from "@anori/design-system/components/Select/Select";
+import { createLazyComponent, schedulePreload } from "@anori/utils/lazy-component";
+import { preloadReorder } from "@anori/utils/motion/reorder";
 
-const loaders = {
-  SettingsModal: cachedPromiseFunc(() => import("./settings/Settings").then((m) => m.SettingsModal)),
-  NewWidgetWizard: cachedPromiseFunc(() => import("./components/NewWidgetWizard").then((m) => m.NewWidgetWizard)),
-  CloudAccountModal: cachedPromiseFunc(() =>
-    import("@anori/cloud-integration/components/CloudAccountModal").then((m) => m.CloudAccountModal),
-  ),
-} as const;
+export const SettingsModal = createLazyComponent(() => import("./settings/Settings").then((m) => m.SettingsModal));
+export const NewWidgetWizard = createLazyComponent(() =>
+  import("./components/NewWidgetWizard").then((m) => m.NewWidgetWizard),
+);
+export const CloudAccountModal = createLazyComponent(() =>
+  import("@anori/cloud-integration/components/CloudAccountModal").then((m) => m.CloudAccountModal),
+);
 
-registerLazyComponentsForPreload(loaders);
-
-export const SettingsModal = createLazyComponentWithSuspense(loaders.SettingsModal, { name: "SettingLazyWrapper" });
-export const NewWidgetWizard = createLazyComponentWithSuspense(loaders.NewWidgetWizard);
-export const CloudAccountModal = createLazyComponentWithSuspense(loaders.CloudAccountModal);
+export const scheduleLazyComponentsPreload = () =>
+  schedulePreload([
+    Select.preload,
+    Combobox.preload,
+    Popover.preload,
+    ReactMarkdown.preload,
+    WhatsNew.preload,
+    preloadReorder,
+    SettingsModal.preload,
+    NewWidgetWizard.preload,
+    CloudAccountModal.preload,
+  ]);

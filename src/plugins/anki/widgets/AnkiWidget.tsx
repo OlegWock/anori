@@ -1,16 +1,41 @@
-import { Alert } from "@anori/components/Alert";
-import { Button } from "@anori/components/Button";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import { callAnkiConnectApi, checkAnkiConnectivity, getCardInfo, wrapCardHtml } from "../api";
 import type { AnkiCardInfo, AnkiPluginWidgetConfigType } from "../types";
-import "./AnkiWidget.scss";
+import { AnkiUnreachable } from "./AnkiUnreachable";
 
-export const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
+const widget = css({ display: "flex", flexDirection: "column", gap: "4", flexGrow: 1, overflow: "hidden" });
+const setNameLine = css({
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "4",
+  fontWeight: "semibold",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+});
+const setName = css({ overflow: "hidden", textOverflow: "ellipsis", fontWeight: "semibold" });
+const setDue = css({ display: "flex", alignItems: "center", gap: "1", color: "text.placeholder", lineHeight: "none" });
+const cardFrame = css({ flexGrow: 1, borderRadius: "xs", overflow: "hidden" });
+const spacer = css({ flexGrow: 1 });
+const actions = css({ display: "flex", gap: "2", justifyContent: "center", flexWrap: "wrap" });
+const mockCard = css({
+  flexGrow: 1,
+  overflow: "auto",
+  borderRadius: "xs",
+  textAlign: "center",
+  color: "black",
+  backgroundColor: "white",
+});
+const bigKanji = css({ fontSize: "3xl" });
+
+export const AnkiWidget = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
   const { t } = useTranslation();
 
   const [currentCard, setCurrentCard] = useState<AnkiCardInfo | null>(null);
@@ -70,38 +95,48 @@ export const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigT
   };
 
   return (
-    <div className="AnkiWidget">
+    <div className={widget}>
       {reachable ? (
         <>
-          <div className="set-name-line">
-            <div className="set-name">{config?.deckName}</div>
-            <div className="set-due">
+          <div className={setNameLine}>
+            <div className={setName}>{config?.deckName}</div>
+            <div className={setDue}>
               {cardsToLearn?.length} <Icon icon={builtinIcons.albums} />
             </div>
           </div>
 
           {currentCard?.[currentScreen] ? (
-            <iframe srcDoc={wrapCardHtml(currentCard[currentScreen])} title="Anki card" />
+            <iframe className={cardFrame} srcDoc={wrapCardHtml(currentCard[currentScreen])} title="Anki card" />
           ) : (
-            <div className="spacer" />
+            <div className={spacer} />
           )}
         </>
       ) : (
-        <Alert>{t("anki-plugin.error")}</Alert>
+        <AnkiUnreachable />
       )}
 
       {reachable && (
-        <div className="actions">
+        <div className={actions}>
           {currentScreen === "question" && (
-            <Button onClick={() => setCurrentScreen("answer")}>{t("anki-plugin.showAnswer")}</Button>
+            <Button variant="frosted" onClick={() => setCurrentScreen("answer")}>
+              {t("anki-plugin.showAnswer")}
+            </Button>
           )}
 
           {currentScreen === "answer" && (
             <>
-              <Button onClick={() => answerCard(1)}>{t("anki-plugin.again")}</Button>
-              <Button onClick={() => answerCard(2)}>{t("anki-plugin.hard")}</Button>
-              <Button onClick={() => answerCard(3)}>{t("anki-plugin.good")}</Button>
-              <Button onClick={() => answerCard(4)}>{t("anki-plugin.easy")}</Button>
+              <Button variant="frosted" onClick={() => answerCard(1)}>
+                {t("anki-plugin.again")}
+              </Button>
+              <Button variant="frosted" onClick={() => answerCard(2)}>
+                {t("anki-plugin.hard")}
+              </Button>
+              <Button variant="frosted" onClick={() => answerCard(3)}>
+                {t("anki-plugin.good")}
+              </Button>
+              <Button variant="frosted" onClick={() => answerCard(4)}>
+                {t("anki-plugin.easy")}
+              </Button>
             </>
           )}
         </div>
@@ -110,20 +145,20 @@ export const MainScreen = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigT
   );
 };
 
-export const MockScreen = () => {
+export const AnkiWidgetMock = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="AnkiWidget">
-      <div className="set-name-line">
-        <div className="set-name">{t("anki-plugin.deck")}</div>
-        <div className="set-due">
+    <div className={widget}>
+      <div className={setNameLine}>
+        <div className={setName}>{t("anki-plugin.deck")}</div>
+        <div className={setDue}>
           12 <Icon icon={builtinIcons.albums} />
         </div>
       </div>
 
-      <div className="card-question-wrap mock-card">
-        <span className="big-kanji">水</span>
+      <div className={mockCard}>
+        <span className={bigKanji}>水</span>
         <hr />
         <span>
           みず・したみず・さんずい
@@ -132,11 +167,11 @@ export const MockScreen = () => {
         <strong>water</strong>
       </div>
 
-      <div className="actions">
-        <Button>{t("anki-plugin.again")}</Button>
-        <Button>{t("anki-plugin.hard")}</Button>
-        <Button>{t("anki-plugin.good")}</Button>
-        <Button>{t("anki-plugin.easy")}</Button>
+      <div className={actions}>
+        <Button variant="frosted">{t("anki-plugin.again")}</Button>
+        <Button variant="frosted">{t("anki-plugin.hard")}</Button>
+        <Button variant="frosted">{t("anki-plugin.good")}</Button>
+        <Button variant="frosted">{t("anki-plugin.easy")}</Button>
       </div>
     </div>
   );

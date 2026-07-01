@@ -1,6 +1,7 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { MainScreen, MockScreen } from "./AnkiWidget";
+import { ankiPluginWidgetConfigSchema } from "../types";
+import { AnkiWidget, AnkiWidgetMock } from "./AnkiWidget";
 import { WidgetConfigScreen } from "./AnkiWidgetConfig";
 
 export const widgetDescriptor = defineWidget({
@@ -8,9 +9,10 @@ export const widgetDescriptor = defineWidget({
   get name() {
     return translate("anki-plugin.widgetName");
   },
+  schema: ankiPluginWidgetConfigSchema,
   configurationScreen: WidgetConfigScreen,
-  mainScreen: MainScreen,
-  mock: MockScreen,
+  mainScreen: AnkiWidget,
+  mock: AnkiWidgetMock,
   appearance: {
     size: {
       width: 2,

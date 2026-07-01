@@ -1,15 +1,14 @@
+import { getAllCustomIconNames } from "@anori/design-system/components/Icon/custom-icons";
 import { allPlugins } from "@anori/plugins/all";
-import type { AnalyticEvents, WidgetsCount } from "@anori/utils/analytics-events";
+import type { AnalyticEvents, UsageQuantifiableMetrics, WidgetsCount } from "@anori/utils/analytics-events";
 import { detectBrowser } from "@anori/utils/browser";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import type { EmptyObject } from "@anori/utils/types";
 import { themes } from "@anori/utils/user-data/theme";
-import type { StorageContent } from "@anori/utils/user-data/types";
 import { useCallback } from "react";
 import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
-import { getAllCustomIconNames } from "../components/icon/custom-icons";
 import { guid, wait } from "./misc";
 
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
@@ -61,9 +60,8 @@ export const plantPerformanceMetricsListeners = async () => {
   let idleTimer: ReturnType<typeof setTimeout>;
   new PerformanceObserver((list) => {
     for (const _entry of list.getEntries()) {
-      const entry = _entry as PerformanceEventTiming;
-      // @ts-expect-error Prop is missing in TS types, but it's real
-      const interactionId = entry.interactionId as number;
+      const entry = _entry as PerformanceEventTiming & { interactionId: number };
+      const interactionId = entry.interactionId;
       if (!interactionId) continue; // ignore non-interaction events
       const d = latest.get(interactionId) || 0;
       if (entry.duration > d) latest.set(interactionId, entry.duration);
@@ -83,7 +81,7 @@ export const plantPerformanceMetricsListeners = async () => {
   }).observe({ type: "event", buffered: true, durationThreshold: 8 });
 };
 
-export const incrementDailyUsageMetric = async (name: keyof StorageContent["dailyUsageMetrics"]) => {
+export const incrementDailyUsageMetric = async (name: UsageQuantifiableMetrics) => {
   if (isBackground()) {
     const storage = await getAnoriStorage();
     const analyticsEnabled = storage.get(anoriSchema.analyticsEnabled);
@@ -151,6 +149,7 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
   const sidebarOrientation = storage.get(anoriSchema.sidebarOrientation);
   const autoHideSidebar = storage.get(anoriSchema.autoHideSidebar);
   const usedTheme = storage.get(anoriSchema.theme);
+  const colorScheme = storage.get(anoriSchema.colorScheme);
   const language = storage.get(anoriSchema.language);
   const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
   const compactMode = storage.get(anoriSchema.compactMode);
@@ -176,6 +175,7 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
     "Open animation enabled": showLoadAnimation,
     "Language": language,
     "Theme": themes.find((t) => t.name === usedTheme) ? usedTheme : "custom",
+    "Color mode": colorScheme,
     "Performance / Avg LCP": performanceAvgLcp.avg || null,
     "Performance / INP": aggregateInp(performanceRawInp),
     ...dailyUsageMetrics,

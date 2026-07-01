@@ -76,9 +76,9 @@ export class ScopedStore<T extends Mapping> {
     defaultValue: T[K] | (() => T[K]),
   ): [T[K], (value: SetStateAction<T[K]>) => void] {
     const [data, setData] = useStorageValue(this.query);
-    // Resolve the default once. An inline literal (`[]`, `{}`) passed by the caller is a new
-    // reference every render; using it directly would destabilize `value` whenever nothing is
-    // stored, re-firing effects/memos that depend on it and causing render loops.
+    // Resolve the default once (lazy, like useState's initializer). An inline literal (`[]`, `{}`) or
+    // `() => …` would otherwise be a new reference every render, destabilizing `value` and anything
+    // that depends on it (effects/memos) — which can trigger render loops.
     const [resolvedDefault] = useState<T[K]>(() =>
       typeof defaultValue === "function" ? (defaultValue as () => T[K])() : defaultValue,
     );

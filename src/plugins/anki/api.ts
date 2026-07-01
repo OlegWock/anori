@@ -26,7 +26,7 @@ export const callAnkiConnectApi = async <T = void>(action: string, version: numb
 
     return data.result as T;
   } catch (error) {
-    throw new Error(`Failed to issue request: ${error.message}`);
+    throw new Error(`Failed to issue request: ${error instanceof Error ? error.message : String(error)}`);
   }
 };
 

@@ -1,20 +1,17 @@
 import { wait } from "@anori/utils/misc";
-import type { AnoriPlugin } from "@anori/utils/plugins/types";
-import { getAllWidgetsByPlugin } from "@anori/utils/plugins/widget";
-import type { RssFeedConfig, RssLatestPostConfig } from "./types";
+import type { RssContext } from "./rss-plugin";
 import { getRssStore, updateFeedsForWidget } from "./utils";
 
-export const rssScheduledCallback = async <P extends AnoriPlugin>(plugin: P) => {
+export const rssScheduledCallback = async (ctx: RssContext) => {
   console.log("Updating feeds in background");
-  const widgets = await getAllWidgetsByPlugin(plugin);
+  const widgets = await ctx.getWidgets();
   const promises = widgets.map(async (w) => {
-    const config = w.configuration as RssFeedConfig | RssLatestPostConfig;
     const store = getRssStore(w.instanceId);
     await store.waitForLoad();
-    if ("feedUrl" in config) {
-      return updateFeedsForWidget([config.feedUrl], store);
+    if ("feedUrl" in w.config) {
+      return updateFeedsForWidget([w.config.feedUrl], store);
     }
-    return updateFeedsForWidget(config.feedUrls, store);
+    return updateFeedsForWidget(w.config.feedUrls, store);
   });
   await Promise.all(promises);
   await wait(1000); // Make sure widget storage synced to the disk

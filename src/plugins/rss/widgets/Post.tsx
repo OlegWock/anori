@@ -1,15 +1,33 @@
-import { ClampTextToFit } from "@anori/components/ClampTextToFit";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
 import { RelativeTime } from "@anori/components/RelativeTime";
+import { ClampTextToFit } from "@anori/design-system/components/ClampTextToFit/ClampTextToFit";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
-import clsx from "clsx";
 import moment from "moment-timezone";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { css, cva, cx } from "styled-system/css";
 import type { RssPost } from "../utils";
-import "./Post.scss";
+
+const postRoot = css({ textDecoration: "none", display: "flex", flexDirection: "column", flex: 1 });
+const postTitle = cva({
+  base: { flex: 1, lineHeight: "1.25", overflow: "hidden" },
+  variants: { compact: { true: { fontSize: "lg" } } },
+});
+const compactPostDate = css({ color: "text.subtle", fontSize: "sm", fontWeight: 200 });
+const postDescription = css({ marginTop: "1", color: "text.placeholder" });
+const postDetails = css({
+  display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+  flexWrap: "wrap",
+  columnGap: "3",
+  rowGap: "2",
+  marginTop: "2",
+  "& svg": { color: "icon.subtle" },
+});
+const detailItem = css({ display: "flex", alignItems: "center", gap: "1-5", lineHeight: "none", color: "text.subtle" });
 
 const parser = (typeof DOMParser === "undefined" ? null : new DOMParser()) as DOMParser;
 
@@ -25,10 +43,12 @@ export const Post = ({
   post,
   clampTitle = false,
   compact = false,
+  className,
 }: {
   post: RssPost;
   clampTitle?: boolean;
   compact?: boolean;
+  className?: string;
 }) => {
   const { rem } = useSizeSettings();
   const { i18n } = useTranslation();
@@ -41,28 +61,28 @@ export const Post = ({
   const subtitle = useMemo(() => decodeHtmlEntities(post.description), [post.description]);
 
   return (
-    <a className={clsx("Post", compact && "compact")} href={post.url} onClick={() => trackInteraction("Open post")}>
-      {clampTitle && <ClampTextToFit withTooltip text={title} as="h3" className="title" />}
+    <a className={cx(postRoot, className)} href={post.url} onClick={() => trackInteraction("Open post")}>
+      {clampTitle && <ClampTextToFit withTooltip text={title} as="h3" className={postTitle({ compact })} />}
       {!clampTitle && (
         <>
-          <h3 className="title">
+          <h3 className={postTitle({ compact })}>
             {title}
             {compact && (
-              <span className="compact-post-date">
+              <span className={compactPostDate}>
                 &nbsp;&middot;&nbsp;
                 <RelativeTime m={postMoment} />
               </span>
             )}
           </h3>
-          {!compact && <div className="description">{subtitle}</div>}
+          {!compact && <div className={postDescription}>{subtitle}</div>}
         </>
       )}
       {!compact && (
-        <div className="details">
-          <div className="feed-name">
+        <div className={postDetails}>
+          <div className={detailItem}>
             <Icon icon={builtinIcons.rssIcon} height={rem(1)} /> <span>{feedTitle}</span>
           </div>
-          <div className="post-date">
+          <div className={detailItem}>
             <Icon icon={builtinIcons.time} height={rem(1)} />{" "}
             <span>
               <RelativeTime m={postMoment} />

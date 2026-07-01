@@ -1,5 +1,6 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
+import { blueprintWidgetConfigSchema } from "../types";
 import { BlueprintWidget } from "./BlueprintWidget";
 import { BlueprintWidgetConfigScreen } from "./BlueprintWidgetConfig";
 
@@ -8,11 +9,10 @@ export const blueprintWidgetDescriptor = defineWidget({
   get name() {
     return translate("blueprint-plugin.widgetName");
   },
+  schema: blueprintWidgetConfigSchema,
   configurationScreen: BlueprintWidgetConfigScreen,
   mainScreen: BlueprintWidget,
-  mock: () => {
-    return <BlueprintWidget instanceId="mock" config={{ title: "Example", showIcon: true }} />;
-  },
+  mock: () => <BlueprintWidget instanceId="mock" config={{ title: "Example", showIcon: true }} />,
   appearance: {
     size: {
       width: 1,

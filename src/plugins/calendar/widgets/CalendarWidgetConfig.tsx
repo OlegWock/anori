@@ -1,29 +1,32 @@
-import { Button } from "@anori/components/Button";
-import { Select } from "@anori/components/lazy-components";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Field } from "@anori/design-system/components/Field/Field";
+import { Select } from "@anori/design-system/components/Select/Select";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DEFAULT_CALENDAR, getCalendarLabel, SUPPORTED_CALENDARS } from "../calendar-adapter";
+import { css } from "styled-system/css";
+import { DEFAULT_CALENDAR, getCalendarLabel, SUPPORTED_CALENDARS, type SupportedCalendar } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
-import "./CalendarWidgetConfig.scss";
+
+const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
+const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 
 export const ConfigScreen = ({
   currentConfig,
   saveConfiguration,
-}: WidgetConfigurationScreenProps<CalendarWidgetConfigType>) => {
+}: WidgetConfigScreenProps<CalendarWidgetConfigType>) => {
   const { t, i18n } = useTranslation();
   // TODO: probably should refactor this so dependencies are explicit?
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
   const weekdays = useMemo(getWeekdays, [i18n.language]);
 
   const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
-  const [calendar, setCalendar] = useState<string>(currentConfig?.calendar ?? DEFAULT_CALENDAR);
+  const [calendar, setCalendar] = useState<SupportedCalendar>(currentConfig?.calendar ?? DEFAULT_CALENDAR);
 
   return (
-    <div className="CalendarWidget-config">
-      <div>
-        <label>{t("calendar-plugin.firstDayOfWeek")}:</label>
+    <div className={config}>
+      <Field label={`${t("calendar-plugin.firstDayOfWeek")}:`}>
         <Select<number>
           options={[0, 1, 2, 3, 4, 5, 6]}
           value={firstDay}
@@ -31,20 +34,19 @@ export const ConfigScreen = ({
           getOptionKey={(o) => o.toString()}
           getOptionLabel={(o) => weekdays[o]}
         />
-      </div>
+      </Field>
 
-      <div>
-        <label>{t("calendar-plugin.calendarType")}:</label>
-        <Select<string>
+      <Field label={`${t("calendar-plugin.calendarType")}:`}>
+        <Select<SupportedCalendar>
           options={[...SUPPORTED_CALENDARS]}
           value={calendar}
           onChange={setCalendar}
           getOptionKey={(o) => o}
           getOptionLabel={(o) => getCalendarLabel(o, i18n.language)}
         />
-      </div>
+      </Field>
 
-      <Button className="save-config" onClick={() => saveConfiguration({ firstDay, calendar })}>
+      <Button className={saveConfig} onClick={() => saveConfiguration({ firstDay, calendar })}>
         {t("save")}
       </Button>
     </div>

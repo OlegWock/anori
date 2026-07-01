@@ -1,16 +1,20 @@
 import { incrementDailyUsageMetric } from "@anori/utils/analytics";
 import {
   type DependencyList,
+  type EffectCallback,
   type MouseEventHandler,
   type RefObject,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useReducer,
   useRef,
   useState,
 } from "react";
+import type { HotkeyCallback, Keys, Options } from "react-hotkeys-hook";
 import { useHotkeys as useHotkeysOriginal } from "react-hotkeys-hook";
-import type { HotkeyCallback, HotkeysEvent, Keys, OptionsOrDependencyArray } from "react-hotkeys-hook/dist/types";
+
+type OptionsOrDependencyArray = Options | DependencyList;
 
 export const useForceRerender = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -57,7 +61,7 @@ export const useMirrorStateToRef = <T>(val: T) => {
   return ref;
 };
 
-export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
+export const useOnChangeEffect = (fn: EffectCallback, deps?: DependencyList | undefined) => {
   const isFirstRun = useRef(true);
   useEffect(() => {
     if (isFirstRun.current) {
@@ -70,7 +74,7 @@ export const useOnChangeEffect = (fn: React.EffectCallback, deps?: React.Depende
   }, deps);
 };
 
-export const useOnChangeLayoutEffect = (fn: React.EffectCallback, deps?: React.DependencyList | undefined) => {
+export const useOnChangeLayoutEffect = (fn: EffectCallback, deps?: DependencyList | undefined) => {
   const isFirstRun = useRef(true);
   useLayoutEffect(() => {
     if (isFirstRun.current) {
@@ -104,7 +108,7 @@ export const useHotkeys = (
   options?: OptionsOrDependencyArray,
   dependencies?: OptionsOrDependencyArray,
 ) => {
-  const patchedCallback: HotkeyCallback = (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent) => {
+  const patchedCallback: HotkeyCallback = (keyboardEvent, hotkeysEvent) => {
     const isEsc =
       typeof keys === "string" ? keys.toLowerCase() === "esc" : keys.length === 1 && keys[0].toLowerCase() === "esc";
     if (!isEsc) {
@@ -113,7 +117,11 @@ export const useHotkeys = (
     return callback(keyboardEvent, hotkeysEvent);
   };
 
-  return useHotkeysOriginal(keys, patchedCallback, options, dependencies);
+  const mergedOptions: OptionsOrDependencyArray = Array.isArray(options)
+    ? options
+    : { preventDefault: true, ...options };
+
+  return useHotkeysOriginal(keys, patchedCallback, mergedOptions, dependencies);
 };
 
 export const useRunAfterNextRender = () => {
@@ -185,12 +193,12 @@ export const useAsyncLayoutEffect = (func: () => unknown, deps?: DependencyList 
 };
 
 export const useLocationHash = () => {
-  const setHash = (newHash: string) => {
+  const [hash, _setHash] = useState(() => window.location.hash.slice(window.location.hash.length > 0 ? 1 : 0));
+  const setHash = useCallback((newHash: string) => {
     window.location.hash = newHash;
     _setHash(newHash);
-  };
+  }, []);
 
-  const [hash, _setHash] = useState(() => window.location.hash.slice(window.location.hash.length > 0 ? 1 : 0));
   const hashStateRef = useMirrorStateToRef(hash);
 
   useEffect(() => {

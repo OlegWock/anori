@@ -1,13 +1,15 @@
-import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { WidgetScreen } from "./RecentlyClosedWidget";
+import type { EmptyObject } from "@anori/utils/types";
+import { RecentlyClosedWidget } from "./RecentlyClosedWidget";
 
-export const widgetDescriptor = defineWidget({
+export const widgetDescriptor = defineWidget<"recently-closed-widget", EmptyObject>({
   id: "recently-closed-widget",
   get name() {
     return translate("recently-closed-plugin.name");
   },
+  // config-less widget — no schema (decode/encode pass through)
   appearance: {
     resizable: {
       min: { width: 2, height: 2 },
@@ -21,8 +23,8 @@ export const widgetDescriptor = defineWidget({
   configurationScreen: null,
   mainScreen: (props) => (
     <RequirePermissions permissions={["sessions", "tabs"]}>
-      <WidgetScreen {...props} />
+      <RecentlyClosedWidget {...props} />
     </RequirePermissions>
   ),
-  mock: () => <WidgetScreen config={{}} instanceId="mock" />,
+  mock: () => <RecentlyClosedWidget config={{}} instanceId="mock" />,
 });

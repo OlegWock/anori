@@ -1,12 +1,29 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
-import { Tooltip } from "@anori/components/Tooltip";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
+import { translate } from "@anori/translations/utils";
 import { definePlugin, defineWidget } from "@anori/utils/plugins/define";
-import type { WidgetDescriptor } from "@anori/utils/plugins/types";
+import type { SomeWidget } from "@anori/utils/plugins/types";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import "./UnsupportedWidget.scss";
+import { css } from "styled-system/css";
+
+const root = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "1-5",
+  height: "100%",
+  width: "100%",
+  padding: "2",
+  textAlign: "center",
+  color: "text.subtle",
+});
+const titleCss = css({ fontWeight: "medium" });
+const descriptionCss = css({ fontSize: "xs", color: "text.placeholder", lineHeight: "tight" });
+const iconCss = css({ color: "icon.subtle" });
 
 const UnsupportedWidgetScreen = memo(function UnsupportedWidgetScreen() {
   const { t } = useTranslation();
@@ -17,10 +34,10 @@ const UnsupportedWidgetScreen = memo(function UnsupportedWidgetScreen() {
   const showDescription = !tiny && size.width * size.height > 4;
 
   const card = (
-    <div className="UnsupportedWidget">
-      <Icon className="UnsupportedWidget-icon" icon={builtinIcons.disconnected} width={44} height={44} />
-      <div className="UnsupportedWidget-title">{t(tiny ? "unsupportedWidget.short" : "unsupportedWidget.title")}</div>
-      {showDescription && <div className="UnsupportedWidget-description">{description}</div>}
+    <div className={root}>
+      <Icon className={iconCss} icon={builtinIcons.disconnected} width={44} height={44} />
+      <div className={titleCss}>{t(tiny ? "unsupportedWidget.short" : "unsupportedWidget.title")}</div>
+      {showDescription && <div className={descriptionCss}>{description}</div>}
     </div>
   );
 
@@ -34,27 +51,39 @@ const UnsupportedWidgetScreen = memo(function UnsupportedWidgetScreen() {
 
 const NoopMock = () => null;
 
-const FALLBACK_APPEARANCE: WidgetDescriptor["appearance"] = {
-  size: { width: 1, height: 1 },
-  resizable: false,
-};
-
-export function makeUnsupportedWidgetDescriptor(original?: WidgetDescriptor): WidgetDescriptor {
-  return {
-    id: original?.id ?? "unsupported-widget",
-    name: original?.name ?? "Unsupported widget",
-    configurationScreen: null,
-    mainScreen: UnsupportedWidgetScreen,
-    mock: NoopMock,
-    appearance: original?.appearance ?? FALLBACK_APPEARANCE,
-  };
-}
+const unsupportedWidgetDescriptor = defineWidget({
+  id: "unsupported-widget",
+  get name() {
+    return translate("unsupportedWidget.title");
+  },
+  configurationScreen: null,
+  mainScreen: UnsupportedWidgetScreen,
+  mock: NoopMock,
+  appearance: {
+    size: { width: 1, height: 1 },
+    resizable: false,
+  },
+});
 
 export const unsupportedWidgetPlugin = definePlugin({
   id: "unsupported-widget-plugin",
-  name: "Unsupported widget",
+  get name() {
+    return translate("unsupportedWidget.title");
+  },
   icon: builtinIcons.helpCircle,
-  configurationScreen: null,
-})
-  .withWidgets(defineWidget(makeUnsupportedWidgetDescriptor()))
-  .build();
+  widgets: [unsupportedWidgetDescriptor],
+}).build();
+
+const baseUnsupportedWidget = unsupportedWidgetPlugin.widgets[0];
+
+export function makeUnsupportedWidgetDescriptor(original?: SomeWidget): SomeWidget {
+  if (!original) return baseUnsupportedWidget;
+  return {
+    ...original,
+    decode: baseUnsupportedWidget.decode,
+    encode: baseUnsupportedWidget.encode,
+    mainScreen: baseUnsupportedWidget.mainScreen,
+    configurationScreen: null,
+    mock: baseUnsupportedWidget.mock,
+  };
+}

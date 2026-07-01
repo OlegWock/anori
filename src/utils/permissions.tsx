@@ -52,7 +52,10 @@ export const watchForPermissionChanges = async () => {
     const currentPermissions = atomStore.get(availablePermissionsAtom);
     if (!currentPermissions) return;
     const newPermissions = {
-      permissions: [...currentPermissions.permissions, ...(addedPermissions.permissions || [])],
+      permissions: [
+        ...currentPermissions.permissions,
+        ...((addedPermissions.permissions || []) as CorrectPermission[]),
+      ],
       hosts: [...currentPermissions.hosts, ...(addedPermissions.origins || [])],
     };
     atomStore.set(availablePermissionsAtom, newPermissions);

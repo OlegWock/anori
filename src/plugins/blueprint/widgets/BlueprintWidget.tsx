@@ -1,16 +1,37 @@
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import type { BlueprintWidgetConfig } from "../types";
-import "./BlueprintWidget.scss";
+import { css } from "styled-system/css";
+import type { BlueprintPluginConfig, BlueprintWidgetConfig } from "../types";
 
-export const BlueprintWidget = ({ config, instanceId }: WidgetRenderProps<BlueprintWidgetConfig>) => {
+const widget = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  flexGrow: 1,
+  gap: "2",
+});
+const title = css({ fontWeight: "semibold" });
+const instanceId = css({ fontSize: "sm", color: "text.placeholder" });
+
+// Widgets are wrapped in memo so they don't re-render when an ancestor (the grid, the folder) re-renders
+// for unrelated reasons; they re-render only when their own config/props or hooks change. Keep this for
+// any new widget.
+export const BlueprintWidget = memo(function BlueprintWidget({
+  config,
+  pluginConfig,
+  instanceId: id,
+}: WidgetRenderProps<BlueprintWidgetConfig, BlueprintPluginConfig>) {
   const { t } = useTranslation();
 
   return (
-    <div className="BlueprintWidget">
-      <div className="title">{config.title || t("blueprint-plugin.name")}</div>
-      <div className="instance-id">Instance: {instanceId}</div>
-      {config.showIcon && <div className="icon-placeholder">Icon here</div>}
+    <div className={widget}>
+      <div className={title}>{config.title || t("blueprint-plugin.name")}</div>
+      <div className={instanceId}>Instance: {id}</div>
+      {config.showIcon && <div>Icon here</div>}
+      {/* Shared plugin-level config, available to every widget of this plugin. */}
+      {pluginConfig?.apiKey && <div className={instanceId}>Using shared API key</div>}
     </div>
   );
-};
+});

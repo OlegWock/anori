@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "新着情報",
         "editWidget": "ウィジェットを編集",
+        "removeWidget": "ウィジェットを削除",
+        "moveWidget": "ウィジェットを移動",
+        "resizeWidget": "ウィジェットをリサイズ",
         "configureWidget": "ウィジェットを設定",
         "addWidget": "ウィジェットを追加",
+        "addWidgetConfigInvalid": "ウィジェットを追加できませんでした: 設定が無効です。詳細はコンソールを確認してください。",
+        "saveWidgetConfigInvalid": "保存できませんでした: ウィジェットの設定が無効です。詳細はコンソールを確認してください。",
+        "edit": "編集",
+        "done": "完了",
+        "close": "閉じる",
+        "info": "情報",
+        "success": "成功",
+        "warning": "警告",
+        "error": "エラー",
         "next": "次へ",
         "back": "戻る",
+        "reorder": "並べ替え",
         "icons": "アイコン",
         "customIcons": "カスタムアイコン",
         "canBeEmpty": "空にできます",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "名前に使用できない文字が含まれています。英数字、ハイフン(-)、アンダースコア(_)のみ使用できます。",
                 "saveIcons": "アイコンを保存",
                 "supportedFormats": "Anoriは .png、.jpg、.gif、.svg に対応しています。128〜256ピクセルの正方形画像を推奨します（.svg を除く）。",
-                "importIcons": "アイコンをインポート"
+                "addIcons": "アイコンを追加",
+                "removeIcon": "アイコンを削除",
+                "newIcons": "新しいアイコン",
+                "discardIcons": "破棄"
             },
             "folders": {
                 "title": "フォルダ",
-                "createNew": "新しいフォルダを作成",
-                "defaultName": "新しいフォルダ"
+                "createNew": "新しいフォルダ",
+                "defaultName": "新しいフォルダ",
+                "reorder": "並べ替え",
+                "changeIcon": "アイコンを変更",
+                "removeFolder": "フォルダを削除"
             },
             "pluginSettings": {
                 "title": "プラグイン設定"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "テーマ",
                 "createCustom": "カスタムテーマを作成",
+                "newTheme": "新しいテーマ",
+                "editTheme": "テーマを編集",
+                "removeTheme": "テーマを削除",
                 "selectBackground": "背景を選択",
+                "changeBackground": "背景を変更",
                 "blur": "ぼかし",
                 "colorAccent": "アクセント",
                 "colorBackground": "背景",
                 "colorText": "テキスト",
-                "colorCode": "カラーコード"
+                "colorCode": "カラーコード",
+                "colorScheme": "カラースキーム",
+                "colorSchemeSystem": "システム",
+                "colorSchemeLight": "ライト",
+                "colorSchemeDark": "ダーク"
             },
             "importExport": {
                 "title": "インポート＆エクスポート",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "えっ？",
             "modalTitle": "追加の権限が必要です",
             "compactText": "追加の権限が必要です。クリックして詳細を確認してください。",
             "text": "このウィジェットには追加の権限が必要です：",
@@ -231,13 +257,18 @@
             "statusUp": "稼働中",
             "statusDown": "停止中",
             "permissionExplanation": "AnoriはCORSを回避するためにこの権限が必要です。ブラウザに表示される文言は少し難しく見えるかもしれませんが、Anoriはブックマークしたウェブサイトのデータを変更したり読み取ったりしません。",
-            "openInNewTab": "新しいタブで開く"
+            "openInNewTab": "新しいタブで開く",
+            "openInIframe": "ポップアップで開く",
+            "pages": "ページ",
+            "addPage": "ページを追加"
         },
         "calendar-plugin": {
             "name": "カレンダー",
             "widgetName": "カレンダー",
             "firstDayOfWeek": "週の最初の曜日",
-            "calendarType": "カレンダータイプ"
+            "calendarType": "カレンダータイプ",
+            "previousMonth": "前の月",
+            "nextMonth": "次の月"
         },
         "datetime-plugin": {
             "name": "日付と時刻",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "よく見るサイト",
             "widgetHorizontal": "よく見るサイト - 横並び",
-            "widgetVertical": "よく見るサイト - 縦並び"
+            "widgetVertical": "よく見るサイト - 縦並び",
+            "removeSite": "サイトを削除"
         },
         "weather-plugin": {
             "name": "天気",
@@ -316,6 +348,8 @@
             "noPosts": "このフィードにはまだ投稿がありません",
             "compactView": "コンパクト表示",
             "presetsTitle": "お気に入りのフィードを追加するか、プリセットから選択してください：",
+            "presetsText": "まだフィードを追加していませんか? <0>開発者</0>、<1>デザイナー</1>、そして<2>さまざまな興味深い情報</2>向けのプリセットをご用意しています。",
+            "addFeed": "フィードを追加",
             "presetForDevelopers": "開発者向け",
             "presetForDesigners": "デザイナー向け",
             "presetInteresting": "興味深いコンテンツ",
@@ -336,6 +370,7 @@
             "name": "ウェブページを埋め込む",
             "expandWidgetName": "ウェブページを埋め込む — 拡張可能",
             "showLink": "元のページへのリンクを表示",
+            "openPage": "ページを開く",
             "limitations": "すべてのページを埋め込みできるわけではありません。一部のサイトは埋め込み表示を意図的にブロックしており、残念ながらAnoriではどうにもできない場合があります。これにより、ページが読み込まれなかったり（Gmailなど）、正常に動作しないことがあります。"
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "もう一度",
             "good": "良い",
             "hard": "難しい",
-            "error": "AnkiConnectに接続できません。Ankiが起動していて、AnkiConnectがインストールされているか確認してください。",
+            "errorTitle": "AnkiConnectに接続できません",
+            "error": "Ankiが起動していて、AnkiConnectアドオンがインストールされているか確認してください。",
             "widgetName": "Anki"
         }
     }

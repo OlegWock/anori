@@ -1,31 +1,36 @@
-import { Button } from "@anori/components/Button";
-import { Input } from "@anori/components/Input";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Field } from "@anori/design-system/components/Field/Field";
+import { Input } from "@anori/design-system/components/Input/Input";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import type { RssLatestPostConfig } from "../types";
-import "./RssFeedWidgetConfig.scss";
+
+const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
+const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 
 export const RssLatestPostConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<RssLatestPostConfig>) => {
+}: WidgetConfigScreenProps<RssLatestPostConfig>) => {
   const onConfirm = async () => {
-    saveConfiguration({ feedUrl });
+    const trimmedUrl = feedUrl.trim();
+    if (!trimmedUrl) return;
+    saveConfiguration({ feedUrl: trimmedUrl });
   };
 
   const [feedUrl, setFeedUrl] = useState(currentConfig ? currentConfig.feedUrl : "");
   const { t } = useTranslation();
 
   return (
-    <div className="RssFeed-config">
-      <div>
-        <label>{t("rss-plugin.feedUrl")}:</label>
+    <div className={config}>
+      <Field label={`${t("rss-plugin.feedUrl")}:`}>
         <Input value={feedUrl} onValueChange={setFeedUrl} />
-      </div>
+      </Field>
 
-      <Button className="save-config" onClick={onConfirm}>
-        Save
+      <Button className={saveConfig} disabled={!feedUrl.trim()} onClick={onConfirm}>
+        {t("save")}
       </Button>
     </div>
   );

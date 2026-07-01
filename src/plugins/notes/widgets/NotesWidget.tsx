@@ -1,25 +1,104 @@
-import { Input, Textarea } from "@anori/components/Input";
-import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
-import "./NotesWidget.scss";
-
-import { Link } from "@anori/components/Link";
-import { ReactMarkdown } from "@anori/components/lazy-components";
-import { ScrollArea } from "@anori/components/ScrollArea";
+import { ReactMarkdown } from "@anori/components/ReactMarkdown";
+import { Input, Textarea } from "@anori/design-system/components/Input/Input";
+import { Link } from "@anori/design-system/components/Link/Link";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
+import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Options } from "react-markdown";
+import { css, cx } from "styled-system/css";
 import { useNotesStore } from "../storage";
 import { sequentialNewlinesPlugin } from "../utils";
 
-export const Mock = () => {
+const notesWidget = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "stretch",
+  textDecoration: "none",
+  flexGrow: 1,
+  overflow: "hidden",
+});
+const noteInput = css({
+  margin: "0-5",
+  minWidth: 0,
+  paddingBlock: "1",
+  paddingInline: "2!",
+  height: "auto",
+});
+const noteTitle = css({ fontSize: "xl!" });
+const noteBodyEditor = css({
+  resize: "none",
+  flexGrow: 1,
+  fontFamily: "inherit",
+  fontSize: "inherit",
+  lineHeight: "inherit",
+  letterSpacing: "inherit",
+  color: "inherit",
+});
+const noteBodyRendered = css({
+  flexGrow: 1,
+  flexShrink: 1,
+  overflow: "hidden",
+  fontFamily: "inherit",
+  fontSize: "inherit",
+  lineHeight: "inherit",
+  marginBlock: "0-5",
+  marginInline: "3",
+  cursor: "text",
+  textAlign: "start",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "stretch",
+  "& .ScrollAreaRoot": { maxHeight: "100%", borderRadius: 0 },
+});
+// Styles the raw HTML react-markdown emits, so these element selectors are inherently nested.
+// TODO: we could provide nicer default styles, especially for headings, tables, and code
+const noteBodyContent = css({
+  "& p:not(:first-child)": { marginTop: "1" },
+  "& ul, & ol": { listStylePosition: "inside" },
+  "& blockquote": {
+    paddingLeft: "3",
+    borderLeftWidth: "0.15rem",
+    borderLeftStyle: "solid",
+    borderLeftColor: "text.placeholder",
+  },
+  "& hr": {
+    width: "100%",
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid",
+    borderBottomColor: "divider",
+    marginBlock: "3",
+  },
+  "& > * ul, & > * ol": { marginLeft: "6" },
+  "& li > p": { display: "contents" },
+  "& code": { background: "surface", paddingBlock: "0-5", paddingInline: "2", borderRadius: "xs" },
+  "& pre": {
+    padding: "2",
+    background: "surface",
+    borderRadius: "md",
+    "& code": { background: "inherit", padding: 0, borderRadius: 0 },
+  },
+  "& table, & th, & td": { borderWidth: "1px", borderStyle: "solid", borderColor: "divider" },
+  "& table": { borderCollapse: "collapse" },
+  "& td": { paddingBlock: "1", paddingInline: "3" },
+  "& img": { maxWidth: "100%" },
+});
+const notesBodyPlaceholder = css({ opacity: 0.5 });
+
+export const NotesWidgetMock = () => {
   const { t } = useTranslation();
   return (
-    <div className="NotesWidget">
-      <Input value={t("notes-plugin.exampleTitle")} className="note-title" spellCheck={false} />
-      <div className="note-body-rendered">{t("notes-plugin.exampleText")}</div>
+    <div className={notesWidget}>
+      <Input
+        variant="ghost"
+        value={t("notes-plugin.exampleTitle")}
+        className={cx(noteInput, noteTitle)}
+        spellCheck={false}
+      />
+      <div className={noteBodyRendered}>{t("notes-plugin.exampleText")}</div>
     </div>
   );
 };
@@ -28,7 +107,7 @@ const LinkWithoutPropagation = (props: ComponentProps<typeof Link>) => {
   return <Link onClick={(e) => e.stopPropagation()} onFocus={(e) => e.stopPropagation()} {...props} />;
 };
 
-export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
+export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
   const switchEditing = (newIsEditing: boolean) => {
     if (newIsEditing) {
       runAfterNextRender(() => {
@@ -66,11 +145,12 @@ export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
   }, []);
 
   return (
-    <div className="NotesWidget">
+    <div className={notesWidget}>
       <Input
+        variant="ghost"
         value={title}
         onValueChange={setTitle}
-        className="note-title"
+        className={cx(noteInput, noteTitle)}
         placeholder={t("notes-plugin.noteTitle")}
         spellCheck={titleFocused}
         onFocus={() => {
@@ -81,9 +161,11 @@ export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
       />
       {isEditing && (
         <Textarea
+          variant="ghost"
+          autosize={false}
           value={body}
           onValueChange={setBody}
-          className="note-body-editor"
+          className={cx(noteInput, noteBodyEditor)}
           placeholder={t("notes-plugin.noteText")}
           onBlur={() => switchEditing(false)}
           onKeyDown={handleKeyDown}
@@ -93,7 +175,7 @@ export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
       {!isEditing && (
         <button
           type="button"
-          className="note-body-rendered"
+          className={noteBodyRendered}
           onFocus={() => {
             trackInteraction("Initiate editing");
             switchEditing(true);
@@ -103,9 +185,9 @@ export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
             switchEditing(true);
           }}
         >
-          <ScrollArea type="hover" color="dark">
+          <ScrollArea type="hover">
             {!!body && (
-              <div className="note-body-rendered-content">
+              <div className={noteBodyContent}>
                 <ReactMarkdown
                   components={{ a: LinkWithoutPropagation }}
                   remarkPlugins={remarkPlugins}
@@ -114,7 +196,7 @@ export const MainScreen = (_props: WidgetRenderProps<EmptyObject>) => {
               </div>
             )}
           </ScrollArea>
-          {!body && <span className="notes-body-placeholder">{t("notes-plugin.noteText")}</span>}
+          {!body && <span className={notesBodyPlaceholder}>{t("notes-plugin.noteText")}</span>}
         </button>
       )}
     </div>

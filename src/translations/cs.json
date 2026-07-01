@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "Co je nového",
         "editWidget": "Upravit widget",
+        "removeWidget": "Odebrat widget",
+        "moveWidget": "Přesunout widget",
+        "resizeWidget": "Změnit velikost widgetu",
         "configureWidget": "Konfigurovat widget",
         "addWidget": "Přidat widget",
+        "addWidgetConfigInvalid": "Nepodařilo se přidat widget: jeho konfigurace je neplatná. Podrobnosti najdete v konzoli.",
+        "saveWidgetConfigInvalid": "Nepodařilo se uložit: konfigurace widgetu je neplatná. Podrobnosti najdete v konzoli.",
+        "edit": "Upravit",
+        "done": "Hotovo",
+        "close": "Zavřít",
+        "info": "Info",
+        "success": "Úspěch",
+        "warning": "Upozornění",
+        "error": "Chyba",
         "next": "Další",
         "back": "Zpět",
+        "reorder": "Přeuspořádat",
         "icons": "Ikony",
         "customIcons": "Vlastní ikony",
         "canBeEmpty": "může být prázdné",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Název obsahuje neplatné znaky, jsou povolena pouze písmena, číslice, - a _.",
                 "saveIcons": "Uložit ikony",
                 "supportedFormats": "Anori podporuje .png, .jpg, .gif a .svg. Nejlepší je používat čtvercové obrázky o šířce 128 až 256 pixelů (netýká se .svg).",
-                "importIcons": "Importovat ikony"
+                "addIcons": "Přidat ikony",
+                "removeIcon": "Odebrat ikonu",
+                "newIcons": "Nové ikony",
+                "discardIcons": "Zahodit"
             },
             "folders": {
                 "title": "Složky",
-                "createNew": "Vytvořit novou složku",
-                "defaultName": "Nová složka"
+                "createNew": "Nová složka",
+                "defaultName": "Nová složka",
+                "reorder": "Přeuspořádat",
+                "changeIcon": "Změnit ikonu",
+                "removeFolder": "Odebrat složku"
             },
             "pluginSettings": {
                 "title": "Nastavení pluginů"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Téma",
                 "createCustom": "Vytvořit vlastní téma",
+                "newTheme": "Nové téma",
+                "editTheme": "Upravit téma",
+                "removeTheme": "Odebrat téma",
                 "selectBackground": "Vybrat pozadí",
+                "changeBackground": "Změnit pozadí",
                 "blur": "Rozostření",
                 "colorAccent": "Akcent",
                 "colorBackground": "Pozadí",
                 "colorText": "Text",
-                "colorCode": "Kód barvy"
+                "colorCode": "Kód barvy",
+                "colorScheme": "Barevné schéma",
+                "colorSchemeSystem": "Systém",
+                "colorSchemeLight": "Světlé",
+                "colorSchemeDark": "Tmavé"
             },
             "importExport": {
                 "title": "Import a export",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Hm?",
             "modalTitle": "Vyžadována další oprávnění",
             "compactText": "Vyžadována další oprávnění. Klikněte pro zobrazení podrobností.",
             "text": "Tento widget vyžaduje další oprávnění:",
@@ -231,13 +257,18 @@
             "statusUp": "dostupná",
             "statusDown": "nedostupná",
             "permissionExplanation": "Anori potřebuje toto oprávnění k obejití CORS. Formulace zobrazená vaším prohlížečem může znít hrozivě, ale Anori nečte ani nemění žádná data na záložkovaných webech.",
-            "openInNewTab": "Otevřít v nové kartě"
+            "openInNewTab": "Otevřít v nové kartě",
+            "openInIframe": "Otevřít ve vyskakovacím okně",
+            "pages": "Stránky",
+            "addPage": "Přidat stránku"
         },
         "calendar-plugin": {
             "name": "Kalendář",
             "widgetName": "Kalendář",
             "firstDayOfWeek": "První den týdne",
-            "calendarType": "Typ kalendáře"
+            "calendarType": "Typ kalendáře",
+            "previousMonth": "Předchozí měsíc",
+            "nextMonth": "Další měsíc"
         },
         "datetime-plugin": {
             "name": "Datum a čas",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Nejnavštěvovanější stránky",
             "widgetHorizontal": "Nejnavštěvovanější stránky - horizontální",
-            "widgetVertical": "Nejnavštěvovanější stránky - vertikální"
+            "widgetVertical": "Nejnavštěvovanější stránky - vertikální",
+            "removeSite": "Odebrat web"
         },
         "weather-plugin": {
             "name": "Počasí",
@@ -316,6 +348,8 @@
             "noPosts": "V tomto kanálu zatím nejsou žádné příspěvky",
             "compactView": "Kompaktní zobrazení",
             "presetsTitle": "Přidejte své oblíbené kanály nebo vyberte jeden z předvoleb:",
+            "presetsText": "Zatím jste nepřidali žádné kanály? Máme předvolby pro <0>vývojáře</0>, <1>designéry</1> a jednu s <2>nejrůznějšími zajímavostmi</2>.",
+            "addFeed": "Přidat kanál",
             "presetForDevelopers": "Pro vývojáře",
             "presetForDesigners": "Pro designéry",
             "presetInteresting": "Jen zajímavé věci",
@@ -336,6 +370,7 @@
             "name": "Vložená stránka",
             "expandWidgetName": "Vložená stránka — rozšiřitelná",
             "showLink": "Zobrazit odkaz na původní stránku",
+            "openPage": "Otevřít stránku",
             "limitations": "Vkládání nefunguje se všemi stránkami. Některé weby se aktivně brání zobrazení jako vložená stránka a Anori s tím bohužel příliš nezmůže. Může to mít za následek, že se stránky nenačtou (jako v případě Gmailu) nebo fungují špatně."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Znovu",
             "good": "Dobré",
             "hard": "Těžké",
-            "error": "AnkiConnect není dostupný, ujistěte se prosím, že Anki běží a AnkiConnect je nainstalován.",
+            "errorTitle": "AnkiConnect není dostupný",
+            "error": "Ujistěte se, že Anki běží a doplněk AnkiConnect je nainstalován.",
             "widgetName": "Anki"
         }
     }

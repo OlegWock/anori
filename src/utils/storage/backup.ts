@@ -1,5 +1,4 @@
 import { readFile, type Storage } from "@anori/utils/storage-lib";
-import JSZip from "jszip";
 import moment from "moment-timezone";
 import browser from "webextension-polyfill";
 import { anoriSchema, anoriVersionedSchema } from "./schema";
@@ -14,6 +13,7 @@ export type BackupMeta = {
 };
 
 export async function createBackupZip(storage: Storage): Promise<Blob> {
+  const { default: JSZip } = await import("jszip");
   const zip = new JSZip();
   const { kv, files } = storage.exportForBackup();
 
@@ -47,6 +47,7 @@ export async function createBackupZip(storage: Storage): Promise<Blob> {
 }
 
 export async function restoreBackupFromZip(storage: Storage, zipBlob: Blob): Promise<void> {
+  const { default: JSZip } = await import("jszip");
   const zip = await JSZip.loadAsync(zipBlob);
 
   const metaJsonFile = zip.file("meta.json");

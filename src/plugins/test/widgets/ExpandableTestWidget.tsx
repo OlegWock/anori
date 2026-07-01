@@ -1,24 +1,20 @@
-import "../styles.scss";
-import { Button } from "@anori/components/Button";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
-import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useSizeSettings } from "@anori/utils/compact";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
-import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { AnimatePresence } from "motion/react";
+import { memo, useState } from "react";
+import { widget } from "../styles";
 
-export const ExpandableTestWidget = (_props: WidgetRenderProps<EmptyObject>) => {
+export const ExpandableTestWidget = memo(function ExpandableTestWidget(_props: WidgetRenderProps<EmptyObject>) {
   const { rem } = useSizeSettings();
   const [showExpandableArea, setShowExpandableArea] = useState(false);
 
   return (
-    <button
-      type="button"
-      className="ExpandableTestWidget"
-      onClick={() => !showExpandableArea && setShowExpandableArea(true)}
-    >
+    <button type="button" className={widget} onClick={() => !showExpandableArea && setShowExpandableArea(true)}>
       <Icon icon={builtinIcons.logos.notion} height={rem(4)} width={rem(4)} />
 
       <AnimatePresence>
@@ -93,4 +89,4 @@ export const ExpandableTestWidget = (_props: WidgetRenderProps<EmptyObject>) => 
       </AnimatePresence>
     </button>
   );
-};
+});

@@ -1,10 +1,8 @@
 import { normalizeUrl } from "@anori/utils/misc";
-import type { AnoriPlugin } from "@anori/utils/plugins/types";
-import { getAllWidgetsByPlugin } from "@anori/utils/plugins/widget";
 import type { BookmarkWidgetStore } from "@anori/utils/storage";
 import type { ID } from "@anori/utils/types";
+import type { BookmarkContext } from "./bookmark-plugin";
 import { getBookmarkStore } from "./storage";
-import type { BookmarkWidgetConfig } from "./types";
 
 const getPageStatus = async (url: string): Promise<"up" | "down"> => {
   try {
@@ -17,14 +15,12 @@ const getPageStatus = async (url: string): Promise<"up" | "down"> => {
   }
 };
 
-export const updateStatusesForTrackedPages = async <P extends AnoriPlugin>(plugin: P) => {
-  const widgets = await getAllWidgetsByPlugin(plugin);
-  const widgetsToCheck = widgets
-    .filter((w) => w.widgetId === "bookmark")
-    .filter((w) => (w.configuration as BookmarkWidgetConfig).checkStatus);
+export const updateStatusesForTrackedPages = async (ctx: BookmarkContext) => {
+  const widgets = await ctx.getWidgets();
+  const widgetsToCheck = widgets.filter((w) => w.widgetId === "bookmark").filter((w) => w.config.checkStatus);
 
   const promises = widgetsToCheck.map(async (w) => {
-    const config = w.configuration as BookmarkWidgetConfig;
+    const config = w.config;
     const store = getBookmarkStore(w.instanceId);
     await store.waitForLoad();
     const currentStatus = store.get("status");

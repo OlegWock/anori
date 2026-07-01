@@ -1,24 +1,34 @@
-import "./IframeWidgetConfig.scss";
-import { Alert } from "@anori/components/Alert";
-import { Button } from "@anori/components/Button";
-import { Checkbox } from "@anori/components/Checkbox";
-import { IconPicker } from "@anori/components/IconPicker";
-import { Input } from "@anori/components/Input";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
-import { PickBookmark } from "@anori/components/PickBookmark";
-import { Popover } from "@anori/components/Popover";
+import { IconPicker } from "@anori/components/IconPicker/IconPicker";
+import { PickBookmark } from "@anori/components/PickBookmark/PickBookmark";
+import { Alert } from "@anori/design-system/components/Alert/Alert";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Field } from "@anori/design-system/components/Field/Field";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Input } from "@anori/design-system/components/Input/Input";
+import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { useSizeSettings } from "@anori/utils/compact";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { token } from "styled-system/tokens";
 import type { IframePluginExpandableWidgetConfig } from "../types";
+import {
+  compactField,
+  config,
+  iconPickerTrigger,
+  mainColumn,
+  row,
+  saveConfig,
+  urlImportWrapper,
+} from "./config-styles";
 
 export const ExpandableWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<IframePluginExpandableWidgetConfig>) => {
+}: WidgetConfigScreenProps<IframePluginExpandableWidgetConfig>) => {
   const onConfirm = () => {
     saveConfiguration({ url, title, icon, showLinkToPage });
   };
@@ -32,54 +42,56 @@ export const ExpandableWidgetConfigScreen = ({
   const iconSearchRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="IframeWidget-config">
+    <div className={config}>
       <Alert>{t("iframe-plugin.limitations")}</Alert>
 
-      <div className="field">
-        <label>{t("icon")}:</label>
-        <Popover
-          component={IconPicker}
-          initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
-          additionalData={{
-            onSelected: setIcon,
-            inputRef: iconSearchRef,
-          }}
-        >
-          <Button className="icon-picker-trigger">
-            <Icon icon={icon} width={rem(3)} />
-          </Button>
-        </Popover>
-      </div>
-      <div className="field">
-        <label>{t("title")}</label>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-      </div>
-      <div className="field">
-        <label>{t("url")}:</label>
-        <div className="url-import-wrapper">
-          <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+      <div className={row}>
+        <Field label={`${t("icon")}:`}>
           <Popover
-            component={PickBookmark}
+            component={IconPicker}
+            initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
             additionalData={{
-              onSelected: (title, url) => {
-                console.log("Selected bookmark", title, url);
-                setUrl(url);
-              },
+              onSelected: setIcon,
+              inputRef: iconSearchRef,
+              iconColor: token("colors.icon.subtle"),
             }}
           >
-            <Button>{t("import")}</Button>
+            <Button variant="secondary" className={iconPickerTrigger}>
+              <Icon icon={icon} width={rem(3)} color="icon.subtle" />
+            </Button>
           </Popover>
+        </Field>
+        <div className={mainColumn}>
+          <Field label={t("title")}>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+          </Field>
+          <Field label={`${t("url")}:`}>
+            <div className={urlImportWrapper}>
+              <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+              <Popover
+                component={PickBookmark}
+                additionalData={{
+                  onSelected: (title, url) => {
+                    console.log("Selected bookmark", title, url);
+                    setUrl(url);
+                  },
+                }}
+              >
+                <Button variant="secondary">{t("import")}</Button>
+              </Popover>
+            </div>
+          </Field>
         </div>
       </div>
 
-      <div className="field">
+      <div className={compactField}>
         <Checkbox checked={showLinkToPage} onChange={setShowLinkToPage}>
           {t("iframe-plugin.showLink")}
         </Checkbox>
       </div>
 
-      <Button className="save-config" onClick={onConfirm}>
-        Save
+      <Button className={saveConfig} onClick={onConfirm}>
+        {t("save")}
       </Button>
     </div>
   );

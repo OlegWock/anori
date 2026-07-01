@@ -1,16 +1,20 @@
-import { Button } from "@anori/components/Button";
-import { Checkbox } from "@anori/components/Checkbox";
-import { Input } from "@anori/components/Input";
-import type { WidgetConfigurationScreenProps } from "@anori/utils/plugins/types";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Field } from "@anori/design-system/components/Field/Field";
+import { Input } from "@anori/design-system/components/Input/Input";
+import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import type { BlueprintWidgetConfig } from "../types";
-import "./BlueprintWidgetConfig.scss";
+
+const config = css({ display: "flex", flexDirection: "column", gap: "3", alignItems: "stretch" });
+const saveConfig = css({ alignSelf: "center", marginTop: "4" });
 
 export const BlueprintWidgetConfigScreen = ({
   saveConfiguration,
   currentConfig,
-}: WidgetConfigurationScreenProps<BlueprintWidgetConfig>) => {
+}: WidgetConfigScreenProps<BlueprintWidgetConfig>) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState(currentConfig?.title ?? "");
   const [showIcon, setShowIcon] = useState(currentConfig?.showIcon ?? false);
@@ -20,17 +24,16 @@ export const BlueprintWidgetConfigScreen = ({
   };
 
   return (
-    <div className="BlueprintWidgetConfig">
-      <div className="field">
-        <label>{t("blueprint-plugin.name")}</label>
+    <div className={config}>
+      <Field label={t("blueprint-plugin.name")}>
         <Input value={title} onValueChange={setTitle} placeholder="Widget title" />
-      </div>
+      </Field>
 
       <Checkbox checked={showIcon} onChange={setShowIcon}>
         Show icon
       </Checkbox>
 
-      <Button className="save-config" onClick={onConfirm}>
+      <Button className={saveConfig} onClick={onConfirm}>
         Save
       </Button>
     </div>

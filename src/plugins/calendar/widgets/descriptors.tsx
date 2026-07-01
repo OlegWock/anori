@@ -1,6 +1,7 @@
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
-import { MainScreen } from "./CalendarWidget";
+import { calendarWidgetConfigSchema } from "../types";
+import { CalendarWidget } from "./CalendarWidget";
 import { ConfigScreen } from "./CalendarWidgetConfig";
 
 export const widgetDescriptor = defineWidget({
@@ -8,10 +9,11 @@ export const widgetDescriptor = defineWidget({
   get name() {
     return translate("calendar-plugin.widgetName");
   },
+  schema: calendarWidgetConfigSchema,
   configurationScreen: ConfigScreen,
-  mainScreen: MainScreen,
+  mainScreen: CalendarWidget,
   mock: () => {
-    return <MainScreen instanceId="mock" config={{}} />;
+    return <CalendarWidget instanceId="mock" config={{ firstDay: 0, calendar: "gregory" }} />;
   },
   appearance: {
     resizable: false,

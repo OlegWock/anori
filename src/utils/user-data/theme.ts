@@ -1,13 +1,14 @@
 import { type AnoriStorage, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import isEqual from "lodash/isEqual";
-import { applyTheme, registerThemeBackgroundResolver, themes } from "./theme-base";
+import { applyTheme, registerThemeBackgroundResolver, resolveColorScheme, themes } from "./theme-base";
 
-export type { BuiltinTheme, CustomTheme, PartialCustomTheme, Theme } from "./theme-base";
+export type { BuiltinTheme, ColorScheme, CustomTheme, PartialCustomTheme, Theme } from "./theme-base";
 export {
   applyBuiltinTheme,
   applyTheme,
   applyThemeColors,
   defaultTheme,
+  resolveColorScheme,
   themes,
 } from "./theme-base";
 
@@ -94,7 +95,7 @@ export const watchForThemeUpdates = (storage: AnoriStorage) => {
     const customThemes = storage.get(anoriSchema.customThemes);
     const theme = [...themes, ...customThemes].find((t) => t.name === themeName);
     if (theme) {
-      applyTheme(theme);
+      applyTheme(theme, resolveColorScheme(storage.get(anoriSchema.colorScheme)));
     }
   };
 
@@ -137,8 +138,20 @@ export const watchForThemeUpdates = (storage: AnoriStorage) => {
     }
   });
 
+  // The light/dark knob re-applies on any change (local toggle or synced) — the palette flips wholesale.
+  const unsubColorScheme = storage.subscribe(anoriSchema.colorScheme, () => applyCurrentTheme());
+
+  // When following the OS, re-apply if its preference changes.
+  const mql = typeof window !== "undefined" ? window.matchMedia?.("(prefers-color-scheme: light)") : undefined;
+  const onSystemPreferenceChange = () => {
+    if (storage.get(anoriSchema.colorScheme) === "system") applyCurrentTheme();
+  };
+  mql?.addEventListener("change", onSystemPreferenceChange);
+
   return () => {
     unsubActiveTheme();
     unsubCurrentThemeParameters?.();
+    unsubColorScheme();
+    mql?.removeEventListener("change", onSystemPreferenceChange);
   };
 };

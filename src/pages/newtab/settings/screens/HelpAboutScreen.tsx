@@ -1,16 +1,24 @@
 import vtuberLogo from "@anori/assets/images/vtuber-logo-dark.svg";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
-import { m } from "framer-motion";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { m } from "motion/react";
 import type { ComponentProps } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import { License } from "../components/License";
-import "./HelpAboutScreen.scss";
+
+const screen = css({ display: "flex", flexDirection: "column", gap: "5" });
+const logo = css({ alignSelf: "center", width: "300px", height: "auto" });
+const shortcutsSection = css({ display: "flex", flexDirection: "column", gap: "2" });
 
 export const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
   const { t, i18n } = useTranslation();
   return (
-    <m.div {...props} className="HelpAboutScreen">
-      <img src={vtuberLogo} alt="Anori logo" className="logo" />
+    <m.div {...props} className={screen}>
+      <Heading level={2} size={1}>
+        {t("settings.aboutHelp.title")}
+      </Heading>
+      <img src={vtuberLogo} alt="Anori logo" className={logo} />
       <p>
         <Trans t={t} i18nKey="settings.aboutHelp.p1">
           {/* biome-ignore lint/a11y/useAnchorContent: will be programatically injected by i18n */}
@@ -45,7 +53,7 @@ export const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
         </Trans>
       </p>
 
-      <section className="shortcuts-section">
+      <section className={shortcutsSection}>
         <h2>{t("shortcuts.title")}</h2>
         <ShortcutsHelp />
       </section>

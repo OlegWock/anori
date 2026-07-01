@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "What's new",
         "editWidget": "Edit widget",
+        "removeWidget": "Remove widget",
+        "moveWidget": "Move widget",
+        "resizeWidget": "Resize widget",
         "configureWidget": "Configure widget",
         "addWidget": "Add widget",
+        "addWidgetConfigInvalid": "Couldn't add the widget: its configuration is invalid. Check the console for details.",
+        "saveWidgetConfigInvalid": "Couldn't save: the widget configuration is invalid. Check the console for details.",
+        "edit": "Edit",
+        "done": "Done",
+        "close": "Close",
+        "info": "Info",
+        "success": "Success",
+        "warning": "Warning",
+        "error": "Error",
         "next": "Next",
         "back": "Back",
+        "reorder": "Reorder",
         "icons": "Icons",
         "customIcons": "Custom icons",
         "canBeEmpty": "can be empty",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Name contains invalid characters, only letters, digits, - and _ are accepted.",
                 "saveIcons": "Save icons",
                 "supportedFormats": "Anori supports .png, .jpg, .gif and .svg. It's best to use square images between 128 and 256 pixels wide (not applicable to .svg).",
-                "importIcons": "Import icons"
+                "addIcons": "Add icons",
+                "removeIcon": "Remove icon",
+                "newIcons": "New icons",
+                "discardIcons": "Discard"
             },
             "folders": {
                 "title": "Folders",
-                "createNew": "Create new folder",
-                "defaultName": "New folder"
+                "createNew": "New folder",
+                "defaultName": "New folder",
+                "reorder": "Reorder",
+                "changeIcon": "Change icon",
+                "removeFolder": "Remove folder"
             },
             "pluginSettings": {
                 "title": "Plugin settings"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Theme",
                 "createCustom": "Create custom theme",
+                "newTheme": "New theme",
+                "editTheme": "Edit theme",
+                "removeTheme": "Remove theme",
                 "selectBackground": "Select background",
+                "changeBackground": "Change background",
                 "blur": "Blur",
                 "colorAccent": "Accent",
                 "colorBackground": "Background",
                 "colorText": "Text",
-                "colorCode": "Color code"
+                "colorCode": "Color code",
+                "colorScheme": "Color scheme",
+                "colorSchemeSystem": "System",
+                "colorSchemeLight": "Light",
+                "colorSchemeDark": "Dark"
             },
             "importExport": {
                 "title": "Import & export",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Eh?",
             "modalTitle": "Additional permissions required",
             "compactText": "Additional permissions required. Click to see details.",
             "text": "This widget requires additional permissions:",
@@ -231,13 +257,18 @@
             "statusUp": "up",
             "statusDown": "down",
             "permissionExplanation": "Anori needs this permission to work around CORS. The wording presented by your browser might be daunting, but Anori doesn't change or read any data from bookmarked websites.",
-            "openInNewTab": "Open in a new tab"
+            "openInNewTab": "Open in a new tab",
+            "openInIframe": "Open in popup",
+            "pages": "Pages",
+            "addPage": "Add page"
         },
         "calendar-plugin": {
             "name": "Calendar",
             "widgetName": "Calendar",
             "firstDayOfWeek": "First day of the week",
-            "calendarType": "Calendar type"
+            "calendarType": "Calendar type",
+            "previousMonth": "Previous month",
+            "nextMonth": "Next month"
         },
         "datetime-plugin": {
             "name": "Date and time",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Top sites",
             "widgetHorizontal": "Top sites - horizontal",
-            "widgetVertical": "Top sites - vertical"
+            "widgetVertical": "Top sites - vertical",
+            "removeSite": "Remove site"
         },
         "weather-plugin": {
             "name": "Weather",
@@ -316,6 +348,8 @@
             "noPosts": "No posts in this feed yet",
             "compactView": "Compact view",
             "presetsTitle": "Put your favorite feeds here or select from one of the presets:",
+            "presetsText": "Didn't add any feeds yet? We have presets for <0>developers</0>, <1>designers</1>, and one with <2>all sorts of interesting bits</2>.",
+            "addFeed": "Add feed",
             "presetForDevelopers": "For developers",
             "presetForDesigners": "For designers",
             "presetInteresting": "Just interesting stuff",
@@ -336,6 +370,7 @@
             "name": "Embed webpage",
             "expandWidgetName": "Embed webpage — expandable",
             "showLink": "Show link to original page",
+            "openPage": "Open page",
             "limitations": "Embedding doesn't work with all pages. Some sites actively resist being displayed as an embedded page, and unfortunately, Anori can't do much about it. This might result in pages not loading (as is the case with Gmail) or working poorly."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Again",
             "good": "Good",
             "hard": "Hard",
-            "error": "AnkiConnect can't be reached, please make sure, that Anki is running and AnkiConnect is installed.",
+            "errorTitle": "AnkiConnect can't be reached",
+            "error": "Make sure Anki is running and the AnkiConnect add-on is installed.",
             "widgetName": "Anki"
         }
     }

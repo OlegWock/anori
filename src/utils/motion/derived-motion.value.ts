@@ -1,5 +1,5 @@
 import { useLazyRef } from "@anori/utils/hooks";
-import { frame, MotionValue } from "framer-motion";
+import { frame, MotionValue } from "motion/react";
 
 const getCurrentDerivedValue = <I, V>(deps: MotionValue[], depsTransformer: (deps: I[]) => V) => {
   const newVal = depsTransformer(deps.map((d) => d.get()));
@@ -14,7 +14,7 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
     const val = getCurrentDerivedValue(deps, transformer);
     super(val);
     this.deps = [...deps];
-    this.depsTransformer = transformer;
+    this.depsTransformer = transformer as (deps: unknown[]) => O;
     this.deps.forEach((d) => {
       d.on("change", this.deriveCurrentValue);
     });
@@ -24,7 +24,7 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
   deriveFrom<T>(deps: MotionValue<T>[], transformer: (deps: T[]) => O) {
     this.detach();
     this.deps = [...deps];
-    this.depsTransformer = transformer;
+    this.depsTransformer = transformer as (deps: unknown[]) => O;
     this.deps.forEach((d) => {
       d.on("change", this.deriveCurrentValue);
     });
@@ -75,7 +75,7 @@ export function useDerivedMotionValue<I, O>(
   if (!Array.isArray(values)) {
     values = [values];
     const origTransformer = transformer as (val: I) => O;
-    transformer = (vals: I[]) => origTransformer(vals[0]);
+    transformer = ((vals: I[]) => origTransformer(vals[0])) as (val: I | I[]) => O;
   }
 
   const value = useLazyRef(() => new DerivedMotionValue(values as MotionValue<I>[], transformer));

@@ -43,6 +43,8 @@ export const minmax = (num: number, min: number, max: number) => {
   return Math.min(Math.max(num, min), max);
 };
 
+export const round = (value: number, places = 0) => Math.round(value * 10 ** places) / 10 ** places;
+
 export const cachedFunc = <T>(func: () => T) => {
   const called = false;
   let val: T | undefined;
@@ -52,39 +54,6 @@ export const cachedFunc = <T>(func: () => T) => {
       val = func();
     }
     return val as T;
-  };
-};
-
-export type CachedPromiseFuncReturn<T> =
-  | {
-      status: "unresolved";
-      promise: Promise<T>;
-    }
-  | {
-      status: "resolved";
-      promise: Promise<T>;
-      value: T;
-    };
-
-export const cachedPromiseFunc = <T>(func: () => Promise<T>) => {
-  let promise: Promise<T> | undefined;
-  let value: T | undefined;
-  let valueSet = false;
-
-  return () => {
-    if (!promise) {
-      promise = func();
-      promise.then((resolvedValue) => {
-        value = resolvedValue;
-        valueSet = true;
-      });
-    }
-
-    return {
-      status: valueSet ? "resolved" : "unresolved",
-      promise,
-      value,
-    } as CachedPromiseFuncReturn<T>;
   };
 };
 

@@ -1,4 +1,4 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
 import { definePlugin } from "@anori/utils/plugins/define";
 import { plantWebRequestHandler } from "@anori/utils/plugins/dnr";
@@ -10,9 +10,8 @@ export const iframePlugin = definePlugin({
     return translate("iframe-plugin.name");
   },
   icon: builtinIcons.pip,
-  configurationScreen: null,
+  widgets: [widgetDescriptor, widgetDescriptorExpandable],
 })
-  .withWidgets(widgetDescriptor, widgetDescriptorExpandable)
   .withOnStart(() => {
     plantWebRequestHandler();
   })

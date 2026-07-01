@@ -1,8 +1,7 @@
 import { translate } from "@anori/translations/utils";
-import { defineWidget } from "@anori/utils/plugins/define";
-import type { WidgetConfigurationScreenProps, WidgetRenderProps } from "@anori/utils/plugins/types";
-import type { DatetimeWidgetConfig } from "../types";
-import { WidgetScreen } from "./DatetimeWidget";
+import { defineWidget, type WidgetConfigScreenProps, type WidgetRenderProps } from "@anori/utils/plugins/define";
+import { type DatetimeWidgetConfig, datetimeWidgetConfigSchema } from "../types";
+import { DatetimeWidget } from "./DatetimeWidget";
 import { ConfigScreen } from "./DatetimeWidgetConfig";
 
 export const datetimeWidgetDescriptorS = defineWidget({
@@ -10,6 +9,7 @@ export const datetimeWidgetDescriptorS = defineWidget({
   get name() {
     return translate("datetime-plugin.widgetNameS");
   },
+  schema: datetimeWidgetConfigSchema,
   appearance: {
     resizable: {
       min: { width: 1, height: 1 },
@@ -20,12 +20,10 @@ export const datetimeWidgetDescriptorS = defineWidget({
       height: 1,
     },
   },
-  configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
-    <ConfigScreen size="s" {...props} />
-  ),
-  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <WidgetScreen size="s" {...props} />,
+  configurationScreen: (props: WidgetConfigScreenProps<DatetimeWidgetConfig>) => <ConfigScreen size="s" {...props} />,
+  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <DatetimeWidget size="s" {...props} />,
   mock: () => (
-    <WidgetScreen
+    <DatetimeWidget
       config={{
         title: "Bratislava",
         tz: "Europe/Bratislava",
@@ -43,6 +41,7 @@ export const datetimeWidgetDescriptorM = defineWidget({
   get name() {
     return translate("datetime-plugin.widgetNameM");
   },
+  schema: datetimeWidgetConfigSchema,
   appearance: {
     resizable: false,
     size: {
@@ -50,12 +49,10 @@ export const datetimeWidgetDescriptorM = defineWidget({
       height: 2,
     },
   },
-  configurationScreen: (props: WidgetConfigurationScreenProps<DatetimeWidgetConfig>) => (
-    <ConfigScreen size="m" {...props} />
-  ),
-  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <WidgetScreen size="m" {...props} />,
+  configurationScreen: (props: WidgetConfigScreenProps<DatetimeWidgetConfig>) => <ConfigScreen size="m" {...props} />,
+  mainScreen: (props: WidgetRenderProps<DatetimeWidgetConfig>) => <DatetimeWidget size="m" {...props} />,
   mock: () => (
-    <WidgetScreen
+    <DatetimeWidget
       config={{
         title: "Bratislava",
         tz: "Europe/Bratislava",

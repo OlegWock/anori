@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "Co nowego",
         "editWidget": "Edytuj widżet",
+        "removeWidget": "Usuń widget",
+        "moveWidget": "Przenieś widget",
+        "resizeWidget": "Zmień rozmiar widgetu",
         "configureWidget": "Konfiguruj widżet",
         "addWidget": "Dodaj widżet",
+        "addWidgetConfigInvalid": "Nie można dodać widgetu: jego konfiguracja jest nieprawidłowa. Sprawdź konsolę, aby uzyskać szczegóły.",
+        "saveWidgetConfigInvalid": "Nie można zapisać: konfiguracja widgetu jest nieprawidłowa. Sprawdź konsolę, aby uzyskać szczegóły.",
+        "edit": "Edytuj",
+        "done": "Gotowe",
+        "close": "Zamknij",
+        "info": "Informacja",
+        "success": "Sukces",
+        "warning": "Ostrzeżenie",
+        "error": "Błąd",
         "next": "Dalej",
         "back": "Wstecz",
+        "reorder": "Zmień kolejność",
         "icons": "Ikony",
         "customIcons": "Własne ikony",
         "canBeEmpty": "może być puste",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "Nazwa zawiera niedozwolone znaki, dozwolone są tylko litery, cyfry, - i _.",
                 "saveIcons": "Zapisz ikony",
                 "supportedFormats": "Anori obsługuje .png, .jpg, .gif i .svg. Najlepiej używać kwadratowych obrazów o szerokości od 128 do 256 pikseli (nie dotyczy .svg).",
-                "importIcons": "Importuj ikony"
+                "addIcons": "Dodaj ikony",
+                "removeIcon": "Usuń ikonę",
+                "newIcons": "Nowe ikony",
+                "discardIcons": "Odrzuć"
             },
             "folders": {
                 "title": "Teczki",
-                "createNew": "Utwórz nową teczkę",
-                "defaultName": "Nowa teczka"
+                "createNew": "Nowy folder",
+                "defaultName": "Nowa teczka",
+                "reorder": "Zmień kolejność",
+                "changeIcon": "Zmień ikonę",
+                "removeFolder": "Usuń folder"
             },
             "pluginSettings": {
                 "title": "Ustawienia wtyczek"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "Motyw",
                 "createCustom": "Utwórz własny motyw",
+                "newTheme": "Nowy motyw",
+                "editTheme": "Edytuj motyw",
+                "removeTheme": "Usuń motyw",
                 "selectBackground": "Wybierz tło",
+                "changeBackground": "Zmień tło",
                 "blur": "Rozmycie",
                 "colorAccent": "Akcent",
                 "colorBackground": "Tło",
                 "colorText": "Tekst",
-                "colorCode": "Kod koloru"
+                "colorCode": "Kod koloru",
+                "colorScheme": "Schemat kolorów",
+                "colorSchemeSystem": "Systemowy",
+                "colorSchemeLight": "Jasny",
+                "colorSchemeDark": "Ciemny"
             },
             "importExport": {
                 "title": "Import i eksport",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "Hm?",
             "modalTitle": "Wymagane dodatkowe uprawnienia",
             "compactText": "Wymagane dodatkowe uprawnienia. Kliknij, aby zobaczyć szczegóły.",
             "text": "Ten widget wymaga dodatkowych uprawnień:",
@@ -231,13 +257,18 @@
             "statusUp": "dostępna",
             "statusDown": "niedostępna",
             "permissionExplanation": "Anori potrzebuje tego uprawnienia, aby obejść CORS. Sformułowanie przedstawione przez przeglądarkę może brzmieć niepokojąco, ale Anori nie odczytuje ani nie zmienia żadnych danych na stronach z zakładek.",
-            "openInNewTab": "Otwieraj w nowej karcie"
+            "openInNewTab": "Otwieraj w nowej karcie",
+            "openInIframe": "Otwórz w oknie podręcznym",
+            "pages": "Strony",
+            "addPage": "Dodaj stronę"
         },
         "calendar-plugin": {
             "name": "Kalendarz",
             "widgetName": "Kalendarz",
             "firstDayOfWeek": "Pierwszy dzień tygodnia",
-            "calendarType": "Typ kalendarza"
+            "calendarType": "Typ kalendarza",
+            "previousMonth": "Poprzedni miesiąc",
+            "nextMonth": "Następny miesiąc"
         },
         "datetime-plugin": {
             "name": "Data i godzina",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "Popularne strony",
             "widgetHorizontal": "Popularne strony - poziomy",
-            "widgetVertical": "Popularne strony - pionowy"
+            "widgetVertical": "Popularne strony - pionowy",
+            "removeSite": "Usuń witrynę"
         },
         "weather-plugin": {
             "name": "Pogoda",
@@ -316,6 +348,8 @@
             "noPosts": "Brak postów w tym kanale",
             "compactView": "Widok kompaktowy",
             "presetsTitle": "Dodaj swoje ulubione kanały lub wybierz jeden z gotowych zestawów:",
+            "presetsText": "Nie dodano jeszcze żadnych kanałów? Mamy gotowe zestawy dla <0>deweloperów</0>, <1>projektantów</1> oraz jeden z <2>różnymi ciekawostkami</2>.",
+            "addFeed": "Dodaj kanał",
             "presetForDevelopers": "Dla programistów",
             "presetForDesigners": "Dla projektantów",
             "presetInteresting": "Po prostu ciekawe rzeczy",
@@ -336,6 +370,7 @@
             "name": "Osadzona strona",
             "expandWidgetName": "Osadzona strona — rozwijana",
             "showLink": "Pokaż link do oryginalnej strony",
+            "openPage": "Otwórz stronę",
             "limitations": "Osadzanie nie działa ze wszystkimi stronami. Niektóre witryny aktywnie blokują wyświetlanie jako osadzona strona i niestety Anori niewiele może z tym zrobić. Może to skutkować brakiem możliwości załadowania strony (jak w przypadku Gmaila) lub jej nieprawidłowym działaniem."
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "Jeszcze raz",
             "good": "Dobre",
             "hard": "Trudne",
-            "error": "Nie można połączyć się z AnkiConnect. Upewnij się, że Anki jest uruchomione i AnkiConnect jest zainstalowany.",
+            "errorTitle": "Nie można połączyć się z AnkiConnect",
+            "error": "Upewnij się, że Anki jest uruchomione i dodatek AnkiConnect jest zainstalowany.",
             "widgetName": "Anki"
         }
     }

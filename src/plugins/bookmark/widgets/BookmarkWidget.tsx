@@ -1,26 +1,39 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
-import { Link } from "@anori/components/Link";
-import { RequirePermissions } from "@anori/components/RequirePermissions";
-import { Tooltip } from "@anori/components/Tooltip";
-import { WidgetExpandArea } from "@anori/components/WidgetExpandArea";
+import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { Link } from "@anori/design-system/components/Link/Link";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
+import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useAsyncEffect, useLinkNavigationState } from "@anori/utils/hooks";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
 import { usePermissionsQuery } from "@anori/utils/permissions";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { dnrPermissions, ensureDnrRules } from "@anori/utils/plugins/dnr";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
-import clsx from "clsx";
-import { AnimatePresence } from "framer-motion";
 import moment from "moment-timezone";
+import { AnimatePresence } from "motion/react";
 import { type MouseEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { cx } from "styled-system/css";
+import { token } from "styled-system/tokens";
 import { updatePageStatusForWidget } from "../background";
 import { useBookmarkStore } from "../storage";
 import type { BookmarkWidgetConfig } from "../types";
-import "./BookmarkWidget.scss";
+import {
+  bookmarkContent,
+  bookmarkH2,
+  bookmarkHost,
+  bookmarkText,
+  cornerControls,
+  expandArea,
+  expandButton,
+  loadingIcon,
+  statusDot,
+  widget,
+} from "./widget-styles";
 
 export const BookmarkWidget = ({
   config,
@@ -70,9 +83,9 @@ export const BookmarkWidget = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
   const statusColor = {
-    loading: "var(--text-disabled)",
-    up: "var(--success-color)",
-    down: "var(--error-color)",
+    loading: token("colors.text.disabled"),
+    up: token("colors.status.up"),
+    down: token("colors.status.down"),
   }[status];
 
   const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);
@@ -109,7 +122,7 @@ export const BookmarkWidget = ({
   return (
     <>
       <Link
-        className={clsx(["BookmarkWidget", `size-${size}`])}
+        className={widget}
         href={isMock ? undefined : normalizedUrl}
         onClick={(e) => {
           trackInteraction("Open bookmark");
@@ -117,14 +130,14 @@ export const BookmarkWidget = ({
         }}
         target={config.openInNewTab ? "_blank" : undefined}
       >
-        <div className="bookmark-content">
-          <div className="text">
-            <h2>{config.title}</h2>
-            <div className="host">{host}</div>
+        <div className={bookmarkContent({ size })}>
+          <div className={bookmarkText}>
+            <h2 className={bookmarkH2({ size })}>{config.title}</h2>
+            <div className={bookmarkHost}>{host}</div>
           </div>
           {isNavigating && !config.openInNewTab ? (
             <Icon
-              className="loading"
+              className={loadingIcon}
               icon={builtinIcons.spinner}
               width={size === "m" ? rem(5.75) : rem(2.25)}
               height={size === "m" ? rem(5.75) : rem(2.25)}
@@ -137,31 +150,27 @@ export const BookmarkWidget = ({
             />
           )}
         </div>
-        <div className="corner-controls">
+        <div className={cornerControls}>
           {config.checkStatus && (
             <Tooltip label={createStatusMessage}>
-              <div className="status-dot" style={{ backgroundColor: statusColor }} />
+              <div className={statusDot} style={{ backgroundColor: statusColor }} />
             </Tooltip>
           )}
 
           {["chrome", "firefox"].includes(X_BROWSER) && (
-            <button type="button" onClick={openIframe} className="open-in-iframe">
-              <div>
-                <Icon icon={builtinIcons.expand} />
-              </div>
-            </button>
+            <IconButton
+              variant="secondary"
+              icon={builtinIcons.expand}
+              label={t("bookmark-plugin.openInIframe")}
+              onClick={openIframe}
+              className={cx(expandButton, "open-in-iframe")}
+            />
           )}
         </div>
       </Link>
       <AnimatePresence>
         {showExpandArea && (
-          <WidgetExpandArea
-            title={config.title}
-            onClose={closeExpand}
-            size="max"
-            withoutScroll
-            className="BookmarkWidget-expand"
-          >
+          <WidgetExpandArea title={config.title} onClose={closeExpand} size="max" withoutScroll className={expandArea}>
             <RequirePermissions
               hosts={[parseHost(config.url)]}
               permissions={dnrPermissions}

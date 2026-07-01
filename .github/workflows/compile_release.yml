@@ -19,6 +19,8 @@ jobs:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
             - run: pnpm install --frozen-lockfile
+            - name: Check translations are complete
+              run: pnpm run translations:check
             - name: get-version
               id: package-version
               uses: martinbeentjes/npm-get-version-action@v1.3.1

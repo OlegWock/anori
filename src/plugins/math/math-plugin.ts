@@ -1,4 +1,4 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
 import { definePlugin } from "@anori/utils/plugins/define";
 import { expandableWidgetDescriptor, widgetDescriptor } from "./widgets/descriptors";
@@ -9,7 +9,5 @@ export const mathPlugin = definePlugin({
     return translate("math-plugin.name");
   },
   icon: builtinIcons.calculator,
-  configurationScreen: null,
-})
-  .withWidgets(widgetDescriptor, expandableWidgetDescriptor)
-  .build();
+  widgets: [widgetDescriptor, expandableWidgetDescriptor],
+}).build();

@@ -1,4 +1,4 @@
-import type { AnoriPlugin } from "@anori/utils/plugins/types";
+import type { SomePlugin } from "@anori/utils/plugins/types";
 import { ankiPlugin } from "./anki/anki-plugin";
 import { bookmarkPlugin } from "./bookmark/bookmark-plugin";
 import { calendarPlugin } from "./calendar/calendar-plugin";
@@ -15,9 +15,9 @@ import { testPlugin } from "./test/test-plugin";
 import { topSitesPlugin } from "./top-sites/top-sites-plugin";
 import { weatherPlugin } from "./weather/weather-plugin";
 
-const unavailableInFirefox: AnoriPlugin[] = [systemStatusPlugin];
+const unavailableInFirefoxIds = new Set<string>([systemStatusPlugin.id]);
 
-export const allPlugins: AnoriPlugin[] = [
+export const allPlugins: SomePlugin[] = [
   bookmarkPlugin,
   iframePlugin,
   datetimePlugin,
@@ -40,7 +40,7 @@ if (X_MODE === "development") {
 
 export const availablePlugins = allPlugins.filter((plugin) => {
   if (X_BROWSER === "firefox") {
-    return !unavailableInFirefox.includes(plugin);
+    return !unavailableInFirefoxIds.has(plugin.id);
   }
 
   return true;

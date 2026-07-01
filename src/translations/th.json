@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "มีอะไรใหม่",
         "editWidget": "แก้ไขวิดเจ็ต",
+        "removeWidget": "ลบวิดเจ็ต",
+        "moveWidget": "ย้ายวิดเจ็ต",
+        "resizeWidget": "ปรับขนาดวิดเจ็ต",
         "configureWidget": "ตั่งค่าวิดเจ็ต",
         "addWidget": "เพิ่มวิดเจ็ต",
+        "addWidgetConfigInvalid": "ไม่สามารถเพิ่มวิดเจ็ตได้: การกำหนดค่าไม่ถูกต้อง ตรวจสอบรายละเอียดใน console",
+        "saveWidgetConfigInvalid": "ไม่สามารถบันทึกได้: การกำหนดค่าวิดเจ็ตไม่ถูกต้อง ตรวจสอบรายละเอียดใน console",
+        "edit": "แก้ไข",
+        "done": "เสร็จสิ้น",
+        "close": "ปิด",
+        "info": "ข้อมูล",
+        "success": "สำเร็จ",
+        "warning": "คำเตือน",
+        "error": "ข้อผิดพลาด",
         "next": "ถัดไป",
         "back": "กลับ",
+        "reorder": "จัดเรียงใหม่",
         "icons": "ไอคอน",
         "customIcons": "ไอคอนที่กำหนดเอง",
         "canBeEmpty": "ว่างเปล่าไม่ได้",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "ชื่อไอคอนมีตัวแักษรที่ไม่ถูกต้อง รองรับเฉพาะ ตัวอักษร, ตัสเลข, - และ  _ เท่านั้น",
                 "saveIcons": "บันทึกไอคอน",
                 "supportedFormats": "Anori รองรับ .png, .jpg, .gif และ .svg. แนะนำให้ใช้รูปสี่เหลี่ยมกว้างระหว่าง 128 และ 256 พิกเซล (ไม่มีผลกับ .svg).",
-                "importIcons": "นำเข้าไอคอน"
+                "addIcons": "เพิ่มไอคอน",
+                "removeIcon": "ลบไอคอน",
+                "newIcons": "ไอคอนใหม่",
+                "discardIcons": "ยกเลิก"
             },
             "folders": {
                 "title": "โฟลเดอร์",
-                "createNew": "สร้างโฟลเดอร์ใหม่",
-                "defaultName": "โฟลเดอร์ใหม่"
+                "createNew": "โฟลเดอร์ใหม่",
+                "defaultName": "โฟลเดอร์ใหม่",
+                "reorder": "จัดเรียงใหม่",
+                "changeIcon": "เปลี่ยนไอคอน",
+                "removeFolder": "ลบโฟลเดอร์"
             },
             "pluginSettings": {
                 "title": "ตั่งค่าส่วนเสริม"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "ธีม",
                 "createCustom": "สร้างธีมแบบปรับแต่งเอง",
+                "newTheme": "ธีมใหม่",
+                "editTheme": "แก้ไขธีม",
+                "removeTheme": "ลบธีม",
                 "selectBackground": "เลือกพื้นหลัง",
+                "changeBackground": "เปลี่ยนพื้นหลัง",
                 "blur": "เบลอ",
                 "colorAccent": "โทน",
                 "colorBackground": "พื้นหลัง",
                 "colorText": "ข้อความ",
-                "colorCode": "รหัสสี"
+                "colorCode": "รหัสสี",
+                "colorScheme": "ชุดสี",
+                "colorSchemeSystem": "ระบบ",
+                "colorSchemeLight": "สว่าง",
+                "colorSchemeDark": "มืด"
             },
             "importExport": {
                 "title": "นำเข้า และ ส่งออก",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "เอ๊ะ?",
             "modalTitle": "ต้องได้รับการอนุญาตเพิ่มเติม",
             "compactText": "ต้องได้รับการอนุญาตเพิ่มเติม, กดเพื่อดูรายละเอียด",
             "text": "วิดเจ็ตนี้ต้องการการอนุญาตเพิ่มเติม:",
@@ -231,13 +257,18 @@
             "statusUp": "ใช้งานได้ปกติ",
             "statusDown": "ไม่สามารถเข้าถึงได้",
             "permissionExplanation": "Anori ต้องการการอนุญาตนี้เพื่อแก้ไข CORS ข้อความที่แสดงโดยเบราว์เซอร์ของคุณอาจดูน่ากังวล แต่ Anori จะไม่เปลี่ยนแปลงหรืออ่านข้อมูลใดๆ จากเว็บไซต์ที่บุ๊กมาร์กไว้",
-            "openInNewTab": "เปิดในแท็บใหม่"
+            "openInNewTab": "เปิดในแท็บใหม่",
+            "openInIframe": "เปิดในป๊อปอัป",
+            "pages": "หน้า",
+            "addPage": "เพิ่มหน้า"
         },
         "calendar-plugin": {
             "name": "ปฏิทิน",
             "widgetName": "ปฏิทิน",
             "firstDayOfWeek": "วันแรกของสัปดาห์",
-            "calendarType": "ประเภทปฏิทิน"
+            "calendarType": "ประเภทปฏิทิน",
+            "previousMonth": "เดือนก่อนหน้า",
+            "nextMonth": "เดือนถัดไป"
         },
         "datetime-plugin": {
             "name": "วันที่และเวลา",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "เว็บไซต์ยอดนิยม",
             "widgetHorizontal": "เว็บไซต์ยอดนิยม - แนวนอน",
-            "widgetVertical": "เว็บไซต์ยอดนิยม - แนวตั่ง"
+            "widgetVertical": "เว็บไซต์ยอดนิยม - แนวตั่ง",
+            "removeSite": "ลบเว็บไซต์"
         },
         "weather-plugin": {
             "name": "สภาพอากาศ",
@@ -316,6 +348,8 @@
             "noPosts": "ยังไม่มีโพสต์ในฟีดนี้",
             "compactView": "มุมมองที่กะทัดรัด",
             "presetsTitle": "ใส่ฟีดโปรดของคุณที่นี่หรือเลือกจากค่าที่ตั้งไว้ล่วงหน้า:",
+            "presetsText": "ยังไม่ได้เพิ่มฟีดใดๆ? เรามีพรีเซ็ตสำหรับ<0>นักพัฒนา</0>, <1>นักออกแบบ</1>, และอีกหนึ่งพรีเซ็ตที่มี<2>เรื่องน่าสนใจหลากหลาย</2>",
+            "addFeed": "เพิ่มฟีด",
             "presetForDevelopers": "สำหรับนักพัฒนา",
             "presetForDesigners": "สำหรับนักออกแบบ",
             "presetInteresting": "สิ่งที่น่าสนใจ",
@@ -336,6 +370,7 @@
             "name": "ฝังหน้าเว็บ",
             "expandWidgetName": "ฝังหน้าเว็บ — ขยายได้",
             "showLink": "แสดงลิงก์ไปยังหน้าต้นฉบับe",
+            "openPage": "เปิดหน้า",
             "limitations": "การฝังไม่ได้ใช้ได้กับทุกหน้า เว็บไซต์บางแห่งต่อต้านการแสดงเป็นเพจแบบฝังอย่างจริงจัง และน่าเสียดายที่ Anori ไม่สามารถทำอะไรได้มากเกี่ยวกับเรื่องนี้ ซึ่งอาจส่งผลให้หน้าเว็บไม่โหลด (เช่นในกรณีของ Gmail) หรือทำงานได้ไม่ดี"
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "อีกรอบ",
             "good": "ดี",
             "hard": "ยาก",
-            "error": "ไม่พบ AnkiConnect, โปรดตรวจสอบว่า Anki เปิดใช่งานอยู่และ AnkiConnect ถูกติดตั้งแล้ว",
+            "errorTitle": "ไม่สามารถเชื่อมต่อ AnkiConnect ได้",
+            "error": "โปรดตรวจสอบว่า Anki เปิดใช้งานอยู่และติดตั้ง add-on AnkiConnect แล้ว",
             "widgetName": "Anki"
         }
     }

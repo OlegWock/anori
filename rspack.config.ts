@@ -4,7 +4,6 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import { RsdoctorRspackPlugin } from "@rsdoctor/rspack-plugin";
 import { defineConfig } from "@rspack/cli";
-// @ts-expect-error Incompatible declarations
 import FileManagerPlugin from "filemanager-webpack-plugin";
 // @ts-expect-error No declarations for this module!
 import GenerateFiles from "generate-file-webpack-plugin";
@@ -19,7 +18,13 @@ import packageJson from "./package.json" with { type: "json" };
 const require = createRequire(import.meta.url);
 
 import type { RspackOptions } from "@rspack/core";
-import { CopyRspackPlugin, DefinePlugin, ProgressPlugin } from "@rspack/core";
+import {
+  CopyRspackPlugin,
+  CssExtractRspackPlugin,
+  DefinePlugin,
+  ProgressPlugin,
+  SwcJsMinimizerRspackPlugin,
+} from "@rspack/core";
 import { generateManifest } from "./build_helpers/manifest.ts";
 import {
   constructEntriesAndOutputs,
@@ -37,6 +42,7 @@ const baseDist = "./dist";
 export default defineConfig(async (env, argv): Promise<RspackOptions> => {
   const { mode = "development" } = argv;
   const { targetBrowser = "chrome" } = env;
+  const isWatch = process.argv.includes("--watch");
   const currentYear = new Date().getFullYear();
 
   const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
@@ -58,6 +64,9 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     react: {
       runtime: "automatic",
       development: mode === "development",
+      // Dev only: route JSX through our wrapper runtime that stamps `data-component`/`data-source`
+      // onto DOM elements (see src/dev-jsx). Not set in production, so it's compiled out entirely.
+      ...(mode === "development" ? { importSource: "@anori/dev-jsx" } : {}),
     },
   };
 
@@ -65,6 +74,13 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     mode,
     devtool: false,
     entry: entries,
+    // motion (framer-motion) optionally `require()`s @emotion/is-prop-valid inside a try/catch and works
+    // fine without it. It builds the specifier dynamically, so the bundler flags a "Critical dependency"
+    // (and historically a "Can't resolve") warning; silence both instead of adding the dependency.
+    ignoreWarnings: [
+      /Can't resolve '@emotion\/is-prop-valid'/,
+      { module: /motion.*filter-props/, message: /Critical dependency: the request of a dependency is an expression/ },
+    ],
     experiments: {
       incremental: "safe",
     },
@@ -72,12 +88,17 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       maxAssetSize: 1024 * 1024 * 20,
       maxEntrypointSize: 1024 * 1024 * 20,
     },
+    optimization: {
+      // `--env unminified` keeps production React (NODE_ENV/jsx) but skips minification for readable output.
+      minimize: mode === "production" && !env.unminified,
+      minimizer: [new SwcJsMinimizerRspackPlugin()],
+    },
     watchOptions: {
-      // Ignore everything not in /src
-      ignored: /^(?!.*[\\/]src[\\/]).*$/,
+      // Ignore everything not in /src and /styled-system
+      ignored: /^(?!.*[\\/](?:src|styled-system)[\\/]).*$/,
     },
     output: {
-      clean: true,
+      clean: !isWatch,
       filename: (pathData) => {
         if (!pathData.chunk) {
           throw new Error("pathData.chunk not defined for some reason");
@@ -105,6 +126,9 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         "@anori/plugins": path.resolve(__dirname, paths.src.plugins),
         "@anori/translations": path.resolve(__dirname, paths.src.translations),
         "@anori/cloud-integration": path.resolve(__dirname, paths.src.base, "cloud-integration"),
+        "@anori/design-system": path.resolve(__dirname, paths.src.base, "design-system"),
+        "@anori/dev-jsx": path.resolve(__dirname, paths.src.base, "dev-jsx"),
+        "styled-system": path.resolve(__dirname, "styled-system"),
       },
       aliasFields: ["browser", "worker"],
 
@@ -118,13 +142,19 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       },
 
       // modules: [path.resolve(__dirname, paths.src.base), "node_modules"],
-      extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+      extensions: ["*", ".js", ".jsx", ".ts", ".tsx", ".mjs"],
     },
     module: {
       defaultRules: [
         "...", // Add rules applied by webpack by default
       ],
       rules: [
+        // Generated styled-system (Panda) ships .mjs with extensionless imports.
+        {
+          test: /\.mjs$/,
+          type: "javascript/auto",
+          resolve: { fullySpecified: false },
+        },
         // Typescript TSX
         {
           test: /\.(ts|tsx)$/,
@@ -161,34 +191,21 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         },
         // Styles
         {
-          test: /\.s[ac]ss$/i,
-          resourceQuery: { not: [/raw/] },
-          use: [
-            {
-              loader: "style-loader",
-            },
-            {
-              loader: "css-loader",
-              options: {
-                url: false,
-              },
-            },
-            {
-              loader: "sass-loader",
-            },
-          ],
-        },
-        {
           test: /\.css$/,
           use: [
             {
-              loader: "style-loader",
+              loader: CssExtractRspackPlugin.loader,
             },
             {
               loader: "css-loader",
               options: {
                 url: false,
               },
+            },
+            {
+              // Panda's postcss plugin (postcss.config.cjs) generates the design-system CSS inline
+              // during the single rspack build (src/panda.css is the layer entry it injects into).
+              loader: "postcss-loader",
             },
           ],
         },
@@ -211,6 +228,14 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     plugins: [
       new TsCheckerRspackPlugin({ typescript: { mode: "write-references" } }),
       new ProgressPlugin(),
+      new CssExtractRspackPlugin({
+        filename: (pathData) => {
+          const predefined = outputs[pathData.chunk?.name ?? ""];
+          if (predefined) return predefined.replace(/\.js$/, ".css");
+          return `${paths.dist.chunks}/${pathData.chunk?.name ?? pathData.chunk?.id}.css`;
+        },
+        chunkFilename: `${paths.dist.chunks}/[id].css`,
+      }),
       new DefinePlugin({
         X_MODE: JSON.stringify(mode),
         X_BROWSER: JSON.stringify(targetBrowser),
@@ -282,9 +307,12 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         }),
       process.env.RSDOCTOR &&
         new RsdoctorRspackPlugin({
-          supports: {
-            generateTileGraph: true,
-          },
+          // The live analyzer server crashes serializing this project's graph: socket.io-parser's hasBinary
+          // recurses without cycle detection and overflows the stack on the graph's circular references.
+          // Brief mode writes a static HTML report (build-time + bundle-size analysis) instead; disabling the
+          // client server avoids that crash and lets the build process exit (the server otherwise hangs it).
+          mode: "brief",
+          disableClientServer: true,
         }),
     ].filter(Boolean),
   };

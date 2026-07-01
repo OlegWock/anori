@@ -1,22 +1,36 @@
 import { Onboarding } from "@anori/components/Onboarding";
-import { MotionScrollArea } from "@anori/components/ScrollArea";
-import { WidgetCard } from "@anori/components/WidgetCard";
-import type { GridContent, GridDimensions, GridItem, GridPosition } from "@anori/utils/grid/types";
+import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
+import { MotionScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import type { GridDimensions, GridPosition } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@anori/utils/grid/utils";
-import type { AnoriPlugin, ConfigFromWidgetDescriptor, WidgetDescriptor } from "@anori/utils/plugins/types";
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
-import { AnimatePresence, m } from "framer-motion";
-import type { Ref } from "react";
+import { AnimatePresence, m } from "motion/react";
+import { memo, type Ref } from "react";
+import { css, cva } from "styled-system/css";
 
-type LayoutArg<WD extends WidgetDescriptor[] = WidgetDescriptor[], W extends WD[number] = WD[number]> = {
-  pluginId: string;
-  widgetId: string;
-  instanceId: string;
-  plugin: AnoriPlugin<string, Mapping, WD>;
-  widget: W;
-  configuration: ConfigFromWidgetDescriptor<W>;
-};
+const grid = css({ flexGrow: 1, alignSelf: "stretch", position: "relative", display: "flex" });
+// Make the ScrollArea content (and the grid wrapper inside it) flex so the grid fills the viewport.
+const gridViewport = css({
+  display: "flex",
+  flexGrow: 1,
+  "& > div": { display: "flex", flexGrow: 1, alignItems: "stretch" },
+});
+const relativeWrapper = cva({
+  base: { position: "relative", flexGrow: 1 },
+  // Empty folder: center the onboarding within the grid area.
+  variants: { onboarding: { true: { display: "flex", justifyContent: "center", alignItems: "center" } } },
+});
+
+const placeholderCell = css({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  background: "frosted.strong",
+  borderRadius: "lg",
+  userSelect: "none",
+  pointerEvents: "none",
+});
 
 export type LayoutChange =
   | {
@@ -44,8 +58,8 @@ export type WidgetsGridProps = {
   isEditing: boolean;
   gridDimensions: GridDimensions;
   gapSize: number;
-  layout: GridContent<LayoutArg>;
-  onEditWidget: (w: GridItem<LayoutArg>) => void;
+  layout: WidgetInFolderWithMeta[];
+  onEditWidget: (w: WidgetInFolderWithMeta) => void;
   onUpdateWidgetConfig: (instaceId: string, config: Partial<Mapping>) => void;
   onLayoutUpdate?: (changes: LayoutChange[]) => void;
   showOnboarding?: boolean;
@@ -53,7 +67,7 @@ export type WidgetsGridProps = {
   scrollAreaRef?: Ref<HTMLDivElement>;
 };
 
-export const WidgetsGrid = ({
+export const WidgetsGrid = memo(function WidgetsGrid({
   isEditing,
   gridDimensions,
   gapSize,
@@ -64,7 +78,7 @@ export const WidgetsGrid = ({
   onLayoutUpdate = () => {},
   gridRef,
   scrollAreaRef,
-}: WidgetsGridProps) => {
+}: WidgetsGridProps) {
   const tryRepositionWidget = (widget: WidgetInFolderWithMeta, position: GridPosition) => {
     const canPlaceThere = canPlaceItemInGrid({
       grid: gridDimensions,
@@ -123,16 +137,17 @@ export const WidgetsGrid = ({
 
   return (
     <MotionScrollArea
-      className="WidgetsGrid"
-      contentClassName="WidgetsGrid-viewport"
+      className={grid}
+      contentClassName={gridViewport}
       layout
       layoutRoot
+      layoutScroll
       direction="both"
       type="hover"
       color="translucent"
       ref={scrollAreaRef}
     >
-      <div className="widgets-relative-wrapper" ref={gridRef}>
+      <div className={relativeWrapper({ onboarding: showOnboarding })} ref={gridRef}>
         <AnimatePresence>
           {isEditing &&
             new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {
@@ -141,25 +156,18 @@ export const WidgetsGrid = ({
               const position = positionToPixelPosition({ grid: gridDimensions, position: { x, y } });
               return (
                 <m.div
+                  className={placeholderCell}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.18 }}
                   key={`${x}_${y}`}
                   style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
                     y: position.y,
                     x: position.x,
                     margin: gapSize,
                     width: gridDimensions.boxSize - gapSize * 2,
                     height: gridDimensions.boxSize - gapSize * 2,
-                    background: "hsla(var(--text-hsl) / 0.15)",
-                    borderRadius: 12,
-                    userSelect: "none",
-                    WebkitUserSelect: "none",
-                    pointerEvents: "none",
                   }}
                 />
               );
@@ -187,7 +195,7 @@ export const WidgetsGrid = ({
                 key={w.instanceId}
                 size={w}
                 position={w}
-                onUpdateConfig={(conf) => onUpdateWidgetConfig(w.instanceId, conf)}
+                onUpdateConfig={onUpdateWidgetConfig}
                 onRemove={() => onLayoutUpdate([{ type: "remove", instanceId: w.instanceId }])}
                 onEdit={w.widget.configurationScreen ? () => onEditWidget(w) : undefined}
                 onResize={(width, height) => tryResizeWidget(w, width, height)}
@@ -204,4 +212,4 @@ export const WidgetsGrid = ({
       </div>
     </MotionScrollArea>
   );
-};
+});

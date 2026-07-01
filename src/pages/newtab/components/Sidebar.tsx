@@ -1,31 +1,93 @@
-import { FolderButton } from "@anori/components/FolderButton";
-import { Modal } from "@anori/components/Modal";
-import { ScrollArea } from "@anori/components/ScrollArea";
-import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
-import { useHotkeys } from "@anori/utils/hooks";
-import { useStorageValue } from "@anori/utils/storage-lib";
-
-import type { Folder } from "@anori/utils/user-data/types";
-import { FloatingDelayGroup } from "@floating-ui/react";
-import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import "./Sidebar.scss";
 import { useCloudAccount, useIsBehindCloudSchema } from "@anori/cloud-integration/hooks";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
+import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
+import { SidebarButton } from "@anori/components/SidebarButton/SidebarButton";
 import { WhatsNew } from "@anori/components/WhatsNew";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Modal } from "@anori/design-system/components/Modal/Modal";
+import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
+import { useHotkeys } from "@anori/utils/hooks";
 import { anoriSchema } from "@anori/utils/storage";
-import clsx from "clsx";
+import { useStorageValue } from "@anori/utils/storage-lib";
+import type { Folder } from "@anori/utils/user-data/types";
+import { AnimatePresence } from "motion/react";
+import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { css, cva } from "styled-system/css";
 import { CloudAccountModal, SettingsModal } from "../lazy-components";
 
 export type SidebarProps = {
   folders: Folder[];
   activeFolder: Folder;
   orientation: "vertical" | "horizontal";
+  bookmarksBarVisible?: boolean;
   onFolderClick: (folder: Folder) => void;
 };
 
-export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: SidebarProps) => {
+const sidebarWrapper = cva({
+  base: { overflow: "hidden" },
+  variants: {
+    orientation: {
+      vertical: { paddingBlock: "7", paddingInline: "2" },
+      horizontal: { paddingBlock: "4", paddingInline: "6" },
+    },
+    autohide: { true: { "--sidebar-display": "none", "&:hover": { "--sidebar-display": "flex" } } },
+    bookmarksBar: { true: {} },
+  },
+  compoundVariants: [
+    { orientation: "vertical", autohide: true, css: { paddingInline: "4!", "&:hover": { paddingInline: "2!" } } },
+    { orientation: "vertical", bookmarksBar: true, css: { paddingTop: "2!" } },
+  ],
+});
+
+const sidebar = css({
+  flexGrow: 0,
+  flexShrink: 0,
+  zIndex: 1,
+  maxHeight: "100%",
+  minHeight: "100%",
+  display: "var(--sidebar-display, flex) !important",
+});
+
+const sidebarViewport = cva({
+  base: {
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+    "& > .ScrollAreaContent": {
+      flexGrow: 1,
+      height: "100%",
+      minHeight: "100%",
+      display: "flex",
+    },
+  },
+  variants: {
+    orientation: {
+      vertical: {},
+      horizontal: { "& > .ScrollAreaContent": { flexDirection: "column" } },
+    },
+  },
+});
+
+const sidebarContent = cva({
+  base: { display: "flex !important", gap: "8", _compact: { gap: "6" } },
+  variants: {
+    orientation: {
+      vertical: { flexDirection: "column", paddingBlock: "3", paddingInline: "6" },
+      horizontal: { flexDirection: "row", padding: "3" },
+    },
+  },
+});
+
+const spacer = css({ flexGrow: 1 });
+
+export const Sidebar = memo(function Sidebar({
+  folders,
+  activeFolder,
+  orientation,
+  bookmarksBarVisible,
+  onFolderClick,
+}: SidebarProps) {
   const { t } = useTranslation();
   const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useStorageValue(anoriSchema.hasUnreadReleaseNotes);
   const [autoHideSidebar] = useStorageValue(anoriSchema.autoHideSidebar);
@@ -41,20 +103,25 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
 
   return (
     <>
-      <div className={clsx("sidebar-wrapper", (autoHideSidebar ?? false) && "sidebar-autohide")}>
+      <div
+        className={sidebarWrapper({
+          orientation,
+          autohide: autoHideSidebar ?? false,
+          bookmarksBar: bookmarksBarVisible ?? false,
+        })}
+      >
         <ScrollArea
-          className="sidebar"
-          contentClassName="sidebar-viewport"
-          color="translucent"
+          className={sidebar}
+          contentClassName={sidebarViewport({ orientation })}
           type="hover"
           direction={orientation}
           mirrorVerticalScrollToHorizontal
         >
-          <div className="sidebar-content">
-            <FloatingDelayGroup delay={{ open: 50, close: 50 }}>
+          <div className={sidebarContent({ orientation })}>
+            <TooltipProvider delay={50} closeDelay={50}>
               {folders.map((f) => {
                 return (
-                  <FolderButton
+                  <SidebarButton
                     dropDestination={{ id: f.id }}
                     sidebarOrientation={orientation}
                     key={f.id}
@@ -67,8 +134,8 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                   />
                 );
               })}
-              <div className="spacer" />
-              <FolderButton
+              <div className={spacer} />
+              <SidebarButton
                 sidebarOrientation={orientation}
                 layoutId="whats-new"
                 icon={builtinIcons.newspaper}
@@ -79,7 +146,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                   setHasUnreadReleaseNotes(false);
                 }}
               />
-              <FolderButton
+              <SidebarButton
                 sidebarOrientation={orientation}
                 layoutId="cloud-account"
                 icon={builtinIcons.personCircle}
@@ -87,14 +154,14 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
                 withRedDot={isBehindCloudSchema}
                 onClick={() => setCloudModalVisible(true)}
               />
-              <FolderButton
+              <SidebarButton
                 sidebarOrientation={orientation}
                 layoutId="settings"
                 icon={builtinIcons.settings}
                 name={t("settings.title")}
                 onClick={() => setSettingsVisible(true)}
               />
-            </FloatingDelayGroup>
+            </TooltipProvider>
           </div>
         </ScrollArea>
       </div>
@@ -109,7 +176,7 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
 
       <AnimatePresence>
         {whatsNewVisible && (
-          <Modal title={t("whatsNew")} className="WhatsNew-modal" closable onClose={() => setWhatsNewVisible(false)}>
+          <Modal title={t("whatsNew")} flush closable onClose={() => setWhatsNewVisible(false)}>
             <WhatsNew />
           </Modal>
         )}
@@ -124,4 +191,4 @@ export const Sidebar = ({ folders, activeFolder, orientation, onFolderClick }: S
       </AnimatePresence>
     </>
   );
-};
+});

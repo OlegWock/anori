@@ -4,14 +4,15 @@
     "compilerOptions": {
         "lib": ["es6", "es2023", "dom", "dom.iterable", "WebWorker"],
         "types": ["vitest/globals"],
-        "baseUrl": ".",
         "paths": {
             "@anori/utils/*": ["./src/utils/*"],
             "@anori/components/*": ["./src/components/*"],
             "@anori/assets/*": ["./src/assets/*"],
             "@anori/plugins/*": ["./src/plugins/*"],
             "@anori/translations/*": ["./src/translations/*"],
-            "@anori/cloud-integration/*": ["./src/cloud-integration/*"]
+            "@anori/cloud-integration/*": ["./src/cloud-integration/*"],
+            "@anori/design-system/*": ["./src/design-system/*"],
+            "styled-system/*": ["./styled-system/*"]
         },
         "outDir": "dist",
         "noImplicitAny": true,

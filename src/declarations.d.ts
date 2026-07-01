@@ -10,15 +10,9 @@ declare module "*?raw" {
   export default content;
 }
 
-declare module "*.scss" {
-  const content: string;
-  export default content;
-}
-
-declare module "*.sass" {
-  const content: string;
-  export default content;
-}
+// moment ships locale files but not type declarations for the `moment/locale/*` subpaths; they're
+// imported only for their side effect (registering the locale).
+declare module "moment/locale/*";
 
 declare module "*.css" {
   const content: string;
@@ -28,6 +22,11 @@ declare module "*.css" {
 declare module "~icons/*?raw" {
   const content: string;
   export default content;
+}
+
+declare module "apca-w3" {
+  export function APCAcontrast(textY: number, bgY: number): number | string;
+  export function sRGBtoY(rgb: number[]): number;
 }
 
 declare const X_MODE: "development" | "production";

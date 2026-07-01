@@ -1,9 +1,9 @@
-import { RequirePermissions } from "@anori/components/RequirePermissions";
+import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { translate } from "@anori/translations/utils";
 import { parseHost } from "@anori/utils/misc";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { defineWidget } from "@anori/utils/plugins/define";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
-import type { RssFeedConfig, RssLatestPostConfig } from "../types";
+import { type RssFeedConfig, type RssLatestPostConfig, rssFeedConfigSchema, rssLatestPostConfigSchema } from "../types";
 import { RssFeed, RssFeedMock } from "./RssFeedWidget";
 import { RssFeedConfigScreen } from "./RssFeedWidgetConfig";
 import { RssLatestPost, RssLatestPostMock } from "./RssLatestPostWidget";
@@ -14,6 +14,7 @@ export const rssFeedDescriptor = defineWidget({
   get name() {
     return translate("rss-plugin.widgetFeedName");
   },
+  schema: rssFeedConfigSchema,
   configurationScreen: RssFeedConfigScreen,
   mainScreen: (props: WidgetRenderProps<RssFeedConfig>) => (
     <RequirePermissions hosts={props.config.feedUrls.map((u) => parseHost(u))}>
@@ -37,6 +38,7 @@ export const rssLastestPostDescriptor = defineWidget({
   get name() {
     return translate("rss-plugin.widgetLatestPostName");
   },
+  schema: rssLatestPostConfigSchema,
   configurationScreen: RssLatestPostConfigScreen,
   mainScreen: (props: WidgetRenderProps<RssLatestPostConfig>) => (
     <RequirePermissions compact hosts={[parseHost(props.config.feedUrl)]} permissions={["tabs"]}>
@@ -46,6 +48,8 @@ export const rssLastestPostDescriptor = defineWidget({
   mock: RssLatestPostMock,
   appearance: {
     withHoverAnimation: true,
+    // The whole card is a link, so drop the card padding and re-add it inside the link itself.
+    withoutPadding: true,
     resizable: {
       min: { width: 2, height: 1 },
       max: { width: 3, height: 1 },

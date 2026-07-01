@@ -1,8 +1,10 @@
 import { setPageTitle } from "@anori/utils/page";
 import { mountPage } from "@anori/utils/react";
-import "./styles.scss";
+import "../../panda.css";
+import "./globals.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
-import { BookmarksBar, scheduleLazyComponentsPreload } from "@anori/components/lazy-components";
+import { BookmarksBar } from "@anori/components/BookmarksBar/BookmarksBar";
+import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { languageDirections } from "@anori/translations/metadata";
 import { initTranslation } from "@anori/translations/utils";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
@@ -15,14 +17,42 @@ import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
+import type { Folder } from "@anori/utils/user-data/types";
 import { DirectionProvider } from "@radix-ui/react-direction";
-import clsx from "clsx";
-import { AnimatePresence, LazyMotion, MotionConfig, m } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, domMax, LazyMotion, MotionConfig, m } from "motion/react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { css, cva } from "styled-system/css";
 import { FolderContent } from "./components/FolderContent";
 import { Sidebar } from "./components/Sidebar";
+import { scheduleLazyComponentsPreload } from "./lazy-components";
 
-const loadMotionFeatures = () => import("@anori/utils/motion/framer-motion-features").then(({ domMax }) => domMax);
+const startPage = css({ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column" });
+const startPageContent = cva({
+  base: { display: "flex", flex: 1, overflow: "hidden" },
+  variants: { orientation: { vertical: {}, horizontal: { flexDirection: "column-reverse" } } },
+});
+const widgetsArea = cva({
+  base: {
+    position: "relative",
+    flex: 1,
+    borderRadius: "2xl",
+    background: "frosted.subtle",
+    backdropFilter: "blur(10px)",
+    zIndex: 1,
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    minWidth: 0,
+  },
+  variants: {
+    orientation: {
+      vertical: { marginBlock: "8", marginInlineStart: 0, marginInlineEnd: "8" },
+      horizontal: { marginTop: "8", marginInline: "8", marginBottom: 0 },
+    },
+    // The bookmarks bar takes the top, so tighten the widgets-area top margin. `!` to win over orientation.
+    bookmarksBar: { true: { marginTop: "1!" } },
+  },
+});
 
 const useSidebarOrientation = () => {
   const [sidebarOrientation] = useStorageValue(anoriSchema.sidebarOrientation);
@@ -74,6 +104,13 @@ const Start = () => {
     includeHome: true,
     defaultFolderId: rememberLastFolder ? lastFolder : undefined,
   });
+  const onFolderClick = useCallback(
+    (f: Folder) => {
+      setActiveFolder(f);
+      if (rememberLastFolder) setLastFolder(f.id);
+    },
+    [setActiveFolder, rememberLastFolder, setLastFolder],
+  );
   const activeFolderIndex = folders.findIndex((f) => f.id === activeFolder.id) ?? 0;
   const previousActiveFolderIndex = usePrevious(activeFolderIndex);
   const animationDirection =
@@ -107,31 +144,26 @@ const Start = () => {
   return (
     <DirectionProvider dir={dir}>
       <MotionConfig transition={{ duration: 0.2, ease: "easeInOut" }}>
-        <AnimatePresence>
-          <m.div
-            className={clsx("StartPage", `${sidebarOrientation}-sidebar`, showBookmarksBar && "with-bookmarks-bar")}
-            key="start-page"
-          >
-            {showBookmarksBar && (
-              <BookmarksBar lazyOptions={{ fallback: <div className="bookmarks-bar-placeholder" /> }} />
-            )}
-            <div className={clsx("start-page-content")}>
-              <Sidebar
-                folders={folders}
-                activeFolder={activeFolder}
-                orientation={sidebarOrientation}
-                onFolderClick={(f) => {
-                  setActiveFolder(f);
-                  if (rememberLastFolder) setLastFolder(f.id);
-                }}
-              />
+        <TooltipProvider delay={200} closeDelay={100} timeout={0}>
+          <AnimatePresence>
+            <m.div className={startPage} key="start-page">
+              {showBookmarksBar && <BookmarksBar />}
+              <div className={startPageContent({ orientation: sidebarOrientation })}>
+                <Sidebar
+                  folders={folders}
+                  activeFolder={activeFolder}
+                  orientation={sidebarOrientation}
+                  bookmarksBarVisible={showBookmarksBar}
+                  onFolderClick={onFolderClick}
+                />
 
-              <div className="widgets-area">
-                <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
+                <div className={widgetsArea({ orientation: sidebarOrientation, bookmarksBar: showBookmarksBar })}>
+                  <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
+                </div>
               </div>
-            </div>
-          </m.div>
-        </AnimatePresence>
+            </m.div>
+          </AnimatePresence>
+        </TooltipProvider>
       </MotionConfig>
     </DirectionProvider>
   );
@@ -139,17 +171,14 @@ const Start = () => {
 
 watchForPermissionChanges();
 
-getAnoriStorage().then((storage) => {
-  initTranslation();
+getAnoriStorage().then(async (storage) => {
+  // Kick off translation loading immediately (the active language may be a lazily-loaded chunk), then
+  // await it just before mount so React never renders raw i18n keys.
+  const translationReady = initTranslation();
   const title = storage.get(anoriSchema.newTabTitle);
   setPageTitle(title);
 
   storage.files.get(anoriSchema.customIcons.all()); // This preloads custom icon blobs into cache
-
-  const showBookmarksBar = storage.get(anoriSchema.showBookmarksBar);
-  if (showBookmarksBar) {
-    BookmarksBar.preload();
-  }
 
   const showLoadAnimation = storage.get(anoriSchema.showLoadAnimation);
   const div = document.querySelector(".loading-cover");
@@ -169,17 +198,17 @@ getAnoriStorage().then((storage) => {
   plantPerformanceMetricsListeners();
   scheduleLazyComponentsPreload();
   incrementDailyUsageMetric("Times new tab opened");
+  await translationReady;
   mountPage(
     <StorageContext.Provider value={storage}>
       <QueryClientProvider>
         <CompactModeProvider>
-          {/* strict mode temporary disabled due to strict https://github.com/framer/motion/issues/2094 */}
-          <LazyMotion features={loadMotionFeatures}>
+          {/* strict mode temporary disabled due to https://github.com/framer/motion/issues/2094 */}
+          <LazyMotion features={domMax}>
             <Start />
           </LazyMotion>
         </CompactModeProvider>
       </QueryClientProvider>
-      ,
     </StorageContext.Provider>,
   );
 });

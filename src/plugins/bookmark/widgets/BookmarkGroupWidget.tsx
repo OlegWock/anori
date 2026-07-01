@@ -1,18 +1,17 @@
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { Icon } from "@anori/components/icon/Icon";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useLinkNavigationState } from "@anori/utils/hooks";
 import { normalizeUrl } from "@anori/utils/misc";
-import type { WidgetRenderProps } from "@anori/utils/plugins/types";
+import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { isMacLike } from "@anori/utils/shortcuts";
-import clsx from "clsx";
 import type { MouseEventHandler } from "react";
 import { useTranslation } from "react-i18next";
 import { sendMessage } from "../messaging";
 import type { BookmarkGroupWidgetConfig } from "../types";
-import "./BookmarkWidget.scss";
+import { bookmarkContent, bookmarkH2, bookmarkHost, bookmarkText, loadingIcon, widget } from "./widget-styles";
 
 export const BookmarkGroupWidget = ({
   config,
@@ -43,20 +42,15 @@ export const BookmarkGroupWidget = ({
   const size = width === 1 ? "s" : "m";
 
   return (
-    <button
-      type="button"
-      className={clsx(["BookmarkWidget", `size-${size}`])}
-      onClick={openGroup}
-      onAuxClick={openGroup}
-    >
-      <div className="bookmark-content">
-        <div className="text">
-          <h2>{config.title}</h2>
-          <div className="host">{t("bookmark-plugin.group")}</div>
+    <button type="button" className={widget} onClick={openGroup} onAuxClick={openGroup}>
+      <div className={bookmarkContent({ size })}>
+        <div className={bookmarkText}>
+          <h2 className={bookmarkH2({ size })}>{config.title}</h2>
+          <div className={bookmarkHost}>{t("bookmark-plugin.group")}</div>
         </div>
         {isNavigating ? (
           <Icon
-            className="loading"
+            className={loadingIcon}
             icon={builtinIcons.spinner}
             width={size === "m" ? rem(5.75) : rem(2.25)}
             height={size === "m" ? rem(5.75) : rem(2.25)}

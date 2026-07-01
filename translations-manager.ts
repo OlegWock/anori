@@ -23,6 +23,8 @@ const MAX_USAGES_PER_KEY = 3;
 
 // Toggled by the -v/--verbose CLI flag; dumps raw model responses when parsing fails.
 let verbose = false;
+// Toggled by the --strict CLI flag; makes `status` exit non-zero when any key is missing or stale (for CI).
+let strict = false;
 
 const FINISHED_TRANSLATIONS = [
   "en",
@@ -410,6 +412,10 @@ const main = async () => {
       verbose = true;
       return false;
     }
+    if (arg === "--strict") {
+      strict = true;
+      return false;
+    }
     return true;
   });
   const command = args[0];
@@ -419,14 +425,20 @@ const main = async () => {
 
   if (command === "status") {
     const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
+    let hasIssues = false;
     for (const lang of targetLanguages) {
       const { missing, stale } = computeOutdated(lang, enFlat, fingerprints);
       const total = Object.keys(enFlat).length;
       const ok = total - missing.length - stale.length;
       const mark = missing.length === 0 && stale.length === 0 ? "✅" : "⚠️ ";
+      if (missing.length > 0 || stale.length > 0) hasIssues = true;
       console.log(
         `${mark} ${lang.padEnd(6)} ${ok}/${total} up to date — ${missing.length} missing, ${stale.length} stale`,
       );
+    }
+    if (strict && hasIssues) {
+      console.error("\n❌ Some translations are missing or stale. Run `pnpm translations:translate all`.");
+      process.exit(1);
     }
   } else if (command === "translate") {
     const requested = args[1];

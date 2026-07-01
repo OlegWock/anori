@@ -1,5 +1,5 @@
 import { availableTranslations, type Language } from "@anori/translations/metadata";
-import type { Color } from "@anori/utils/color";
+import { type HslColor, hslColorToOklch } from "@anori/utils/color";
 import {
   BookmarkWidgetStoreSchema,
   NotesWidgetStoreSchema,
@@ -12,6 +12,7 @@ import {
 import {
   cell,
   collection,
+  createMigration,
   defineSchemaVersion,
   defineVersionedSchema,
   entity,
@@ -44,27 +45,40 @@ const FolderDetailsSchema = z.object({
 
 export type FolderDetails = z.infer<typeof FolderDetailsSchema>;
 
-const ColorSchema: z.ZodType<Color> = z.object({
+const HslColorSchema: z.ZodType<HslColor> = z.object({
   hue: z.number(),
   saturation: z.number(),
   lightness: z.number(),
   alpha: z.number(),
 });
 
-const CustomThemeSchema = z.object({
+const CustomThemeSchemaV1 = z.object({
   name: z.string(),
   type: z.literal("custom"),
   blur: z.number(),
   colors: z.object({
-    accent: ColorSchema,
-    background: ColorSchema,
-    text: ColorSchema,
+    accent: HslColorSchema,
+    background: HslColorSchema,
+    text: HslColorSchema,
   }),
+});
+
+const OklchColorSchema = z.object({ l: z.number(), c: z.number(), h: z.number() });
+
+const CustomThemeSchema = z.object({
+  name: z.string(),
+  type: z.literal("custom"),
+  blur: z.number(),
+  accent: OklchColorSchema,
 });
 
 export type CustomTheme = z.infer<typeof CustomThemeSchema>;
 
+const ColorSchemeSchema = z.enum(["light", "dark", "system"]);
+export type ColorScheme = z.infer<typeof ColorSchemeSchema>;
+
 const SidebarOrientationSchema = z.enum(["vertical", "horizontal", "auto"]);
+export type SidebarOrientation = z.infer<typeof SidebarOrientationSchema>;
 
 const LanguageSchema: z.ZodType<Language> = z.enum(availableTranslations);
 
@@ -125,7 +139,7 @@ export const schemaV1 = defineSchemaVersion(1, {
   }),
   customThemes: cell({
     key: "customThemes",
-    schema: z.array(CustomThemeSchema),
+    schema: z.array(CustomThemeSchemaV1),
     defaultValue: [],
     tracked: true,
     includedInBackup: true,
@@ -423,9 +437,42 @@ export const schemaV1 = defineSchemaVersion(1, {
 
 export type AnoriSchemaV1 = typeof schemaV1.definition;
 
+export const schemaV2 = defineSchemaVersion(2, {
+  ...schemaV1.definition,
+  customThemes: cell({
+    key: "customThemes",
+    schema: z.array(CustomThemeSchema),
+    defaultValue: [],
+    tracked: true,
+    includedInBackup: true,
+  }),
+  colorScheme: cell({
+    key: "colorScheme",
+    schema: ColorSchemeSchema,
+    defaultValue: "dark" as const,
+    tracked: true,
+    includedInBackup: true,
+  }),
+});
+
+export type AnoriSchemaV2 = typeof schemaV2.definition;
+
+const migrateV1ToV2 = createMigration(schemaV1, schemaV2, async (ctx) => {
+  const oldThemes = ctx.from.get(ctx.from.schema.customThemes) ?? [];
+  ctx.to.set(
+    ctx.to.schema.customThemes,
+    oldThemes.map((t) => ({
+      name: t.name,
+      type: "custom" as const,
+      blur: t.blur,
+      accent: hslColorToOklch(t.colors.accent),
+    })),
+  );
+});
+
 export const anoriVersionedSchema = defineVersionedSchema({
-  versions: [schemaV1],
-  migrations: [],
+  versions: [schemaV1, schemaV2],
+  migrations: [migrateV1ToV2],
 });
 
 export const anoriSchema = anoriVersionedSchema.latestSchema.definition;

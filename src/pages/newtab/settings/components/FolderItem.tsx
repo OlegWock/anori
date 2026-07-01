@@ -1,14 +1,51 @@
-import { Button } from "@anori/components/Button";
-import { IconPicker } from "@anori/components/IconPicker";
-import { Icon } from "@anori/components/icon/Icon";
-import { Popover } from "@anori/components/Popover";
-import type { Folder } from "@anori/utils/user-data/types";
-import { m, useDragControls } from "framer-motion";
-import { useRef } from "react";
-import "./FolderItem.scss";
-import { builtinIcons } from "@anori/components/icon/builtin-icons";
-import { ReorderItem } from "@anori/components/lazy-components";
+import { IconPicker } from "@anori/components/IconPicker/IconPicker";
+import { Button } from "@anori/design-system/components/Button/Button";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
+import { Input } from "@anori/design-system/components/Input/Input";
+import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { IS_TOUCH_DEVICE } from "@anori/utils/device";
+import { ReorderItem } from "@anori/utils/motion/reorder";
+import type { Folder } from "@anori/utils/user-data/types";
+import { useDragControls } from "motion/react";
+import { useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
+import { token } from "styled-system/tokens";
+
+const row = css({
+  display: "flex",
+  alignItems: "center",
+  gap: "3",
+  paddingBlock: "2",
+  paddingInline: "3",
+  borderRadius: "md",
+  bg: "surface.elevated",
+  boxShadow: "surface.elevated.edge",
+});
+const handle = css({ cursor: "grab!", touchAction: "none", flexShrink: 0 });
+const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center", flexShrink: 0 });
+const staticIcon = css({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "36px",
+  height: "36px",
+  flexShrink: 0,
+});
+const nameInput = css({ flex: 1, minWidth: "0!", marginLeft: "-2" });
+const nameText = css({
+  flex: 1,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  paddingInline: "3",
+});
+const slot = css({ width: "36px", flexShrink: 0 });
+const deleteIcon = css({ "& svg": { height: "1.2em!" } });
+
+export const FOLDER_NAME_INPUT_ATTR = "data-folder-name-input";
 
 export const FolderItem = ({
   folder,
@@ -23,55 +60,72 @@ export const FolderItem = ({
   onIconChange?: (newIcon: string) => void;
   onRemove?: () => void;
 }) => {
+  const { t } = useTranslation();
   const controls = useDragControls();
   const iconSearchRef = useRef<HTMLInputElement>(null);
 
-  const ICON_SIZE = 22;
-
-  if (editable) {
+  if (!editable) {
     return (
-      <ReorderItem value={folder} dragListener={false} dragControls={controls} as="div" className="FolderItem">
-        <Icon
-          className="folder-drag-indicator"
-          icon={builtinIcons.dragHandle}
-          width={ICON_SIZE}
-          onPointerDown={(e) => {
-            e.preventDefault();
-            controls.start(e);
-          }}
-        />
-        <Popover
-          component={IconPicker}
-          initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
-          additionalData={{
-            onSelected: (icon: string) => onIconChange?.(icon),
-            inputRef: iconSearchRef,
-          }}
-        >
-          <Button className="folder-icon">
-            <Icon icon={folder.icon} width={ICON_SIZE} />
-          </Button>
-        </Popover>
-        <input
-          value={folder.name}
-          onChange={(e) => onNameChange?.(e.target.value)}
-          className="folder-name"
-          type="text"
-        />
-        <Button onClick={() => onRemove?.()}>
-          <Icon icon={builtinIcons.close} height={ICON_SIZE} />
-        </Button>
-      </ReorderItem>
+      <div className={row}>
+        <div className={slot} />
+        <div className={staticIcon}>
+          <Icon icon={folder.icon} size="md" />
+        </div>
+        <span className={nameText}>{folder.name}</span>
+        <div className={slot} />
+      </div>
     );
   }
 
   return (
-    <m.div className="FolderItem">
-      <span style={{ width: ICON_SIZE }} />
-      <button className="folder-icon static" type="button">
-        <Icon icon={folder.icon} width={ICON_SIZE} />
-      </button>
-      <span className="folder-name">{folder.name}</span>
-    </m.div>
+    <ReorderItem
+      value={folder}
+      dragListener={false}
+      dragControls={controls}
+      as="div"
+      className={row}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1, transition: { duration: 0.12 } }}
+      exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.12 } }}
+    >
+      <IconButton
+        variant="ghost"
+        icon={builtinIcons.dragHandle}
+        label={t("settings.folders.reorder")}
+        showTooltip={false}
+        className={handle}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          controls.start(e);
+        }}
+      />
+      <Popover
+        component={IconPicker}
+        initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
+        additionalData={{
+          onSelected: (icon: string) => onIconChange?.(icon),
+          inputRef: iconSearchRef,
+          iconColor: token("colors.icon.strong"),
+        }}
+      >
+        <Button variant="frosted" className={iconButton} aria-label={t("settings.folders.changeIcon")}>
+          <Icon icon={folder.icon} size="md" color="icon.strong" />
+        </Button>
+      </Popover>
+      <Input
+        variant="ghost"
+        className={nameInput}
+        value={folder.name}
+        onValueChange={(name) => onNameChange?.(name)}
+        {...{ [FOLDER_NAME_INPUT_ATTR]: folder.id }}
+      />
+      <IconButton
+        variant="ghost"
+        className={deleteIcon}
+        icon={builtinIcons.trash}
+        label={t("settings.folders.removeFolder")}
+        onClick={() => onRemove?.()}
+      />
+    </ReorderItem>
   );
 };

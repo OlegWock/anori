@@ -25,10 +25,23 @@
         "px": "px",
         "whatsNew": "नया क्या है",
         "editWidget": "विजेट संपादित करें",
+        "removeWidget": "विजेट हटाएँ",
+        "moveWidget": "विजेट ले जाएँ",
+        "resizeWidget": "विजेट का आकार बदलें",
         "configureWidget": "विजेट कॉन्फ़िगर करें",
         "addWidget": "विजेट जोड़ें",
+        "addWidgetConfigInvalid": "विजेट नहीं जोड़ा जा सका: इसका कॉन्फ़िगरेशन अमान्य है। विवरण के लिए कंसोल देखें।",
+        "saveWidgetConfigInvalid": "सहेजा नहीं जा सका: विजेट कॉन्फ़िगरेशन अमान्य है। विवरण के लिए कंसोल देखें।",
+        "edit": "संपादित करें",
+        "done": "हो गया",
+        "close": "बंद करें",
+        "info": "जानकारी",
+        "success": "सफलता",
+        "warning": "चेतावनी",
+        "error": "त्रुटि",
         "next": "अगला",
         "back": "वापस",
+        "reorder": "क्रम बदलें",
         "icons": "आइकन",
         "customIcons": "कस्टम आइकन",
         "canBeEmpty": "खाली हो सकता है",
@@ -118,12 +131,18 @@
                 "nameContainsInvalidChars": "नाम में अमान्य वर्ण हैं, केवल अक्षर, अंक, - और _ स्वीकार्य हैं।",
                 "saveIcons": "आइकन सहेजें",
                 "supportedFormats": "Anori .png, .jpg, .gif और .svg को सपोर्ट करता है। 128 से 256 पिक्सेल चौड़ी वर्गाकार छवियाँ उपयोग करना सबसे अच्छा है (.svg पर लागू नहीं)।",
-                "importIcons": "आइकन आयात करें"
+                "addIcons": "आइकन जोड़ें",
+                "removeIcon": "आइकन हटाएँ",
+                "newIcons": "नए आइकन",
+                "discardIcons": "छोड़ें"
             },
             "folders": {
                 "title": "फ़ोल्डर",
-                "createNew": "नया फ़ोल्डर बनाएँ",
-                "defaultName": "नया फ़ोल्डर"
+                "createNew": "नया फ़ोल्डर",
+                "defaultName": "नया फ़ोल्डर",
+                "reorder": "क्रम बदलें",
+                "changeIcon": "आइकन बदलें",
+                "removeFolder": "फ़ोल्डर हटाएँ"
             },
             "pluginSettings": {
                 "title": "प्लगइन सेटिंग्स"
@@ -131,12 +150,20 @@
             "theme": {
                 "title": "थीम",
                 "createCustom": "कस्टम थीम बनाएँ",
+                "newTheme": "नई थीम",
+                "editTheme": "थीम संपादित करें",
+                "removeTheme": "थीम हटाएँ",
                 "selectBackground": "बैकग्राउंड चुनें",
+                "changeBackground": "पृष्ठभूमि बदलें",
                 "blur": "धुंधलापन",
                 "colorAccent": "एक्सेंट",
                 "colorBackground": "बैकग्राउंड",
                 "colorText": "टेक्स्ट",
-                "colorCode": "रंग कोड"
+                "colorCode": "रंग कोड",
+                "colorScheme": "रंग योजना",
+                "colorSchemeSystem": "सिस्टम",
+                "colorSchemeLight": "हल्का",
+                "colorSchemeDark": "गहरा"
             },
             "importExport": {
                 "title": "आयात और निर्यात",
@@ -209,7 +236,6 @@
             }
         },
         "requirePermissions": {
-            "eh": "हम्म?",
             "modalTitle": "अतिरिक्त अनुमतियाँ आवश्यक हैं",
             "compactText": "अतिरिक्त अनुमतियाँ आवश्यक हैं। विवरण देखने के लिए क्लिक करें।",
             "text": "इस विजेट को अतिरिक्त अनुमतियों की आवश्यकता है:",
@@ -231,13 +257,18 @@
             "statusUp": "उपलब्ध",
             "statusDown": "अनुपलब्ध",
             "permissionExplanation": "Anori को CORS से बचने के लिए इस अनुमति की आवश्यकता है। आपका ब्राउज़र जो शब्दावली प्रस्तुत करता है वह भयावह लग सकती है, लेकिन Anori बुकमार्क की गई वेबसाइटों से कोई डेटा नहीं पढ़ता या बदलता है।",
-            "openInNewTab": "नए टैब में खोलें"
+            "openInNewTab": "नए टैब में खोलें",
+            "openInIframe": "पॉपअप में खोलें",
+            "pages": "पृष्ठ",
+            "addPage": "पृष्ठ जोड़ें"
         },
         "calendar-plugin": {
             "name": "कैलेंडर",
             "widgetName": "कैलेंडर",
             "firstDayOfWeek": "सप्ताह का पहला दिन",
-            "calendarType": "कैलेंडर प्रकार"
+            "calendarType": "कैलेंडर प्रकार",
+            "previousMonth": "पिछला महीना",
+            "nextMonth": "अगला महीना"
         },
         "datetime-plugin": {
             "name": "दिनांक और समय",
@@ -280,7 +311,8 @@
         "top-sites-plugin": {
             "name": "शीर्ष साइटें",
             "widgetHorizontal": "शीर्ष साइटें - क्षैतिज",
-            "widgetVertical": "शीर्ष साइटें - ऊर्ध्वाधर"
+            "widgetVertical": "शीर्ष साइटें - ऊर्ध्वाधर",
+            "removeSite": "साइट हटाएँ"
         },
         "weather-plugin": {
             "name": "मौसम",
@@ -316,6 +348,8 @@
             "noPosts": "इस फ़ीड में अभी कोई पोस्ट नहीं है",
             "compactView": "कॉम्पैक्ट व्यू",
             "presetsTitle": "अपने पसंदीदा फ़ीड यहाँ जोड़ें या किसी प्रीसेट में से चुनें:",
+            "presetsText": "अभी तक कोई फ़ीड नहीं जोड़ी? हमारे पास <0>डेवलपर्स</0>, <1>डिज़ाइनर्स</1>, और <2>तरह-तरह की रोचक चीज़ों</2> के लिए प्रीसेट हैं।",
+            "addFeed": "फ़ीड जोड़ें",
             "presetForDevelopers": "डेवलपर्स के लिए",
             "presetForDesigners": "डिज़ाइनर्स के लिए",
             "presetInteresting": "बस दिलचस्प चीज़ें",
@@ -336,6 +370,7 @@
             "name": "वेबपेज एम्बेड करें",
             "expandWidgetName": "वेबपेज एम्बेड करें — विस्तार योग्य",
             "showLink": "मूल पेज का लिंक दिखाएं",
+            "openPage": "पृष्ठ खोलें",
             "limitations": "एम्बेडिंग सभी पेजों के साथ काम नहीं करती। कुछ साइटें एम्बेडेड पेज के रूप में दिखाए जाने का सक्रिय रूप से विरोध करती हैं, और दुर्भाग्य से Anori इसके बारे में ज़्यादा कुछ नहीं कर सकता। इसके परिणामस्वरूप पेज लोड न होना (जैसा Gmail के साथ होता है) या ठीक से काम न करना हो सकता है।"
         },
         "math-plugin": {
@@ -361,7 +396,8 @@
             "again": "फिर से",
             "good": "अच्छा",
             "hard": "कठिन",
-            "error": "AnkiConnect तक पहुँचा नहीं जा सकता, कृपया सुनिश्चित करें कि Anki चल रहा है और AnkiConnect इंस्टॉल है।",
+            "errorTitle": "AnkiConnect तक नहीं पहुँचा जा सकता",
+            "error": "सुनिश्चित करें कि Anki चल रहा है और AnkiConnect ऐड-ऑन इंस्टॉल है।",
             "widgetName": "Anki"
         }
     }
