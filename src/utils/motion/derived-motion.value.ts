@@ -14,8 +14,6 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
     const val = getCurrentDerivedValue(deps, transformer);
     super(val);
     this.deps = [...deps];
-    // The field erases the dep element type (deps are stored heterogeneously and read back as unknown);
-    // transformer was written for the matching dep type, so this narrowing-out cast is safe by construction.
     this.depsTransformer = transformer as (deps: unknown[]) => O;
     this.deps.forEach((d) => {
       d.on("change", this.deriveCurrentValue);
@@ -26,8 +24,6 @@ export class DerivedMotionValue<I, O> extends MotionValue<O> {
   deriveFrom<T>(deps: MotionValue<T>[], transformer: (deps: T[]) => O) {
     this.detach();
     this.deps = [...deps];
-    // The field erases the dep element type (deps are stored heterogeneously and read back as unknown);
-    // transformer was written for the matching dep type, so this narrowing-out cast is safe by construction.
     this.depsTransformer = transformer as (deps: unknown[]) => O;
     this.deps.forEach((d) => {
       d.on("change", this.deriveCurrentValue);

@@ -2,7 +2,7 @@ import type { GridItemSize } from "@anori/utils/grid/types";
 import type { EmptyObject, ID, Mapping } from "@anori/utils/types";
 import type { ComponentType } from "react";
 
-export type WidgetConfigurationScreenProps<T> = {
+export type WidgetConfigScreenProps<T> = {
   widgetId: ID;
   instanceId?: ID;
   currentConfig?: T;
@@ -31,7 +31,7 @@ export type WidgetDescriptor<I extends ID = ID, T extends Mapping = Mapping | Em
   id: I;
   name: string;
   mock: ComponentType<EmptyObject>;
-  configurationScreen: ComponentType<WidgetConfigurationScreenProps<T>> | null;
+  configurationScreen: ComponentType<WidgetConfigScreenProps<T>> | null;
   mainScreen: ComponentType<WidgetRenderProps<T>>;
   appearance: {
     withHoverAnimation?: boolean;
@@ -90,7 +90,7 @@ export type SomeWidget = Omit<WidgetDescriptor, "mainScreen" | "configurationScr
   decode: (raw: unknown) => Mapping;
   encode: (config: unknown) => Mapping;
   mainScreen: ComponentType<WidgetRenderProps<unknown, unknown>>;
-  configurationScreen: ComponentType<WidgetConfigurationScreenProps<unknown>> | null;
+  configurationScreen: ComponentType<WidgetConfigScreenProps<unknown>> | null;
 };
 
 export type SomePlugin = Omit<AnoriPlugin, "widgets" | "configurationScreen"> & {

@@ -14,7 +14,6 @@ import {
 import type { HotkeyCallback, Keys, Options } from "react-hotkeys-hook";
 import { useHotkeys as useHotkeysOriginal } from "react-hotkeys-hook";
 
-// react-hotkeys-hook v5 stopped exporting OptionsOrDependencyArray; it is just Options | a deps array.
 type OptionsOrDependencyArray = Options | DependencyList;
 
 export const useForceRerender = () => {
@@ -118,9 +117,6 @@ export const useHotkeys = (
     return callback(keyboardEvent, hotkeysEvent);
   };
 
-  // App shortcuts should never also fire their browser default — on macOS an Alt+letter combo composes
-  // a character (Alt+E -> dead key, which would land in a focused input), Alt+Arrow navigates history, etc.
-  // Default preventDefault on; a caller passing an options object can still override it.
   const mergedOptions: OptionsOrDependencyArray = Array.isArray(options)
     ? options
     : { preventDefault: true, ...options };

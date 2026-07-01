@@ -1,11 +1,10 @@
 import { wait } from "@anori/utils/misc";
-// Type-only import of the plugin's context type — no runtime plugin<->background cycle.
 import type { RssContext } from "./rss-plugin";
 import { getRssStore, updateFeedsForWidget } from "./utils";
 
 export const rssScheduledCallback = async (ctx: RssContext) => {
   console.log("Updating feeds in background");
-  const widgets = await ctx.getWidgets(); // typed + correlated: config is RssFeedConfig | RssLatestPostConfig
+  const widgets = await ctx.getWidgets();
   const promises = widgets.map(async (w) => {
     const store = getRssStore(w.instanceId);
     await store.waitForLoad();

@@ -21,7 +21,6 @@ const notesWidget = css({
   flexGrow: 1,
   overflow: "hidden",
 });
-// Shared box for the title + body inputs: a tight, full-width field with a darker scrollbar (the editor).
 const noteInput = css({
   margin: "0-5",
   minWidth: 0,
@@ -56,6 +55,7 @@ const noteBodyRendered = css({
   "& .ScrollAreaRoot": { maxHeight: "100%", borderRadius: 0 },
 });
 // Styles the raw HTML react-markdown emits, so these element selectors are inherently nested.
+// TODO: we could provide nicer default styles, especially for headings, tables, and code
 const noteBodyContent = css({
   "& p:not(:first-child)": { marginTop: "1" },
   "& ul, & ol": { listStylePosition: "inside" },

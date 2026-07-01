@@ -8,7 +8,6 @@ export type HslColor = {
   alpha: number;
 };
 
-// OKLCH triplet (l 0..1, c chroma, h degrees). The design system's source-of-truth color shape.
 export type OklchColor = { l: number; c: number; h: number };
 
 const culoriToOklch = converter("oklch");

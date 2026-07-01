@@ -475,8 +475,7 @@ export const anoriVersionedSchema = defineVersionedSchema({
   migrations: [migrateV1ToV2],
 });
 
-// latestSchema is typed as the union of all versions; the runtime value is the latest (v2).
-export const anoriSchema = anoriVersionedSchema.latestSchema.definition as AnoriSchemaV2;
+export const anoriSchema = anoriVersionedSchema.latestSchema.definition;
 
 export type {
   BookmarkWidgetStore,

@@ -1,6 +1,6 @@
 import type { GridItemSize } from "@anori/utils/grid/types";
 import { createOnMessageHandlers } from "@anori/utils/plugins/messaging";
-import type { SomePlugin, SomeWidget, WidgetResizable } from "@anori/utils/plugins/types";
+import type { SomePlugin, SomeWidget, WidgetConfigScreenProps, WidgetResizable } from "@anori/utils/plugins/types";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import type { EmptyObject, Mapping } from "@anori/utils/types";
@@ -20,12 +20,7 @@ export type WidgetRenderProps<WC extends Mapping, PC extends Mapping = EmptyObje
   config: WC;
   pluginConfig?: PC;
 };
-export type WidgetConfigScreenProps<WC extends Mapping> = {
-  widgetId: string;
-  instanceId?: string;
-  currentConfig?: WC;
-  saveConfiguration: (config: WC) => void;
-};
+export type { WidgetConfigScreenProps };
 
 export type WidgetDef<Id extends string, WC extends Mapping, PC extends Mapping> = {
   id: Id;

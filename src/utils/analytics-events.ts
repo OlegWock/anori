@@ -3,8 +3,6 @@ import type { EmptyObject } from "@anori/utils/types";
 
 type NoParams = EmptyObject;
 
-// Per-day usage counters. The schema stores these as a loose `Record<string, number>`, so the precise
-// key union lives here, where analytics actually needs it.
 export type UsageQuantifiableMetrics =
   | "Times new tab opened"
   | "Times hotkey used"

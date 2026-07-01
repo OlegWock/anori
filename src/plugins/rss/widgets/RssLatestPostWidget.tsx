@@ -16,8 +16,6 @@ const latestWidget = css({
   flex: 1,
   maxHeight: "100%",
 });
-// The card has no padding (the whole thing is a link); pad inside the link and keep the title pinned
-// to the top with its details at the bottom now that the title's height is capped.
 const latestPost = css({ maxHeight: "100%", padding: "4", justifyContent: "space-between" });
 const latestMessage = css({ padding: "4" });
 const emptyPost = css({ flexGrow: 1, justifyContent: "center" });

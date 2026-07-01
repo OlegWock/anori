@@ -158,6 +158,11 @@ export default defineConfig({
             subtle: { value: "var(--ds-icon-subtle)" },
             placeholder: { value: "var(--ds-icon-placeholder)" },
           },
+          status: {
+            up: { value: "var(--ds-status-up)" },
+            down: { value: "var(--ds-status-down)" },
+          },
+          notification: { value: "var(--ds-notification)" },
           tooltip: { value: "rgba(0, 0, 0, 0.82)" },
           "on-tooltip": { value: "white" },
           text: {

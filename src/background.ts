@@ -7,9 +7,6 @@ import { runOrphanGc } from "@anori/utils/storage/orphan-gc";
 import browser, { type Runtime } from "webextension-polyfill";
 import { availableTranslations, type Language } from "./translations/metadata";
 
-// The polyfill's onMessage listener type is overloaded, which suppresses contextual typing of the
-// callback params (the old @types defaulted them to `any`). Type the message explicitly as the union of
-// shapes the extension actually posts (see the sendMessage call sites).
 type BackgroundMessage =
   | { type: "plugin-command"; pluginId: string; command: string; args: unknown }
   | { type: "open-url"; url: string; inNewTab?: boolean; active?: boolean }
@@ -140,6 +137,7 @@ browser.runtime.onMessage.addListener(async (rawMessage: unknown, sender: Runtim
 });
 
 const runScheduledCallbacks = async () => {
+  // TODO: probably needs to be migrated to go through proper storage interface
   const { scheduledCallbacksInfo } = (await browser.storage.session.get({
     scheduledCallbacksInfo: {},
   })) as { scheduledCallbacksInfo: Record<string, number> };

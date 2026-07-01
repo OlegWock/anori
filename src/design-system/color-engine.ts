@@ -97,7 +97,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     info: scale(255, 0.14, gamut),
   };
 
-  const { neutral, surface, accent } = scales;
+  const { neutral, surface, accent, success, danger } = scales;
   const surfaceChroma = Math.min(accentColor.c, SURFACE_CHROMA);
   const sampleSurface = (l: number) => tintedColorAt(accentColor.h, surfaceChroma, l, gamut);
   const sampleAccent = (l: number) => colorAt(accentColor.h, accentColor.c, l, gamut);
@@ -144,6 +144,11 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     "icon-strong": neutral[byMode(mode, 11, 5)],
     "icon-subtle": withAlpha(neutral[byMode(mode, 9, 7)], 0.55),
     "icon-placeholder": neutral[byMode(mode, 13, 8)],
+
+    // Fixed-hue status colours, constant across modes — their meaning shouldn't shift with the theme.
+    "status-up": success[7],
+    "status-down": danger[7],
+    notification: danger[7],
 
     "frosted-subtle": withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.04, 0.1)),
     frosted: withAlpha(neutral[byMode(mode, 13, 11)], byMode(mode, 0.1, 0.2)),

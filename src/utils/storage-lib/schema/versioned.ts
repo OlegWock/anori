@@ -75,6 +75,8 @@ export function createMigration<
   };
 }
 
+type LastSchema<T extends readonly unknown[]> = T extends readonly [...infer _, infer L] ? L : SchemaVersion;
+
 export type VersionedSchema<
   Versions extends SchemaVersion[] = SchemaVersion[],
   Migrations extends AnyMigration[] = AnyMigration[],
@@ -82,7 +84,7 @@ export type VersionedSchema<
   readonly versions: Versions;
   readonly migrations: Migrations;
   readonly currentVersion: number;
-  readonly latestSchema: Versions[number];
+  readonly latestSchema: LastSchema<Versions>;
 };
 
 export type DefineVersionedSchemaOptions<Versions extends SchemaVersion[], Migrations extends AnyMigration[]> = {
@@ -90,7 +92,7 @@ export type DefineVersionedSchemaOptions<Versions extends SchemaVersion[], Migra
   migrations: Migrations;
 };
 
-export function defineVersionedSchema<Versions extends SchemaVersion[], Migrations extends AnyMigration[]>(
+export function defineVersionedSchema<const Versions extends SchemaVersion[], Migrations extends AnyMigration[]>(
   options: DefineVersionedSchemaOptions<Versions, Migrations>,
 ): VersionedSchema<Versions, Migrations> {
   if (options.versions.length === 0) {

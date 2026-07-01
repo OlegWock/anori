@@ -18,6 +18,7 @@ import { AnimatePresence } from "motion/react";
 import { type MouseEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cx } from "styled-system/css";
+import { token } from "styled-system/tokens";
 import { updatePageStatusForWidget } from "../background";
 import { useBookmarkStore } from "../storage";
 import type { BookmarkWidgetConfig } from "../types";
@@ -82,9 +83,9 @@ export const BookmarkWidget = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: same as above
   const lastStatusChangeMoment = useMemo(() => moment(lastStatusChange), [lastStatusChange, i18n.language]);
   const statusColor = {
-    loading: "var(--ds-text-disabled)",
-    up: "#2eb46a",
-    down: "hsl(0, 87%, 60%)",
+    loading: token("colors.text.disabled"),
+    up: token("colors.status.up"),
+    down: token("colors.status.down"),
   }[status];
 
   const normalizedUrl = useMemo(() => normalizeUrl(config.url), [config.url]);

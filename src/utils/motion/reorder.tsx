@@ -11,7 +11,6 @@ const reorderModule = createLazyModule(() => import("./lazy-load-reorder"));
 type GroupProps = ComponentProps<typeof ReorderGroupType>;
 type ItemProps = ComponentProps<typeof ReorderItemType>;
 
-// `m` indexed by tag name → the matching motion component (the static fallback keeps the enter animation).
 const motionTag = (tag: ItemProps["as"]): ComponentType<Record<string, unknown>> =>
   (m as unknown as Record<string, ComponentType<Record<string, unknown>>>)[typeof tag === "string" ? tag : "div"];
 

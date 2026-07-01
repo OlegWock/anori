@@ -20,7 +20,7 @@ import browser from "webextension-polyfill";
 
 const compactRoot = css({ flexGrow: 1, cursor: "pointer" });
 const prompt = css({ flexGrow: 1 });
-const promptContent = css({ display: "flex", flexDirection: "column", gap: "3" });
+const promptContent = css({ display: "flex", flexDirection: "column", gap: "3", maxWidth: "40rem" });
 const centeredViewport = css({
   "& > div": {
     display: "flex !important",
@@ -31,7 +31,7 @@ const centeredViewport = css({
     textAlign: "center",
   },
 });
-const promptEmptyState = css({ gap: "3", paddingBlock: "3" });
+const promptEmptyState = css({ gap: "3", paddingBlock: "3", maxWidth: "40rem" });
 const text = css({ fontWeight: "light" });
 const additionalInfoClass = css({ marginTop: "4" });
 const grantButton = css({ alignSelf: "center", marginTop: "2", whiteSpace: "break-spaces" });

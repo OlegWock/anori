@@ -43,7 +43,7 @@ const linkPlate = css({
 });
 const plateIcon = css({ margin: "2", width: "1.75rem" });
 const loadingIcon = css({ margin: "2", width: "1.75rem", animation: "spin 1.5s ease-in-out infinite" });
-// Hidden until the plate is hovered; the frosted IconButton supplies its own look.
+// Hidden until the plate is hovered;
 const removeLink = css({ display: "none", position: "absolute", top: 0, right: 0, zIndex: 1 });
 const siteTitle = cva({
   base: {

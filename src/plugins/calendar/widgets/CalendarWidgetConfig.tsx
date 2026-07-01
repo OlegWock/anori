@@ -5,7 +5,7 @@ import type { WidgetConfigScreenProps } from "@anori/utils/plugins/define";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
-import { DEFAULT_CALENDAR, getCalendarLabel, SUPPORTED_CALENDARS } from "../calendar-adapter";
+import { DEFAULT_CALENDAR, getCalendarLabel, SUPPORTED_CALENDARS, type SupportedCalendar } from "../calendar-adapter";
 import type { CalendarWidgetConfigType } from "../types";
 import { getWeekdays } from "../types";
 
@@ -22,7 +22,7 @@ export const ConfigScreen = ({
   const weekdays = useMemo(getWeekdays, [i18n.language]);
 
   const [firstDay, setFirstDay] = useState<number>(currentConfig?.firstDay ?? 0);
-  const [calendar, setCalendar] = useState<string>(currentConfig?.calendar ?? DEFAULT_CALENDAR);
+  const [calendar, setCalendar] = useState<SupportedCalendar>(currentConfig?.calendar ?? DEFAULT_CALENDAR);
 
   return (
     <div className={config}>
@@ -37,7 +37,7 @@ export const ConfigScreen = ({
       </Field>
 
       <Field label={`${t("calendar-plugin.calendarType")}:`}>
-        <Select<string>
+        <Select<SupportedCalendar>
           options={[...SUPPORTED_CALENDARS]}
           value={calendar}
           onChange={setCalendar}
