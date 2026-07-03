@@ -14,6 +14,8 @@ const content = css({
 });
 const plusLink = css({ display: "block", textAlign: "center", marginBottom: "4" });
 
+// TODO: add record about latest version changes
+// TODO: maybe redesign this to look more interesting?
 export const WhatsNewImpl = () => {
   const { t, i18n } = useTranslation();
   return (

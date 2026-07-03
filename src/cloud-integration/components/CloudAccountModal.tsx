@@ -112,6 +112,9 @@ export const CloudAccountModal = ({ onClose }: Props) => {
   );
 };
 
+// TODO: create profile form should be directly on modal, not card
+// TODO: when editing profile name we need to render it on card, but controls look ugly there
+// TODO: similarly with delete alert confirmation and connect confirmation alert, it blends with card background
 const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof useCloudAccount>["account"]> }) => {
   const { t } = useTranslation();
   const isBehindCloudSchema = useIsBehindCloudSchema();

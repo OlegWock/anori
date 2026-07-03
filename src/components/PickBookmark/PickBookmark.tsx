@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
 
+// TODO: this should be able to shrink when used in popover and there is not enough space
 const pickBookmark = css({
   display: "flex",
   flexDirection: "column",
