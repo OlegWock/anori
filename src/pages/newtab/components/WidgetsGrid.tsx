@@ -138,7 +138,7 @@ export const WidgetsGrid = memo(function WidgetsGrid({
   return (
     <MotionScrollArea
       className={grid}
-      contentClassName={gridViewport}
+      viewportClassName={gridViewport}
       layout
       layoutRoot
       layoutScroll

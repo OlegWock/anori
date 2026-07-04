@@ -46,7 +46,7 @@ export const EditWidgetModal = ({ widget, onUpdateConfig, onClose }: EditWidgetM
 
   return (
     <Modal title={t("editWidget")} flush onClose={onClose} closable>
-      <ScrollArea className={scrollArea} contentClassName={scrollViewport}>
+      <ScrollArea className={scrollArea} viewportClassName={scrollViewport}>
         <m.div className={content} transition={{ duration: 0.18 }} animate={{ opacity: 1, translateX: "0%" }}>
           {saveFailed && <Alert variant="danger">{t("saveWidgetConfigInvalid")}</Alert>}
           <ConfigurationScreen

@@ -114,7 +114,7 @@ export const RequirePermissions = ({
       <>
         <ScrollArea
           className={cx(compactRoot, className)}
-          contentClassName={centeredViewport}
+          viewportClassName={centeredViewport}
           size="thin"
           role="button"
           tabIndex={0}
@@ -149,7 +149,7 @@ export const RequirePermissions = ({
   }
 
   return (
-    <ScrollArea className={cx(prompt, className)} contentClassName={centeredViewport} size="thin">
+    <ScrollArea className={cx(prompt, className)} viewportClassName={centeredViewport} size="thin">
       <EmptyState className={promptEmptyState} icon={builtinIcons.key} title={t("requirePermissions.modalTitle")}>
         {permDetails}
         {grantBtn}
