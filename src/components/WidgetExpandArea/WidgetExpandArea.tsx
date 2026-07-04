@@ -67,10 +67,10 @@ const content = cva({
     borderRadius: "calc(24px - 0.75rem)",
     background: "surface.elevated",
     padding: "4",
-    "& > .ScrollAreaRoot": { alignSelf: "stretch" },
   },
   variants: { noPadding: { true: { padding: "0" } } },
 });
+const scrollArea = css({ alignSelf: "stretch" });
 
 export type WidgetExpandAreaProps = {
   children: ReactNode;
@@ -331,7 +331,7 @@ export const WidgetExpandArea = ({
         >
           {withoutScroll && children}
           {!withoutScroll && (
-            <ScrollArea fill type="hover" direction="both">
+            <ScrollArea fill type="hover" direction="both" className={scrollArea}>
               {children}
             </ScrollArea>
           )}

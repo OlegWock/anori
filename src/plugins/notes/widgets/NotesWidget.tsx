@@ -52,8 +52,8 @@ const noteBodyRendered = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "stretch",
-  "& .ScrollAreaRoot": { maxHeight: "100%", borderRadius: 0 },
 });
+const bodyScrollArea = css({ maxHeight: "100%", borderRadius: 0 });
 // Styles the raw HTML react-markdown emits, so these element selectors are inherently nested.
 // TODO: we could provide nicer default styles, especially for headings, tables, and code
 const noteBodyContent = css({
@@ -185,7 +185,7 @@ export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
             switchEditing(true);
           }}
         >
-          <ScrollArea type="hover">
+          <ScrollArea type="hover" className={bodyScrollArea}>
             {!!body && (
               <div className={noteBodyContent}>
                 <ReactMarkdown

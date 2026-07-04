@@ -23,9 +23,9 @@ const historyWrapper = css({
   flexDirection: "column",
   paddingBottom: "4",
   marginBottom: "4",
-  borderBottomWidth: "3px",
+  borderBottomWidth: "1px",
   borderBottomStyle: "solid",
-  borderBottomColor: "frosted",
+  borderBottomColor: "divider",
 });
 const historyList = css({ textAlign: "right", display: "flex", flexDirection: "column", gap: "2" });
 const historyRecord = css({ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "2" });
