@@ -1,3 +1,4 @@
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
@@ -45,7 +46,9 @@ export const BookmarkGroupWidget = ({
     <button type="button" className={widget} onClick={openGroup} onAuxClick={openGroup}>
       <div className={bookmarkContent({ size })}>
         <div className={bookmarkText}>
-          <h2 className={bookmarkH2({ size })}>{config.title}</h2>
+          <Heading singleLine={false} className={bookmarkH2({ size })}>
+            {config.title}
+          </Heading>
           <div className={bookmarkHost}>{t("bookmark-plugin.group")}</div>
         </div>
         {isNavigating ? (
