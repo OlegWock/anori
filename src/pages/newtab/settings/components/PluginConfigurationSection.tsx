@@ -1,3 +1,4 @@
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { usePluginConfig } from "@anori/utils/plugins/config";
 import type { SomePlugin } from "@anori/utils/plugins/types";
 import { useMemo } from "react";
@@ -24,7 +25,7 @@ export const PluginConfigurationSection = ({ plugin }: { plugin: SomePlugin }) =
     };
     return (
       <section>
-        <h2>{plugin.name}</h2>
+        <Heading marginBottom="2">{plugin.name}</Heading>
         <ConfigScreen currentConfig={currentConfig} saveConfiguration={saveConfiguration} />
       </section>
     );

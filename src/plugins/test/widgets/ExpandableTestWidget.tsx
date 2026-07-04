@@ -1,5 +1,6 @@
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
 import { Button } from "@anori/design-system/components/Button/Button";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useSizeSettings } from "@anori/utils/compact";
@@ -20,7 +21,7 @@ export const ExpandableTestWidget = memo(function ExpandableTestWidget(_props: W
       <AnimatePresence>
         {showExpandableArea && (
           <WidgetExpandArea title="Test widget" onClose={() => setShowExpandableArea(false)} size="max" closable>
-            <h2>Hello here!</h2>
+            <Heading>Hello here!</Heading>
             <Button onClick={() => setShowExpandableArea(false)}>Hide</Button>
 
             <p>

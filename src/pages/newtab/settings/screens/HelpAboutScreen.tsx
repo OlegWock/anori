@@ -54,12 +54,12 @@ export const HelpAboutScreen = (props: ComponentProps<typeof m.div>) => {
       </p>
 
       <section className={shortcutsSection}>
-        <h2>{t("shortcuts.title")}</h2>
+        <Heading marginBottom="2">{t("shortcuts.title")}</Heading>
         <ShortcutsHelp />
       </section>
 
       <section>
-        <h2>{t("settings.aboutHelp.license")}</h2>
+        <Heading marginBottom="2">{t("settings.aboutHelp.license")}</Heading>
         <License />
       </section>
     </m.div>

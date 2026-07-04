@@ -12,7 +12,6 @@ export const weatherWidget = cva({
         textDecoration: "none",
         flexGrow: 1,
         gap: "2",
-        "& h2": { lineHeight: "1.15" },
       },
     },
   },

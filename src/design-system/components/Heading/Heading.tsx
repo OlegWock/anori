@@ -34,7 +34,7 @@ export type HeadingProps = HeadingOwnProps &
   JsxStyleProps &
   Omit<ComponentPropsWithoutRef<"h2">, keyof JsxStyleProps | "color">;
 
-// TODO: migrate exisitng h1/h2/etc. to use this component
+// TODO: migrate remaining headings with custom cva styling (bookmark, expandable iframe, rss post) to this component
 export const Heading = ({ level = 2, size, singleLine = true, className, children, ref, ...rest }: HeadingProps) => {
   const [cssProps, htmlProps] = splitCssProps(rest);
   const Tag = `h${level}` as ElementType;

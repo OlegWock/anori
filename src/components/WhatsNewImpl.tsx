@@ -1,3 +1,4 @@
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
@@ -25,7 +26,7 @@ export const WhatsNewImpl = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
-            <h2>1.27.0</h2>
+            <Heading marginBottom="2">1.27.0</Heading>
             <ul>
               <li>Picture widget can now display local images from your device, not just remote URLs.</li>
               <li>Calendar widget now supports Hijri, Persian, Hebrew, and Buddhist calendars.</li>
@@ -48,7 +49,7 @@ export const WhatsNewImpl = () => {
           </section>
 
           <section>
-            <h2>1.26.0</h2>
+            <Heading marginBottom="2">1.26.0</Heading>
             <p>Couple of big ones in this release!</p>
             <p>
               First of all, we're launching beta of Anori Plus — companion service for Anori. Currently, provides a
@@ -70,7 +71,7 @@ export const WhatsNewImpl = () => {
           </section>
 
           <section>
-            <h2>1.25.0</h2>
+            <Heading marginBottom="2">1.25.0</Heading>
             <ul>
               <li>New design of "Add widget" modal.</li>
               <li>Fixed some bugs.</li>
@@ -79,7 +80,7 @@ export const WhatsNewImpl = () => {
           </section>
 
           <section>
-            <h2>1.24.0</h2>
+            <Heading marginBottom="2">1.24.0</Heading>
             <ul>
               <li>Top sites widget is now resizable.</li>
               <li>
@@ -106,7 +107,7 @@ export const WhatsNewImpl = () => {
           </section>
 
           <section>
-            <h2>1.23.0</h2>
+            <Heading marginBottom="2">1.23.0</Heading>
             <ul>
               <li>This is a housekeeping release. A lot of refactoring, a bit of optimizations, bunch of bugfixes.</li>
               <li>
