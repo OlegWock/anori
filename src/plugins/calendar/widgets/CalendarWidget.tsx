@@ -165,7 +165,7 @@ export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfi
 
   return (
     <div className={calendarWidget}>
-      <h3 className={header}>
+      <div className={header}>
         <IconButton
           variant="ghost"
           icon={dir === "ltr" ? builtinIcons.chevronBack : builtinIcons.chevronForward}
@@ -193,7 +193,7 @@ export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfi
             setOffsetMonths((p) => p + 1);
           }}
         />
-      </h3>
+      </div>
       <m.div className={calendarGrid} dir="ltr">
         <div className={calendarRow({ weekdays: true })} key="weekdays">
           {headerDays.map(([weekday, weekdayShort]) => {
