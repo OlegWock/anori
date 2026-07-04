@@ -26,7 +26,6 @@ const historyWrapper = css({
   borderBottomWidth: "3px",
   borderBottomStyle: "solid",
   borderBottomColor: "frosted",
-  "& .ScrollAreaRoot": { flex: "1 1 0" },
 });
 const historyList = css({ textAlign: "right", display: "flex", flexDirection: "column", gap: "2" });
 const historyRecord = css({ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "2" });
@@ -146,7 +145,7 @@ export const Calculator = ({
     <div className={calculator}>
       {showHistory && (
         <div className={historyWrapper}>
-          <ScrollArea type="hover" viewportRef={historyRef}>
+          <ScrollArea fill type="hover" viewportRef={historyRef}>
             <div className={historyList}>
               {history.map(({ exp, result, id }) => {
                 return (

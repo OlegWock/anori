@@ -33,7 +33,6 @@ import {
   inputWrapper,
   noTasks,
   scribble,
-  scrollArea,
   taskInput,
   taskRow,
   tasksHeader,
@@ -230,7 +229,7 @@ export const TasksWidget = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => 
         <Heading>{config.title}</Heading>
         <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} onClick={addTask} />
       </div>
-      <ScrollArea className={scrollArea} style={{ display: tasks.length === 0 ? "none" : "flex" }}>
+      <ScrollArea fill style={{ display: tasks.length === 0 ? "none" : "flex" }}>
         <LayoutGroup>
           <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className={tasksList} layoutScroll layoutRoot>
             <AnimatePresence initial={false}>

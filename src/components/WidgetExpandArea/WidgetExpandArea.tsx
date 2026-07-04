@@ -67,17 +67,7 @@ const content = cva({
     borderRadius: "calc(24px - 0.75rem)",
     background: "surface.elevated",
     padding: "4",
-    "& > .ScrollAreaRoot": {
-      flexGrow: 1,
-      alignSelf: "stretch",
-      "& .ScrollAreaViewport": { display: "flex", flexDirection: "column", flexGrow: 1 },
-      "& .ScrollAreaContent": {
-        display: "flex",
-        flexDirection: "column",
-        flexGrow: 1,
-        alignSelf: "stretch",
-      },
-    },
+    "& > .ScrollAreaRoot": { alignSelf: "stretch" },
   },
   variants: { noPadding: { true: { padding: "0" } } },
 });
@@ -341,7 +331,7 @@ export const WidgetExpandArea = ({
         >
           {withoutScroll && children}
           {!withoutScroll && (
-            <ScrollArea type="hover" direction="both">
+            <ScrollArea fill type="hover" direction="both">
               {children}
             </ScrollArea>
           )}

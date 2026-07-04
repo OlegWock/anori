@@ -15,6 +15,7 @@ type ScrollAreaProps = {
   direction?: "vertical" | "horizontal" | "both";
   mirrorVerticalScrollToHorizontal?: boolean;
   size?: "normal" | "thin";
+  fill?: boolean;
   onVerticalOverflowStatusChange?: (overflows: boolean) => void;
   onHorizontalOverflowStatusChange?: (overflows: boolean) => void;
   viewportRef?: Ref<HTMLDivElement>;
@@ -24,10 +25,8 @@ type ScrollAreaProps = {
   layoutScroll?: boolean;
 } & ComponentProps<typeof m.div>;
 
-// Each part is styled directly and keeps its marker class (ScrollAreaRoot/Viewport/Content/Scrollbar/
-// Thumb) — a public hook some widgets target from their own styles.
-// TODO: verify if this is really needed or if we could migrate to providing adequate default behavior/styles + props to
-// adjust it when really needed
+// Marker classes (ScrollAreaRoot/Viewport/Content/Scrollbar/Thumb/Corner) are a public hook consumers
+// target from their own styles; keep them.
 const root = cva({
   base: {
     position: "relative",
@@ -53,19 +52,32 @@ const root = cva({
       horizontal: { "& .ScrollAreaViewport": { overflowY: "hidden!" } },
       both: {},
     },
+    fill: { true: { flex: "1 1 0", minHeight: 0 }, false: {} },
   },
-  defaultVariants: { size: "normal", direction: "vertical" },
+  defaultVariants: { size: "normal", direction: "vertical", fill: false },
 });
 
-const viewport = css({
-  width: "100%",
-  height: "100%",
-  borderRadius: "inherit",
-  flexShrink: 1,
-  overscrollBehavior: "contain",
+const viewport = cva({
+  base: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "inherit",
+    flexShrink: 1,
+    overscrollBehavior: "contain",
+  },
+  variants: {
+    fill: { true: { display: "flex", flexDirection: "column" }, false: {} },
+  },
+  defaultVariants: { fill: false },
 });
 
-const content = css({ borderRadius: "inherit" });
+const content = cva({
+  base: { borderRadius: "inherit" },
+  variants: {
+    fill: { true: { display: "flex", flexDirection: "column", flexGrow: 1 }, false: {} },
+  },
+  defaultVariants: { fill: false },
+});
 
 const scrollbar = cva({
   base: {
@@ -142,6 +154,7 @@ export const ScrollArea = ({
   onHorizontalOverflowStatusChange,
   onVerticalOverflowStatusChange,
   size = "normal",
+  fill = false,
   mirrorVerticalScrollToHorizontal = false,
   viewportRef,
   layoutScroll = false,
@@ -192,16 +205,16 @@ export const ScrollArea = ({
   return (
     <Base.Root
       ref={ref}
-      className={cx(root({ size, direction }), "ScrollAreaRoot", className)}
+      className={cx(root({ size, direction, fill }), "ScrollAreaRoot", className)}
       render={<m.div dir={dir} {...props} />}
     >
       <Base.Viewport
         ref={mergedViewportRef}
-        className={cx(viewport, "ScrollAreaViewport", contentClassName)}
+        className={cx(viewport({ fill }), "ScrollAreaViewport", contentClassName)}
         onWheel={showHorizontal && mirrorVerticalScrollToHorizontal ? mirrorScroll : undefined}
         render={<m.div {...(layoutScroll ? { layoutScroll: true, layoutRoot: true } : {})} />}
       >
-        <Base.Content ref={contentRef} className={cx(content, "ScrollAreaContent")}>
+        <Base.Content ref={contentRef} className={cx(content({ fill }), "ScrollAreaContent")}>
           {children}
         </Base.Content>
       </Base.Viewport>

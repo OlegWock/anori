@@ -8,7 +8,7 @@ import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollAre
 import type { Task } from "@anori/utils/storage";
 import { AnimatePresence, m } from "motion/react";
 import { useTranslation } from "react-i18next";
-import { scrollArea, taskInput, taskRow, tasksHeader, tasksList, tasksWidget } from "../styles";
+import { taskInput, taskRow, tasksHeader, tasksList, tasksWidget } from "../styles";
 
 export const TasksWidgetMock = () => {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ export const TasksWidgetMock = () => {
         <Heading>{t("tasks-plugin.todo")}</Heading>
         <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} />
       </div>
-      <ScrollArea className={scrollArea}>
+      <ScrollArea fill>
         <m.div className={tasksList}>
           <AnimatePresence initial={false}>
             {tasks.map((t) => {
