@@ -56,7 +56,6 @@ const widgetsArea = cva({
     },
     // The bookmarks bar takes the top, so tighten the widgets-area top margin. `!` to win over orientation.
     bookmarksBar: { true: { marginTop: "1!" } },
-    editing: { true: { zIndex: "dropdown" } },
   },
 });
 
@@ -175,10 +174,7 @@ export const Workspace = ({
           onOpenSettings={handleOpenSettings}
         />
 
-        <div
-          ref={panelRef}
-          className={widgetsArea({ orientation, bookmarksBar: bookmarksBarVisible, editing: isEditing })}
-        >
+        <div ref={panelRef} className={widgetsArea({ orientation, bookmarksBar: bookmarksBarVisible })}>
           <FolderContentContext.Provider value={parentFolderContext}>
             <FolderContent
               key={activeFolder.id}
