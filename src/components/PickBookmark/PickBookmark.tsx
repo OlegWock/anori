@@ -11,13 +11,13 @@ import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
 
-// TODO: this should be able to shrink when used in popover and there is not enough space
+// `- 2rem - 4px` subtracts the enclosing popover's padding + border so we fit inside its available space.
 const pickBookmark = css({
   display: "flex",
   flexDirection: "column",
   gap: "2",
-  width: "600px",
-  maxHeight: "max(40vh, 600px)",
+  width: "min(600px, calc(var(--available-width, 100vw) - 2rem - 4px))",
+  maxHeight: "min(max(40vh, 600px), calc(var(--available-height, 100vh) - 2rem - 4px))",
 });
 const bookmark = css({
   display: "flex",
