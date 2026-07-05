@@ -15,8 +15,6 @@ const content = css({
 });
 const plusLink = css({ display: "block", textAlign: "center", marginBottom: "4" });
 
-// TODO: add record about latest version changes
-// TODO: maybe redesign this to look more interesting?
 export const WhatsNewImpl = () => {
   const { t, i18n } = useTranslation();
   return (
@@ -24,6 +22,26 @@ export const WhatsNewImpl = () => {
       <ScrollArea className={scrollArea}>
         <div className={content}>
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
+
+          <section>
+            <Heading marginBottom="2">2.0.0</Heading>
+            <ul>
+              <li>
+                Anori has a new look! I tried not to stray too far from the established visual identity, but I finally
+                had a chance to polish all the rough edges. I hope you'll like it.
+              </li>
+              <li>
+                Theming was reworked. Now you can switch between light and dark modes for each theme, including your
+                custom ones.
+              </li>
+              <li>
+                To create a custom theme you now need to only select one color and Anori will derrive whole palette from
+                it. This should make it easier to create your own themes as well as make generated colors more coherent.
+                You existing custom themes were migrated automatically.
+              </li>
+              <li>Bug fixes, of course!</li>
+            </ul>
+          </section>
 
           <section>
             <Heading marginBottom="2">1.27.0</Heading>
