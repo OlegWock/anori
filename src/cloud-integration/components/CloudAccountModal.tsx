@@ -268,15 +268,13 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
             <div className={label}>{t("cloud.connectedAs")}</div>
             <div className={accountEmail}>{account.email}</div>
           </div>
-          <Button
-            variant="frosted"
-            size="compact"
-            iconStart={builtinIcons.logout}
-            onClick={handleLogout}
+          <IconButton
+            variant="ghost"
+            icon={builtinIcons.logout}
             loading={isLoggingOut}
-          >
-            {t("cloud.logout")}
-          </Button>
+            label={t("cloud.logout")}
+            onClick={handleLogout}
+          />
         </div>
       </div>
 
@@ -284,17 +282,15 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
         <div className={profilesHeader}>
           <div className={profilesTitle}>{t("cloud.profiles")}</div>
           {!isCreatingProfile && (
-            <Button
-              variant="secondary"
-              size="compact"
-              iconStart={builtinIcons.add}
+            <IconButton
+              variant="ghost"
+              label={t("cloud.createProfile")}
+              icon={builtinIcons.add}
               onClick={() => {
                 setIsCreatingProfile(true);
                 setCreateProfileSuccess(false);
               }}
-            >
-              {t("cloud.createProfile")}
-            </Button>
+            />
           )}
         </div>
         {isLoadingProfiles && <div className={mutedNote}>{t("loading")}</div>}
@@ -389,7 +385,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                           <div className={profileInfo}>
                             <div className={profileName}>
                               {profile.name}
-                              {isConnected && <Badge background="modal">{t("cloud.connected")}</Badge>}
+                              {isConnected && <Badge>{t("cloud.connected")}</Badge>}
                             </div>
                             <div className={profileMeta}>
                               {t("cloud.createdAt", { date: moment(profile.createdAt).format("ll") })}
