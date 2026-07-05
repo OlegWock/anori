@@ -105,6 +105,8 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const sampleAccent = (l: number) => colorAt(accentColor.h, accentColor.c, l, gamut);
   // Tier 3 — each role picks a primitive index, flipped per mode
   const surfaceIdx = byMode(mode, 4, 12);
+  // Code blocks use a dark fill in both modes so code reads as a distinct block against the page surface.
+  const codeIdx = byMode(mode, 2, 2);
   const accentFillIdx = byMode(mode, 7, 7);
   // Elevated panels sit a hair above the surface; controls sit higher still, so a control stays distinct
   // even placed on an elevated panel. Both are sub-step bumps off the numbered scale.
@@ -124,6 +126,9 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
       byMode(mode, CONTROL_EDGE_DARK_DELTA, -CONTROL_EDGE_LIGHT_DELTA),
     ),
     "surface-elevated-border": accent[byMode(mode, 6, 7)],
+
+    code: surface[codeIdx],
+    "on-code": bestTextOn(surface[codeIdx], neutral[13], neutral[0]),
 
     control: sampleSurface(controlL),
     "control-border": neutral[byMode(mode, 6, 8)],
