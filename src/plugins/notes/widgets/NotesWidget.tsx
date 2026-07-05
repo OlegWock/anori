@@ -1,4 +1,5 @@
 import { ReactMarkdown } from "@anori/components/ReactMarkdown";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Input, Textarea } from "@anori/design-system/components/Input/Input";
 import { Link } from "@anori/design-system/components/Link/Link";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
@@ -52,10 +53,10 @@ const noteBodyRendered = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "stretch",
-  "& .ScrollAreaRoot": { maxHeight: "100%", borderRadius: 0 },
 });
+const bodyScrollArea = css({ maxHeight: "100%", borderRadius: 0 });
 // Styles the raw HTML react-markdown emits, so these element selectors are inherently nested.
-// TODO: we could provide nicer default styles, especially for headings, tables, and code
+const monoFont = "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace";
 const noteBodyContent = css({
   "& p:not(:first-child)": { marginTop: "1" },
   "& ul, & ol": { listStylePosition: "inside" },
@@ -74,17 +75,57 @@ const noteBodyContent = css({
   },
   "& > * ul, & > * ol": { marginLeft: "6" },
   "& li > p": { display: "contents" },
-  "& code": { background: "surface", paddingBlock: "0-5", paddingInline: "2", borderRadius: "xs" },
-  "& pre": {
-    padding: "2",
-    background: "surface",
-    borderRadius: "md",
-    "& code": { background: "inherit", padding: 0, borderRadius: 0 },
+
+  "& code": {
+    fontFamily: monoFont,
+    fontSize: "0.85em",
+    background: "control",
+    boxShadow: "control.edge",
+    color: "text.primary",
+    paddingInline: "1-5",
+    paddingBlock: "0-5",
+    borderRadius: "sm",
   },
-  "& table, & th, & td": { borderWidth: "1px", borderStyle: "solid", borderColor: "divider" },
-  "& table": { borderCollapse: "collapse" },
-  "& td": { paddingBlock: "1", paddingInline: "3" },
-  "& img": { maxWidth: "100%" },
+  "& pre": {
+    padding: "3",
+    background: "code",
+    color: "on-code",
+    borderRadius: "md",
+    overflowX: "auto",
+    "& code": {
+      fontSize: "0.85em",
+      background: "transparent",
+      boxShadow: "none",
+      color: "inherit",
+      paddingInline: 0,
+      paddingBlock: 0,
+      borderRadius: 0,
+    },
+  },
+
+  "& table": {
+    borderCollapse: "separate",
+    borderSpacing: 0,
+    border: "1px solid token(colors.divider)",
+    borderRadius: "md",
+    overflow: "hidden",
+  },
+  "& th, & td": {
+    borderRight: "1px solid token(colors.divider)",
+    borderBottom: "1px solid token(colors.divider)",
+    paddingBlock: "1-5",
+    paddingInline: "3",
+    textAlign: "start",
+  },
+  "& th:last-child, & td:last-child": { borderRight: "none" },
+  "& tbody tr:last-child td": { borderBottom: "none" },
+  "& thead th": { background: "surface.elevated", fontWeight: "semibold" },
+  "& tbody tr:nth-of-type(even) td": { background: "surface.elevated" },
+
+  "& img": { maxWidth: "100%", borderRadius: "md" },
+
+  "& .contains-task-list": { listStyle: "none", marginLeft: 0 },
+  "& .task-list-item": { display: "flex", alignItems: "center", gap: "2", listStyle: "none" },
 });
 const notesBodyPlaceholder = css({ opacity: 0.5 });
 
@@ -106,6 +147,9 @@ export const NotesWidgetMock = () => {
 const LinkWithoutPropagation = (props: ComponentProps<typeof Link>) => {
   return <Link onClick={(e) => e.stopPropagation()} onFocus={(e) => e.stopPropagation()} {...props} />;
 };
+
+const taskCheckbox = css({ flexShrink: 0 });
+const TaskCheckbox = ({ checked }: { checked?: boolean }) => <Checkbox checked={!!checked} className={taskCheckbox} />;
 
 export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
   const switchEditing = (newIsEditing: boolean) => {
@@ -185,11 +229,11 @@ export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
             switchEditing(true);
           }}
         >
-          <ScrollArea type="hover">
+          <ScrollArea type="hover" className={bodyScrollArea}>
             {!!body && (
               <div className={noteBodyContent}>
                 <ReactMarkdown
-                  components={{ a: LinkWithoutPropagation }}
+                  components={{ a: LinkWithoutPropagation, input: TaskCheckbox }}
                   remarkPlugins={remarkPlugins}
                   children={body}
                 />

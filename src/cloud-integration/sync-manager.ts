@@ -313,7 +313,6 @@ export class SyncManager {
   }
 
   private async pullFromProfile(profileId: string): Promise<void> {
-    // TODO: this code leaves dangling records because we never clean already existing cells that aren't present on remote
     const client = getApiClient();
     const currentSchemaVersion = anoriVersionedSchema.currentVersion;
 

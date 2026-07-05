@@ -37,7 +37,7 @@ const input = cva({
   defaultVariants: { variant: "filled" },
 });
 
-const inputControl = css({ height: "36px", lineHeight: "none", flexShrink: 0 });
+const inputControl = css({ height: "2.25rem", lineHeight: "none", flexShrink: 0 });
 
 export const Input = ({
   className,

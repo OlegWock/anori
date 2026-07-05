@@ -137,7 +137,8 @@ browser.runtime.onMessage.addListener(async (rawMessage: unknown, sender: Runtim
 });
 
 const runScheduledCallbacks = async () => {
-  // TODO: probably needs to be migrated to go through proper storage interface
+  // This code uses browser storage directly (rather than go through storage-lib) because
+  // it uses session storage when our abstraction works with persisted storage.
   const { scheduledCallbacksInfo } = (await browser.storage.session.get({
     scheduledCallbacksInfo: {},
   })) as { scheduledCallbacksInfo: Record<string, number> };

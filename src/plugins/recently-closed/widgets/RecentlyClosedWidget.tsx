@@ -1,4 +1,5 @@
 import { RelativeTime } from "@anori/components/RelativeTime";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
@@ -122,7 +123,7 @@ export const RecentlyClosedWidget = ({ instanceId }: WidgetRenderProps<EmptyObje
 
   return (
     <div className={widget}>
-      <h2>{t("recently-closed-plugin.widgetTitle")}</h2>
+      <Heading marginBottom={1}>{t("recently-closed-plugin.widgetTitle")}</Heading>
       <ScrollArea className={sessionsList} type="hover">
         {sessions
           .filter((s) => {

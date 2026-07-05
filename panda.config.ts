@@ -134,6 +134,8 @@ export default defineConfig({
               border: { value: "var(--ds-surface-elevated-border)" },
             },
           },
+          code: { value: "var(--ds-code)" },
+          "on-code": { value: "var(--ds-on-code)" },
           control: {
             DEFAULT: { value: "var(--ds-control)" },
             border: { value: "var(--ds-control-border)" },

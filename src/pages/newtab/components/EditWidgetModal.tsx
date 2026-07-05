@@ -12,8 +12,8 @@ const scrollArea = css({
   marginTop: 0,
   marginInline: "1-5",
   marginBottom: "3",
-  "& .ScrollAreaViewport": { padding: "1" },
 });
+const scrollViewport = css({ padding: "1" });
 const content = css({
   paddingTop: 0,
   paddingInline: "3",
@@ -46,7 +46,7 @@ export const EditWidgetModal = ({ widget, onUpdateConfig, onClose }: EditWidgetM
 
   return (
     <Modal title={t("editWidget")} flush onClose={onClose} closable>
-      <ScrollArea className={scrollArea}>
+      <ScrollArea className={scrollArea} viewportClassName={scrollViewport}>
         <m.div className={content} transition={{ duration: 0.18 }} animate={{ opacity: 1, translateX: "0%" }}>
           {saveFailed && <Alert variant="danger">{t("saveWidgetConfigInvalid")}</Alert>}
           <ConfigurationScreen

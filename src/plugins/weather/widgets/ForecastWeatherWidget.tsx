@@ -1,3 +1,4 @@
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip, TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
@@ -159,7 +160,7 @@ export const ForecastWeatherWidget = ({ config, instanceId }: WidgetRenderProps<
     >
       <div className={weatherWidget({ type: "forecast" })}>
         <div>
-          <h2>{t("weather-plugin.forecast")}</h2>
+          <Heading marginBottom="0-5">{t("weather-plugin.forecast")}</Heading>
           <div className={location({ small: true })}>
             <Icon icon={builtinIcons.location} height={rem(1.2)} />
             <div>{config.location.name}</div>

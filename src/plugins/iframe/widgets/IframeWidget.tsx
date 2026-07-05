@@ -2,6 +2,7 @@
 // it's not available for JS (not sent at all?) if opened in iframe. Sites need to explicitly set SameSite=None to allow
 // those cookies to function
 
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { LinkIconButton } from "@anori/design-system/components/LinkIconButton/LinkIconButton";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
@@ -48,7 +49,7 @@ export const MainWidget = ({ config }: WidgetRenderProps<IframePluginWidgetConfi
     <div className={widget}>
       {!!config.title && (
         <div className={widgetHeader}>
-          <h2>{config.title}</h2>
+          <Heading>{config.title}</Heading>
           {config.showLinkToPage && (
             <LinkIconButton
               variant="secondary"

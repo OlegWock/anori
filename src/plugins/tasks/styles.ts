@@ -8,10 +8,6 @@ export const tasksWidget = css({
   flexGrow: 1,
   overflow: "hidden",
 });
-export const scrollArea = css({
-  flexGrow: 1,
-  "& .ScrollAreaContent": { display: "flex", flexDirection: "column", flexGrow: 1 },
-});
 export const tasksHeader = css({ display: "flex", justifyContent: "space-between", alignItems: "center" });
 export const tasksList = css({
   display: "flex",

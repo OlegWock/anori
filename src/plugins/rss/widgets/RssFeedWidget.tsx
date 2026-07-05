@@ -1,4 +1,5 @@
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
@@ -46,7 +47,7 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
   return (
     <div className={feedWidget}>
       <div className={titleWrapper}>
-        <h2>{config.title}</h2>
+        <Heading>{config.title}</Heading>
         <IconButton
           variant="frosted"
           size="compact"
@@ -121,7 +122,7 @@ export const RssFeedMock = () => {
   return (
     <div className={feedWidget}>
       <div className={titleWrapper}>
-        <h2>{t("rss-plugin.name")}</h2>
+        <Heading>{t("rss-plugin.name")}</Heading>
         <IconButton variant="frosted" icon={builtinIcons.refresh} label={t("refresh")} />
       </div>
       <ScrollArea type="hover">

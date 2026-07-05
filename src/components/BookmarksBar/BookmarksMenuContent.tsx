@@ -26,10 +26,6 @@ const menuContent = cva({
     display: "flex",
     flexDirection: "column",
     "& a": { textDecoration: "none" },
-    "& .ScrollAreaRoot": {
-      paddingRight: "3",
-      '&:has(.ScrollAreaScrollbar[data-state="hidden"]), &:not(:has(.ScrollAreaScrollbar))': { paddingRight: 0 },
-    },
   },
   variants: {
     // Nudge a submenu away from the scrollbar when the parent list overflows.
@@ -57,7 +53,7 @@ export const VirtualizedBookmarksMenuContent = ({
   const virtualizer = useVirtualizer({
     count: items.length,
     getScrollElement: () => scrollAreaRef.current,
-    estimateSize: () => rem(2.08),
+    estimateSize: () => rem(2.05),
   });
 
   const virtualizedItems = virtualizer.getVirtualItems();
@@ -66,7 +62,12 @@ export const VirtualizedBookmarksMenuContent = ({
   const shift = isSubmenu && shiftSubmenu ? (dir === "ltr" ? "right" : "left") : undefined;
 
   const content = (
-    <ScrollArea onVerticalOverflowStatusChange={setScrollAreaOverflows} size="thin" viewportRef={scrollAreaRef}>
+    <ScrollArea
+      onVerticalOverflowStatusChange={setScrollAreaOverflows}
+      size="thin"
+      reserveScrollbarGutter
+      viewportRef={scrollAreaRef}
+    >
       <div style={{ height: virtualizer.getTotalSize() }}>
         <div style={{ transform: `translateY(${firstItemOffset}px)` }}>
           {virtualizedItems.map((virtualItem) => {

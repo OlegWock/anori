@@ -21,13 +21,19 @@ const root = css({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "20px",
-  height: "20px",
-  minWidth: "20px",
-  minHeight: "20px",
   borderRadius: "xs",
+  width: "1.25rem",
+  height: "1.25rem",
+  minWidth: "1.25rem",
+  minHeight: "1.25rem",
   bg: "control",
   boxShadow: "control.edge",
+  _compact: {
+    width: "1.1rem",
+    height: "1.1rem",
+    minWidth: "1.1rem",
+    minHeight: "1.1rem",
+  },
 });
 const indicator = css({ display: "flex" });
 const label = css({ margin: 0, display: "flex", alignItems: "center", fontWeight: "regular", lineHeight: "normal" });

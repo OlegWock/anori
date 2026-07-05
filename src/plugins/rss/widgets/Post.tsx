@@ -1,5 +1,6 @@
 import { RelativeTime } from "@anori/components/RelativeTime";
 import { ClampTextToFit } from "@anori/design-system/components/ClampTextToFit/ClampTextToFit";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
@@ -7,14 +8,11 @@ import { useSizeSettings } from "@anori/utils/compact";
 import moment from "moment-timezone";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { css, cva, cx } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 import type { RssPost } from "../utils";
 
 const postRoot = css({ textDecoration: "none", display: "flex", flexDirection: "column", flex: 1 });
-const postTitle = cva({
-  base: { flex: 1, lineHeight: "1.25", overflow: "hidden" },
-  variants: { compact: { true: { fontSize: "lg" } } },
-});
+const postTitle = css({ flex: 1, lineHeight: "1.25", overflow: "hidden" });
 const compactPostDate = css({ color: "text.subtle", fontSize: "sm", fontWeight: 200 });
 const postDescription = css({ marginTop: "1", color: "text.placeholder" });
 const postDetails = css({
@@ -62,10 +60,12 @@ export const Post = ({
 
   return (
     <a className={cx(postRoot, className)} href={post.url} onClick={() => trackInteraction("Open post")}>
-      {clampTitle && <ClampTextToFit withTooltip text={title} as="h3" className={postTitle({ compact })} />}
+      {clampTitle && (
+        <ClampTextToFit withTooltip text={title} as={Heading} level={3} singleLine={false} className={postTitle} />
+      )}
       {!clampTitle && (
         <>
-          <h3 className={postTitle({ compact })}>
+          <Heading level={3} singleLine={false} className={postTitle}>
             {title}
             {compact && (
               <span className={compactPostDate}>
@@ -73,7 +73,7 @@ export const Post = ({
                 <RelativeTime m={postMoment} />
               </span>
             )}
-          </h3>
+          </Heading>
           {!compact && <div className={postDescription}>{subtitle}</div>}
         </>
       )}

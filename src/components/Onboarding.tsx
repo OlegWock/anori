@@ -1,5 +1,6 @@
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Select } from "@anori/design-system/components/Select/Select";
@@ -144,7 +145,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
             <AnimatePresence initial={false} mode="wait" custom={direction}>
               {screenName === "start" && (
                 <Section custom={direction} key="start">
-                  <h1>{t("onboarding.start.title")}</h1>
+                  <Heading level={1}>{t("onboarding.start.title")}</Heading>
                   <p>
                     {t("onboarding.start.p1", {
                       languages: availableTranslations.map((code) => availableTranslationsPrettyNames[code]).join(", "),
@@ -172,14 +173,14 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
               )}
               {screenName === "folders" && (
                 <Section custom={direction} key="folders">
-                  <h1>{t("onboarding.folders.title")}</h1>
+                  <Heading level={1}>{t("onboarding.folders.title")}</Heading>
                   <p>{t("onboarding.folders.p1")}</p>
                   <p>{t("onboarding.folders.p2")}</p>
                 </Section>
               )}
               {screenName === "customization" && (
                 <Section custom={direction} key="customization">
-                  <h1>{t("onboarding.customization.title")}</h1>
+                  <Heading level={1}>{t("onboarding.customization.title")}</Heading>
                   <p>{t("onboarding.customization.p1")}</p>
                   <p>{t("onboarding.customization.p2")}</p>
                   <p>{t("onboarding.customization.p3")}</p>
@@ -187,7 +188,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
               )}
               {screenName === "analytics" && (
                 <Section custom={direction} key="analytics">
-                  <h1>{t("onboarding.analytics.title")}</h1>
+                  <Heading level={1}>{t("onboarding.analytics.title")}</Heading>
                   <p>{t("onboarding.analytics.p1")}</p>
                   <p>{t("onboarding.analytics.p2")}</p>
                   <p>
@@ -204,7 +205,7 @@ export const Onboarding = ({ gridDimensions }: { gridDimensions: GridDimensions 
               )}
               {screenName === "presets" && (
                 <Section custom={direction} key="presets">
-                  <h1>{t("onboarding.presets.title")}</h1>
+                  <Heading level={1}>{t("onboarding.presets.title")}</Heading>
                   <p>{t("onboarding.presets.p1")}</p>
                   <p>{t("onboarding.presets.p2")}</p>
                   <p>{t("onboarding.presets.p3")}</p>

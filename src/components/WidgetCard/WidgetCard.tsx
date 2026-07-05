@@ -1,3 +1,4 @@
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
@@ -106,7 +107,7 @@ const control = cva({
 
 const WidgetRenderError = () => (
   <>
-    <h2>Oops</h2>
+    <Heading>Oops</Heading>
     <div className={errorDescriptionCss}>Widget failed to render, check console for details.</div>
   </>
 );

@@ -1,5 +1,6 @@
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Textarea } from "@anori/design-system/components/Input/Input";
@@ -32,7 +33,6 @@ import {
   inputWrapper,
   noTasks,
   scribble,
-  scrollArea,
   taskInput,
   taskRow,
   tasksHeader,
@@ -226,10 +226,10 @@ export const TasksWidget = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => 
   return (
     <m.div className={tasksWidget} layoutRoot>
       <div className={tasksHeader}>
-        <h2>{config.title}</h2>
+        <Heading>{config.title}</Heading>
         <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} onClick={addTask} />
       </div>
-      <ScrollArea className={scrollArea} style={{ display: tasks.length === 0 ? "none" : "flex" }}>
+      <ScrollArea fill style={{ display: tasks.length === 0 ? "none" : "flex" }}>
         <LayoutGroup>
           <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className={tasksList} layoutScroll layoutRoot>
             <AnimatePresence initial={false}>

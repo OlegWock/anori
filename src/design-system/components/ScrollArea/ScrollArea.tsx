@@ -2,7 +2,7 @@ import { combineRefs } from "@anori/utils/react";
 import { ScrollArea as Base } from "@base-ui/react/scroll-area";
 import { useDirection } from "@radix-ui/react-direction";
 import { m } from "motion/react";
-import { type ComponentProps, type ReactNode, type Ref, useEffect, useRef, type WheelEvent } from "react";
+import { type ComponentProps, type ReactNode, type Ref, useEffect, useRef, useState, type WheelEvent } from "react";
 import { css, cva, cx } from "styled-system/css";
 
 type ScrollAreaVisibility = "auto" | "always" | "hover" | "scroll";
@@ -10,11 +10,14 @@ type ScrollAreaVisibility = "auto" | "always" | "hover" | "scroll";
 type ScrollAreaProps = {
   children?: ReactNode;
   className?: string;
+  viewportClassName?: string;
   contentClassName?: string;
   type?: ScrollAreaVisibility;
+  reserveScrollbarGutter?: boolean;
   direction?: "vertical" | "horizontal" | "both";
   mirrorVerticalScrollToHorizontal?: boolean;
   size?: "normal" | "thin";
+  fill?: boolean;
   onVerticalOverflowStatusChange?: (overflows: boolean) => void;
   onHorizontalOverflowStatusChange?: (overflows: boolean) => void;
   viewportRef?: Ref<HTMLDivElement>;
@@ -24,10 +27,6 @@ type ScrollAreaProps = {
   layoutScroll?: boolean;
 } & ComponentProps<typeof m.div>;
 
-// Each part is styled directly and keeps its marker class (ScrollAreaRoot/Viewport/Content/Scrollbar/
-// Thumb) — a public hook some widgets target from their own styles.
-// TODO: verify if this is really needed or if we could migrate to providing adequate default behavior/styles + props to
-// adjust it when really needed
 const root = cva({
   base: {
     position: "relative",
@@ -39,33 +38,48 @@ const root = cva({
   },
   variants: {
     size: { normal: { "--scrollbar-size": "10px" }, thin: { "--scrollbar-size": "7px" } },
-    // Constrain the off-axis on the scrolling viewport itself. Base UI sets `overflow: scroll` inline on
-    // it, so this needs `!important` to win — otherwise a vertical area still scrolls horizontally when
-    // content is too wide (it should clip instead).
+    fill: { true: { flex: "1 1 0", minHeight: 0 }, false: {} },
+    reserveGutter: {
+      true: { "&[data-scrollbar-visible]": { paddingRight: "var(--scrollbar-size)" } },
+      false: {},
+    },
+  },
+  defaultVariants: { size: "normal", fill: false, reserveGutter: false },
+});
+
+const viewport = cva({
+  base: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "inherit",
+    flexShrink: 1,
+    overscrollBehavior: "contain",
+  },
+  variants: {
+    fill: { true: { display: "flex", flexDirection: "column" }, false: {} },
+    // Base UI sets `overflow: scroll` inline; `!important` clips the off-axis so a single-axis area can't scroll both ways.
     direction: {
-      vertical: {
-        "& .ScrollAreaViewport": { overflowX: "hidden!" },
-        // Base UI sets `min-width: fit-content` inline on the content so it can size to wide content for
-        // horizontal scrolling; in a vertical-only area that lets children ignore the viewport width.
-        // Clear it so they're constrained to the viewport (and can wrap / ellipsis instead of overflowing).
-        "& .ScrollAreaContent": { minWidth: "0!" },
-      },
-      horizontal: { "& .ScrollAreaViewport": { overflowY: "hidden!" } },
+      vertical: { overflowX: "hidden!" },
+      horizontal: { overflowY: "hidden!" },
       both: {},
     },
   },
-  defaultVariants: { size: "normal", direction: "vertical" },
+  defaultVariants: { fill: false, direction: "vertical" },
 });
 
-const viewport = css({
-  width: "100%",
-  height: "100%",
-  borderRadius: "inherit",
-  flexShrink: 1,
-  overscrollBehavior: "contain",
+const content = cva({
+  base: { borderRadius: "inherit" },
+  variants: {
+    fill: { true: { display: "flex", flexDirection: "column", flexGrow: 1 }, false: {} },
+    // Base UI sets `min-width: fit-content` inline for horizontal sizing; clear it so vertical content wraps to the viewport.
+    direction: {
+      vertical: { minWidth: "0!" },
+      horizontal: {},
+      both: {},
+    },
+  },
+  defaultVariants: { fill: false, direction: "vertical" },
 });
-
-const content = css({ borderRadius: "inherit" });
 
 const scrollbar = cva({
   base: {
@@ -136,12 +150,15 @@ const checkHorizontalOverflow = (el: Element) => el.clientWidth < el.scrollWidth
 export const ScrollArea = ({
   children,
   className,
+  viewportClassName,
   contentClassName,
   type = "auto",
   direction = "vertical",
   onHorizontalOverflowStatusChange,
   onVerticalOverflowStatusChange,
   size = "normal",
+  fill = false,
+  reserveScrollbarGutter = false,
   mirrorVerticalScrollToHorizontal = false,
   viewportRef,
   layoutScroll = false,
@@ -153,6 +170,7 @@ export const ScrollArea = ({
   const mergedViewportRef = combineRefs(localViewportRef, viewportRef);
   const horizontalOverflowRef = useRef(false);
   const verticalOverflowRef = useRef(false);
+  const [gutterVisible, setGutterVisible] = useState(false);
   const dir = useDirection();
 
   const showVertical = direction === "vertical" || direction === "both";
@@ -163,8 +181,12 @@ export const ScrollArea = ({
     if (e.deltaY) e.currentTarget.scrollLeft += e.deltaY;
   };
 
+  const trackOverflow = Boolean(
+    onHorizontalOverflowStatusChange || onVerticalOverflowStatusChange || reserveScrollbarGutter,
+  );
+
   useEffect(() => {
-    if (!onHorizontalOverflowStatusChange && !onVerticalOverflowStatusChange) return;
+    if (!trackOverflow) return;
     const vp = localViewportRef.current;
     const node = contentRef.current;
     if (!vp || !node) return;
@@ -179,6 +201,7 @@ export const ScrollArea = ({
       if (vertical !== verticalOverflowRef.current) {
         verticalOverflowRef.current = vertical;
         onVerticalOverflowStatusChange?.(vertical);
+        setGutterVisible(vertical && showVertical);
       }
     };
 
@@ -187,42 +210,37 @@ export const ScrollArea = ({
     observer.observe(node);
     check();
     return () => observer.disconnect();
-  }, [onHorizontalOverflowStatusChange, onVerticalOverflowStatusChange]);
+  }, [trackOverflow, onHorizontalOverflowStatusChange, onVerticalOverflowStatusChange, showVertical]);
 
   return (
     <Base.Root
       ref={ref}
-      className={cx(root({ size, direction }), "ScrollAreaRoot", className)}
+      className={cx(root({ size, fill, reserveGutter: reserveScrollbarGutter }), className)}
+      data-scrollbar-visible={reserveScrollbarGutter && gutterVisible ? "" : undefined}
       render={<m.div dir={dir} {...props} />}
     >
       <Base.Viewport
         ref={mergedViewportRef}
-        className={cx(viewport, "ScrollAreaViewport", contentClassName)}
+        className={cx(viewport({ fill, direction }), viewportClassName)}
         onWheel={showHorizontal && mirrorVerticalScrollToHorizontal ? mirrorScroll : undefined}
         render={<m.div {...(layoutScroll ? { layoutScroll: true, layoutRoot: true } : {})} />}
       >
-        <Base.Content ref={contentRef} className={cx(content, "ScrollAreaContent")}>
+        <Base.Content ref={contentRef} className={cx(content({ fill, direction }), contentClassName)}>
           {children}
         </Base.Content>
       </Base.Viewport>
 
       {showVertical && (
-        <Base.Scrollbar
-          orientation="vertical"
-          className={cx(scrollbar({ orientation: "vertical", type }), "ScrollAreaScrollbar")}
-        >
-          <Base.Thumb className={cx(thumb({ orientation: "vertical" }), "ScrollAreaThumb")} />
+        <Base.Scrollbar orientation="vertical" className={scrollbar({ orientation: "vertical", type })}>
+          <Base.Thumb className={thumb({ orientation: "vertical" })} />
         </Base.Scrollbar>
       )}
       {showHorizontal && (
-        <Base.Scrollbar
-          orientation="horizontal"
-          className={cx(scrollbar({ orientation: "horizontal", type }), "ScrollAreaScrollbar")}
-        >
-          <Base.Thumb className={cx(thumb({ orientation: "horizontal" }), "ScrollAreaThumb")} />
+        <Base.Scrollbar orientation="horizontal" className={scrollbar({ orientation: "horizontal", type })}>
+          <Base.Thumb className={thumb({ orientation: "horizontal" })} />
         </Base.Scrollbar>
       )}
-      <Base.Corner className={cx(corner, "ScrollAreaCorner")} />
+      <Base.Corner className={corner} />
     </Base.Root>
   );
 };

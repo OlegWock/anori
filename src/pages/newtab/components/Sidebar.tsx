@@ -49,28 +49,19 @@ const sidebar = css({
   display: "var(--sidebar-display, flex) !important",
 });
 
-const sidebarViewport = cva({
-  base: {
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "column",
-    "& > .ScrollAreaContent": {
-      flexGrow: 1,
-      height: "100%",
-      minHeight: "100%",
-      display: "flex",
-    },
-  },
+const sidebarViewport = css({ flexGrow: 1, display: "flex", flexDirection: "column" });
+const sidebarContentSlot = cva({
+  base: { flexGrow: 1, height: "100%", minHeight: "100%", display: "flex" },
   variants: {
     orientation: {
       vertical: {},
-      horizontal: { "& > .ScrollAreaContent": { flexDirection: "column" } },
+      horizontal: { flexDirection: "column" },
     },
   },
 });
 
 const sidebarContent = cva({
-  base: { display: "flex !important", gap: "8", _compact: { gap: "6" } },
+  base: { display: "flex !important", gap: "8" },
   variants: {
     orientation: {
       vertical: { flexDirection: "column", paddingBlock: "3", paddingInline: "6" },
@@ -112,7 +103,8 @@ export const Sidebar = memo(function Sidebar({
       >
         <ScrollArea
           className={sidebar}
-          contentClassName={sidebarViewport({ orientation })}
+          viewportClassName={sidebarViewport}
+          contentClassName={sidebarContentSlot({ orientation })}
           type="hover"
           direction={orientation}
           mirrorVerticalScrollToHorizontal

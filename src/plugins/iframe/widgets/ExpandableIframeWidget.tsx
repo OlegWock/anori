@@ -1,4 +1,5 @@
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { LinkIconButton } from "@anori/design-system/components/LinkIconButton/LinkIconButton";
@@ -87,7 +88,9 @@ export const ExpandableWidget = ({ config }: WidgetRenderProps<IframePluginExpan
       >
         <div className={content({ size })}>
           <div className={textCol}>
-            <h2 className={heading({ size })}>{config.title}</h2>
+            <Heading singleLine={false} className={heading({ size })}>
+              {config.title}
+            </Heading>
             <div className={hostText}>{host}</div>
           </div>
           <Icon

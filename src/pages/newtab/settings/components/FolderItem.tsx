@@ -30,8 +30,8 @@ const staticIcon = css({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "36px",
-  height: "36px",
+  width: "2.25rem",
+  height: "2.25rem",
   flexShrink: 0,
 });
 const nameInput = css({ flex: 1, minWidth: "0!", marginLeft: "-2" });
@@ -42,7 +42,7 @@ const nameText = css({
   whiteSpace: "nowrap",
   paddingInline: "3",
 });
-const slot = css({ width: "36px", flexShrink: 0 });
+const slot = css({ width: "2.25rem", flexShrink: 0 });
 const deleteIcon = css({ "& svg": { height: "1.2em!" } });
 
 export const FOLDER_NAME_INPUT_ATTR = "data-folder-name-input";

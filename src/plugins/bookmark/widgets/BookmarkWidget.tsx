@@ -1,4 +1,5 @@
 import { WidgetExpandArea } from "@anori/components/WidgetExpandArea/WidgetExpandArea";
+import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
@@ -132,7 +133,9 @@ export const BookmarkWidget = ({
       >
         <div className={bookmarkContent({ size })}>
           <div className={bookmarkText}>
-            <h2 className={bookmarkH2({ size })}>{config.title}</h2>
+            <Heading singleLine={false} className={bookmarkH2({ size })}>
+              {config.title}
+            </Heading>
             <div className={bookmarkHost}>{host}</div>
           </div>
           {isNavigating && !config.openInNewTab ? (

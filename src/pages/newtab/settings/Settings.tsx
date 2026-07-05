@@ -81,7 +81,7 @@ export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
 
           <div className={divider} />
 
-          <ScrollArea className={screenScroll} contentClassName={screenPad}>
+          <ScrollArea className={screenScroll} viewportClassName={screenPad}>
             <AnimatePresence mode="wait" custom={direction} initial={false}>
               <ActiveScreen
                 key={active.id}
