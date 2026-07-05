@@ -43,7 +43,6 @@ const sidebarWrapper = cva({
 const sidebar = css({
   flexGrow: 0,
   flexShrink: 0,
-  zIndex: 1,
   maxHeight: "100%",
   minHeight: "100%",
   display: "var(--sidebar-display, flex) !important",

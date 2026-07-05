@@ -37,7 +37,10 @@ const folderButton = cva({
     _hover: { transform: "scale(1.15)", color: "accent" },
   },
   variants: {
-    dropTarget: { true: { borderColor: "color-mix(in srgb, var(--ds-text-primary) 25%, transparent)" } },
+    // While a widget is being dragged this button is a drop target; lift it above the edit-mode scrim so it stays bright.
+    dropTarget: {
+      true: { borderColor: "color-mix(in srgb, var(--ds-text-primary) 25%, transparent)", zIndex: "docked" },
+    },
     highlight: { true: { background: "color-mix(in srgb, var(--ds-text-primary) 25%, transparent)" } },
   },
 });
