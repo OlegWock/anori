@@ -112,9 +112,6 @@ export const CloudAccountModal = ({ onClose }: Props) => {
   );
 };
 
-// TODO: create profile form should be directly on modal, not card
-// TODO: when editing profile name we need to render it on card, but controls look ugly there
-// TODO: similarly with delete alert confirmation and connect confirmation alert, it blends with card background
 const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof useCloudAccount>["account"]> }) => {
   const { t } = useTranslation();
   const isBehindCloudSchema = useIsBehindCloudSchema();
@@ -288,7 +285,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
           <div className={profilesTitle}>{t("cloud.profiles")}</div>
           {!isCreatingProfile && (
             <Button
-              variant="frosted"
+              variant="secondary"
               size="compact"
               iconStart={builtinIcons.add}
               onClick={() => {
@@ -316,7 +313,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
             />
             <div className={actionsRight}>
               <Button
-                variant="frosted"
+                variant="secondary"
                 size="compact"
                 onClick={() => {
                   setIsCreatingProfile(false);
@@ -373,7 +370,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                             }}
                           />
                           <div className={actionsRight}>
-                            <Button variant="frosted" onClick={() => setEditingProfileId(null)} size="compact">
+                            <Button variant="secondary" onClick={() => setEditingProfileId(null)} size="compact">
                               {t("cloud.cancel")}
                             </Button>
                             <Button
@@ -452,7 +449,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                         </Alert>
                         <div className={actionsRight}>
                           <Button
-                            variant="frosted"
+                            variant="secondary"
                             size="compact"
                             onClick={handleConfirmConnect}
                             loading={isConnecting}
@@ -460,7 +457,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                             {t("cloud.confirm")}
                           </Button>
                           <Button
-                            variant="frosted"
+                            variant="secondary"
                             size="compact"
                             onClick={() => setConfirmingProfileId(null)}
                             disabled={isConnecting}
@@ -475,7 +472,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                         <Alert variant="danger">{t("cloud.deleteConfirmation", { profileName: profile.name })}</Alert>
                         <div className={actionsRight}>
                           <Button
-                            variant="frosted"
+                            variant="secondary"
                             size="compact"
                             onClick={() => handleDeleteProfile(profile.id)}
                             loading={isDeleting}
@@ -483,7 +480,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
                             {t("cloud.confirm")}
                           </Button>
                           <Button
-                            variant="frosted"
+                            variant="primary"
                             size="compact"
                             onClick={() => setConfirmDeleteProfileId(null)}
                             disabled={isDeleting}
