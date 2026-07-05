@@ -91,7 +91,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -280,7 +280,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -327,7 +327,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "de": {
         "appName": "55adda81af29",
@@ -424,7 +425,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -610,7 +611,7 @@
         "picture-plugin.image": "1aa4cb0bcca7",
         "picture-plugin.selectImage": "6a8027c451f5",
         "picture-plugin.changeImage": "87b8b0086a4c",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -657,7 +658,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "es": {
         "appName": "55adda81af29",
@@ -751,7 +753,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -940,7 +942,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -987,7 +989,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "fr": {
         "appName": "55adda81af29",
@@ -1080,7 +1083,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -1270,7 +1273,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -1317,7 +1320,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "it": {
         "appName": "55adda81af29",
@@ -1408,7 +1412,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -1600,7 +1604,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -1647,7 +1651,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "ja": {
         "appName": "55adda81af29",
@@ -1762,7 +1767,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -1930,7 +1935,7 @@
         "picture-plugin.image": "1aa4cb0bcca7",
         "picture-plugin.selectImage": "6a8027c451f5",
         "picture-plugin.changeImage": "87b8b0086a4c",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -1977,7 +1982,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "pt-br": {
         "appName": "55adda81af29",
@@ -2071,7 +2077,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -2260,7 +2266,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -2307,7 +2313,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "ru": {
         "appName": "55adda81af29",
@@ -2408,7 +2415,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -2590,7 +2597,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -2637,7 +2644,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "th": {
         "appName": "55adda81af29",
@@ -2739,7 +2747,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -2920,7 +2928,7 @@
         "picture-plugin.image": "1aa4cb0bcca7",
         "picture-plugin.selectImage": "6a8027c451f5",
         "picture-plugin.changeImage": "87b8b0086a4c",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -2967,7 +2975,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "tr": {
         "appName": "55adda81af29",
@@ -3107,7 +3116,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -3250,7 +3259,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -3297,7 +3306,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "uk": {
         "appName": "55adda81af29",
@@ -3437,7 +3447,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -3580,7 +3590,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -3627,7 +3637,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "vi": {
         "appName": "55adda81af29",
@@ -3765,7 +3776,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -3910,7 +3921,7 @@
         "picture-plugin.image": "1aa4cb0bcca7",
         "picture-plugin.selectImage": "6a8027c451f5",
         "picture-plugin.changeImage": "87b8b0086a4c",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -3957,7 +3968,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "zh-cn": {
         "appName": "55adda81af29",
@@ -4059,7 +4071,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -4240,7 +4252,7 @@
         "picture-plugin.image": "1aa4cb0bcca7",
         "picture-plugin.selectImage": "6a8027c451f5",
         "picture-plugin.changeImage": "87b8b0086a4c",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -4287,7 +4299,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "cs": {
         "appName": "55adda81af29",
@@ -4427,7 +4440,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -4570,7 +4583,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -4617,7 +4630,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "fil": {
         "appName": "55adda81af29",
@@ -4757,7 +4771,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -4900,7 +4914,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -4947,7 +4961,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "hi": {
         "appName": "55adda81af29",
@@ -5087,7 +5102,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -5230,7 +5245,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -5277,7 +5292,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "id": {
         "appName": "55adda81af29",
@@ -5417,7 +5433,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -5560,7 +5576,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -5607,7 +5623,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "pl": {
         "appName": "55adda81af29",
@@ -5747,7 +5764,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -5890,7 +5907,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -5937,7 +5954,8 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     },
     "sk": {
         "appName": "55adda81af29",
@@ -6077,7 +6095,7 @@
         "onboarding.start.title": "c04d253bd039",
         "onboarding.start.p1": "29c976542ed4",
         "onboarding.start.p2": "97c86dfb93aa",
-        "onboarding.start.p3": "04102268597e",
+        "onboarding.start.p3": "45b084a64e09",
         "onboarding.folders.title": "c4d6bb200f4c",
         "onboarding.customization.title": "db4fd5737890",
         "onboarding.customization.p1": "9a906659be55",
@@ -6220,7 +6238,7 @@
         "anki-plugin.hard": "9e73f8fa9cb7",
         "anki-plugin.error": "24146918ae6c",
         "anki-plugin.widgetName": "cf5f6a750360",
-        "onboarding.start.p4": "b478a5439d6f",
+        "onboarding.start.p4": "0a56ac312f4b",
         "onboarding.folders.p1": "4f881c22eebd",
         "onboarding.folders.p2": "96ddc0dbb660",
         "calendar-plugin.calendarType": "725c96af8360",
@@ -6267,6 +6285,7 @@
         "rss-plugin.presetsText": "3b2db0812ee7",
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
-        "anki-plugin.errorTitle": "ed45c8614791"
+        "anki-plugin.errorTitle": "ed45c8614791",
+        "editFolder": "fe82f5a54ad3"
     }
 }

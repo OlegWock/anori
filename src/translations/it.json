@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Impossibile aggiungere il widget: la sua configurazione non è valida. Controlla la console per i dettagli.",
         "saveWidgetConfigInvalid": "Impossibile salvare: la configurazione del widget non è valida. Controlla la console per i dettagli.",
         "edit": "Modifica",
+        "editFolder": "Modifica cartella",
         "done": "Fatto",
         "close": "Chiudi",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Benvenuto in Anori!",
                 "p1": "Felice di vederti! Questa introduzione è disponibile in {{languages}}.",
                 "p2": "Stai per configurare la tua nuova scheda ideale. La pagina d'avvio di Anori è composta da diversi widget, come note, segnalibri, elenchi di task, ecc. Tu scegli cosa aggiungere e come organizzarli.",
-                "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita nell'angolo in alto a destra. Questo passerà alla modalità di modifica. Qui puoi aggiungere, riposizionare o rimuovere i vari widget.",
-                "p4": "Per aggiungere un nuovo widget, clicca sul pulsante più, oppure clicca sulla spunta per uscire dalla modalità di modifica. Una volta aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget ora ed esplorare l'estensione da solo, altrimenti, se desideri conoscere un po' meglio le funzionalità che Anori offre, clicca su '$t(next)'."
+                "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita ('$t(editFolder)') nella barra laterale. Questo passerà alla modalità di modifica. Qui puoi aggiungere nuovi widget e riposizionare o rimuovere quelli esistenti.",
+                "p4": "Per aggiungere un nuovo widget, clicca sul pulsante '$t(addWidget)', oppure clicca su '$t(done)' per uscire dalla modalità di modifica. Una volta aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget ora ed esplorare l'estensione da solo, altrimenti, se desideri conoscere un po' meglio le funzionalità che Anori offre, clicca su '$t(next)'."
             },
             "folders": {
                 "title": "Cartelle",

@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "No se pudo agregar el widget: su configuración no es válida. Consulta la consola para más detalles.",
         "saveWidgetConfigInvalid": "No se pudo guardar: la configuración del widget no es válida. Consulta la consola para más detalles.",
         "edit": "Editar",
+        "editFolder": "Editar carpeta",
         "done": "Listo",
         "close": "Cerrar",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Bienvenido a Anori!",
                 "p1": "¡Que bueno verte! Esta introducción está disponible en {{languages}}.",
                 "p2": "Estás en camino de configurar tu nueva pestaña ideal. La pagina de inicio de Anori consiste de diferentes widgets, como notas, marcadores, listas ToDo, etc. Elige que agregar y como organizarlo.",
-                "p3": "Puede agregar su primer widget haciendo clic en el lápiz arriba a la derecha. Este cambiará la página a modo de edición. Aquí puedes agregar widgets o mover los que ya tienes.",
-                "p4": "Para agregar un nuevo widget, haz clic en el botón con el signo más, o haz clic en el símbolo de palomita para salir del modo de edición. Una vez que agregues tu primer widget, este mensaje desaparecerá. Puedes agregar un widget ahora mismo y explorar la extensión por tu cuenta, o, si quieres saber un poco más sobre las características que Anori tiene para ofrecer, haz clic en '$t(next)'."
+                "p3": "Puede agregar su primer widget haciendo clic en el lápiz ('$t(editFolder)') en la barra lateral. Este cambiará la página a modo de edición. Aquí puedes agregar nuevos widgets y reposicionar o eliminar los existentes.",
+                "p4": "Para agregar un nuevo widget, haz clic en el botón '$t(addWidget)', o haz clic en '$t(done)' para salir del modo de edición. Una vez que agregues tu primer widget, este mensaje desaparecerá. Puedes agregar un widget ahora mismo y explorar la extensión por tu cuenta, o, si quieres saber un poco más sobre las características que Anori tiene para ofrecer, haz clic en '$t(next)'."
             },
             "folders": {
                 "title": "Carpetas",

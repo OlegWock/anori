@@ -26,6 +26,7 @@
     "editWidget": "Modal dialog title for editing the configuration of an already-placed widget.",
     "configureWidget": "Modal dialog title for configuring a newly added widget during the add-widget wizard.",
     "addWidget": "Button/modal title for selecting and adding a new widget to the current folder; also a step in onboarding.",
+    "editFolder": "Sidebar icon-button tooltip that toggles edit mode for the currently open folder, letting the user rearrange, resize, add, and remove widgets.",
     "addWidgetConfigInvalid": "Error alert shown in the add-widget wizard when the widget's configuration fails validation and can't be saved. 'console' refers to the browser developer console.",
     "saveWidgetConfigInvalid": "Error alert shown in the edit-widget modal when the edited configuration fails validation and can't be saved. 'console' refers to the browser developer console.",
     "next": "Navigation button advancing to the next step of the onboarding wizard.",

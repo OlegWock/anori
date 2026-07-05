@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Không thể thêm widget: cấu hình không hợp lệ. Kiểm tra console để biết thêm chi tiết.",
         "saveWidgetConfigInvalid": "Không thể lưu: cấu hình widget không hợp lệ. Kiểm tra console để biết thêm chi tiết.",
         "edit": "Chỉnh sửa",
+        "editFolder": "Chỉnh sửa thư mục",
         "done": "Xong",
         "close": "Đóng",
         "info": "Thông tin",
@@ -200,8 +201,8 @@
                 "title": "Chào mừng đến với Anori!",
                 "p1": "Rất vui được gặp bạn! Hướng dẫn này có sẵn bằng {{languages}}.",
                 "p2": "Anori giúp bạn tạo trang tab mới lý tưởng với các tiện ích như ghi chú, dấu trang... Bạn toàn quyền sắp xếp chúng.",
-                "p3": "Nhấp vào biểu tượng bút chì ở góc trên bên phải để vào chế độ chỉnh sửa. Tại đây, bạn có thể thêm, di chuyển hoặc xóa các tiện ích.",
-                "p4": "Để thêm tiện ích mới, nhấp vào nút dấu cộng, hoặc nhấp vào dấu kiểm để thoát chế độ chỉnh sửa. Khi bạn thêm tiện ích đầu tiên, màn hình giới thiệu này sẽ biến mất. Bạn có thể thêm tiện ích ngay bây giờ và tự khám phá tiện ích mở rộng, hoặc nếu muốn tìm hiểu thêm về các tính năng Anori cung cấp, hãy nhấp vào '$t(next)'."
+                "p3": "Bạn có thể thêm tiện ích đầu tiên bằng cách nhấp vào biểu tượng bút chì ('$t(editFolder)') trên thanh bên. Thao tác này sẽ chuyển trang sang chế độ chỉnh sửa. Tại đây, bạn có thể thêm tiện ích mới, di chuyển hoặc xóa các tiện ích hiện có.",
+                "p4": "Để thêm tiện ích mới, nhấp vào nút '$t(addWidget)', hoặc nhấp vào '$t(done)' để thoát chế độ chỉnh sửa. Khi bạn thêm tiện ích đầu tiên, màn hình giới thiệu này sẽ biến mất. Bạn có thể thêm tiện ích ngay bây giờ và tự khám phá tiện ích mở rộng, hoặc nếu muốn tìm hiểu thêm về các tính năng Anori cung cấp, hãy nhấp vào '$t(next)'."
             },
             "folders": {
                 "title": "Thư mục",

@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Widget konnte nicht hinzugefügt werden: Die Konfiguration ist ungültig. Details in der Konsole.",
         "saveWidgetConfigInvalid": "Speichern fehlgeschlagen: Die Widget-Konfiguration ist ungültig. Details in der Konsole.",
         "edit": "Bearbeiten",
+        "editFolder": "Ordner bearbeiten",
         "done": "Fertig",
         "close": "Schließen",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Willkommen bei Anori!",
                 "p1": "Ich freue mich, Dich zu sehen! Diese Einführung ist auf {{languages}} verfügbar.",
                 "p2": "Du bist auf dem besten Weg, deinen perfekten neuen Tab einzurichten. Die Anori-Startseite besteht aus verschiedenen Widgets, wie Notizen, Lesezeichen, ToDo-Listen, usw. Du wählst aus, was du hinzufügen und wie du es organisieren willst.",
-                "p3": "Du kannst dein erstes Widget hinzufügen, indem du auf den Bleistift in der oberen rechten Ecke klickst. Dadurch wird die Seite in den Bearbeitungsmodus geschaltet. Hier kannst du neue Widgets hinzufügen und bestehende Widgets neu positionieren oder entfernen.",
-                "p4": "Um ein neues Widget hinzuzufügen, klicke auf die Plus-Schaltfläche, oder auf das Häkchen, um den Bearbeitungsmodus zu verlassen. Sobald du dein erstes Widget hinzufügst, wird diese Einführung verschwinden. Du kannst jetzt ein Widget hinzufügen und die Erweiterung auf eigene Faust erkunden, oder, wenn du mehr über die Funktionen von Anori erfahren möchtest, klicke auf \"$t(next)\"."
+                "p3": "Du kannst dein erstes Widget hinzufügen, indem du auf den Bleistift ('$t(editFolder)') in der Seitenleiste klickst. Dadurch wird die Seite in den Bearbeitungsmodus geschaltet. Hier kannst du neue Widgets hinzufügen und bestehende Widgets neu positionieren oder entfernen.",
+                "p4": "Um ein neues Widget hinzuzufügen, klicke auf die Schaltfläche '$t(addWidget)', oder auf '$t(done)', um den Bearbeitungsmodus zu verlassen. Sobald du dein erstes Widget hinzufügst, wird diese Einführung verschwinden. Du kannst jetzt ein Widget hinzufügen und die Erweiterung auf eigene Faust erkunden, oder, wenn du mehr über die Funktionen von Anori erfahren möchtest, klicke auf '$t(next)'."
             },
             "folders": {
                 "title": "Ordner",

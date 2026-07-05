@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Não foi possível adicionar o widget: sua configuração é inválida. Verifique o console para mais detalhes.",
         "saveWidgetConfigInvalid": "Não foi possível salvar: a configuração do widget é inválida. Verifique o console para mais detalhes.",
         "edit": "Editar",
+        "editFolder": "Editar pasta",
         "done": "Concluído",
         "close": "Fechar",
         "info": "Informação",
@@ -200,8 +201,8 @@
                 "title": "Bem vindo ao Anori!",
                 "p1": "Que bom ver você! Esta introdução está disponível em {{languages}}.",
                 "p2": "Você está no caminho certo para configurar sua nova guia ideal. A página inicial do Anori consiste em diferentes widgets, como notas, marcadores, listas de tarefas, etc.",
-                "p3": "Você pode adicionar seu primeiro widget clicando no lápis no canto superior direito. Isso mudará a página para o modo de edição. Aqui você pode adicionar novos widgets e reposicionar ou remover os existentes.",
-                "p4": "Para adicionar um novo widget, clique no botão de adição ou clique na marca de seleção para sair do modo de edição. Depois de adicionar seu primeiro widget, essa integração desaparecerá. Você pode adicionar um widget agora mesmo e explorar a extensão por conta própria ou, se quiser saber um pouco mais sobre os recursos que o Anori tem a oferecer, clique em '$t(next)'."
+                "p3": "Você pode adicionar seu primeiro widget clicando no lápis ('$t(editFolder)') na barra lateral. Isso mudará a página para o modo de edição. Aqui você pode adicionar novos widgets e reposicionar ou remover os existentes.",
+                "p4": "Para adicionar um novo widget, clique no botão '$t(addWidget)', ou clique em '$t(done)' para sair do modo de edição. Depois de adicionar seu primeiro widget, essa integração desaparecerá. Você pode adicionar um widget agora mesmo e explorar a extensão por conta própria ou, se quiser saber um pouco mais sobre os recursos que o Anori tem a oferecer, clique em '$t(next)'."
             },
             "folders": {
                 "title": "Pastas",

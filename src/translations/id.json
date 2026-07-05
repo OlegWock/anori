@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Tidak dapat menambahkan widget: konfigurasinya tidak valid. Periksa konsol untuk detailnya.",
         "saveWidgetConfigInvalid": "Tidak dapat menyimpan: konfigurasi widget tidak valid. Periksa konsol untuk detailnya.",
         "edit": "Edit",
+        "editFolder": "Edit folder",
         "done": "Selesai",
         "close": "Tutup",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Selamat datang di Anori!",
                 "p1": "Senang melihat Anda! Pengantar ini tersedia dalam {{languages}}.",
                 "p2": "Anda sedang dalam perjalanan untuk menyiapkan tab baru yang ideal. Halaman awal Anori terdiri dari berbagai widget, seperti catatan, bookmark, daftar tugas, dll. Anda memilih apa yang ingin ditambahkan dan bagaimana mengaturnya.",
-                "p3": "Anda dapat menambahkan widget pertama dengan mengklik ikon pensil di sudut kanan atas. Ini akan mengalihkan halaman ke mode pengeditan. Di sini Anda dapat menambahkan widget baru serta memindahkan atau menghapus yang sudah ada.",
-                "p4": "Untuk menambahkan widget baru, klik tombol plus, atau klik tanda centang untuk keluar dari mode pengeditan. Setelah Anda menambahkan widget pertama, panduan ini akan hilang. Anda bisa menambahkan widget sekarang dan menjelajahi ekstensi sendiri, atau jika ingin mengetahui lebih banyak tentang fitur yang ditawarkan Anori, klik '$t(next)'."
+                "p3": "Anda dapat menambahkan widget pertama dengan mengklik ikon pensil ('$t(editFolder)') di sidebar. Ini akan mengalihkan halaman ke mode pengeditan. Di sini Anda dapat menambahkan widget baru serta memindahkan atau menghapus yang sudah ada.",
+                "p4": "Untuk menambahkan widget baru, klik tombol '$t(addWidget)', atau klik '$t(done)' untuk keluar dari mode pengeditan. Setelah Anda menambahkan widget pertama, panduan ini akan hilang. Anda bisa menambahkan widget sekarang dan menjelajahi ekstensi sendiri, atau jika ingin mengetahui lebih banyak tentang fitur yang ditawarkan Anori, klik '$t(next)'."
             },
             "folders": {
                 "title": "Folder",

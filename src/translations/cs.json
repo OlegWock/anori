@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Nepodařilo se přidat widget: jeho konfigurace je neplatná. Podrobnosti najdete v konzoli.",
         "saveWidgetConfigInvalid": "Nepodařilo se uložit: konfigurace widgetu je neplatná. Podrobnosti najdete v konzoli.",
         "edit": "Upravit",
+        "editFolder": "Upravit složku",
         "done": "Hotovo",
         "close": "Zavřít",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Vítejte v Anori!",
                 "p1": "Rádi vás vidíme! Tento úvod je dostupný v těchto jazycích: {{languages}}.",
                 "p2": "Jste na cestě k nastavení své ideální nové karty. Úvodní stránka Anori se skládá z různých widgetů, jako jsou poznámky, záložky, seznamy úkolů atd. Vy si vyberete, co přidat a jak to uspořádat.",
-                "p3": "První widget můžete přidat kliknutím na tužku v pravém horním rohu. Tím se stránka přepne do režimu úprav. Zde můžete přidávat nové widgety a přesouvat nebo odstraňovat stávající.",
-                "p4": "Chcete-li přidat nový widget, klikněte na tlačítko plus, nebo klikněte na zaškrtnutí pro ukončení režimu úprav. Jakmile přidáte svůj první widget, toto uvítání zmizí. Můžete přidat widget hned teď a prozkoumat rozšíření sami, nebo, pokud byste se chtěli dozvědět trochu více o funkcích, které Anori nabízí, klikněte na '$t(next)'."
+                "p3": "První widget můžete přidat kliknutím na tužku ('$t(editFolder)') na postranním panelu. Tím se stránka přepne do režimu úprav. Zde můžete přidávat nové widgety a přesouvat nebo odstraňovat stávající.",
+                "p4": "Chcete-li přidat nový widget, klikněte na tlačítko '$t(addWidget)', nebo klikněte na '$t(done)' pro ukončení režimu úprav. Jakmile přidáte svůj první widget, toto uvítání zmizí. Můžete přidat widget hned teď a prozkoumat rozšíření sami, nebo, pokud byste se chtěli dozvědět trochu více o funkcích, které Anori nabízí, klikněte na '$t(next)'."
             },
             "folders": {
                 "title": "Složky",

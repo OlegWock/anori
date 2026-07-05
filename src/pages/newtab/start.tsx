@@ -21,38 +21,11 @@ import type { Folder } from "@anori/utils/user-data/types";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import { AnimatePresence, domMax, LazyMotion, MotionConfig, m } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { css, cva } from "styled-system/css";
-import { FolderContent } from "./components/FolderContent";
-import { Sidebar } from "./components/Sidebar";
+import { css } from "styled-system/css";
+import { Workspace } from "./components/Workspace/Workspace";
 import { scheduleLazyComponentsPreload } from "./lazy-components";
 
 const startPage = css({ height: "100dvh", width: "100vw", display: "flex", flexDirection: "column" });
-const startPageContent = cva({
-  base: { display: "flex", flex: 1, overflow: "hidden" },
-  variants: { orientation: { vertical: {}, horizontal: { flexDirection: "column-reverse" } } },
-});
-const widgetsArea = cva({
-  base: {
-    position: "relative",
-    flex: 1,
-    borderRadius: "2xl",
-    background: "frosted.subtle",
-    backdropFilter: "blur(10px)",
-    zIndex: 1,
-    overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-    minWidth: 0,
-  },
-  variants: {
-    orientation: {
-      vertical: { marginBlock: "8", marginInlineStart: 0, marginInlineEnd: "8" },
-      horizontal: { marginTop: "8", marginInline: "8", marginBottom: 0 },
-    },
-    // The bookmarks bar takes the top, so tighten the widgets-area top margin. `!` to win over orientation.
-    bookmarksBar: { true: { marginTop: "1!" } },
-  },
-});
 
 const useSidebarOrientation = () => {
   const [sidebarOrientation] = useStorageValue(anoriSchema.sidebarOrientation);
@@ -148,19 +121,14 @@ const Start = () => {
           <AnimatePresence>
             <m.div className={startPage} key="start-page">
               {showBookmarksBar && <BookmarksBar />}
-              <div className={startPageContent({ orientation: sidebarOrientation })}>
-                <Sidebar
-                  folders={folders}
-                  activeFolder={activeFolder}
-                  orientation={sidebarOrientation}
-                  bookmarksBarVisible={showBookmarksBar}
-                  onFolderClick={onFolderClick}
-                />
-
-                <div className={widgetsArea({ orientation: sidebarOrientation, bookmarksBar: showBookmarksBar })}>
-                  <FolderContent key={activeFolder.id} folder={activeFolder} animationDirection={animationDirection} />
-                </div>
-              </div>
+              <Workspace
+                folders={folders}
+                activeFolder={activeFolder}
+                orientation={sidebarOrientation}
+                bookmarksBarVisible={showBookmarksBar}
+                animationDirection={animationDirection}
+                onFolderClick={onFolderClick}
+              />
             </m.div>
           </AnimatePresence>
         </TooltipProvider>

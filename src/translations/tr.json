@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Widget eklenemedi: yapılandırması geçersiz. Ayrıntılar için konsolu kontrol edin.",
         "saveWidgetConfigInvalid": "Kaydedilemedi: widget yapılandırması geçersiz. Ayrıntılar için konsolu kontrol edin.",
         "edit": "Düzenle",
+        "editFolder": "Klasörü düzenle",
         "done": "Bitti",
         "close": "Kapat",
         "info": "Bilgi",
@@ -200,8 +201,8 @@
                 "title": "Anori'ye hoş geldiniz!",
                 "p1": "Sizi burada görmekten mutluluk duyuyoruz! Bu tanıtım {{languages}} dillerinde mevcuttur.",
                 "p2": "İdeal yeni sekmenizi oluşturmaya başlıyorsunuz. Anori başlangıç sayfası; notlar, yer imleri, yapılacaklar listesi gibi farklı widget'lardan oluşur. Neyi ekleyeceğinizi ve nasıl düzenleyeceğinizi siz seçersiniz.",
-                "p3": "İlk widget'ınızı eklemek için sağ üst köşedeki kalem simgesine tıklayın. Bu, sayfayı düzenleme moduna geçirir. Bu modda yeni widget ekleyebilir, mevcut olanları yeniden konumlandırabilir veya kaldırabilirsiniz.",
-                "p4": "Yeni bir widget eklemek için artı düğmesine tıklayın ya da düzenleme modundan çıkmak için onay işareti düğmesine tıklayın. İlk widget'ınızı eklediğinizde bu tanıtım kaybolacaktır. Şimdi bir widget ekleyip eklentiyi kendiniz keşfedebilir ya da Anori'nin sunduğu özellikler hakkında biraz daha bilgi edinmek istiyorsanız '$t(next)'e tıklayabilirsiniz."
+                "p3": "İlk widget'ınızı eklemek için kenar çubuğundaki kalem ('$t(editFolder)') simgesine tıklayın. Bu, sayfayı düzenleme moduna geçirir. Bu modda yeni widget ekleyebilir, mevcut olanları yeniden konumlandırabilir veya kaldırabilirsiniz.",
+                "p4": "Yeni bir widget eklemek için '$t(addWidget)' düğmesine tıklayın ya da düzenleme modundan çıkmak için '$t(done)' düğmesine tıklayın. İlk widget'ınızı eklediğinizde bu tanıtım kaybolacaktır. Şimdi bir widget ekleyip eklentiyi kendiniz keşfedebilir ya da Anori'nin sunduğu özellikler hakkında biraz daha bilgi edinmek istiyorsanız '$t(next)'e tıklayabilirsiniz."
             },
             "folders": {
                 "title": "Klasörler",

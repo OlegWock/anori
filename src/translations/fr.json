@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Impossible d'ajouter le widget : sa configuration est invalide. Consultez la console pour plus de détails.",
         "saveWidgetConfigInvalid": "Impossible d'enregistrer : la configuration du widget est invalide. Consultez la console pour plus de détails.",
         "edit": "Modifier",
+        "editFolder": "Modifier le dossier",
         "done": "Terminé",
         "close": "Fermer",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Bienvenue sur Anori !",
                 "p1": "Heureux de vous voir ! Cette introduction est disponible en{{languages}}.",
                 "p2": "Vous êtes sur le point de configurer votre nouvel onglet idéal. La page d'accueil d'Anori se compose de différents widgets, tels que des notes, des signets, des listes de tâches, etc. Vous choisissez ce que vous voulez ajouter et comment l'organiser.",
-                "p3": "Vous pouvez ajouter votre premier widget en cliquant sur le crayon dans le coin supérieur droit. La page passe alors en mode édition. Vous pouvez alors ajouter de nouveaux widgets et repositionner ou supprimer des widgets existants.",
-                "p4": "Pour ajouter un nouveau widget, cliquez sur le bouton plus, ou cliquez sur la coche pour quitter le mode édition. Une fois que vous aurez ajouté votre premier widget, cet onboarding disparaîtra. Vous pouvez ajouter un widget dès maintenant et explorer l'extension par vous-même ou, si vous souhaitez en savoir un peu plus sur les fonctionnalités offertes par Anori, cliquez sur \"$t(next)\"."
+                "p3": "Vous pouvez ajouter votre premier widget en cliquant sur le crayon ('$t(editFolder)') dans la barre latérale. La page passe alors en mode édition. Vous pouvez alors ajouter de nouveaux widgets et repositionner ou supprimer des widgets existants.",
+                "p4": "Pour ajouter un nouveau widget, cliquez sur le bouton '$t(addWidget)', ou cliquez sur '$t(done)' pour quitter le mode édition. Une fois que vous aurez ajouté votre premier widget, cet onboarding disparaîtra. Vous pouvez ajouter un widget dès maintenant et explorer l'extension par vous-même ou, si vous souhaitez en savoir un peu plus sur les fonctionnalités offertes par Anori, cliquez sur '$t(next)'."
             },
             "folders": {
                 "title": "Dossiers",

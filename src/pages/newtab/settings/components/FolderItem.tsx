@@ -40,7 +40,7 @@ const nameText = css({
   overflow: "hidden",
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
-  paddingInline: "3",
+  paddingInline: "2",
 });
 const slot = css({ width: "2.25rem", flexShrink: 0 });
 const deleteIcon = css({ "& svg": { height: "1.2em!" } });

@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Couldn't add the widget: its configuration is invalid. Check the console for details.",
         "saveWidgetConfigInvalid": "Couldn't save: the widget configuration is invalid. Check the console for details.",
         "edit": "Edit",
+        "editFolder": "Edit folder",
         "done": "Done",
         "close": "Close",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Welcome to Anori!",
                 "p1": "Glad to see you! This introduction is available in {{languages}}.",
                 "p2": "You're on your way to setup your ideal new tab. Anori start page consists of different widgets, like notes, bookmarks, todo lists, etc. You choose what to add and how to organize them.",
-                "p3": "You can add your first widget by clicking on the pencil in the top right corner. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
-                "p4": "To add a new widget, click on the plus button, or click on the checkmark to exit editing mode. Once you add your first widget, this onboarding will disappear. You can add a widget right now and explore the extension on your own, or, if you'd like to know a bit more about the features Anori has to offer, click '$t(next)'."
+                "p3": "You can add your first widget by clicking on the pencil ('$t(editFolder)') in the sidebar. This will switch the page into editing mode. Here you can add new widgets and reposition or remove existing ones.",
+                "p4": "To add a new widget, click on the '$t(addWidget)' button, or click on '$t(done)' to exit editing mode. Once you add your first widget, this onboarding will disappear. You can add a widget right now and explore the extension on your own, or, if you'd like to know a bit more about the features Anori has to offer, click '$t(next)'."
             },
             "folders": {
                 "title": "Folders",

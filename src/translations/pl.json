@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Nie można dodać widgetu: jego konfiguracja jest nieprawidłowa. Sprawdź konsolę, aby uzyskać szczegóły.",
         "saveWidgetConfigInvalid": "Nie można zapisać: konfiguracja widgetu jest nieprawidłowa. Sprawdź konsolę, aby uzyskać szczegóły.",
         "edit": "Edytuj",
+        "editFolder": "Edytuj folder",
         "done": "Gotowe",
         "close": "Zamknij",
         "info": "Informacja",
@@ -200,8 +201,8 @@
                 "title": "Witaj w Anori!",
                 "p1": "Miło cię widzieć! To wprowadzenie jest dostępne w następujących językach: {{languages}}.",
                 "p2": "Jesteś na dobrej drodze do skonfigurowania idealnej nowej karty. Strona startowa Anori składa się z różnych widżetów, takich jak notatki, zakładki, listy zadań itp. Ty decydujesz, co dodać i jak to zorganizować.",
-                "p3": "Możesz dodać swój pierwszy widżet, klikając ikonę ołówka w prawym górnym rogu. Spowoduje to przełączenie strony w tryb edycji. Tutaj możesz dodawać nowe widżety oraz zmieniać położenie lub usuwać istniejące.",
-                "p4": "Aby dodać nowy widżet, kliknij przycisk z plusem lub kliknij znacznik wyboru, aby wyjść z trybu edycji. Po dodaniu pierwszego widżetu ten ekran powitalny zniknie. Możesz dodać widżet już teraz i samodzielnie poznać rozszerzenie lub, jeśli chcesz dowiedzieć się nieco więcej o funkcjach Anori, kliknij \"$t(next)\"."
+                "p3": "Możesz dodać swój pierwszy widżet, klikając ikonę ołówka ('$t(editFolder)') na pasku bocznym. Spowoduje to przełączenie strony w tryb edycji. Tutaj możesz dodawać nowe widżety oraz zmieniać położenie lub usuwać istniejące.",
+                "p4": "Aby dodać nowy widżet, kliknij przycisk '$t(addWidget)' lub kliknij '$t(done)', aby wyjść z trybu edycji. Po dodaniu pierwszego widżetu ten ekran powitalny zniknie. Możesz dodać widżet już teraz i samodzielnie poznać rozszerzenie lub, jeśli chcesz dowiedzieć się nieco więcej o funkcjach Anori, kliknij '$t(next)'."
             },
             "folders": {
                 "title": "Foldery",

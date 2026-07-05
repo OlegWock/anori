@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Hindi maidagdag ang widget: invalid ang configuration nito. Tingnan ang console para sa mga detalye.",
         "saveWidgetConfigInvalid": "Hindi ma-save: invalid ang configuration ng widget. Tingnan ang console para sa mga detalye.",
         "edit": "I-edit",
+        "editFolder": "I-edit ang folder",
         "done": "Tapos na",
         "close": "Isara",
         "info": "Impormasyon",
@@ -200,8 +201,8 @@
                 "title": "Maligayang pagdating sa Anori!",
                 "p1": "Masaya kaming makita ka! Ang panimulang ito ay available sa {{languages}}.",
                 "p2": "Ikaw ay nasa daan na upang i-setup ang iyong ideal na bagong tab. Ang start page ng Anori ay binubuo ng iba't ibang widget, tulad ng mga tala, bookmark, listahan ng gawain, atbp. Ikaw ang pumipili kung ano ang idadagdag at kung paano ito aayusin.",
-                "p3": "Maaari kang magdagdag ng iyong unang widget sa pamamagitan ng pag-click sa lapis sa kanang sulok sa itaas. Ililipat nito ang pahina sa editing mode. Dito maaari kang magdagdag ng mga bagong widget at muling iposisyon o alisin ang mga kasalukuyang widget.",
-                "p4": "Upang magdagdag ng bagong widget, i-click ang plus button, o i-click ang checkmark upang lumabas sa editing mode. Kapag naidagdag mo na ang iyong unang widget, mawawala ang onboarding na ito. Maaari kang magdagdag ng widget ngayon at tuklasin ang extension nang mag-isa, o, kung nais mong malaman ang higit pa tungkol sa mga feature na inaalok ng Anori, i-click ang '$t(next)'."
+                "p3": "Maaari kang magdagdag ng iyong unang widget sa pamamagitan ng pag-click sa lapis ('$t(editFolder)') sa sidebar. Ililipat nito ang pahina sa editing mode. Dito maaari kang magdagdag ng mga bagong widget at muling iposisyon o alisin ang mga kasalukuyang widget.",
+                "p4": "Upang magdagdag ng bagong widget, i-click ang button na '$t(addWidget)', o i-click ang '$t(done)' upang lumabas sa editing mode. Kapag naidagdag mo na ang iyong unang widget, mawawala ang onboarding na ito. Maaari kang magdagdag ng widget ngayon at tuklasin ang extension nang mag-isa, o, kung nais mong malaman ang higit pa tungkol sa mga feature na inaalok ng Anori, i-click ang '$t(next)'."
             },
             "folders": {
                 "title": "Mga Folder",

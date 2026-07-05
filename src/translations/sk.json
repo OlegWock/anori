@@ -33,6 +33,7 @@
         "addWidgetConfigInvalid": "Nepodarilo sa pridať widget: jeho konfigurácia je neplatná. Podrobnosti nájdete v konzole.",
         "saveWidgetConfigInvalid": "Nepodarilo sa uložiť: konfigurácia widgetu je neplatná. Podrobnosti nájdete v konzole.",
         "edit": "Upraviť",
+        "editFolder": "Upraviť priečinok",
         "done": "Hotovo",
         "close": "Zavrieť",
         "info": "Info",
@@ -200,8 +201,8 @@
                 "title": "Vitajte v Anori!",
                 "p1": "Radi vás vidíme! Tento úvod je dostupný v týchto jazykoch: {{languages}}.",
                 "p2": "Ste na ceste k ideálnej novej karte. Úvodná stránka Anori sa skladá z rôznych widgetov, ako sú poznámky, záložky, zoznamy úloh atď. Vy si vyberiete, čo pridať a ako to usporiadať.",
-                "p3": "Prvý widget môžete pridať kliknutím na ceruzku v pravom hornom rohu. Tým sa stránka prepne do režimu úprav. Tu môžete pridávať nové widgety a premiestňovať alebo odstraňovať existujúce.",
-                "p4": "Ak chcete pridať nový widget, kliknite na tlačidlo s plusom alebo kliknite na zaškrtnutie, čím ukončíte režim úprav. Po pridaní prvého widgetu toto uvítanie zmizne. Widget môžete pridať hneď teraz a rozšírenie preskúmať sami, alebo ak sa chcete dozvedieť viac o funkciách, ktoré Anori ponúka, kliknite na '$t(next)'."
+                "p3": "Prvý widget môžete pridať kliknutím na ceruzku ('$t(editFolder)') v bočnom paneli. Tým sa stránka prepne do režimu úprav. Tu môžete pridávať nové widgety a premiestňovať alebo odstraňovať existujúce.",
+                "p4": "Ak chcete pridať nový widget, kliknite na tlačidlo '$t(addWidget)', alebo kliknite na '$t(done)', čím ukončíte režim úprav. Po pridaní prvého widgetu toto uvítanie zmizne. Widget môžete pridať hneď teraz a rozšírenie preskúmať sami, alebo ak sa chcete dozvedieť viac o funkciách, ktoré Anori ponúka, kliknite na '$t(next)'."
             },
             "folders": {
                 "title": "Priečinky",
