@@ -1,5 +1,6 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
+import { useSizeSettings } from "@anori/utils/compact";
 import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";
 import { m } from "motion/react";
 import { type ComponentProps, useState } from "react";
@@ -71,6 +72,7 @@ export const SidebarButton = ({
 }: SidebarButtonProps) => {
   const currentlyDraggingWidget = useCurrentlyDragging({ type: "widget" });
   const [highlightDrop, setHighlightDrop] = useState(false);
+  const { rem } = useSizeSettings();
 
   const content = (
     <m.button
@@ -85,7 +87,7 @@ export const SidebarButton = ({
         <m.div className={activeRing} layoutId="SidebarButton-glow" transition={{ duration: 0.2, type: "spring" }} />
       )}
       {withRedDot && <m.div className={redDot} />}
-      <Icon icon={icon} width={24} height={24} />
+      <Icon icon={icon} width={rem(1.5)} height={rem(1.5)} />
     </m.button>
   );
 

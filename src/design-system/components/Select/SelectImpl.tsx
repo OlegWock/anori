@@ -26,7 +26,7 @@ const trigger = css({
   borderRadius: "md",
   px: "4",
   gap: "3",
-  height: "36px",
+  height: "2.25rem",
   minWidth: "5rem",
   border: "none",
   fontSize: "sm",

@@ -1,4 +1,5 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { useSizeSettings } from "@anori/utils/compact";
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 import { css, cva, cx } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -45,9 +46,10 @@ export type MenuItemProps = {
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type">;
 
 export const MenuItem = ({ icon, active, children, className, ref, ...props }: MenuItemProps) => {
+  const { rem } = useSizeSettings();
   return (
     <button ref={ref} type="button" className={cx(item({ active }), className)} {...props}>
-      {icon && <Icon icon={icon} width={20} height={20} color="icon" />}
+      {icon && <Icon icon={icon} width={rem(1.25)} height={rem(1.25)} color="icon" />}
       <span className={label}>{children}</span>
     </button>
   );

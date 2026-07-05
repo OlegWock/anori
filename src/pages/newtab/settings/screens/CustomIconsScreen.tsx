@@ -7,6 +7,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
+import { useSizeSettings } from "@anori/utils/compact";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
@@ -67,6 +68,7 @@ type DraftCustomIcon = {
 
 export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
+  const { rem } = useSizeSettings();
   const { customIcons, addNewCustomIcon, removeCustomIcon } = useCustomIcons();
   const [draftCustomIcons, setDraftCustomIcons] = useState<DraftCustomIcon[]>([]);
   const [recentlySavedNames, setRecentlySavedNames] = useState<string[]>([]);
@@ -159,8 +161,8 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                 animate={{ translateY: "0%", opacity: 1 }}
               >
                 <img
-                  height={40}
-                  width={40}
+                  height={rem(2.5)}
+                  width={rem(2.5)}
                   className={draftPreview}
                   src={draftCustomIcon.preview}
                   alt={draftCustomIcon.name}
@@ -225,7 +227,7 @@ export const CustomIconsScreen = (props: ComponentProps<typeof m.div>) => {
                   animate={{ opacity: 1, scale: 1, transition: { duration: 0.12 } }}
                   exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.12 } }}
                 >
-                  <Icon className={rowIcon} icon={`custom:${icon.name}`} height={40} width={40} />
+                  <Icon className={rowIcon} icon={`custom:${icon.name}`} height={rem(2.5)} width={rem(2.5)} />
                   <div className={rowName}>{icon.name}</div>
                   <IconButton
                     variant="ghost"

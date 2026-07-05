@@ -196,7 +196,6 @@ export const FolderContent = ({ folder, animationDirection, ref }: FolderContent
 
             {!isEditing && (
               <m.div className={actionButtonsClass} key="viewing-buttons" {...actionButtonAnimations}>
-                {/* TODO: this has poor contrast with background on some of light themes */}
                 <IconButton
                   variant="frosted"
                   icon={builtinIcons.pencil}

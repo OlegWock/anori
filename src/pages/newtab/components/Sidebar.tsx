@@ -61,7 +61,7 @@ const sidebarContentSlot = cva({
 });
 
 const sidebarContent = cva({
-  base: { display: "flex !important", gap: "8", _compact: { gap: "6" } },
+  base: { display: "flex !important", gap: "8" },
   variants: {
     orientation: {
       vertical: { flexDirection: "column", paddingBlock: "3", paddingInline: "6" },
