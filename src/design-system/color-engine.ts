@@ -77,8 +77,10 @@ const HOVER_DELTA = 0.03;
 const EDGE_DELTA = 0.02;
 const CONTROL_EDGE_LIGHT_DELTA = 0.065;
 const CONTROL_EDGE_DARK_DELTA = 0.04;
-const CONTROL_BUMP_DARK_DELTA = 0.045;
-const CONTROL_BUMP_LIGHT_DELTA = 0.03;
+const ELEVATED_BUMP_DARK_DELTA = 0.03;
+const ELEVATED_BUMP_LIGHT_DELTA = 0.024;
+const CONTROL_BUMP_DARK_DELTA = 0.068;
+const CONTROL_BUMP_LIGHT_DELTA = 0.048;
 
 // Re-samples a family at `baseL + delta`. Callers sign the delta per mode — `byMode(mode, d, -d)` gives
 // the usual "lighter in dark, darker in light".
@@ -104,7 +106,9 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   // Tier 3 — each role picks a primitive index, flipped per mode
   const surfaceIdx = byMode(mode, 4, 12);
   const accentFillIdx = byMode(mode, 7, 7);
-  // Controls sit a fraction of a step above the surface — a raised bump, off the numbered scale.
+  // Elevated panels sit a hair above the surface; controls sit higher still, so a control stays distinct
+  // even placed on an elevated panel. Both are sub-step bumps off the numbered scale.
+  const elevatedL = PRIMITIVE_LS[surfaceIdx] + byMode(mode, ELEVATED_BUMP_DARK_DELTA, ELEVATED_BUMP_LIGHT_DELTA);
   const controlL = PRIMITIVE_LS[surfaceIdx] + byMode(mode, CONTROL_BUMP_DARK_DELTA, CONTROL_BUMP_LIGHT_DELTA);
   const accentFill = accent[accentFillIdx];
   // Desaturated accent for disabled fills.
@@ -113,10 +117,10 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
   const tokens: Record<string, string> = {
     surface: surface[surfaceIdx],
     "surface-edge": shade(sampleSurface, PRIMITIVE_LS[surfaceIdx], byMode(mode, EDGE_DELTA, -EDGE_DELTA)),
-    "surface-elevated": sampleSurface(controlL),
+    "surface-elevated": sampleSurface(elevatedL),
     "surface-elevated-edge": shade(
       sampleSurface,
-      controlL,
+      elevatedL,
       byMode(mode, CONTROL_EDGE_DARK_DELTA, -CONTROL_EDGE_LIGHT_DELTA),
     ),
     "surface-elevated-border": accent[byMode(mode, 6, 7)],
