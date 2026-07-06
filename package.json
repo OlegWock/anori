@@ -11,7 +11,7 @@
         "react-devtools": "react-devtools",
         "dev": "rspack build --mode development",
         "production": "rspack build --mode production",
-        "production:unminified": "rspack build --mode production --env unminified",
+        "production:profiling": "rspack build --mode production --env unminified --env profiling",
         "dev:rsdoctor": "cross-env RSDOCTOR='true' rspack build --mode development && open dist/chrome/rsdoctor-report.html",
         "production:rsdoctor": "cross-env RSDOCTOR='true' rspack build --mode production && open dist/chrome/rsdoctor-report.html",
         "production:all-permissions": "rspack build --mode production --env targetBrowser=chrome-all-permissions",

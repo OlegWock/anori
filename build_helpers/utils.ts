@@ -66,7 +66,11 @@ export interface EntriesAndOutputs {
   outputs: Record<string, string>;
 }
 
-export function constructEntriesAndOutputs(paths: ReturnType<typeof createPathsObject>, mode: Mode): EntriesAndOutputs {
+export function constructEntriesAndOutputs(
+  paths: ReturnType<typeof createPathsObject>,
+  mode: Mode,
+  { includeDebugEntries = mode === "development" }: { includeDebugEntries?: boolean } = {},
+): EntriesAndOutputs {
   const entries: EntriesAndOutputs["entries"] = {
     backgroundScript: [paths.src.background],
   };
@@ -78,7 +82,7 @@ export function constructEntriesAndOutputs(paths: ReturnType<typeof createPathsO
     globs: scriptExtensions.map((ext) => `*/*${ext}`),
     ignore: [
       ...scriptExtensions.map((ext) => `**/components/**/*${ext}`),
-      ...(mode !== "development" ? scriptExtensions.map((ext) => `*/*-debug${ext}`) : []),
+      ...(includeDebugEntries ? [] : scriptExtensions.map((ext) => `*/*-debug${ext}`)),
     ],
     directories: false,
   });
@@ -91,7 +95,7 @@ export function constructEntriesAndOutputs(paths: ReturnType<typeof createPathsO
 
   const contentscripts = walkSync(paths.src.contentscripts, {
     globs: scriptExtensions.map((ext) => `**/*${ext}`),
-    ignore: mode !== "development" ? scriptExtensions.map((ext) => `**/*-debug${ext}`) : [],
+    ignore: includeDebugEntries ? [] : scriptExtensions.map((ext) => `**/*-debug${ext}`),
     directories: false,
   });
 

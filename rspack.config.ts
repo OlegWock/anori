@@ -46,7 +46,9 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
   const currentYear = new Date().getFullYear();
 
   const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
-  const { entries, outputs } = constructEntriesAndOutputs(paths, mode);
+  const { entries, outputs } = constructEntriesAndOutputs(paths, mode, {
+    includeDebugEntries: mode === "development" || !!env.profiling,
+  });
 
   const pageTemplate = fs.readFileSync(paths.src.pageHtmlTemplate, {
     encoding: "utf-8",
@@ -120,6 +122,11 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
     },
     resolve: {
       alias: {
+        // Production react-dom has no profiling hooks, so the React DevTools profiler can't record on
+        // production builds. `--env profiling` swaps in the profiling build (same behavior + hooks).
+        // Only the client entry may be aliased: the profiling build itself requires "react-dom" (the
+        // shared-internals holder), so rewriting that request too creates a self-cycle and a crash.
+        ...(env.profiling ? { "react-dom/client": "react-dom/profiling" } : {}),
         "@anori/utils": path.resolve(__dirname, paths.src.utils),
         "@anori/components": path.resolve(__dirname, paths.src.components),
         "@anori/assets": path.resolve(__dirname, paths.src.assets),
