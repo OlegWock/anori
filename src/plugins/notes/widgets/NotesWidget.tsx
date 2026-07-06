@@ -217,14 +217,21 @@ export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
         />
       )}
       {!isEditing && (
-        <button
-          type="button"
+        <div
+          role="button"
+          tabIndex={0}
           className={noteBodyRendered}
           onFocus={() => {
             trackInteraction("Initiate editing");
             switchEditing(true);
           }}
           onClick={() => {
+            trackInteraction("Initiate editing");
+            switchEditing(true);
+          }}
+          onKeyDown={(event) => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            event.preventDefault();
             trackInteraction("Initiate editing");
             switchEditing(true);
           }}
@@ -241,7 +248,7 @@ export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
             )}
           </ScrollArea>
           {!body && <span className={notesBodyPlaceholder}>{t("notes-plugin.noteText")}</span>}
-        </button>
+        </div>
       )}
     </div>
   );
