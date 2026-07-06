@@ -22,6 +22,18 @@ type AtomState<T> = {
   meta: ValueMeta;
 };
 
+// getWithMeta builds a fresh state object on every read (and collection all() queries rebuild the whole
+// record), so a plain reference check would treat every read as a change. Shallow comparison lets atoms
+// bail when the underlying data is untouched.
+const shallowEqual = (a: unknown, b: unknown): boolean => {
+  if (Object.is(a, b)) return true;
+  if (typeof a !== "object" || typeof b !== "object" || a === null || b === null) return false;
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  if (keysA.length !== keysB.length) return false;
+  return keysA.every((key) => Object.is((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key]));
+};
+
 type StorageAtom<T> = WritableAtom<AtomState<T>, [SetStateAction<T>], Promise<void>>;
 
 const storageAtoms = new Map<string, StorageAtom<unknown>>();
@@ -67,13 +79,15 @@ export function atomWithStorageQuery<T>(
   const baseAtom = atom<AtomState<T | undefined | Record<string, T>>>(initialState);
 
   baseAtom.onMount = (setAtom) => {
-    const currentState = fork.getWithMeta(query as CellDescriptor<T>) as AtomState<T | undefined | Record<string, T>>;
-    setAtom(currentState);
-
-    const unsubscribe = fork.subscribe(query as CellDescriptor<T>, () => {
+    const syncFromStorage = () => {
       const newState = fork.getWithMeta(query as CellDescriptor<T>) as AtomState<T | undefined | Record<string, T>>;
-      setAtom(newState);
-    });
+      setAtom((prev) =>
+        prev.meta.isDefault === newState.meta.isDefault && shallowEqual(prev.value, newState.value) ? prev : newState,
+      );
+    };
+    syncFromStorage();
+
+    const unsubscribe = fork.subscribe(query as CellDescriptor<T>, syncFromStorage);
 
     return unsubscribe;
   };

@@ -3,7 +3,7 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { callAnkiConnectApi, checkAnkiConnectivity, getCardInfo, wrapCardHtml } from "../api";
@@ -35,7 +35,7 @@ const mockCard = css({
 });
 const bigKanji = css({ fontSize: "3xl" });
 
-export const AnkiWidget = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) => {
+export const AnkiWidget = memo(function AnkiWidget({ config }: WidgetRenderProps<AnkiPluginWidgetConfigType>) {
   const { t } = useTranslation();
 
   const [currentCard, setCurrentCard] = useState<AnkiCardInfo | null>(null);
@@ -143,7 +143,7 @@ export const AnkiWidget = ({ config }: WidgetRenderProps<AnkiPluginWidgetConfigT
       )}
     </div>
   );
-};
+});
 
 export const AnkiWidgetMock = () => {
   const { t } = useTranslation();

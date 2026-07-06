@@ -36,7 +36,7 @@ const barInner = css({ display: "flex", gap: "3", width: "fit-content" });
 const barItem = css({ display: "flex", flexShrink: 0 });
 const placeholder = css({ height: "2.08rem" });
 
-const BookmarksBarComponent = () => {
+const BookmarksBarComponent = memo(function BookmarksBarComponent() {
   const [bar, other] = useBookmarks();
   const dir = useDirection();
 
@@ -82,7 +82,7 @@ const BookmarksBarComponent = () => {
       {!!other && <Bookmark bookmark={other} fullWidth />}
     </Menubar.Root>
   );
-};
+});
 
 export const BookmarksBar = memo(function BookmarksBar() {
   const hasPermissions = usePermissionsQuery({ permissions: ["bookmarks", "favicon"] });

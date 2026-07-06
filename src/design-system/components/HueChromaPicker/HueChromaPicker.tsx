@@ -1,6 +1,6 @@
 import type { Gamut, OklchInput } from "@anori/design-system/color-engine";
 import { Input } from "@anori/design-system/components/Input/Input";
-import { clampChroma, converter, formatHex } from "culori";
+import { clampChroma, formatHex, toOklch, toP3, toRgb } from "@anori/utils/color";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { css } from "styled-system/css";
 
@@ -10,7 +10,6 @@ const FIELD_W = 160;
 const FIELD_H = 72;
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
-const toOklch = converter("oklch");
 
 const picker = css({ display: "flex", flexDirection: "column", gap: "1" });
 const pickerLabel = css({ display: "flex", alignItems: "center", gap: "1" });
@@ -62,12 +61,12 @@ function PickerCanvas({ gamut }: { gamut: Gamut }) {
       img = ctx.createImageData(FIELD_W, FIELD_H);
     }
     const data = img.data;
-    const convert = converter(gamut === "p3" ? "p3" : "rgb");
     for (let y = 0; y < FIELD_H; y++) {
       const c = (1 - y / (FIELD_H - 1)) * C_MAX;
       for (let x = 0; x < FIELD_W; x++) {
         const h = (x / (FIELD_W - 1)) * 360;
-        const col = convert(clampChroma({ mode: "oklch", l: RENDER_L, c, h }, "oklch", gamut));
+        const clamped = clampChroma({ mode: "oklch", l: RENDER_L, c, h }, "oklch", gamut);
+        const col = gamut === "p3" ? toP3(clamped) : toRgb(clamped);
         const i = (y * FIELD_W + x) * 4;
         data[i] = Math.round(clamp01(col.r ?? 0) * 255);
         data[i + 1] = Math.round(clamp01(col.g ?? 0) * 255);

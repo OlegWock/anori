@@ -6,7 +6,7 @@ import { useAsyncEffect, useMirrorStateToRef } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { WeatherCurrentWidgetStore } from "@anori/utils/storage";
 import moment from "moment";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gerCurrentWeather } from "../api";
 import { useCurrentWeatherStore } from "../storage";
@@ -93,7 +93,10 @@ const useCurrentWeather = (config: WeatherWidgetConfig) => {
   };
 };
 
-export const CurrentWeatherWidget = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
+export const CurrentWeatherWidget = memo(function CurrentWeatherWidget({
+  config,
+  instanceId,
+}: WidgetRenderProps<WeatherWidgetConfig>) {
   // biome-ignore lint/correctness/useHookAtTopLevel: instanceId is stable for a mounted widget, so the branch never changes across renders
   const { weather } = instanceId === "mock" ? mockWeather : useCurrentWeather(config);
   const { rem } = useSizeSettings();
@@ -134,6 +137,6 @@ export const CurrentWeatherWidget = ({ config, instanceId }: WidgetRenderProps<W
       </div>
     </Tooltip>
   );
-};
+});
 
 export { mockCity };

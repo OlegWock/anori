@@ -7,8 +7,6 @@ import { defineConfig } from "@rspack/cli";
 import FileManagerPlugin from "filemanager-webpack-plugin";
 // @ts-expect-error No declarations for this module!
 import GenerateFiles from "generate-file-webpack-plugin";
-// @ts-expect-error No declarations for this module!
-import MomentLocalesPlugin from "moment-locales-webpack-plugin";
 import MomentTimezoneDataPlugin from "moment-timezone-data-webpack-plugin";
 import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
 import Icons from "unplugin-icons/rspack";
@@ -22,6 +20,7 @@ import {
   CopyRspackPlugin,
   CssExtractRspackPlugin,
   DefinePlugin,
+  IgnorePlugin,
   ProgressPlugin,
   SwcJsMinimizerRspackPlugin,
 } from "@rspack/core";
@@ -276,28 +275,10 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
         startYear: currentYear - 2,
         endYear: currentYear + 5,
       }),
-      new MomentLocalesPlugin({
-        localesToKeep: [
-          "uk",
-          "de",
-          "fr",
-          "es",
-          "it",
-          "th",
-          "zh-cn",
-          "ru",
-          "ar",
-          "pt-br",
-          "ja",
-          "vi",
-          "pl",
-          "sk",
-          "cs",
-          "id",
-          "fil",
-          "hi",
-        ],
-      }),
+      // Moment's `require("./locale/" + name)` would bundle every locale into one chunk. All locale
+      // loading goes through the explicit per-language imports in src/translations/loaders.ts (each its
+      // own chunk), so the dynamic context is dropped entirely; moment tolerates the failing require.
+      new IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }),
       Icons({ compiler: "jsx", jsx: "react" }),
       mode === "production" &&
         new FileManagerPlugin({

@@ -4,7 +4,7 @@ import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { capitalize } from "@anori/utils/strings";
 import moment from "moment-timezone";
 import { m } from "motion/react";
-import { useEffect, useMemo } from "react";
+import { memo, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";
 import type { DatetimeWidgetConfig } from "../types";
@@ -76,7 +76,10 @@ const secondaryText = cva({
   variants: { size: { s: { fontSize: "sm" }, m: { fontSize: "xl" } } },
 });
 
-export const DatetimeWidget = ({ config, size }: WidgetRenderProps<DatetimeWidgetConfig> & { size: "s" | "m" }) => {
+export const DatetimeWidget = memo(function DatetimeWidget({
+  config,
+  size,
+}: WidgetRenderProps<DatetimeWidgetConfig> & { size: "s" | "m" }) {
   const { i18n } = useTranslation();
   const {
     size: { width },
@@ -153,4 +156,4 @@ export const DatetimeWidget = ({ config, size }: WidgetRenderProps<DatetimeWidge
       <div className={secondaryText({ size })}>{config.title}</div>
     </div>
   );
-};
+});

@@ -39,6 +39,7 @@ export const WhatsNewImpl = () => {
                 it. This should make it easier to create your own themes as well as make generated colors more coherent.
                 You existing custom themes were migrated automatically.
               </li>
+              <li>Performance improvements.</li>
               <li>Bug fixes, of course!</li>
             </ul>
           </section>

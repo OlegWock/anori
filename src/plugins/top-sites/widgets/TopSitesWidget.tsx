@@ -11,7 +11,7 @@ import type { CorrectPermission } from "@anori/utils/permissions";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import type { EmptyObject } from "@anori/utils/types";
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva, cx } from "styled-system/css";
 import browser from "webextension-polyfill";
@@ -107,7 +107,9 @@ const LinkPlate = ({
   );
 };
 
-export const TopSitesWidget = ({ type }: WidgetRenderProps<EmptyObject> & { type: "horizontal" | "vertical" }) => {
+export const TopSitesWidget = memo(function TopSitesWidget({
+  type,
+}: WidgetRenderProps<EmptyObject> & { type: "horizontal" | "vertical" }) {
   const addToBlacklist = (url: string) => {
     setBlacklist((b) => [...b, url]);
   };
@@ -164,7 +166,7 @@ export const TopSitesWidget = ({ type }: WidgetRenderProps<EmptyObject> & { type
       })}
     </div>
   );
-};
+});
 
 export const TopSitesWidgetMock = ({ type }: { type: "horizontal" | "vertical" }) => {
   const { rem } = useSizeSettings();

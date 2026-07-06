@@ -1,6 +1,6 @@
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { sendMessage } from "../messaging";
@@ -20,7 +20,7 @@ const latestPost = css({ maxHeight: "100%", padding: "4", justifyContent: "space
 const latestMessage = css({ padding: "4" });
 const emptyPost = css({ flexGrow: 1, justifyContent: "center" });
 
-export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>) => {
+export const RssLatestPost = memo(function RssLatestPost({ config }: WidgetRenderProps<RssLatestPostConfig>) {
   const { t } = useTranslation();
   const feeds = useMemo(() => [config.feedUrl], [config.feedUrl]);
   const { feed, isRefreshing } = useRssFeeds(feeds, (url) => sendMessage("getFeedText", { url }));
@@ -34,7 +34,7 @@ export const RssLatestPost = ({ config }: WidgetRenderProps<RssLatestPostConfig>
       {!lastPost && !isRefreshing && <EmptyState muted className={emptyPost} title={t("rss-plugin.noPosts")} />}
     </div>
   );
-};
+});
 
 export const RssLatestPostMock = () => {
   const { t } = useTranslation();

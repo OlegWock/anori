@@ -1,7 +1,7 @@
 import { isChromeLike } from "@anori/utils/browser";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import browser from "webextension-polyfill";
 import { metricValue, spacer, widget } from "../styles";
 
@@ -9,7 +9,7 @@ const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
 
 const avg = (arr: number[]) => (arr.length === 0 ? 0 : sum(arr) / arr.length);
 
-export const CpuWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
+export const CpuWidgetScreen = memo(function CpuWidgetScreen(_props: WidgetRenderProps<EmptyObject>) {
   const [load, setLoad] = useState(0);
   useEffect(() => {
     const load = async () => {
@@ -51,4 +51,4 @@ export const CpuWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
       <div>CPU</div>
     </div>
   );
-};
+});

@@ -9,14 +9,15 @@ import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { isMacLike } from "@anori/utils/shortcuts";
 import type { MouseEventHandler } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { sendMessage } from "../messaging";
 import type { BookmarkGroupWidgetConfig } from "../types";
 import { bookmarkContent, bookmarkH2, bookmarkHost, bookmarkText, loadingIcon, widget } from "./widget-styles";
 
-export const BookmarkGroupWidget = ({
+export const BookmarkGroupWidget = memo(function BookmarkGroupWidget({
   config,
-}: WidgetRenderProps<BookmarkGroupWidgetConfig> & { isMock?: boolean }) => {
+}: WidgetRenderProps<BookmarkGroupWidgetConfig> & { isMock?: boolean }) {
   const openGroup: MouseEventHandler<HTMLElement> = (e) => {
     trackInteraction("Open group");
     e.preventDefault();
@@ -68,4 +69,4 @@ export const BookmarkGroupWidget = ({
       </div>
     </button>
   );
-};
+});

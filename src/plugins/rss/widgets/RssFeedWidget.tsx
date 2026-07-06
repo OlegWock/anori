@@ -4,7 +4,7 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
-import { Fragment, useMemo } from "react";
+import { Fragment, memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";
 import { sendMessage } from "../messaging";
@@ -32,7 +32,7 @@ const separator = css({
 const feedPost = css({ padding: "1", borderRadius: "sm" });
 const emptyFeed = css({ flexGrow: 1, justifyContent: "center" });
 
-export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
+export const RssFeed = memo(function RssFeed({ config }: WidgetRenderProps<RssFeedConfig>) {
   const { t } = useTranslation();
   const { feed, isRefreshing, refresh, lastUpdated } = useRssFeeds(config.feedUrls, (url) =>
     sendMessage("getFeedText", { url }),
@@ -78,7 +78,7 @@ export const RssFeed = ({ config }: WidgetRenderProps<RssFeedConfig>) => {
       )}
     </div>
   );
-};
+});
 
 export const RssFeedMock = () => {
   const { t } = useTranslation();

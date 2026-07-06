@@ -7,7 +7,7 @@ import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
-import { type ComponentProps, type KeyboardEventHandler, useEffect, useRef, useState } from "react";
+import { type ComponentProps, type KeyboardEventHandler, memo, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Options } from "react-markdown";
 import { css, cx } from "styled-system/css";
@@ -151,7 +151,19 @@ const LinkWithoutPropagation = (props: ComponentProps<typeof Link>) => {
 const taskCheckbox = css({ flexShrink: 0 });
 const TaskCheckbox = ({ checked }: { checked?: boolean }) => <Checkbox checked={!!checked} className={taskCheckbox} />;
 
-export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
+const markdownComponents = { a: LinkWithoutPropagation, input: TaskCheckbox };
+
+const NoteBody = memo(function NoteBody({
+  body,
+  remarkPlugins,
+}: {
+  body: string;
+  remarkPlugins: Options["remarkPlugins"];
+}) {
+  return <ReactMarkdown components={markdownComponents} remarkPlugins={remarkPlugins} children={body} />;
+});
+
+export const NotesWidget = memo(function NotesWidget(_props: WidgetRenderProps<EmptyObject>) {
   const switchEditing = (newIsEditing: boolean) => {
     if (newIsEditing) {
       runAfterNextRender(() => {
@@ -184,8 +196,9 @@ export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
   const trackInteraction = useWidgetInteractionTracker();
 
   useEffect(() => {
-    import("remark-gfm").then(({ default: remarkGfm }) => setRemarkPlugins((p) => [...p, remarkGfm]));
-    import("remark-breaks").then(({ default: remarkBreaks }) => setRemarkPlugins((p) => [...p, remarkBreaks]));
+    Promise.all([import("remark-gfm"), import("remark-breaks")]).then(
+      ([{ default: remarkGfm }, { default: remarkBreaks }]) => setRemarkPlugins((p) => [...p, remarkGfm, remarkBreaks]),
+    );
   }, []);
 
   return (
@@ -239,11 +252,7 @@ export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
           <ScrollArea type="hover" className={bodyScrollArea}>
             {!!body && (
               <div className={noteBodyContent}>
-                <ReactMarkdown
-                  components={{ a: LinkWithoutPropagation, input: TaskCheckbox }}
-                  remarkPlugins={remarkPlugins}
-                  children={body}
-                />
+                <NoteBody body={body} remarkPlugins={remarkPlugins} />
               </div>
             )}
           </ScrollArea>
@@ -252,4 +261,4 @@ export const NotesWidget = (_props: WidgetRenderProps<EmptyObject>) => {
       )}
     </div>
   );
-};
+});

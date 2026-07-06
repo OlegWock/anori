@@ -16,7 +16,7 @@ import { dnrPermissions, ensureDnrRules } from "@anori/utils/plugins/dnr";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import moment from "moment-timezone";
 import { AnimatePresence } from "motion/react";
-import { type MouseEvent, useMemo, useState } from "react";
+import { type MouseEvent, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cx } from "styled-system/css";
 import { token } from "styled-system/tokens";
@@ -36,11 +36,11 @@ import {
   widget,
 } from "./widget-styles";
 
-export const BookmarkWidget = ({
+export const BookmarkWidget = memo(function BookmarkWidget({
   config,
   isMock,
   instanceId,
-}: WidgetRenderProps<BookmarkWidgetConfig> & { isMock?: boolean }) => {
+}: WidgetRenderProps<BookmarkWidgetConfig> & { isMock?: boolean }) {
   const openIframe = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -194,4 +194,4 @@ export const BookmarkWidget = ({
       </AnimatePresence>
     </>
   );
-};
+});

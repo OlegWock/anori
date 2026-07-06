@@ -1,11 +1,11 @@
 import { isChromeLike } from "@anori/utils/browser";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import browser from "webextension-polyfill";
 import { metricValue, spacer, widget } from "../styles";
 
-export const MemoryWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
+export const MemoryWidgetScreen = memo(function MemoryWidgetScreen(_props: WidgetRenderProps<EmptyObject>) {
   const [allocatedMemory, setAllocatedMemory] = useState(0);
   useEffect(() => {
     const load = async () => {
@@ -29,4 +29,4 @@ export const MemoryWidgetScreen = (_props: WidgetRenderProps<EmptyObject>) => {
       <div>RAM</div>
     </div>
   );
-};
+});

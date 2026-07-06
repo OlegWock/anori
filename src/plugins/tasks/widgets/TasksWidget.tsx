@@ -24,7 +24,7 @@ import {
   useMotionValue,
   useTransform,
 } from "motion/react";
-import { type Ref, useRef, useState } from "react";
+import { memo, type Ref, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cx } from "styled-system/css";
 import { useTasksStore } from "../storage";
@@ -191,7 +191,7 @@ const TaskComponent = ({ task, onEdit, onComplete, onEnterKeyPress, ref }: TaskC
   );
 };
 
-export const TasksWidget = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => {
+export const TasksWidget = memo(function TasksWidget({ config }: WidgetRenderProps<TaskWidgetConfig>) {
   const addTask = () => {
     const id = guid();
     trackInteraction("Add task");
@@ -251,4 +251,4 @@ export const TasksWidget = ({ config }: WidgetRenderProps<TaskWidgetConfig>) => 
       {tasks.length === 0 && <EmptyState muted className={noTasks} title={t("tasks-plugin.noTasks")} />}
     </m.div>
   );
-};
+});

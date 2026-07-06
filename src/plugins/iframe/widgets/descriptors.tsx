@@ -5,6 +5,7 @@ import { parseHost } from "@anori/utils/misc";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { defineWidget } from "@anori/utils/plugins/define";
 import { dnrPermissions } from "@anori/utils/plugins/dnr";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import {
@@ -18,6 +19,29 @@ import { ExpandableWidgetConfigScreen } from "./ExpandableIframeWidgetConfig";
 import { MainWidget } from "./IframeWidget";
 import { MainWidgetConfigScreen } from "./IframeWidgetConfig";
 
+const IframeWidgetScreen = memo(function IframeWidgetScreen(props: WidgetRenderProps<IframePluginWidgetConfig>) {
+  return (
+    <RequirePermissions hosts={[parseHost(props.config.url)]} permissions={dnrPermissions}>
+      <MainWidget {...props} />
+    </RequirePermissions>
+  );
+});
+
+const ExpandableIframeWidgetScreen = memo(function ExpandableIframeWidgetScreen(
+  props: WidgetRenderProps<IframePluginExpandableWidgetConfig>,
+) {
+  return (
+    <RequirePermissions
+      compact
+      hosts={[parseHost(props.config.url)]}
+      className={css({ padding: "4" })}
+      permissions={dnrPermissions}
+    >
+      <ExpandableWidget {...props} />
+    </RequirePermissions>
+  );
+});
+
 export const widgetDescriptor = defineWidget({
   id: "iframe-widget",
   get name() {
@@ -25,13 +49,7 @@ export const widgetDescriptor = defineWidget({
   },
   schema: iframePluginWidgetConfigSchema,
   configurationScreen: MainWidgetConfigScreen,
-  mainScreen: (props: WidgetRenderProps<IframePluginWidgetConfig>) => {
-    return (
-      <RequirePermissions hosts={[parseHost(props.config.url)]} permissions={dnrPermissions}>
-        <MainWidget {...props} />
-      </RequirePermissions>
-    );
-  },
+  mainScreen: IframeWidgetScreen,
   mock: () => {
     return <MainWidget instanceId="mock" config={{ url: "http://example.com/", title: "", showLinkToPage: true }} />;
   },
@@ -53,18 +71,7 @@ export const widgetDescriptorExpandable = defineWidget({
   },
   schema: iframePluginExpandableWidgetConfigSchema,
   configurationScreen: ExpandableWidgetConfigScreen,
-  mainScreen: (props: WidgetRenderProps<IframePluginExpandableWidgetConfig>) => {
-    return (
-      <RequirePermissions
-        compact
-        hosts={[parseHost(props.config.url)]}
-        className={css({ padding: "4" })}
-        permissions={dnrPermissions}
-      >
-        <ExpandableWidget {...props} />
-      </RequirePermissions>
-    );
-  },
+  mainScreen: ExpandableIframeWidgetScreen,
   mock: () => {
     const { t } = useTranslation();
     return (

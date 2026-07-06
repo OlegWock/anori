@@ -2,13 +2,13 @@ import { Button } from "@anori/design-system/components/Button/Button";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { usePrevious } from "@anori/utils/hooks";
+import { useOnChangeEffect, usePrevious } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useDirection } from "@radix-ui/react-direction";
 import moment from "moment-timezone";
 import { AnimatePresence, m } from "motion/react";
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva } from "styled-system/css";
 import { makeCalendarAdapter } from "../calendar-adapter";
@@ -55,7 +55,7 @@ const calendarCell = cva({
   },
 });
 
-export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfigType>) => {
+export const CalendarWidget = memo(function CalendarWidget({ config }: WidgetRenderProps<CalendarWidgetConfigType>) {
   const { t, i18n } = useTranslation();
   const dir = useDirection();
   const trackInteraction = useWidgetInteractionTracker();
@@ -84,8 +84,7 @@ export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfi
   }, [calendar, currentMonthStart, today]);
 
   // TODO: probably should refactor this so dependencies are explicit?
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we use i18n as reactive proxy for current locale which affect some of functions outside of components
-  useEffect(() => {
+  useOnChangeEffect(() => {
     setToday(moment());
   }, [i18n.language]);
 
@@ -129,10 +128,7 @@ export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfi
         const inCurrentMonth = calendar.isSameMonth(cellDate, currentMonthStart);
         const isToday = currentDate.isSame(today, "day");
         row.push(
-          <div
-            className={calendarCell({ currentMonth: inCurrentMonth, today: isToday })}
-            key={currentDate.format("YYYY-MM-DD")}
-          >
+          <div className={calendarCell({ currentMonth: inCurrentMonth, today: isToday })} key={cellDate.getTime()}>
             {calendar.dayLabel(cellDate)}
           </div>,
         );
@@ -221,4 +217,4 @@ export const CalendarWidget = ({ config }: WidgetRenderProps<CalendarWidgetConfi
       </m.div>
     </div>
   );
-};
+});

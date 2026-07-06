@@ -1,6 +1,6 @@
+import { clampChroma, toRgb } from "@anori/utils/color";
 import { round } from "@anori/utils/misc";
 import { APCAcontrast, sRGBtoY } from "apca-w3";
-import { clampChroma, converter } from "culori";
 
 // Color engine for generating palettes based on single hue+chroma. Three tiers:
 //   1. a continuous OKLCH generator (the curve) — not referenced directly,
@@ -56,7 +56,6 @@ const tintedScale = (hue: number, chroma: number, gamut: Gamut): string[] =>
 
 const byMode = (mode: Mode, dark: number, light: number) => (mode === "dark" ? dark : light);
 
-const toRgb = converter("rgb");
 const clamp255 = (v: number) => Math.round(Math.min(1, Math.max(0, v)) * 255);
 const apcaY = (color: string): number => {
   const c = toRgb(color);

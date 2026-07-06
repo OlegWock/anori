@@ -80,7 +80,6 @@
         "lodash": "^4.18.1",
         "mathjs": "^15.2.0",
         "moment": "^2.30.1",
-        "moment-locales-webpack-plugin": "^1.2.0",
         "moment-timezone": "^0.6.2",
         "moment-timezone-data-webpack-plugin": "^1.5.1",
         "motion": "^12.40.0",

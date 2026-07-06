@@ -7,7 +7,7 @@ import { useAsyncEffect, useMirrorStateToRef, useOnChangeEffect } from "@anori/u
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { capitalize } from "@anori/utils/strings";
 import moment from "moment";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getForecast, type WeatherForecast } from "../api";
 import { useForecastWeatherStore } from "../storage";
@@ -98,7 +98,10 @@ const useForecastWeather = (config: WeatherWidgetConfig) => {
   };
 };
 
-export const ForecastWeatherWidget = ({ config, instanceId }: WidgetRenderProps<WeatherWidgetConfig>) => {
+export const ForecastWeatherWidget = memo(function ForecastWeatherWidget({
+  config,
+  instanceId,
+}: WidgetRenderProps<WeatherWidgetConfig>) {
   const mockForecast = useMemo(
     () => ({
       forecast: [
@@ -204,4 +207,4 @@ export const ForecastWeatherWidget = ({ config, instanceId }: WidgetRenderProps<
       </div>
     </Tooltip>
   );
-};
+});

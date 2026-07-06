@@ -9,7 +9,7 @@ import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import moment from "moment-timezone";
 import { m, useAnimationControls } from "motion/react";
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
@@ -102,7 +102,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   );
 };
 
-export const RecentlyClosedWidget = ({ instanceId }: WidgetRenderProps<EmptyObject>) => {
+export const RecentlyClosedWidget = memo(function RecentlyClosedWidget({ instanceId }: WidgetRenderProps<EmptyObject>) {
   const [sessions, setSessions] = useState<browser.Sessions.Session[]>([]);
   const { t } = useTranslation();
 
@@ -144,4 +144,4 @@ export const RecentlyClosedWidget = ({ instanceId }: WidgetRenderProps<EmptyObje
       </ScrollArea>
     </div>
   );
-};
+});

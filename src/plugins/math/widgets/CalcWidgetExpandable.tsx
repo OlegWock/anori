@@ -7,7 +7,7 @@ import { useRunAfterNextRender } from "@anori/utils/hooks";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import { AnimatePresence } from "motion/react";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { Calculator } from "./Calculator";
@@ -23,7 +23,7 @@ const expandTrigger = css({
   "& svg": { color: "icon.subtle" },
 });
 
-export const CalcWidgetExpandable = (_props: WidgetRenderProps<EmptyObject>) => {
+export const CalcWidgetExpandable = memo(function CalcWidgetExpandable(_props: WidgetRenderProps<EmptyObject>) {
   const [show, setShow] = useState(false);
   const { rem } = useSizeSettings();
   const runAfterRender = useRunAfterNextRender();
@@ -57,4 +57,4 @@ export const CalcWidgetExpandable = (_props: WidgetRenderProps<EmptyObject>) => 
       </AnimatePresence>
     </>
   );
-};
+});
