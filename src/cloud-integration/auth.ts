@@ -41,14 +41,21 @@ async function hasForeignUserData(userId: string): Promise<boolean> {
 async function finalizeLogin(pending: PendingLogin, localUserData: "merge" | "forcePush" | "discard"): Promise<void> {
   const storage = await getAnoriStorage();
   const state = storage.get(anoriSchema.cloudUserSyncState);
+  const foreignOwner = state?.ownerUserId !== undefined && state.ownerUserId !== pending.userId;
 
   if (localUserData === "discard") {
+    await storage.sync.purgeScopeData("user");
+    await storage.set(anoriSchema.cloudUserSyncState, null);
+  } else if (localUserData === "merge" && foreignOwner) {
+    // A foreign owner on the merge path means the residue is tombstones only (live foreign
+    // records trigger the conflict prompt instead). Another account's deletions are
+    // meaningless here — drop them rather than push them into this account's store.
     await storage.sync.purgeScopeData("user");
     await storage.set(anoriSchema.cloudUserSyncState, null);
   } else {
     await storage.sync.enqueueScopeToOutbox("user", { restampHlc: localUserData === "forcePush" });
     // Cursor/version bookkeeping belongs to the previous account's store
-    if (state && state.ownerUserId !== pending.userId) {
+    if (foreignOwner) {
       await storage.set(anoriSchema.cloudUserSyncState, null);
     }
   }
