@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import type { SyncMode } from "./sync-mode";
 
 const CELL_TYPE = Symbol("cell");
 
@@ -6,7 +7,7 @@ type CellOptionsWithDefault<T> = {
   key: string;
   schema: z.ZodType<T>;
   defaultValue: T;
-  tracked: boolean;
+  sync: SyncMode;
   includedInBackup: boolean;
 };
 
@@ -14,7 +15,7 @@ type CellOptionsWithoutDefault<T> = {
   key: string;
   schema: z.ZodType<T>;
   defaultValue?: undefined;
-  tracked: boolean;
+  sync: SyncMode;
   includedInBackup: boolean;
 };
 
@@ -27,7 +28,7 @@ export type CellDescriptor<T = unknown, HasDefault extends boolean = boolean> = 
   readonly key: string;
   readonly schema: z.ZodType<T>;
   readonly defaultValue: HasDefault extends true ? T : undefined;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
   readonly includedInBackup: boolean;
 };
 
@@ -48,7 +49,7 @@ export function cell<T>(options: CellOptions<T>): CellDescriptor<T, boolean> {
     key: options.key,
     schema: options.schema,
     defaultValue: options.defaultValue,
-    tracked: options.tracked,
+    sync: options.sync,
     includedInBackup: options.includedInBackup,
   } as CellDescriptor<T, boolean>;
 }

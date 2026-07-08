@@ -3,6 +3,7 @@ import type { HlcTimestamp } from "./hlc";
 import type { ResolvedQuery } from "./query";
 import type { CellDescriptor } from "./schema/cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "./schema/collection";
+import type { SyncScope } from "./schema/sync-mode";
 import type { VersionedSchema } from "./schema/versioned";
 import type { FileMetaValue, StorageRecord } from "./types";
 
@@ -82,20 +83,22 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
   fork(): StorageFork;
 
   sync: {
-    isOutboxEnabled(): boolean;
-    enableOutbox(): void;
-    disableOutbox(): void;
+    isOutboxEnabled(scope: SyncScope): boolean;
+    enableOutbox(scope: SyncScope): void;
+    disableOutbox(scope: SyncScope): void;
     getOutbox(): Outbox;
     /** Advances the device clock and returns a fresh timestamp (persisted). */
     tickHlc(): HlcTimestamp;
     removeFromOutbox(entries: Array<{ key: string; hlc: HlcTimestamp }>): Promise<void>;
-    clearOutbox(): Promise<void>;
+    clearOutbox(scope?: SyncScope): Promise<void>;
     subscribeToOutbox(callback: OutboxChangeCallback): () => void;
-    exportForFullSync(): {
+    exportForFullSync(scope: SyncScope): {
       kv: Record<string, StorageRecord<unknown>>;
       files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
     };
-    exportOutbox(): Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }>;
+    exportOutbox(): {
+      [S in SyncScope]: Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }>;
+    };
     mergeRemoteChanges(
       changes: { key: string; record: StorageRecord<unknown>; schemaVersion: number }[],
       fileBlobs?: Map<string, Blob>,
@@ -108,8 +111,11 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
     hardDeleteKeys(keys: string[]): Promise<void>;
     /** Hard-removes tracked tombstones older than the retention horizon. Returns count removed. */
     compactTombstones(): Promise<number>;
-    /** Hard-removes live tracked keys absent from `serverKeys` (authoritative full-sync reconcile). Returns removed keys. */
-    reconcileAgainstServerKeys(serverKeys: Set<string>, options?: { protectOutbox?: boolean }): Promise<string[]>;
+    /** Hard-removes the scope's live keys absent from `serverKeys` (authoritative full-sync reconcile). Returns removed keys. */
+    reconcileAgainstServerKeys(
+      serverKeys: Set<string>,
+      options?: { protectOutbox?: boolean; scope?: SyncScope },
+    ): Promise<string[]>;
   };
 
   exportForBackup(): {
@@ -144,10 +150,11 @@ export type StorageInternalContext = {
   waitForPersist(): Promise<void>;
   getOutboxFromCache(): Outbox;
   notifyOutboxSubscribers(key: string, type: "kv" | "file", record: StorageRecord<unknown>): void;
+  getKeySyncMode(key: string): import("./schema/sync-mode").SyncMode;
   isKeyTracked(key: string): boolean;
   isKeyBackupEligible(key: string): boolean;
   isFileKey(key: string): boolean;
   outboxSubscriptions: OutboxSubscription[];
-  getOutboxEnabled(): boolean;
+  isOutboxScopeEnabled(scope: SyncScope): boolean;
   currentSchemaVersion: number;
 };

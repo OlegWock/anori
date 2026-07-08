@@ -1,4 +1,5 @@
 import type { EntityDescriptor } from "./entity";
+import type { SyncMode } from "./sync-mode";
 
 export const COLLECTION_TYPE = Symbol("collection");
 export const COLLECTION_QUERY_TYPE = Symbol("collectionQuery");
@@ -6,7 +7,7 @@ export const COLLECTION_QUERY_TYPE = Symbol("collectionQuery");
 type CollectionOptions<E extends Record<string, EntityDescriptor>> = {
   keyPrefix: string;
   entities: E;
-  tracked: boolean;
+  sync: SyncMode;
   includedInBackup: boolean;
 };
 
@@ -22,7 +23,7 @@ export type CollectionAllQuery<T = unknown> = {
   readonly queryType: "all";
   readonly keyPrefix: string;
   readonly brand?: string;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
 };
 
 export type CollectionByIdQuery<T = unknown> = {
@@ -32,7 +33,7 @@ export type CollectionByIdQuery<T = unknown> = {
   readonly keyPrefix: string;
   readonly id: string;
   readonly brand?: string;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
 };
 
 export type CollectionQuery<T = unknown> = CollectionAllQuery<T> | CollectionByIdQuery<T>;
@@ -47,7 +48,7 @@ export type CollectionDescriptorBase = {
   readonly _valueType: unknown;
   readonly keyPrefix: string;
   readonly entities: Record<string, EntityDescriptor>;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
   readonly includedInBackup: boolean;
 };
 
@@ -67,7 +68,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
   const keyPrefix = options.keyPrefix;
 
   const entityAccessors = {} as { [K in keyof E]: EntityAccessor<E[K]["_valueType"]> };
-  const tracked = options.tracked;
+  const sync = options.sync;
   const includedInBackup = options.includedInBackup;
 
   for (const [name, entityDesc] of Object.entries(options.entities)) {
@@ -79,7 +80,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
           queryType: "all",
           keyPrefix,
           brand: entityDesc.brand,
-          tracked,
+          sync,
         };
       },
       byId(id: string): CollectionByIdQuery<E[keyof E]["_valueType"]> {
@@ -90,7 +91,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
           keyPrefix,
           id,
           brand: entityDesc.brand,
-          tracked,
+          sync,
         };
       },
     };
@@ -101,7 +102,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
     _valueType: undefined as unknown as UnionOfValues<EntityValueTypes<E>>,
     keyPrefix,
     entities: options.entities,
-    tracked: options.tracked,
+    sync: options.sync,
     includedInBackup,
 
     all(): CollectionAllQuery<UnionOfValues<EntityValueTypes<E>>> {
@@ -110,7 +111,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
         _valueType: undefined as unknown as UnionOfValues<EntityValueTypes<E>>,
         queryType: "all",
         keyPrefix,
-        tracked,
+        sync,
       };
     },
 
@@ -121,7 +122,7 @@ export function collection<E extends Record<string, EntityDescriptor>>(
         queryType: "byId",
         keyPrefix,
         id,
-        tracked,
+        sync,
       };
     },
 

@@ -32,6 +32,7 @@ export {
   isFileDescriptor,
   isFileQuery,
 } from "./file";
+export type { SyncMode, SyncScope } from "./sync-mode";
 export { defineSchemaVersion, type SchemaDefinition, type SchemaEntry, type SchemaVersion } from "./version";
 export {
   createMigration,

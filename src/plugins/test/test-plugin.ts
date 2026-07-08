@@ -1,6 +1,6 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { definePlugin } from "@anori/utils/plugins/define";
-import { expandableWidgetDescriptor, resizableWidgetDescriptor } from "./widgets/descriptors";
+import { expandableWidgetDescriptor, resizableWidgetDescriptor, userCellWidgetDescriptor } from "./widgets/descriptors";
 
 export const testPlugin = definePlugin({
   id: "test-plugin",
@@ -8,5 +8,5 @@ export const testPlugin = definePlugin({
     return "Test plugin";
   },
   icon: builtinIcons.plugin,
-  widgets: [expandableWidgetDescriptor, resizableWidgetDescriptor],
+  widgets: [expandableWidgetDescriptor, resizableWidgetDescriptor, userCellWidgetDescriptor],
 }).build();

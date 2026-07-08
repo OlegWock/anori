@@ -31,12 +31,12 @@ import { createStorage } from "../storage";
 
 function createTestSchema() {
   const schemaV1 = defineSchemaVersion(1, {
-    theme: cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true, defaultValue: "Forest" }),
-    profileImage: file({ key: "profileImage", tracked: true, includedInBackup: true }),
-    images: fileCollection({ keyPrefix: "Image", tracked: true, includedInBackup: true }),
+    theme: cell({ key: "theme", schema: z.string(), sync: "profile", includedInBackup: true, defaultValue: "Forest" }),
+    profileImage: file({ key: "profileImage", sync: "profile", includedInBackup: true }),
+    images: fileCollection({ keyPrefix: "Image", sync: "profile", includedInBackup: true }),
     imagesWithProps: fileCollection({
       keyPrefix: "ImageProp",
-      tracked: true,
+      sync: "profile",
       includedInBackup: true,
       propertiesSchema: z.object({ name: z.string() }),
     }),
@@ -66,18 +66,18 @@ describe("FilesStorage", () => {
     it("should create a file descriptor", () => {
       const imageFile = file({
         key: "profileImage",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
       expect(imageFile.key).toBe("profileImage");
-      expect(imageFile.tracked).toBe(true);
+      expect(imageFile.sync).toBe("profile");
     });
 
     it("should create a file descriptor with properties schema", () => {
       const imageFile = file({
         key: "profileImage",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
         propertiesSchema: z.object({ width: z.number(), height: z.number() }),
       });
@@ -91,18 +91,18 @@ describe("FilesStorage", () => {
     it("should create a file collection descriptor", () => {
       const images = fileCollection({
         keyPrefix: "Image",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
       expect(images.keyPrefix).toBe("Image");
-      expect(images.tracked).toBe(true);
+      expect(images.sync).toBe("profile");
     });
 
     it("should create byId query", () => {
       const images = fileCollection({
         keyPrefix: "Image",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
@@ -110,20 +110,20 @@ describe("FilesStorage", () => {
       expect(query.queryType).toBe("byId");
       expect(query.keyPrefix).toBe("Image");
       expect(query.id).toBe("abc123");
-      expect(query.tracked).toBe(true);
+      expect(query.sync).toBe("profile");
     });
 
     it("should create all query", () => {
       const images = fileCollection({
         keyPrefix: "Image",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
       const query = images.all();
       expect(query.queryType).toBe("all");
       expect(query.keyPrefix).toBe("Image");
-      expect(query.tracked).toBe(true);
+      expect(query.sync).toBe("profile");
     });
   });
 
@@ -145,7 +145,7 @@ describe("FilesStorage", () => {
 
       const imageFile = file({
         key: "profileImageWithProps",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
         propertiesSchema: z.object({ width: z.number(), height: z.number() }),
       });
@@ -174,7 +174,7 @@ describe("FilesStorage", () => {
 
       const imageFile = file({
         key: "profileImageMeta",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
@@ -210,7 +210,7 @@ describe("FilesStorage", () => {
 
       const imageFile = file({
         key: "updateBlobTest",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
@@ -245,7 +245,7 @@ describe("FilesStorage", () => {
 
       const imageFile = file({
         key: "updatePropsTest",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
@@ -266,7 +266,7 @@ describe("FilesStorage", () => {
 
       const imageFile = file({
         key: "nonExistentProps",
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
         propertiesSchema: z.object({ width: z.number() }),
       });
@@ -369,7 +369,7 @@ describe("FilesStorage", () => {
 
     it("should add tracked files to outbox", async () => {
       const { storage, filesStorage, schema } = await createTestFilesStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       const blob = new Blob(["test"]);
       await filesStorage.set(schema.latestSchema.definition.profileImage, blob);
