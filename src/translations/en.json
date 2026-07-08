@@ -303,6 +303,9 @@
             "ramLoad": "RAM load",
             "cpuLoad": "CPU load"
         },
+        "tabs-plugin": {
+            "name": "Tabs"
+        },
         "tasks-plugin": {
             "name": "Tasks",
             "todo": "ToDo",

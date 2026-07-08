@@ -13,7 +13,7 @@ export const widgetDescriptor = defineWidget<"recently-closed-widget", EmptyObje
   appearance: {
     resizable: {
       min: { width: 2, height: 2 },
-      max: { width: 5, height: 4 },
+      max: { width: 5, height: 6 },
     },
     size: {
       width: 2,

@@ -264,6 +264,9 @@
         "ramLoad": "Name/label of the RAM load widget.",
         "cpuLoad": "Name/label of the CPU load widget."
     },
+    "tabs-plugin": {
+        "name": "Name of the tab-management plugin (holds the recently-closed widget) in the add-widget picker."
+    },
     "tasks-plugin": {
         "name": "Tasks plugin name in the add-widget picker.",
         "todo": "Default title of the Tasks widget.",
