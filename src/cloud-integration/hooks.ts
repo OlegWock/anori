@@ -21,8 +21,15 @@ export const useCloudAccount = () => {
 
 export const useIsBehindCloudSchema = (): boolean => {
   const [syncSettings] = useStorageValue(anoriSchema.cloudSyncSettings);
-  const observed = syncSettings?.profileSchemaVersion;
-  return observed !== undefined && anoriVersionedSchema.currentVersion < observed;
+  const [userSyncState] = useStorageValue(anoriSchema.cloudUserSyncState);
+  const localVersion = anoriVersionedSchema.currentVersion;
+  // Scopes pause independently, but the remedy is the same either way: update the extension.
+  const observedProfile = syncSettings?.profileSchemaVersion;
+  const observedUser = userSyncState?.userSchemaVersion;
+  return (
+    (observedProfile !== undefined && localVersion < observedProfile) ||
+    (observedUser !== undefined && localVersion < observedUser)
+  );
 };
 
 export const useApiClient = () => {

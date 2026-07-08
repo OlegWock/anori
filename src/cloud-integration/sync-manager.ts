@@ -917,10 +917,6 @@ export class SyncManager {
       console.warn(`Full-sync completeness check failed (${cells.length} != ${totalCount}); skipping reconcile`);
       return;
     }
-    if (cells.length === 0) {
-      console.warn("Full-sync returned no cells; skipping reconcile");
-      return;
-    }
     const serverKeys = new Set(cells.map((c) => c.key));
     const removed = await this.storage.sync.reconcileAgainstServerKeys(serverKeys, options);
     if (removed.length > 0) {
