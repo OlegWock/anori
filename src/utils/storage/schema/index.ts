@@ -474,6 +474,10 @@ export const schemaV2 = defineSchemaVersion(2, {
         userSchemaVersion: z.number().optional(),
         // User-store schema version our local user cells are reconciled to.
         syncedSchemaVersion: z.number().optional(),
+        // Which account the local user-scope data was last synced against. Survives logout so
+        // a later login can tell "same account, resume" from "different account, ask what to
+        // do with the local copy".
+        ownerUserId: z.string().optional(),
       })
       .nullable(),
     defaultValue: null,

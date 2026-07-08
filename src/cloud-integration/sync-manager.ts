@@ -238,6 +238,7 @@ export class SyncManager {
         latestSeq: userState?.latestSeq ?? 0,
         syncedSchemaVersion: userState?.syncedSchemaVersion,
         userSchemaVersion: part.schemaVersion,
+        ownerUserId: this.getAccountUserId(),
       });
       return;
     }
@@ -261,11 +262,16 @@ export class SyncManager {
       latestSeq: part.latestSeq,
       userSchemaVersion: part.schemaVersion,
       syncedSchemaVersion: localVersion,
+      ownerUserId: this.getAccountUserId(),
     });
   }
 
   private getSyncSettings() {
     return this.storage.get(anoriSchema.cloudSyncSettings);
+  }
+
+  private getAccountUserId(): string | undefined {
+    return this.storage.get(anoriSchema.cloudAccount)?.userId;
   }
 
   private async adoptAsStraggler(profileId: string): Promise<void> {
@@ -466,6 +472,7 @@ export class SyncManager {
       latestSeq: remoteData.latestSeq,
       userSchemaVersion: remoteData.schemaVersion,
       syncedSchemaVersion: remoteData.schemaVersion,
+      ownerUserId: this.getAccountUserId(),
     });
   }
 
@@ -654,14 +661,15 @@ export class SyncManager {
 
       this.flushOutboxTimeout = setTimeout(() => {
         this.flushOutboxTimeout = null;
-        this.debouncedFlushOutbox();
+        this.flushPendingChanges();
       }, OUTBOX_FLUSH_DEBOUNCE_MS);
     };
 
     this.outboxUnsubscribe = this.storage.sync.subscribeToOutbox(handleChange);
   }
 
-  private async debouncedFlushOutbox(): Promise<void> {
+  /** Pushes whatever is pending in the outbox for every scope that is ready to flush. */
+  async flushPendingChanges(): Promise<void> {
     if (this.isFlushingOutbox) {
       return;
     }

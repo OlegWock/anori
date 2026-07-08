@@ -47,6 +47,11 @@
         "connectedAs": "Label showing which email the user is logged in as.",
         "noAccount": "Prompt text shown before the sign-up link on the login form.",
         "createAccount": "Link on the login form that takes the user to create an account.",
+        "userDataConflict": {
+            "description": "Shown during login when this device holds synced data (e.g. stash) that belongs to a different account than the one logging in. The user must decide before login completes.",
+            "upload": "Button that keeps the local data and uploads (merges) it into the account being logged into.",
+            "discard": "Button that deletes the local copy and uses the account's cloud data instead."
+        },
         "plusDescription": "Description of the Anori Plus cloud-sync service shown to logged-out users.",
         "learnMore": "Link on the login screen to learn more about Anori Plus.",
         "profiles": "Heading for the list of sync profiles in the connected-account view.",

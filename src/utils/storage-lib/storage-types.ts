@@ -96,6 +96,14 @@ export type Storage<S extends VersionedSchema = VersionedSchema> = StorageQueryI
       kv: Record<string, StorageRecord<unknown>>;
       files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
     };
+    /**
+     * Adds every record of the scope (live and tombstones) to the outbox, so the whole scope
+     * gets (re)pushed. Used when connecting local data to a store it was never journaled
+     * against (e.g. data written while signed out, uploaded at login).
+     */
+    enqueueScopeToOutbox(scope: SyncScope, options?: { restampHlc?: boolean }): Promise<void>;
+    /** Hard-removes every record of the scope (live and tombstones) and its outbox entries. */
+    purgeScopeData(scope: SyncScope): Promise<string[]>;
     exportOutbox(): {
       [S in SyncScope]: Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }>;
     };

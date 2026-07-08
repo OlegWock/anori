@@ -127,6 +127,61 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
       return { kv, files };
     },
 
+    async enqueueScopeToOutbox(scope: SyncScope, options?: { restampHlc?: boolean }): Promise<void> {
+      ctx.ensureInitialized();
+      const restampHlc = options?.restampHlc ?? false;
+      const outbox = ctx.getOutboxFromCache();
+      let restamped = false;
+      for (const [key, value] of Object.entries(ctx.cache)) {
+        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
+        if (!isStorageRecord(value)) continue;
+        if (ctx.getKeySyncMode(key) !== scope) continue;
+
+        let record = value;
+        if (restampHlc) {
+          // A fresh timestamp makes this record beat every existing copy under LWW, so the
+          // push propagates to the server and all other devices instead of losing conflicts.
+          record = { ...value, hlc: ctx.getHlc().tick() };
+          ctx.persistRecord(key, record);
+          restamped = true;
+        }
+
+        const entry = {
+          key,
+          type: ctx.isFileKey(key) ? ("file" as const) : ("kv" as const),
+          hlc: record.hlc,
+          addedAt: Date.now(),
+        };
+        const existingIndex = outbox.findIndex((e) => e.key === key);
+        if (existingIndex >= 0) {
+          outbox[existingIndex] = entry;
+        } else {
+          outbox.push(entry);
+        }
+      }
+      if (restamped) {
+        ctx.persistHlcState();
+      }
+      ctx.persistOutbox(outbox);
+      await ctx.waitForPersist();
+    },
+
+    async purgeScopeData(scope: SyncScope): Promise<string[]> {
+      ctx.ensureInitialized();
+      const toRemove: string[] = [];
+      for (const [key, value] of Object.entries(ctx.cache)) {
+        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
+        if (!isStorageRecord(value)) continue;
+        if (ctx.getKeySyncMode(key) !== scope) continue;
+        toRemove.push(key);
+      }
+      await hardDeleteKeys(toRemove);
+      const remaining = ctx.getOutboxFromCache().filter((entry) => ctx.getKeySyncMode(entry.key) !== scope);
+      ctx.persistOutbox(remaining);
+      await ctx.waitForPersist();
+      return toRemove;
+    },
+
     exportOutbox() {
       ctx.ensureInitialized();
       const outbox = ctx.getOutboxFromCache();

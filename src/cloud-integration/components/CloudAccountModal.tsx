@@ -19,7 +19,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { trpc } from "../api-client";
-import { login, logout } from "../auth";
+import { cancelPendingLogin, completePendingLogin, login, logout, type PendingLogin } from "../auth";
 import { ACCOUNT_URL } from "../consts";
 import { useCloudAccount, useIsBehindCloudSchema } from "../hooks";
 import { connectToProfile, disconnectFromProfile } from "../sync-manager";
@@ -95,6 +95,7 @@ const plusDescription = css({
 });
 const authForm = css({ display: "flex", flexDirection: "column", gap: "4" });
 const loginActions = css({ display: "flex", flexDirection: "column", alignItems: "center", gap: "4" });
+const userScopeConflictActions = css({ display: "flex", alignItems: "center", gap: "4" });
 const registerLink = css({ textAlign: "center", fontSize: "sm", opacity: 0.8, margin: 0, "& a": mutedLink });
 
 type Props = {
@@ -503,13 +504,17 @@ const AuthView = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingLogin, setPendingLogin] = useState<PendingLogin | null>(null);
 
   const handleLogin = async () => {
     setError(null);
     setIsLoading(true);
 
     try {
-      await login(email, password);
+      const result = await login(email, password);
+      if (result.status === "userDataConflict") {
+        setPendingLogin(result.pending);
+      }
     } catch (e) {
       if (isAppErrorOfType(e, InvalidCredentialsError)) {
         setError(t("cloud.error.invalidCredentials"));
@@ -520,6 +525,47 @@ const AuthView = () => {
       setIsLoading(false);
     }
   };
+
+  const handleResolveConflict = async (localUserData: "upload" | "discard") => {
+    if (!pendingLogin) return;
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      await completePendingLogin(pendingLogin, localUserData);
+      setPendingLogin(null);
+    } catch (e) {
+      setError(getAppError(e)?.message ?? t("cloud.error.unknown"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCancelConflict = async () => {
+    setPendingLogin(null);
+    await cancelPendingLogin();
+  };
+
+  if (pendingLogin) {
+    return (
+      <div className={authView}>
+        {error && <Alert variant="accent">{error}</Alert>}
+        <p>{t("cloud.userDataConflict.description")}</p>
+        <div className={userScopeConflictActions}>
+          <Button variant="primary" loading={isLoading} onClick={() => handleResolveConflict("upload")}>
+            {t("cloud.userDataConflict.upload")}
+          </Button>
+
+          <Button variant="secondary" loading={isLoading} onClick={() => handleResolveConflict("discard")}>
+            {t("cloud.userDataConflict.discard")}
+          </Button>
+          <Button variant="secondary" disabled={isLoading} onClick={handleCancelConflict}>
+            {t("cloud.cancel")}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={authView}>

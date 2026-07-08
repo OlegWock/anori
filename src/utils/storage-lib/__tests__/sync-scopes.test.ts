@@ -214,6 +214,68 @@ describe("Sync scopes", () => {
     });
   });
 
+  describe("enqueueScopeToOutbox", () => {
+    it("queues every record of the scope, tombstones included, with existing HLCs", async () => {
+      browserState.storage.theme = record("Ocean");
+      browserState.storage.userNote = record("hello", NOW - DAY);
+      browserState.storage["StashEntry:gone"] = tombstone(NOW - 2 * DAY);
+      const storage = await makeStorage();
+
+      await storage.sync.enqueueScopeToOutbox("user");
+
+      const outbox = storage.sync.getOutbox();
+      expect(outbox.map((e) => e.key).sort()).toEqual(["StashEntry:gone", "userNote"]);
+      expect(outbox.find((e) => e.key === "userNote")?.hlc.pt).toBe(NOW - DAY);
+    });
+
+    it("restampHlc rewrites records with fresh timestamps so the push wins LWW everywhere", async () => {
+      browserState.storage.theme = record("Ocean", NOW - DAY);
+      browserState.storage.userNote = record("hello", NOW - DAY);
+      const storage = await makeStorage();
+
+      await storage.sync.enqueueScopeToOutbox("user", { restampHlc: true });
+
+      const restamped = browserState.storage.userNote as StorageRecord<string>;
+      expect(restamped.value).toBe("hello");
+      expect(restamped.hlc.pt).toBeGreaterThanOrEqual(NOW);
+      const entry = storage.sync.getOutbox().find((e) => e.key === "userNote");
+      expect(entry?.hlc).toEqual(restamped.hlc);
+      // Other scopes are untouched
+      expect((browserState.storage.theme as StorageRecord<string>).hlc.pt).toBe(NOW - DAY);
+    });
+
+    it("replaces an existing entry for the same key instead of duplicating it", async () => {
+      const storage = await makeStorage();
+      storage.sync.enableOutbox("user");
+      await storage.set(storage.schema.userNote, "hello");
+
+      await storage.sync.enqueueScopeToOutbox("user");
+
+      expect(storage.sync.getOutbox().filter((e) => e.key === "userNote")).toHaveLength(1);
+    });
+  });
+
+  describe("purgeScopeData", () => {
+    it("hard-removes the scope's records (tombstones included) and outbox entries, leaving other scopes", async () => {
+      browserState.storage.theme = record("Ocean");
+      browserState.storage.userNote = record("hello");
+      browserState.storage["StashEntry:gone"] = tombstone(NOW - DAY);
+      const storage = await makeStorage();
+      storage.sync.enableOutbox("profile");
+      storage.sync.enableOutbox("user");
+      await storage.set(storage.schema.userNote, "edited");
+      await storage.set(storage.schema.theme, "Forest");
+
+      const removed = await storage.sync.purgeScopeData("user");
+
+      expect(removed.sort()).toEqual(["StashEntry:gone", "userNote"]);
+      expect(browserState.storage.userNote).toBeUndefined();
+      expect(browserState.storage["StashEntry:gone"]).toBeUndefined();
+      expect(browserState.storage.theme).toBeDefined();
+      expect(storage.sync.getOutbox().map((e) => e.key)).toEqual(["theme"]);
+    });
+  });
+
   describe("compactTombstones", () => {
     it("compacts expired tombstones of both synced scopes but not off keys", async () => {
       browserState.storage.theme = tombstone(NOW - TOMBSTONE_RETENTION_MS - DAY);

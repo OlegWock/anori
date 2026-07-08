@@ -67,6 +67,11 @@
             "downloadBackup": "Download",
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
+            "userDataConflict": {
+                "description": "You have a local copy of data that was previously uploaded to a different account. Would you like to upload it to this account or discard it?",
+                "upload": "Upload to this account",
+                "discard": "Discard local data"
+            },
             "plusDescription": "Anori Plus is an additional service for Anori that lets you sync your configuration between multiple browsers and devices in real time.",
             "learnMore": "Learn more",
             "profiles": "Profiles",
