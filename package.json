@@ -39,8 +39,8 @@
         ]
     },
     "dependencies": {
-        "@anori-app/api-client": "^2.0.24",
-        "@anori-app/api-types": "^2.0.24",
+        "@anori-app/api-client": "3.0.0-pr11.708abd9",
+        "@anori-app/api-types": "3.0.0-pr11.708abd9",
         "@base-ui/react": "^1.5.0",
         "@iconify/json": "^2.2.485",
         "@iconify/react": "^6.0.2",

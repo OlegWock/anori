@@ -1,3 +1,4 @@
+import { assertValue } from "@anori/utils/asserts";
 import { type AnoriStorage, anoriSchema, anoriVersionedSchema } from "@anori/utils/storage";
 import { capturePreUpdateBackup } from "@anori/utils/storage/pre-update-backup";
 import { compareHlc, type HlcTimestamp } from "@anori/utils/storage-lib/hlc";
@@ -29,16 +30,6 @@ type KvMutation = {
   hlc: { pt: number; lc: number; node: string };
   brand?: string;
 };
-
-/**
- * Reads the server-reported total cell count from a full-sync response. Temporary wrapper until the
- * backend ships it.
- * TODO: remove this once update to backend is released
- */
-function getTotalCount(response: unknown): number | undefined {
-  const value = (response as { totalCount?: unknown }).totalCount;
-  return typeof value === "number" ? value : undefined;
-}
 
 /**
  * Downloads blobs for the given file cells, skipping any whose blob we already have locally
@@ -153,20 +144,22 @@ export class SyncManager {
     let cells: RemoteCell[];
     let newLatestSeq: number;
     let profileSchemaVersion: number;
-    let fullData: { totalCount?: number } | null = null;
+    let fullTotalCount: number | null = null;
     try {
       const deltaData = await client.sync.deltaSync.query({ profileId, sinceSeq: latestSeq });
-      cells = deltaData.cells;
-      newLatestSeq = deltaData.latestSeq;
-      profileSchemaVersion = deltaData.profileSchemaVersion;
+      assertValue(deltaData.profile, "deltaSync response is missing the requested profile scope");
+      cells = deltaData.profile.cells;
+      newLatestSeq = deltaData.profile.latestSeq;
+      profileSchemaVersion = deltaData.profile.schemaVersion;
     } catch (error) {
       if (!isAppErrorOfType(error, CommitLogPrunedError)) throw error;
       console.log("Delta sync failed due to pruned history, falling back to full sync");
       const full = await client.sync.fullSync.query({ profileId });
-      cells = full.cells;
-      newLatestSeq = full.latestSeq;
-      profileSchemaVersion = full.profileSchemaVersion;
-      fullData = full;
+      assertValue(full.profile, "fullSync response is missing the requested profile scope");
+      cells = full.profile.cells;
+      newLatestSeq = full.profile.latestSeq;
+      profileSchemaVersion = full.profile.schemaVersion;
+      fullTotalCount = full.profile.totalCount;
     }
 
     const localVersion = anoriVersionedSchema.currentVersion;
@@ -196,8 +189,8 @@ export class SyncManager {
     // Normal sync path
     await this.flushOutbox(profileId);
     await this.applyRemoteCells(cells);
-    if (fullData) {
-      await this.reconcileAfterFullSync(cells, getTotalCount(fullData), true);
+    if (fullTotalCount !== null) {
+      await this.reconcileAfterFullSync(cells, fullTotalCount, true);
     }
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       ...syncSettings,
@@ -223,14 +216,15 @@ export class SyncManager {
     const localVersion = anoriVersionedSchema.currentVersion;
 
     for (let attempt = 0; attempt < 3; attempt++) {
-      const head = await client.sync.fullSync.query({ profileId });
+      const { profile: head } = await client.sync.fullSync.query({ profileId });
+      assertValue(head, "fullSync response is missing the requested profile scope");
 
-      if (head.profileSchemaVersion >= localVersion) {
+      if (head.schemaVersion >= localVersion) {
         // Someone upgraded the profile before us; adopt their result as a straggler.
         await this.adoptAsStraggler(profileId);
         return;
       }
-      const fromVersion = head.profileSchemaVersion;
+      const fromVersion = head.schemaVersion;
 
       const cloudSnapshot: Record<string, StorageRecord<unknown>> = {};
       const fileKeys = new Set<string>();
@@ -316,7 +310,8 @@ export class SyncManager {
     const client = getApiClient();
     const currentSchemaVersion = anoriVersionedSchema.currentVersion;
 
-    const remoteData = await client.sync.fullSync.query({ profileId });
+    const { profile: remoteData } = await client.sync.fullSync.query({ profileId });
+    assertValue(remoteData, "fullSync response is missing the requested profile scope");
 
     const changes: Array<{
       key: string;
@@ -357,15 +352,15 @@ export class SyncManager {
     const fileBlobs = await downloadFileBlobs(fileDownloads);
 
     await this.storage.sync.applyRemoteChangesIgnoringHlc(changes, fileBlobs);
-    await this.reconcileAfterFullSync(remoteData.cells, getTotalCount(remoteData), false);
+    await this.reconcileAfterFullSync(remoteData.cells, remoteData.totalCount, false);
     await this.storage.sync.clearOutbox();
 
     await this.storage.set(anoriSchema.cloudSyncSettings, {
       profileId,
       latestSeq: remoteData.latestSeq,
-      profileSchemaVersion: remoteData.profileSchemaVersion,
+      profileSchemaVersion: remoteData.schemaVersion,
       // Adopting the cloud reconciles us to its schema version.
-      syncedSchemaVersion: remoteData.profileSchemaVersion,
+      syncedSchemaVersion: remoteData.schemaVersion,
     });
 
     this.setupRemoteSubscription();
@@ -410,9 +405,8 @@ export class SyncManager {
 
     if (kvMutations.length > 0) {
       await client.sync.writeKv.mutate({
-        profileId,
         schemaVersion: currentSchemaVersion,
-        mutations: kvMutations,
+        profile: { profileId, mutations: kvMutations },
       });
       syncedEntries.push(...kvMutations.map((m) => ({ key: m.key, hlc: m.hlc })));
     }
@@ -618,9 +612,8 @@ export class SyncManager {
               brand: entry.record.brand,
             };
             await client.sync.writeKv.mutate({
-              profileId,
               schemaVersion: currentSchemaVersion,
-              mutations: [kvMutation],
+              profile: { profileId, mutations: [kvMutation] },
             });
             syncedEntries.push({ key: entry.key, hlc: entry.record.hlc });
             continue;
@@ -687,9 +680,8 @@ export class SyncManager {
           };
 
           await client.sync.writeKv.mutate({
-            profileId,
             schemaVersion: currentSchemaVersion,
-            mutations: [kvMutation],
+            profile: { profileId, mutations: [kvMutation] },
           });
           syncedEntries.push({ key: entry.key, hlc: entry.record.hlc });
         }
@@ -710,16 +702,7 @@ export class SyncManager {
    * @param protectOutbox keep keys with pending local changes (true for the automatic fallback,
    *   false for an explicit pull which deliberately replaces local with the cloud profile).
    */
-  private async reconcileAfterFullSync(
-    cells: RemoteCell[],
-    totalCount: number | undefined,
-    protectOutbox: boolean,
-  ): Promise<void> {
-    if (totalCount === undefined) {
-      // Backend doesn't report a count yet (purge not deployed) → no-op for safety.
-      // TODO: remove once backend is updated
-      return;
-    }
+  private async reconcileAfterFullSync(cells: RemoteCell[], totalCount: number, protectOutbox: boolean): Promise<void> {
     if (cells.length !== totalCount) {
       console.warn(`Full-sync completeness check failed (${cells.length} != ${totalCount}); skipping reconcile`);
       return;
