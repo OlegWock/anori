@@ -127,6 +127,7 @@ export default defineConfig({
           },
           surface: {
             DEFAULT: { value: "var(--ds-surface)" },
+            sunken: { value: "var(--ds-surface-sunken)" },
             edge: { value: "var(--ds-surface-edge)" },
             elevated: {
               DEFAULT: { value: "var(--ds-surface-elevated)" },

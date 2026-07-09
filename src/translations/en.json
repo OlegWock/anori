@@ -3,6 +3,7 @@
         "appName": "Anori: productivity new tab",
         "appDescription": "Customizable new tab: compose your own page from widgets",
         "appActionTitle": "Open Anori new tab",
+        "openAnori": "Open Anori",
         "icon": "Icon",
         "title": "Title",
         "url": "URL",
@@ -304,7 +305,38 @@
             "cpuLoad": "CPU load"
         },
         "tabs-plugin": {
-            "name": "Tabs"
+            "name": "Tabs",
+            "tabGroup": "Tab group",
+            "contextMenu": {
+                "stashTab": "Stash this tab",
+                "stashLink": "Stash this link",
+                "stashGroup": "Stash this tab group"
+            },
+            "stash": {
+                "title": "Tab stash",
+                "inbox": "Inbox",
+                "empty": "Nothing stashed yet",
+                "emptyHint": "Add a tab with the + button above, or open the Anori popup from your browser's toolbar.",
+                "stashTab": "Stash a tab",
+                "remove": "Remove",
+                "rename": "Rename",
+                "openAll": "Open all",
+                "showAllTabs": "Show all tabs",
+                "pasteUrl": "Paste a link",
+                "add": "Add",
+                "tabCount_one": "{{count}} tab",
+                "tabCount_other": "{{count}} tabs"
+            },
+            "popup": {
+                "stashTab": "Stash a tab",
+                "stashCurrentTab": "Stash current tab",
+                "stashGroup": "Stash a tab group",
+                "stashWindow": "Stash this window",
+                "window": "Window",
+                "grantTabs": "Additional permissions are required for Tabs stash feature",
+                "recentlyStashed": "Recently stashed",
+                "nothingStashed": "Nothing stashed yet"
+            }
         },
         "tasks-plugin": {
             "name": "Tasks",

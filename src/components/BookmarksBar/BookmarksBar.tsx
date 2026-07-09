@@ -88,7 +88,7 @@ export const BookmarksBar = memo(function BookmarksBar() {
   const hasPermissions = usePermissionsQuery({ permissions: ["bookmarks", "favicon"] });
   return (
     <div className={cx(container({ transparent: hasPermissions }), "BookmarksBar")}>
-      <RequirePermissions permissions={["bookmarks", "favicon"]} compact>
+      <RequirePermissions permissions={["bookmarks", "favicon"]} variant="compact">
         <BookmarksBarComponent />
       </RequirePermissions>
     </div>

@@ -117,6 +117,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
 
   const tokens: Record<string, string> = {
     surface: surface[surfaceIdx],
+    "surface-sunken": surface[byMode(mode, 1, 10)],
     "surface-edge": shade(sampleSurface, PRIMITIVE_LS[surfaceIdx], byMode(mode, EDGE_DELTA, -EDGE_DELTA)),
     "surface-elevated": sampleSurface(elevatedL),
     "surface-elevated-edge": shade(

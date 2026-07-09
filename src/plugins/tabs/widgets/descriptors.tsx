@@ -2,7 +2,31 @@ import { RequirePermissions } from "@anori/design-system/components/RequirePermi
 import { translate } from "@anori/translations/utils";
 import { defineWidget } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
+import { type StashWidgetConfig, stashWidgetConfigSchema } from "../types";
 import { RecentlyClosedWidget } from "./RecentlyClosedWidget";
+import { StashWidget } from "./StashWidget";
+import { StashWidgetMock } from "./StashWidgetMock";
+
+export const stashWidgetDescriptor = defineWidget<"stash-widget", StashWidgetConfig>({
+  id: "stash-widget",
+  get name() {
+    return translate("tabs-plugin.stash.title");
+  },
+  schema: stashWidgetConfigSchema,
+  configurationScreen: null,
+  mainScreen: StashWidget,
+  mock: StashWidgetMock,
+  appearance: {
+    resizable: {
+      min: { width: 2, height: 2 },
+      max: { width: 5 },
+    },
+    size: {
+      width: 2,
+      height: 2,
+    },
+  },
+});
 
 export const widgetDescriptor = defineWidget<"recently-closed-widget", EmptyObject>({
   id: "recently-closed-widget",

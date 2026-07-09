@@ -4,9 +4,9 @@
 - **Do not add filler or fluff.**
   Avoid phrases like _“You’re absolutely right”_, motivational comments, or unnecessary small talk.
 
-- **Default to NO code comments.** This is a hard rule, not a preference — decorative comments are a recurring problem.
-  Add a comment only when it is genuinely functional and the code cannot convey it on its own: a third-party quirk/workaround, a non-obvious "why" (a tricky algorithm, an unobvious invariant, a deliberate trick around a bug), a `biome-ignore`/`@ts-expect-error` justification, or a TODO. If it doesn't fall in one of those buckets, do not write it.
-  Never restate what the code does, label a token/prop/variable/branch, narrate design rationale the names already convey, or reference the task/conversation/how the code used to be. Write for someone reading in 6 months with no memory of why it was written; when in doubt, leave it out and match the (usually zero) comment density of surrounding code.
+- **Do not write new code comments — at all.** This is a hard rule, not a preference. Add zero comments to code you write or change; invest in naming and structure instead. If you feel a comment is needed, make the code clearer instead.
+  Do **not** remove existing comments; you may *edit* one only when your change makes it contradict the code (update it to match, or trim the now-false part). The **sole** exception is tooling-required directives that aren't prose (`biome-ignore`, `@ts-expect-error`, `eslint-disable`), written only when the tool needs them and kept minimal.
+  After writing/editing code, scan your diff for any `//`, `/* */`, or `{/* */}` you introduced and delete them (except the tooling directives above).
 
 - **End responses with precision.**
   If a closing note is needed, use short bullet points to summarize critical outcomes, decisions, or next steps—no long narrative recaps.

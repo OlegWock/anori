@@ -1,5 +1,6 @@
 import { availableTranslations, type Language } from "@anori/translations/metadata";
 import { type HslColor, hslColorToOklch } from "@anori/utils/color";
+import { StashEntrySchema, StashSchema } from "@anori/utils/storage/schema/stash";
 import {
   BookmarkWidgetStoreSchema,
   NotesWidgetStoreSchema,
@@ -454,13 +455,22 @@ export const schemaV2 = defineSchemaVersion(2, {
     includedInBackup: true,
   }),
 
-  // Example account-global cell exercising the user sync scope end to end.
-  testUserNote: cell({
-    key: "testUserNote",
-    schema: z.string(),
-    defaultValue: "",
+  // Stashes are user-scoped; entries are split into separate records so concurrent adds touch distinct keys.
+  stashes: collection({
+    keyPrefix: "Stash",
+    entities: {
+      stash: entity({ brand: "Stash", schema: StashSchema }),
+    },
     sync: "user",
-    includedInBackup: false,
+    includedInBackup: true,
+  }),
+  stashEntries: collection({
+    keyPrefix: "StashEntry",
+    entities: {
+      entry: entity({ brand: "StashEntry", schema: StashEntrySchema }),
+    },
+    sync: "user",
+    includedInBackup: true,
   }),
 
   // User-scope sync cursor/version state. Deliberately separate from cloudSyncSettings: user
@@ -508,6 +518,13 @@ export const anoriVersionedSchema = defineVersionedSchema({
 
 export const anoriSchema = anoriVersionedSchema.latestSchema.definition;
 
+export type {
+  Stash,
+  StashEntry,
+  StashGroupEntry,
+  StashLink,
+  StashLinkEntry,
+} from "./stash";
 export type {
   BookmarkWidgetStore,
   NotesWidgetStore,

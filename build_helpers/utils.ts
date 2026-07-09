@@ -1,3 +1,4 @@
+import * as fs from "node:fs";
 import * as path from "node:path";
 import type { Mode } from "@rspack/core";
 // @ts-expect-error No declarations for this module!
@@ -135,10 +136,17 @@ export function constructGenerateFileInvocations(
     const cleanName = scriptName(page);
     const scriptsToInject = [`/${paths.dist.pages}/${cleanName}.js`];
 
+    // Page-local templates can opt out of shared shell details like the loading cover.
+    const pageDir = cleanName.split("/")[0];
+    const ownTemplatePath = joinPath(paths.src.pages, pageDir, "template.html");
+    const template = fs.existsSync(ownTemplatePath)
+      ? fs.readFileSync(ownTemplatePath, { encoding: "utf-8" })
+      : pageTemplate;
+
     generateFileInvocations.push(
       new GenerateFiles({
         file: joinPath(paths.dist.pages, `${cleanName}.html`),
-        content: generatePageContentForScript(pageTemplate, {
+        content: generatePageContentForScript(template, {
           styles: `<link rel="stylesheet" href="/${paths.dist.pages}/${cleanName}.css" />`,
           scripts: scriptsToInject
             .map((url) => {

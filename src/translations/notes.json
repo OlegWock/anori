@@ -2,6 +2,7 @@
     "appName": "Browser extension name shown in store listings, the extension list, and the browser action title; also used in manifest metadata.",
     "appDescription": "Extension description shown in browser store listings and the extension list; also used in manifest metadata.",
     "appActionTitle": "Tooltip shown when hovering the extension icon in the browser toolbar; also used in manifest metadata.",
+    "openAnori": "Button/menu item that opens the Anori new-tab page (used in the toolbar popup).",
     "icon": "Form field label for selecting an icon in widget configuration screens.",
     "title": "Form field label for entering a widget's title or display name in configuration screens.",
     "url": "Form field label for entering a URL in widget configuration screens.",
@@ -265,7 +266,37 @@
         "cpuLoad": "Name/label of the CPU load widget."
     },
     "tabs-plugin": {
-        "name": "Name of the tab-management plugin (holds the recently-closed widget) in the add-widget picker."
+        "name": "Name of the tab-management plugin in the add-widget picker.",
+        "tabGroup": "Fallback label for a captured tab group that has no name, combined with a date (e.g. 'Tab group · Jul 9').",
+        "contextMenu": {
+            "stashTab": "Right-click context-menu item (on a page or the tab strip) that saves the current tab to the stash.",
+            "stashLink": "Right-click context-menu item (on a link) that saves the linked URL to the stash.",
+            "stashGroup": "Right-click context-menu item (on a tab) that saves the tab's whole named group to the stash."
+        },
+        "stash": {
+            "title": "Heading shown at the top of the Stash widget.",
+            "inbox": "Name of the default stash list.",
+            "empty": "Title of the empty state shown in the Stash widget when nothing has been saved yet.",
+            "emptyHint": "Description under the Stash widget empty state, telling the user how to add tabs: the '+' button in the widget header or the Anori browser-toolbar popup.",
+            "stashTab": "Label/tooltip for the button that opens the picker to save a tab to the stash.",
+            "remove": "Tooltip for the button that removes an entry from the stash.",
+            "rename": "Tooltip for the button that renames a stashed group.",
+            "openAll": "Tooltip for the button that opens every link in a stashed group.",
+            "showAllTabs": "Button that expands the open-tabs picker from the top few to the full list.",
+            "pasteUrl": "Placeholder for the input where the user pastes an arbitrary link to stash.",
+            "add": "Button that adds the pasted link to the stash.",
+            "tabCount": "Badge on a stashed group showing how many tabs it holds, e.g. '3 tabs'. Uses i18next plural forms."
+        },
+        "popup": {
+            "stashTab": "Section heading in the toolbar popup for saving one open tab.",
+            "stashCurrentTab": "Static popup menu item that saves the currently active tab, shown when that tab isn't Anori or a service page.",
+            "stashGroup": "Section heading in the toolbar popup for saving a named tab group.",
+            "stashWindow": "Popup menu item that saves every tab in the current window as one stashed group.",
+            "window": "Fallback label for a captured window, combined with a date (e.g. 'Window · Jul 9').",
+            "grantTabs": "List-item prompt shown in the toolbar popup when the tabs permission is missing; clicking it requests access so open tabs can be listed and stashed.",
+            "recentlyStashed": "Section heading in the toolbar popup listing the most recently stashed items.",
+            "nothingStashed": "Empty-state text in the popup's recently-stashed section."
+        }
     },
     "tasks-plugin": {
         "name": "Tasks plugin name in the add-widget picker.",

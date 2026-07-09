@@ -40,8 +40,6 @@ type ScopeSyncData = {
   totalCount?: number;
 };
 
-const { getKeySyncMode } = createSchemaHelpers(anoriSchema);
-
 /**
  * Downloads blobs for the given file cells, skipping any whose blob we already have locally
  * (a path uniquely identifies a blob, so an existing OPFS file at that path is the same blob).
@@ -406,6 +404,8 @@ export class SyncManager {
     }
 
     const merged = mergeByHlc(migrated, local);
+
+    const { getKeySyncMode } = createSchemaHelpers(anoriSchema);
 
     // Every file cell keeps its server blob (fileRef:existing); no blob is uploaded here. A
     // migration that transforms file content, or an unsynced local file edit that wins the

@@ -17,7 +17,10 @@ const emptyState = css({
 const emptyIcon = css({ color: "icon.subtle", display: "flex" });
 const emptyTitle = cva({
   base: { fontSize: "base", fontWeight: "regular", color: "text.primary", margin: 0, maxWidth: "25rem" },
-  variants: { muted: { true: { color: "text.placeholder" } } },
+  variants: {
+    muted: { true: { color: "text.placeholder" } },
+    compact: { true: { fontSize: "sm" } },
+  },
 });
 const emptyDescription = css({ fontSize: "sm", maxWidth: "25rem", lineHeight: "normal", margin: 0 });
 
@@ -26,17 +29,19 @@ export type EmptyStateProps = {
   icon?: string;
   description?: string | ReactNode;
   muted?: boolean;
+  compact?: boolean;
   children?: ReactNode;
   className?: string;
 };
 
-export const EmptyState = ({ icon, title, description, muted, children, className }: EmptyStateProps) => {
+export const EmptyState = ({ icon, title, description, muted, compact, children, className }: EmptyStateProps) => {
+  const iconSize = compact ? 28 : 40;
   return (
     <div className={cx(emptyState, className)}>
       <div className={emptyIcon}>
-        <Icon icon={icon ?? builtinIcons.empty} width={40} height={40} />
+        <Icon icon={icon ?? builtinIcons.empty} width={iconSize} height={iconSize} />
       </div>
-      <h3 className={emptyTitle({ muted })}>{title}</h3>
+      <h3 className={emptyTitle({ muted, compact })}>{title}</h3>
       {description && <p className={emptyDescription}>{description}</p>}
       {children}
     </div>

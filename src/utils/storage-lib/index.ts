@@ -31,7 +31,13 @@ export {
   resolveQuery,
 } from "./query";
 
-export { atomWithStorageQuery, StorageContext, useStorage, useStorageValue } from "./react";
+export {
+  atomWithStorageQuery,
+  StorageContext,
+  useStorage,
+  useStorageCollectionAllValue,
+  useStorageValue,
+} from "./react";
 export {
   // Cell
   type CellDescriptor,

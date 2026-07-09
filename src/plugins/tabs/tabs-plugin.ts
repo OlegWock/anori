@@ -1,7 +1,9 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
 import { definePlugin } from "@anori/utils/plugins/define";
-import { widgetDescriptor } from "./widgets/descriptors";
+import { registerTabsBackground } from "./background";
+import { handlers } from "./messaging";
+import { stashWidgetDescriptor, widgetDescriptor } from "./widgets/descriptors";
 
 export const tabsPlugin = definePlugin({
   // Previously this plugin contained only Recently closed tabs widget, but later was extended to tabs management
@@ -12,5 +14,8 @@ export const tabsPlugin = definePlugin({
     return translate("tabs-plugin.name");
   },
   icon: builtinIcons.tabsFill,
-  widgets: [widgetDescriptor],
-}).build();
+  widgets: [stashWidgetDescriptor, widgetDescriptor],
+})
+  .withMessaging(handlers)
+  .withOnStart(() => registerTabsBackground())
+  .build();

@@ -1,26 +1,6 @@
 import { defineWidget } from "@anori/utils/plugins/define";
 import { ExpandableTestWidget } from "./ExpandableTestWidget";
 import { ResizableTestWidget } from "./ResizableTestWidget";
-import { UserCellTestWidget } from "./UserCellTestWidget";
-
-export const userCellWidgetDescriptor = defineWidget({
-  id: "user-cell-widget",
-  get name() {
-    return "User cell widget";
-  },
-  configurationScreen: null,
-  mainScreen: UserCellTestWidget,
-  mock: () => {
-    return <UserCellTestWidget instanceId="mock" config={{}} />;
-  },
-  appearance: {
-    size: {
-      width: 2,
-      height: 1,
-    },
-    resizable: false,
-  },
-});
 
 export const expandableWidgetDescriptor = defineWidget({
   id: "widget",
