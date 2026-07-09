@@ -1,5 +1,5 @@
+import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
-import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
@@ -13,12 +13,6 @@ import { type RssPost, useRssFeeds } from "../utils";
 import { Post } from "./Post";
 
 const feedWidget = css({ display: "flex", flexDirection: "column", flexGrow: 1, overflow: "hidden" });
-const titleWrapper = css({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: "1",
-});
 const posts = cva({
   base: { display: "flex", flexDirection: "column", gap: "3" },
   variants: { compact: { true: { gap: "1" } } },
@@ -46,18 +40,20 @@ export const RssFeed = memo(function RssFeed({ config }: WidgetRenderProps<RssFe
 
   return (
     <div className={feedWidget}>
-      <div className={titleWrapper}>
-        <Heading>{config.title}</Heading>
-        <IconButton
-          variant="frosted"
-          size="compact"
-          icon={builtinIcons.refresh}
-          label={t("refresh")}
-          tooltip={lastRefresh}
-          loading={isRefreshing}
-          onClick={() => refresh()}
-        />
-      </div>
+      <WidgetHeader
+        title={config.title}
+        action={
+          <IconButton
+            variant="ghost"
+            size="medium"
+            icon={builtinIcons.refresh}
+            label={t("refresh")}
+            tooltip={lastRefresh}
+            loading={isRefreshing}
+            onClick={() => refresh()}
+          />
+        }
+      />
       {trimmedFeed.length === 0 ? (
         <EmptyState muted className={emptyFeed} title={t("rss-plugin.noPosts")} />
       ) : (
@@ -121,10 +117,10 @@ export const RssFeedMock = () => {
 
   return (
     <div className={feedWidget}>
-      <div className={titleWrapper}>
-        <Heading>{t("rss-plugin.name")}</Heading>
-        <IconButton variant="frosted" icon={builtinIcons.refresh} label={t("refresh")} />
-      </div>
+      <WidgetHeader
+        title={t("rss-plugin.name")}
+        action={<IconButton size="medium" variant="frosted" icon={builtinIcons.refresh} label={t("refresh")} />}
+      />
       <ScrollArea type="hover">
         <div className={posts({})}>
           {feed.map((post, i) => {

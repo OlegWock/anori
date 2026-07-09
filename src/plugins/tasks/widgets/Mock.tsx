@@ -1,6 +1,6 @@
 import { listItemAnimation } from "@anori/components/animations";
+import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
-import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
@@ -8,7 +8,7 @@ import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollAre
 import type { Task } from "@anori/utils/storage";
 import { AnimatePresence, m } from "motion/react";
 import { useTranslation } from "react-i18next";
-import { taskInput, taskRow, tasksHeader, tasksList, tasksWidget } from "../styles";
+import { taskInput, taskRow, tasksList, tasksWidget } from "../styles";
 
 export const TasksWidgetMock = () => {
   const { t } = useTranslation();
@@ -21,10 +21,10 @@ export const TasksWidgetMock = () => {
 
   return (
     <div className={tasksWidget}>
-      <div className={tasksHeader}>
-        <Heading>{t("tasks-plugin.todo")}</Heading>
-        <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} />
-      </div>
+      <WidgetHeader
+        title={t("tasks-plugin.todo")}
+        action={<IconButton size="medium" variant="ghost" icon={builtinIcons.add} label={t("add")} />}
+      />
       <ScrollArea fill>
         <m.div className={tasksList}>
           <AnimatePresence initial={false}>

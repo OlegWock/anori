@@ -1,5 +1,5 @@
 import { RelativeTime } from "@anori/components/RelativeTime";
-import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { ListItem } from "@anori/design-system/components/ListItem/ListItem";
@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
 
-const widget = css({ display: "flex", flexDirection: "column", gap: "1-5", overflow: "hidden" });
+const widget = css({ display: "flex", flexDirection: "column", overflow: "hidden" });
 const sessionsList = css({ flexGrow: 1, minHeight: 0 });
 const favIconImg = css({ width: "18px", borderRadius: "md" });
 const sessionTitle = css({
@@ -90,7 +90,7 @@ export const RecentlyClosedWidget = memo(function RecentlyClosedWidget({ instanc
 
   return (
     <div className={widget}>
-      <Heading marginBottom={1}>{t("recently-closed-plugin.widgetTitle")}</Heading>
+      <WidgetHeader title={t("recently-closed-plugin.widgetTitle")} />
       <ScrollArea className={sessionsList} type="hover">
         {sessions
           .filter((s) => {

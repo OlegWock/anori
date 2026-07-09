@@ -1,4 +1,4 @@
-import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip, TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
@@ -9,6 +9,7 @@ import { capitalize } from "@anori/utils/strings";
 import moment from "moment";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "styled-system/css";
 import { getForecast, type WeatherForecast } from "../api";
 import { useForecastWeatherStore } from "../storage";
 import { dayRow, location, temperature, weatherWidget, wind } from "../styles";
@@ -162,13 +163,16 @@ export const ForecastWeatherWidget = memo(function ForecastWeatherWidget({
       placement="top"
     >
       <div className={weatherWidget({ type: "forecast" })}>
-        <div>
-          <Heading marginBottom="0-5">{t("weather-plugin.forecast")}</Heading>
-          <div className={location({ small: true })}>
-            <Icon icon={builtinIcons.location} height={rem(1.2)} />
-            <div>{config.location.name}</div>
-          </div>
-        </div>
+        <WidgetHeader
+          className={css({ marginBottom: "0!" })}
+          title={t("weather-plugin.forecast")}
+          subtitle={
+            <div className={location({ small: true })}>
+              <Icon icon={builtinIcons.location} height={rem(1.2)} />
+              <div>{config.location.name}</div>
+            </div>
+          }
+        />
         {!!forecast && (
           <TooltipProvider delay={500} closeDelay={500}>
             {forecast.map((f) => {

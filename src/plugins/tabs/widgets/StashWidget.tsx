@@ -1,5 +1,5 @@
+import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
-import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Popover } from "@anori/design-system/components/Popover/Popover";
@@ -19,8 +19,7 @@ import type { StashWidgetConfig } from "../types";
 
 const HOST_MIN_WIDTH = 3;
 
-const widget = css({ display: "flex", flexDirection: "column", gap: "1-5", overflow: "hidden", height: "100%" });
-const header = css({ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "2" });
+const widget = css({ display: "flex", flexDirection: "column", overflow: "hidden", height: "100%" });
 const list = css({ flexGrow: 1, minHeight: 0 });
 const emptyFill = css({ flexGrow: 1 });
 
@@ -50,14 +49,14 @@ export const StashWidget = memo(function StashWidget({ config }: WidgetRenderPro
 
   return (
     <div className={widget}>
-      <div className={header}>
-        <Heading level={2} size={3}>
-          {t("tabs-plugin.stash.title")}
-        </Heading>
-        <Popover component={AddToStashPopover} additionalData={{ stashId }}>
-          <IconButton icon={builtinIcons.add} label={t("tabs-plugin.stash.stashTab")} variant="ghost" />
-        </Popover>
-      </div>
+      <WidgetHeader
+        title={t("tabs-plugin.stash.title")}
+        action={
+          <Popover component={AddToStashPopover} additionalData={{ stashId }}>
+            <IconButton size="medium" icon={builtinIcons.add} label={t("tabs-plugin.stash.stashTab")} variant="ghost" />
+          </Popover>
+        }
+      />
       {entries.length === 0 ? (
         <EmptyState
           className={emptyFill}
