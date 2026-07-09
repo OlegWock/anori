@@ -3,6 +3,7 @@
         "appName": "Anori: 生産性を高める新しいタブ",
         "appDescription": "カスタマイズ可能な新しいタブ：ウィジェットで自分だけのページを作ろう",
         "appActionTitle": "Anoriの新しいタブを開く",
+        "openAnori": "Anoriを開く",
         "icon": "アイコン",
         "title": "タイトル",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "ダウンロード",
             "noAccount": "アカウントをお持ちでない方は",
             "createAccount": "こちらから作成",
+            "userDataConflict": {
+                "description": "別のアカウントにアップロードされたデータのローカルコピーがあります。このアカウントにアップロードしますか、それとも破棄しますか?",
+                "upload": "このアカウントにアップロード",
+                "discard": "ローカルデータを破棄"
+            },
             "plusDescription": "Anori Plus は Anori の追加サービスで、複数のブラウザやデバイス間でリアルタイムに設定を同期できます。",
             "learnMore": "詳細を見る",
             "profiles": "プロファイル",
@@ -297,6 +303,39 @@
             "name": "システム状態",
             "ramLoad": "RAM使用率",
             "cpuLoad": "CPU使用率"
+        },
+        "tabs-plugin": {
+            "name": "タブ",
+            "tabGroup": "タブグループ",
+            "contextMenu": {
+                "stashTab": "このタブをスタッシュ",
+                "stashLink": "このリンクをスタッシュ",
+                "stashGroup": "このタブグループをスタッシュ"
+            },
+            "stash": {
+                "title": "タブスタッシュ",
+                "inbox": "受信トレイ",
+                "empty": "まだスタッシュされていません",
+                "emptyHint": "上の + ボタンでタブを追加するか、ブラウザのツールバーからAnoriポップアップを開いてください。",
+                "stashTab": "タブをスタッシュ",
+                "remove": "削除",
+                "rename": "名前を変更",
+                "openAll": "すべて開く",
+                "showAllTabs": "すべてのタブを表示",
+                "pasteUrl": "リンクを貼り付け",
+                "add": "追加",
+                "tabCount_other": "{{count}} 個のタブ"
+            },
+            "popup": {
+                "stashTab": "タブをスタッシュ",
+                "stashCurrentTab": "現在のタブをスタッシュ",
+                "stashGroup": "タブグループをスタッシュ",
+                "stashWindow": "このウィンドウをスタッシュ",
+                "window": "ウィンドウ",
+                "grantTabs": "タブスタッシュ機能には追加の権限が必要です",
+                "recentlyStashed": "最近スタッシュしたもの",
+                "nothingStashed": "まだスタッシュされていません"
+            }
         },
         "tasks-plugin": {
             "name": "タスク",

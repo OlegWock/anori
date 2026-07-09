@@ -3,6 +3,7 @@
         "appName": "Anori: nueva pestaña productiva",
         "appDescription": "Nueva pestaña personalizable: forma tu propia página a partir de widgets",
         "appActionTitle": "Abrir nueva pestaña de Anori",
+        "openAnori": "Abrir Anori",
         "icon": "Icono",
         "title": "Titulo",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Descargar",
             "noAccount": "¿No tienes una cuenta?",
             "createAccount": "Crear una aquí",
+            "userDataConflict": {
+                "description": "Tienes una copia local de datos que fue subida anteriormente a una cuenta diferente. ¿Deseas subirla a esta cuenta o descartarla?",
+                "upload": "Subir a esta cuenta",
+                "discard": "Descartar datos locales"
+            },
             "plusDescription": "Anori Plus es un servicio adicional para Anori que te permite sincronizar tu configuración entre varios navegadores y dispositivos en tiempo real.",
             "learnMore": "Más información",
             "profiles": "Perfiles",
@@ -297,6 +303,41 @@
             "name": "Estado del sistema",
             "ramLoad": "Carga de RAM",
             "cpuLoad": "Carga de CPU"
+        },
+        "tabs-plugin": {
+            "name": "Pestañas",
+            "tabGroup": "Grupo de pestañas",
+            "contextMenu": {
+                "stashTab": "Guardar esta pestaña",
+                "stashLink": "Guardar este enlace",
+                "stashGroup": "Guardar este grupo de pestañas"
+            },
+            "stash": {
+                "title": "Pestañas guardadas",
+                "inbox": "Bandeja de entrada",
+                "empty": "Nada guardado aún",
+                "emptyHint": "Añade una pestaña con el botón + de arriba, o abre el popup de Anori desde la barra de herramientas de tu navegador.",
+                "stashTab": "Guardar una pestaña",
+                "remove": "Eliminar",
+                "rename": "Renombrar",
+                "openAll": "Abrir todas",
+                "showAllTabs": "Mostrar todas las pestañas",
+                "pasteUrl": "Pega un enlace",
+                "add": "Añadir",
+                "tabCount_one": "{{count}} pestaña",
+                "tabCount_many": "{{count}} pestañas",
+                "tabCount_other": "{{count}} pestañas"
+            },
+            "popup": {
+                "stashTab": "Guardar una pestaña",
+                "stashCurrentTab": "Guardar pestaña actual",
+                "stashGroup": "Guardar un grupo de pestañas",
+                "stashWindow": "Guardar esta ventana",
+                "window": "Ventana",
+                "grantTabs": "Se requieren permisos adicionales para la función de pestañas guardadas",
+                "recentlyStashed": "Guardado recientemente",
+                "nothingStashed": "Nada guardado aún"
+            }
         },
         "tasks-plugin": {
             "name": "Tareas",

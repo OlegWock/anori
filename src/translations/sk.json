@@ -3,6 +3,7 @@
         "appName": "Anori: produktívna nová karta",
         "appDescription": "Prispôsobiteľná nová karta: zostavte si vlastnú stránku z widgetov",
         "appActionTitle": "Otvoriť novú kartu Anori",
+        "openAnori": "Otvoriť Anori",
         "icon": "Ikona",
         "title": "Názov",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Stiahnuť",
             "noAccount": "Nemáte účet?",
             "createAccount": "Vytvorte si ho tu",
+            "userDataConflict": {
+                "description": "Máte lokálnu kópiu údajov, ktoré boli predtým nahrané do iného účtu. Chcete ich nahrať do tohto účtu alebo zahodiť?",
+                "upload": "Nahrať do tohto účtu",
+                "discard": "Zahodiť lokálne údaje"
+            },
             "plusDescription": "Anori Plus je doplnková služba pre Anori, ktorá vám umožňuje synchronizovať konfiguráciu medzi viacerými prehliadačmi a zariadeniami v reálnom čase.",
             "learnMore": "Zistiť viac",
             "profiles": "Profily",
@@ -297,6 +303,42 @@
             "name": "Stav systému",
             "ramLoad": "Zaťaženie RAM",
             "cpuLoad": "Záťaž CPU"
+        },
+        "tabs-plugin": {
+            "name": "Karty",
+            "tabGroup": "Skupina kariet",
+            "contextMenu": {
+                "stashTab": "Uložiť túto kartu",
+                "stashLink": "Uložiť tento odkaz",
+                "stashGroup": "Uložiť túto skupinu kariet"
+            },
+            "stash": {
+                "title": "Odložené karty",
+                "inbox": "Doručené",
+                "empty": "Zatiaľ nič neuložené",
+                "emptyHint": "Pridajte kartu tlačidlom + vyššie alebo otvorte vyskakovacie okno Anori na paneli nástrojov prehliadača.",
+                "stashTab": "Uložiť kartu",
+                "remove": "Odstrániť",
+                "rename": "Premenovať",
+                "openAll": "Otvoriť všetky",
+                "showAllTabs": "Zobraziť všetky karty",
+                "pasteUrl": "Vložte odkaz",
+                "add": "Pridať",
+                "tabCount_one": "{{count}} karta",
+                "tabCount_few": "{{count}} karty",
+                "tabCount_many": "{{count}} kariet",
+                "tabCount_other": "{{count}} kariet"
+            },
+            "popup": {
+                "stashTab": "Uložiť kartu",
+                "stashCurrentTab": "Uložiť aktuálnu kartu",
+                "stashGroup": "Uložiť skupinu kariet",
+                "stashWindow": "Uložiť toto okno",
+                "window": "Okno",
+                "grantTabs": "Pre funkciu odkladania kariet sú potrebné ďalšie oprávnenia",
+                "recentlyStashed": "Nedávno uložené",
+                "nothingStashed": "Zatiaľ nič neuložené"
+            }
         },
         "tasks-plugin": {
             "name": "Úlohy",

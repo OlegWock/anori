@@ -3,6 +3,7 @@
         "appName": "Anori: tab baru produktivitas",
         "appDescription": "Tab baru yang dapat dikustomisasi: susun halaman Anda sendiri dari widget",
         "appActionTitle": "Buka tab baru Anori",
+        "openAnori": "Buka Anori",
         "icon": "Ikon",
         "title": "Judul",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Unduh",
             "noAccount": "Belum punya akun?",
             "createAccount": "Buat di sini",
+            "userDataConflict": {
+                "description": "Anda memiliki salinan lokal data yang sebelumnya diunggah ke akun lain. Apakah Anda ingin mengunggahnya ke akun ini atau membuangnya?",
+                "upload": "Unggah ke akun ini",
+                "discard": "Buang data lokal"
+            },
             "plusDescription": "Anori Plus adalah layanan tambahan untuk Anori yang memungkinkan Anda menyinkronkan konfigurasi antara beberapa browser dan perangkat secara real time.",
             "learnMore": "Pelajari lebih lanjut",
             "profiles": "Profil",
@@ -297,6 +303,39 @@
             "name": "Status sistem",
             "ramLoad": "Beban RAM",
             "cpuLoad": "Beban CPU"
+        },
+        "tabs-plugin": {
+            "name": "Tab",
+            "tabGroup": "Grup tab",
+            "contextMenu": {
+                "stashTab": "Simpan tab ini",
+                "stashLink": "Simpan tautan ini",
+                "stashGroup": "Simpan grup tab ini"
+            },
+            "stash": {
+                "title": "Simpanan tab",
+                "inbox": "Kotak masuk",
+                "empty": "Belum ada yang disimpan",
+                "emptyHint": "Tambahkan tab dengan tombol + di atas, atau buka popup Anori dari toolbar browser Anda.",
+                "stashTab": "Simpan tab",
+                "remove": "Hapus",
+                "rename": "Ganti nama",
+                "openAll": "Buka semua",
+                "showAllTabs": "Tampilkan semua tab",
+                "pasteUrl": "Tempel tautan",
+                "add": "Tambah",
+                "tabCount_other": "{{count}} tab"
+            },
+            "popup": {
+                "stashTab": "Simpan tab",
+                "stashCurrentTab": "Simpan tab saat ini",
+                "stashGroup": "Simpan grup tab",
+                "stashWindow": "Simpan jendela ini",
+                "window": "Jendela",
+                "grantTabs": "Izin tambahan diperlukan untuk fitur simpanan Tab",
+                "recentlyStashed": "Baru saja disimpan",
+                "nothingStashed": "Belum ada yang disimpan"
+            }
         },
         "tasks-plugin": {
             "name": "Tugas",

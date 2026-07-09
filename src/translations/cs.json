@@ -3,6 +3,7 @@
         "appName": "Anori: produktivní nová karta",
         "appDescription": "Přizpůsobitelná nová karta: sestavte si vlastní stránku z widgetů",
         "appActionTitle": "Otevřít novou kartu Anori",
+        "openAnori": "Otevřít Anori",
         "icon": "Ikona",
         "title": "Název",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Stáhnout",
             "noAccount": "Nemáte účet?",
             "createAccount": "Vytvořte si ho zde",
+            "userDataConflict": {
+                "description": "Máte lokální kopii dat, která byla dříve nahrána do jiného účtu. Chcete je nahrát do tohoto účtu, nebo je zahodit?",
+                "upload": "Nahrát do tohoto účtu",
+                "discard": "Zahodit lokální data"
+            },
             "plusDescription": "Anori Plus je doplňková služba pro Anori, která umožňuje synchronizovat vaši konfiguraci mezi více prohlížeči a zařízeními v reálném čase.",
             "learnMore": "Zjistit více",
             "profiles": "Profily",
@@ -297,6 +303,42 @@
             "name": "Stav systému",
             "ramLoad": "Využití RAM",
             "cpuLoad": "Vytížení CPU"
+        },
+        "tabs-plugin": {
+            "name": "Záložky",
+            "tabGroup": "Skupina záložek",
+            "contextMenu": {
+                "stashTab": "Uložit tuto záložku",
+                "stashLink": "Uložit tento odkaz",
+                "stashGroup": "Uložit tuto skupinu záložek"
+            },
+            "stash": {
+                "title": "Odložené záložky",
+                "inbox": "Doručené",
+                "empty": "Zatím nic neuloženo",
+                "emptyHint": "Přidejte záložku tlačítkem + výše nebo otevřete vyskakovací okno Anori na panelu nástrojů prohlížeče.",
+                "stashTab": "Uložit záložku",
+                "remove": "Odebrat",
+                "rename": "Přejmenovat",
+                "openAll": "Otevřít vše",
+                "showAllTabs": "Zobrazit všechny záložky",
+                "pasteUrl": "Vložte odkaz",
+                "add": "Přidat",
+                "tabCount_one": "{{count}} záložka",
+                "tabCount_few": "{{count}} záložky",
+                "tabCount_many": "{{count}} záložek",
+                "tabCount_other": "{{count}} záložek"
+            },
+            "popup": {
+                "stashTab": "Uložit záložku",
+                "stashCurrentTab": "Uložit aktuální záložku",
+                "stashGroup": "Uložit skupinu záložek",
+                "stashWindow": "Uložit toto okno",
+                "window": "Okno",
+                "grantTabs": "Pro funkci odložení záložek jsou vyžadována další oprávnění",
+                "recentlyStashed": "Nedávno uložené",
+                "nothingStashed": "Zatím nic neuloženo"
+            }
         },
         "tasks-plugin": {
             "name": "Úkoly",

@@ -3,6 +3,7 @@
         "appName": "Anori: produktywna nowa karta",
         "appDescription": "Konfigurowalna nowa karta: zbuduj własną stronę z widżetów",
         "appActionTitle": "Otwórz nową kartę Anori",
+        "openAnori": "Otwórz Anori",
         "icon": "Ikona",
         "title": "Tytuł",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Pobierz",
             "noAccount": "Nie masz konta?",
             "createAccount": "Utwórz je tutaj",
+            "userDataConflict": {
+                "description": "Masz lokalną kopię danych, która została wcześniej przesłana do innego konta. Czy chcesz przesłać ją do tego konta, czy ją odrzucić?",
+                "upload": "Prześlij do tego konta",
+                "discard": "Odrzuć lokalne dane"
+            },
             "plusDescription": "Anori Plus to dodatkowa usługa dla Anori, która umożliwia synchronizację konfiguracji między wieloma przeglądarkami i urządzeniami w czasie rzeczywistym.",
             "learnMore": "Dowiedz się więcej",
             "profiles": "Profile",
@@ -297,6 +303,42 @@
             "name": "Status systemu",
             "ramLoad": "Obciążenie RAM",
             "cpuLoad": "Obciążenie CPU"
+        },
+        "tabs-plugin": {
+            "name": "Karty",
+            "tabGroup": "Grupa kart",
+            "contextMenu": {
+                "stashTab": "Schowaj tę kartę",
+                "stashLink": "Schowaj ten link",
+                "stashGroup": "Schowaj tę grupę kart"
+            },
+            "stash": {
+                "title": "Schowek kart",
+                "inbox": "Skrzynka odbiorcza",
+                "empty": "Nic jeszcze nie schowano",
+                "emptyHint": "Dodaj kartę przyciskiem + powyżej lub otwórz wyskakujące okno Anori na pasku narzędzi przeglądarki.",
+                "stashTab": "Schowaj kartę",
+                "remove": "Usuń",
+                "rename": "Zmień nazwę",
+                "openAll": "Otwórz wszystkie",
+                "showAllTabs": "Pokaż wszystkie karty",
+                "pasteUrl": "Wklej link",
+                "add": "Dodaj",
+                "tabCount_one": "{{count}} karta",
+                "tabCount_few": "{{count}} karty",
+                "tabCount_many": "{{count}} kart",
+                "tabCount_other": "{{count}} kart"
+            },
+            "popup": {
+                "stashTab": "Schowaj kartę",
+                "stashCurrentTab": "Schowaj bieżącą kartę",
+                "stashGroup": "Schowaj grupę kart",
+                "stashWindow": "Schowaj to okno",
+                "window": "Okno",
+                "grantTabs": "Funkcja schowka kart wymaga dodatkowych uprawnień",
+                "recentlyStashed": "Ostatnio schowane",
+                "nothingStashed": "Nic jeszcze nie schowano"
+            }
         },
         "tasks-plugin": {
             "name": "Zadania",

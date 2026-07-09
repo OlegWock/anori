@@ -3,6 +3,7 @@
         "appName": "Anori: nouvel onglet de productivité",
         "appDescription": "Nouvel onglet personnalisable : composez votre propre page à partir de widgets",
         "appActionTitle": "Ouvrir un nouvel onglet Anori",
+        "openAnori": "Ouvrir Anori",
         "icon": "Icône",
         "title": "Titre",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Télécharger",
             "noAccount": "Vous n'avez pas de compte ?",
             "createAccount": "Créez-en un ici",
+            "userDataConflict": {
+                "description": "Vous avez une copie locale de données précédemment téléversées vers un autre compte. Souhaitez-vous les téléverser vers ce compte ou les supprimer ?",
+                "upload": "Téléverser vers ce compte",
+                "discard": "Supprimer les données locales"
+            },
             "plusDescription": "Anori Plus est un service additionnel pour Anori qui vous permet de synchroniser votre configuration entre plusieurs navigateurs et appareils en temps réel.",
             "learnMore": "En savoir plus",
             "profiles": "Profils",
@@ -297,6 +303,41 @@
             "name": "État du système",
             "ramLoad": "Chargement de la RAM",
             "cpuLoad": "Chargement du CPU"
+        },
+        "tabs-plugin": {
+            "name": "Onglets",
+            "tabGroup": "Groupe d'onglets",
+            "contextMenu": {
+                "stashTab": "Mettre cet onglet de côté",
+                "stashLink": "Mettre ce lien de côté",
+                "stashGroup": "Mettre ce groupe d'onglets de côté"
+            },
+            "stash": {
+                "title": "Onglets mis de côté",
+                "inbox": "Boîte de réception",
+                "empty": "Rien de mis de côté pour l'instant",
+                "emptyHint": "Ajoutez un onglet avec le bouton + ci-dessus, ou ouvrez la fenêtre contextuelle Anori depuis la barre d'outils de votre navigateur.",
+                "stashTab": "Mettre un onglet de côté",
+                "remove": "Supprimer",
+                "rename": "Renommer",
+                "openAll": "Tout ouvrir",
+                "showAllTabs": "Afficher tous les onglets",
+                "pasteUrl": "Coller un lien",
+                "add": "Ajouter",
+                "tabCount_one": "{{count}} onglet",
+                "tabCount_many": "{{count}} onglets",
+                "tabCount_other": "{{count}} onglets"
+            },
+            "popup": {
+                "stashTab": "Mettre un onglet de côté",
+                "stashCurrentTab": "Mettre l'onglet actuel de côté",
+                "stashGroup": "Mettre un groupe d'onglets de côté",
+                "stashWindow": "Mettre cette fenêtre de côté",
+                "window": "Fenêtre",
+                "grantTabs": "Des autorisations supplémentaires sont requises pour la fonctionnalité de mise de côté des onglets",
+                "recentlyStashed": "Récemment mis de côté",
+                "nothingStashed": "Rien de mis de côté pour l'instant"
+            }
         },
         "tasks-plugin": {
             "name": "Tâches",

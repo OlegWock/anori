@@ -3,6 +3,7 @@
         "appName": "Anori: produktiver neuer Tab",
         "appDescription": "Anpassbarer neuer Tab: stelle deine eigene Seite mit Widgets zusammen",
         "appActionTitle": "Neuen Anori-Tab öffnen",
+        "openAnori": "Anori öffnen",
         "icon": "Symbol",
         "title": "Titel",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Herunterladen",
             "noAccount": "Kein Konto?",
             "createAccount": "Hier erstellen",
+            "userDataConflict": {
+                "description": "Sie haben eine lokale Kopie von Daten, die zuvor in ein anderes Konto hochgeladen wurden. Möchten Sie diese in dieses Konto hochladen oder verwerfen?",
+                "upload": "In dieses Konto hochladen",
+                "discard": "Lokale Daten verwerfen"
+            },
             "plusDescription": "Anori Plus ist ein zusätzlicher Dienst für Anori, mit dem du deine Konfiguration in Echtzeit zwischen mehreren Browsern und Geräten synchronisieren kannst.",
             "learnMore": "Mehr erfahren",
             "profiles": "Profile",
@@ -297,6 +303,40 @@
             "name": "Systemstatus",
             "ramLoad": "RAM Auslastung",
             "cpuLoad": "CPU Auslastung"
+        },
+        "tabs-plugin": {
+            "name": "Tabs",
+            "tabGroup": "Tab-Gruppe",
+            "contextMenu": {
+                "stashTab": "Diesen Tab speichern",
+                "stashLink": "Diesen Link speichern",
+                "stashGroup": "Diese Tab-Gruppe speichern"
+            },
+            "stash": {
+                "title": "Tab-Ablage",
+                "inbox": "Posteingang",
+                "empty": "Noch nichts gespeichert",
+                "emptyHint": "Fügen Sie einen Tab mit der Schaltfläche + oben hinzu oder öffnen Sie das Anori-Popup in der Symbolleiste Ihres Browsers.",
+                "stashTab": "Tab speichern",
+                "remove": "Entfernen",
+                "rename": "Umbenennen",
+                "openAll": "Alle öffnen",
+                "showAllTabs": "Alle Tabs anzeigen",
+                "pasteUrl": "Link einfügen",
+                "add": "Hinzufügen",
+                "tabCount_one": "{{count}} Tab",
+                "tabCount_other": "{{count}} Tabs"
+            },
+            "popup": {
+                "stashTab": "Tab speichern",
+                "stashCurrentTab": "Aktuellen Tab speichern",
+                "stashGroup": "Tab-Gruppe speichern",
+                "stashWindow": "Dieses Fenster speichern",
+                "window": "Fenster",
+                "grantTabs": "Für die Tab-Ablage-Funktion sind zusätzliche Berechtigungen erforderlich",
+                "recentlyStashed": "Zuletzt gespeichert",
+                "nothingStashed": "Noch nichts gespeichert"
+            }
         },
         "tasks-plugin": {
             "name": "ToDos",

@@ -3,6 +3,7 @@
         "appName": "Anori: Khởi động ngày làm việc năng suất",
         "appDescription": "Cá nhân hóa tab mới: Tự do thiết kế không gian làm việc với các tiện ích thông minh",
         "appActionTitle": "Mở Anori ở tab mới",
+        "openAnori": "Mở Anori",
         "icon": "Biểu tượng",
         "title": "Tiêu đề",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Tải xuống",
             "noAccount": "Chưa có tài khoản?",
             "createAccount": "Tạo tại đây",
+            "userDataConflict": {
+                "description": "Bạn có một bản sao dữ liệu cục bộ đã được tải lên một tài khoản khác trước đây. Bạn có muốn tải nó lên tài khoản này hay xóa đi?",
+                "upload": "Tải lên tài khoản này",
+                "discard": "Xóa dữ liệu cục bộ"
+            },
             "plusDescription": "Anori Plus giúp bạn đồng bộ cấu hình giữa các trình duyệt và thiết bị theo thời gian thực.",
             "learnMore": "Tìm hiểu thêm",
             "profiles": "Hồ sơ",
@@ -297,6 +303,39 @@
             "name": "Trạng thái hệ thống",
             "ramLoad": "Tải RAM",
             "cpuLoad": "Tải CPU"
+        },
+        "tabs-plugin": {
+            "name": "Thẻ",
+            "tabGroup": "Nhóm thẻ",
+            "contextMenu": {
+                "stashTab": "Lưu thẻ này",
+                "stashLink": "Lưu liên kết này",
+                "stashGroup": "Lưu nhóm thẻ này"
+            },
+            "stash": {
+                "title": "Kho thẻ",
+                "inbox": "Hộp thư đến",
+                "empty": "Chưa có gì được lưu",
+                "emptyHint": "Thêm thẻ bằng nút + ở trên, hoặc mở cửa sổ bật lên Anori từ thanh công cụ trình duyệt của bạn.",
+                "stashTab": "Lưu một thẻ",
+                "remove": "Xóa",
+                "rename": "Đổi tên",
+                "openAll": "Mở tất cả",
+                "showAllTabs": "Hiển thị tất cả thẻ",
+                "pasteUrl": "Dán một liên kết",
+                "add": "Thêm",
+                "tabCount_other": "{{count}} thẻ"
+            },
+            "popup": {
+                "stashTab": "Lưu một thẻ",
+                "stashCurrentTab": "Lưu thẻ hiện tại",
+                "stashGroup": "Lưu một nhóm thẻ",
+                "stashWindow": "Lưu cửa sổ này",
+                "window": "Cửa sổ",
+                "grantTabs": "Cần có thêm quyền cho tính năng lưu thẻ",
+                "recentlyStashed": "Đã lưu gần đây",
+                "nothingStashed": "Chưa có gì được lưu"
+            }
         },
         "tasks-plugin": {
             "name": "Nhiệm vụ",

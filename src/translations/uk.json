@@ -325,6 +325,8 @@
                 "pasteUrl": "Вставте посилання",
                 "add": "Додати",
                 "tabCount_one": "{{count}} вкладка",
+                "tabCount_few": "{{count}} вкладки",
+                "tabCount_many": "{{count}} вкладок",
                 "tabCount_other": "{{count}} вкладок"
             },
             "popup": {
@@ -333,7 +335,7 @@
                 "stashGroup": "Зберегти групу вкладок",
                 "stashWindow": "Зберегти це вікно",
                 "window": "Вікно",
-                "grantTabs": "Надайте доступ до вкладок, щоб зберегти їх",
+                "grantTabs": "Для функції збереження вкладок потрібні додаткові дозволи",
                 "recentlyStashed": "Нещодавно збережені",
                 "nothingStashed": "Нічого не збережено"
             }

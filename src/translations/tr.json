@@ -3,6 +3,7 @@
         "appName": "Anori: Verimlilik Yeni Sekme",
         "appDescription": "Özelleştirilebilir yeni sekme: widget'lardan kendi sayfanızı oluşturun",
         "appActionTitle": "Anori yeni sekmesini aç",
+        "openAnori": "Anori'yi Aç",
         "icon": "İkon",
         "title": "Başlık",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "İndir",
             "noAccount": "Hesabınız yok mu?",
             "createAccount": "Buradan oluşturun",
+            "userDataConflict": {
+                "description": "Daha önce farklı bir hesaba yüklenmiş yerel bir veri kopyanız var. Bu hesaba yüklemek mi yoksa silmek mi istersiniz?",
+                "upload": "Bu hesaba yükle",
+                "discard": "Yerel verileri sil"
+            },
             "plusDescription": "Anori Plus, yapılandırmanızı birden fazla tarayıcı ve cihaz arasında gerçek zamanlı olarak senkronize etmenizi sağlayan Anori için ek bir hizmettir.",
             "learnMore": "Daha fazla bilgi",
             "profiles": "Profiller",
@@ -297,6 +303,40 @@
             "name": "Sistem durumu",
             "ramLoad": "RAM yükü",
             "cpuLoad": "CPU yükü"
+        },
+        "tabs-plugin": {
+            "name": "Sekmeler",
+            "tabGroup": "Sekme grubu",
+            "contextMenu": {
+                "stashTab": "Bu sekmeyi sakla",
+                "stashLink": "Bu bağlantıyı sakla",
+                "stashGroup": "Bu sekme grubunu sakla"
+            },
+            "stash": {
+                "title": "Sekme saklama",
+                "inbox": "Gelen kutusu",
+                "empty": "Henüz hiçbir şey saklanmadı",
+                "emptyHint": "Yukarıdaki + düğmesiyle sekme ekleyin veya tarayıcınızın araç çubuğundan Anori açılır penceresini açın.",
+                "stashTab": "Sekme sakla",
+                "remove": "Kaldır",
+                "rename": "Yeniden adlandır",
+                "openAll": "Tümünü aç",
+                "showAllTabs": "Tüm sekmeleri göster",
+                "pasteUrl": "Bir bağlantı yapıştırın",
+                "add": "Ekle",
+                "tabCount_one": "{{count}} sekme",
+                "tabCount_other": "{{count}} sekme"
+            },
+            "popup": {
+                "stashTab": "Sekme sakla",
+                "stashCurrentTab": "Mevcut sekmeyi sakla",
+                "stashGroup": "Sekme grubunu sakla",
+                "stashWindow": "Bu pencereyi sakla",
+                "window": "Pencere",
+                "grantTabs": "Sekmeler saklama özelliği için ek izinler gerekiyor",
+                "recentlyStashed": "Son saklananlar",
+                "nothingStashed": "Henüz hiçbir şey saklanmadı"
+            }
         },
         "tasks-plugin": {
             "name": "Görevler",

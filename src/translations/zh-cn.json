@@ -3,6 +3,7 @@
         "appName": "Anori: 高效的新标签页",
         "appDescription": "可定制的新标签页：从小部件中组合自己的页面。",
         "appActionTitle": "打开 Anori 新标签页。",
+        "openAnori": "打开 Anori",
         "icon": "图标",
         "title": "标题",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "下载",
             "noAccount": "没有账户？",
             "createAccount": "在此创建",
+            "userDataConflict": {
+                "description": "您有一份本地数据副本，该数据之前已上传至其他账户。您想将其上传到此账户，还是将其丢弃？",
+                "upload": "上传到此账户",
+                "discard": "丢弃本地数据"
+            },
             "plusDescription": "Anori Plus 是 Anori 的附加服务，可让您在多个浏览器和设备之间实时同步配置。",
             "learnMore": "了解更多",
             "profiles": "配置文件",
@@ -297,6 +303,39 @@
             "name": "系统状态",
             "ramLoad": "RAM 占用",
             "cpuLoad": "CPU 负载"
+        },
+        "tabs-plugin": {
+            "name": "标签页",
+            "tabGroup": "标签页组",
+            "contextMenu": {
+                "stashTab": "暂存此标签页",
+                "stashLink": "暂存此链接",
+                "stashGroup": "暂存此标签页组"
+            },
+            "stash": {
+                "title": "标签页暂存",
+                "inbox": "收件箱",
+                "empty": "暂无暂存内容",
+                "emptyHint": "使用上方的 + 按钮添加标签页，或从浏览器工具栏打开 Anori 弹出窗口。",
+                "stashTab": "暂存标签页",
+                "remove": "移除",
+                "rename": "重命名",
+                "openAll": "全部打开",
+                "showAllTabs": "显示所有标签页",
+                "pasteUrl": "粘贴链接",
+                "add": "添加",
+                "tabCount_other": "{{count}} 个标签页"
+            },
+            "popup": {
+                "stashTab": "暂存标签页",
+                "stashCurrentTab": "暂存当前标签页",
+                "stashGroup": "暂存标签页组",
+                "stashWindow": "暂存此窗口",
+                "window": "窗口",
+                "grantTabs": "标签页暂存功能需要额外权限",
+                "recentlyStashed": "最近暂存",
+                "nothingStashed": "暂无暂存内容"
+            }
         },
         "tasks-plugin": {
             "name": "待办事项",

@@ -3,6 +3,7 @@
         "appName": "Anori: productivity new tab",
         "appDescription": "Customizable new tab: compose your own page from widgets",
         "appActionTitle": "Buksan ang Anori new tab",
+        "openAnori": "Buksan ang Anori",
         "icon": "Icon",
         "title": "Pamagat",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "I-download",
             "noAccount": "Wala kang account?",
             "createAccount": "Gumawa ng isa dito",
+            "userDataConflict": {
+                "description": "Mayroon kang lokal na kopya ng data na dati nang na-upload sa ibang account. Nais mo bang i-upload ito sa account na ito o itapon?",
+                "upload": "I-upload sa account na ito",
+                "discard": "Itapon ang lokal na data"
+            },
             "plusDescription": "Ang Anori Plus ay isang karagdagang serbisyo para sa Anori na nagbibigay-daan sa iyo na i-sync ang iyong configuration sa pagitan ng maraming browser at device nang real time.",
             "learnMore": "Matuto pa",
             "profiles": "Mga Profile",
@@ -297,6 +303,40 @@
             "name": "Status ng sistema",
             "ramLoad": "Pagkarga ng RAM",
             "cpuLoad": "CPU load"
+        },
+        "tabs-plugin": {
+            "name": "Mga Tab",
+            "tabGroup": "Grupo ng tab",
+            "contextMenu": {
+                "stashTab": "I-stash ang tab na ito",
+                "stashLink": "I-stash ang link na ito",
+                "stashGroup": "I-stash ang grupo ng tab na ito"
+            },
+            "stash": {
+                "title": "Tab stash",
+                "inbox": "Inbox",
+                "empty": "Wala pang naka-stash",
+                "emptyHint": "Magdagdag ng tab gamit ang button na + sa itaas, o buksan ang Anori popup mula sa toolbar ng iyong browser.",
+                "stashTab": "Mag-stash ng tab",
+                "remove": "Alisin",
+                "rename": "Palitan ng pangalan",
+                "openAll": "Buksan lahat",
+                "showAllTabs": "Ipakita ang lahat ng tab",
+                "pasteUrl": "Mag-paste ng link",
+                "add": "Idagdag",
+                "tabCount_one": "{{count}} tab",
+                "tabCount_other": "{{count}} mga tab"
+            },
+            "popup": {
+                "stashTab": "Mag-stash ng tab",
+                "stashCurrentTab": "I-stash ang kasalukuyang tab",
+                "stashGroup": "Mag-stash ng grupo ng tab",
+                "stashWindow": "I-stash ang window na ito",
+                "window": "Window",
+                "grantTabs": "Kailangan ng karagdagang mga pahintulot para sa tampok na Tab stash",
+                "recentlyStashed": "Kamakailan lang na na-stash",
+                "nothingStashed": "Wala pang naka-stash"
+            }
         },
         "tasks-plugin": {
             "name": "Mga Gawain",

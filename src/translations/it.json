@@ -3,6 +3,7 @@
         "appName": "Anori: la tua scheda per la produttività",
         "appDescription": "Nuova scheda personalizzabile: componi la tua pagina con i widget",
         "appActionTitle": "Apri scheda Anori",
+        "openAnori": "Apri Anori",
         "icon": "Icona",
         "title": "Titolo",
         "url": "URL",
@@ -67,6 +68,11 @@
             "downloadBackup": "Scarica",
             "noAccount": "Non hai un account?",
             "createAccount": "Creane uno qui",
+            "userDataConflict": {
+                "description": "Hai una copia locale di dati che in precedenza erano stati caricati su un account diverso. Vuoi caricarli su questo account o eliminarli?",
+                "upload": "Carica su questo account",
+                "discard": "Elimina i dati locali"
+            },
             "plusDescription": "Anori Plus è un servizio aggiuntivo per Anori che ti permette di sincronizzare la tua configurazione tra più browser e dispositivi in tempo reale.",
             "learnMore": "Scopri di più",
             "profiles": "Profili",
@@ -297,6 +303,41 @@
             "name": "System status",
             "ramLoad": "RAM load",
             "cpuLoad": "CPU load"
+        },
+        "tabs-plugin": {
+            "name": "Schede",
+            "tabGroup": "Gruppo di schede",
+            "contextMenu": {
+                "stashTab": "Archivia questa scheda",
+                "stashLink": "Archivia questo link",
+                "stashGroup": "Archivia questo gruppo di schede"
+            },
+            "stash": {
+                "title": "Archivio schede",
+                "inbox": "In arrivo",
+                "empty": "Nessun elemento archiviato",
+                "emptyHint": "Aggiungi una scheda con il pulsante + in alto, oppure apri il popup di Anori dalla barra degli strumenti del browser.",
+                "stashTab": "Archivia una scheda",
+                "remove": "Rimuovi",
+                "rename": "Rinomina",
+                "openAll": "Apri tutto",
+                "showAllTabs": "Mostra tutte le schede",
+                "pasteUrl": "Incolla un link",
+                "add": "Aggiungi",
+                "tabCount_one": "{{count}} scheda",
+                "tabCount_many": "{{count}} schede",
+                "tabCount_other": "{{count}} schede"
+            },
+            "popup": {
+                "stashTab": "Archivia una scheda",
+                "stashCurrentTab": "Archivia la scheda corrente",
+                "stashGroup": "Archivia un gruppo di schede",
+                "stashWindow": "Archivia questa finestra",
+                "window": "Finestra",
+                "grantTabs": "Sono necessarie autorizzazioni aggiuntive per la funzione di archiviazione schede",
+                "recentlyStashed": "Archiviati di recente",
+                "nothingStashed": "Nessun elemento archiviato"
+            }
         },
         "tasks-plugin": {
             "name": "Attività",
