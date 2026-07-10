@@ -50,6 +50,7 @@ export type RequirePermissionsProps = {
   children?: ReactNode;
   variant?: RequirePermissionsVariant;
   onGrant?: () => void;
+  onRequestStart?: () => void;
   className?: string;
 };
 
@@ -59,18 +60,21 @@ export const RequirePermissions = ({
   children,
   variant = "full",
   onGrant,
+  onRequestStart,
   className,
   enabled = true,
   additionalInfo,
 }: RequirePermissionsProps) => {
   const grantPermissions = async () => {
-    const granted = await browser.permissions.request({
+    const request = browser.permissions.request({
       // @ts-expect-error Incompatible types between webextension-polyfill and what is actually available in Chrome
       permissions: missingPermissions,
       origins: missingHostPermissions.map((host) => {
         return `*://${normalizeHost(host)}/*`;
       }),
     });
+    onRequestStart?.();
+    const granted = await request;
     if (granted) updateAvailablePermissions();
     console.log("Permissions granted", granted);
     if (onGrant) onGrant();

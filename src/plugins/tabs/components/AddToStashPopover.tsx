@@ -66,7 +66,7 @@ export const AddToStashPopover = ({ close, data }: PopoverRenderProps<{ stashId:
           {t("tabs-plugin.stash.add")}
         </Button>
       </form>
-      <RequirePermissions permissions={["tabs"]} variant="compact">
+      <RequirePermissions permissions={["tabs"]}>
         <OpenTabsPicker stashId={data.stashId} onDone={close} />
       </RequirePermissions>
     </div>

@@ -138,7 +138,14 @@ export const StashActions = () => {
   return (
     <Card gap="1" padding="2">
       <SectionHeading>{t("tabs-plugin.popup.stashTab")}</SectionHeading>
-      <RequirePermissions permissions={["tabs"]} variant="list-item" additionalInfo={t("tabs-plugin.popup.grantTabs")}>
+      <RequirePermissions
+        permissions={["tabs"]}
+        variant="list-item"
+        additionalInfo={t("tabs-plugin.popup.grantTabs")}
+        onRequestStart={() => {
+          if (X_BROWSER === "firefox") window.close();
+        }}
+      >
         <TabActions />
       </RequirePermissions>
     </Card>

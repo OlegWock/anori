@@ -55,7 +55,7 @@ const contentPadding = css({ padding: "6" });
 
 const headerCss = css({
   display: "flex",
-  gap: "2",
+  gap: "8",
   alignItems: "center",
   marginBottom: "6",
 });
