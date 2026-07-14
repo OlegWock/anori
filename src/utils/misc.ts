@@ -21,6 +21,15 @@ export const parseHost = (url: string) => {
   }
 };
 
+// A modified click on a link (Cmd/Ctrl/Shift/Alt) should keep the browser's native behaviour
+// (open in a new tab/window), so callers skip their custom handler for these.
+export const isModifiedClick = (e: {
+  metaKey: boolean;
+  ctrlKey: boolean;
+  shiftKey: boolean;
+  altKey: boolean;
+}): boolean => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;
+
 export const normalizeUrl = (url: string) => {
   if (!url.includes("://") && !url.startsWith("#")) {
     return `https://${url}`;

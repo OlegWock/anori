@@ -5,6 +5,7 @@ import browser from "webextension-polyfill";
 import { dateLabel, getGroupLinks, isCapturableUrl, supportsTabGroups } from "./capture";
 import { DEFAULT_STASH_ID } from "./consts";
 import { addGroup, addLinks, ensureDefaultStash } from "./stash";
+import { startTabSync } from "./tab-sync";
 
 const STASH_PAGE_MENU_ID = "anori-stash-page";
 const STASH_LINK_MENU_ID = "anori-stash-link";
@@ -96,4 +97,6 @@ export function registerTabsBackground(): void {
     });
     watchLocaleChanges();
   }
+
+  startTabSync();
 }

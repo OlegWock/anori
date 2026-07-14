@@ -6,6 +6,7 @@ import { type StashWidgetConfig, stashWidgetConfigSchema } from "../types";
 import { RecentlyClosedWidget } from "./RecentlyClosedWidget";
 import { StashWidget } from "./StashWidget";
 import { StashWidgetMock } from "./StashWidgetMock";
+import { SyncedTabsWidget, SyncedTabsWidgetMock } from "./SyncedTabsWidget";
 
 export const stashWidgetDescriptor = defineWidget<"stash-widget", StashWidgetConfig>({
   id: "stash-widget",
@@ -51,4 +52,24 @@ export const widgetDescriptor = defineWidget<"recently-closed-widget", EmptyObje
     </RequirePermissions>
   ),
   mock: () => <RecentlyClosedWidget config={{}} instanceId="mock" />,
+});
+
+export const syncedTabsWidgetDescriptor = defineWidget<"synced-tabs-widget", EmptyObject>({
+  id: "synced-tabs-widget",
+  get name() {
+    return translate("tabs-plugin.syncedTabs.title");
+  },
+  configurationScreen: null,
+  mainScreen: SyncedTabsWidget,
+  mock: SyncedTabsWidgetMock,
+  appearance: {
+    resizable: {
+      min: { width: 2, height: 2 },
+      max: { width: 5, height: 6 },
+    },
+    size: {
+      width: 2,
+      height: 2,
+    },
+  },
 });

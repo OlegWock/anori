@@ -40,7 +40,7 @@
         "connected": "Badge next to a profile name indicating it is currently connected and syncing.",
         "disconnect": "Button to disconnect the current browser from the active cloud profile.",
         "cancel": "Button to dismiss cloud modals (profile creation, rename, connect confirmation).",
-        "account": "Cloud account modal title and the sidebar button that opens it.",
+        "account": "Name of the 'Anori Plus' cloud-sync feature — used as the modal title (when connected), the sidebar button that opens it, and the Anori Plus settings section title.",
         "login": "Submit button on the cloud login form.",
         "logout": "Button to log out of the cloud account in the connected-account view.",
         "email": "Email input field on the cloud login form.",
@@ -70,10 +70,24 @@
         "connectConfirmation": {
             "message": "Confirmation prompt warning that connecting will overwrite the local configuration, including the profile's name."
         },
+        "settings": {
+            "title": "Heading of the settings section inside the Anori Plus account view.",
+            "shareOpenTabs": "Checkbox label toggling whether this device shares its open tabs with the user's other devices signed into the same Anori account.",
+            "shareOpenTabsHint": "Tooltip explaining the share-open-tabs toggle: enabling it makes this device's open tabs visible on other signed-in devices and vice versa, so tabs can be reopened from any of them."
+        },
+        "devices": {
+            "title": "Heading of the devices section in the Anori Plus account view, listing the devices signed into the account.",
+            "thisDevice": "Badge marking which listed device is the one the user is currently on.",
+            "rename": "Accessibility label / tooltip for the button that renames a device.",
+            "namePlaceholder": "Placeholder for the input where the user types a new device name.",
+            "lastActive": "Suffix showing when a device was last active, combined with a relative time (e.g. 'active 2 hours ago').",
+            "empty": "Empty-state text shown when the account has no signed-in devices registered yet."
+        },
         "error": {
             "invalidCredentials": "Login error shown when the email or password is wrong.",
             "unknown": "Generic fallback error message for failed cloud requests.",
             "failedToLoadProfiles": "Error shown when the profile list fails to load.",
+            "failedToLoadDevices": "Error shown when the device list fails to load.",
             "profileNameRequired": "Validation error when creating a profile without a name.",
             "failedToCreateProfile": "Error shown when profile creation fails."
         }
@@ -296,6 +310,16 @@
             "grantTabs": "List-item prompt shown in the toolbar popup when the tabs permission is missing; clicking it requests access so open tabs can be listed and stashed.",
             "recentlyStashed": "Section heading in the toolbar popup listing the most recently stashed items.",
             "nothingStashed": "Empty-state text in the popup's recently-stashed section."
+        },
+        "syncedTabs": {
+            "title": "Title of the widget that shows open tabs synced from the user's other signed-in devices.",
+            "loading": "Placeholder text while the other devices' tabs are being fetched.",
+            "unnamedGroup": "Fallback label for a tab group that has no name.",
+            "notConnectedTitle": "Empty-state title shown when the user hasn't connected an Anori Plus account.",
+            "notConnectedDescription": "Empty-state description prompting the user to connect Anori to sync tabs across devices.",
+            "connect": "Button in the not-connected empty state that opens the Anori Plus account dialog.",
+            "emptyTitle": "Empty-state title shown when connected but no other device is sharing its tabs.",
+            "emptyDescription": "Empty-state description telling the user to sign in and enable tab sync on another computer."
         }
     },
     "tasks-plugin": {

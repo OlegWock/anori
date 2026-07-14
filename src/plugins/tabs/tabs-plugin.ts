@@ -3,7 +3,7 @@ import { translate } from "@anori/translations/utils";
 import { definePlugin } from "@anori/utils/plugins/define";
 import { registerTabsBackground } from "./background";
 import { handlers } from "./messaging";
-import { stashWidgetDescriptor, widgetDescriptor } from "./widgets/descriptors";
+import { stashWidgetDescriptor, syncedTabsWidgetDescriptor, widgetDescriptor } from "./widgets/descriptors";
 
 export const tabsPlugin = definePlugin({
   // Previously this plugin contained only Recently closed tabs widget, but later was extended to tabs management
@@ -14,7 +14,7 @@ export const tabsPlugin = definePlugin({
     return translate("tabs-plugin.name");
   },
   icon: builtinIcons.tabsFill,
-  widgets: [stashWidgetDescriptor, widgetDescriptor],
+  widgets: [stashWidgetDescriptor, syncedTabsWidgetDescriptor, widgetDescriptor],
 })
   .withMessaging(handlers)
   .withOnStart(() => registerTabsBackground())

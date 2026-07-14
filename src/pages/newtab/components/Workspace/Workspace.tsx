@@ -1,4 +1,5 @@
 import { useCloudAccount, useIsBehindCloudSchema } from "@anori/cloud-integration/hooks";
+import { OPEN_CLOUD_ACCOUNT_EVENT } from "@anori/cloud-integration/modal-events";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { WhatsNew } from "@anori/components/WhatsNew";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
@@ -11,7 +12,7 @@ import { useStorageValue } from "@anori/utils/storage-lib";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "motion/react";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useMeasure from "react-use-motion-measure";
 import { css, cva } from "styled-system/css";
@@ -130,6 +131,12 @@ export const Workspace = ({
   }, [setHasUnreadReleaseNotes]);
   const handleOpenCloudAccount = useCallback(() => setCloudModalVisible(true), []);
   const handleOpenSettings = useCallback(() => setSettingsVisible(true), []);
+
+  useEffect(() => {
+    const handleOpenRequest = () => setCloudModalVisible(true);
+    window.addEventListener(OPEN_CLOUD_ACCOUNT_EVENT, handleOpenRequest);
+    return () => window.removeEventListener(OPEN_CLOUD_ACCOUNT_EVENT, handleOpenRequest);
+  }, []);
 
   const parentFolderContext = useMemo(
     () => ({ activeFolder, isEditing, grid: gridDimensions, gridRef: mainRef }),

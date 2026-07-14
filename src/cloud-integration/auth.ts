@@ -2,7 +2,8 @@ import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { isAppErrorOfType } from "@anori-app/api-client";
 import { SessionExpiredError, UnauthorizedError } from "@anori-app/api-types";
 import { getApiClient, updateApiClientToken } from "./api-client";
-import { getDeviceName } from "./device-name";
+import { getOrCreateDeviceId } from "./device-id";
+import { getBrowser, getDeviceName, getOS } from "./device-name";
 import { disconnectFromProfile, getSyncManager, performSync, startSync } from "./sync-manager";
 
 export type PendingLogin = {
@@ -90,6 +91,9 @@ export const login = async (email: string, password: string): Promise<LoginResul
     password,
     clientType: "extension",
     deviceName: getDeviceName(),
+    deviceId: await getOrCreateDeviceId(),
+    browser: getBrowser(),
+    os: getOS(),
   });
 
   return authenticate(result, client);
@@ -102,6 +106,9 @@ export const register = async (email: string, password: string): Promise<LoginRe
     password,
     clientType: "extension",
     deviceName: getDeviceName(),
+    deviceId: await getOrCreateDeviceId(),
+    browser: getBrowser(),
+    os: getOS(),
   });
 
   return authenticate(result, client);

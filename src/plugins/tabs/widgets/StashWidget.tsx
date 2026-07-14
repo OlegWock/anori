@@ -24,9 +24,6 @@ const list = css({ flexGrow: 1, minHeight: 0 });
 const emptyFill = css({ flexGrow: 1 });
 
 const handlers: StashOpenHandlers = {
-  openLink: (url) => {
-    window.location.href = url;
-  },
   openAll: (links) => {
     for (const link of links) browser.tabs.create({ url: link.url, active: false });
   },

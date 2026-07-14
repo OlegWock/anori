@@ -1,8 +1,10 @@
+import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Badge } from "@anori/design-system/components/Badge/Badge";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
+import { Hint } from "@anori/design-system/components/Hint/Hint";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
@@ -23,6 +25,7 @@ import { cancelPendingLogin, completePendingLogin, login, logout, type PendingLo
 import { ACCOUNT_URL } from "../consts";
 import { useCloudAccount, useIsBehindCloudSchema } from "../hooks";
 import { connectToProfile, disconnectFromProfile } from "../sync-manager";
+import { DevicesSection } from "./DevicesSection";
 
 const modal = css({ width: "600px" });
 
@@ -52,6 +55,8 @@ const profilesHeader = css({
   gap: "3",
 });
 const profilesTitle = css({ fontSize: "lg", fontWeight: "medium" });
+const settingsSection = css({ display: "flex", flexDirection: "column", gap: "3" });
+const settingsTitle = css({ fontSize: "lg", fontWeight: "medium" });
 // Shared by the loading + empty notes.
 const mutedNote = css({ fontSize: "sm", opacity: 0.7, paddingBlock: "2" });
 const profilesList = css({ display: "flex", flexDirection: "column", gap: "2", overflowY: "auto" });
@@ -102,13 +107,18 @@ type Props = {
   onClose: () => void;
 };
 
+export const CloudAccountContent = () => {
+  const { account, isConnected } = useCloudAccount();
+  return isConnected && account ? <ConnectedView account={account} /> : <AuthView />;
+};
+
 export const CloudAccountModal = ({ onClose }: Props) => {
   const { t } = useTranslation();
-  const { account, isConnected } = useCloudAccount();
+  const { isConnected } = useCloudAccount();
 
   return (
     <Modal className={modal} title={isConnected ? t("cloud.account") : t("cloud.login")} closable onClose={onClose}>
-      {isConnected && account ? <ConnectedView account={account} /> : <AuthView />}
+      <CloudAccountContent />
     </Modal>
   );
 };
@@ -145,6 +155,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
   const updateProfileMutation = trpc.sync.updateProfile.useMutation();
   const deleteProfileMutation = trpc.sync.deleteProfile.useMutation();
   const [syncSettings] = useStorageValue(anoriSchema.cloudSyncSettings);
+  const [shareOpenTabs, setShareOpenTabs] = useStorageValue(anoriSchema.shareOpenTabs);
   const connectedProfileId = syncSettings?.profileId ?? null;
 
   const sortedProfiles = useMemo(() => {
@@ -493,6 +504,14 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
             )}
           </div>
         )}
+      </div>
+      <DevicesSection />
+      <div className={settingsSection}>
+        <div className={settingsTitle}>{t("cloud.settings.title")}</div>
+        <CheckboxWithPermission permissions={["tabs"]} checked={shareOpenTabs} onChange={setShareOpenTabs}>
+          {t("cloud.settings.shareOpenTabs")}
+          <Hint content={t("cloud.settings.shareOpenTabsHint")} />
+        </CheckboxWithPermission>
       </div>
     </div>
   );

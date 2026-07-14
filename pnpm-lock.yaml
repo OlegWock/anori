@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@anori-app/api-client':
-        specifier: 3.0.0-pr11.708abd9
-        version: 3.0.0-pr11.708abd9(react@19.2.7)(typescript@6.0.3)
+        specifier: 3.0.0-pr11.87b6d7d
+        version: 3.0.0-pr11.87b6d7d(react@19.2.7)(typescript@6.0.3)
       '@anori-app/api-types':
-        specifier: 3.0.0-pr11.708abd9
-        version: 3.0.0-pr11.708abd9
+        specifier: 3.0.0-pr11.87b6d7d
+        version: 3.0.0-pr11.87b6d7d
       '@base-ui/react':
         specifier: ^1.5.0
         version: 1.5.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -264,11 +264,11 @@ importers:
 
 packages:
 
-  '@anori-app/api-client@3.0.0-pr11.708abd9':
-    resolution: {integrity: sha512-2BXZuYUxfQ1QJDQLObPQPuzgQ0y3bAYLkAsLMfsf9cKlTccG7+2sQdco9yHY5m1fl0ndzyRZe1NP/HpjcLlZiQ==}
+  '@anori-app/api-client@3.0.0-pr11.87b6d7d':
+    resolution: {integrity: sha512-oCUuiJgIdZbLbTVapuK2Ij0rnGhQi3CtjRlIe1LtZU/ukZ/vcF6QELrR8xP6dKp9hu561ewAM0fmJyx04xnOBQ==}
 
-  '@anori-app/api-types@3.0.0-pr11.708abd9':
-    resolution: {integrity: sha512-m+hEvYD0rVzSOWPtMf5Db9XiBVjcUv3QuTNGoZJQkhCq8ReyavE2VAappQiLbzFoxncKGr5NEqH2WoHx88UYmQ==}
+  '@anori-app/api-types@3.0.0-pr11.87b6d7d':
+    resolution: {integrity: sha512-Iv3vBgzByo5dWEa0/NAK8CsNDJDZPHpc/uefx0WL5fj1xLzUxLY12PSnVZAz9KPq/o7V3GgWhF7cTOrDfcBMeg==}
 
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
@@ -6071,9 +6071,9 @@ packages:
 
 snapshots:
 
-  '@anori-app/api-client@3.0.0-pr11.708abd9(react@19.2.7)(typescript@6.0.3)':
+  '@anori-app/api-client@3.0.0-pr11.87b6d7d(react@19.2.7)(typescript@6.0.3)':
     dependencies:
-      '@anori-app/api-types': 3.0.0-pr11.708abd9
+      '@anori-app/api-types': 3.0.0-pr11.87b6d7d
       '@tanstack/react-query': 5.101.0(react@19.2.7)
       '@trpc/client': 11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3)
       '@trpc/react-query': 11.17.0(@tanstack/react-query@5.101.0(react@19.2.7))(@trpc/client@11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3))(@trpc/server@11.17.0(typescript@6.0.3))(react@19.2.7)(typescript@6.0.3)
@@ -6082,7 +6082,7 @@ snapshots:
       - react
       - typescript
 
-  '@anori-app/api-types@3.0.0-pr11.708abd9':
+  '@anori-app/api-types@3.0.0-pr11.87b6d7d':
     dependencies:
       zod: 4.4.3
 

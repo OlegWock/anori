@@ -1,6 +1,9 @@
 import type { StashLink } from "@anori/utils/storage";
 import moment from "moment-timezone";
 import browser from "webextension-polyfill";
+import { isCapturableUrl } from "./urls";
+
+export { isCapturableUrl } from "./urls";
 
 export type OpenTab = {
   id: number;
@@ -15,11 +18,6 @@ export type NamedGroup = {
 
 export function supportsTabGroups(): boolean {
   return typeof browser.tabGroups !== "undefined";
-}
-
-// Only HTTP(S) pages can be stashed; this filters service pages, extension pages, and non-navigational schemes.
-export function isCapturableUrl(url: string | undefined): url is string {
-  return !!url && /^https?:\/\//i.test(url);
 }
 
 function isCapturableTab(tab: browser.Tabs.Tab): boolean {

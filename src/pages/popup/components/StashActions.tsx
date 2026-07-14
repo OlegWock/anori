@@ -1,6 +1,6 @@
+import { TabList, type TabListEntry } from "@anori/components/TabList/TabList";
 import { Card } from "@anori/design-system/components/Card/Card";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
-import { Favicon } from "@anori/design-system/components/Icon/Favicon";
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import {
   dateLabel,
@@ -15,32 +15,34 @@ import {
 } from "@anori/plugins/tabs/capture";
 import { DEFAULT_STASH_ID } from "@anori/plugins/tabs/consts";
 import { sendMessage } from "@anori/plugins/tabs/messaging";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { iconOf, list, Row, SectionHeading } from "./PopupRow";
-
-const MAX_TABS_BEFORE_COLLAPSE = 4;
-const COLLAPSED_TAB_COUNT = 3;
 
 const StashTabSection = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<OpenTab | null>(null);
   const [tabs, setTabs] = useState<OpenTab[]>([]);
-  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     getActiveStashableTab().then(setActiveTab);
     getStashableTabs().then(setTabs);
   }, []);
 
-  const otherTabs = useMemo(() => tabs.filter((tab) => tab.id !== activeTab?.id), [tabs, activeTab]);
-  const showToggle = otherTabs.length > MAX_TABS_BEFORE_COLLAPSE;
-  const visible = expanded || !showToggle ? otherTabs : otherTabs.slice(0, COLLAPSED_TAB_COUNT);
-
   const stashTab = async (tab: OpenTab) => {
     await sendMessage("stashLinks", { stashId: DEFAULT_STASH_ID, links: [tabToLink(tab)] });
     window.close();
   };
+
+  const entries: TabListEntry[] = tabs
+    .filter((tab) => tab.id !== activeTab?.id)
+    .map((tab) => ({
+      type: "tab",
+      id: String(tab.id),
+      url: tab.url,
+      title: tab.title || tab.url,
+      onClick: () => stashTab(tab),
+    }));
 
   return (
     <div className={list}>
@@ -51,25 +53,7 @@ const StashTabSection = () => {
           onClick={() => stashTab(activeTab)}
         />
       )}
-      <div className={list}>
-        {visible.map((tab) => (
-          <Row
-            key={tab.id}
-            icon={
-              <Favicon url={tab.url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
-            }
-            title={tab.title || tab.url}
-            onClick={() => stashTab(tab)}
-          />
-        ))}
-      </div>
-      {!expanded && showToggle && (
-        <Row
-          icon={iconOf(builtinIcons.chevronDown)}
-          title={t("tabs-plugin.stash.showAllTabs")}
-          onClick={() => setExpanded(true)}
-        />
-      )}
+      <TabList entries={entries} />
     </div>
   );
 };

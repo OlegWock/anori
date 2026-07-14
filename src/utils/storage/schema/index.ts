@@ -308,6 +308,27 @@ export const schemaV1 = defineSchemaVersion(1, {
     sync: "off",
     includedInBackup: false,
   }),
+  shareOpenTabs: cell({
+    key: "shareOpenTabs",
+    schema: z.boolean(),
+    defaultValue: false,
+    sync: "off",
+    includedInBackup: false,
+  }),
+  deviceId: cell({
+    key: "deviceId",
+    schema: z.string().nullable(),
+    defaultValue: null,
+    sync: "off",
+    includedInBackup: false,
+  }),
+  deviceRegisteredForUserId: cell({
+    key: "deviceRegisteredForUserId",
+    schema: z.string().nullable(),
+    defaultValue: null,
+    sync: "off",
+    includedInBackup: false,
+  }),
 
   // Plugin storage collections
   pluginConfig: collection({

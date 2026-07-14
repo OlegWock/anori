@@ -16,6 +16,7 @@ const listItem = cva({
     background: "transparent",
     color: "text.primary",
     textAlign: "left",
+    textDecoration: "none",
     fontFamily: "inherit",
     fontSize: "sm",
     "& svg": { minWidth: "18px", maxWidth: "18px" },

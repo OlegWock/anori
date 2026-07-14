@@ -1,3 +1,4 @@
+import { ensureDeviceRegistered } from "@anori/cloud-integration/device-registration";
 import { performSync } from "@anori/cloud-integration/sync-manager";
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
@@ -168,6 +169,8 @@ availablePlugins.forEach((plugin) => {
     }
   }
 });
+
+ensureDeviceRegistered();
 
 browser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "scheduledCallbacks") {

@@ -5,7 +5,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { ListItem } from "@anori/design-system/components/ListItem/ListItem";
-import { parseHost } from "@anori/utils/misc";
+import { isModifiedClick, parseHost } from "@anori/utils/misc";
 import type { StashEntry, StashGroupEntry, StashLink } from "@anori/utils/storage";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,9 @@ import { css } from "styled-system/css";
 import { sendMessage } from "../messaging";
 
 export type StashOpenHandlers = {
-  openLink: (url: string) => void;
+  // Only needed to override the plain-click default of the link (e.g. open a new tab and close the
+  // popup). Omit it where a plain click should just navigate the current tab.
+  openLink?: (url: string) => void;
   openAll: (links: StashLink[]) => void;
 };
 
@@ -33,6 +35,7 @@ const entryMain = css({
   textAlign: "left",
   cursor: "pointer",
   color: "text.primary",
+  textDecoration: "none",
 });
 const entryTitle = css({
   flex: 1,
@@ -85,13 +88,26 @@ const LinkRow = ({
   showHost: boolean;
   handlers: StashOpenHandlers;
 }) => {
+  const { openLink } = handlers;
   return (
     <ListItem className={entryRow}>
-      <button type="button" className={entryMain} onClick={() => handlers.openLink(entry.url)}>
+      <a
+        className={entryMain}
+        href={entry.url}
+        onClick={
+          openLink
+            ? (e) => {
+                if (isModifiedClick(e)) return;
+                e.preventDefault();
+                openLink(entry.url);
+              }
+            : undefined
+        }
+      >
         <Favicon url={entry.url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
         <span className={entryTitle}>{entry.title || entry.url}</span>
         {showHost && <span className={entryHost}>{parseHost(entry.url)}</span>}
-      </button>
+      </a>
       <div className={`${actions} stash-entry-actions`}>
         <RemoveButton onClick={() => sendMessage("removeEntry", { entryId: entry.id })} />
       </div>
@@ -110,13 +126,26 @@ const GroupLinkRow = ({
   onRemove: () => void;
   handlers: StashOpenHandlers;
 }) => {
+  const { openLink } = handlers;
   return (
     <ListItem className={entryRow}>
-      <button type="button" className={entryMain} onClick={() => handlers.openLink(link.url)}>
+      <a
+        className={entryMain}
+        href={link.url}
+        onClick={
+          openLink
+            ? (e) => {
+                if (isModifiedClick(e)) return;
+                e.preventDefault();
+                openLink(link.url);
+              }
+            : undefined
+        }
+      >
         <Favicon url={link.url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
         <span className={entryTitle}>{link.title || link.url}</span>
         {showHost && <span className={entryHost}>{parseHost(link.url)}</span>}
-      </button>
+      </a>
       <div className={`${actions} stash-entry-actions`}>
         <RemoveButton onClick={onRemove} />
       </div>
