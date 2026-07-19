@@ -40,6 +40,7 @@ const cardCss = css({
   borderRadius: "lg",
   zIndex: "base",
   boxShadow: "surface.edge",
+  backfaceVisibility: "hidden",
   "&[data-busy]": {
     zIndex: "docked",
     boxShadow: "{shadows.surface.edge}, {shadows.overlay}",
