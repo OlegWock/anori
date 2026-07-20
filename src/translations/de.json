@@ -57,7 +57,7 @@
             "connected": "Verbunden",
             "disconnect": "Trennen",
             "cancel": "Abbrechen",
-            "account": "Cloud-Konto",
+            "account": "Anori Plus",
             "login": "Anmelden",
             "logout": "Abmelden",
             "email": "E-Mail",
@@ -69,9 +69,11 @@
             "noAccount": "Kein Konto?",
             "createAccount": "Hier erstellen",
             "userDataConflict": {
-                "description": "Sie haben eine lokale Kopie von Daten, die zuvor in ein anderes Konto hochgeladen wurden. Möchten Sie diese in dieses Konto hochladen oder verwerfen?",
-                "upload": "In dieses Konto hochladen",
-                "discard": "Lokale Daten verwerfen"
+                "description": "Dieser Browser enthält Anori Plus-Daten — zum Beispiel deinen Tab-Speicher — die mit einem anderen Konto synchronisiert wurden als dem, bei dem du dich gerade anmeldest. Was soll damit geschehen?",
+                "upload": "Zu diesem Konto hinzufügen",
+                "uploadHint": "Behält diese Daten und fügt sie dem Konto hinzu, bei dem du dich anmeldest. Wähle dies, wenn sie dir gehören — zum Beispiel wenn du zu einem neuen Konto gewechselt bist.",
+                "discard": "Verwerfen",
+                "discardHint": "Entfernt sie aus diesem Browser und verwendet stattdessen die Daten des Kontos. Wähle dies, wenn sie zum anderen Konto gehören oder du sie hier nicht benötigst."
             },
             "plusDescription": "Anori Plus ist ein zusätzlicher Dienst für Anori, mit dem du deine Konfiguration in Echtzeit zwischen mehreren Browsern und Geräten synchronisieren kannst.",
             "learnMore": "Mehr erfahren",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Das Verbinden mit dem Profil \"{{profileName}}\" überschreibt deine aktuelle lokale Konfiguration mit der im Profil gespeicherten. Möchtest du fortfahren?"
             },
+            "settings": {
+                "title": "Einstellungen",
+                "shareOpenTabs": "Offene Tabs mit anderen verbundenen Geräten teilen",
+                "shareOpenTabsHint": "Wenn aktiviert, werden die auf diesem Computer geöffneten Tabs mit deinen anderen Geräten geteilt, die bei diesem Anori-Konto angemeldet sind — so kannst du Tabs von jedem Gerät aus sehen und wieder öffnen."
+            },
+            "devices": {
+                "title": "Geräte",
+                "thisDevice": "Dieses Gerät",
+                "rename": "Gerät umbenennen",
+                "remove": "Gerät entfernen",
+                "removeConfirmation": "\"{{name}}\" aus deinem Konto entfernen? Das Gerät wird abgemeldet und synchronisiert nicht mehr.",
+                "namePlaceholder": "Gerätename",
+                "lastActive": "aktiv {{date}}",
+                "empty": "Noch keine Geräte bei diesem Konto angemeldet"
+            },
             "error": {
                 "invalidCredentials": "Ungültige E-Mail oder ungültiges Passwort",
                 "unknown": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
                 "failedToLoadProfiles": "Profile konnten nicht geladen werden",
+                "failedToLoadDevices": "Geräte konnten nicht geladen werden",
                 "profileNameRequired": "Profilname ist erforderlich",
                 "failedToCreateProfile": "Profil konnte nicht erstellt werden"
             }
@@ -336,6 +354,16 @@
                 "grantTabs": "Für die Tab-Ablage-Funktion sind zusätzliche Berechtigungen erforderlich",
                 "recentlyStashed": "Zuletzt gespeichert",
                 "nothingStashed": "Noch nichts gespeichert"
+            },
+            "syncedTabs": {
+                "title": "Synchronisierte Tabs",
+                "loading": "Tabs werden geladen...",
+                "unnamedGroup": "Gruppe",
+                "notConnectedTitle": "Tabs von deinen anderen Geräten anzeigen",
+                "notConnectedDescription": "Verbinde Anori, um offene Tabs geräteübergreifend zu synchronisieren.",
+                "connect": "Verbinden",
+                "emptyTitle": "Noch kein anderes Gerät teilt Tabs",
+                "emptyDescription": "Melde dich auf einem anderen Computer bei deinem Anori Plus-Konto an und aktiviere dort die Tab-Synchronisierung."
             }
         },
         "tasks-plugin": {

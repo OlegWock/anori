@@ -57,7 +57,7 @@
             "connected": "Connesso",
             "disconnect": "Disconnetti",
             "cancel": "Annulla",
-            "account": "Account cloud",
+            "account": "Anori Plus",
             "login": "Accedi",
             "logout": "Esci",
             "email": "Email",
@@ -69,9 +69,11 @@
             "noAccount": "Non hai un account?",
             "createAccount": "Creane uno qui",
             "userDataConflict": {
-                "description": "Hai una copia locale di dati che in precedenza erano stati caricati su un account diverso. Vuoi caricarli su questo account o eliminarli?",
-                "upload": "Carica su questo account",
-                "discard": "Elimina i dati locali"
+                "description": "Questo browser contiene dati di Anori Plus — ad esempio la tua Raccolta schede — che erano stati sincronizzati con un account diverso da quello a cui stai accedendo. Cosa vuoi fare con questi dati?",
+                "upload": "Aggiungili a questo account",
+                "uploadHint": "Mantiene questi dati e li unisce all'account a cui stai accedendo. Scegli questa opzione se sono tuoi — ad esempio se hai cambiato account.",
+                "discard": "Elimina i dati locali",
+                "discardHint": "Li rimuove da questo browser e usa i dati già presenti in questo account. Scegli questa opzione se appartengono all'altro account o non ti servono qui."
             },
             "plusDescription": "Anori Plus è un servizio aggiuntivo per Anori che ti permette di sincronizzare la tua configurazione tra più browser e dispositivi in tempo reale.",
             "learnMore": "Scopri di più",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "La connessione al profilo \"{{profileName}}\" sovrascriverà la tua configurazione locale attuale con quella memorizzata nel profilo. Vuoi continuare?"
             },
+            "settings": {
+                "title": "Impostazioni",
+                "shareOpenTabs": "Condividi le schede aperte con gli altri dispositivi connessi",
+                "shareOpenTabsHint": "Se abilitato, le schede aperte su questo computer vengono condivise con gli altri dispositivi collegati a questo account Anori, così puoi vederle e riaprirle da qualsiasi di essi."
+            },
+            "devices": {
+                "title": "Dispositivi",
+                "thisDevice": "Questo dispositivo",
+                "rename": "Rinomina dispositivo",
+                "remove": "Rimuovi dispositivo",
+                "removeConfirmation": "Rimuovere \"{{name}}\" dal tuo account? Verrà disconnesso e smetterà di sincronizzarsi.",
+                "namePlaceholder": "Nome dispositivo",
+                "lastActive": "attivo {{date}}",
+                "empty": "Nessun dispositivo ha ancora effettuato l'accesso a questo account"
+            },
             "error": {
                 "invalidCredentials": "Email o password non validi",
                 "unknown": "Qualcosa è andato storto. Riprova.",
                 "failedToLoadProfiles": "Impossibile caricare i profili",
+                "failedToLoadDevices": "Impossibile caricare i dispositivi",
                 "profileNameRequired": "Il nome del profilo è obbligatorio",
                 "failedToCreateProfile": "Impossibile creare il profilo"
             }
@@ -337,6 +355,16 @@
                 "grantTabs": "Sono necessarie autorizzazioni aggiuntive per la funzione di archiviazione schede",
                 "recentlyStashed": "Archiviati di recente",
                 "nothingStashed": "Nessun elemento archiviato"
+            },
+            "syncedTabs": {
+                "title": "Schede sincronizzate",
+                "loading": "Caricamento schede...",
+                "unnamedGroup": "Gruppo",
+                "notConnectedTitle": "Visualizza le schede dagli altri tuoi dispositivi",
+                "notConnectedDescription": "Connetti Anori per sincronizzare le schede aperte su tutti i tuoi dispositivi.",
+                "connect": "Connetti",
+                "emptyTitle": "Nessun altro dispositivo sta ancora condividendo le schede",
+                "emptyDescription": "Accedi al tuo account Anori Plus su un altro computer e attiva la sincronizzazione delle schede lì."
             }
         },
         "tasks-plugin": {

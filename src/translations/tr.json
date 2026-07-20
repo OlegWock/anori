@@ -57,7 +57,7 @@
             "connected": "Bağlandı",
             "disconnect": "Bağlantıyı kes",
             "cancel": "İptal",
-            "account": "Bulut hesabı",
+            "account": "Anori Plus",
             "login": "Giriş yap",
             "logout": "Çıkış yap",
             "email": "E-posta",
@@ -69,9 +69,11 @@
             "noAccount": "Hesabınız yok mu?",
             "createAccount": "Buradan oluşturun",
             "userDataConflict": {
-                "description": "Daha önce farklı bir hesaba yüklenmiş yerel bir veri kopyanız var. Bu hesaba yüklemek mi yoksa silmek mi istersiniz?",
-                "upload": "Bu hesaba yükle",
-                "discard": "Yerel verileri sil"
+                "description": "Bu tarayıcıda Anori Plus verileri var — örneğin Sekme arşiviniz — ve bu veriler oturum açtığınız hesaptan farklı bir hesaba senkronize edilmiş. Bu verilerle ne yapılsın?",
+                "upload": "Bu hesaba ekle",
+                "uploadHint": "Bu verileri korur ve oturum açtığınız hesaba ekler. Veriler size aitse bunu seçin — örneğin yeni bir hesaba geçtiyseniz.",
+                "discard": "Yerel verileri sil",
+                "discardHint": "Bu tarayıcıdan kaldırır ve bunun yerine hesabın mevcut verilerini kullanır. Veriler diğer hesaba aitse veya burada ihtiyacınız yoksa bunu seçin."
             },
             "plusDescription": "Anori Plus, yapılandırmanızı birden fazla tarayıcı ve cihaz arasında gerçek zamanlı olarak senkronize etmenizi sağlayan Anori için ek bir hizmettir.",
             "learnMore": "Daha fazla bilgi",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "\"{{profileName}}\" profiline bağlanmak, mevcut yerel yapılandırmanızın üzerine profilde saklanan yapılandırmayı yazacaktır. Devam etmek istiyor musunuz?"
             },
+            "settings": {
+                "title": "Ayarlar",
+                "shareOpenTabs": "Açık sekmeleri bağlı diğer cihazlarla paylaş",
+                "shareOpenTabsHint": "Etkinleştirildiğinde, bu bilgisayarda açık olan sekmeler aynı Anori hesabına giriş yapmış diğer cihazlarınızla paylaşılır — böylece herhangi bir cihazdan sekmeleri görebilir ve yeniden açabilirsiniz."
+            },
+            "devices": {
+                "title": "Cihazlar",
+                "thisDevice": "Bu cihaz",
+                "rename": "Cihazı yeniden adlandır",
+                "remove": "Cihazı kaldır",
+                "removeConfirmation": "\"{{name}}\" hesabınızdan kaldırılsın mı? Oturumu kapatılacak ve senkronizasyon duracak.",
+                "namePlaceholder": "Cihaz adı",
+                "lastActive": "{{date}} etkin",
+                "empty": "Bu hesaba henüz giriş yapmış cihaz yok"
+            },
             "error": {
                 "invalidCredentials": "Geçersiz e-posta veya şifre",
                 "unknown": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
                 "failedToLoadProfiles": "Profiller yüklenemedi",
+                "failedToLoadDevices": "Cihazlar yüklenemedi",
                 "profileNameRequired": "Profil adı zorunludur",
                 "failedToCreateProfile": "Profil oluşturulamadı"
             }
@@ -336,6 +354,16 @@
                 "grantTabs": "Sekmeler saklama özelliği için ek izinler gerekiyor",
                 "recentlyStashed": "Son saklananlar",
                 "nothingStashed": "Henüz hiçbir şey saklanmadı"
+            },
+            "syncedTabs": {
+                "title": "Senkronize sekmeler",
+                "loading": "Sekmeler yükleniyor...",
+                "unnamedGroup": "Grup",
+                "notConnectedTitle": "Diğer cihazlarınızdaki sekmeleri görün",
+                "notConnectedDescription": "Cihazlarınız arasında açık sekmeleri senkronize etmek için Anori'yi bağlayın.",
+                "connect": "Bağlan",
+                "emptyTitle": "Henüz sekme paylaşan başka cihaz yok",
+                "emptyDescription": "Başka bir bilgisayarda Anori Plus hesabınıza giriş yapın ve orada sekme senkronizasyonunu açın."
             }
         },
         "tasks-plugin": {

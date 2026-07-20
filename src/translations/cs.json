@@ -57,7 +57,7 @@
             "connected": "Připojeno",
             "disconnect": "Odpojit",
             "cancel": "Zrušit",
-            "account": "Cloudový účet",
+            "account": "Anori Plus",
             "login": "Přihlásit se",
             "logout": "Odhlásit se",
             "email": "E-mail",
@@ -69,9 +69,11 @@
             "noAccount": "Nemáte účet?",
             "createAccount": "Vytvořte si ho zde",
             "userDataConflict": {
-                "description": "Máte lokální kopii dat, která byla dříve nahrána do jiného účtu. Chcete je nahrát do tohoto účtu, nebo je zahodit?",
-                "upload": "Nahrát do tohoto účtu",
-                "discard": "Zahodit lokální data"
+                "description": "Tento prohlížeč obsahuje data Anori Plus — například váš Zásobník karet — která byla synchronizována s jiným účtem, než ke kterému se přihlašujete. Co se s nimi má stát?",
+                "upload": "Přidat do tohoto účtu",
+                "uploadHint": "Zachová tato data a sloučí je s účtem, do kterého se přihlašujete. Zvolte tuto možnost, pokud jsou vaše — například pokud jste přešli na nový účet.",
+                "discard": "Zahodit lokální data",
+                "discardHint": "Odstraní je z tohoto prohlížeče a místo nich použije data, která tento účet již má. Zvolte tuto možnost, pokud patří jinému účtu nebo je zde nepotřebujete."
             },
             "plusDescription": "Anori Plus je doplňková služba pro Anori, která umožňuje synchronizovat vaši konfiguraci mezi více prohlížeči a zařízeními v reálném čase.",
             "learnMore": "Zjistit více",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Připojení k profilu \"{{profileName}}\" přepíše vaši aktuální místní konfiguraci tou uloženou v profilu. Chcete pokračovat?"
             },
+            "settings": {
+                "title": "Nastavení",
+                "shareOpenTabs": "Sdílet otevřené karty s ostatními připojenými zařízeními",
+                "shareOpenTabsHint": "Pokud je tato možnost zapnutá, karty otevřené na tomto počítači jsou sdíleny s vašimi ostatními zařízeními přihlášenými k tomuto účtu Anori — takže je můžete vidět a znovu otevřít na kterémkoli z nich."
+            },
+            "devices": {
+                "title": "Zařízení",
+                "thisDevice": "Toto zařízení",
+                "rename": "Přejmenovat zařízení",
+                "remove": "Odebrat zařízení",
+                "removeConfirmation": "Odebrat \"{{name}}\" z vašeho účtu? Zařízení bude odhlášeno a přestane synchronizovat.",
+                "namePlaceholder": "Název zařízení",
+                "lastActive": "aktivní {{date}}",
+                "empty": "K tomuto účtu zatím nejsou přihlášena žádná zařízení"
+            },
             "error": {
                 "invalidCredentials": "Neplatný e-mail nebo heslo",
                 "unknown": "Něco se pokazilo. Zkuste to prosím znovu.",
                 "failedToLoadProfiles": "Nepodařilo se načíst profily",
+                "failedToLoadDevices": "Nepodařilo se načíst zařízení",
                 "profileNameRequired": "Název profilu je povinný",
                 "failedToCreateProfile": "Nepodařilo se vytvořit profil"
             }
@@ -338,6 +356,16 @@
                 "grantTabs": "Pro funkci odložení záložek jsou vyžadována další oprávnění",
                 "recentlyStashed": "Nedávno uložené",
                 "nothingStashed": "Zatím nic neuloženo"
+            },
+            "syncedTabs": {
+                "title": "Synchronizované karty",
+                "loading": "Načítání karet...",
+                "unnamedGroup": "Skupina",
+                "notConnectedTitle": "Zobrazit karty z vašich ostatních zařízení",
+                "notConnectedDescription": "Připojte Anori a synchronizujte otevřené karty napříč vašimi zařízeními.",
+                "connect": "Připojit",
+                "emptyTitle": "Žádná jiná zařízení zatím nesdílejí karty",
+                "emptyDescription": "Přihlaste se ke svému účtu Anori Plus na jiném počítači a tam zapněte synchronizaci karet."
             }
         },
         "tasks-plugin": {

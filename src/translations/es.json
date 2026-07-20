@@ -57,7 +57,7 @@
             "connected": "Conectado",
             "disconnect": "Desconectar",
             "cancel": "Cancelar",
-            "account": "Cuenta en la nube",
+            "account": "Anori Plus",
             "login": "Iniciar sesión",
             "logout": "Cerrar sesión",
             "email": "Correo electrónico",
@@ -69,9 +69,11 @@
             "noAccount": "¿No tienes una cuenta?",
             "createAccount": "Crear una aquí",
             "userDataConflict": {
-                "description": "Tienes una copia local de datos que fue subida anteriormente a una cuenta diferente. ¿Deseas subirla a esta cuenta o descartarla?",
-                "upload": "Subir a esta cuenta",
-                "discard": "Descartar datos locales"
+                "description": "Este navegador tiene datos de Anori Plus — por ejemplo tu Guardado de pestañas — que fueron sincronizados con una cuenta diferente a la que estás iniciando sesión. ¿Qué debería ocurrir con ellos?",
+                "upload": "Añadirlos a esta cuenta",
+                "uploadHint": "Conserva estos datos y los fusiona con la cuenta en la que estás iniciando sesión. Elige esto si son tuyos — por ejemplo, si cambiaste a una cuenta nueva.",
+                "discard": "Descartarlos",
+                "discardHint": "Los elimina de este navegador y usa lo que ya tiene esta cuenta. Elige esto si pertenecen a la otra cuenta o no los necesitas aquí."
             },
             "plusDescription": "Anori Plus es un servicio adicional para Anori que te permite sincronizar tu configuración entre varios navegadores y dispositivos en tiempo real.",
             "learnMore": "Más información",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Conectarse al perfil \"{{profileName}}\" sobrescribirá tu configuración local actual con la almacenada en el perfil. ¿Deseas continuar?"
             },
+            "settings": {
+                "title": "Configuración",
+                "shareOpenTabs": "Compartir pestañas abiertas con otros dispositivos conectados",
+                "shareOpenTabsHint": "Cuando está activado, las pestañas abiertas en este equipo se comparten con tus otros dispositivos que hayan iniciado sesión en esta cuenta de Anori, para que puedas verlas y reabrirlas desde cualquiera de ellos."
+            },
+            "devices": {
+                "title": "Dispositivos",
+                "thisDevice": "Este dispositivo",
+                "rename": "Renombrar dispositivo",
+                "remove": "Eliminar dispositivo",
+                "removeConfirmation": "¿Eliminar \"{{name}}\" de tu cuenta? Se cerrará sesión y dejará de sincronizarse.",
+                "namePlaceholder": "Nombre del dispositivo",
+                "lastActive": "activo {{date}}",
+                "empty": "Aún no hay dispositivos con sesión iniciada en esta cuenta"
+            },
             "error": {
                 "invalidCredentials": "Correo electrónico o contraseña incorrectos",
                 "unknown": "Algo salió mal. Por favor, inténtalo de nuevo.",
                 "failedToLoadProfiles": "No se pudieron cargar los perfiles",
+                "failedToLoadDevices": "No se pudieron cargar los dispositivos",
                 "profileNameRequired": "El nombre del perfil es obligatorio",
                 "failedToCreateProfile": "No se pudo crear el perfil"
             }
@@ -337,6 +355,16 @@
                 "grantTabs": "Se requieren permisos adicionales para la función de pestañas guardadas",
                 "recentlyStashed": "Guardado recientemente",
                 "nothingStashed": "Nada guardado aún"
+            },
+            "syncedTabs": {
+                "title": "Pestañas sincronizadas",
+                "loading": "Cargando pestañas...",
+                "unnamedGroup": "Grupo",
+                "notConnectedTitle": "Ver pestañas de tus otros dispositivos",
+                "notConnectedDescription": "Conecta Anori para sincronizar las pestañas abiertas entre tus dispositivos.",
+                "connect": "Conectar",
+                "emptyTitle": "Ningún otro dispositivo está compartiendo pestañas todavía",
+                "emptyDescription": "Inicia sesión en tu cuenta de Anori Plus en otro equipo y activa la sincronización de pestañas allí."
             }
         },
         "tasks-plugin": {

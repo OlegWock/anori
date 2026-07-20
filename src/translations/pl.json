@@ -57,7 +57,7 @@
             "connected": "Połączono",
             "disconnect": "Rozłącz",
             "cancel": "Anuluj",
-            "account": "Konto w chmurze",
+            "account": "Anori Plus",
             "login": "Zaloguj się",
             "logout": "Wyloguj się",
             "email": "E-mail",
@@ -69,9 +69,11 @@
             "noAccount": "Nie masz konta?",
             "createAccount": "Utwórz je tutaj",
             "userDataConflict": {
-                "description": "Masz lokalną kopię danych, która została wcześniej przesłana do innego konta. Czy chcesz przesłać ją do tego konta, czy ją odrzucić?",
-                "upload": "Prześlij do tego konta",
-                "discard": "Odrzuć lokalne dane"
+                "description": "Ta przeglądarka zawiera dane Anori Plus — na przykład Twój schowek kart — które zostały zsynchronizowane z innym kontem niż to, do którego się logujesz. Co powinno się z nimi stać?",
+                "upload": "Dodaj do tego konta",
+                "uploadHint": "Zachowuje te dane i scala je z kontem, do którego się logujesz. Wybierz tę opcję, jeśli są Twoje — na przykład jeśli przeszłeś na nowe konto.",
+                "discard": "Odrzuć lokalne dane",
+                "discardHint": "Usuwa je z tej przeglądarki i używa danych już przypisanych do tego konta. Wybierz tę opcję, jeśli należą do innego konta lub nie są Ci tu potrzebne."
             },
             "plusDescription": "Anori Plus to dodatkowa usługa dla Anori, która umożliwia synchronizację konfiguracji między wieloma przeglądarkami i urządzeniami w czasie rzeczywistym.",
             "learnMore": "Dowiedz się więcej",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Połączenie z profilem \"{{profileName}}\" zastąpi Twoją bieżącą lokalną konfigurację tą zapisaną w profilu. Czy chcesz kontynuować?"
             },
+            "settings": {
+                "title": "Ustawienia",
+                "shareOpenTabs": "Udostępniaj otwarte karty innym połączonym urządzeniom",
+                "shareOpenTabsHint": "Po włączeniu karty otwarte na tym komputerze są udostępniane innym urządzeniom zalogowanym na to konto Anori — dzięki czemu możesz je przeglądać i ponownie otwierać na dowolnym z nich."
+            },
+            "devices": {
+                "title": "Urządzenia",
+                "thisDevice": "To urządzenie",
+                "rename": "Zmień nazwę urządzenia",
+                "remove": "Usuń urządzenie",
+                "removeConfirmation": "Usunąć \"{{name}}\" z Twojego konta? Zostanie wylogowane i przestanie synchronizować dane.",
+                "namePlaceholder": "Nazwa urządzenia",
+                "lastActive": "aktywne {{date}}",
+                "empty": "Żadne urządzenie nie jest jeszcze zalogowane na to konto"
+            },
             "error": {
                 "invalidCredentials": "Nieprawidłowy adres e-mail lub hasło",
                 "unknown": "Coś poszło nie tak. Spróbuj ponownie.",
                 "failedToLoadProfiles": "Nie udało się załadować profili",
+                "failedToLoadDevices": "Nie udało się załadować urządzeń",
                 "profileNameRequired": "Nazwa profilu jest wymagana",
                 "failedToCreateProfile": "Nie udało się utworzyć profilu"
             }
@@ -338,6 +356,16 @@
                 "grantTabs": "Funkcja schowka kart wymaga dodatkowych uprawnień",
                 "recentlyStashed": "Ostatnio schowane",
                 "nothingStashed": "Nic jeszcze nie schowano"
+            },
+            "syncedTabs": {
+                "title": "Zsynchronizowane karty",
+                "loading": "Ładowanie kart...",
+                "unnamedGroup": "Grupa",
+                "notConnectedTitle": "Zobacz karty z innych urządzeń",
+                "notConnectedDescription": "Połącz Anori, aby synchronizować otwarte karty między urządzeniami.",
+                "connect": "Połącz",
+                "emptyTitle": "Żadne inne urządzenie nie udostępnia jeszcze kart",
+                "emptyDescription": "Zaloguj się na konto Anori Plus na innym komputerze i włącz tam synchronizację kart."
             }
         },
         "tasks-plugin": {

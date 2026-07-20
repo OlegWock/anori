@@ -57,7 +57,7 @@
             "connected": "Đã kết nối",
             "disconnect": "Ngắt kết nối",
             "cancel": "Hủy",
-            "account": "Tài khoản đám mây",
+            "account": "Anori Plus",
             "login": "Đăng nhập",
             "logout": "Đăng xuất",
             "email": "Email",
@@ -69,9 +69,11 @@
             "noAccount": "Chưa có tài khoản?",
             "createAccount": "Tạo tại đây",
             "userDataConflict": {
-                "description": "Bạn có một bản sao dữ liệu cục bộ đã được tải lên một tài khoản khác trước đây. Bạn có muốn tải nó lên tài khoản này hay xóa đi?",
-                "upload": "Tải lên tài khoản này",
-                "discard": "Xóa dữ liệu cục bộ"
+                "description": "Trình duyệt này có dữ liệu Anori Plus — ví dụ như Kho tab của bạn — đã được đồng bộ với một tài khoản khác với tài khoản bạn đang đăng nhập. Bạn muốn xử lý dữ liệu đó như thế nào?",
+                "upload": "Thêm vào tài khoản này",
+                "uploadHint": "Giữ dữ liệu này và hợp nhất vào tài khoản bạn đang đăng nhập. Chọn tùy chọn này nếu dữ liệu là của bạn — ví dụ nếu bạn đã chuyển sang tài khoản mới.",
+                "discard": "Xóa đi",
+                "discardHint": "Xóa dữ liệu khỏi trình duyệt này và sử dụng dữ liệu hiện có của tài khoản thay thế. Chọn tùy chọn này nếu dữ liệu thuộc về tài khoản kia hoặc bạn không cần nó ở đây."
             },
             "plusDescription": "Anori Plus giúp bạn đồng bộ cấu hình giữa các trình duyệt và thiết bị theo thời gian thực.",
             "learnMore": "Tìm hiểu thêm",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Kết nối với \"{{profileName}}\" sẽ ghi đè cấu hình hiện tại của bạn. Bạn có muốn tiếp tục?"
             },
+            "settings": {
+                "title": "Cài đặt",
+                "shareOpenTabs": "Chia sẻ các tab đang mở với các thiết bị được kết nối khác",
+                "shareOpenTabsHint": "Khi được bật, các tab đang mở trên máy tính này sẽ được chia sẻ với các thiết bị khác đã đăng nhập vào tài khoản Anori này — để bạn có thể xem và mở lại các tab từ bất kỳ thiết bị nào."
+            },
+            "devices": {
+                "title": "Thiết bị",
+                "thisDevice": "Thiết bị này",
+                "rename": "Đổi tên thiết bị",
+                "remove": "Xóa thiết bị",
+                "removeConfirmation": "Xóa \"{{name}}\" khỏi tài khoản của bạn? Thiết bị sẽ bị đăng xuất và ngừng đồng bộ.",
+                "namePlaceholder": "Tên thiết bị",
+                "lastActive": "hoạt động {{date}}",
+                "empty": "Chưa có thiết bị nào đăng nhập vào tài khoản này"
+            },
             "error": {
                 "invalidCredentials": "Email hoặc mật khẩu không hợp lệ",
                 "unknown": "Đã xảy ra lỗi. Vui lòng thử lại.",
                 "failedToLoadProfiles": "Không thể tải hồ sơ",
+                "failedToLoadDevices": "Không thể tải danh sách thiết bị",
                 "profileNameRequired": "Tên hồ sơ là bắt buộc",
                 "failedToCreateProfile": "Không thể tạo hồ sơ"
             }
@@ -335,6 +353,16 @@
                 "grantTabs": "Cần có thêm quyền cho tính năng lưu thẻ",
                 "recentlyStashed": "Đã lưu gần đây",
                 "nothingStashed": "Chưa có gì được lưu"
+            },
+            "syncedTabs": {
+                "title": "Tab đã đồng bộ",
+                "loading": "Đang tải tab...",
+                "unnamedGroup": "Nhóm",
+                "notConnectedTitle": "Xem các tab từ thiết bị khác của bạn",
+                "notConnectedDescription": "Kết nối Anori để đồng bộ các tab đang mở trên các thiết bị của bạn.",
+                "connect": "Kết nối",
+                "emptyTitle": "Chưa có thiết bị nào khác đang chia sẻ tab",
+                "emptyDescription": "Đăng nhập vào tài khoản Anori Plus của bạn trên máy tính khác và bật đồng bộ tab ở đó."
             }
         },
         "tasks-plugin": {

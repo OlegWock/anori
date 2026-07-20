@@ -57,7 +57,7 @@
             "connected": "Connecté",
             "disconnect": "Déconnecter",
             "cancel": "Annuler",
-            "account": "Compte cloud",
+            "account": "Anori Plus",
             "login": "Se connecter",
             "logout": "Se déconnecter",
             "email": "E-mail",
@@ -69,9 +69,11 @@
             "noAccount": "Vous n'avez pas de compte ?",
             "createAccount": "Créez-en un ici",
             "userDataConflict": {
-                "description": "Vous avez une copie locale de données précédemment téléversées vers un autre compte. Souhaitez-vous les téléverser vers ce compte ou les supprimer ?",
-                "upload": "Téléverser vers ce compte",
-                "discard": "Supprimer les données locales"
+                "description": "Ce navigateur contient des données Anori Plus — par exemple votre Réserve d'onglets — qui ont été synchronisées avec un compte différent de celui auquel vous vous connectez. Que doit-il en advenir ?",
+                "upload": "Ajouter à ce compte",
+                "uploadHint": "Conserve ces données et les fusionne dans le compte auquel vous vous connectez. Choisissez cette option si elles vous appartiennent — par exemple si vous avez changé de compte.",
+                "discard": "Supprimer les données locales",
+                "discardHint": "Les supprime de ce navigateur et utilise à la place ce que ce compte possède déjà. Choisissez cette option si elles appartiennent à l'autre compte ou si vous n'en avez pas besoin ici."
             },
             "plusDescription": "Anori Plus est un service additionnel pour Anori qui vous permet de synchroniser votre configuration entre plusieurs navigateurs et appareils en temps réel.",
             "learnMore": "En savoir plus",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "La connexion au profil \"{{profileName}}\" remplacera votre configuration locale actuelle par celle stockée dans le profil. Voulez-vous continuer ?"
             },
+            "settings": {
+                "title": "Paramètres",
+                "shareOpenTabs": "Partager les onglets ouverts avec les autres appareils connectés",
+                "shareOpenTabsHint": "Lorsque cette option est activée, les onglets ouverts sur cet ordinateur sont partagés avec vos autres appareils connectés à ce compte Anori — vous pouvez ainsi voir et rouvrir des onglets depuis n'importe lequel d'entre eux."
+            },
+            "devices": {
+                "title": "Appareils",
+                "thisDevice": "Cet appareil",
+                "rename": "Renommer l'appareil",
+                "remove": "Supprimer l'appareil",
+                "removeConfirmation": "Supprimer \"{{name}}\" de votre compte ? Il sera déconnecté et cessera de se synchroniser.",
+                "namePlaceholder": "Nom de l'appareil",
+                "lastActive": "actif {{date}}",
+                "empty": "Aucun appareil n'est encore connecté à ce compte"
+            },
             "error": {
                 "invalidCredentials": "E-mail ou mot de passe invalide",
                 "unknown": "Une erreur s'est produite. Veuillez réessayer.",
                 "failedToLoadProfiles": "Impossible de charger les profils",
+                "failedToLoadDevices": "Impossible de charger les appareils",
                 "profileNameRequired": "Le nom du profil est requis",
                 "failedToCreateProfile": "Impossible de créer le profil"
             }
@@ -337,6 +355,16 @@
                 "grantTabs": "Des autorisations supplémentaires sont requises pour la fonctionnalité de mise de côté des onglets",
                 "recentlyStashed": "Récemment mis de côté",
                 "nothingStashed": "Rien de mis de côté pour l'instant"
+            },
+            "syncedTabs": {
+                "title": "Onglets synchronisés",
+                "loading": "Chargement des onglets...",
+                "unnamedGroup": "Groupe",
+                "notConnectedTitle": "Voir les onglets de vos autres appareils",
+                "notConnectedDescription": "Connectez Anori pour synchroniser les onglets ouverts sur tous vos appareils.",
+                "connect": "Connecter",
+                "emptyTitle": "Aucun autre appareil ne partage encore ses onglets",
+                "emptyDescription": "Connectez-vous à votre compte Anori Plus sur un autre ordinateur et activez la synchronisation des onglets sur celui-ci."
             }
         },
         "tasks-plugin": {

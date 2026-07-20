@@ -57,7 +57,7 @@
             "connected": "Conectado",
             "disconnect": "Desconectar",
             "cancel": "Cancelar",
-            "account": "Conta na nuvem",
+            "account": "Anori Plus",
             "login": "Entrar",
             "logout": "Sair",
             "email": "E-mail",
@@ -69,9 +69,11 @@
             "noAccount": "Não tem uma conta?",
             "createAccount": "Crie uma aqui",
             "userDataConflict": {
-                "description": "Você tem uma cópia local de dados que foi enviada anteriormente para uma conta diferente. Deseja enviá-los para esta conta ou descartá-los?",
-                "upload": "Enviar para esta conta",
-                "discard": "Descartar dados locais"
+                "description": "Este navegador tem dados do Anori Plus — por exemplo, seu Arquivo de abas — que foram sincronizados com uma conta diferente da que você está entrando. O que deve acontecer com eles?",
+                "upload": "Adicionar a esta conta",
+                "uploadHint": "Mantém esses dados e os mescla na conta em que você está entrando. Escolha esta opção se forem seus — por exemplo, se você mudou para uma nova conta.",
+                "discard": "Descartar dados locais",
+                "discardHint": "Remove-os deste navegador e usa o que esta conta já tem. Escolha esta opção se os dados pertencem à outra conta ou você não precisa deles aqui."
             },
             "plusDescription": "O Anori Plus é um serviço adicional para o Anori que permite sincronizar sua configuração entre vários navegadores e dispositivos em tempo real.",
             "learnMore": "Saiba mais",
@@ -90,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Conectar ao perfil \"{{profileName}}\" substituirá sua configuração local atual pela armazenada no perfil. Deseja continuar?"
             },
+            "settings": {
+                "title": "Configurações",
+                "shareOpenTabs": "Compartilhar abas abertas com outros dispositivos conectados",
+                "shareOpenTabsHint": "Quando ativado, as abas abertas neste computador são compartilhadas com seus outros dispositivos conectados a esta conta Anori — para que você possa ver e reabrir abas em qualquer um deles."
+            },
+            "devices": {
+                "title": "Dispositivos",
+                "thisDevice": "Este dispositivo",
+                "rename": "Renomear dispositivo",
+                "remove": "Remover dispositivo",
+                "removeConfirmation": "Remover \"{{name}}\" da sua conta? Ele será desconectado e deixará de sincronizar.",
+                "namePlaceholder": "Nome do dispositivo",
+                "lastActive": "ativo {{date}}",
+                "empty": "Nenhum dispositivo conectado a esta conta ainda"
+            },
             "error": {
                 "invalidCredentials": "E-mail ou senha inválidos",
                 "unknown": "Algo deu errado. Por favor, tente novamente.",
                 "failedToLoadProfiles": "Falha ao carregar perfis",
+                "failedToLoadDevices": "Falha ao carregar dispositivos",
                 "profileNameRequired": "O nome do perfil é obrigatório",
                 "failedToCreateProfile": "Falha ao criar perfil"
             }
@@ -337,6 +355,16 @@
                 "grantTabs": "Permissões adicionais são necessárias para o recurso de abas guardadas",
                 "recentlyStashed": "Guardados recentemente",
                 "nothingStashed": "Nada guardado ainda"
+            },
+            "syncedTabs": {
+                "title": "Abas sincronizadas",
+                "loading": "Carregando abas...",
+                "unnamedGroup": "Grupo",
+                "notConnectedTitle": "Veja as abas dos seus outros dispositivos",
+                "notConnectedDescription": "Conecte o Anori para sincronizar abas abertas entre seus dispositivos.",
+                "connect": "Conectar",
+                "emptyTitle": "Nenhum outro dispositivo está compartilhando abas ainda",
+                "emptyDescription": "Entre na sua conta Anori Plus em outro computador e ative a sincronização de abas lá."
             }
         },
         "tasks-plugin": {
