@@ -2,6 +2,7 @@
     "appName": "Browser extension name shown in store listings, the extension list, and the browser action title; also used in manifest metadata.",
     "appDescription": "Extension description shown in browser store listings and the extension list; also used in manifest metadata.",
     "appActionTitle": "Tooltip shown when hovering the extension icon in the browser toolbar; also used in manifest metadata.",
+    "openAnori": "Button/menu item that opens the Anori new-tab page (used in the toolbar popup).",
     "icon": "Form field label for selecting an icon in widget configuration screens.",
     "title": "Form field label for entering a widget's title or display name in configuration screens.",
     "url": "Form field label for entering a URL in widget configuration screens.",
@@ -39,7 +40,7 @@
         "connected": "Badge next to a profile name indicating it is currently connected and syncing.",
         "disconnect": "Button to disconnect the current browser from the active cloud profile.",
         "cancel": "Button to dismiss cloud modals (profile creation, rename, connect confirmation).",
-        "account": "Cloud account modal title and the sidebar button that opens it.",
+        "account": "Name of the 'Anori Plus' cloud-sync feature — used as the modal title (when connected), the sidebar button that opens it, and the Anori Plus settings section title.",
         "login": "Submit button on the cloud login form.",
         "logout": "Button to log out of the cloud account in the connected-account view.",
         "email": "Email input field on the cloud login form.",
@@ -47,6 +48,13 @@
         "connectedAs": "Label showing which email the user is logged in as.",
         "noAccount": "Prompt text shown before the sign-up link on the login form.",
         "createAccount": "Link on the login form that takes the user to create an account.",
+        "userDataConflict": {
+            "description": "Shown during login when this device holds account-level synced data (currently the Tab stash — saved tabs/groups) that belongs to a different account than the one logging in. Names the tab stash as a concrete example. The user must decide before login completes.",
+            "upload": "Button that keeps the local data and uploads (merges) it into the account being logged into.",
+            "uploadHint": "One-line explanation under the 'Add it to this account' button describing when to choose it (the data is yours / you switched accounts).",
+            "discard": "Button that deletes the local copy and uses the account's cloud data instead.",
+            "discardHint": "One-line explanation under the 'Discard it' button describing when to choose it (the data belongs to the other account or isn't needed here)."
+        },
         "plusDescription": "Description of the Anori Plus cloud-sync service shown to logged-out users.",
         "learnMore": "Link on the login screen to learn more about Anori Plus.",
         "profiles": "Heading for the list of sync profiles in the connected-account view.",
@@ -64,10 +72,26 @@
         "connectConfirmation": {
             "message": "Confirmation prompt warning that connecting will overwrite the local configuration, including the profile's name."
         },
+        "settings": {
+            "title": "Heading of the settings section inside the Anori Plus account view.",
+            "shareOpenTabs": "Checkbox label toggling whether this device shares its open tabs with the user's other devices signed into the same Anori account.",
+            "shareOpenTabsHint": "Tooltip explaining the share-open-tabs toggle: enabling it makes this device's open tabs visible on other signed-in devices and vice versa, so tabs can be reopened from any of them."
+        },
+        "devices": {
+            "title": "Heading of the devices section in the Anori Plus account view, listing the devices signed into the account.",
+            "thisDevice": "Badge marking which listed device is the one the user is currently on.",
+            "rename": "Accessibility label / tooltip for the button that renames a device.",
+            "remove": "Label for the button that removes a device from the account (also the confirm button); shown only for devices other than the current one.",
+            "removeConfirmation": "Confirmation prompt before removing a device from the account, warning it will be signed out and stop syncing. {{name}} is the device name.",
+            "namePlaceholder": "Placeholder for the input where the user types a new device name.",
+            "lastActive": "Suffix showing when a device was last active, combined with a relative time (e.g. 'active 2 hours ago').",
+            "empty": "Empty-state text shown when the account has no signed-in devices registered yet."
+        },
         "error": {
             "invalidCredentials": "Login error shown when the email or password is wrong.",
             "unknown": "Generic fallback error message for failed cloud requests.",
             "failedToLoadProfiles": "Error shown when the profile list fails to load.",
+            "failedToLoadDevices": "Error shown when the device list fails to load.",
             "profileNameRequired": "Validation error when creating a profile without a name.",
             "failedToCreateProfile": "Error shown when profile creation fails."
         }
@@ -258,6 +282,49 @@
         "name": "System status plugin name in the add-widget picker.",
         "ramLoad": "Name/label of the RAM load widget.",
         "cpuLoad": "Name/label of the CPU load widget."
+    },
+    "tabs-plugin": {
+        "name": "Name of the tab-management plugin in the add-widget picker.",
+        "tabGroup": "Fallback label for a captured tab group that has no name, combined with a date (e.g. 'Tab group · Jul 9').",
+        "contextMenu": {
+            "stashTab": "Right-click context-menu item (on a page or the tab strip) that saves the current tab to the stash.",
+            "stashLink": "Right-click context-menu item (on a link) that saves the linked URL to the stash.",
+            "stashGroup": "Right-click context-menu item (on a tab) that saves the tab's whole named group to the stash."
+        },
+        "stash": {
+            "title": "Heading shown at the top of the Stash widget.",
+            "inbox": "Name of the default stash list.",
+            "empty": "Title of the empty state shown in the Stash widget when nothing has been saved yet.",
+            "emptyHint": "Description under the Stash widget empty state, telling the user how to add tabs: the '+' button in the widget header or the Anori browser-toolbar popup.",
+            "stashTab": "Label/tooltip for the button that opens the picker to save a tab to the stash.",
+            "remove": "Tooltip for the button that removes an entry from the stash.",
+            "rename": "Tooltip for the button that renames a stashed group.",
+            "openAll": "Tooltip for the button that opens every link in a stashed group.",
+            "showAllTabs": "Button that expands the open-tabs picker from the top few to the full list.",
+            "pasteUrl": "Placeholder for the input where the user pastes an arbitrary link to stash.",
+            "add": "Button that adds the pasted link to the stash.",
+            "tabCount": "Badge on a stashed group showing how many tabs it holds, e.g. '3 tabs'. Uses i18next plural forms."
+        },
+        "popup": {
+            "stashTab": "Section heading in the toolbar popup for saving one open tab.",
+            "stashCurrentTab": "Static popup menu item that saves the currently active tab, shown when that tab isn't Anori or a service page.",
+            "stashGroup": "Section heading in the toolbar popup for saving a named tab group.",
+            "stashWindow": "Popup menu item that saves every tab in the current window as one stashed group.",
+            "window": "Fallback label for a captured window, combined with a date (e.g. 'Window · Jul 9').",
+            "grantTabs": "List-item prompt shown in the toolbar popup when the tabs permission is missing; clicking it requests access so open tabs can be listed and stashed.",
+            "recentlyStashed": "Section heading in the toolbar popup listing the most recently stashed items.",
+            "nothingStashed": "Empty-state text in the popup's recently-stashed section."
+        },
+        "syncedTabs": {
+            "title": "Title of the widget that shows open tabs synced from the user's other signed-in devices.",
+            "loading": "Placeholder text while the other devices' tabs are being fetched.",
+            "unnamedGroup": "Fallback label for a tab group that has no name.",
+            "notConnectedTitle": "Empty-state title shown when the user hasn't connected an Anori Plus account.",
+            "notConnectedDescription": "Empty-state description prompting the user to connect Anori to sync tabs across devices.",
+            "connect": "Button in the not-connected empty state that opens the Anori Plus account dialog.",
+            "emptyTitle": "Empty-state title shown when connected but no other device is sharing its tabs.",
+            "emptyDescription": "Empty-state description telling the user to sign in and enable tab sync on another computer."
+        }
     },
     "tasks-plugin": {
         "name": "Tasks plugin name in the add-widget picker.",

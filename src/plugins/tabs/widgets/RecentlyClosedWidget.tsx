@@ -1,32 +1,20 @@
 import { RelativeTime } from "@anori/components/RelativeTime";
-import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { ListItem } from "@anori/design-system/components/ListItem/ListItem";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
-import { wait } from "@anori/utils/misc";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import moment from "moment-timezone";
-import { m, useAnimationControls } from "motion/react";
 import { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import browser from "webextension-polyfill";
 
-const widget = css({ display: "flex", flexDirection: "column", gap: "1-5", overflow: "hidden" });
+const widget = css({ display: "flex", flexDirection: "column", overflow: "hidden" });
 const sessionsList = css({ flexGrow: 1, minHeight: 0 });
-const sessionRow = css({
-  display: "flex",
-  alignItems: "center",
-  gap: "4",
-  padding: "1-5",
-  cursor: "pointer",
-  transition: "0.15s ease-in-out",
-  borderRadius: "md",
-  "& svg": { minWidth: "18px", maxWidth: "18px" },
-  "@media (any-hover: hover)": { "&:hover": { background: "ghost.hover" } },
-});
 const favIconImg = css({ width: "18px", borderRadius: "md" });
 const sessionTitle = css({
   flexGrow: 1,
@@ -44,20 +32,13 @@ const lastModifiedText = css({
   textAlign: "end",
 });
 
-const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMock: boolean }) => {
+const Session = ({ session }: { session: browser.Sessions.Session; isMock: boolean }) => {
   const restore = async () => {
-    controls.start("swipe", { duration: 0.1 });
     trackInteraction("Restore tab");
-    await wait(100);
-    if (isMock) {
-      controls.set("reset");
-    } else {
-      await browser.sessions.restore(session.tab ? session.tab.sessionId : session.window?.sessionId);
-      window.close();
-    }
+    await browser.sessions.restore(session.tab ? session.tab.sessionId : session.window?.sessionId);
+    window.close();
   };
   const { t, i18n } = useTranslation();
-  const controls = useAnimationControls();
   const favIcon = session.tab ? session.tab.favIconUrl : "";
   const trackInteraction = useWidgetInteractionTracker();
   // TODO: probably should refactor this so dependencies are explicit?
@@ -68,21 +49,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
   }, [session.lastModified, i18n.language]);
 
   return (
-    <m.div
-      className={sessionRow}
-      animate={controls}
-      onClick={restore}
-      variants={{
-        swipe: {
-          translateX: "65%",
-          opacity: 0,
-        },
-        reset: {
-          translateX: "0",
-          opacity: 1,
-        },
-      }}
-    >
+    <ListItem as="button" onClick={restore}>
       {!!favIcon && <img className={favIconImg} src={favIcon} aria-hidden />}
       {!favIcon && (
         <Icon
@@ -98,7 +65,7 @@ const Session = ({ session, isMock }: { session: browser.Sessions.Session; isMoc
       <div className={lastModifiedText}>
         {session.lastModified !== 0 && <RelativeTime m={lastModified} withoutSuffix />}
       </div>
-    </m.div>
+    </ListItem>
   );
 };
 
@@ -123,7 +90,7 @@ export const RecentlyClosedWidget = memo(function RecentlyClosedWidget({ instanc
 
   return (
     <div className={widget}>
-      <Heading marginBottom={1}>{t("recently-closed-plugin.widgetTitle")}</Heading>
+      <WidgetHeader title={t("recently-closed-plugin.widgetTitle")} />
       <ScrollArea className={sessionsList} type="hover">
         {sessions
           .filter((s) => {

@@ -2,6 +2,7 @@ import browser from "webextension-polyfill";
 import { compareHlc, type HlcTimestamp } from "./hlc";
 import { HLC_STATE_KEY, OUTBOX_KEY } from "./keys";
 import { deleteFile, writeFile } from "./opfs";
+import type { SyncScope } from "./schema/sync-mode";
 import type {
   Outbox,
   OutboxChangeCallback,
@@ -39,16 +40,16 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
   };
 
   return {
-    isOutboxEnabled(): boolean {
-      return ctx.getOutboxEnabled();
+    isOutboxEnabled(scope: SyncScope): boolean {
+      return ctx.isOutboxScopeEnabled(scope);
     },
 
-    enableOutbox(): void {
+    enableOutbox(_scope: SyncScope): void {
       // This is handled by the main storage - we just delegate
       // The actual flag is managed in createStorage
     },
 
-    disableOutbox(): void {
+    disableOutbox(_scope: SyncScope): void {
       // Same as enableOutbox - delegated
     },
 
@@ -77,9 +78,14 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
       await ctx.waitForPersist();
     },
 
-    async clearOutbox(): Promise<void> {
+    async clearOutbox(scope?: SyncScope): Promise<void> {
       ctx.ensureInitialized();
-      ctx.persistOutbox([]);
+      if (scope === undefined) {
+        ctx.persistOutbox([]);
+      } else {
+        const remaining = ctx.getOutboxFromCache().filter((entry) => ctx.getKeySyncMode(entry.key) !== scope);
+        ctx.persistOutbox(remaining);
+      }
       await ctx.waitForPersist();
     },
 
@@ -95,7 +101,7 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
       };
     },
 
-    exportForFullSync(): {
+    exportForFullSync(scope: SyncScope): {
       kv: Record<string, StorageRecord<unknown>>;
       files: Record<string, { record: StorageRecord<FileMetaValue<unknown>>; path: string }>;
     } {
@@ -105,7 +111,7 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
 
       for (const [key, value] of Object.entries(ctx.cache)) {
         if (!isStorageRecord(value)) continue;
-        if (!ctx.isKeyTracked(key)) continue;
+        if (ctx.getKeySyncMode(key) !== scope) continue;
 
         if (ctx.isFileKey(key)) {
           const fileRecord = value as StorageRecord<FileMetaValue<unknown>>;
@@ -121,16 +127,74 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
       return { kv, files };
     },
 
+    async enqueueScopeToOutbox(scope: SyncScope, options?: { restampHlc?: boolean }): Promise<void> {
+      ctx.ensureInitialized();
+      const restampHlc = options?.restampHlc ?? false;
+      const outbox = ctx.getOutboxFromCache();
+      let restamped = false;
+      for (const [key, value] of Object.entries(ctx.cache)) {
+        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
+        if (!isStorageRecord(value)) continue;
+        if (ctx.getKeySyncMode(key) !== scope) continue;
+
+        let record = value;
+        if (restampHlc) {
+          // A fresh timestamp makes this record beat every existing copy under LWW, so the
+          // push propagates to the server and all other devices instead of losing conflicts.
+          record = { ...value, hlc: ctx.getHlc().tick() };
+          ctx.persistRecord(key, record);
+          restamped = true;
+        }
+
+        const entry = {
+          key,
+          type: ctx.isFileKey(key) ? ("file" as const) : ("kv" as const),
+          hlc: record.hlc,
+          addedAt: Date.now(),
+        };
+        const existingIndex = outbox.findIndex((e) => e.key === key);
+        if (existingIndex >= 0) {
+          outbox[existingIndex] = entry;
+        } else {
+          outbox.push(entry);
+        }
+      }
+      if (restamped) {
+        ctx.persistHlcState();
+      }
+      ctx.persistOutbox(outbox);
+      await ctx.waitForPersist();
+    },
+
+    async purgeScopeData(scope: SyncScope): Promise<string[]> {
+      ctx.ensureInitialized();
+      const toRemove: string[] = [];
+      for (const [key, value] of Object.entries(ctx.cache)) {
+        if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
+        if (!isStorageRecord(value)) continue;
+        if (ctx.getKeySyncMode(key) !== scope) continue;
+        toRemove.push(key);
+      }
+      await hardDeleteKeys(toRemove);
+      const remaining = ctx.getOutboxFromCache().filter((entry) => ctx.getKeySyncMode(entry.key) !== scope);
+      ctx.persistOutbox(remaining);
+      await ctx.waitForPersist();
+      return toRemove;
+    },
+
     exportOutbox() {
       ctx.ensureInitialized();
       const outbox = ctx.getOutboxFromCache();
-      const result: Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }> = [];
+      const result: {
+        [S in SyncScope]: Array<{ key: string; type: "file" | "kv"; record: StorageRecord<unknown> }>;
+      } = { profile: [], user: [] };
 
       for (const entry of outbox) {
         const record = ctx.cache[entry.key];
-        if (isStorageRecord(record)) {
-          result.push({ key: entry.key, type: entry.type, record });
-        }
+        if (!isStorageRecord(record)) continue;
+        const mode = ctx.getKeySyncMode(entry.key);
+        if (mode === "off") continue;
+        result[mode].push({ key: entry.key, type: entry.type, record });
       }
 
       return result;
@@ -223,17 +287,21 @@ export function createSyncInterface(ctx: StorageInternalContext): Storage["sync"
 
     async reconcileAgainstServerKeys(
       serverKeys: Set<string>,
-      options?: { protectOutbox?: boolean },
+      options?: { protectOutbox?: boolean; scope?: SyncScope },
     ): Promise<string[]> {
       ctx.ensureInitialized();
       const protectOutbox = options?.protectOutbox ?? true;
+      // A full-sync response covers exactly one scope, so only that scope's keys may be
+      // removed — a profile reconcile must never delete user-scoped keys (they are by
+      // definition absent from any one profile's key set), and vice versa.
+      const scope = options?.scope ?? "profile";
       const outboxKeys = protectOutbox ? new Set(ctx.getOutboxFromCache().map((e) => e.key)) : null;
       const toRemove: string[] = [];
       for (const [key, value] of Object.entries(ctx.cache)) {
         if (key === HLC_STATE_KEY || key === OUTBOX_KEY) continue;
         if (!isStorageRecord(value)) continue;
         if (value.deleted) continue; // only live keys; tombstones are handled by compaction
-        if (!ctx.isKeyTracked(key)) continue;
+        if (ctx.getKeySyncMode(key) !== scope) continue;
         if (serverKeys.has(key)) continue;
         if (outboxKeys?.has(key)) continue;
         toRemove.push(key);

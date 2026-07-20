@@ -11,6 +11,7 @@ export const notesWidgetDescriptor = defineWidget({
   mainScreen: NotesWidget,
   mock: NotesWidgetMock,
   appearance: {
+    withoutPadding: true,
     resizable: {
       min: { width: 2, height: 1 },
     },

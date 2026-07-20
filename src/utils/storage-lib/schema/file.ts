@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import type { FileMetaValue } from "../types";
+import type { SyncMode } from "./sync-mode";
 
 const FILE_TYPE = Symbol("file");
 const FILE_COLLECTION_TYPE = Symbol("fileCollection");
@@ -7,7 +8,7 @@ const FILE_QUERY_TYPE = Symbol("fileQuery");
 
 type FileOptions<P> = {
   key: string;
-  tracked: boolean;
+  sync: SyncMode;
   includedInBackup: boolean;
   propertiesSchema?: z.ZodType<P>;
 };
@@ -17,14 +18,14 @@ export type FileDescriptor<P = unknown> = {
   readonly _propertiesType: P;
   readonly _valueType: FileMetaValue<P>;
   readonly key: string;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
   readonly includedInBackup: boolean;
   readonly propertiesSchema?: z.ZodType<P>;
 };
 
 type FileCollectionOptions<P> = {
   keyPrefix: string;
-  tracked: boolean;
+  sync: SyncMode;
   includedInBackup: boolean;
   propertiesSchema?: z.ZodType<P>;
 };
@@ -35,7 +36,7 @@ export type FileCollectionAllQuery<P = unknown> = {
   readonly _valueType: FileMetaValue<P>;
   readonly queryType: "all";
   readonly keyPrefix: string;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
 };
 
 export type FileCollectionByIdQuery<P = unknown> = {
@@ -45,7 +46,7 @@ export type FileCollectionByIdQuery<P = unknown> = {
   readonly queryType: "byId";
   readonly keyPrefix: string;
   readonly id: string;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
 };
 
 export type FileCollectionQuery<P = unknown> = FileCollectionAllQuery<P> | FileCollectionByIdQuery<P>;
@@ -55,7 +56,7 @@ export type FileCollectionDescriptor<P = unknown> = {
   readonly _propertiesType: P;
   readonly _valueType: FileMetaValue<P>;
   readonly keyPrefix: string;
-  readonly tracked: boolean;
+  readonly sync: SyncMode;
   readonly includedInBackup: boolean;
   readonly propertiesSchema?: z.ZodType<P>;
   all(): FileCollectionAllQuery<P>;
@@ -68,14 +69,14 @@ export function file<P = undefined>(options: FileOptions<P>): FileDescriptor<P> 
     _propertiesType: undefined as unknown as P,
     _valueType: undefined as unknown as FileMetaValue<P>,
     key: options.key,
-    tracked: options.tracked,
+    sync: options.sync,
     includedInBackup: options.includedInBackup,
     propertiesSchema: options.propertiesSchema,
   };
 }
 
 export function fileCollection<P = undefined>(options: FileCollectionOptions<P>): FileCollectionDescriptor<P> {
-  const { keyPrefix, tracked, propertiesSchema } = options;
+  const { keyPrefix, sync, propertiesSchema } = options;
   const includedInBackup = options.includedInBackup;
 
   return {
@@ -83,7 +84,7 @@ export function fileCollection<P = undefined>(options: FileCollectionOptions<P>)
     _propertiesType: undefined as unknown as P,
     _valueType: undefined as unknown as FileMetaValue<P>,
     keyPrefix,
-    tracked,
+    sync,
     includedInBackup,
     propertiesSchema,
 
@@ -94,7 +95,7 @@ export function fileCollection<P = undefined>(options: FileCollectionOptions<P>)
         _valueType: undefined as unknown as FileMetaValue<P>,
         queryType: "all",
         keyPrefix,
-        tracked,
+        sync,
       };
     },
 
@@ -106,7 +107,7 @@ export function fileCollection<P = undefined>(options: FileCollectionOptions<P>)
         queryType: "byId",
         keyPrefix,
         id,
-        tracked,
+        sync,
       };
     },
   };

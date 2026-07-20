@@ -1,3 +1,4 @@
+import { AnoriPlusSettingsProvider } from "@anori/cloud-integration/anori-plus-settings";
 import { useCloudAccount, useIsBehindCloudSchema } from "@anori/cloud-integration/hooks";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { WhatsNew } from "@anori/components/WhatsNew";
@@ -16,7 +17,8 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useMeasure from "react-use-motion-measure";
 import { css, cva } from "styled-system/css";
-import { CloudAccountModal, NewWidgetWizard, SettingsModal } from "../../lazy-components";
+import { NewWidgetWizard, SettingsModal } from "../../lazy-components";
+import type { SettingScreen } from "../../settings/Settings";
 import { EditModeToolbar } from "../EditModeToolbar/EditModeToolbar";
 import { EditWidgetModal } from "../EditWidgetModal";
 import { FolderContent } from "../FolderContent";
@@ -83,10 +85,9 @@ export const Workspace = ({
   const [isEditing, setIsEditing] = useState(false);
   const [addWidgetWizardVisible, setAddWidgetWizardVisible] = useState(false);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta>(null);
-  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [settingsScreen, setSettingsScreen] = useState<SettingScreen | null>(null);
   const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
   const [whatsNewVisible, setWhatsNewVisible] = useState(false);
-  const [cloudModalVisible, setCloudModalVisible] = useState(false);
   const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useStorageValue(anoriSchema.hasUnreadReleaseNotes);
   const { isConnected } = useCloudAccount();
   const isBehindCloudSchema = useIsBehindCloudSchema();
@@ -120,7 +121,7 @@ export const Workspace = ({
     setAddWidgetWizardVisible(true);
   });
   useHotkeys("alt+h", () => setShortcutsHelpVisible((v) => !v));
-  useHotkeys("alt+s", () => setSettingsVisible((v) => !v));
+  useHotkeys("alt+s", () => setSettingsScreen((screen) => (screen ? null : "general")));
 
   const overlayLayers = useOverlayLayers();
   useHotkeys(
@@ -139,8 +140,8 @@ export const Workspace = ({
     setWhatsNewVisible(true);
     setHasUnreadReleaseNotes(false);
   }, [setHasUnreadReleaseNotes]);
-  const handleOpenCloudAccount = useCallback(() => setCloudModalVisible(true), []);
-  const handleOpenSettings = useCallback(() => setSettingsVisible(true), []);
+  const handleOpenCloudAccount = useCallback(() => setSettingsScreen("anori-plus"), []);
+  const handleOpenSettings = useCallback(() => setSettingsScreen("general"), []);
 
   const parentFolderContext = useMemo(
     () => ({ activeFolder, isEditing, grid: gridDimensions, gridRef: mainRef }),
@@ -169,42 +170,44 @@ export const Workspace = ({
         )}
       </AnimatePresence>
 
-      <div className={startPageContent({ orientation })}>
-        <Sidebar
-          folders={folders}
-          activeFolder={activeFolder}
-          orientation={orientation}
-          bookmarksBarVisible={bookmarksBarVisible}
-          hasUnreadReleaseNotes={hasUnreadReleaseNotes ?? false}
-          cloudConnected={isConnected}
-          cloudBehindSchema={isBehindCloudSchema}
-          onFolderClick={onFolderClick}
-          onToggleEditMode={handleToggleEditMode}
-          onOpenWhatsNew={handleOpenWhatsNew}
-          onOpenCloudAccount={handleOpenCloudAccount}
-          onOpenSettings={handleOpenSettings}
-        />
+      <AnoriPlusSettingsProvider open={handleOpenCloudAccount}>
+        <div className={startPageContent({ orientation })}>
+          <Sidebar
+            folders={folders}
+            activeFolder={activeFolder}
+            orientation={orientation}
+            bookmarksBarVisible={bookmarksBarVisible}
+            hasUnreadReleaseNotes={hasUnreadReleaseNotes ?? false}
+            cloudConnected={isConnected}
+            cloudBehindSchema={isBehindCloudSchema}
+            onFolderClick={onFolderClick}
+            onToggleEditMode={handleToggleEditMode}
+            onOpenWhatsNew={handleOpenWhatsNew}
+            onOpenCloudAccount={handleOpenCloudAccount}
+            onOpenSettings={handleOpenSettings}
+          />
 
-        <div ref={panelRef} className={widgetsArea({ orientation, bookmarksBar: bookmarksBarVisible })}>
-          <FolderContentContext.Provider value={parentFolderContext}>
-            <FolderContent
-              key={activeFolder.id}
-              folder={activeFolder}
-              animationDirection={animationDirection}
-              isEditing={isEditing}
-              widgets={widgets}
-              gridDimensions={gridDimensions}
-              gridRef={mainRef}
-              scrollAreaRef={scrollAreaRef}
-              onLayoutUpdate={handleLayoutUpdate}
-              onEditWidget={setEditingWidget}
-              onUpdateWidgetConfig={updateWidgetConfig}
-              showOnboarding={shouldShowOnboarding}
-            />
-          </FolderContentContext.Provider>
-          <EditModeToolbar visible={isEditing} onAddWidget={handleAddWidget} onDone={handleDoneEditing} />
+          <div ref={panelRef} className={widgetsArea({ orientation, bookmarksBar: bookmarksBarVisible })}>
+            <FolderContentContext.Provider value={parentFolderContext}>
+              <FolderContent
+                key={activeFolder.id}
+                folder={activeFolder}
+                animationDirection={animationDirection}
+                isEditing={isEditing}
+                widgets={widgets}
+                gridDimensions={gridDimensions}
+                gridRef={mainRef}
+                scrollAreaRef={scrollAreaRef}
+                onLayoutUpdate={handleLayoutUpdate}
+                onEditWidget={setEditingWidget}
+                onUpdateWidgetConfig={updateWidgetConfig}
+                showOnboarding={shouldShowOnboarding}
+              />
+            </FolderContentContext.Provider>
+            <EditModeToolbar visible={isEditing} onAddWidget={handleAddWidget} onDone={handleDoneEditing} />
+          </div>
         </div>
-      </div>
+      </AnoriPlusSettingsProvider>
 
       <AnimatePresence>
         {addWidgetWizardVisible && (
@@ -244,11 +247,7 @@ export const Workspace = ({
       </AnimatePresence>
 
       <AnimatePresence>
-        {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {cloudModalVisible && <CloudAccountModal onClose={() => setCloudModalVisible(false)} />}
+        {settingsScreen && <SettingsModal initialScreen={settingsScreen} onClose={() => setSettingsScreen(null)} />}
       </AnimatePresence>
     </>
   );

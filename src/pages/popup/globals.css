@@ -1,0 +1,11 @@
+html,
+body {
+  margin: 0;
+  background-color: var(--ds-surface-sunken);
+  color: var(--ds-text-primary);
+}
+
+body {
+  width: 460px;
+  overflow: hidden;
+}

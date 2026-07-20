@@ -23,8 +23,8 @@ export type WidgetRenderProps<T = Mapping, P = Mapping> = {
 export type WidgetResizable =
   | boolean
   | {
-      min?: GridItemSize;
-      max?: GridItemSize;
+      min?: Partial<GridItemSize>;
+      max?: Partial<GridItemSize>;
     };
 
 export type WidgetDescriptor<I extends ID = ID, T extends Mapping = Mapping | EmptyObject> = {

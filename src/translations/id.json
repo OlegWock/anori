@@ -3,6 +3,7 @@
         "appName": "Anori: tab baru produktivitas",
         "appDescription": "Tab baru yang dapat dikustomisasi: susun halaman Anda sendiri dari widget",
         "appActionTitle": "Buka tab baru Anori",
+        "openAnori": "Buka Anori",
         "icon": "Ikon",
         "title": "Judul",
         "url": "URL",
@@ -56,7 +57,7 @@
             "connected": "Terhubung",
             "disconnect": "Putuskan",
             "cancel": "Batal",
-            "account": "Akun cloud",
+            "account": "Anori Plus",
             "login": "Masuk",
             "logout": "Keluar",
             "email": "Email",
@@ -67,6 +68,13 @@
             "downloadBackup": "Unduh",
             "noAccount": "Belum punya akun?",
             "createAccount": "Buat di sini",
+            "userDataConflict": {
+                "description": "Browser ini memiliki data Anori Plus — misalnya Simpanan Tab Anda — yang telah disinkronkan ke akun berbeda dari akun yang Anda masuki. Apa yang harus dilakukan dengan data tersebut?",
+                "upload": "Tambahkan ke akun ini",
+                "uploadHint": "Menyimpan data ini dan menggabungkannya ke akun yang Anda masuki. Pilih ini jika data tersebut milik Anda — misalnya jika Anda beralih ke akun baru.",
+                "discard": "Buang data lokal",
+                "discardHint": "Menghapusnya dari browser ini dan menggunakan data yang sudah ada di akun ini. Pilih ini jika data tersebut milik akun lain atau Anda tidak membutuhkannya di sini."
+            },
             "plusDescription": "Anori Plus adalah layanan tambahan untuk Anori yang memungkinkan Anda menyinkronkan konfigurasi antara beberapa browser dan perangkat secara real time.",
             "learnMore": "Pelajari lebih lanjut",
             "profiles": "Profil",
@@ -84,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Menghubungkan ke profil \"{{profileName}}\" akan menimpa konfigurasi lokal Anda saat ini dengan yang tersimpan di profil. Apakah Anda ingin melanjutkan?"
             },
+            "settings": {
+                "title": "Pengaturan",
+                "shareOpenTabs": "Bagikan tab yang terbuka dengan perangkat lain yang terhubung",
+                "shareOpenTabsHint": "Jika diaktifkan, tab yang terbuka di komputer ini akan dibagikan ke perangkat lain yang masuk ke akun Anori ini — sehingga Anda dapat melihat dan membuka kembali tab dari perangkat mana pun."
+            },
+            "devices": {
+                "title": "Perangkat",
+                "thisDevice": "Perangkat ini",
+                "rename": "Ganti nama perangkat",
+                "remove": "Hapus perangkat",
+                "removeConfirmation": "Hapus \"{{name}}\" dari akun Anda? Perangkat akan keluar dan berhenti menyinkronkan.",
+                "namePlaceholder": "Nama perangkat",
+                "lastActive": "aktif {{date}}",
+                "empty": "Belum ada perangkat yang masuk ke akun ini"
+            },
             "error": {
                 "invalidCredentials": "Email atau kata sandi tidak valid",
                 "unknown": "Terjadi kesalahan. Silakan coba lagi.",
                 "failedToLoadProfiles": "Gagal memuat profil",
+                "failedToLoadDevices": "Gagal memuat perangkat",
                 "profileNameRequired": "Nama profil wajib diisi",
                 "failedToCreateProfile": "Gagal membuat profil"
             }
@@ -297,6 +321,49 @@
             "name": "Status sistem",
             "ramLoad": "Beban RAM",
             "cpuLoad": "Beban CPU"
+        },
+        "tabs-plugin": {
+            "name": "Tab",
+            "tabGroup": "Grup tab",
+            "contextMenu": {
+                "stashTab": "Simpan tab ini",
+                "stashLink": "Simpan tautan ini",
+                "stashGroup": "Simpan grup tab ini"
+            },
+            "stash": {
+                "title": "Simpanan tab",
+                "inbox": "Kotak masuk",
+                "empty": "Belum ada yang disimpan",
+                "emptyHint": "Tambahkan tab dengan tombol + di atas, atau buka popup Anori dari toolbar browser Anda.",
+                "stashTab": "Simpan tab",
+                "remove": "Hapus",
+                "rename": "Ganti nama",
+                "openAll": "Buka semua",
+                "showAllTabs": "Tampilkan semua tab",
+                "pasteUrl": "Tempel tautan",
+                "add": "Tambah",
+                "tabCount_other": "{{count}} tab"
+            },
+            "popup": {
+                "stashTab": "Simpan tab",
+                "stashCurrentTab": "Simpan tab saat ini",
+                "stashGroup": "Simpan grup tab",
+                "stashWindow": "Simpan jendela ini",
+                "window": "Jendela",
+                "grantTabs": "Izin tambahan diperlukan untuk fitur simpanan Tab",
+                "recentlyStashed": "Baru saja disimpan",
+                "nothingStashed": "Belum ada yang disimpan"
+            },
+            "syncedTabs": {
+                "title": "Tab tersinkron",
+                "loading": "Memuat tab...",
+                "unnamedGroup": "Grup",
+                "notConnectedTitle": "Lihat tab dari perangkat lain Anda",
+                "notConnectedDescription": "Hubungkan Anori untuk menyinkronkan tab yang terbuka di semua perangkat Anda.",
+                "connect": "Hubungkan",
+                "emptyTitle": "Belum ada perangkat lain yang berbagi tab",
+                "emptyDescription": "Masuk ke akun Anori Plus Anda di komputer lain dan aktifkan sinkronisasi tab di sana."
+            }
         },
         "tasks-plugin": {
             "name": "Tugas",

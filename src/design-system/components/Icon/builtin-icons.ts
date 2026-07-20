@@ -35,6 +35,7 @@ import IonDice from "~icons/ion/dice?raw";
 import IonExpand from "~icons/ion/expand?raw";
 import IonFileTrayFull from "~icons/ion/file-tray-full?raw";
 import IonFolderOpenSharp from "~icons/ion/folder-open-sharp?raw";
+import IonGlobeOutline from "~icons/ion/globe-outline?raw";
 import IonHelpBuoySharp from "~icons/ion/help-buoy-sharp?raw";
 import IonHelpCircle from "~icons/ion/help-circle?raw";
 import IonHome from "~icons/ion/home?raw";
@@ -94,6 +95,7 @@ const builtinIconSvgsBySourceId = {
   "ion:person-circle": IonPersonCircle,
   "ion:resize": IonResize,
   "ion:bookmark": IonBookmark,
+  "ion:globe-outline": IonGlobeOutline,
   "ion:checkmark": IonCheckmark,
   "ion:checkmark-sharp": IonCheckmarkSharp,
   "ion:information-circle": IonInformationCircle,
@@ -203,6 +205,7 @@ export const builtinIcons = {
   rssIcon: "ion:logo-rss",
   plugin: "mingcute:plugin-2-fill",
   bookmark: "ion:bookmark",
+  globe: "ion:globe-outline",
   bookmarksManager: "boxicons:book-bookmark-filled",
   calendar: "ion:calendar",
   clock: "ion:clock",

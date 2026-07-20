@@ -18,6 +18,7 @@ export const generateManifest = (
     default_locale: "en",
     action: {
       default_title: "__MSG_appActionTitle__",
+      default_popup: "/pages/popup/index.html",
     },
     minimum_chrome_version: "132",
     background: {
@@ -27,7 +28,16 @@ export const generateManifest = (
       "48": "assets/images/icon48.png",
       "128": "assets/images/icon128.png",
     },
-    permissions: ["alarms", "storage", "unlimitedStorage", "sessions", "system.cpu", "system.memory"],
+    permissions: [
+      "alarms",
+      "storage",
+      "unlimitedStorage",
+      "activeTab",
+      "sessions",
+      "contextMenus",
+      "system.cpu",
+      "system.memory",
+    ],
     host_permissions: [] as string[],
     optional_permissions: [
       "tabs",
@@ -71,15 +81,10 @@ export const generateManifest = (
 
   // Chrome (with manifest v3) treated as default platform. So, need to patch it for Firefox manifest v2
   if (targetBrowser === "firefox") {
-    const unavailablePermissions = [
-      "system.cpu",
-      "system.memory",
-      "favicon",
-      "tabGroups",
-      "declarativeNetRequestWithHostAccess",
-    ];
+    const unavailablePermissions = ["system.cpu", "system.memory", "favicon", "declarativeNetRequestWithHostAccess"];
 
-    const additionalPermissions: string[] = [];
+    // Firefox's tab-strip context menu (used by tab stash) is exposed through "menus".
+    const additionalPermissions: string[] = ["menus"];
 
     manifest.manifest_version = 2;
 

@@ -3,6 +3,7 @@ import { availablePlugins } from "@anori/plugins/all";
 import type { m } from "motion/react";
 import type { ComponentProps, ComponentType } from "react";
 import type { SettingScreen } from "./Settings";
+import { AnoriPlusScreen } from "./screens/AnoriPlusScreen";
 import { CustomIconsScreen } from "./screens/CustomIconsScreen";
 import { FoldersScreen } from "./screens/FoldersScreen";
 import { GeneralSettingsScreen } from "./screens/GeneralSettingsScreen";
@@ -23,6 +24,7 @@ const hasPluginsWithSettings = availablePlugins.some((p) => p.configurationScree
 
 export const settingsSections: SettingsSection[] = [
   { id: "general", icon: builtinIcons.settings, titleKey: "settings.general.title", Component: GeneralSettingsScreen },
+  { id: "anori-plus", icon: builtinIcons.cloud, titleKey: "cloud.account", Component: AnoriPlusScreen },
   {
     id: "custom-icons",
     icon: builtinIcons.fileTray,

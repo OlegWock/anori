@@ -3,6 +3,7 @@
         "appName": "Anori: produktivní nová karta",
         "appDescription": "Přizpůsobitelná nová karta: sestavte si vlastní stránku z widgetů",
         "appActionTitle": "Otevřít novou kartu Anori",
+        "openAnori": "Otevřít Anori",
         "icon": "Ikona",
         "title": "Název",
         "url": "URL",
@@ -56,7 +57,7 @@
             "connected": "Připojeno",
             "disconnect": "Odpojit",
             "cancel": "Zrušit",
-            "account": "Cloudový účet",
+            "account": "Anori Plus",
             "login": "Přihlásit se",
             "logout": "Odhlásit se",
             "email": "E-mail",
@@ -67,6 +68,13 @@
             "downloadBackup": "Stáhnout",
             "noAccount": "Nemáte účet?",
             "createAccount": "Vytvořte si ho zde",
+            "userDataConflict": {
+                "description": "Tento prohlížeč obsahuje data Anori Plus — například váš Zásobník karet — která byla synchronizována s jiným účtem, než ke kterému se přihlašujete. Co se s nimi má stát?",
+                "upload": "Přidat do tohoto účtu",
+                "uploadHint": "Zachová tato data a sloučí je s účtem, do kterého se přihlašujete. Zvolte tuto možnost, pokud jsou vaše — například pokud jste přešli na nový účet.",
+                "discard": "Zahodit lokální data",
+                "discardHint": "Odstraní je z tohoto prohlížeče a místo nich použije data, která tento účet již má. Zvolte tuto možnost, pokud patří jinému účtu nebo je zde nepotřebujete."
+            },
             "plusDescription": "Anori Plus je doplňková služba pro Anori, která umožňuje synchronizovat vaši konfiguraci mezi více prohlížeči a zařízeními v reálném čase.",
             "learnMore": "Zjistit více",
             "profiles": "Profily",
@@ -84,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Připojení k profilu \"{{profileName}}\" přepíše vaši aktuální místní konfiguraci tou uloženou v profilu. Chcete pokračovat?"
             },
+            "settings": {
+                "title": "Nastavení",
+                "shareOpenTabs": "Sdílet otevřené karty s ostatními připojenými zařízeními",
+                "shareOpenTabsHint": "Pokud je tato možnost zapnutá, karty otevřené na tomto počítači jsou sdíleny s vašimi ostatními zařízeními přihlášenými k tomuto účtu Anori — takže je můžete vidět a znovu otevřít na kterémkoli z nich."
+            },
+            "devices": {
+                "title": "Zařízení",
+                "thisDevice": "Toto zařízení",
+                "rename": "Přejmenovat zařízení",
+                "remove": "Odebrat zařízení",
+                "removeConfirmation": "Odebrat \"{{name}}\" z vašeho účtu? Zařízení bude odhlášeno a přestane synchronizovat.",
+                "namePlaceholder": "Název zařízení",
+                "lastActive": "aktivní {{date}}",
+                "empty": "K tomuto účtu zatím nejsou přihlášena žádná zařízení"
+            },
             "error": {
                 "invalidCredentials": "Neplatný e-mail nebo heslo",
                 "unknown": "Něco se pokazilo. Zkuste to prosím znovu.",
                 "failedToLoadProfiles": "Nepodařilo se načíst profily",
+                "failedToLoadDevices": "Nepodařilo se načíst zařízení",
                 "profileNameRequired": "Název profilu je povinný",
                 "failedToCreateProfile": "Nepodařilo se vytvořit profil"
             }
@@ -297,6 +321,52 @@
             "name": "Stav systému",
             "ramLoad": "Využití RAM",
             "cpuLoad": "Vytížení CPU"
+        },
+        "tabs-plugin": {
+            "name": "Záložky",
+            "tabGroup": "Skupina záložek",
+            "contextMenu": {
+                "stashTab": "Uložit tuto záložku",
+                "stashLink": "Uložit tento odkaz",
+                "stashGroup": "Uložit tuto skupinu záložek"
+            },
+            "stash": {
+                "title": "Odložené záložky",
+                "inbox": "Doručené",
+                "empty": "Zatím nic neuloženo",
+                "emptyHint": "Přidejte záložku tlačítkem + výše nebo otevřete vyskakovací okno Anori na panelu nástrojů prohlížeče.",
+                "stashTab": "Uložit záložku",
+                "remove": "Odebrat",
+                "rename": "Přejmenovat",
+                "openAll": "Otevřít vše",
+                "showAllTabs": "Zobrazit všechny záložky",
+                "pasteUrl": "Vložte odkaz",
+                "add": "Přidat",
+                "tabCount_one": "{{count}} záložka",
+                "tabCount_few": "{{count}} záložky",
+                "tabCount_many": "{{count}} záložek",
+                "tabCount_other": "{{count}} záložek"
+            },
+            "popup": {
+                "stashTab": "Uložit záložku",
+                "stashCurrentTab": "Uložit aktuální záložku",
+                "stashGroup": "Uložit skupinu záložek",
+                "stashWindow": "Uložit toto okno",
+                "window": "Okno",
+                "grantTabs": "Pro funkci odložení záložek jsou vyžadována další oprávnění",
+                "recentlyStashed": "Nedávno uložené",
+                "nothingStashed": "Zatím nic neuloženo"
+            },
+            "syncedTabs": {
+                "title": "Synchronizované karty",
+                "loading": "Načítání karet...",
+                "unnamedGroup": "Skupina",
+                "notConnectedTitle": "Zobrazit karty z vašich ostatních zařízení",
+                "notConnectedDescription": "Připojte Anori a synchronizujte otevřené karty napříč vašimi zařízeními.",
+                "connect": "Připojit",
+                "emptyTitle": "Žádná jiná zařízení zatím nesdílejí karty",
+                "emptyDescription": "Přihlaste se ke svému účtu Anori Plus na jiném počítači a tam zapněte synchronizaci karet."
+            }
         },
         "tasks-plugin": {
             "name": "Úkoly",

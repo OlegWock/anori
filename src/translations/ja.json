@@ -3,6 +3,7 @@
         "appName": "Anori: 生産性を高める新しいタブ",
         "appDescription": "カスタマイズ可能な新しいタブ：ウィジェットで自分だけのページを作ろう",
         "appActionTitle": "Anoriの新しいタブを開く",
+        "openAnori": "Anoriを開く",
         "icon": "アイコン",
         "title": "タイトル",
         "url": "URL",
@@ -56,7 +57,7 @@
             "connected": "接続済み",
             "disconnect": "切断",
             "cancel": "キャンセル",
-            "account": "クラウドアカウント",
+            "account": "Anori Plus",
             "login": "ログイン",
             "logout": "ログアウト",
             "email": "メール",
@@ -67,6 +68,13 @@
             "downloadBackup": "ダウンロード",
             "noAccount": "アカウントをお持ちでない方は",
             "createAccount": "こちらから作成",
+            "userDataConflict": {
+                "description": "このブラウザには Anori Plus のデータ（例: タブスタッシュ）が保存されていますが、それはサインインしようとしているアカウントとは別のアカウントに同期されていたものです。このデータをどうしますか?",
+                "upload": "このアカウントに追加",
+                "uploadHint": "このデータを保持し、サインインするアカウントにマージします。たとえば新しいアカウントに切り替えた場合など、このデータが自分のものであればこちらを選択してください。",
+                "discard": "破棄する",
+                "discardHint": "このブラウザから削除し、代わりにこのアカウントが既に持っているデータを使用します。別のアカウントのデータである場合や、ここでは不要な場合はこちらを選択してください。"
+            },
             "plusDescription": "Anori Plus は Anori の追加サービスで、複数のブラウザやデバイス間でリアルタイムに設定を同期できます。",
             "learnMore": "詳細を見る",
             "profiles": "プロファイル",
@@ -84,10 +92,26 @@
             "connectConfirmation": {
                 "message": "プロファイル「{{profileName}}」に接続すると、現在のローカル設定がプロファイルに保存されている設定で上書きされます。続行しますか？"
             },
+            "settings": {
+                "title": "設定",
+                "shareOpenTabs": "開いているタブを他の接続済みデバイスと共有する",
+                "shareOpenTabsHint": "有効にすると、このコンピューターで開いているタブが、同じ Anori アカウントにサインインしている他のデバイスと共有されます。これにより、どのデバイスからでもタブを確認して再度開くことができます。"
+            },
+            "devices": {
+                "title": "デバイス",
+                "thisDevice": "このデバイス",
+                "rename": "デバイス名を変更",
+                "remove": "デバイスを削除",
+                "removeConfirmation": "\"{{name}}\" をアカウントから削除しますか? サインアウトされ、同期が停止します。",
+                "namePlaceholder": "デバイス名",
+                "lastActive": "{{date}} にアクティブ",
+                "empty": "このアカウントにサインインしているデバイスはまだありません"
+            },
             "error": {
                 "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
                 "unknown": "エラーが発生しました。もう一度お試しください。",
                 "failedToLoadProfiles": "プロファイルの読み込みに失敗しました",
+                "failedToLoadDevices": "デバイスの読み込みに失敗しました",
                 "profileNameRequired": "プロファイル名は必須です",
                 "failedToCreateProfile": "プロファイルの作成に失敗しました"
             }
@@ -297,6 +321,49 @@
             "name": "システム状態",
             "ramLoad": "RAM使用率",
             "cpuLoad": "CPU使用率"
+        },
+        "tabs-plugin": {
+            "name": "タブ",
+            "tabGroup": "タブグループ",
+            "contextMenu": {
+                "stashTab": "このタブをスタッシュ",
+                "stashLink": "このリンクをスタッシュ",
+                "stashGroup": "このタブグループをスタッシュ"
+            },
+            "stash": {
+                "title": "タブスタッシュ",
+                "inbox": "受信トレイ",
+                "empty": "まだスタッシュされていません",
+                "emptyHint": "上の + ボタンでタブを追加するか、ブラウザのツールバーからAnoriポップアップを開いてください。",
+                "stashTab": "タブをスタッシュ",
+                "remove": "削除",
+                "rename": "名前を変更",
+                "openAll": "すべて開く",
+                "showAllTabs": "すべてのタブを表示",
+                "pasteUrl": "リンクを貼り付け",
+                "add": "追加",
+                "tabCount_other": "{{count}} 個のタブ"
+            },
+            "popup": {
+                "stashTab": "タブをスタッシュ",
+                "stashCurrentTab": "現在のタブをスタッシュ",
+                "stashGroup": "タブグループをスタッシュ",
+                "stashWindow": "このウィンドウをスタッシュ",
+                "window": "ウィンドウ",
+                "grantTabs": "タブスタッシュ機能には追加の権限が必要です",
+                "recentlyStashed": "最近スタッシュしたもの",
+                "nothingStashed": "まだスタッシュされていません"
+            },
+            "syncedTabs": {
+                "title": "同期済みタブ",
+                "loading": "タブを読み込み中...",
+                "unnamedGroup": "グループ",
+                "notConnectedTitle": "他のデバイスのタブを確認する",
+                "notConnectedDescription": "Anori を接続して、デバイス間で開いているタブを同期しましょう。",
+                "connect": "接続",
+                "emptyTitle": "他のデバイスがまだタブを共有していません",
+                "emptyDescription": "別のコンピューターで Anori Plus アカウントにログインし、そこでタブの同期を有効にしてください。"
+            }
         },
         "tasks-plugin": {
             "name": "タスク",

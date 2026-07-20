@@ -32,7 +32,7 @@ const ExpandableIframeWidgetScreen = memo(function ExpandableIframeWidgetScreen(
 ) {
   return (
     <RequirePermissions
-      compact
+      variant="compact"
       hosts={[parseHost(props.config.url)]}
       className={css({ padding: "4" })}
       permissions={dnrPermissions}

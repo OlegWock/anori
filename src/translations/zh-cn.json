@@ -3,6 +3,7 @@
         "appName": "Anori: 高效的新标签页",
         "appDescription": "可定制的新标签页：从小部件中组合自己的页面。",
         "appActionTitle": "打开 Anori 新标签页。",
+        "openAnori": "打开 Anori",
         "icon": "图标",
         "title": "标题",
         "url": "URL",
@@ -56,7 +57,7 @@
             "connected": "已连接",
             "disconnect": "断开连接",
             "cancel": "取消",
-            "account": "云账户",
+            "account": "Anori Plus",
             "login": "登录",
             "logout": "退出登录",
             "email": "电子邮件",
@@ -67,6 +68,13 @@
             "downloadBackup": "下载",
             "noAccount": "没有账户？",
             "createAccount": "在此创建",
+            "userDataConflict": {
+                "description": "此浏览器中存有 Anori Plus 数据（例如您的标签页收藏），该数据之前已同步至与您当前登录账户不同的账户。您希望如何处理这些数据？",
+                "upload": "添加到此账户",
+                "uploadHint": "保留此数据并将其合并到您正在登录的账户中。如果这是您的数据（例如您切换了新账户），请选择此项。",
+                "discard": "丢弃",
+                "discardHint": "从此浏览器中删除该数据，改用此账户已有的数据。如果该数据属于其他账户或您在此处不需要它，请选择此项。"
+            },
             "plusDescription": "Anori Plus 是 Anori 的附加服务，可让您在多个浏览器和设备之间实时同步配置。",
             "learnMore": "了解更多",
             "profiles": "配置文件",
@@ -84,10 +92,26 @@
             "connectConfirmation": {
                 "message": "连接到配置文件 \"{{profileName}}\" 将用该配置文件中存储的配置覆盖您当前的本地配置。是否继续？"
             },
+            "settings": {
+                "title": "设置",
+                "shareOpenTabs": "与其他已连接设备共享打开的标签页",
+                "shareOpenTabsHint": "启用后，此电脑上打开的标签页将与登录了同一 Anori 账户的其他设备共享，让您可以在任意设备上查看并重新打开这些标签页。"
+            },
+            "devices": {
+                "title": "设备",
+                "thisDevice": "此设备",
+                "rename": "重命名设备",
+                "remove": "移除设备",
+                "removeConfirmation": "从您的账户中移除\"{{name}}\"？该设备将被退出登录并停止同步。",
+                "namePlaceholder": "设备名称",
+                "lastActive": "活跃于 {{date}}",
+                "empty": "此账户尚无已登录的设备"
+            },
             "error": {
                 "invalidCredentials": "电子邮件或密码无效",
                 "unknown": "出现错误，请重试。",
                 "failedToLoadProfiles": "加载配置文件失败",
+                "failedToLoadDevices": "加载设备失败",
                 "profileNameRequired": "配置文件名称为必填项",
                 "failedToCreateProfile": "创建配置文件失败"
             }
@@ -297,6 +321,49 @@
             "name": "系统状态",
             "ramLoad": "RAM 占用",
             "cpuLoad": "CPU 负载"
+        },
+        "tabs-plugin": {
+            "name": "标签页",
+            "tabGroup": "标签页组",
+            "contextMenu": {
+                "stashTab": "暂存此标签页",
+                "stashLink": "暂存此链接",
+                "stashGroup": "暂存此标签页组"
+            },
+            "stash": {
+                "title": "标签页暂存",
+                "inbox": "收件箱",
+                "empty": "暂无暂存内容",
+                "emptyHint": "使用上方的 + 按钮添加标签页，或从浏览器工具栏打开 Anori 弹出窗口。",
+                "stashTab": "暂存标签页",
+                "remove": "移除",
+                "rename": "重命名",
+                "openAll": "全部打开",
+                "showAllTabs": "显示所有标签页",
+                "pasteUrl": "粘贴链接",
+                "add": "添加",
+                "tabCount_other": "{{count}} 个标签页"
+            },
+            "popup": {
+                "stashTab": "暂存标签页",
+                "stashCurrentTab": "暂存当前标签页",
+                "stashGroup": "暂存标签页组",
+                "stashWindow": "暂存此窗口",
+                "window": "窗口",
+                "grantTabs": "标签页暂存功能需要额外权限",
+                "recentlyStashed": "最近暂存",
+                "nothingStashed": "暂无暂存内容"
+            },
+            "syncedTabs": {
+                "title": "已同步的标签页",
+                "loading": "正在加载标签页...",
+                "unnamedGroup": "分组",
+                "notConnectedTitle": "查看其他设备上的标签页",
+                "notConnectedDescription": "连接 Anori 以在您的设备间同步打开的标签页。",
+                "connect": "连接",
+                "emptyTitle": "暂无其他设备正在共享标签页",
+                "emptyDescription": "在另一台电脑上登录您的 Anori Plus 账户，并在那里开启标签页同步。"
+            }
         },
         "tasks-plugin": {
             "name": "待办事项",

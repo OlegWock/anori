@@ -21,14 +21,20 @@ describe("Storage", () => {
 
   function createTestSchema() {
     const v1 = defineSchemaVersion(1, {
-      theme: cell({ key: "theme", schema: z.string(), defaultValue: "Forest", tracked: true, includedInBackup: true }),
-      counter: cell({ key: "counter", schema: z.number(), tracked: false, includedInBackup: true }),
+      theme: cell({
+        key: "theme",
+        schema: z.string(),
+        defaultValue: "Forest",
+        sync: "profile",
+        includedInBackup: true,
+      }),
+      counter: cell({ key: "counter", schema: z.number(), sync: "off", includedInBackup: true }),
       folders: collection({
         keyPrefix: "Folder",
         entities: {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string(), color: z.string() }) }),
         },
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       }),
       widgets: collection({
@@ -37,7 +43,7 @@ describe("Storage", () => {
           notes: entity({ brand: "NotesWidget", schema: z.object({ content: z.string() }) }),
           todos: entity({ brand: "TodoWidget", schema: z.object({ items: z.array(z.string()) }) }),
         },
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       }),
     });
@@ -244,7 +250,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.set(storage.schema.theme, "Ocean");
 
@@ -256,7 +262,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.set(storage.schema.counter, 42);
 
@@ -294,7 +300,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.set(storage.schema.theme, "Ocean");
       await storage.set(storage.schema.theme, "Forest");
@@ -345,7 +351,7 @@ describe("Storage", () => {
       const schema = createTestSchema();
       const storage = createStorage({ schema });
       await storage.initialize();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.delete(storage.schema.theme);
 
@@ -419,7 +425,7 @@ describe("Storage", () => {
       const storage = createStorage({ schema });
       await storage.initialize();
 
-      const exported = storage.sync.exportForFullSync();
+      const exported = storage.sync.exportForFullSync("profile");
 
       expect(exported.kv.theme).toBeDefined();
       expect(exported.kv["Folder:home"]).toBeDefined();

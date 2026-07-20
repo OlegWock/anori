@@ -6,7 +6,7 @@ import { cell, collection, entity } from "../schema";
 describe("Query Resolution", () => {
   describe("resolveQuery", () => {
     it("should resolve cell query", () => {
-      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true });
+      const themeCell = cell({ key: "theme", schema: z.string(), sync: "profile", includedInBackup: true });
 
       const resolved = resolveQuery(themeCell);
 
@@ -20,7 +20,7 @@ describe("Query Resolution", () => {
         entities: {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string() }) }),
         },
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
@@ -37,7 +37,7 @@ describe("Query Resolution", () => {
         entities: {
           notes: entity({ brand: "NotesWidget", schema: z.object({ content: z.string() }) }),
         },
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
@@ -54,7 +54,7 @@ describe("Query Resolution", () => {
         entities: {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string() }) }),
         },
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
@@ -71,7 +71,7 @@ describe("Query Resolution", () => {
         entities: {
           notes: entity({ brand: "NotesWidget", schema: z.object({ content: z.string() }) }),
         },
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 
@@ -85,7 +85,7 @@ describe("Query Resolution", () => {
 
   describe("getStorageKey", () => {
     it("should get key for cell", () => {
-      const themeCell = cell({ key: "theme", schema: z.string(), tracked: true, includedInBackup: true });
+      const themeCell = cell({ key: "theme", schema: z.string(), sync: "profile", includedInBackup: true });
 
       expect(getStorageKey(themeCell)).toBe("theme");
     });
@@ -96,7 +96,7 @@ describe("Query Resolution", () => {
         entities: {
           folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string() }) }),
         },
-        tracked: true,
+        sync: "profile",
         includedInBackup: true,
       });
 

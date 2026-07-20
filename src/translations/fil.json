@@ -3,6 +3,7 @@
         "appName": "Anori: productivity new tab",
         "appDescription": "Customizable new tab: compose your own page from widgets",
         "appActionTitle": "Buksan ang Anori new tab",
+        "openAnori": "Buksan ang Anori",
         "icon": "Icon",
         "title": "Pamagat",
         "url": "URL",
@@ -56,7 +57,7 @@
             "connected": "Nakakonekta",
             "disconnect": "Idiskonekta",
             "cancel": "Kanselahin",
-            "account": "Cloud account",
+            "account": "Anori Plus",
             "login": "Mag-log in",
             "logout": "Mag-log out",
             "email": "Email",
@@ -67,6 +68,13 @@
             "downloadBackup": "I-download",
             "noAccount": "Wala kang account?",
             "createAccount": "Gumawa ng isa dito",
+            "userDataConflict": {
+                "description": "Ang browser na ito ay may data ng Anori Plus — halimbawa ang iyong Tab stash — na na-sync sa ibang account kaysa sa iyong pinipirmahan. Ano ang dapat mangyari dito?",
+                "upload": "Idagdag ito sa account na ito",
+                "uploadHint": "Pinapanatili ang data na ito at ini-merge ito sa account na iyong pinipirmahan. Piliin ito kung sa iyo ito — halimbawa kung lumipat ka sa bagong account.",
+                "discard": "Itapon ito",
+                "discardHint": "Inaalis ito mula sa browser na ito at ginagamit ang anumang mayroon na ang account na ito. Piliin ito kung sa ibang account ito o hindi mo na kailangan dito."
+            },
             "plusDescription": "Ang Anori Plus ay isang karagdagang serbisyo para sa Anori na nagbibigay-daan sa iyo na i-sync ang iyong configuration sa pagitan ng maraming browser at device nang real time.",
             "learnMore": "Matuto pa",
             "profiles": "Mga Profile",
@@ -84,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Ang pagkonekta sa profile na \"{{profileName}}\" ay papalitan ang iyong kasalukuyang lokal na configuration ng nakaimbak sa profile. Gusto mo bang magpatuloy?"
             },
+            "settings": {
+                "title": "Mga Setting",
+                "shareOpenTabs": "Ibahagi ang mga bukas na tab sa iba pang mga konektadong device",
+                "shareOpenTabsHint": "Kapag pinagana, ang mga tab na bukas sa computer na ito ay ibinabahagi sa iyong iba pang mga device na naka-sign in sa Anori account na ito — para makita at muling mabuksan ang mga tab mula sa alinman sa mga ito."
+            },
+            "devices": {
+                "title": "Mga Device",
+                "thisDevice": "Ang device na ito",
+                "rename": "Palitan ang pangalan ng device",
+                "remove": "Alisin ang device",
+                "removeConfirmation": "Alisin ang \"{{name}}\" mula sa iyong account? Ito ay mag-sign out at titigil sa pag-sync.",
+                "namePlaceholder": "Pangalan ng device",
+                "lastActive": "aktibo {{date}}",
+                "empty": "Walang mga device na naka-sign in sa account na ito"
+            },
             "error": {
                 "invalidCredentials": "Mali ang email o password",
                 "unknown": "May nangyaring mali. Pakisubukan muli.",
                 "failedToLoadProfiles": "Nabigong i-load ang mga profile",
+                "failedToLoadDevices": "Nabigo ang pag-load ng mga device",
                 "profileNameRequired": "Kailangan ang pangalan ng profile",
                 "failedToCreateProfile": "Nabigong gumawa ng profile"
             }
@@ -297,6 +321,50 @@
             "name": "Status ng sistema",
             "ramLoad": "Pagkarga ng RAM",
             "cpuLoad": "CPU load"
+        },
+        "tabs-plugin": {
+            "name": "Mga Tab",
+            "tabGroup": "Grupo ng tab",
+            "contextMenu": {
+                "stashTab": "I-stash ang tab na ito",
+                "stashLink": "I-stash ang link na ito",
+                "stashGroup": "I-stash ang grupo ng tab na ito"
+            },
+            "stash": {
+                "title": "Tab stash",
+                "inbox": "Inbox",
+                "empty": "Wala pang naka-stash",
+                "emptyHint": "Magdagdag ng tab gamit ang button na + sa itaas, o buksan ang Anori popup mula sa toolbar ng iyong browser.",
+                "stashTab": "Mag-stash ng tab",
+                "remove": "Alisin",
+                "rename": "Palitan ng pangalan",
+                "openAll": "Buksan lahat",
+                "showAllTabs": "Ipakita ang lahat ng tab",
+                "pasteUrl": "Mag-paste ng link",
+                "add": "Idagdag",
+                "tabCount_one": "{{count}} tab",
+                "tabCount_other": "{{count}} mga tab"
+            },
+            "popup": {
+                "stashTab": "Mag-stash ng tab",
+                "stashCurrentTab": "I-stash ang kasalukuyang tab",
+                "stashGroup": "Mag-stash ng grupo ng tab",
+                "stashWindow": "I-stash ang window na ito",
+                "window": "Window",
+                "grantTabs": "Kailangan ng karagdagang mga pahintulot para sa tampok na Tab stash",
+                "recentlyStashed": "Kamakailan lang na na-stash",
+                "nothingStashed": "Wala pang naka-stash"
+            },
+            "syncedTabs": {
+                "title": "Mga naka-sync na tab",
+                "loading": "Nino-load ang mga tab...",
+                "unnamedGroup": "Grupo",
+                "notConnectedTitle": "Tingnan ang mga tab mula sa iyong iba pang mga device",
+                "notConnectedDescription": "I-connect ang Anori para i-sync ang mga bukas na tab sa iyong mga device.",
+                "connect": "I-connect",
+                "emptyTitle": "Walang ibang device na nagbabahagi ng mga tab",
+                "emptyDescription": "Mag-log in sa iyong Anori Plus account sa ibang computer at i-on ang tab sync doon."
+            }
         },
         "tasks-plugin": {
             "name": "Mga Gawain",

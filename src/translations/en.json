@@ -3,6 +3,7 @@
         "appName": "Anori: productivity new tab",
         "appDescription": "Customizable new tab: compose your own page from widgets",
         "appActionTitle": "Open Anori new tab",
+        "openAnori": "Open Anori",
         "icon": "Icon",
         "title": "Title",
         "url": "URL",
@@ -56,7 +57,7 @@
             "connected": "Connected",
             "disconnect": "Disconnect",
             "cancel": "Cancel",
-            "account": "Cloud account",
+            "account": "Anori Plus",
             "login": "Log in",
             "logout": "Log out",
             "email": "Email",
@@ -67,6 +68,13 @@
             "downloadBackup": "Download",
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
+            "userDataConflict": {
+                "description": "This browser has Anori Plus data — for example your Tab stash — that was synced to a different account than the one you're signing in to. What should happen to it?",
+                "upload": "Add it to this account",
+                "uploadHint": "Keeps this data and merges it into the account you're signing in to. Choose this if it's yours — for example if you switched to a new account.",
+                "discard": "Discard it",
+                "discardHint": "Removes it from this browser and uses whatever this account already has instead. Choose this if it belongs to the other account or you don't need it here."
+            },
             "plusDescription": "Anori Plus is an additional service for Anori that lets you sync your configuration between multiple browsers and devices in real time.",
             "learnMore": "Learn more",
             "profiles": "Profiles",
@@ -84,10 +92,26 @@
             "connectConfirmation": {
                 "message": "Connecting to profile \"{{profileName}}\" will overwrite your current local configuration with the one stored in the profile. Do you want to continue?"
             },
+            "settings": {
+                "title": "Settings",
+                "shareOpenTabs": "Share open tabs with other connected devices",
+                "shareOpenTabsHint": "When enabled, the tabs open on this computer are shared with your other devices signed in to this Anori account — so you can see and reopen tabs from any of them."
+            },
+            "devices": {
+                "title": "Devices",
+                "thisDevice": "This device",
+                "rename": "Rename device",
+                "remove": "Remove device",
+                "removeConfirmation": "Remove \"{{name}}\" from your account? It will be signed out and stop syncing.",
+                "namePlaceholder": "Device name",
+                "lastActive": "active {{date}}",
+                "empty": "No devices are signed in to this account yet"
+            },
             "error": {
                 "invalidCredentials": "Invalid email or password",
                 "unknown": "Something went wrong. Please try again.",
                 "failedToLoadProfiles": "Failed to load profiles",
+                "failedToLoadDevices": "Failed to load devices",
                 "profileNameRequired": "Profile name is required",
                 "failedToCreateProfile": "Failed to create profile"
             }
@@ -297,6 +321,50 @@
             "name": "System status",
             "ramLoad": "RAM load",
             "cpuLoad": "CPU load"
+        },
+        "tabs-plugin": {
+            "name": "Tabs",
+            "tabGroup": "Tab group",
+            "contextMenu": {
+                "stashTab": "Stash this tab",
+                "stashLink": "Stash this link",
+                "stashGroup": "Stash this tab group"
+            },
+            "stash": {
+                "title": "Tab stash",
+                "inbox": "Inbox",
+                "empty": "Nothing stashed yet",
+                "emptyHint": "Add a tab with the + button above, or open the Anori popup from your browser's toolbar.",
+                "stashTab": "Stash a tab",
+                "remove": "Remove",
+                "rename": "Rename",
+                "openAll": "Open all",
+                "showAllTabs": "Show all tabs",
+                "pasteUrl": "Paste a link",
+                "add": "Add",
+                "tabCount_one": "{{count}} tab",
+                "tabCount_other": "{{count}} tabs"
+            },
+            "popup": {
+                "stashTab": "Stash a tab",
+                "stashCurrentTab": "Stash current tab",
+                "stashGroup": "Stash a tab group",
+                "stashWindow": "Stash this window",
+                "window": "Window",
+                "grantTabs": "Additional permissions are required for Tabs stash feature",
+                "recentlyStashed": "Recently stashed",
+                "nothingStashed": "Nothing stashed yet"
+            },
+            "syncedTabs": {
+                "title": "Synced tabs",
+                "loading": "Loading tabs...",
+                "unnamedGroup": "Group",
+                "notConnectedTitle": "See tabs from your other devices",
+                "notConnectedDescription": "Connect Anori to sync open tabs across your devices.",
+                "connect": "Connect",
+                "emptyTitle": "No other devices are sharing tabs yet",
+                "emptyDescription": "Log into your Anori Plus account on another computer and turn on tab sync there."
+            }
         },
         "tasks-plugin": {
             "name": "Tasks",
