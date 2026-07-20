@@ -1,6 +1,6 @@
+import { useOpenAnoriPlusSettings } from "@anori/cloud-integration/anori-plus-settings";
 import { trpc } from "@anori/cloud-integration/api-client";
 import { useCloudAccount } from "@anori/cloud-integration/hooks";
-import { openAnoriPlusSettings } from "@anori/cloud-integration/modal-events";
 import { subscribeToSyncedTabsUpdates } from "@anori/cloud-integration/synced-tabs-subscription";
 import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { Button } from "@anori/design-system/components/Button/Button";
@@ -36,6 +36,7 @@ const openAllTabs = (urls: string[]) => {
 export const SyncedTabsWidget = memo(function SyncedTabsWidget(_props: WidgetRenderProps<EmptyObject>) {
   const { t } = useTranslation();
   const { isConnected } = useCloudAccount();
+  const openAnoriPlusSettings = useOpenAnoriPlusSettings();
   const {
     size: { height },
   } = useWidgetMetadata();
@@ -91,10 +92,10 @@ const MOCK_DEVICES: SyncedDevice[] = [
     os: "macOS",
     updatedAt: "2026-07-08T09:00:00.000Z",
     tabs: [
-      { url: "https://github.com/anori-app/anori", title: "anori-app/anori", lastActiveAt: 500 },
-      { url: "https://developer.mozilla.org/en-US/docs/Web", title: "MDN Web Docs", lastActiveAt: 400 },
+      { url: "https://github.com/", title: "anori-app/anori", lastActiveAt: 500 },
+      { url: "https://developer.mozilla.org/", title: "MDN Web Docs", lastActiveAt: 400 },
       {
-        url: "https://www.figma.com/files",
+        url: "https://www.figma.com/",
         title: "Figma — Drafts",
         groupId: 1,
         groupName: "Design",
@@ -102,7 +103,7 @@ const MOCK_DEVICES: SyncedDevice[] = [
         lastActiveAt: 300,
       },
       {
-        url: "https://dribbble.com/shots",
+        url: "https://dribbble.com/",
         title: "Dribbble",
         groupId: 1,
         groupName: "Design",

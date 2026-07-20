@@ -1,5 +1,5 @@
+import { AnoriPlusSettingsProvider } from "@anori/cloud-integration/anori-plus-settings";
 import { useCloudAccount, useIsBehindCloudSchema } from "@anori/cloud-integration/hooks";
-import { OPEN_ANORI_PLUS_SETTINGS_EVENT } from "@anori/cloud-integration/modal-events";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { WhatsNew } from "@anori/components/WhatsNew";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
@@ -13,7 +13,7 @@ import { useStorageValue } from "@anori/utils/storage-lib";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "motion/react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useMeasure from "react-use-motion-measure";
 import { css, cva } from "styled-system/css";
@@ -143,12 +143,6 @@ export const Workspace = ({
   const handleOpenCloudAccount = useCallback(() => setSettingsScreen("anori-plus"), []);
   const handleOpenSettings = useCallback(() => setSettingsScreen("general"), []);
 
-  useEffect(() => {
-    const handleOpenRequest = () => setSettingsScreen("anori-plus");
-    window.addEventListener(OPEN_ANORI_PLUS_SETTINGS_EVENT, handleOpenRequest);
-    return () => window.removeEventListener(OPEN_ANORI_PLUS_SETTINGS_EVENT, handleOpenRequest);
-  }, []);
-
   const parentFolderContext = useMemo(
     () => ({ activeFolder, isEditing, grid: gridDimensions, gridRef: mainRef }),
     [activeFolder, isEditing, gridDimensions],
@@ -176,42 +170,44 @@ export const Workspace = ({
         )}
       </AnimatePresence>
 
-      <div className={startPageContent({ orientation })}>
-        <Sidebar
-          folders={folders}
-          activeFolder={activeFolder}
-          orientation={orientation}
-          bookmarksBarVisible={bookmarksBarVisible}
-          hasUnreadReleaseNotes={hasUnreadReleaseNotes ?? false}
-          cloudConnected={isConnected}
-          cloudBehindSchema={isBehindCloudSchema}
-          onFolderClick={onFolderClick}
-          onToggleEditMode={handleToggleEditMode}
-          onOpenWhatsNew={handleOpenWhatsNew}
-          onOpenCloudAccount={handleOpenCloudAccount}
-          onOpenSettings={handleOpenSettings}
-        />
+      <AnoriPlusSettingsProvider open={handleOpenCloudAccount}>
+        <div className={startPageContent({ orientation })}>
+          <Sidebar
+            folders={folders}
+            activeFolder={activeFolder}
+            orientation={orientation}
+            bookmarksBarVisible={bookmarksBarVisible}
+            hasUnreadReleaseNotes={hasUnreadReleaseNotes ?? false}
+            cloudConnected={isConnected}
+            cloudBehindSchema={isBehindCloudSchema}
+            onFolderClick={onFolderClick}
+            onToggleEditMode={handleToggleEditMode}
+            onOpenWhatsNew={handleOpenWhatsNew}
+            onOpenCloudAccount={handleOpenCloudAccount}
+            onOpenSettings={handleOpenSettings}
+          />
 
-        <div ref={panelRef} className={widgetsArea({ orientation, bookmarksBar: bookmarksBarVisible })}>
-          <FolderContentContext.Provider value={parentFolderContext}>
-            <FolderContent
-              key={activeFolder.id}
-              folder={activeFolder}
-              animationDirection={animationDirection}
-              isEditing={isEditing}
-              widgets={widgets}
-              gridDimensions={gridDimensions}
-              gridRef={mainRef}
-              scrollAreaRef={scrollAreaRef}
-              onLayoutUpdate={handleLayoutUpdate}
-              onEditWidget={setEditingWidget}
-              onUpdateWidgetConfig={updateWidgetConfig}
-              showOnboarding={shouldShowOnboarding}
-            />
-          </FolderContentContext.Provider>
-          <EditModeToolbar visible={isEditing} onAddWidget={handleAddWidget} onDone={handleDoneEditing} />
+          <div ref={panelRef} className={widgetsArea({ orientation, bookmarksBar: bookmarksBarVisible })}>
+            <FolderContentContext.Provider value={parentFolderContext}>
+              <FolderContent
+                key={activeFolder.id}
+                folder={activeFolder}
+                animationDirection={animationDirection}
+                isEditing={isEditing}
+                widgets={widgets}
+                gridDimensions={gridDimensions}
+                gridRef={mainRef}
+                scrollAreaRef={scrollAreaRef}
+                onLayoutUpdate={handleLayoutUpdate}
+                onEditWidget={setEditingWidget}
+                onUpdateWidgetConfig={updateWidgetConfig}
+                showOnboarding={shouldShowOnboarding}
+              />
+            </FolderContentContext.Provider>
+            <EditModeToolbar visible={isEditing} onAddWidget={handleAddWidget} onDone={handleDoneEditing} />
+          </div>
         </div>
-      </div>
+      </AnoriPlusSettingsProvider>
 
       <AnimatePresence>
         {addWidgetWizardVisible && (
