@@ -15,9 +15,6 @@ export type TabListTab = {
   id: string;
   url: string;
   title: string;
-  // When set, the row is an anchor so middle/Cmd/Ctrl-click open the URL natively. Provide onClick
-  // only to override the plain-click default (e.g. open in a new tab and close a popup); a link that
-  // just navigates the current tab needs no onClick. Without href, onClick makes the row a button.
   href?: string;
   onClick?: () => void;
 };

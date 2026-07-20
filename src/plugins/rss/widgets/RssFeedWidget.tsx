@@ -119,7 +119,7 @@ export const RssFeedMock = () => {
     <div className={feedWidget}>
       <WidgetHeader
         title={t("rss-plugin.name")}
-        action={<IconButton size="medium" variant="frosted" icon={builtinIcons.refresh} label={t("refresh")} />}
+        action={<IconButton variant="ghost" size="medium" icon={builtinIcons.refresh} label={t("refresh")} />}
       />
       <ScrollArea type="hover">
         <div className={posts({})}>

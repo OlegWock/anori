@@ -13,8 +13,6 @@ import { css } from "styled-system/css";
 import { sendMessage } from "../messaging";
 
 export type StashOpenHandlers = {
-  // Only needed to override the plain-click default of the link (e.g. open a new tab and close the
-  // popup). Omit it where a plain click should just navigate the current tab.
   openLink?: (url: string) => void;
   openAll: (links: StashLink[]) => void;
 };

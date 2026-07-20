@@ -83,7 +83,7 @@ export const generateManifest = (
   if (targetBrowser === "firefox") {
     const unavailablePermissions = ["system.cpu", "system.memory", "favicon", "declarativeNetRequestWithHostAccess"];
 
-    // Firefox's tab-strip context menu is exposed through "menus".
+    // Firefox's tab-strip context menu (used by tab stash) is exposed through "menus".
     const additionalPermissions: string[] = ["menus"];
 
     manifest.manifest_version = 2;
