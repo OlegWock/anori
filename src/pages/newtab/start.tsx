@@ -11,6 +11,7 @@ import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@an
 import { CompactModeProvider } from "@anori/utils/compact";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
+import { OverlayLayersProvider } from "@anori/utils/overlay-layers";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
@@ -171,10 +172,12 @@ getAnoriStorage().then(async (storage) => {
     <StorageContext.Provider value={storage}>
       <QueryClientProvider>
         <CompactModeProvider>
-          {/* strict mode temporary disabled due to https://github.com/framer/motion/issues/2094 */}
-          <LazyMotion features={domMax}>
-            <Start />
-          </LazyMotion>
+          <OverlayLayersProvider>
+            {/* strict mode temporary disabled due to https://github.com/framer/motion/issues/2094 */}
+            <LazyMotion features={domMax}>
+              <Start />
+            </LazyMotion>
+          </OverlayLayersProvider>
         </CompactModeProvider>
       </QueryClientProvider>
     </StorageContext.Provider>,

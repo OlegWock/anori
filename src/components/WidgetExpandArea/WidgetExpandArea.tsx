@@ -4,6 +4,7 @@ import { IconButton } from "@anori/design-system/components/IconButton/IconButto
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useHotkeys, usePrevious } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
+import { useRegisterOverlayLayer } from "@anori/utils/overlay-layers";
 import { useDirection } from "@radix-ui/react-direction";
 import {
   m,
@@ -179,6 +180,7 @@ export const WidgetExpandArea = ({
 
   const shouldShowControlStip = Boolean(title || extraButtons);
 
+  useRegisterOverlayLayer(true);
   useHotkeys("esc", () => onClose?.());
 
   useLayoutEffect(() => {

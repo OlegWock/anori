@@ -6,6 +6,7 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { FolderContentContext } from "@anori/utils/FolderContentContext";
 import { useGridDimensions } from "@anori/utils/grid/useGridDimensions";
 import { useHotkeys } from "@anori/utils/hooks";
+import { useOverlayLayers } from "@anori/utils/overlay-layers";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
@@ -120,6 +121,16 @@ export const Workspace = ({
   });
   useHotkeys("alt+h", () => setShortcutsHelpVisible((v) => !v));
   useHotkeys("alt+s", () => setSettingsVisible((v) => !v));
+
+  const overlayLayers = useOverlayLayers();
+  useHotkeys(
+    "esc",
+    () => {
+      if (overlayLayers.hasActiveOverlay()) return;
+      setIsEditing(false);
+    },
+    { enabled: isEditing },
+  );
 
   const handleToggleEditMode = useCallback(() => setIsEditing((v) => !v), []);
   const handleDoneEditing = useCallback(() => setIsEditing(false), []);
