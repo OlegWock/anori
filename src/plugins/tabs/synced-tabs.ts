@@ -1,4 +1,4 @@
-import type { SnapshotTab } from "./tab-sync-controller";
+import type { SnapshotTab } from "./snapshot";
 
 export type SyncedTab = SnapshotTab;
 
