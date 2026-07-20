@@ -1,7 +1,10 @@
 import { css, cva } from "styled-system/css";
 
 export const weatherWidget = cva({
-  base: { "& svg": { color: "icon.subtle" } },
+  base: {
+    "& svg": { color: "icon.subtle" },
+    backfaceVisibility: "hidden",
+  },
   variants: {
     type: {
       current: { display: "flex", alignItems: "center", textDecoration: "none", flexGrow: 1, gap: "2" },

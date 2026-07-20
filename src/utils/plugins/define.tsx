@@ -100,7 +100,7 @@ const codecFns = (schema: z.ZodType<Mapping> | undefined) => ({
     : (config: unknown) => config as Mapping,
 });
 
-const toSomeWidget = (def: AnyWidgetDef): SomeWidget => {
+export const toSomeWidget = (def: AnyWidgetDef): SomeWidget => {
   const { decode, encode } = codecFns(def.schema);
   const widget: SomeWidget = {
     id: def.id,

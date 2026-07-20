@@ -3,6 +3,7 @@ import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useHotkeys } from "@anori/utils/hooks";
 import { useMotionTransition } from "@anori/utils/motion/hooks";
+import { useRegisterOverlayLayer } from "@anori/utils/overlay-layers";
 import { LayoutGroup, m, useIsPresent } from "motion/react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -78,6 +79,7 @@ export const Modal = ({
   flush,
 }: ModalProps) => {
   const { t } = useTranslation();
+  useRegisterOverlayLayer(true);
   useHotkeys("esc", () => {
     if (!closable || !onClose) return;
     onClose();
