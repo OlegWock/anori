@@ -70,14 +70,10 @@ const groupActions = css({
 });
 const groupBody = css({ display: "flex", flexDirection: "column", paddingLeft: "5" });
 
-const favicon = (url: string) => (
-  <Favicon url={url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
-);
-
 const TabRow = ({ tab }: { tab: TabListTab }) => {
   const inner = (
     <>
-      {favicon(tab.url)}
+      {<Favicon url={tab.url} width={18} height={18} fallback={builtinIcons.globe} />}
       <span className={rowTitle}>{tab.title}</span>
     </>
   );
