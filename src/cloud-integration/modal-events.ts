@@ -1,5 +1,5 @@
-export const OPEN_CLOUD_ACCOUNT_EVENT = "anori:open-cloud-account";
+export const OPEN_ANORI_PLUS_SETTINGS_EVENT = "anori:open-anori-plus-settings";
 
-export const openCloudAccountModal = () => {
-  window.dispatchEvent(new CustomEvent(OPEN_CLOUD_ACCOUNT_EVENT));
+export const openAnoriPlusSettings = () => {
+  window.dispatchEvent(new CustomEvent(OPEN_ANORI_PLUS_SETTINGS_EVENT));
 };

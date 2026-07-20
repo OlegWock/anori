@@ -1,5 +1,5 @@
 import { useCloudAccount, useIsBehindCloudSchema } from "@anori/cloud-integration/hooks";
-import { OPEN_CLOUD_ACCOUNT_EVENT } from "@anori/cloud-integration/modal-events";
+import { OPEN_ANORI_PLUS_SETTINGS_EVENT } from "@anori/cloud-integration/modal-events";
 import { ShortcutsHelp } from "@anori/components/ShortcutsHelp";
 import { WhatsNew } from "@anori/components/WhatsNew";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
@@ -17,7 +17,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useMeasure from "react-use-motion-measure";
 import { css, cva } from "styled-system/css";
-import { CloudAccountModal, NewWidgetWizard, SettingsModal } from "../../lazy-components";
+import { NewWidgetWizard, SettingsModal } from "../../lazy-components";
+import type { SettingScreen } from "../../settings/Settings";
 import { EditModeToolbar } from "../EditModeToolbar/EditModeToolbar";
 import { EditWidgetModal } from "../EditWidgetModal";
 import { FolderContent } from "../FolderContent";
@@ -84,10 +85,9 @@ export const Workspace = ({
   const [isEditing, setIsEditing] = useState(false);
   const [addWidgetWizardVisible, setAddWidgetWizardVisible] = useState(false);
   const [editingWidget, setEditingWidget] = useState<null | WidgetInFolderWithMeta>(null);
-  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [settingsScreen, setSettingsScreen] = useState<SettingScreen | null>(null);
   const [shortcutsHelpVisible, setShortcutsHelpVisible] = useState(false);
   const [whatsNewVisible, setWhatsNewVisible] = useState(false);
-  const [cloudModalVisible, setCloudModalVisible] = useState(false);
   const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useStorageValue(anoriSchema.hasUnreadReleaseNotes);
   const { isConnected } = useCloudAccount();
   const isBehindCloudSchema = useIsBehindCloudSchema();
@@ -121,7 +121,7 @@ export const Workspace = ({
     setAddWidgetWizardVisible(true);
   });
   useHotkeys("alt+h", () => setShortcutsHelpVisible((v) => !v));
-  useHotkeys("alt+s", () => setSettingsVisible((v) => !v));
+  useHotkeys("alt+s", () => setSettingsScreen((screen) => (screen ? null : "general")));
 
   const overlayLayers = useOverlayLayers();
   useHotkeys(
@@ -140,13 +140,13 @@ export const Workspace = ({
     setWhatsNewVisible(true);
     setHasUnreadReleaseNotes(false);
   }, [setHasUnreadReleaseNotes]);
-  const handleOpenCloudAccount = useCallback(() => setCloudModalVisible(true), []);
-  const handleOpenSettings = useCallback(() => setSettingsVisible(true), []);
+  const handleOpenCloudAccount = useCallback(() => setSettingsScreen("anori-plus"), []);
+  const handleOpenSettings = useCallback(() => setSettingsScreen("general"), []);
 
   useEffect(() => {
-    const handleOpenRequest = () => setCloudModalVisible(true);
-    window.addEventListener(OPEN_CLOUD_ACCOUNT_EVENT, handleOpenRequest);
-    return () => window.removeEventListener(OPEN_CLOUD_ACCOUNT_EVENT, handleOpenRequest);
+    const handleOpenRequest = () => setSettingsScreen("anori-plus");
+    window.addEventListener(OPEN_ANORI_PLUS_SETTINGS_EVENT, handleOpenRequest);
+    return () => window.removeEventListener(OPEN_ANORI_PLUS_SETTINGS_EVENT, handleOpenRequest);
   }, []);
 
   const parentFolderContext = useMemo(
@@ -251,11 +251,7 @@ export const Workspace = ({
       </AnimatePresence>
 
       <AnimatePresence>
-        {settingsVisible && <SettingsModal onClose={() => setSettingsVisible(false)} />}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {cloudModalVisible && <CloudAccountModal onClose={() => setCloudModalVisible(false)} />}
+        {settingsScreen && <SettingsModal initialScreen={settingsScreen} onClose={() => setSettingsScreen(null)} />}
       </AnimatePresence>
     </>
   );

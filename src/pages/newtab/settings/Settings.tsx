@@ -41,9 +41,15 @@ const screenVariants = {
   exit: (dir: "up" | "down") => ({ y: dir === "down" ? "-80px" : "80px", opacity: 0 }),
 };
 
-export const SettingsModal = ({ onClose }: { onClose: () => void }) => {
+export const SettingsModal = ({
+  onClose,
+  initialScreen = "general",
+}: {
+  onClose: () => void;
+  initialScreen?: SettingScreen;
+}) => {
   const { t } = useTranslation();
-  const [screen, setScreen] = useState<SettingScreen>("general");
+  const [screen, setScreen] = useState<SettingScreen>(initialScreen);
   const [direction, setDirection] = useState<"up" | "down">("down");
 
   const currentIndex = Math.max(

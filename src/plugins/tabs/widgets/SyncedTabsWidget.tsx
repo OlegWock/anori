@@ -1,6 +1,6 @@
 import { trpc } from "@anori/cloud-integration/api-client";
 import { useCloudAccount } from "@anori/cloud-integration/hooks";
-import { openCloudAccountModal } from "@anori/cloud-integration/modal-events";
+import { openAnoriPlusSettings } from "@anori/cloud-integration/modal-events";
 import { subscribeToSyncedTabsUpdates } from "@anori/cloud-integration/synced-tabs-subscription";
 import { WidgetHeader } from "@anori/components/WidgetHeader/WidgetHeader";
 import { Button } from "@anori/design-system/components/Button/Button";
@@ -63,7 +63,7 @@ export const SyncedTabsWidget = memo(function SyncedTabsWidget(_props: WidgetRen
           title={t("tabs-plugin.syncedTabs.notConnectedTitle")}
           description={t("tabs-plugin.syncedTabs.notConnectedDescription")}
         >
-          <Button onClick={openCloudAccountModal}>{t("tabs-plugin.syncedTabs.connect")}</Button>
+          <Button onClick={openAnoriPlusSettings}>{t("tabs-plugin.syncedTabs.connect")}</Button>
         </EmptyState>
       ) : isLoading && devices.length === 0 ? (
         <div className={loadingText}>{t("tabs-plugin.syncedTabs.loading")}</div>
