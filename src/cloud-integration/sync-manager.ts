@@ -8,12 +8,11 @@ import type { SyncScope } from "@anori/utils/storage-lib/schema";
 import type { OutboxChangeCallback } from "@anori/utils/storage-lib/storage";
 import { createSchemaHelpers } from "@anori/utils/storage-lib/storage-helpers";
 import type { FileMetaValue, StorageRecord } from "@anori/utils/storage-lib/types";
-import { type ApiClientWithReconnect, createApiClient, isAppErrorOfType } from "@anori-app/api-client";
+import { isAppErrorOfType } from "@anori-app/api-client";
 import { CommitLogPrunedError, SchemaUpgradeConflictError, SchemaVersionMismatchError } from "@anori-app/api-types";
 import { getApiClient } from "./api-client";
 import { clearSession, isSessionError } from "./auth";
-import { API_BASE_URL } from "./consts";
-import { getCloudAccount } from "./storage";
+import { getSubscriptionClient } from "./subscription-client";
 
 type RemoteCell = {
   key: string;
@@ -99,7 +98,6 @@ const OUTBOX_FLUSH_DEBOUNCE_MS = 500;
 export class SyncManager {
   private storage: AnoriStorage;
   private outboxUnsubscribe: (() => void) | null = null;
-  private subscriptionClient: ApiClientWithReconnect | null = null;
   private profileSubscription: { unsubscribe: () => void } | null = null;
   private userCellsSubscription: { unsubscribe: () => void } | null = null;
   private flushOutboxTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -711,7 +709,7 @@ export class SyncManager {
       return;
     }
 
-    const client = this.getSubscriptionClient();
+    const client = getSubscriptionClient();
 
     if (syncSettings) {
       this.profileSubscription = client.client.sync.onProfileUpdates.subscribe(
@@ -743,23 +741,6 @@ export class SyncManager {
         },
       });
     }
-  }
-
-  private getSubscriptionClient(): ApiClientWithReconnect {
-    if (!this.subscriptionClient) {
-      this.subscriptionClient = createApiClient({
-        url: API_BASE_URL,
-        token: () => getCloudAccount()?.sessionToken,
-        onOpen: () => {
-          console.log("Remote sync WebSocket connected");
-        },
-        onClose: (cause) => {
-          console.log("Remote sync WebSocket disconnected", cause);
-        },
-        retryDelayMs: 5000,
-      });
-    }
-    return this.subscriptionClient;
   }
 
   // We may flush only when the profile is at our schema version and we've reconciled there.
