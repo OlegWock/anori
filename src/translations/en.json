@@ -69,9 +69,11 @@
             "noAccount": "Don't have an account?",
             "createAccount": "Create one here",
             "userDataConflict": {
-                "description": "You have a local copy of data that was previously uploaded to a different account. Would you like to upload it to this account or discard it?",
-                "upload": "Upload to this account",
-                "discard": "Discard local data"
+                "description": "This browser has Anori Plus data — for example your Tab stash — that was synced to a different account than the one you're signing in to. What should happen to it?",
+                "upload": "Add it to this account",
+                "uploadHint": "Keeps this data and merges it into the account you're signing in to. Choose this if it's yours — for example if you switched to a new account.",
+                "discard": "Discard it",
+                "discardHint": "Removes it from this browser and uses whatever this account already has instead. Choose this if it belongs to the other account or you don't need it here."
             },
             "plusDescription": "Anori Plus is an additional service for Anori that lets you sync your configuration between multiple browsers and devices in real time.",
             "learnMore": "Learn more",
@@ -99,6 +101,8 @@
                 "title": "Devices",
                 "thisDevice": "This device",
                 "rename": "Rename device",
+                "remove": "Remove device",
+                "removeConfirmation": "Remove \"{{name}}\" from your account? It will be signed out and stop syncing.",
                 "namePlaceholder": "Device name",
                 "lastActive": "active {{date}}",
                 "empty": "No devices are signed in to this account yet"

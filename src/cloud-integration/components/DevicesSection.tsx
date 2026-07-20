@@ -29,14 +29,18 @@ const deviceInfo = css({ display: "flex", flexDirection: "column", gap: "1", fle
 const deviceName = css({ fontSize: "md", fontWeight: "medium", display: "flex", alignItems: "baseline", gap: "2" });
 const deviceMeta = css({ fontSize: "xs", opacity: 0.6 });
 const renameForm = css({ display: "flex", flexDirection: "column", gap: "3", flex: 1 });
+const deviceActions = css({ display: "flex", flexDirection: "row", gap: "1" });
+const confirmation = css({ display: "flex", flexDirection: "column", gap: "3", paddingTop: "3" });
 const actionsRight = css({ display: "flex", flexDirection: "row", gap: "2", justifyContent: "flex-end" });
 
 export const DevicesSection = () => {
   const { t } = useTranslation();
   const { data, isLoading, error, refetch } = trpc.auth.listDevices.useQuery();
   const renameMutation = trpc.auth.renameDevice.useMutation();
+  const removeMutation = trpc.auth.removeDevice.useMutation();
   const [editingDeviceId, setEditingDeviceId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
+  const [confirmRemoveDeviceId, setConfirmRemoveDeviceId] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -66,6 +70,16 @@ export const DevicesSection = () => {
       await refetch();
     } catch (renameError) {
       console.error("Failed to rename device:", renameError);
+    }
+  };
+
+  const handleRemove = async (deviceId: string) => {
+    try {
+      await removeMutation.mutateAsync({ deviceId });
+      setConfirmRemoveDeviceId(null);
+      await refetch();
+    } catch (removeError) {
+      console.error("Failed to remove device:", removeError);
     }
   };
 
@@ -118,29 +132,65 @@ export const DevicesSection = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className={deviceHeader}>
-                      <div className={deviceInfo}>
-                        <div className={deviceName}>
-                          {device.name}
-                          {device.isCurrentDevice && <Badge>{t("cloud.devices.thisDevice")}</Badge>}
+                    <>
+                      <div className={deviceHeader}>
+                        <div className={deviceInfo}>
+                          <div className={deviceName}>
+                            {device.name}
+                            {device.isCurrentDevice && <Badge>{t("cloud.devices.thisDevice")}</Badge>}
+                          </div>
+                          <div className={deviceMeta}>
+                            {metaParts}
+                            {metaParts && " · "}
+                            {t("cloud.devices.lastActive", { date: moment(device.lastActiveAt).fromNow() })}
+                          </div>
                         </div>
-                        <div className={deviceMeta}>
-                          {metaParts}
-                          {metaParts && " · "}
-                          {t("cloud.devices.lastActive", { date: moment(device.lastActiveAt).fromNow() })}
+                        <div className={deviceActions}>
+                          <IconButton
+                            variant="ghost"
+                            size="compact"
+                            icon={builtinIcons.pencil}
+                            label={t("cloud.devices.rename")}
+                            onClick={() => {
+                              setEditingDeviceId(device.deviceId);
+                              setEditingName(device.name);
+                            }}
+                          />
+                          {!device.isCurrentDevice && (
+                            <IconButton
+                              variant="ghost"
+                              size="compact"
+                              icon={builtinIcons.trash}
+                              label={t("cloud.devices.remove")}
+                              onClick={() => setConfirmRemoveDeviceId(device.deviceId)}
+                            />
+                          )}
                         </div>
                       </div>
-                      <IconButton
-                        variant="ghost"
-                        size="compact"
-                        icon={builtinIcons.pencil}
-                        label={t("cloud.devices.rename")}
-                        onClick={() => {
-                          setEditingDeviceId(device.deviceId);
-                          setEditingName(device.name);
-                        }}
-                      />
-                    </div>
+                      {confirmRemoveDeviceId === device.deviceId && (
+                        <div className={confirmation}>
+                          <Alert variant="danger">{t("cloud.devices.removeConfirmation", { name: device.name })}</Alert>
+                          <div className={actionsRight}>
+                            <Button
+                              variant="secondary"
+                              size="compact"
+                              onClick={() => handleRemove(device.deviceId)}
+                              loading={removeMutation.isPending}
+                            >
+                              {t("cloud.devices.remove")}
+                            </Button>
+                            <Button
+                              variant="primary"
+                              size="compact"
+                              onClick={() => setConfirmRemoveDeviceId(null)}
+                              disabled={removeMutation.isPending}
+                            >
+                              {t("cloud.cancel")}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </Card>
               );

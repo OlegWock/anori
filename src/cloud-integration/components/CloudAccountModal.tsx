@@ -100,7 +100,9 @@ const plusDescription = css({
 });
 const authForm = css({ display: "flex", flexDirection: "column", gap: "4" });
 const loginActions = css({ display: "flex", flexDirection: "column", alignItems: "center", gap: "4" });
-const userScopeConflictActions = css({ display: "flex", alignItems: "center", gap: "4" });
+const conflictOptions = css({ display: "flex", flexDirection: "column", gap: "4" });
+const conflictOption = css({ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "1" });
+const conflictHint = css({ fontSize: "sm", opacity: 0.7 });
 const registerLink = css({ textAlign: "center", fontSize: "sm", opacity: 0.8, margin: 0, "& a": mutedLink });
 
 type Props = {
@@ -570,14 +572,21 @@ const AuthView = () => {
       <div className={authView}>
         {error && <Alert variant="accent">{error}</Alert>}
         <p>{t("cloud.userDataConflict.description")}</p>
-        <div className={userScopeConflictActions}>
-          <Button variant="primary" loading={isLoading} onClick={() => handleResolveConflict("upload")}>
-            {t("cloud.userDataConflict.upload")}
-          </Button>
-
-          <Button variant="secondary" loading={isLoading} onClick={() => handleResolveConflict("discard")}>
-            {t("cloud.userDataConflict.discard")}
-          </Button>
+        <div className={conflictOptions}>
+          <div className={conflictOption}>
+            <Button variant="primary" loading={isLoading} onClick={() => handleResolveConflict("upload")}>
+              {t("cloud.userDataConflict.upload")}
+            </Button>
+            <span className={conflictHint}>{t("cloud.userDataConflict.uploadHint")}</span>
+          </div>
+          <div className={conflictOption}>
+            <Button variant="secondary" loading={isLoading} onClick={() => handleResolveConflict("discard")}>
+              {t("cloud.userDataConflict.discard")}
+            </Button>
+            <span className={conflictHint}>{t("cloud.userDataConflict.discardHint")}</span>
+          </div>
+        </div>
+        <div className={actionsRight}>
           <Button variant="secondary" disabled={isLoading} onClick={handleCancelConflict}>
             {t("cloud.cancel")}
           </Button>

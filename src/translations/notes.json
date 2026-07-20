@@ -49,9 +49,11 @@
         "noAccount": "Prompt text shown before the sign-up link on the login form.",
         "createAccount": "Link on the login form that takes the user to create an account.",
         "userDataConflict": {
-            "description": "Shown during login when this device holds synced data (e.g. stash) that belongs to a different account than the one logging in. The user must decide before login completes.",
+            "description": "Shown during login when this device holds account-level synced data (currently the Tab stash — saved tabs/groups) that belongs to a different account than the one logging in. Names the tab stash as a concrete example. The user must decide before login completes.",
             "upload": "Button that keeps the local data and uploads (merges) it into the account being logged into.",
-            "discard": "Button that deletes the local copy and uses the account's cloud data instead."
+            "uploadHint": "One-line explanation under the 'Add it to this account' button describing when to choose it (the data is yours / you switched accounts).",
+            "discard": "Button that deletes the local copy and uses the account's cloud data instead.",
+            "discardHint": "One-line explanation under the 'Discard it' button describing when to choose it (the data belongs to the other account or isn't needed here)."
         },
         "plusDescription": "Description of the Anori Plus cloud-sync service shown to logged-out users.",
         "learnMore": "Link on the login screen to learn more about Anori Plus.",
@@ -79,6 +81,8 @@
             "title": "Heading of the devices section in the Anori Plus account view, listing the devices signed into the account.",
             "thisDevice": "Badge marking which listed device is the one the user is currently on.",
             "rename": "Accessibility label / tooltip for the button that renames a device.",
+            "remove": "Label for the button that removes a device from the account (also the confirm button); shown only for devices other than the current one.",
+            "removeConfirmation": "Confirmation prompt before removing a device from the account, warning it will be signed out and stop syncing. {{name}} is the device name.",
             "namePlaceholder": "Placeholder for the input where the user types a new device name.",
             "lastActive": "Suffix showing when a device was last active, combined with a relative time (e.g. 'active 2 hours ago').",
             "empty": "Empty-state text shown when the account has no signed-in devices registered yet."
