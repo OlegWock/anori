@@ -162,6 +162,7 @@
                 "colorText": "Text",
                 "colorCode": "Color code",
                 "colorScheme": "Color scheme",
+                "previewColorScheme": "Preview color scheme",
                 "colorSchemeSystem": "System",
                 "colorSchemeLight": "Light",
                 "colorSchemeDark": "Dark"

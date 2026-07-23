@@ -31,7 +31,6 @@ const COLOR_SCHEME_LABEL_KEY: Record<ColorScheme, string> = {
 const screen = css({ display: "flex", flexDirection: "column", gap: "4" });
 const header = css({ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "4" });
 const grid = css({ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "3" });
-const editorDivider = css({ height: "1px", bg: "divider" });
 
 export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
   const { t } = useTranslation();
@@ -62,51 +61,50 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
         )}
       </div>
 
-      {editorActive && (
+      {editorActive ? (
+        <ThemeEditor key={editorTheme?.name ?? "new"} theme={editorTheme} onClose={() => setEditorActive(false)} />
+      ) : (
         <>
-          <ThemeEditor key={editorTheme?.name ?? "new"} theme={editorTheme} onClose={() => setEditorActive(false)} />
-          <div className={editorDivider} />
+          <div className={grid}>
+            {[...themes, ...customThemes].map((theme) => (
+              <ThemePlate
+                key={theme.name}
+                theme={theme}
+                active={theme.name === currentTheme}
+                gamut={gamut}
+                mode={mode}
+                onSelect={() => {
+                  setTheme(theme.name);
+                  applyTheme(theme, mode);
+                }}
+                onEdit={theme.type === "custom" ? () => openEditor(theme) : undefined}
+                onDelete={
+                  theme.type === "custom"
+                    ? () => {
+                        setCustomThemes((prev) => prev.filter((t) => t.name !== theme.name));
+                        deleteThemeBackgrounds(theme.name);
+                        if (currentTheme === theme.name) {
+                          setTheme(defaultTheme.name);
+                          applyTheme(defaultTheme, mode);
+                        }
+                      }
+                    : undefined
+                }
+              />
+            ))}
+          </div>
+
+          <Field label={`${t("settings.theme.colorScheme")}:`}>
+            <Select<ColorScheme>
+              options={COLOR_SCHEMES}
+              value={colorScheme}
+              onChange={setColorScheme}
+              getOptionKey={(s) => s}
+              getOptionLabel={(s) => t(COLOR_SCHEME_LABEL_KEY[s])}
+            />
+          </Field>
         </>
       )}
-
-      <div className={grid}>
-        {[...themes, ...customThemes].map((theme) => (
-          <ThemePlate
-            key={theme.name}
-            theme={theme}
-            active={theme.name === currentTheme}
-            gamut={gamut}
-            mode={mode}
-            onSelect={() => {
-              setTheme(theme.name);
-              applyTheme(theme, mode);
-            }}
-            onEdit={theme.type === "custom" ? () => openEditor(theme) : undefined}
-            onDelete={
-              theme.type === "custom"
-                ? () => {
-                    setCustomThemes((prev) => prev.filter((t) => t.name !== theme.name));
-                    deleteThemeBackgrounds(theme.name);
-                    if (currentTheme === theme.name) {
-                      setTheme(defaultTheme.name);
-                      applyTheme(defaultTheme, mode);
-                    }
-                  }
-                : undefined
-            }
-          />
-        ))}
-      </div>
-
-      <Field label={`${t("settings.theme.colorScheme")}:`}>
-        <Select<ColorScheme>
-          options={COLOR_SCHEMES}
-          value={colorScheme}
-          onChange={setColorScheme}
-          getOptionKey={(s) => s}
-          getOptionLabel={(s) => t(COLOR_SCHEME_LABEL_KEY[s])}
-        />
-      </Field>
     </m.div>
   );
 };

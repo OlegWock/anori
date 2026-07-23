@@ -1,8 +1,9 @@
-import { detectGamut } from "@anori/design-system/color-engine";
+import { detectGamut, type Mode } from "@anori/design-system/color-engine";
 import { Button as DSButton } from "@anori/design-system/components/Button/Button";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { HueChromaPicker } from "@anori/design-system/components/HueChromaPicker/HueChromaPicker";
+import { Select } from "@anori/design-system/components/Select/Select";
 import { Slider } from "@anori/design-system/components/Slider/Slider";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
@@ -24,6 +25,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 
+const PREVIEW_MODES: Mode[] = ["light", "dark"];
+const PREVIEW_MODE_LABEL_KEY: Record<Mode, string> = {
+  light: "settings.theme.colorSchemeLight",
+  dark: "settings.theme.colorSchemeDark",
+};
+
 const editorPanel = css({ display: "flex", flexDirection: "column", gap: "4" });
 const preview = css({
   position: "relative",
@@ -35,6 +42,7 @@ const preview = css({
 });
 
 const previewImage = css({ position: "absolute", backgroundSize: "cover", backgroundPosition: "center" });
+const backgroundSection = css({ display: "flex", flexDirection: "column", gap: "2" });
 const editorActions = css({ display: "flex", justifyContent: "flex-end", gap: "3" });
 
 export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; onClose: VoidFunction }) => {
@@ -43,6 +51,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
     if (!files[0]) return;
     const background = files[0];
     originalBackgroundBlob.current = background;
+    backgroundPickedRef.current = true;
     setOriginalUrl(URL.createObjectURL(background));
     applyBlur(theme.blur);
   };
@@ -85,16 +94,21 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
   }, []);
 
   const applyPreview = (accent = theme.accent) => {
-    runAfterRender(() => applyThemeColors(accent, resolveColorScheme(colorScheme)));
+    runAfterRender(() => applyThemeColors(accent, previewMode));
   };
 
   const saveTheme = async () => {
     const id = theme.name;
-    if (originalBackgroundBlob.current && blurredBackgroundBlob.current) {
+    const hasBlobs = !!originalBackgroundBlob.current && !!blurredBackgroundBlob.current;
+    if (!themeFromProps && !hasBlobs) return;
+
+    const backgroundChanged = !themeFromProps || backgroundPickedRef.current;
+    const blurChanged = themeFromProps != null && theme.blur !== themeFromProps.blur;
+    if (backgroundChanged && originalBackgroundBlob.current && blurredBackgroundBlob.current) {
       await saveThemeBackground(id, "original", originalBackgroundBlob.current);
       await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
-    } else if (!themeFromProps) {
-      return;
+    } else if (blurChanged && blurredBackgroundBlob.current) {
+      await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
     }
 
     const toSave: CustomTheme = {
@@ -113,10 +127,13 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
     await storage.set(anoriSchema.customThemes, customThemes);
     savedRef.current = true;
     setCurrentTheme(theme.name);
+    applyThemeColors(theme.accent, resolveColorScheme(colorScheme));
     onClose();
   };
 
   const [colorScheme] = useStorageValue(anoriSchema.colorScheme);
+  const [previewMode, setPreviewMode] = useState<Mode>(() => resolveColorScheme(colorScheme));
+  const previewModeRef = useMirrorStateToRef(previewMode);
   const [currentTheme, setCurrentTheme] = useCurrentTheme();
   const currentThemeRef = useMirrorStateToRef(currentTheme);
   const colorSchemeRef = useMirrorStateToRef(colorScheme);
@@ -162,6 +179,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
   const { t } = useTranslation();
   const originalBackgroundBlob = useRef<Blob | null>(null);
   const blurredBackgroundBlob = useRef<Blob | null>(null);
+  const backgroundPickedRef = useRef(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   useEffect(() => {
     return () => (backgroundUrl ? URL.revokeObjectURL(backgroundUrl) : undefined);
@@ -195,8 +213,9 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
   // Flipping the color scheme makes the global theme watcher re-apply the *active* theme; re-assert
   // the editor's draft preview so the in-progress accent (and background) isn't lost. Refs keep this
   // tied to scheme changes only.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: colorScheme is the trigger, not a read value — everything is read via refs so this fires on scheme changes only
   useEffect(() => {
-    applyThemeColors(accentRef.current, resolveColorScheme(colorScheme));
+    applyThemeColors(accentRef.current, previewModeRef.current);
     if (backgroundUrlRef.current) setPageBackground(backgroundUrlRef.current);
   }, [colorScheme]);
 
@@ -207,22 +226,39 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
     <div className={editorPanel}>
       <Heading level={3}>{themeFromProps ? t("settings.theme.editTheme") : t("settings.theme.newTheme")}</Heading>
 
-      <div ref={previewRef} className={preview}>
-        {originalUrl && (
-          <div
-            className={previewImage}
-            style={{
-              inset: `-${previewBlur * 2}px`,
-              backgroundImage: `url(${originalUrl})`,
-              filter: `blur(${previewBlur}px)`,
-            }}
-          />
-        )}
-      </div>
+      <Field label={`${t("settings.theme.previewColorScheme")}:`}>
+        <Select<Mode>
+          options={PREVIEW_MODES}
+          value={previewMode}
+          onChange={(mode) => {
+            setPreviewMode(mode);
+            applyThemeColors(theme.accent, mode);
+          }}
+          getOptionKey={(m) => m}
+          getOptionLabel={(m) => t(PREVIEW_MODE_LABEL_KEY[m])}
+        />
+      </Field>
 
-      <DSButton variant="secondary" onClick={loadBackground}>
-        {backgroundUrl ? t("settings.theme.changeBackground") : t("settings.theme.selectBackground")}
-      </DSButton>
+      <Field label={`${t("settings.theme.colorBackground")}:`}>
+        <div className={backgroundSection}>
+          <div ref={previewRef} className={preview}>
+            {originalUrl && (
+              <div
+                className={previewImage}
+                style={{
+                  inset: `-${previewBlur * 2}px`,
+                  backgroundImage: `url(${originalUrl})`,
+                  filter: `blur(${previewBlur}px)`,
+                }}
+              />
+            )}
+          </div>
+
+          <DSButton variant="secondary" onClick={loadBackground}>
+            {backgroundUrl ? t("settings.theme.changeBackground") : t("settings.theme.selectBackground")}
+          </DSButton>
+        </div>
+      </Field>
 
       <Field label={`${t("settings.theme.blur")}:`}>
         <Slider
@@ -237,7 +273,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
       <HueChromaPicker
         label={`${t("settings.theme.colorAccent")}:`}
         value={theme.accent}
-        mode={resolveColorScheme(colorScheme)}
+        mode={previewMode}
         gamut={gamut}
         onChange={(accent) => {
           setTheme((p) => ({ ...p, accent }));
