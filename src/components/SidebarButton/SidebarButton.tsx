@@ -1,11 +1,11 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
-import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";
+import { useWidgetDragActive } from "@anori/utils/dnd";
+import { useDroppable } from "@dnd-kit/react";
 import { m } from "motion/react";
-import { type ComponentProps, useState } from "react";
+import type { ComponentProps } from "react";
 import { css, cva, cx } from "styled-system/css";
-import { DropDestination } from "../DropDestination";
 
 export type SidebarButtonProps = {
   name: string;
@@ -73,15 +73,21 @@ export const SidebarButton = ({
   dropDestination,
   ...props
 }: SidebarButtonProps) => {
-  const currentlyDraggingWidget = useCurrentlyDragging({ type: "widget" });
-  const [highlightDrop, setHighlightDrop] = useState(false);
+  const currentlyDraggingWidget = useWidgetDragActive();
+  const { ref: dropRef, isDropTarget } = useDroppable({
+    id: dropDestination?.id ?? `sidebar-button-${name}`,
+    type: "folder",
+    accept: "widget",
+    disabled: !dropDestination,
+  });
   const { rem } = useSizeSettings();
 
   const content = (
     <m.button
+      ref={dropRef}
       className={cx(
         "SidebarButton",
-        folderButton({ dropTarget: currentlyDraggingWidget && !!dropDestination, highlight: highlightDrop }),
+        folderButton({ dropTarget: currentlyDraggingWidget && !!dropDestination, highlight: isDropTarget }),
         className,
       )}
       {...props}
@@ -93,22 +99,6 @@ export const SidebarButton = ({
       <Icon icon={icon} width={rem(1.5)} height={rem(1.5)} />
     </m.button>
   );
-
-  if (dropDestination) {
-    return (
-      <Tooltip label={name} placement={sidebarOrientation === "vertical" ? "right" : "top"}>
-        <DropDestination
-          type="folder"
-          id={dropDestination.id}
-          filter="widget"
-          onDragEnter={() => setHighlightDrop(true)}
-          onDragLeave={() => setHighlightDrop(false)}
-        >
-          {content}
-        </DropDestination>
-      </Tooltip>
-    );
-  }
 
   return (
     <Tooltip label={name} placement={sidebarOrientation === "vertical" ? "right" : "top"}>
