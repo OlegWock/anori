@@ -162,6 +162,8 @@
                 "colorText": "टेक्स्ट",
                 "colorCode": "रंग कोड",
                 "colorScheme": "रंग योजना",
+                "previewColorScheme": "पूर्वावलोकन के लिए रंग योजना",
+                "hideDotPattern": "डॉट पैटर्न छुपाएं",
                 "colorSchemeSystem": "सिस्टम",
                 "colorSchemeLight": "हल्का",
                 "colorSchemeDark": "गहरा"

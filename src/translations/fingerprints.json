@@ -328,7 +328,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "de": {
         "appName": "55adda81af29",
@@ -659,7 +661,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "es": {
         "appName": "55adda81af29",
@@ -990,7 +994,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "fr": {
         "appName": "55adda81af29",
@@ -1321,7 +1327,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "it": {
         "appName": "55adda81af29",
@@ -1652,7 +1660,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "ja": {
         "appName": "55adda81af29",
@@ -1983,7 +1993,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "pt-br": {
         "appName": "55adda81af29",
@@ -2314,7 +2326,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "ru": {
         "appName": "55adda81af29",
@@ -2645,7 +2659,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "th": {
         "appName": "55adda81af29",
@@ -2976,7 +2992,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "tr": {
         "appName": "55adda81af29",
@@ -3307,7 +3325,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "uk": {
         "appName": "55adda81af29",
@@ -3638,7 +3658,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "vi": {
         "appName": "55adda81af29",
@@ -3969,7 +3991,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "zh-cn": {
         "appName": "55adda81af29",
@@ -4300,7 +4324,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "cs": {
         "appName": "55adda81af29",
@@ -4631,7 +4657,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "fil": {
         "appName": "55adda81af29",
@@ -4962,7 +4990,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "hi": {
         "appName": "55adda81af29",
@@ -5293,7 +5323,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "id": {
         "appName": "55adda81af29",
@@ -5624,7 +5656,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "pl": {
         "appName": "55adda81af29",
@@ -5955,7 +5989,9 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     },
     "sk": {
         "appName": "55adda81af29",
@@ -6286,6 +6322,8 @@
         "rss-plugin.addFeed": "aa1e3c901a1f",
         "iframe-plugin.openPage": "af0303342a01",
         "anki-plugin.errorTitle": "ed45c8614791",
-        "editFolder": "fe82f5a54ad3"
+        "editFolder": "fe82f5a54ad3",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa"
     }
 }

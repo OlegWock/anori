@@ -162,6 +162,8 @@
                 "colorText": "Tekst",
                 "colorCode": "Kod koloru",
                 "colorScheme": "Schemat kolorów",
+                "previewColorScheme": "Schemat kolorów podglądu",
+                "hideDotPattern": "Ukryj wzór kropkowany",
                 "colorSchemeSystem": "Systemowy",
                 "colorSchemeLight": "Jasny",
                 "colorSchemeDark": "Ciemny"

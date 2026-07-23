@@ -162,6 +162,8 @@
                 "colorText": "Текст",
                 "colorCode": "Код кольору",
                 "colorScheme": "Колірна схема",
+                "previewColorScheme": "Колірна схема для попереднього перегляду",
+                "hideDotPattern": "Приховати візерунок із крапок",
                 "colorSchemeSystem": "Системна",
                 "colorSchemeLight": "Світла",
                 "colorSchemeDark": "Темна"

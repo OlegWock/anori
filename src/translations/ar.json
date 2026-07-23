@@ -162,6 +162,8 @@
                 "colorText": "النص",
                 "colorCode": "رمز اللون",
                 "colorScheme": "نظام الألوان",
+                "previewColorScheme": "نظام الألوان للمعاينة",
+                "hideDotPattern": "إخفاء نمط النقاط",
                 "colorSchemeSystem": "النظام",
                 "colorSchemeLight": "فاتح",
                 "colorSchemeDark": "داكن"

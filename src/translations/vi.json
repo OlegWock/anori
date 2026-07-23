@@ -162,6 +162,8 @@
                 "colorText": "Văn bản",
                 "colorCode": "Mã màu",
                 "colorScheme": "Bảng màu",
+                "previewColorScheme": "Bảng màu xem trước",
+                "hideDotPattern": "Ẩn họa tiết chấm",
                 "colorSchemeSystem": "Hệ thống",
                 "colorSchemeLight": "Sáng",
                 "colorSchemeDark": "Tối"

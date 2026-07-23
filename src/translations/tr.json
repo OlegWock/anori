@@ -162,6 +162,8 @@
                 "colorText": "Metin",
                 "colorCode": "Renk kodu",
                 "colorScheme": "Renk şeması",
+                "previewColorScheme": "Önizleme renk şeması",
+                "hideDotPattern": "Nokta desenini gizle",
                 "colorSchemeSystem": "Sistem",
                 "colorSchemeLight": "Açık",
                 "colorSchemeDark": "Koyu"

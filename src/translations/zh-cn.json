@@ -162,6 +162,8 @@
                 "colorText": "文字颜色",
                 "colorCode": "颜色代码",
                 "colorScheme": "配色方案",
+                "previewColorScheme": "预览配色方案",
+                "hideDotPattern": "隐藏点状图案",
                 "colorSchemeSystem": "系统",
                 "colorSchemeLight": "浅色",
                 "colorSchemeDark": "深色"

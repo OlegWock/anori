@@ -162,6 +162,8 @@
                 "colorText": "Teks",
                 "colorCode": "Kode warna",
                 "colorScheme": "Skema warna",
+                "previewColorScheme": "Skema warna pratinjau",
+                "hideDotPattern": "Sembunyikan pola titik",
                 "colorSchemeSystem": "Sistem",
                 "colorSchemeLight": "Terang",
                 "colorSchemeDark": "Gelap"

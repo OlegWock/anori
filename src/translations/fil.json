@@ -162,6 +162,8 @@
                 "colorText": "Teksto",
                 "colorCode": "Color code",
                 "colorScheme": "Kulay ng scheme",
+                "previewColorScheme": "Color scheme ng preview",
+                "hideDotPattern": "Itago ang dot pattern",
                 "colorSchemeSystem": "System",
                 "colorSchemeLight": "Maliwanag",
                 "colorSchemeDark": "Madilim"

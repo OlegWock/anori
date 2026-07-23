@@ -162,6 +162,8 @@
                 "colorText": "Текст",
                 "colorCode": "Код цвета",
                 "colorScheme": "Цветовая схема",
+                "previewColorScheme": "Цветовая схема для предпросмотра",
+                "hideDotPattern": "Скрыть узор из точек",
                 "colorSchemeSystem": "Системная",
                 "colorSchemeLight": "Светлая",
                 "colorSchemeDark": "Тёмная"

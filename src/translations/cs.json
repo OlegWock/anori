@@ -162,6 +162,8 @@
                 "colorText": "Text",
                 "colorCode": "Kód barvy",
                 "colorScheme": "Barevné schéma",
+                "previewColorScheme": "Barevné schéma náhledu",
+                "hideDotPattern": "Skrýt tečkovaný vzor",
                 "colorSchemeSystem": "Systém",
                 "colorSchemeLight": "Světlé",
                 "colorSchemeDark": "Tmavé"

@@ -24,6 +24,27 @@ export const WhatsNewImpl = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
+            <Heading marginBottom="2">2.0.2</Heading>
+            <p>Second follow-up to big 2.0 release with followups to appearance and custom themes.</p>
+            <ul>
+              <li>Removed translucent plate behind widgets. Widgets now have more space to occupy.</li>
+              <li>
+                Custom themes now have a lightness control which allows you allow more granular control over appearance.
+              </li>
+              <li>Custom themes can now hide the dot pattern in the background.</li>
+              <li>Minor tweaks and bug fixes for custom theme editor.</li>
+            </ul>
+          </section>
+
+          <section>
+            <Heading marginBottom="2">2.0.1</Heading>
+            <ul>
+              <li>Fixed 'Just give me a productive setup' doing nothing on click.</li>
+              <li>Minor bug fixes.</li>
+            </ul>
+          </section>
+
+          <section>
             <Heading marginBottom="2">2.0.0</Heading>
             <ul>
               <li>

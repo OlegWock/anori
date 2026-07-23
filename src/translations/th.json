@@ -162,6 +162,8 @@
                 "colorText": "ข้อความ",
                 "colorCode": "รหัสสี",
                 "colorScheme": "ชุดสี",
+                "previewColorScheme": "ดูตัวอย่างชุดสี",
+                "hideDotPattern": "ซ่อนลายจุด",
                 "colorSchemeSystem": "ระบบ",
                 "colorSchemeLight": "สว่าง",
                 "colorSchemeDark": "มืด"

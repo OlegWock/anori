@@ -162,6 +162,8 @@
                 "colorText": "テキスト",
                 "colorCode": "カラーコード",
                 "colorScheme": "カラースキーム",
+                "previewColorScheme": "プレビューのカラースキーム",
+                "hideDotPattern": "ドットパターンを非表示",
                 "colorSchemeSystem": "システム",
                 "colorSchemeLight": "ライト",
                 "colorSchemeDark": "ダーク"

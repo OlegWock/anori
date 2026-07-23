@@ -162,6 +162,8 @@
                 "colorText": "Testo",
                 "colorCode": "Codice colore",
                 "colorScheme": "Schema colori",
+                "previewColorScheme": "Schema colori dell'anteprima",
+                "hideDotPattern": "Nascondi motivo a punti",
                 "colorSchemeSystem": "Sistema",
                 "colorSchemeLight": "Chiaro",
                 "colorSchemeDark": "Scuro"

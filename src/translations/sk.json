@@ -162,6 +162,8 @@
                 "colorText": "Text",
                 "colorCode": "Kód farby",
                 "colorScheme": "Farebná schéma",
+                "previewColorScheme": "Farebná schéma náhľadu",
+                "hideDotPattern": "Skryť bodkovaný vzor",
                 "colorSchemeSystem": "Systém",
                 "colorSchemeLight": "Svetlá",
                 "colorSchemeDark": "Tmavá"

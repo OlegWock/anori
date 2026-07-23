@@ -162,6 +162,8 @@
                 "colorText": "Texto",
                 "colorCode": "Código de color",
                 "colorScheme": "Esquema de color",
+                "previewColorScheme": "Esquema de color de la vista previa",
+                "hideDotPattern": "Ocultar patrón de puntos",
                 "colorSchemeSystem": "Sistema",
                 "colorSchemeLight": "Claro",
                 "colorSchemeDark": "Oscuro"

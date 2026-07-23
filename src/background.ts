@@ -15,6 +15,7 @@ type BackgroundMessage =
 
 console.log("Background init");
 
+// Updating to any of these versions adds a notification dot on "Whats new" button in the sidebar
 const VERSIONS_WITH_CHANGES = [
   "1.1.0",
   "1.2.0",
@@ -38,6 +39,7 @@ const VERSIONS_WITH_CHANGES = [
   "1.26.0",
   "1.27.0",
   "2.0.0",
+  "2.0.2",
 ];
 
 const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
