@@ -89,13 +89,20 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
   };
 
   const saveTheme = async () => {
-    if (!originalBackgroundBlob.current || !blurredBackgroundBlob.current) return;
-
     const id = theme.name;
-    await saveThemeBackground(id, "original", originalBackgroundBlob.current);
-    await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
+    if (originalBackgroundBlob.current && blurredBackgroundBlob.current) {
+      await saveThemeBackground(id, "original", originalBackgroundBlob.current);
+      await saveThemeBackground(id, "blurred", blurredBackgroundBlob.current);
+    } else if (!themeFromProps) {
+      return;
+    }
 
-    const toSave: CustomTheme = { name: theme.name, type: "custom", blur: theme.blur, accent: theme.accent };
+    const toSave: CustomTheme = {
+      name: theme.name,
+      type: "custom",
+      blur: theme.blur,
+      accent: theme.accent,
+    };
     const storage = await getAnoriStorage();
     let customThemes = storage.get(anoriSchema.customThemes);
     if (themeFromProps) {
@@ -230,6 +237,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
       <HueChromaPicker
         label={`${t("settings.theme.colorAccent")}:`}
         value={theme.accent}
+        mode={resolveColorScheme(colorScheme)}
         gamut={gamut}
         onChange={(accent) => {
           setTheme((p) => ({ ...p, accent }));
@@ -241,7 +249,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
         <DSButton variant="secondary" onClick={onClose}>
           {t("back")}
         </DSButton>
-        <DSButton disabled={!backgroundUrl} onClick={saveTheme}>
+        <DSButton disabled={!backgroundUrl && !themeFromProps} onClick={saveTheme}>
           {t("save")}
         </DSButton>
       </div>

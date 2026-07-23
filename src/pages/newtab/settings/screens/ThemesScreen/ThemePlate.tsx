@@ -41,6 +41,7 @@ const colorCircle = css({
   borderWidth: "2px",
   borderStyle: "solid",
   borderColor: "frosted.strong",
+  backgroundOrigin: "border-box",
 });
 const plateActions = css({ position: "absolute", top: "1", right: "1", display: "flex", gap: "1" });
 
@@ -62,7 +63,10 @@ export const ThemePlate = ({
   onDelete?: VoidFunction;
 }) => {
   const { t } = useTranslation();
-  const accentSwatch = useMemo(() => buildPalette(theme.accent, "dark", gamut).scales.accent[7], [theme.accent, gamut]);
+  const swatch = useMemo(() => {
+    const palette = buildPalette(theme.accent, mode, gamut);
+    return { accent: palette.scales.accent[7], surface: palette.tokens.surface };
+  }, [theme.accent, mode, gamut]);
   const [customBackgroundUrl, setCustomBackgroundUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -90,7 +94,12 @@ export const ThemePlate = ({
         style={{ backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : undefined }}
         onClick={onSelect}
       >
-        <div className={colorCircle} style={{ backgroundColor: accentSwatch }} />
+        <div
+          className={colorCircle}
+          style={{
+            backgroundImage: `linear-gradient(135deg, ${swatch.accent} calc(50% - 0.75px), ${swatch.surface} calc(50% + 0.75px))`,
+          }}
+        />
       </button>
 
       {(onEdit || onDelete) && (
