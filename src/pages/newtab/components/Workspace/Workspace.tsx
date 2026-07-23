@@ -41,9 +41,6 @@ const widgetsArea = cva({
   base: {
     position: "relative",
     flex: 1,
-    borderRadius: "2xl",
-    background: "frosted.subtle",
-    backdropFilter: "blur(10px)",
     zIndex: 1,
     overflow: "hidden",
     display: "flex",
@@ -66,7 +63,7 @@ const editingScrim = css({
   position: "fixed",
   zIndex: "docked",
   pointerEvents: "none",
-  borderRadius: "2xl",
+  borderRadius: "xl",
   boxShadow: "0 0 0 100vmax rgba(0, 0, 0, 0.5)",
 });
 

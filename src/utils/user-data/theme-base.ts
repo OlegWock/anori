@@ -18,6 +18,7 @@ export type CustomTheme = {
   type: "custom";
   blur: number;
   accent: OklchColor;
+  hideDotPattern?: boolean;
 };
 
 export type PartialCustomTheme = {
@@ -25,6 +26,7 @@ export type PartialCustomTheme = {
   type: "custom";
   blur: number;
   accent: OklchColor;
+  hideDotPattern?: boolean;
   background?: string;
   originalBackground?: string;
 };
@@ -113,7 +115,16 @@ export const applyTheme = async (theme: Theme, mode: Mode) => {
   }
 
   applyThemeColors(theme.accent, mode);
+  applyThemeDecorations(theme.type === "custom" ? theme : {});
   await prom;
+};
+
+export type ThemeDecorations = {
+  hideDotPattern?: boolean;
+};
+
+export const applyThemeDecorations = (decorations: ThemeDecorations) => {
+  document.documentElement.classList.toggle("theme-hide-dot-pattern", !!decorations.hideDotPattern);
 };
 
 export const applyThemeColors = (accent: OklchColor, mode: Mode) => {

@@ -70,6 +70,7 @@ const CustomThemeSchema = z.object({
   type: z.literal("custom"),
   blur: z.number(),
   accent: OklchColorSchema,
+  hideDotPattern: z.boolean().optional(),
 });
 
 export type CustomTheme = z.infer<typeof CustomThemeSchema>;

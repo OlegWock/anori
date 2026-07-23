@@ -1,5 +1,6 @@
 import { detectGamut, type Mode } from "@anori/design-system/color-engine";
 import { Button as DSButton } from "@anori/design-system/components/Button/Button";
+import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { HueChromaPicker } from "@anori/design-system/components/HueChromaPicker/HueChromaPicker";
@@ -14,6 +15,7 @@ import { useStorageValue } from "@anori/utils/storage-lib";
 import {
   applyTheme,
   applyThemeColors,
+  applyThemeDecorations,
   getThemeBackground,
   getThemeBackgroundOriginal,
   type PartialCustomTheme,
@@ -116,6 +118,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
       type: "custom",
       blur: theme.blur,
       accent: theme.accent,
+      hideDotPattern: theme.hideDotPattern,
     };
     const storage = await getAnoriStorage();
     let customThemes = storage.get(anoriSchema.customThemes);
@@ -128,6 +131,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
     savedRef.current = true;
     setCurrentTheme(theme.name);
     applyThemeColors(theme.accent, resolveColorScheme(colorScheme));
+    applyThemeDecorations(toSave);
     onClose();
   };
 
@@ -280,6 +284,16 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
           applyPreview(accent);
         }}
       />
+
+      <Checkbox
+        checked={!!theme.hideDotPattern}
+        onChange={(v) => {
+          setTheme((p) => ({ ...p, hideDotPattern: v }));
+          applyThemeDecorations({ ...theme, hideDotPattern: v });
+        }}
+      >
+        {t("settings.theme.hideDotPattern")}
+      </Checkbox>
 
       <div className={editorActions}>
         <DSButton variant="secondary" onClick={onClose}>

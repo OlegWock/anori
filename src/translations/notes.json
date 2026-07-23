@@ -131,7 +131,8 @@
             "colorBackground": "Label for the background color picker in the custom theme editor.",
             "colorText": "Label for the text color picker in the custom theme editor.",
             "colorCode": "Label for the hex color code input in the color picker.",
-            "previewColorScheme": "Label for a dropdown in the custom theme editor that switches the live preview between light and dark mode without changing the user setting"
+            "previewColorScheme": "Label for a dropdown in the custom theme editor that switches the live preview between light and dark mode without changing the user setting",
+            "hideDotPattern": "Checkbox in the custom theme editor; when checked, the decorative dot pattern overlaid on the page background is not rendered"
         },
         "importExport": {
             "title": "Title of the Import & export tab in Settings.",

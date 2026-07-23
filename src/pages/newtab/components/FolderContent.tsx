@@ -69,7 +69,6 @@ const rootClass = css({
   gap: "3",
   flexGrow: 1,
   alignSelf: "stretch",
-  padding: "6",
   maxHeight: "100%",
 });
 

@@ -163,6 +163,7 @@
                 "colorCode": "Color code",
                 "colorScheme": "Color scheme",
                 "previewColorScheme": "Preview color scheme",
+                "hideDotPattern": "Hide dot pattern",
                 "colorSchemeSystem": "System",
                 "colorSchemeLight": "Light",
                 "colorSchemeDark": "Dark"
