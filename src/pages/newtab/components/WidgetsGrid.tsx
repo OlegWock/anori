@@ -130,6 +130,51 @@ const computeDisplacedMoves = (
     }
   }
 
+  // Second preference, for single-axis drags past intermediate widgets: rotate the corridor. Every
+  // widget in the dragged widget's travel path shifts one step (the dragged widget's own size)
+  // toward the vacated origin, list-reorder style — A over B and C ends as B, C, A rather than C
+  // shoved aside and a hole left at A's origin. All-or-nothing like the block trade.
+  if ((delta.x === 0) !== (delta.y === 0)) {
+    const shift =
+      delta.x === 0 ? { x: 0, y: -Math.sign(delta.y) * item.height } : { x: -Math.sign(delta.x) * item.width, y: 0 };
+    const corridor: Rect = {
+      x: Math.min(item.x, position.x),
+      y: Math.min(item.y, position.y),
+      width: item.width + Math.abs(delta.x),
+      height: item.height + Math.abs(delta.y),
+    };
+    const target: Rect = { x: position.x, y: position.y, width: item.width, height: item.height };
+    const members = layout.filter((w) => w.instanceId !== item.instanceId && rectsOverlap(w, corridor));
+    if (members.length > 0) {
+      const memberIds = new Set(members.map((w) => w.instanceId));
+      const rotationValid = members.every((w) => {
+        const nx = w.x + shift.x;
+        const ny = w.y + shift.y;
+        if (nx < 0 || ny < 0) return false;
+        if (nx + w.width > gridDimensions.columns || ny + w.height > gridDimensions.rows) return false;
+        const finalRect = { x: nx, y: ny, width: w.width, height: w.height };
+        if (rectsOverlap(finalRect, target)) return false;
+        const sweep = {
+          x: Math.min(w.x, nx),
+          y: Math.min(w.y, ny),
+          width: w.width + Math.abs(shift.x),
+          height: w.height + Math.abs(shift.y),
+        };
+        for (const other of layout) {
+          if (other.instanceId === item.instanceId || memberIds.has(other.instanceId)) continue;
+          if (rectsOverlap(finalRect, other) || rectsOverlap(sweep, other)) return false;
+        }
+        return true;
+      });
+      if (rotationValid) {
+        return members.map((w) => ({
+          instanceId: w.instanceId,
+          position: { x: w.x + shift.x, y: w.y + shift.y },
+        }));
+      }
+    }
+  }
+
   const overlapsAnythingAt = (candidate: Rect, exceptId: string) => {
     for (const [id, rect] of rects) {
       if (id !== exceptId && rectsOverlap(candidate, rect)) return true;
