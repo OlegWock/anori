@@ -88,6 +88,45 @@ const computeDisplacedMoves = (
   }
   rects.set(item.instanceId, { x: position.x, y: position.y, width: item.width, height: item.height });
 
+  // First preference: shift every overlapped widget as one block by the opposite of the drag vector,
+  // into the space the dragged widget vacated — the whole group keeps its arrangement. Valid only when
+  // each shifted widget stays in bounds and neither its destination nor its travel path crosses a
+  // stationary widget (crossing the dragged widget or fellow group members is fine — they're trading
+  // places). Falls back to per-widget escape/push resolution otherwise.
+  const delta = { x: position.x - item.x, y: position.y - item.y };
+  if (delta.x !== 0 || delta.y !== 0) {
+    const target: Rect = { x: position.x, y: position.y, width: item.width, height: item.height };
+    const group = layout.filter((w) => w.instanceId !== item.instanceId && rectsOverlap(w, target));
+    if (group.length > 0) {
+      const groupIds = new Set(group.map((w) => w.instanceId));
+      const shiftValid = group.every((w) => {
+        const nx = w.x - delta.x;
+        const ny = w.y - delta.y;
+        if (nx < 0 || ny < 0) return false;
+        if (nx + w.width > gridDimensions.columns || ny + w.height > gridDimensions.rows) return false;
+        const finalRect = { x: nx, y: ny, width: w.width, height: w.height };
+        if (rectsOverlap(finalRect, target)) return false;
+        const sweep = {
+          x: Math.min(w.x, nx),
+          y: Math.min(w.y, ny),
+          width: w.width + Math.abs(delta.x),
+          height: w.height + Math.abs(delta.y),
+        };
+        for (const other of layout) {
+          if (other.instanceId === item.instanceId || groupIds.has(other.instanceId)) continue;
+          if (rectsOverlap(finalRect, other) || rectsOverlap(sweep, other)) return false;
+        }
+        return true;
+      });
+      if (shiftValid) {
+        return group.map((w) => ({
+          instanceId: w.instanceId,
+          position: { x: w.x - delta.x, y: w.y - delta.y },
+        }));
+      }
+    }
+  }
+
   const overlapsAnythingAt = (candidate: Rect, exceptId: string) => {
     for (const [id, rect] of rects) {
       if (id !== exceptId && rectsOverlap(candidate, rect)) return true;
@@ -172,8 +211,11 @@ const computeDisplacedMoves = (
       }
       const pushDistance = Math.hypot(pushNext.x - rect.x, pushNext.y - rect.y);
 
+      // The vacated cell is a swap-with-neighbor escape, not a teleport: only worth taking when it's
+      // both nearby and no farther than the push would move the widget.
       const origin: GridPosition = { x: item.x, y: item.y };
-      if (isFreeSpot(id, rect, origin) && Math.hypot(origin.x - rect.x, origin.y - rect.y) <= pushDistance) {
+      const originDistance = Math.hypot(origin.x - rect.x, origin.y - rect.y);
+      if (isFreeSpot(id, rect, origin) && originDistance <= 2 && originDistance <= pushDistance) {
         rects.set(id, { ...rect, x: origin.x, y: origin.y });
         continue;
       }
