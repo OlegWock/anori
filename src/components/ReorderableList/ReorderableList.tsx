@@ -109,6 +109,7 @@ export const ReorderableItem = ({ id, index, children, ref, className, ...motion
 
   return (
     <m.li
+      layout="position"
       ref={mergeRefs([ref, sortableRef as Ref<HTMLLIElement>])}
       className={cx(itemReset, className)}
       {...motionProps}
