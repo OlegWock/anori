@@ -2,7 +2,7 @@ import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
-import { useWidgetDragActive } from "@anori/utils/dnd";
+import { useWidgetDragActive, type WidgetDragData } from "@anori/utils/dnd";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
 import { positionToPixelPosition } from "@anori/utils/grid/utils";
@@ -275,6 +275,12 @@ export const WidgetCard = ({
   const activePosition = dragSnapPosition ?? position;
   const pixelPosition = activePosition ? positionToPixelPosition({ grid, position: activePosition }) : { x: 0, y: 0 };
 
+  const dragData: WidgetDragData = {
+    onDropToFolder: (folderId) => {
+      onMoveToFolder?.(folderId);
+    },
+  };
+
   const {
     ref: draggableRef,
     handleRef,
@@ -283,6 +289,7 @@ export const WidgetCard = ({
     id: instanceId ?? `mock-${widget.id}`,
     type: "widget",
     disabled: type !== "widget" || !isEditing,
+    data: dragData,
   });
   const widgetDragActive = useWidgetDragActive();
   const otherWidgetDragging = widgetDragActive && !isDragging;

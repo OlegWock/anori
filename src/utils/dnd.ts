@@ -1,6 +1,10 @@
 import { useDragDropMonitor } from "@dnd-kit/react";
 import { useState } from "react";
 
+export type WidgetDragData = {
+  onDropToFolder: (folderId: string) => void;
+};
+
 export const useWidgetDragActive = () => {
   const [active, setActive] = useState(false);
   useDragDropMonitor({

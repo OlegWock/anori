@@ -202,10 +202,15 @@ const useDragSnapPosition = (
       dragStartRect.current = gridRef.current?.getBoundingClientRect() ?? null;
     },
     onDragMove(event) {
-      const { source } = event.operation;
+      const { source, target } = event.operation;
       if (!source || source.type !== "widget") return;
       const item = layout.find((w) => w.instanceId === source.id);
       if (!item || !gridRef.current) return;
+
+      if (target?.type === "folder") {
+        setSnap(null);
+        return;
+      }
 
       const rectNow = gridRef.current.getBoundingClientRect();
       if (!dragStartRect.current) dragStartRect.current = rectNow;
@@ -252,8 +257,8 @@ const useDragSnapPosition = (
       setSnap(null);
       dragStartRect.current = null;
       if (event.canceled) return;
-      const { source } = event.operation;
-      if (!source || source.type !== "widget") return;
+      const { source, target } = event.operation;
+      if (!source || source.type !== "widget" || target?.type === "folder") return;
       if (lastSnap && lastSnap.instanceId === source.id) {
         onDrop([{ instanceId: lastSnap.instanceId, position: lastSnap.position }, ...lastSnap.displaced]);
       }
