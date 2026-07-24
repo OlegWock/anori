@@ -1,12 +1,21 @@
 import { Onboarding } from "@anori/components/Onboarding";
 import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { MotionScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridDimensions, GridPosition } from "@anori/utils/grid/types";
-import { canPlaceItemInGrid, layoutTo2DArray, positionToPixelPosition, willItemOverlay } from "@anori/utils/grid/utils";
+import {
+  canPlaceItemInGrid,
+  layoutTo2DArray,
+  positionToPixelPosition,
+  snapPixelPositionToGrid,
+  willItemOverlay,
+} from "@anori/utils/grid/utils";
+import { useMirrorStateToRef } from "@anori/utils/hooks";
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
+import { useDragDropMonitor } from "@dnd-kit/react";
 import { AnimatePresence, m } from "motion/react";
-import { memo, type Ref } from "react";
+import { memo, type Ref, useRef, useState } from "react";
 import { css, cva } from "styled-system/css";
 
 const grid = css({ flexGrow: 1, alignSelf: "stretch", position: "relative", display: "flex" });
@@ -53,6 +62,83 @@ export type LayoutChange =
       width: number;
       height: number;
     };
+
+const useDragSnapPosition = (
+  gridDimensions: GridDimensions,
+  layout: WidgetInFolderWithMeta[],
+  onDrop: (instanceId: string, position: GridPosition) => void,
+) => {
+  const { gridRef } = useParentFolder();
+  const [snap, setSnap] = useState<{ instanceId: string; position: GridPosition } | null>(null);
+  const snapRef = useMirrorStateToRef(snap);
+  const dragStartRect = useRef<DOMRect | null>(null);
+
+  useDragDropMonitor({
+    onDragStart(event) {
+      const { source } = event.operation;
+      if (!source || source.type !== "widget") return;
+      dragStartRect.current = gridRef.current?.getBoundingClientRect() ?? null;
+    },
+    onDragMove(event) {
+      const { source } = event.operation;
+      if (!source || source.type !== "widget") return;
+      const item = layout.find((w) => w.instanceId === source.id);
+      if (!item || !gridRef.current) return;
+
+      let position: GridPosition | null = null;
+      const rectNow = gridRef.current.getBoundingClientRect();
+      if (!dragStartRect.current) dragStartRect.current = rectNow;
+      // Autoscroll moves the grid under the pointer mid-drag; the grid origin's drift since drag
+      // start converts the viewport-space pointer delta into content space.
+      const scrollShift = {
+        x: rectNow.x - dragStartRect.current.x,
+        y: rectNow.y - dragStartRect.current.y,
+      };
+      const { current, initial } = event.operation.position;
+      const storedPixel = positionToPixelPosition({ grid: gridDimensions, position: item });
+      const virtualCorner = {
+        x: storedPixel.x + current.x - initial.x - scrollShift.x,
+        y: storedPixel.y + current.y - initial.y - scrollShift.y,
+      };
+      const snapPosition = snapPixelPositionToGrid({ grid: gridDimensions, position: virtualCorner });
+      const canPlace = canPlaceItemInGrid({
+        grid: gridDimensions,
+        item,
+        layout: layout.filter((w) => w.instanceId !== item.instanceId),
+        position: snapPosition,
+        allowOutOfBounds: true,
+      });
+      if (canPlace) position = snapPosition;
+
+      setSnap((prev) => {
+        if (prev === null && position === null) return prev;
+        if (
+          prev &&
+          position &&
+          prev.instanceId === item.instanceId &&
+          prev.position.x === position.x &&
+          prev.position.y === position.y
+        ) {
+          return prev;
+        }
+        return position ? { instanceId: item.instanceId, position } : null;
+      });
+    },
+    onDragEnd(event) {
+      const lastSnap = snapRef.current;
+      setSnap(null);
+      dragStartRect.current = null;
+      if (event.canceled) return;
+      const { source } = event.operation;
+      if (!source || source.type !== "widget") return;
+      if (lastSnap && lastSnap.instanceId === source.id) {
+        onDrop(lastSnap.instanceId, lastSnap.position);
+      }
+    },
+  });
+
+  return snap;
+};
 
 export type WidgetsGridProps = {
   isEditing: boolean;
@@ -135,6 +221,11 @@ export const WidgetsGrid = memo(function WidgetsGrid({
   const maxWidthPx = convertUnitsToPixels(Math.max(0, ...layout.map((w) => w.x + w.width))) + gapSize * 2;
   const maxHeightPx = convertUnitsToPixels(Math.max(0, ...layout.map((w) => w.y + w.height))) + gapSize * 2;
 
+  const snap = useDragSnapPosition(gridDimensions, layout, (instanceId, position) => {
+    const widget = layout.find((w) => w.instanceId === instanceId);
+    if (widget) tryRepositionWidget(widget, position);
+  });
+
   return (
     <MotionScrollArea
       className={grid}
@@ -203,6 +294,7 @@ export const WidgetsGrid = memo(function WidgetsGrid({
                   onLayoutUpdate([{ type: "move-to-folder", instanceId: w.instanceId, folderId: folderId }])
                 }
                 onPositionChange={(p) => tryRepositionWidget(w, p)}
+                dragSnapPosition={snap && snap.instanceId === w.instanceId ? snap.position : undefined}
               />
             );
           })}

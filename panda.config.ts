@@ -28,6 +28,10 @@ export default defineConfig({
     extend: {
       keyframes: {
         spin: { to: { transform: "rotate(360deg)" } },
+        shake: {
+          "0%, 100%": { rotate: "-0.5deg" },
+          "50%": { rotate: "0.5deg" },
+        },
       },
 
       tokens: {

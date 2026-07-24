@@ -1,8 +1,6 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
-import { useWidgetDragActive } from "@anori/utils/dnd";
-import { useDroppable } from "@dnd-kit/react";
 import { m } from "motion/react";
 import type { ComponentProps } from "react";
 import { css, cva, cx } from "styled-system/css";
@@ -73,25 +71,10 @@ export const SidebarButton = ({
   dropDestination,
   ...props
 }: SidebarButtonProps) => {
-  const currentlyDraggingWidget = useWidgetDragActive();
-  const { ref: dropRef, isDropTarget } = useDroppable({
-    id: dropDestination?.id ?? `sidebar-button-${name}`,
-    type: "folder",
-    accept: "widget",
-    disabled: !dropDestination,
-  });
   const { rem } = useSizeSettings();
 
   const content = (
-    <m.button
-      ref={dropRef}
-      className={cx(
-        "SidebarButton",
-        folderButton({ dropTarget: currentlyDraggingWidget && !!dropDestination, highlight: isDropTarget }),
-        className,
-      )}
-      {...props}
-    >
+    <m.button className={cx("SidebarButton", folderButton({}), className)} {...props}>
       {active && (
         <m.div className={activeRing} layoutId="SidebarButton-glow" transition={{ duration: 0.2, type: "spring" }} />
       )}
