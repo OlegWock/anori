@@ -31,7 +31,7 @@ const relativeWrapper = cva({
   variants: { onboarding: { true: { display: "flex", justifyContent: "center", alignItems: "center" } } },
 });
 
-const placeholderCell = css({
+const ghostRect = css({
   position: "absolute",
   top: 0,
   left: 0,
@@ -40,6 +40,8 @@ const placeholderCell = css({
   userSelect: "none",
   pointerEvents: "none",
 });
+
+const ghostSpring = { type: "spring", duration: 0.25, bounce: 0.1 } as const;
 
 export type LayoutChange =
   | {
@@ -130,13 +132,25 @@ const computeDisplacedMoves = (
     const pusher = rects.get(pusherId) as Rect;
     const collided = [...rects.entries()]
       .filter(([id, rect]) => id !== pusherId && id !== item.instanceId && rectsOverlap(rect, pusher))
-      .sort(([, a], [, b]) => a.y - b.y || a.x - b.x);
+      .sort(([, a], [, b]) => b.y - a.y || b.x - a.x);
 
     for (const [id, rect] of collided) {
       if (!rectsOverlap(rect, pusher)) continue;
       const down: Rect = { ...rect, y: pusher.y + pusher.height };
       const right: Rect = { ...rect, x: pusher.x + pusher.width };
-      const pushNext = down.y - rect.y <= right.x - rect.x ? down : right;
+      // A push may not eject a widget across the pusher to its far side: each direction is eligible
+      // only when the widget's center is already on that side of the pusher's center. Neither side
+      // (engulfed near the top-left corner) defaults to down.
+      const downAllowed = rect.y + rect.height / 2 >= pusher.y + pusher.height / 2;
+      const rightAllowed = rect.x + rect.width / 2 >= pusher.x + pusher.width / 2;
+      let pushNext: Rect;
+      if (downAllowed && rightAllowed) {
+        pushNext = down.y - rect.y <= right.x - rect.x ? down : right;
+      } else if (rightAllowed) {
+        pushNext = right;
+      } else {
+        pushNext = down;
+      }
       const pushDistance = Math.hypot(pushNext.x - rect.x, pushNext.y - rect.y);
 
       const freeSpot = findNearbyFreeSpot(id, rect, pusher);
@@ -257,7 +271,6 @@ export type WidgetsGridProps = {
 };
 
 export const WidgetsGrid = memo(function WidgetsGrid({
-  isEditing,
   gridDimensions,
   gapSize,
   layout,
@@ -332,6 +345,7 @@ export const WidgetsGrid = memo(function WidgetsGrid({
     return snap.displaced.find((m) => m.instanceId === instanceId)?.position;
   };
   const effectivePosition = (w: WidgetInFolderWithMeta): GridPosition => snapOverrideFor(w.instanceId) ?? w;
+  const draggedItem = snap ? layout.find((w) => w.instanceId === snap.instanceId) : undefined;
 
   const maxWidthPx =
     convertUnitsToPixels(Math.max(0, ...layout.map((w) => effectivePosition(w).x + w.width))) + gapSize * 2;
@@ -351,32 +365,6 @@ export const WidgetsGrid = memo(function WidgetsGrid({
       ref={scrollAreaRef}
     >
       <div className={relativeWrapper({ onboarding: showOnboarding })} ref={gridRef}>
-        <AnimatePresence>
-          {isEditing &&
-            new Array(gridDimensions.columns * gridDimensions.rows).fill(null).map((_, i) => {
-              const x = i % gridDimensions.columns;
-              const y = Math.floor(i / gridDimensions.columns);
-              const position = positionToPixelPosition({ grid: gridDimensions, position: { x, y } });
-              return (
-                <m.div
-                  className={placeholderCell}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.18 }}
-                  key={`${x}_${y}`}
-                  style={{
-                    y: position.y,
-                    x: position.x,
-                    margin: gapSize,
-                    width: gridDimensions.boxSize - gapSize * 2,
-                    height: gridDimensions.boxSize - gapSize * 2,
-                  }}
-                />
-              );
-            })}
-        </AnimatePresence>
-
         <AnimatePresence initial={false}>
           <div
             style={{
@@ -406,11 +394,28 @@ export const WidgetsGrid = memo(function WidgetsGrid({
                   onLayoutUpdate([{ type: "move-to-folder", instanceId: w.instanceId, folderId: folderId }])
                 }
                 onPositionChange={(p) => tryRepositionWidget(w, p)}
-                dragSnapPosition={snapOverrideFor(w.instanceId)}
+                dragSnapPosition={snap && snap.instanceId === w.instanceId ? undefined : snapOverrideFor(w.instanceId)}
               />
             );
           })}
         </AnimatePresence>
+
+        {snap && draggedItem && (
+          <m.div
+            className={ghostRect}
+            initial={false}
+            animate={{
+              x: positionToPixelPosition({ grid: gridDimensions, position: snap.position }).x,
+              y: positionToPixelPosition({ grid: gridDimensions, position: snap.position }).y,
+            }}
+            transition={ghostSpring}
+            style={{
+              margin: gapSize,
+              width: convertUnitsToPixels(draggedItem.width),
+              height: convertUnitsToPixels(draggedItem.height),
+            }}
+          />
+        )}
 
         {showOnboarding && <Onboarding gridDimensions={gridDimensions} />}
       </div>

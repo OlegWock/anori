@@ -13,7 +13,6 @@ import { usePluginConfigValue } from "@anori/utils/plugins/define";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
-import { Feedback } from "@dnd-kit/dom";
 import { useDraggable } from "@dnd-kit/react";
 import { m, useMotionValue } from "motion/react";
 import {
@@ -49,9 +48,6 @@ const cardCss = css({
   "&[data-busy]": {
     zIndex: "docked",
     boxShadow: "{shadows.surface.edge}, {shadows.overlay}",
-  },
-  "&[data-dragging]": {
-    animation: "shake 0.28s ease-in-out infinite",
   },
   "& .widget-control": {
     opacity: 0,
@@ -286,7 +282,6 @@ export const WidgetCard = ({
   } = useDraggable({
     id: instanceId ?? `mock-${widget.id}`,
     type: "widget",
-    plugins: [Feedback.configure({ feedback: "none" })],
     disabled: type !== "widget" || !isEditing,
   });
   const widgetDragActive = useWidgetDragActive();
@@ -324,11 +319,14 @@ export const WidgetCard = ({
       key={`card-${instanceId}`}
       className={cx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
       data-busy={isDragging || isResizing ? true : undefined}
-      data-dragging={isDragging ? true : undefined}
       data-resizing={isResizing ? true : undefined}
       transition={{ ease: "easeInOut", duration: 0.15, top: positionSpring, left: positionSpring }}
       initial={false}
-      animate={type === "widget" ? { top: pixelPosition.y + gapSize, left: pixelPosition.x + gapSize } : undefined}
+      animate={
+        type === "widget" && !isDragging
+          ? { top: pixelPosition.y + gapSize, left: pixelPosition.x + gapSize }
+          : undefined
+      }
       exit={isEditing ? { scale: 0 } : undefined}
       whileHover={
         widget.appearance.withHoverAnimation
@@ -349,6 +347,7 @@ export const WidgetCard = ({
         height: readonlyResizeHeight,
         margin: type === "widget" ? 0 : gapSize,
         position: type === "widget" ? "absolute" : undefined,
+        ...(type === "widget" && isDragging ? { top: pixelPosition.y + gapSize, left: pixelPosition.x + gapSize } : {}),
         ...style,
       }}
       {...props}
@@ -392,7 +391,7 @@ export const WidgetCard = ({
       <ErrorBoundary>
         <div className={overflowProtectionCss} style={{ borderRadius: withPadding ? 0 : "inherit" }}>
           {children}
-          {(type === "mock" || isResizing || isDragging) && <div className={interactionBlockerCss} />}
+          {(type === "mock" || isResizing || widgetDragActive) && <div className={interactionBlockerCss} />}
         </div>
       </ErrorBoundary>
     </m.div>

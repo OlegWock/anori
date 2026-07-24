@@ -19,6 +19,7 @@ import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import type { Folder } from "@anori/utils/user-data/types";
+import { Feedback } from "@dnd-kit/dom";
 import { DragDropProvider } from "@dnd-kit/react";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import { AnimatePresence, domMax, LazyMotion, MotionConfig, m } from "motion/react";
@@ -120,7 +121,12 @@ const Start = () => {
     <DirectionProvider dir={dir}>
       <MotionConfig transition={{ duration: 0.2, ease: "easeInOut" }}>
         <TooltipProvider delay={200} closeDelay={100} timeout={0}>
-          <DragDropProvider>
+          <DragDropProvider
+            plugins={(defaults) => [
+              ...defaults,
+              Feedback.configure({ dropAnimation: { duration: 150, easing: "ease-out" } }),
+            ]}
+          >
             <AnimatePresence>
               <m.div className={startPage} key="start-page">
                 {showBookmarksBar && <BookmarksBar />}
