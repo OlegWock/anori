@@ -65,6 +65,8 @@ export type LayoutChange =
       height: number;
     };
 
+const GRID_DRAG_EXTEND_SLOTS = 2;
+
 type WidgetMove = { instanceId: string; position: GridPosition };
 type DragPreview = { instanceId: string; position: GridPosition; displaced: WidgetMove[] };
 
@@ -219,7 +221,11 @@ const useDragSnapPosition = (
         x: storedPixel.x + current.x - initial.x - scrollShift.x,
         y: storedPixel.y + current.y - initial.y - scrollShift.y,
       };
-      const snapPosition = snapPixelPositionToGrid({ grid: gridDimensions, position: virtualCorner });
+      const snapPosition = snapPixelPositionToGrid({
+        grid: gridDimensions,
+        position: virtualCorner,
+        extend: GRID_DRAG_EXTEND_SLOTS,
+      });
       const canPlace = canPlaceItemInGrid({
         grid: gridDimensions,
         item,

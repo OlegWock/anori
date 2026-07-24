@@ -151,13 +151,15 @@ export const snapToSector = ({ grid, position }: { grid: GridDimensions; positio
 export const snapPixelPositionToGrid = ({
   grid,
   position,
+  extend = 0,
 }: {
   grid: GridDimensions;
   position: GridPixelPosition;
+  extend?: number;
 }): GridPosition => {
   return {
-    x: Math.min(grid.columns - 1, Math.max(0, Math.round(position.x / grid.boxSize))),
-    y: Math.min(grid.rows - 1, Math.max(0, Math.round(position.y / grid.boxSize))),
+    x: Math.min(grid.columns - 1 + extend, Math.max(0, Math.round(position.x / grid.boxSize))),
+    y: Math.min(grid.rows - 1 + extend, Math.max(0, Math.round(position.y / grid.boxSize))),
   };
 };
 
