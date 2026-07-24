@@ -17,7 +17,13 @@ importers:
       '@base-ui/react':
         specifier: ^1.5.0
         version: 1.5.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@dnd-kit/abstract':
+        specifier: ^0.5.0
+        version: 0.5.0
       '@dnd-kit/dom':
+        specifier: ^0.5.0
+        version: 0.5.0
+      '@dnd-kit/helpers':
         specifier: ^0.5.0
         version: 0.5.0
       '@dnd-kit/react':
@@ -526,6 +532,9 @@ packages:
 
   '@dnd-kit/geometry@0.5.0':
     resolution: {integrity: sha512-ubHQS1CiSDH8ssYH2xG5BnpwPSFP1tStXXjug7/Ba6qnQdu/EUH47l6QXKIksQnnanfVfDf0aGeevRxgZlj28A==}
+
+  '@dnd-kit/helpers@0.5.0':
+    resolution: {integrity: sha512-i4y+51/icSw+OHMr/su19qhnmNhAzh8PnBwXvapFYTd+64oodIyJRiRkB+hhfxAfnur7RYSW8qacDTrXjg2XOg==}
 
   '@dnd-kit/react@0.5.0':
     resolution: {integrity: sha512-abQPLI8lmfVE+v/n+pqy5WFxrw6T2Yg0UQZsL78dp5DKci7dKTVDjvLWqvass+XTFtzJmsZEjk1NdqE6xG8Jiw==}
@@ -6385,6 +6394,11 @@ snapshots:
   '@dnd-kit/geometry@0.5.0':
     dependencies:
       '@dnd-kit/state': 0.5.0
+      tslib: 2.8.1
+
+  '@dnd-kit/helpers@0.5.0':
+    dependencies:
+      '@dnd-kit/abstract': 0.5.0
       tslib: 2.8.1
 
   '@dnd-kit/react@0.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':

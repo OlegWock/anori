@@ -4,7 +4,6 @@ import { Combobox } from "@anori/design-system/components/Combobox/Combobox";
 import { Popover } from "@anori/design-system/components/Popover/Popover";
 import { Select } from "@anori/design-system/components/Select/Select";
 import { createLazyComponent, schedulePreload } from "@anori/utils/lazy-component";
-import { preloadReorder } from "@anori/utils/motion/reorder";
 
 export const SettingsModal = createLazyComponent(() => import("./settings/Settings").then((m) => m.SettingsModal));
 export const NewWidgetWizard = createLazyComponent(() =>
@@ -21,7 +20,6 @@ export const scheduleLazyComponentsPreload = () =>
     Popover.preload,
     ReactMarkdown.preload,
     WhatsNew.preload,
-    preloadReorder,
     SettingsModal.preload,
     NewWidgetWizard.preload,
     CloudAccountModal.preload,
