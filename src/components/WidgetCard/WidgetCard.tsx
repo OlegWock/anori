@@ -155,6 +155,7 @@ type WidgetCardProps = {
       onRemove?: undefined;
       onEdit?: undefined;
       onResize?: undefined;
+      onResizePreview?: undefined;
       onPositionChange?: undefined;
       onMoveToFolder?: undefined;
       dragSnapPosition?: undefined;
@@ -169,6 +170,7 @@ type WidgetCardProps = {
       onRemove?: () => void;
       onEdit?: () => void;
       onResize?: (newWidth: number, newHeight: number) => boolean | undefined;
+      onResizePreview?: (size: GridItemSize | null) => void;
       onPositionChange?: (newPosition: GridPosition) => void;
       onMoveToFolder?: (folderId: string) => void;
       dragSnapPosition?: GridPosition;
@@ -190,6 +192,7 @@ export const WidgetCard = ({
   onRemove,
   onEdit,
   onResize,
+  onResizePreview,
   onPositionChange,
   onMoveToFolder,
   dragSnapPosition,
@@ -205,6 +208,7 @@ export const WidgetCard = ({
     resizeActive.current = true;
     resizeStart.current = { x: e.clientX, y: e.clientY };
     setIsResizing(true);
+    onResizePreview?.({ width: sizeToUse.width, height: sizeToUse.height });
   };
 
   const updateResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
@@ -230,6 +234,9 @@ export const WidgetCard = ({
     if (resizeWidthUnits !== widthUnits) setResizeWidthUnits(widthUnits);
     const heightUnits = convertPixelsToUnits(newHeight);
     if (resizeHeightUnits !== heightUnits) setResizeHeightUnits(heightUnits);
+    if (resizeWidthUnits !== widthUnits || resizeHeightUnits !== heightUnits) {
+      onResizePreview?.({ width: widthUnits, height: heightUnits });
+    }
     resizeWidth.set(newWidth);
     resizeHeight.set(newHeight);
   };
@@ -239,6 +246,7 @@ export const WidgetCard = ({
     resizeActive.current = false;
     e.currentTarget.releasePointerCapture(e.pointerId);
     setIsResizing(false);
+    onResizePreview?.(null);
     let shouldReset = true;
     if (onResize) {
       shouldReset = !onResize(resizeWidthUnits, resizeHeightUnits);

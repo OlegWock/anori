@@ -2,14 +2,8 @@ import { Onboarding } from "@anori/components/Onboarding";
 import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { MotionScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
-import type { GridDimensions, GridPosition } from "@anori/utils/grid/types";
-import {
-  canPlaceItemInGrid,
-  layoutTo2DArray,
-  positionToPixelPosition,
-  snapPixelPositionToGrid,
-  willItemOverlay,
-} from "@anori/utils/grid/utils";
+import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
+import { canPlaceItemInGrid, positionToPixelPosition, snapPixelPositionToGrid } from "@anori/utils/grid/utils";
 import { useMirrorStateToRef } from "@anori/utils/hooks";
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
@@ -101,29 +95,45 @@ const computeDisplacedMoves = (
     return false;
   };
 
-  const findNearbyFreeSpot = (
-    id: string,
-    rect: Rect,
-    pusher: Rect,
-  ): { position: GridPosition; distance: number } | null => {
-    const candidates: GridPosition[] = [
-      { x: rect.x, y: pusher.y - rect.height },
-      { x: rect.x, y: pusher.y + pusher.height },
-      { x: pusher.x - rect.width, y: rect.y },
-      { x: pusher.x + pusher.width, y: rect.y },
-      { x: item.x, y: item.y },
-    ];
+  const isFreeSpot = (id: string, rect: Rect, c: GridPosition) => {
+    if (c.x < 0 || c.y < 0) return false;
+    if (c.x + rect.width > gridDimensions.columns || c.y + rect.height > gridDimensions.rows) return false;
+    return !overlapsAnythingAt({ x: c.x, y: c.y, width: rect.width, height: rect.height }, id);
+  };
+
+  const nearest = (rect: Rect, list: GridPosition[]): { position: GridPosition; distance: number } | null => {
     let best: { position: GridPosition; distance: number } | null = null;
-    for (const c of candidates) {
-      if (c.x < 0 || c.y < 0) continue;
-      if (c.x + rect.width > gridDimensions.columns || c.y + rect.height > gridDimensions.rows) continue;
-      if (overlapsAnythingAt({ x: c.x, y: c.y, width: rect.width, height: rect.height }, id)) continue;
+    for (const c of list) {
       const distance = Math.hypot(c.x - rect.x, c.y - rect.y);
-      if (!best || distance < best.distance) {
-        best = { position: c, distance };
-      }
+      if (!best || distance < best.distance) best = { position: c, distance };
     }
     return best;
+  };
+
+  // A displaced widget escapes to a free spot beside the pusher, preferring the side it already sits
+  // on (so a widget being squeezed rightward keeps sliding right while room remains) over other free
+  // sides. The cell the dragged widget vacated is a fallback that competes with pushing by distance.
+  const findAdjacentFreeSpot = (id: string, rect: Rect, pusher: Rect): GridPosition | null => {
+    const widgetCx = rect.x + rect.width / 2;
+    const widgetCy = rect.y + rect.height / 2;
+    const pusherCx = pusher.x + pusher.width / 2;
+    const pusherCy = pusher.y + pusher.height / 2;
+    const directional = [
+      { pos: { x: pusher.x + pusher.width, y: rect.y }, preferred: widgetCx >= pusherCx },
+      { pos: { x: pusher.x - rect.width, y: rect.y }, preferred: widgetCx <= pusherCx },
+      { pos: { x: rect.x, y: pusher.y + pusher.height }, preferred: widgetCy >= pusherCy },
+      { pos: { x: rect.x, y: pusher.y - rect.height }, preferred: widgetCy <= pusherCy },
+    ].filter((c) => isFreeSpot(id, rect, c.pos));
+    const preferred = nearest(
+      rect,
+      directional.filter((c) => c.preferred).map((c) => c.pos),
+    );
+    if (preferred) return preferred.position;
+    const other = nearest(
+      rect,
+      directional.filter((c) => !c.preferred).map((c) => c.pos),
+    );
+    return other ? other.position : null;
   };
 
   const queue = [item.instanceId];
@@ -138,6 +148,13 @@ const computeDisplacedMoves = (
 
     for (const [id, rect] of collided) {
       if (!rectsOverlap(rect, pusher)) continue;
+
+      const adjacentFree = findAdjacentFreeSpot(id, rect, pusher);
+      if (adjacentFree) {
+        rects.set(id, { ...rect, x: adjacentFree.x, y: adjacentFree.y });
+        continue;
+      }
+
       const down: Rect = { ...rect, y: pusher.y + pusher.height };
       const right: Rect = { ...rect, x: pusher.x + pusher.width };
       // A push may not eject a widget across the pusher to its far side: each direction is eligible
@@ -155,9 +172,9 @@ const computeDisplacedMoves = (
       }
       const pushDistance = Math.hypot(pushNext.x - rect.x, pushNext.y - rect.y);
 
-      const freeSpot = findNearbyFreeSpot(id, rect, pusher);
-      if (freeSpot && freeSpot.distance <= pushDistance) {
-        rects.set(id, { ...rect, x: freeSpot.position.x, y: freeSpot.position.y });
+      const origin: GridPosition = { x: item.x, y: item.y };
+      if (isFreeSpot(id, rect, origin) && Math.hypot(origin.x - rect.x, origin.y - rect.y) <= pushDistance) {
+        rects.set(id, { ...rect, x: origin.x, y: origin.y });
         continue;
       }
       rects.set(id, pushNext);
@@ -306,41 +323,33 @@ export const WidgetsGrid = memo(function WidgetsGrid({
   };
 
   const tryResizeWidget = (widget: WidgetInFolderWithMeta, widthInBoxes: number, heightInBoxes: number) => {
-    console.log("Trying to resize widget", widget, `to ${widthInBoxes}x${heightInBoxes}`);
-
     if (widget.x + widthInBoxes > gridDimensions.columns) widthInBoxes = gridDimensions.columns - widget.x;
     if (widget.y + heightInBoxes > gridDimensions.rows) heightInBoxes = gridDimensions.rows - widget.y;
 
-    const isOverlays = willItemOverlay({
-      arr: layoutTo2DArray({
-        grid: gridDimensions,
-        layout: layout.filter((w) => w.instanceId !== widget.instanceId),
-      }),
-      item: {
-        ...widget,
+    if (widget.width === widthInBoxes && widget.height === heightInBoxes) {
+      return false;
+    }
+    const moves = computeDisplacedMoves(
+      gridDimensions,
+      layout,
+      { ...widget, width: widthInBoxes, height: heightInBoxes },
+      { x: widget.x, y: widget.y },
+    );
+    if (!moves) return false;
+    onLayoutUpdate([
+      {
+        type: "resize",
+        instanceId: widget.instanceId,
         width: widthInBoxes,
         height: heightInBoxes,
       },
-    });
-
-    if (!isOverlays) {
-      if (widget.width === widthInBoxes && widget.height === heightInBoxes) {
-        return false;
-      }
-      onLayoutUpdate([
-        {
-          type: "resize",
-          instanceId: widget.instanceId,
-          width: widthInBoxes,
-          height: heightInBoxes,
-        },
-      ]);
-      console.log("Resized");
-      return true;
-    }
-
-    console.log("Not resized");
-    return false;
+      ...moves.map((move) => ({
+        type: "change-position" as const,
+        instanceId: move.instanceId,
+        newPosition: move.position,
+      })),
+    ]);
+    return true;
   };
 
   const convertUnitsToPixels = (unit: number) => unit * gridDimensions.boxSize - gapSize * 2;
@@ -350,18 +359,46 @@ export const WidgetsGrid = memo(function WidgetsGrid({
       moves.map((move) => ({ type: "change-position", instanceId: move.instanceId, newPosition: move.position })),
     );
   });
+  const [resizePreview, setResizePreview] = useState<{ instanceId: string; width: number; height: number } | null>(
+    null,
+  );
+  const resizeItem = resizePreview ? layout.find((w) => w.instanceId === resizePreview.instanceId) : undefined;
+  const resizeMoves =
+    resizePreview && resizeItem
+      ? computeDisplacedMoves(
+          gridDimensions,
+          layout,
+          { ...resizeItem, width: resizePreview.width, height: resizePreview.height },
+          { x: resizeItem.x, y: resizeItem.y },
+        )
+      : null;
+
   const snapOverrideFor = (instanceId: string): GridPosition | undefined => {
-    if (!snap) return undefined;
-    if (snap.instanceId === instanceId) return snap.position;
-    return snap.displaced.find((m) => m.instanceId === instanceId)?.position;
+    if (snap) {
+      if (snap.instanceId === instanceId) return snap.position;
+      const displaced = snap.displaced.find((m) => m.instanceId === instanceId);
+      if (displaced) return displaced.position;
+    }
+    return resizeMoves?.find((m) => m.instanceId === instanceId)?.position;
   };
   const effectivePosition = (w: WidgetInFolderWithMeta): GridPosition => snapOverrideFor(w.instanceId) ?? w;
+  const effectiveSize = (w: WidgetInFolderWithMeta): GridItemSize =>
+    resizePreview && resizePreview.instanceId === w.instanceId ? resizePreview : w;
   const draggedItem = snap ? layout.find((w) => w.instanceId === snap.instanceId) : undefined;
 
+  const ghost =
+    snap && draggedItem
+      ? { position: snap.position, width: draggedItem.width, height: draggedItem.height }
+      : resizePreview && resizeItem
+        ? { position: { x: resizeItem.x, y: resizeItem.y }, width: resizePreview.width, height: resizePreview.height }
+        : null;
+
   const maxWidthPx =
-    convertUnitsToPixels(Math.max(0, ...layout.map((w) => effectivePosition(w).x + w.width))) + gapSize * 2;
+    convertUnitsToPixels(Math.max(0, ...layout.map((w) => effectivePosition(w).x + effectiveSize(w).width))) +
+    gapSize * 2;
   const maxHeightPx =
-    convertUnitsToPixels(Math.max(0, ...layout.map((w) => effectivePosition(w).y + w.height))) + gapSize * 2;
+    convertUnitsToPixels(Math.max(0, ...layout.map((w) => effectivePosition(w).y + effectiveSize(w).height))) +
+    gapSize * 2;
 
   return (
     <MotionScrollArea
@@ -401,6 +438,9 @@ export const WidgetsGrid = memo(function WidgetsGrid({
                 onRemove={() => onLayoutUpdate([{ type: "remove", instanceId: w.instanceId }])}
                 onEdit={w.widget.configurationScreen ? () => onEditWidget(w) : undefined}
                 onResize={(width, height) => tryResizeWidget(w, width, height)}
+                onResizePreview={(previewSize) =>
+                  setResizePreview(previewSize ? { instanceId: w.instanceId, ...previewSize } : null)
+                }
                 onMoveToFolder={(folderId) =>
                   onLayoutUpdate([{ type: "move-to-folder", instanceId: w.instanceId, folderId: folderId }])
                 }
@@ -411,20 +451,18 @@ export const WidgetsGrid = memo(function WidgetsGrid({
           })}
         </AnimatePresence>
 
-        {snap && draggedItem && (
+        {ghost && (
           <m.div
             className={ghostRect}
             initial={false}
             animate={{
-              x: positionToPixelPosition({ grid: gridDimensions, position: snap.position }).x,
-              y: positionToPixelPosition({ grid: gridDimensions, position: snap.position }).y,
+              x: positionToPixelPosition({ grid: gridDimensions, position: ghost.position }).x,
+              y: positionToPixelPosition({ grid: gridDimensions, position: ghost.position }).y,
+              width: convertUnitsToPixels(ghost.width),
+              height: convertUnitsToPixels(ghost.height),
             }}
             transition={ghostSpring}
-            style={{
-              margin: gapSize,
-              width: convertUnitsToPixels(draggedItem.width),
-              height: convertUnitsToPixels(draggedItem.height),
-            }}
+            style={{ margin: gapSize }}
           />
         )}
 
