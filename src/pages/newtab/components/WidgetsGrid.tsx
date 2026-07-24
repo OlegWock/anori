@@ -3,7 +3,12 @@ import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { MotionScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridDimensions, GridItemSize, GridPosition } from "@anori/utils/grid/types";
-import { canPlaceItemInGrid, positionToPixelPosition, snapPixelPositionToGrid } from "@anori/utils/grid/utils";
+import {
+  canPlaceItemInGrid,
+  GRID_DRAG_EXTEND_SLOTS,
+  positionToPixelPosition,
+  snapPixelPositionToGrid,
+} from "@anori/utils/grid/utils";
 import { useMirrorStateToRef } from "@anori/utils/hooks";
 import type { Mapping } from "@anori/utils/types";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
@@ -58,8 +63,6 @@ export type LayoutChange =
       width: number;
       height: number;
     };
-
-const GRID_DRAG_EXTEND_SLOTS = 2;
 
 type WidgetMove = { instanceId: string; position: GridPosition };
 type DragPreview = { instanceId: string; position: GridPosition; displaced: WidgetMove[] };
@@ -364,9 +367,16 @@ export const WidgetsGrid = memo(function WidgetsGrid({
     }
   };
 
+  const clampSizeToExtendedGrid = (widget: WidgetInFolderWithMeta, size: GridItemSize): GridItemSize => ({
+    width: Math.min(size.width, gridDimensions.columns + GRID_DRAG_EXTEND_SLOTS - widget.x),
+    height: Math.min(size.height, gridDimensions.rows + GRID_DRAG_EXTEND_SLOTS - widget.y),
+  });
+
   const tryResizeWidget = (widget: WidgetInFolderWithMeta, widthInBoxes: number, heightInBoxes: number) => {
-    if (widget.x + widthInBoxes > gridDimensions.columns) widthInBoxes = gridDimensions.columns - widget.x;
-    if (widget.y + heightInBoxes > gridDimensions.rows) heightInBoxes = gridDimensions.rows - widget.y;
+    ({ width: widthInBoxes, height: heightInBoxes } = clampSizeToExtendedGrid(widget, {
+      width: widthInBoxes,
+      height: heightInBoxes,
+    }));
 
     if (widget.width === widthInBoxes && widget.height === heightInBoxes) {
       return false;
@@ -436,10 +446,14 @@ export const WidgetsGrid = memo(function WidgetsGrid({
         : null;
 
   const maxWidthPx =
-    convertUnitsToPixels(Math.max(0, ...layout.map((w) => effectivePosition(w).x + effectiveSize(w).width))) +
+    convertUnitsToPixels(
+      Math.max(0, ...layout.map((w) => Math.max(w.x + w.width, effectivePosition(w).x + effectiveSize(w).width))),
+    ) +
     gapSize * 2;
   const maxHeightPx =
-    convertUnitsToPixels(Math.max(0, ...layout.map((w) => effectivePosition(w).y + effectiveSize(w).height))) +
+    convertUnitsToPixels(
+      Math.max(0, ...layout.map((w) => Math.max(w.y + w.height, effectivePosition(w).y + effectiveSize(w).height))),
+    ) +
     gapSize * 2;
 
   return (
@@ -481,7 +495,9 @@ export const WidgetsGrid = memo(function WidgetsGrid({
                 onEdit={w.widget.configurationScreen ? () => onEditWidget(w) : undefined}
                 onResize={(width, height) => tryResizeWidget(w, width, height)}
                 onResizePreview={(previewSize) =>
-                  setResizePreview(previewSize ? { instanceId: w.instanceId, ...previewSize } : null)
+                  setResizePreview(
+                    previewSize ? { instanceId: w.instanceId, ...clampSizeToExtendedGrid(w, previewSize) } : null,
+                  )
                 }
                 onMoveToFolder={(folderId) =>
                   onLayoutUpdate([{ type: "move-to-folder", instanceId: w.instanceId, folderId: folderId }])

@@ -5,8 +5,8 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { useWidgetDragActive, type WidgetDragData } from "@anori/utils/dnd";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
-import { positionToPixelPosition } from "@anori/utils/grid/utils";
-import { useOnChangeLayoutEffect } from "@anori/utils/hooks";
+import { GRID_DRAG_EXTEND_SLOTS, positionToPixelPosition } from "@anori/utils/grid/utils";
+import { useMirrorStateToRef, useOnChangeLayoutEffect } from "@anori/utils/hooks";
 import { minmax } from "@anori/utils/misc";
 import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
 import { usePluginConfigValue } from "@anori/utils/plugins/define";
@@ -22,6 +22,7 @@ import {
   type PointerEvent as ReactPointerEvent,
   type Ref,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -34,6 +35,27 @@ import { WidgetCardContext } from "./context";
 const EMPTY_CONFIG: Mapping = {};
 
 const positionSpring = { type: "spring", duration: 0.25, bounce: 0.1 } as const;
+
+const AUTOSCROLL_ZONE_PX = 80;
+const AUTOSCROLL_MAX_SPEED_PX_PER_FRAME = 12;
+
+const autoscrollVelocity = (pos: number, start: number, end: number) => {
+  if (pos < start + AUTOSCROLL_ZONE_PX) {
+    return -AUTOSCROLL_MAX_SPEED_PX_PER_FRAME * minmax((start + AUTOSCROLL_ZONE_PX - pos) / AUTOSCROLL_ZONE_PX, 0, 1);
+  }
+  if (pos > end - AUTOSCROLL_ZONE_PX) {
+    return AUTOSCROLL_MAX_SPEED_PX_PER_FRAME * minmax((pos - (end - AUTOSCROLL_ZONE_PX)) / AUTOSCROLL_ZONE_PX, 0, 1);
+  }
+  return 0;
+};
+
+const findScrollContainer = (el: HTMLElement | null): HTMLElement | null => {
+  for (let node = el?.parentElement ?? null; node; node = node.parentElement) {
+    const { overflowX, overflowY } = getComputedStyle(node);
+    if (/auto|scroll/.test(overflowX + overflowY)) return node;
+  }
+  return null;
+};
 
 const cardCss = css({
   position: "relative",
@@ -207,19 +229,61 @@ export const WidgetCard = ({
     e.currentTarget.setPointerCapture(e.pointerId);
     resizeActive.current = true;
     resizeStart.current = { x: e.clientX, y: e.clientY };
+    resizePointer.current = { x: e.clientX, y: e.clientY };
+    resizeScrollContainer.current = findScrollContainer(ref.current);
+    resizeScrollStart.current = {
+      left: resizeScrollContainer.current?.scrollLeft ?? 0,
+      top: resizeScrollContainer.current?.scrollTop ?? 0,
+    };
+    startResizeAutoscroll();
     setIsResizing(true);
     onResizePreview?.({ width: sizeToUse.width, height: sizeToUse.height });
   };
 
+  const startResizeAutoscroll = () => {
+    const step = () => {
+      if (!resizeActive.current) {
+        autoscrollFrame.current = null;
+        return;
+      }
+      const container = resizeScrollContainer.current;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        const vx = autoscrollVelocity(resizePointer.current.x, rect.left, rect.right);
+        const vy = autoscrollVelocity(resizePointer.current.y, rect.top, rect.bottom);
+        if (vx !== 0 || vy !== 0) {
+          container.scrollLeft += vx;
+          container.scrollTop += vy;
+          applyResizeRef.current();
+        }
+      }
+      autoscrollFrame.current = requestAnimationFrame(step);
+    };
+    autoscrollFrame.current = requestAnimationFrame(step);
+  };
+
   const updateResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    resizePointer.current = { x: e.clientX, y: e.clientY };
+    applyResize();
+  };
+
+  const applyResize = () => {
     if (!resizeActive.current || !widget.appearance.resizable) return;
     const res = widget.appearance.resizable;
     const minWidth = res === true ? 1 : (res.min?.width ?? 1);
     const minHeight = res === true ? 1 : (res.min?.height ?? 1);
-    const maxWidth = res === true ? 999 : (res.max?.width ?? 999);
-    const maxHeight = res === true ? 999 : (res.max?.height ?? 999);
-    const offsetX = e.clientX - resizeStart.current.x;
-    const offsetY = e.clientY - resizeStart.current.y;
+    const maxWidth = Math.min(
+      res === true ? 999 : (res.max?.width ?? 999),
+      position ? grid.columns + GRID_DRAG_EXTEND_SLOTS - position.x : 999,
+    );
+    const maxHeight = Math.min(
+      res === true ? 999 : (res.max?.height ?? 999),
+      position ? grid.rows + GRID_DRAG_EXTEND_SLOTS - position.y : 999,
+    );
+    const scrollDriftX = (resizeScrollContainer.current?.scrollLeft ?? 0) - resizeScrollStart.current.left;
+    const scrollDriftY = (resizeScrollContainer.current?.scrollTop ?? 0) - resizeScrollStart.current.top;
+    const offsetX = resizePointer.current.x - resizeStart.current.x + scrollDriftX;
+    const offsetY = resizePointer.current.y - resizeStart.current.y + scrollDriftY;
     const newWidth = minmax(
       convertUnitsToPixels(sizeToUse.width) + offsetX,
       convertUnitsToPixels(minWidth),
@@ -244,6 +308,10 @@ export const WidgetCard = ({
   const finishResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
     if (!resizeActive.current) return;
     resizeActive.current = false;
+    if (autoscrollFrame.current !== null) {
+      cancelAnimationFrame(autoscrollFrame.current);
+      autoscrollFrame.current = null;
+    }
     e.currentTarget.releasePointerCapture(e.pointerId);
     setIsResizing(false);
     onResizePreview?.(null);
@@ -266,6 +334,17 @@ export const WidgetCard = ({
   const ref = useRef<HTMLDivElement>(null);
   const resizeActive = useRef(false);
   const resizeStart = useRef({ x: 0, y: 0 });
+  const resizePointer = useRef({ x: 0, y: 0 });
+  const resizeScrollContainer = useRef<HTMLElement | null>(null);
+  const resizeScrollStart = useRef({ left: 0, top: 0 });
+  const autoscrollFrame = useRef<number | null>(null);
+  const applyResizeRef = useMirrorStateToRef(applyResize);
+
+  useEffect(() => {
+    return () => {
+      if (autoscrollFrame.current !== null) cancelAnimationFrame(autoscrollFrame.current);
+    };
+  }, []);
 
   const sizeToUse = size ? size : widget.appearance.size;
   const withPadding = !widget.appearance.withoutPadding;

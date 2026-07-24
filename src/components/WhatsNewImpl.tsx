@@ -32,6 +32,7 @@ export const WhatsNewImpl = () => {
                 Custom themes now have a lightness control which allows you allow more granular control over appearance.
               </li>
               <li>Custom themes can now hide the dot pattern in the background.</li>
+              <li>Updates and bug fixes for widgets organization and resizing system.</li>
               <li>Minor tweaks and bug fixes for custom theme editor.</li>
             </ul>
           </section>

@@ -148,6 +148,8 @@ export const snapToSector = ({ grid, position }: { grid: GridDimensions; positio
   });
 };
 
+export const GRID_DRAG_EXTEND_SLOTS = 2;
+
 export const snapPixelPositionToGrid = ({
   grid,
   position,
