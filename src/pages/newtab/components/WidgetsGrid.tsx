@@ -74,11 +74,17 @@ const rectsOverlap = (
 
 type Rect = { x: number; y: number; width: number; height: number };
 
-// Mobile-launcher displacement: a widget overlapped by the dragged card relocates to the nearest
-// completely free spot within the current grid — including the cell the dragged card just vacated.
-// Only when no free spot fits it is it shoved down or right (whichever is the shorter shove), possibly
-// pushing others transitively and growing the grid past its current bounds. Returns null only if the
-// cascade fails to settle.
+// Resolves where widgets overlapped by a drag/resize should go, trying three strategies from most
+// polite to most forceful:
+//   1. Block trade — the widgets under the target slide as one rigid block into the vacated space.
+//   2. Corridor rotation (single-axis drags) — everything along the travel path shifts one step
+//      toward the origin, list-reorder style.
+//   3. Push cascade — each overlapped widget steps aside to a free spot next to its pusher, falls
+//      back to the vacated origin cell if it's a short hop, or gets shoved down/right (transitively,
+//      possibly growing the grid). Resize always resolves here: with no travel delta both pre-passes
+//      are skipped.
+// Works on a copy of the layout and returns the moves to preview/commit; null means it failed to
+// settle and the gesture has no valid preview.
 const computeDisplacedMoves = (
   gridDimensions: GridDimensions,
   layout: WidgetInFolderWithMeta[],
