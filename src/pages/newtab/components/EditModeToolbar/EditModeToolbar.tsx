@@ -29,7 +29,7 @@ const editToolbar = css({
   padding: "2",
   borderRadius: "full",
   bg: "surface.elevated",
-  boxShadow: "popover",
+  boxShadow: "{shadows.surface.elevated.edge}, {shadows.popover}",
 });
 
 export const EditModeToolbar = memo(function EditModeToolbar({ visible, onAddWidget, onDone }: EditModeToolbarProps) {
