@@ -51,6 +51,10 @@
             "title": "Widget unavailable",
             "description": "This widget type isn't available in this browser. It stays on your other synced browsers, and you still can move, resize, or remove it here."
         },
+        "widgetRenderError": {
+            "title": "Oops",
+            "description": "Widget failed to render, check console for details."
+        },
         "cloud": {
             "connect": "Connect",
             "connected": "Connected",
