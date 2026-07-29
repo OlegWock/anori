@@ -25,12 +25,10 @@ export const WhatsNewImpl = () => {
 
           <section>
             <Heading marginBottom="2">2.0.2</Heading>
-            <p>Second follow-up to big 2.0 release with followups to appearance and custom themes.</p>
+            <p>Second follow-up to big 2.0 release with improvements to appearance and custom themes.</p>
             <ul>
               <li>Removed translucent plate behind widgets. Widgets now have more space to occupy.</li>
-              <li>
-                Custom themes now have a lightness control which allows you allow more granular control over appearance.
-              </li>
+              <li>Custom themes now have a lightness control which enables more granular control over appearance.</li>
               <li>Custom themes can now hide the dot pattern in the background.</li>
               <li>Updates and bug fixes for widgets organization and resizing system.</li>
               <li>Minor tweaks and bug fixes for custom theme editor.</li>
