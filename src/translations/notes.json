@@ -358,5 +358,9 @@
         "hard": "Answer-grade button rating a reviewed card as hard.",
         "error": "Error shown when the widget can't reach AnkiConnect (Anki not running or addon missing).",
         "widgetName": "Anki widget name in the add-widget picker."
+    },
+    "widgetRenderError": {
+        "title": "Heading of the error card shown in place of a widget that crashed while rendering. Casual interjection.",
+        "description": "Body of the error card shown when a widget crashes while rendering, pointing the user to the browser console."
     }
 }

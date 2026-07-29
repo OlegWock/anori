@@ -51,6 +51,10 @@
             "title": "Hindi available ang widget",
             "description": "Ang uri ng widget na ito ay hindi available sa browser na ito. Nananatili ito sa iyong iba pang mga naka-sync na browser, at maaari mo pa ring ilipat, i-resize, o alisin ito dito."
         },
+        "widgetRenderError": {
+            "title": "Oops",
+            "description": "Nabigo ang widget na mag-render, tingnan ang console para sa mga detalye."
+        },
         "cloud": {
             "connect": "Ikonekta",
             "connected": "Nakakonekta",

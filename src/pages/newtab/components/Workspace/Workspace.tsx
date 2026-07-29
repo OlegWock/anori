@@ -21,7 +21,7 @@ import { EditModeToolbar } from "../EditModeToolbar/EditModeToolbar";
 import { EditWidgetModal } from "../EditWidgetModal";
 import { FolderContent } from "../FolderContent";
 import { Sidebar } from "../Sidebar";
-import type { LayoutChange } from "../WidgetsGrid";
+import type { LayoutChange } from "../WidgetsGrid/WidgetsGrid";
 
 type WorkspaceProps = {
   folders: Folder[];

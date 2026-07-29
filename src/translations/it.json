@@ -51,6 +51,10 @@
             "title": "Widget non disponibile",
             "description": "Questo tipo di widget non è disponibile in questo browser. Rimane sugli altri browser sincronizzati e puoi comunque spostarlo, ridimensionarlo o rimuoverlo qui."
         },
+        "widgetRenderError": {
+            "title": "Ops",
+            "description": "Il widget non è riuscito a renderizzarsi, controlla la console per i dettagli."
+        },
         "cloud": {
             "connect": "Connetti",
             "connected": "Connesso",

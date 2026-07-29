@@ -1,3 +1,4 @@
+import { ReorderableItem, ReorderableList } from "@anori/components/ReorderableList/ReorderableList";
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
@@ -8,7 +9,6 @@ import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollAre
 import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
 import { choose, guid } from "@anori/utils/misc";
-import { ReorderGroup, ReorderItem } from "@anori/utils/motion/reorder";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { combineRefs } from "@anori/utils/react";
 import type { Task } from "@anori/utils/storage";
@@ -16,11 +16,9 @@ import { useDirection } from "@radix-ui/react-direction";
 import {
   AnimatePresence,
   type AnimationPlaybackControlsWithThen,
-  LayoutGroup,
   type MotionValue,
   m,
   useAnimate,
-  useDragControls,
   useMotionValue,
   useTransform,
 } from "motion/react";
@@ -103,7 +101,7 @@ type TaskComponentProps = {
   onEdit: (newText: string) => void;
   onComplete: () => void;
   onEnterKeyPress: () => void;
-  ref?: Ref<HTMLDivElement>;
+  ref?: Ref<HTMLLIElement>;
 };
 
 const TaskComponent = ({ task, onEdit, onComplete, onEnterKeyPress, ref }: TaskComponentProps) => {
@@ -124,7 +122,6 @@ const TaskComponent = ({ task, onEdit, onComplete, onEnterKeyPress, ref }: TaskC
     }
   };
 
-  const controls = useDragControls();
   const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
   const [scope, animate] = useAnimate();
@@ -135,59 +132,57 @@ const TaskComponent = ({ task, onEdit, onComplete, onEnterKeyPress, ref }: TaskC
   const completionProgress = useMotionValue(0);
 
   return (
-    <ReorderItem
+    <ReorderableItem
       key={task.id}
       value={task}
       className={taskRow}
-      layout="position"
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ opacity: 0 }}
-      dragListener={false}
-      dragControls={controls}
       ref={mergedRef}
       data-task-id={task.id}
     >
-      <Checkbox
-        ref={checkboxRef}
-        checked={checked}
-        onChange={onCheckboxChange}
-        transition={{
-          duration: 0.15,
-        }}
-      />
-      <m.div className={inputWrapper}>
-        <Scribble progress={completionProgress} />
+      {({ handleRef }) => (
+        <>
+          <Checkbox
+            ref={checkboxRef}
+            checked={checked}
+            onChange={onCheckboxChange}
+            transition={{
+              duration: 0.15,
+            }}
+          />
+          <m.div className={inputWrapper}>
+            <Scribble progress={completionProgress} />
 
-        <Textarea
-          variant="ghost"
-          className={taskInput}
-          value={task.text}
-          onValueChange={(v) => onEdit(v)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.metaKey && !e.shiftKey && !e.altKey) {
-              e.preventDefault();
-              onEnterKeyPress();
-            }
-          }}
-          placeholder={t("tasks-plugin.taskDescription")}
-          maxRows={4}
-          spellCheck={false}
-        />
-      </m.div>
-      <IconButton
-        variant="ghost"
-        size="compact"
-        icon={builtinIcons.dragHandle}
-        label={t("reorder")}
-        showTooltip={false}
-        className={cx(dragControl, "drag-control")}
-        onPointerDown={(e) => {
-          e.preventDefault();
-          controls.start(e);
-        }}
-      />
-    </ReorderItem>
+            <Textarea
+              variant="ghost"
+              className={taskInput}
+              value={task.text}
+              onValueChange={(v) => onEdit(v)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.metaKey && !e.shiftKey && !e.altKey) {
+                  e.preventDefault();
+                  onEnterKeyPress();
+                }
+              }}
+              placeholder={t("tasks-plugin.taskDescription")}
+              maxRows={4}
+              spellCheck={false}
+            />
+          </m.div>
+          <IconButton
+            ref={handleRef}
+            variant="ghost"
+            size="compact"
+            icon={builtinIcons.dragHandle}
+            label={t("reorder")}
+            showTooltip={false}
+            className={cx(dragControl, "drag-control")}
+          />
+        </>
+      )}
+    </ReorderableItem>
   );
 };
 
@@ -230,23 +225,21 @@ export const TasksWidget = memo(function TasksWidget({ config }: WidgetRenderPro
         <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} onClick={addTask} />
       </div>
       <ScrollArea fill style={{ display: tasks.length === 0 ? "none" : "flex" }}>
-        <LayoutGroup>
-          <ReorderGroup axis="y" values={tasks} onReorder={setTasks} className={tasksList} layoutScroll layoutRoot>
-            <AnimatePresence initial={false}>
-              {tasks.map((t) => {
-                return (
-                  <TaskComponent
-                    task={t}
-                    key={t.id}
-                    onComplete={() => completeTask(t.id)}
-                    onEdit={(v) => editTask(t.id, v)}
-                    onEnterKeyPress={addTask}
-                  />
-                );
-              })}
-            </AnimatePresence>
-          </ReorderGroup>
-        </LayoutGroup>
+        <ReorderableList values={tasks} getValueKey={(task) => task.id} onReorder={setTasks} className={tasksList}>
+          <AnimatePresence initial={false}>
+            {tasks.map((t) => {
+              return (
+                <TaskComponent
+                  task={t}
+                  key={t.id}
+                  onComplete={() => completeTask(t.id)}
+                  onEdit={(v) => editTask(t.id, v)}
+                  onEnterKeyPress={addTask}
+                />
+              );
+            })}
+          </AnimatePresence>
+        </ReorderableList>
       </ScrollArea>
       {tasks.length === 0 && <EmptyState muted className={noTasks} title={t("tasks-plugin.noTasks")} />}
     </m.div>

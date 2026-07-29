@@ -1,11 +1,9 @@
 import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
 import { useSizeSettings } from "@anori/utils/compact";
-import { useCurrentlyDragging } from "@anori/utils/drag-and-drop";
 import { m } from "motion/react";
-import { type ComponentProps, useState } from "react";
-import { css, cva, cx } from "styled-system/css";
-import { DropDestination } from "../DropDestination";
+import type { ComponentProps } from "react";
+import { css, cx } from "styled-system/css";
 
 export type SidebarButtonProps = {
   name: string;
@@ -13,36 +11,24 @@ export type SidebarButtonProps = {
   active?: boolean;
   withRedDot?: boolean;
   sidebarOrientation: "vertical" | "horizontal";
-  dropDestination?: {
-    id: string;
-  };
 } & ComponentProps<typeof m.button>;
 
-const folderButton = cva({
-  base: {
-    position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "2",
-    background: "none",
-    color: "text.subtle",
-    borderRadius: "md",
-    borderWidth: "3px",
-    borderStyle: "solid",
-    borderColor: "transparent",
-    cursor: "pointer",
-    userSelect: "none",
-    transition: "all 0.1s ease-in-out",
-    _hover: { transform: "scale(1.15)", color: "accent" },
-  },
-  variants: {
-    // While a widget is being dragged this button is a drop target; lift it above the edit-mode scrim so it stays bright.
-    dropTarget: {
-      true: { borderColor: "color-mix(in srgb, var(--ds-text-primary) 25%, transparent)", zIndex: "docked" },
-    },
-    highlight: { true: { background: "color-mix(in srgb, var(--ds-text-primary) 25%, transparent)" } },
-  },
+const button = css({
+  position: "relative",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "2",
+  background: "none",
+  color: "text.subtle",
+  borderRadius: "md",
+  borderWidth: "3px",
+  borderStyle: "solid",
+  borderColor: "transparent",
+  cursor: "pointer",
+  userSelect: "none",
+  transition: "all 0.1s ease-in-out",
+  _hover: { transform: "scale(1.15)", color: "accent" },
 });
 
 const activeRing = css({
@@ -70,22 +56,12 @@ export const SidebarButton = ({
   className,
   withRedDot,
   sidebarOrientation,
-  dropDestination,
   ...props
 }: SidebarButtonProps) => {
-  const currentlyDraggingWidget = useCurrentlyDragging({ type: "widget" });
-  const [highlightDrop, setHighlightDrop] = useState(false);
   const { rem } = useSizeSettings();
 
   const content = (
-    <m.button
-      className={cx(
-        "SidebarButton",
-        folderButton({ dropTarget: currentlyDraggingWidget && !!dropDestination, highlight: highlightDrop }),
-        className,
-      )}
-      {...props}
-    >
+    <m.button className={cx("SidebarButton", button, className)} {...props}>
       {active && (
         <m.div className={activeRing} layoutId="SidebarButton-glow" transition={{ duration: 0.2, type: "spring" }} />
       )}
@@ -93,22 +69,6 @@ export const SidebarButton = ({
       <Icon icon={icon} width={rem(1.5)} height={rem(1.5)} />
     </m.button>
   );
-
-  if (dropDestination) {
-    return (
-      <Tooltip label={name} placement={sidebarOrientation === "vertical" ? "right" : "top"}>
-        <DropDestination
-          type="folder"
-          id={dropDestination.id}
-          filter="widget"
-          onDragEnter={() => setHighlightDrop(true)}
-          onDragLeave={() => setHighlightDrop(false)}
-        >
-          {content}
-        </DropDestination>
-      </Tooltip>
-    );
-  }
 
   return (
     <Tooltip label={name} placement={sidebarOrientation === "vertical" ? "right" : "top"}>

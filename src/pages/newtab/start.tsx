@@ -3,6 +3,7 @@ import { mountPage } from "@anori/utils/react";
 import "../../panda.css";
 import "./globals.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
+import { AppDragDropProvider } from "@anori/components/AppDragDropProvider/AppDragDropProvider";
 import { BookmarksBar } from "@anori/components/BookmarksBar/BookmarksBar";
 import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { languageDirections } from "@anori/translations/metadata";
@@ -119,19 +120,21 @@ const Start = () => {
     <DirectionProvider dir={dir}>
       <MotionConfig transition={{ duration: 0.2, ease: "easeInOut" }}>
         <TooltipProvider delay={200} closeDelay={100} timeout={0}>
-          <AnimatePresence>
-            <m.div className={startPage} key="start-page">
-              {showBookmarksBar && <BookmarksBar />}
-              <Workspace
-                folders={folders}
-                activeFolder={activeFolder}
-                orientation={sidebarOrientation}
-                bookmarksBarVisible={showBookmarksBar}
-                animationDirection={animationDirection}
-                onFolderClick={onFolderClick}
-              />
-            </m.div>
-          </AnimatePresence>
+          <AppDragDropProvider>
+            <AnimatePresence>
+              <m.div className={startPage} key="start-page">
+                {showBookmarksBar && <BookmarksBar />}
+                <Workspace
+                  folders={folders}
+                  activeFolder={activeFolder}
+                  orientation={sidebarOrientation}
+                  bookmarksBarVisible={showBookmarksBar}
+                  animationDirection={animationDirection}
+                  onFolderClick={onFolderClick}
+                />
+              </m.div>
+            </AnimatePresence>
+          </AppDragDropProvider>
         </TooltipProvider>
       </MotionConfig>
     </DirectionProvider>

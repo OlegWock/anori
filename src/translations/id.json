@@ -51,6 +51,10 @@
             "title": "Widget tidak tersedia",
             "description": "Jenis widget ini tidak tersedia di browser ini. Widget tetap ada di browser lain yang tersinkronisasi, dan Anda masih dapat memindahkan, mengubah ukuran, atau menghapusnya di sini."
         },
+        "widgetRenderError": {
+            "title": "Ups",
+            "description": "Widget gagal dirender, periksa konsol untuk detailnya."
+        },
         "cloud": {
             "connect": "Hubungkan",
             "connected": "Terhubung",

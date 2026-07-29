@@ -1,35 +1,27 @@
-import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
-import { type DndItemMeta, ensureDndItemType, useCurrentlyDragging, useDraggable } from "@anori/utils/drag-and-drop";
+import { useWidgetDragActive, type WidgetDragData } from "@anori/utils/dnd";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
-import { positionToPixelPosition, snapToSector } from "@anori/utils/grid/utils";
-import { useOnChangeLayoutEffect, useRunAfterNextRender } from "@anori/utils/hooks";
-import { minmax } from "@anori/utils/misc";
-import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
+import { positionToPixelPosition } from "@anori/utils/grid/utils";
 import { usePluginConfigValue } from "@anori/utils/plugins/define";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
-import { m, type PanInfo, useMotionValue } from "motion/react";
-import {
-  Component,
-  type ComponentProps,
-  type ReactNode,
-  type PointerEvent as ReactPointerEvent,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { createPortal } from "react-dom";
+import { useDraggable } from "@dnd-kit/react";
+import { m } from "motion/react";
+import { type ComponentProps, type Ref, useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { mergeRefs } from "react-merge-refs";
 import { css, cva, cx } from "styled-system/css";
 import { WidgetCardContext } from "./context";
+import { useWidgetResize } from "./use-widget-resize";
+import { WidgetErrorBoundary, WidgetRenderError } from "./WidgetErrorBoundary";
 
 const EMPTY_CONFIG: Mapping = {};
+
+const positionSpring = { type: "spring", duration: 0.25, bounce: 0.1 } as const;
 
 const cardCss = css({
   position: "relative",
@@ -79,7 +71,6 @@ const overflowProtectionCss = css({
   textOverflow: "ellipsis",
 });
 const interactionBlockerCss = css({ position: "absolute", inset: 0 });
-const errorDescriptionCss = css({ marginTop: "3" });
 
 const control = cva({
   base: { position: "absolute", zIndex: 1, boxShadow: "raised" },
@@ -106,37 +97,6 @@ const control = cva({
   },
 });
 
-const WidgetRenderError = () => (
-  <>
-    <Heading>Oops</Heading>
-    <div className={errorDescriptionCss}>Widget failed to render, check console for details.</div>
-  </>
-);
-
-class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
-  constructor(props: { children: ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: unknown) {
-    console.error("Error happened inside widget");
-    console.error(error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <WidgetRenderError />;
-    }
-
-    return this.props.children;
-  }
-}
-
 type WidgetCardProps = {
   widget: SomeWidget;
   plugin: SomePlugin;
@@ -151,8 +111,10 @@ type WidgetCardProps = {
       onRemove?: undefined;
       onEdit?: undefined;
       onResize?: undefined;
+      onResizePreview?: undefined;
       onPositionChange?: undefined;
       onMoveToFolder?: undefined;
+      dragSnapPosition?: undefined;
     }
   | {
       type: "widget";
@@ -164,8 +126,10 @@ type WidgetCardProps = {
       onRemove?: () => void;
       onEdit?: () => void;
       onResize?: (newWidth: number, newHeight: number) => boolean | undefined;
+      onResizePreview?: (size: GridItemSize | null) => void;
       onPositionChange?: (newPosition: GridPosition) => void;
       onMoveToFolder?: (folderId: string) => void;
+      dragSnapPosition?: GridPosition;
     }
 ) &
   Omit<ComponentProps<typeof m.div>, "children" | "onDragEnd" | "onResize">;
@@ -184,133 +148,50 @@ export const WidgetCard = ({
   onRemove,
   onEdit,
   onResize,
+  onResizePreview,
   onPositionChange,
   onMoveToFolder,
+  dragSnapPosition,
   ...props
 }: WidgetCardProps) => {
-  const convertUnitsToPixels = (unit: number) => unit * grid.boxSize - gapSize * 2;
-
-  const convertPixelsToUnits = (px: number) => Math.round((px + gapSize * 2) / grid.boxSize);
-
-  const startResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.currentTarget.setPointerCapture(e.pointerId);
-    resizeActive.current = true;
-    resizeStart.current = { x: e.clientX, y: e.clientY };
-    setIsResizing(true);
-  };
-
-  const updateResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    if (!resizeActive.current || !widget.appearance.resizable) return;
-    const res = widget.appearance.resizable;
-    const minWidth = res === true ? 1 : (res.min?.width ?? 1);
-    const minHeight = res === true ? 1 : (res.min?.height ?? 1);
-    const maxWidth = res === true ? 999 : (res.max?.width ?? 999);
-    const maxHeight = res === true ? 999 : (res.max?.height ?? 999);
-    const offsetX = e.clientX - resizeStart.current.x;
-    const offsetY = e.clientY - resizeStart.current.y;
-    const newWidth = minmax(
-      convertUnitsToPixels(sizeToUse.width) + offsetX,
-      convertUnitsToPixels(minWidth),
-      convertUnitsToPixels(maxWidth),
-    );
-    const newHeight = minmax(
-      convertUnitsToPixels(sizeToUse.height) + offsetY,
-      convertUnitsToPixels(minHeight),
-      convertUnitsToPixels(maxHeight),
-    );
-    const widthUnits = convertPixelsToUnits(newWidth);
-    if (resizeWidthUnits !== widthUnits) setResizeWidthUnits(widthUnits);
-    const heightUnits = convertPixelsToUnits(newHeight);
-    if (resizeHeightUnits !== heightUnits) setResizeHeightUnits(heightUnits);
-    resizeWidth.set(newWidth);
-    resizeHeight.set(newHeight);
-  };
-
-  const finishResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    if (!resizeActive.current) return;
-    resizeActive.current = false;
-    e.currentTarget.releasePointerCapture(e.pointerId);
-    setIsResizing(false);
-    let shouldReset = true;
-    if (onResize) {
-      shouldReset = !onResize(resizeWidthUnits, resizeHeightUnits);
-    }
-    if (shouldReset) {
-      resizeWidth.set(convertUnitsToPixels(sizeToUse.width));
-      resizeHeight.set(convertUnitsToPixels(sizeToUse.height));
-      setResizeWidthUnits(sizeToUse.width);
-      setResizeHeightUnits(sizeToUse.height);
-    }
-  };
-
-  const onDragEnd = (
-    foundDestination: DndItemMeta | null,
-    _e: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo,
-  ) => {
-    setIsDragging(false);
-    if (foundDestination && ensureDndItemType(foundDestination, "folder")) {
-      onMoveToFolder?.(foundDestination.id);
-      return;
-    }
-
-    if (!gridRef.current) return;
-    const mainBox = gridRef.current.getBoundingClientRect();
-    const relativePoint = {
-      x: info.point.x - mainBox.x,
-      y: info.point.y - mainBox.y,
-    };
-    const possibleSnapPoints = snapToSector({ grid, position: relativePoint });
-    if (possibleSnapPoints.length === 0) return;
-    onPositionChange?.(possibleSnapPoints[0].position);
-  };
-
-  const { isEditing, grid, gridRef } = useParentFolder();
-
+  const { isEditing, grid } = useParentFolder();
   const { gapSize } = useSizeSettings();
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
-  const runAfterRender = useRunAfterNextRender();
-  const resizeActive = useRef(false);
-  const resizeStart = useRef({ x: 0, y: 0 });
 
   const sizeToUse = size ? size : widget.appearance.size;
   const withPadding = !widget.appearance.withoutPadding;
 
-  const resizeWidth = useMotionValue(convertUnitsToPixels(sizeToUse.width));
-  const resizeHeight = useMotionValue(convertUnitsToPixels(sizeToUse.height));
-  // We need a derived/readonly value to block framer motion from messing with value after initial render
-  // More info: https://github.com/OlegWock/anori/issues/115
-  const readonlyResizeWidth = useDerivedMotionValue(resizeWidth, (v) => v);
-  const readonlyResizeHeight = useDerivedMotionValue(resizeHeight, (v) => v);
-  const [isResizing, setIsResizing] = useState(false);
-  const [resizeWidthUnits, setResizeWidthUnits] = useState(sizeToUse.width);
-  const [resizeHeightUnits, setResizeHeightUnits] = useState(sizeToUse.height);
+  const resize = useWidgetResize({
+    resizable: widget.appearance.resizable,
+    size: sizeToUse,
+    position,
+    cardRef: ref,
+    onResize,
+    onResizePreview,
+  });
 
-  const [isDragging, setIsDragging] = useState(false);
-  const otherWidgetDragging = useCurrentlyDragging({ type: "widget" }) && !isDragging;
+  const activePosition = dragSnapPosition ?? position;
+  const pixelPosition = activePosition ? positionToPixelPosition({ grid, position: activePosition }) : { x: 0, y: 0 };
 
-  const pixelPosition = position ? positionToPixelPosition({ grid, position }) : { x: 0, y: 0 };
-
-  const { dragControls, elementProps, dragHandleProps } = useDraggable(
-    {
-      type: "widget",
-      id: instanceId || "",
+  const dragData: WidgetDragData = {
+    onDropToFolder: (folderId) => {
+      onMoveToFolder?.(folderId);
     },
-    {
-      onDragEnd,
-    },
-  );
-  const drag = type === "widget";
-  const dragProps = drag
-    ? {
-        drag,
-        dragSnapToOrigin: true,
-        dragElastic: 0,
-        ...elementProps,
-      }
-    : {};
+  };
+
+  const {
+    ref: draggableRef,
+    handleRef,
+    isDragSource: isDragging,
+  } = useDraggable({
+    id: instanceId ?? `mock-${widget.id}`,
+    type: "widget",
+    disabled: type !== "widget" || !isEditing,
+    data: dragData,
+  });
+  const widgetDragActive = useWidgetDragActive();
+  const otherWidgetDragging = widgetDragActive && !isDragging;
 
   const { config: parsedConfig, failed: configParseFailed } = useMemo(() => {
     if (type === "mock") return { config: EMPTY_CONFIG, failed: false };
@@ -329,23 +210,21 @@ export const WidgetCard = ({
     return <widget.mainScreen instanceId={instanceId} config={parsedConfig} pluginConfig={pluginConfig} />;
   }, [type, widget, instanceId, configParseFailed, parsedConfig, pluginConfig]);
 
-  useOnChangeLayoutEffect(() => {
-    resizeWidth.set(convertUnitsToPixels(sizeToUse.width));
-    resizeHeight.set(convertUnitsToPixels(sizeToUse.height));
-    setResizeWidthUnits(sizeToUse.width);
-    setResizeHeightUnits(sizeToUse.height);
-    setIsResizing(false);
-  }, [sizeToUse.width, sizeToUse.height, grid.boxSize, gapSize]);
-
   const card = (
     <m.div
       id={instanceId ? `WidgetCard-${instanceId}` : undefined}
-      ref={ref}
+      ref={mergeRefs([ref, draggableRef as Ref<HTMLDivElement>])}
       key={`card-${instanceId}`}
       className={cx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
-      data-busy={isDragging || isResizing ? true : undefined}
-      data-resizing={isResizing ? true : undefined}
-      transition={{ ease: "easeInOut", duration: 0.15 }}
+      data-busy={isDragging || resize.isResizing ? true : undefined}
+      data-resizing={resize.isResizing ? true : undefined}
+      transition={{ ease: "easeInOut", duration: 0.15, top: positionSpring, left: positionSpring }}
+      initial={false}
+      animate={
+        type === "widget" && !isDragging
+          ? { top: pixelPosition.y + gapSize, left: pixelPosition.x + gapSize }
+          : undefined
+      }
       exit={isEditing ? { scale: 0 } : undefined}
       whileHover={
         widget.appearance.withHoverAnimation
@@ -362,33 +241,25 @@ export const WidgetCard = ({
           : undefined
       }
       style={{
-        width: readonlyResizeWidth,
-        height: readonlyResizeHeight,
-        margin: gapSize,
+        width: resize.width,
+        height: resize.height,
+        margin: type === "widget" ? 0 : gapSize,
         position: type === "widget" ? "absolute" : undefined,
-        top: isDragging ? (gridRef.current?.getBoundingClientRect().top ?? 0) + pixelPosition.y : pixelPosition.y,
-        left: isDragging ? (gridRef.current?.getBoundingClientRect().left ?? 0) + pixelPosition.x : pixelPosition.x,
+        ...(type === "widget" && isDragging ? { top: pixelPosition.y + gapSize, left: pixelPosition.x + gapSize } : {}),
         ...style,
       }}
-      {...dragProps}
       {...props}
     >
-      {isEditing && !otherWidgetDragging && type === "widget" && !isResizing && !!onDragEnd && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !resize.isResizing && !!onPositionChange && (
         <IconButton
+          ref={handleRef}
           className={cx("widget-control", control({ position: "drag" }))}
           icon={builtinIcons.dragHandle}
           label={t("moveWidget")}
           showTooltip={!isDragging}
-          onPointerDown={(e) => {
-            e.preventDefault();
-            setIsDragging(true);
-            runAfterRender(() => dragControls.start(e));
-          }}
-          onPointerUp={() => setIsDragging(false)}
-          {...dragHandleProps}
         />
       )}
-      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !isResizing && !!onRemove && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !resize.isResizing && !!onRemove && (
         <IconButton
           className={cx("widget-control", control({ position: "remove" }))}
           icon={builtinIcons.close}
@@ -396,7 +267,7 @@ export const WidgetCard = ({
           onClick={onRemove}
         />
       )}
-      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !isResizing && !!onEdit && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !resize.isResizing && !!onEdit && (
         <IconButton
           className={cx("widget-control", control({ position: "edit" }))}
           icon={builtinIcons.pencil}
@@ -409,18 +280,16 @@ export const WidgetCard = ({
           className={cx("widget-control", control({ position: "resize" }))}
           icon={builtinIcons.resize}
           label={t("resizeWidget")}
-          showTooltip={!isResizing}
-          onPointerDown={startResize}
-          onPointerMove={updateResize}
-          onPointerUp={finishResize}
+          showTooltip={!resize.isResizing}
+          {...resize.handleProps}
         />
       )}
-      <ErrorBoundary>
+      <WidgetErrorBoundary>
         <div className={overflowProtectionCss} style={{ borderRadius: withPadding ? 0 : "inherit" }}>
           {children}
-          {(type === "mock" || isResizing || isDragging) && <div className={interactionBlockerCss} />}
+          {(type === "mock" || resize.isResizing || widgetDragActive) && <div className={interactionBlockerCss} />}
         </div>
-      </ErrorBoundary>
+      </WidgetErrorBoundary>
     </m.div>
   );
 
@@ -434,7 +303,7 @@ export const WidgetCard = ({
       pluginId: plugin.id,
       widgetId: widget.id,
       instanceId: instanceId ?? "mock",
-      size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
+      size: resize.isResizing ? { width: resize.widthUnits, height: resize.heightUnits } : sizeToUse,
       config: parsedConfig,
       updateConfig,
     }),
@@ -442,9 +311,9 @@ export const WidgetCard = ({
       plugin.id,
       widget.id,
       instanceId,
-      isResizing,
-      resizeWidthUnits,
-      resizeHeightUnits,
+      resize.isResizing,
+      resize.widthUnits,
+      resize.heightUnits,
       sizeToUse,
       parsedConfig,
       updateConfig,
@@ -453,9 +322,7 @@ export const WidgetCard = ({
 
   return (
     <WidgetCardContext.Provider value={cardContextValue}>
-      <WidgetMetadataContext.Provider value={widgetMetadata}>
-        {isDragging ? createPortal(card, document.body, `card-${instanceId}`) : card}
-      </WidgetMetadataContext.Provider>
+      <WidgetMetadataContext.Provider value={widgetMetadata}>{card}</WidgetMetadataContext.Provider>
     </WidgetCardContext.Provider>
   );
 };

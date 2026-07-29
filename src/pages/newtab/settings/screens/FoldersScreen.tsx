@@ -1,8 +1,8 @@
+import { ReorderableList } from "@anori/components/ReorderableList/ReorderableList";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { useRunAfterNextRender } from "@anori/utils/hooks";
-import { ReorderGroup } from "@anori/utils/motion/reorder";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { homeFolder } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "motion/react";
@@ -43,7 +43,7 @@ export const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
 
       <div className={list}>
         <FolderItem folder={homeFolder} />
-        <ReorderGroup axis="y" values={folders} onReorder={setFolders} as="div" className={list}>
+        <ReorderableList values={folders} getValueKey={(folder) => folder.id} onReorder={setFolders} className={list}>
           <AnimatePresence initial={false} mode="sync">
             {folders.map((f) => (
               <FolderItem
@@ -56,7 +56,7 @@ export const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
               />
             ))}
           </AnimatePresence>
-        </ReorderGroup>
+        </ReorderableList>
       </div>
     </m.div>
   );
