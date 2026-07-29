@@ -43,7 +43,7 @@ export const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
 
       <div className={list}>
         <FolderItem folder={homeFolder} />
-        <ReorderableList group="settings-folders" values={folders} onReorder={setFolders} className={list}>
+        <ReorderableList values={folders} onReorder={setFolders} className={list}>
           <AnimatePresence initial={false} mode="sync">
             {folders.map((f, index) => (
               <FolderItem

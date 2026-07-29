@@ -188,7 +188,7 @@ const TaskComponent = ({ task, index, onEdit, onComplete, onEnterKeyPress, ref }
   );
 };
 
-export const TasksWidget = memo(function TasksWidget({ config, instanceId }: WidgetRenderProps<TaskWidgetConfig>) {
+export const TasksWidget = memo(function TasksWidget({ config }: WidgetRenderProps<TaskWidgetConfig>) {
   const addTask = () => {
     const id = guid();
     trackInteraction("Add task");
@@ -227,7 +227,7 @@ export const TasksWidget = memo(function TasksWidget({ config, instanceId }: Wid
         <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} onClick={addTask} />
       </div>
       <ScrollArea fill style={{ display: tasks.length === 0 ? "none" : "flex" }}>
-        <ReorderableList group={`tasks-${instanceId}`} values={tasks} onReorder={setTasks} className={tasksList}>
+        <ReorderableList values={tasks} onReorder={setTasks} className={tasksList}>
           <AnimatePresence initial={false}>
             {tasks.map((t, index) => {
               return (

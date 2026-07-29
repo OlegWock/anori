@@ -11,6 +11,7 @@ import {
   type Ref,
   type RefObject,
   useContext,
+  useId,
   useMemo,
   useRef,
 } from "react";
@@ -28,9 +29,6 @@ type ReorderableListContextValue = {
 const ReorderableListContext = createContext<ReorderableListContextValue | null>(null);
 
 type ReorderableListProps<T extends { id: string | number }> = {
-  // Unique per list; also used as the sortable type so items of different lists (and other drag
-  // sources sharing the app-wide DragDropProvider) can't interact.
-  group: string;
   values: T[];
   onReorder: (values: T[]) => void;
   className?: string;
@@ -38,12 +36,14 @@ type ReorderableListProps<T extends { id: string | number }> = {
 };
 
 export function ReorderableList<T extends { id: string | number }>({
-  group,
   values,
   onReorder,
   className,
   children,
 }: ReorderableListProps<T>) {
+  // Doubles as the sortable type so items of different lists (and other drag sources sharing the
+  // app-wide DragDropProvider) can't interact.
+  const group = useId();
   const containerRef = useRef<HTMLUListElement>(null);
 
   useDragDropMonitor({
@@ -93,9 +93,6 @@ export const ReorderableItem = ({ id, index, children, ref, className, ...motion
     handleRef,
     isDragging,
   } = useSortable({
-    // Namespaced: sortables register as draggable AND droppable, and a bare id (e.g. a folder id)
-    // can collide with unrelated droppables in the shared provider (e.g. sidebar folder targets),
-    // making them light up as drop targets by identifier equality.
     id: `${context?.group}:${id}`,
     index,
     group: context?.group,
