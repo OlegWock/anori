@@ -51,6 +51,10 @@
             "title": "Widget nedostupný",
             "description": "Tento typ widgetu není v tomto prohlížeči dostupný. Zůstává na ostatních synchronizovaných prohlížečích a zde ho stále můžete přesunout, změnit velikost nebo odebrat."
         },
+        "widgetRenderError": {
+            "title": "Jejda",
+            "description": "Widget se nepodařilo vykreslit, podrobnosti najdete v konzoli."
+        },
         "cloud": {
             "connect": "Připojit",
             "connected": "Připojeno",

@@ -51,6 +51,10 @@
             "title": "Widget không khả dụng",
             "description": "Loại widget này không khả dụng trên trình duyệt này. Nó vẫn còn trên các trình duyệt đồng bộ khác của bạn, và bạn vẫn có thể di chuyển, thay đổi kích thước hoặc xóa nó tại đây."
         },
+        "widgetRenderError": {
+            "title": "Ối",
+            "description": "Widget không thể hiển thị, kiểm tra console để biết thêm chi tiết."
+        },
         "cloud": {
             "connect": "Kết nối",
             "connected": "Đã kết nối",

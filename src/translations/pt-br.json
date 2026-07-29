@@ -51,6 +51,10 @@
             "title": "Widget indisponível",
             "description": "Este tipo de widget não está disponível neste navegador. Ele permanece nos seus outros navegadores sincronizados, e você ainda pode movê-lo, redimensioná-lo ou removê-lo aqui."
         },
+        "widgetRenderError": {
+            "title": "Ops",
+            "description": "O widget falhou ao renderizar, verifique o console para mais detalhes."
+        },
         "cloud": {
             "connect": "Conectar",
             "connected": "Conectado",

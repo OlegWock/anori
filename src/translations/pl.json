@@ -51,6 +51,10 @@
             "title": "Widget niedostępny",
             "description": "Ten typ widgetu nie jest dostępny w tej przeglądarce. Pozostaje on w innych zsynchronizowanych przeglądarkach, a tutaj nadal możesz go przenosić, zmieniać rozmiar lub usuwać."
         },
+        "widgetRenderError": {
+            "title": "Ups",
+            "description": "Widżet nie mógł zostać wyrenderowany, sprawdź konsolę po szczegóły."
+        },
         "cloud": {
             "connect": "Połącz",
             "connected": "Połączono",
