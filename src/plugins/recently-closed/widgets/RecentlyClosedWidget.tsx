@@ -24,7 +24,7 @@ const sessionRow = css({
   cursor: "pointer",
   transition: "0.15s ease-in-out",
   borderRadius: "md",
-  "& svg": { minWidth: "18px", maxWidth: "18px" },
+  _nestedSvgIcon: { minWidth: "18px", maxWidth: "18px" },
   "@media (any-hover: hover)": { "&:hover": { background: "ghost.hover" } },
 });
 const favIconImg = css({ width: "18px", borderRadius: "md" });

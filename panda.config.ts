@@ -21,6 +21,7 @@ export default defineConfig({
   conditions: {
     extend: {
       compact: ".compact-mode-active &",
+      nestedSvgIcon: "& :where(svg, [data-anori-svg-icon])",
     },
   },
 

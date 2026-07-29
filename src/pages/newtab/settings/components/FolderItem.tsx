@@ -42,7 +42,7 @@ const nameText = css({
   paddingInline: "2",
 });
 const slot = css({ width: "2.25rem", flexShrink: 0 });
-const deleteIcon = css({ "& svg": { height: "1.2em!" } });
+const deleteIcon = css({ _nestedSvgIcon: { height: "1.2em!" } });
 
 export const FOLDER_NAME_INPUT_ATTR = "data-folder-name-input";
 

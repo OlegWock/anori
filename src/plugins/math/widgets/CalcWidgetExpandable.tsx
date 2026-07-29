@@ -20,7 +20,7 @@ const expandTrigger = css({
   alignSelf: "stretch",
   cursor: "pointer",
   textAlign: "start",
-  "& svg": { color: "icon.subtle" },
+  _nestedSvgIcon: { color: "icon.subtle" },
 });
 
 export const CalcWidgetExpandable = memo(function CalcWidgetExpandable(_props: WidgetRenderProps<EmptyObject>) {

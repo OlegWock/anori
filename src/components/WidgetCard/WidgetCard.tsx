@@ -90,7 +90,7 @@ const control = cva({
         right: "-14px",
         cursor: "grab!",
         touchAction: "none",
-        "& svg": { transform: "rotate(90deg)" },
+        _nestedSvgIcon: { transform: "rotate(90deg)" },
         _compact: { bottom: "-8px", right: "-4px" },
       },
     },

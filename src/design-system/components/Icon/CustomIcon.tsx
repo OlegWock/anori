@@ -25,7 +25,7 @@ export const CustomIcon = ({ icon, className, style = {}, cache = true, ref, ...
       <SvgIconRenderer
         icon={`custom:${icon}`}
         src={customIconInfo.objectUrl}
-        ref={ref as Ref<SVGSVGElement>}
+        ref={ref}
         cache={cache}
         {...iconEnter}
         {...props}

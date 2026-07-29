@@ -42,7 +42,7 @@ const navigationButtons = css({
   display: "flex",
   alignItems: "center",
   marginTop: "4",
-  "& svg": { color: "icon" },
+  _nestedSvgIcon: { color: "icon" },
 });
 const spacer = css({ flexGrow: 1 });
 

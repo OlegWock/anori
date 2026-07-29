@@ -21,7 +21,7 @@ export type BaseIconProps = {
   height?: number | string;
   size?: IconSize;
   className?: string;
-  ref?: Ref<SVGSVGElement>;
+  ref?: Ref<HTMLElement>;
 } & IconMotionProps;
 
 export type IconRenderProps = { icon: string; cache?: boolean } & Omit<BaseIconProps, "size">;

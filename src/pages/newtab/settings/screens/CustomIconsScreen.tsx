@@ -56,7 +56,7 @@ const draftName = css({
 const draftNameInput = css({ minWidth: "0!", fontSize: "sm!" });
 const draftNameError = css({ color: "text.subtle", fontSize: "xs", paddingInline: "4" });
 const draftActions = css({ display: "flex", justifyContent: "flex-end", gap: "3" });
-const deleteIcon = css({ "& svg": { height: "1.2em!" } });
+const deleteIcon = css({ _nestedSvgIcon: { height: "1.2em!" } });
 
 type DraftCustomIcon = {
   id: string;

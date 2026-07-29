@@ -3,14 +3,39 @@ import { useAsyncLayoutEffect } from "@anori/utils/hooks";
 import { iife } from "@anori/utils/misc";
 import { combineRefs } from "@anori/utils/react";
 import { m } from "motion/react";
-import { type ComponentPropsWithRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { type ComponentPropsWithRef, type Ref, useLayoutEffect, useMemo, useRef, useState } from "react";
+
+export const SVG_ICON_HOST_ATTR = "data-anori-svg-icon";
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+const shadowSvgStyle = `
+  :host {
+    display: inline-block;
+    color: inherit;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+  }
+`;
+
+type MotionSvgProps = ComponentPropsWithRef<typeof m.svg>;
+type MotionSpanProps = ComponentPropsWithRef<typeof m.span>;
 
 type SvgIconRenderedProps = {
   icon: string;
   src?: string;
   svgText?: string;
   cache?: boolean;
-} & ComponentPropsWithRef<typeof m.svg>;
+  width?: number | string;
+  height?: number | string;
+  style?: MotionSpanProps["style"];
+  ref?: Ref<HTMLElement>;
+} & Omit<MotionSvgProps, "children" | "ref" | "width" | "height" | "style">;
 
 export const SvgIconRenderer = ({
   icon,
@@ -42,35 +67,30 @@ export const SvgIconRenderer = ({
   const [asyncDescriptor, setAsyncDescriptor] = useState<SvgIconCacheDescriptor | null>(null);
   const descriptor = syncDescriptor ?? asyncDescriptor;
   const aspectRatio = descriptor?.aspectRatio.toString();
-  const viewBox = descriptor?.viewbox;
 
   const iconCacheDescriptorRef = useRef<SvgIconCacheDescriptor | null>(null);
   iconCacheDescriptorRef.current = descriptor;
-  const svgElementRef = useRef<SVGSVGElement>(null);
+  const svgHostRef = useRef<HTMLSpanElement>(null);
 
-  const patchSvgRef = (root: SVGSVGElement | null) => {
-    if (root && iconCacheDescriptorRef.current) {
-      if (cache) root.replaceChildren(...iconCacheDescriptorRef.current.nodes.map((n) => n.cloneNode(true)));
-      else root.replaceChildren(...iconCacheDescriptorRef.current.nodes);
-      for (const [name, value] of Object.entries(iconCacheDescriptorRef.current.rootAttributes)) {
-        root.setAttribute(name, value);
-      }
+  const patchSvgHostRef = (host: HTMLSpanElement | null) => {
+    if (host && iconCacheDescriptorRef.current) {
+      const shadowRoot = host.shadowRoot ?? host.attachShadow({ mode: "open" });
+      renderSvgIntoShadowRoot(shadowRoot, iconCacheDescriptorRef.current, cache);
       // TODO: for some reason aspectRatio is not applied by Motion when passed as field of `style`
       // so we set it manually. Might get resolved on itself after Motion update
-      root.style.aspectRatio = iconCacheDescriptorRef.current.aspectRatio.toString();
+      host.style.aspectRatio = iconCacheDescriptorRef.current.aspectRatio.toString();
     }
   };
 
-  const mergedRef = combineRefs(ref, svgElementRef, patchSvgRef);
+  const mergedRef = combineRefs<HTMLSpanElement>(ref as Ref<HTMLSpanElement>, svgHostRef, patchSvgHostRef);
 
-  // The callback ref only patches the children when it (re)attaches — i.e. on mount. When the same <svg>
-  // instance is reused for a different icon (e.g. a bookmark icon swapped for the loading spinner, both
-  // going through this renderer), the reactive attributes (viewBox, class) update but the imperatively
-  // injected children would stay stale, leaving the old icon's paths under the new viewBox. Re-inject
-  // whenever the resolved descriptor changes.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: patchSvgRef is recreated every render and reads the descriptor via a ref
+  // The callback ref only patches the shadow tree when it (re)attaches — i.e. on mount. When the same
+  // host instance is reused for a different icon (e.g. a bookmark icon swapped for the loading spinner),
+  // the reactive attributes update but the imperatively injected shadow contents would stay stale.
+  // Re-inject whenever the resolved descriptor changes.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: patchSvgHostRef is recreated every render and reads the descriptor via a ref
   useLayoutEffect(() => {
-    if (svgElementRef.current) patchSvgRef(svgElementRef.current);
+    if (svgHostRef.current) patchSvgHostRef(svgHostRef.current);
   }, [descriptor]);
 
   useAsyncLayoutEffect(async () => {
@@ -105,7 +125,7 @@ export const SvgIconRenderer = ({
 
     iconCacheDescriptorRef.current = iconInfo;
     setAsyncDescriptor(iconInfo);
-    if (svgElementRef.current) patchSvgRef(svgElementRef.current);
+    if (svgHostRef.current) patchSvgHostRef(svgHostRef.current);
   }, [icon]);
 
   const borderRadius =
@@ -120,34 +140,51 @@ export const SvgIconRenderer = ({
       return 24;
     }) / 5;
 
-  useEffect(() => {
-    // TODO: for some reason borderRadius is not applied by Motion when passed as field of `style`
-    // so we set it manually. Might get resolved on itself after Motion update
-    if (svgElementRef.current) {
-      svgElementRef.current.style.borderRadius = `${borderRadius.toString()}px`;
-    }
-  });
-
   const finalWidth = width || (height ? undefined : "1rem");
   const finalHeight = height || (width ? undefined : "1rem");
+  const hasAccessibleName = Boolean(props["aria-label"] || props["aria-labelledby"]);
+  const explicitRole = typeof props.role === "string" ? props.role : undefined;
+  const hostProps = props as Omit<MotionSpanProps, "children" | "ref" | "width" | "height" | "style">;
 
   return (
-    <m.svg
-      {...props}
+    <m.span
+      {...hostProps}
+      {...{ [SVG_ICON_HOST_ATTR]: "" }}
+      role={explicitRole ?? (hasAccessibleName ? "img" : undefined)}
       style={{
         aspectRatio,
         borderRadius,
+        overflow: "hidden",
+        width: finalWidth,
+        height: finalHeight,
         ...style,
       }}
-      width={finalWidth}
-      height={finalHeight}
-      viewBox={viewBox}
       ref={mergedRef}
     />
   );
 };
 
 export const globalSvgIconsCache: Map<string, SvgIconCacheDescriptor | Promise<SvgIconCacheDescriptor>> = new Map();
+
+function renderSvgIntoShadowRoot(shadowRoot: ShadowRoot, descriptor: SvgIconCacheDescriptor, cache: boolean) {
+  const style = document.createElement("style");
+  style.textContent = shadowSvgStyle;
+
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.setAttribute("viewBox", descriptor.viewbox);
+  svg.setAttribute("width", "100%");
+  svg.setAttribute("height", "100%");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("focusable", "false");
+
+  for (const [name, value] of Object.entries(descriptor.rootAttributes)) {
+    svg.setAttribute(name, value);
+  }
+
+  const nodes = cache ? descriptor.nodes.map((n) => n.cloneNode(true)) : descriptor.nodes;
+  svg.replaceChildren(...nodes);
+  shadowRoot.replaceChildren(style, svg);
+}
 
 function parseSvgToIconInfo(svgText: string): SvgIconCacheDescriptor | null {
   const div = document.createElement("div");
