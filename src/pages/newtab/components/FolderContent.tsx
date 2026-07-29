@@ -5,7 +5,7 @@ import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/type
 import { m } from "motion/react";
 import type { CSSProperties, Ref } from "react";
 import { css, cx } from "styled-system/css";
-import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid";
+import { type LayoutChange, WidgetsGrid } from "./WidgetsGrid/WidgetsGrid";
 
 type FolderContentProps = {
   folder: Folder;
