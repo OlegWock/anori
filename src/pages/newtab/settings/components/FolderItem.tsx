@@ -48,14 +48,12 @@ export const FOLDER_NAME_INPUT_ATTR = "data-folder-name-input";
 
 export const FolderItem = ({
   folder,
-  index = 0,
   editable = false,
   onRemove,
   onNameChange,
   onIconChange,
 }: {
   folder: Folder;
-  index?: number;
   editable?: boolean;
   onNameChange?: (newName: string) => void;
   onIconChange?: (newIcon: string) => void;
@@ -79,8 +77,7 @@ export const FolderItem = ({
 
   return (
     <ReorderableItem
-      id={folder.id}
-      index={index}
+      value={folder}
       className={row}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1, transition: { duration: 0.12 } }}

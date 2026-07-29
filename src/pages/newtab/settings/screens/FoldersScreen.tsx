@@ -43,13 +43,12 @@ export const FoldersScreen = (props: ComponentProps<typeof m.div>) => {
 
       <div className={list}>
         <FolderItem folder={homeFolder} />
-        <ReorderableList values={folders} onReorder={setFolders} className={list}>
+        <ReorderableList values={folders} getValueKey={(folder) => folder.id} onReorder={setFolders} className={list}>
           <AnimatePresence initial={false} mode="sync">
-            {folders.map((f, index) => (
+            {folders.map((f) => (
               <FolderItem
                 key={f.id}
                 folder={f}
-                index={index}
                 editable
                 onNameChange={(name) => updateFolder(f.id, { name })}
                 onIconChange={(icon) => updateFolder(f.id, { icon })}

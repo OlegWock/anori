@@ -24,23 +24,21 @@ const itemReset = css({ listStyle: "none" });
 type ReorderableListContextValue = {
   group: string;
   containerRef: RefObject<HTMLUListElement | null>;
+  keys: (string | number)[];
+  getValueKey: (value: unknown) => string | number;
 };
 
 const ReorderableListContext = createContext<ReorderableListContextValue | null>(null);
 
-type ReorderableListProps<T extends { id: string | number }> = {
+type ReorderableListProps<T> = {
   values: T[];
+  getValueKey: (value: T) => string | number;
   onReorder: (values: T[]) => void;
   className?: string;
   children: ReactNode;
 };
 
-export function ReorderableList<T extends { id: string | number }>({
-  values,
-  onReorder,
-  className,
-  children,
-}: ReorderableListProps<T>) {
+export function ReorderableList<T>({ values, getValueKey, onReorder, className, children }: ReorderableListProps<T>) {
   // Doubles as the sortable type so items of different lists (and other drag sources sharing the
   // app-wide DragDropProvider) can't interact.
   const group = useId();
@@ -51,13 +49,17 @@ export function ReorderableList<T extends { id: string | number }>({
       const { source } = event.operation;
       if (event.canceled || !source || !isSortable(source)) return;
       if (source.group !== group && source.initialGroup !== group) return;
-      const wrapped = values.map((value) => ({ id: `${group}:${value.id}`, value }));
+      const wrapped = values.map((value) => ({ id: `${group}:${getValueKey(value)}`, value }));
       const next = move(wrapped, event);
       if (next !== wrapped) onReorder(next.map((entry) => entry.value));
     },
   });
 
-  const contextValue = useMemo(() => ({ group, containerRef }), [group]);
+  const keys = useMemo(() => values.map(getValueKey), [values, getValueKey]);
+  const contextValue = useMemo(
+    () => ({ group, containerRef, keys, getValueKey: getValueKey as (value: unknown) => string | number }),
+    [group, keys, getValueKey],
+  );
 
   return (
     <ReorderableListContext.Provider value={contextValue}>
@@ -74,12 +76,11 @@ export type ReorderableItemRenderProps = {
 };
 
 type ReorderableItemProps = {
-  id: string | number;
-  index: number;
+  value: unknown;
   children: ReactNode | ((props: ReorderableItemRenderProps) => ReactNode);
-} & Omit<ComponentProps<typeof m.li>, "children" | "id">;
+} & Omit<ComponentProps<typeof m.li>, "children" | "id" | "value">;
 
-export const ReorderableItem = ({ id, index, children, ref, className, ...motionProps }: ReorderableItemProps) => {
+export const ReorderableItem = ({ value, children, ref, className, ...motionProps }: ReorderableItemProps) => {
   const context = useContext(ReorderableListContext);
   const modifiers = useMemo(
     () => [
@@ -88,12 +89,17 @@ export const ReorderableItem = ({ id, index, children, ref, className, ...motion
     ],
     [context],
   );
+  const key = context?.getValueKey(value);
+  const currentIndex = key === undefined ? -1 : (context?.keys.indexOf(key) ?? -1);
+  const lastKnownIndex = useRef(currentIndex === -1 ? 0 : currentIndex);
+  if (currentIndex !== -1) lastKnownIndex.current = currentIndex;
+  const index = lastKnownIndex.current;
   const {
     ref: sortableRef,
     handleRef,
     isDragging,
   } = useSortable({
-    id: `${context?.group}:${id}`,
+    id: `${context?.group}:${key}`,
     index,
     group: context?.group,
     type: context?.group ?? "reorderable-item",

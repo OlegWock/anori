@@ -98,14 +98,13 @@ const Scribble = ({ progress }: { progress: MotionValue<number> }) => {
 
 type TaskComponentProps = {
   task: Task;
-  index: number;
   onEdit: (newText: string) => void;
   onComplete: () => void;
   onEnterKeyPress: () => void;
   ref?: Ref<HTMLLIElement>;
 };
 
-const TaskComponent = ({ task, index, onEdit, onComplete, onEnterKeyPress, ref }: TaskComponentProps) => {
+const TaskComponent = ({ task, onEdit, onComplete, onEnterKeyPress, ref }: TaskComponentProps) => {
   const onCheckboxChange = (checked: boolean) => {
     setChecked(checked);
     if (checked) {
@@ -135,8 +134,7 @@ const TaskComponent = ({ task, index, onEdit, onComplete, onEnterKeyPress, ref }
   return (
     <ReorderableItem
       key={task.id}
-      id={task.id}
-      index={index}
+      value={task}
       className={taskRow}
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -227,13 +225,12 @@ export const TasksWidget = memo(function TasksWidget({ config }: WidgetRenderPro
         <IconButton variant="ghost" icon={builtinIcons.add} label={t("add")} onClick={addTask} />
       </div>
       <ScrollArea fill style={{ display: tasks.length === 0 ? "none" : "flex" }}>
-        <ReorderableList values={tasks} onReorder={setTasks} className={tasksList}>
+        <ReorderableList values={tasks} getValueKey={(task) => task.id} onReorder={setTasks} className={tasksList}>
           <AnimatePresence initial={false}>
-            {tasks.map((t, index) => {
+            {tasks.map((t) => {
               return (
                 <TaskComponent
                   task={t}
-                  index={index}
                   key={t.id}
                   onComplete={() => completeTask(t.id)}
                   onEdit={(v) => editTask(t.id, v)}
