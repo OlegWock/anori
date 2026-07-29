@@ -5,10 +5,9 @@
 
 * Add widgets to homepage and organize them however you want
 * Use bookmarks, calendar, todo, notes and other useful widgets
-* Organize them in folders
-* Choose from 8 different color schemes and backgrounds
+* Organize packs of widgets in folders
+* Choose from 8 different color schemes and backgrounds or create your own
 * Supports Chrome and Firefox
-* Easily extend app with your own widgets
 
 <details>
     <summary>Screenshot</summary>
@@ -20,19 +19,19 @@
     <summary>Widgets list</summary>
 
 * Bookmarks & bookmark groups
+* Embedded page
 * World time
-* Weather
+* RSS reader
 * Notes
 * Tasks
 * Calculator
-* Embedded page
-* RSS reader
+* Weather
 * Calendar
-* Anori integration
-* Pictures
-* Recently closed tabs (only Chrome & Firefox)
-* Top sites (only Chrome & Firefox)
+* Recently closed tabs
+* Top sites
 * CPU and RAM load (only Chrome)
+* Pictures
+* Anki integration
 </details>
 
 # Installation
@@ -50,7 +49,7 @@ Currently, only pull requests for bug fixes and translations are accepted. If yo
 
 # Building from sources
 
-Use the Node version in `.nvmrc` (via [mise](https://mise.jdx.dev/), [nvm](https://github.com/nvm-sh/nvm), or [fnm](https://github.com/Schniz/fnm)) and [pnpm](https://pnpm.io/) as the package manager — its version is pinned in the `packageManager` field. Install pnpm with your version manager (e.g. `mise use -g pnpm`) or the [standalone script](https://pnpm.io/installation#using-a-standalone-script); recent Node releases no longer bundle Corepack.
+Use the Node version in `.nvmrc` (via [mise](https://mise.jdx.dev/) or [nvm](https://github.com/nvm-sh/nvm)) and [pnpm](https://pnpm.io/) as the package manager (exact version can be found in the `packageManager` field in package.json).
 
 To build extension from sources, you need, first of all, install dependencies:
 
