@@ -79,10 +79,10 @@ type Rect = { x: number; y: number; width: number; height: number };
 //   1. Block trade — the widgets under the target slide as one rigid block into the vacated space.
 //   2. Corridor rotation (single-axis drags) — everything along the travel path shifts one step
 //      toward the origin, list-reorder style.
-//   3. Push cascade — each overlapped widget steps aside to a free spot next to its pusher, falls
-//      back to the vacated origin cell if it's a short hop, or gets shoved down/right (transitively,
-//      possibly growing the grid). Resize always resolves here: with no travel delta both pre-passes
-//      are skipped.
+//   3. Push sweep — everything overlapping the target is pushed straight down (or right, when a
+//      resize grows the widget horizontally), and whatever they land on is pushed further the same
+//      way, preserving the widgets' relative order and possibly growing the grid. Gaps left behind
+//      are not backfilled.
 // Works on a copy of the layout and returns the moves to preview/commit; null means it failed to
 // settle and the gesture has no valid preview.
 const computeDisplacedMoves = (
@@ -90,6 +90,7 @@ const computeDisplacedMoves = (
   layout: WidgetInFolderWithMeta[],
   item: WidgetInFolderWithMeta,
   position: GridPosition,
+  pushDirection: "down" | "right" = "down",
 ): WidgetMove[] | null => {
   const rects = new Map<string, Rect>();
   for (const w of layout) {
@@ -181,101 +182,30 @@ const computeDisplacedMoves = (
     }
   }
 
-  const overlapsAnythingAt = (candidate: Rect, exceptId: string) => {
-    for (const [id, rect] of rects) {
-      if (id !== exceptId && rectsOverlap(candidate, rect)) return true;
-    }
-    return false;
-  };
-
-  const isFreeSpot = (id: string, rect: Rect, c: GridPosition) => {
-    if (c.x < 0 || c.y < 0) return false;
-    if (c.x + rect.width > gridDimensions.columns || c.y + rect.height > gridDimensions.rows) return false;
-    return !overlapsAnythingAt({ x: c.x, y: c.y, width: rect.width, height: rect.height }, id);
-  };
-
-  const nearest = (rect: Rect, list: GridPosition[]): { position: GridPosition; distance: number } | null => {
-    let best: { position: GridPosition; distance: number } | null = null;
-    for (const c of list) {
-      const distance = Math.hypot(c.x - rect.x, c.y - rect.y);
-      if (!best || distance < best.distance) best = { position: c, distance };
-    }
-    return best;
-  };
-
-  // A displaced widget escapes to a free spot beside the pusher, preferring the side it already sits
-  // on (so a widget being squeezed rightward keeps sliding right while room remains) over other free
-  // sides. The cell the dragged widget vacated is a fallback that competes with pushing by distance.
-  const findAdjacentFreeSpot = (id: string, rect: Rect, pusher: Rect): GridPosition | null => {
-    const widgetCx = rect.x + rect.width / 2;
-    const widgetCy = rect.y + rect.height / 2;
-    const pusherCx = pusher.x + pusher.width / 2;
-    const pusherCy = pusher.y + pusher.height / 2;
-    const directional = [
-      { pos: { x: pusher.x + pusher.width, y: rect.y }, preferred: widgetCx >= pusherCx },
-      { pos: { x: pusher.x - rect.width, y: rect.y }, preferred: widgetCx <= pusherCx },
-      { pos: { x: rect.x, y: pusher.y + pusher.height }, preferred: widgetCy >= pusherCy },
-      { pos: { x: rect.x, y: pusher.y - rect.height }, preferred: widgetCy <= pusherCy },
-    ].filter((c) => isFreeSpot(id, rect, c.pos));
-    const preferred = nearest(
-      rect,
-      directional.filter((c) => c.preferred).map((c) => c.pos),
-    );
-    if (preferred) return preferred.position;
-    const other = nearest(
-      rect,
-      directional.filter((c) => !c.preferred).map((c) => c.pos),
-    );
-    return other ? other.position : null;
-  };
-
-  const queue = [item.instanceId];
-  let guard = 0;
-  while (queue.length > 0) {
-    if (++guard > 200) return null;
-    const pusherId = queue.shift() as string;
-    const pusher = rects.get(pusherId) as Rect;
-    const collided = [...rects.entries()]
-      .filter(([id, rect]) => id !== pusherId && id !== item.instanceId && rectsOverlap(rect, pusher))
-      .sort(([, a], [, b]) => b.y - a.y || b.x - a.x);
-
-    for (const [id, rect] of collided) {
-      if (!rectsOverlap(rect, pusher)) continue;
-
-      const adjacentFree = findAdjacentFreeSpot(id, rect, pusher);
-      if (adjacentFree) {
-        rects.set(id, { ...rect, x: adjacentFree.x, y: adjacentFree.y });
-        continue;
+  // Widgets are processed in reading order along the push direction, each one settling below (or
+  // right of) everything already settled that it overlaps — so a pushed widget pushes the ones
+  // after it, and relative order along the axis is preserved.
+  const targetRect: Rect = { x: position.x, y: position.y, width: item.width, height: item.height };
+  const placed: Rect[] = [targetRect];
+  const sorted = layout
+    .filter((w) => w.instanceId !== item.instanceId)
+    .sort((a, b) => (pushDirection === "right" ? a.x - b.x || a.y - b.y : a.y - b.y || a.x - b.x));
+  for (const w of sorted) {
+    const rect = rects.get(w.instanceId) as Rect;
+    let guard = 0;
+    let overlapping = true;
+    while (overlapping) {
+      if (++guard > 200) return null;
+      overlapping = false;
+      for (const p of placed) {
+        if (rectsOverlap(rect, p)) {
+          if (pushDirection === "right") rect.x = p.x + p.width;
+          else rect.y = p.y + p.height;
+          overlapping = true;
+        }
       }
-
-      const down: Rect = { ...rect, y: pusher.y + pusher.height };
-      const right: Rect = { ...rect, x: pusher.x + pusher.width };
-      // A push may not eject a widget across the pusher to its far side: each direction is eligible
-      // only when the widget's center is already on that side of the pusher's center. Neither side
-      // (engulfed near the top-left corner) defaults to down.
-      const downAllowed = rect.y + rect.height / 2 >= pusher.y + pusher.height / 2;
-      const rightAllowed = rect.x + rect.width / 2 >= pusher.x + pusher.width / 2;
-      let pushNext: Rect;
-      if (downAllowed && rightAllowed) {
-        pushNext = down.y - rect.y <= right.x - rect.x ? down : right;
-      } else if (rightAllowed) {
-        pushNext = right;
-      } else {
-        pushNext = down;
-      }
-      const pushDistance = Math.hypot(pushNext.x - rect.x, pushNext.y - rect.y);
-
-      // The vacated cell is a swap-with-neighbor escape, not a teleport: only worth taking when it's
-      // both nearby and no farther than the push would move the widget.
-      const origin: GridPosition = { x: item.x, y: item.y };
-      const originDistance = Math.hypot(origin.x - rect.x, origin.y - rect.y);
-      if (isFreeSpot(id, rect, origin) && originDistance <= 2 && originDistance <= pushDistance) {
-        rects.set(id, { ...rect, x: origin.x, y: origin.y });
-        continue;
-      }
-      rects.set(id, pushNext);
-      queue.push(id);
     }
+    placed.push(rect);
   }
 
   const moves: WidgetMove[] = [];
@@ -288,6 +218,9 @@ const computeDisplacedMoves = (
   }
   return moves;
 };
+
+const resizePushDirection = (oldSize: GridItemSize, newSize: GridItemSize): "down" | "right" =>
+  newSize.width > oldSize.width && newSize.height <= oldSize.height ? "right" : "down";
 
 const samePosition = (a: GridPosition, b: GridPosition) => a.x === b.x && a.y === b.y;
 const samePreview = (a: DragPreview, b: DragPreview) =>
@@ -437,6 +370,7 @@ export const WidgetsGrid = memo(function WidgetsGrid({
       layout,
       { ...widget, width: widthInBoxes, height: heightInBoxes },
       { x: widget.x, y: widget.y },
+      resizePushDirection(widget, { width: widthInBoxes, height: heightInBoxes }),
     );
     if (!moves) return false;
     onLayoutUpdate([
@@ -473,6 +407,7 @@ export const WidgetsGrid = memo(function WidgetsGrid({
           layout,
           { ...resizeItem, width: resizePreview.width, height: resizePreview.height },
           { x: resizeItem.x, y: resizeItem.y },
+          resizePushDirection(resizeItem, resizePreview),
         )
       : null;
 
