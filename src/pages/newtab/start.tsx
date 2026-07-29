@@ -3,6 +3,7 @@ import { mountPage } from "@anori/utils/react";
 import "../../panda.css";
 import "./globals.css";
 import { performSync } from "@anori/cloud-integration/sync-manager";
+import { AppDragDropProvider } from "@anori/components/AppDragDropProvider/AppDragDropProvider";
 import { BookmarksBar } from "@anori/components/BookmarksBar/BookmarksBar";
 import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { languageDirections } from "@anori/translations/metadata";
@@ -10,7 +11,6 @@ import { initTranslation } from "@anori/translations/utils";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
-import type { WidgetDragData } from "@anori/utils/dnd";
 import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
 import { OverlayLayersProvider } from "@anori/utils/overlay-layers";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
@@ -20,12 +20,9 @@ import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import type { Folder } from "@anori/utils/user-data/types";
-import { Feedback } from "@dnd-kit/dom";
-import { DragDropProvider } from "@dnd-kit/react";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import { AnimatePresence, domMax, LazyMotion, MotionConfig, m } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { flushSync } from "react-dom";
 import { css } from "styled-system/css";
 import { Workspace } from "./components/Workspace/Workspace";
 import { scheduleLazyComponentsPreload } from "./lazy-components";
@@ -123,22 +120,7 @@ const Start = () => {
     <DirectionProvider dir={dir}>
       <MotionConfig transition={{ duration: 0.2, ease: "easeInOut" }}>
         <TooltipProvider delay={200} closeDelay={100} timeout={0}>
-          <DragDropProvider
-            plugins={(defaults) => [
-              ...defaults,
-              Feedback.configure({ dropAnimation: { duration: 150, easing: "ease-out" } }),
-            ]}
-            onDragEnd={(event) => {
-              const { source, target } = event.operation;
-              if (!source || source.type !== "widget" || event.canceled) return;
-              if (target?.type !== "folder") return;
-              const data = source.data as WidgetDragData | undefined;
-              if (!data) return;
-              flushSync(() => {
-                data.onDropToFolder(String(target.id));
-              });
-            }}
-          >
+          <AppDragDropProvider>
             <AnimatePresence>
               <m.div className={startPage} key="start-page">
                 {showBookmarksBar && <BookmarksBar />}
@@ -152,7 +134,7 @@ const Start = () => {
                 />
               </m.div>
             </AnimatePresence>
-          </DragDropProvider>
+          </AppDragDropProvider>
         </TooltipProvider>
       </MotionConfig>
     </DirectionProvider>
