@@ -1,61 +1,27 @@
-import { Heading } from "@anori/design-system/components/Heading/Heading";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { useSizeSettings } from "@anori/utils/compact";
 import { useWidgetDragActive, type WidgetDragData } from "@anori/utils/dnd";
 import { useParentFolder } from "@anori/utils/FolderContentContext";
 import type { GridItemSize, GridPosition } from "@anori/utils/grid/types";
-import { GRID_DRAG_EXTEND_SLOTS, positionToPixelPosition } from "@anori/utils/grid/utils";
-import { useMirrorStateToRef, useOnChangeLayoutEffect } from "@anori/utils/hooks";
-import { minmax } from "@anori/utils/misc";
-import { useDerivedMotionValue } from "@anori/utils/motion/derived-motion.value";
+import { positionToPixelPosition } from "@anori/utils/grid/utils";
 import { usePluginConfigValue } from "@anori/utils/plugins/define";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
 import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/utils/plugins/widget";
 import type { Mapping } from "@anori/utils/types";
 import { useDraggable } from "@dnd-kit/react";
-import { m, useMotionValue } from "motion/react";
-import {
-  Component,
-  type ComponentProps,
-  type ReactNode,
-  type PointerEvent as ReactPointerEvent,
-  type Ref,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { m } from "motion/react";
+import { type ComponentProps, type Ref, useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { mergeRefs } from "react-merge-refs";
 import { css, cva, cx } from "styled-system/css";
 import { WidgetCardContext } from "./context";
+import { useWidgetResize } from "./use-widget-resize";
+import { WidgetErrorBoundary, WidgetRenderError } from "./WidgetErrorBoundary";
 
 const EMPTY_CONFIG: Mapping = {};
 
 const positionSpring = { type: "spring", duration: 0.25, bounce: 0.1 } as const;
-
-const AUTOSCROLL_ZONE_PX = 80;
-const AUTOSCROLL_MAX_SPEED_PX_PER_FRAME = 12;
-
-const autoscrollVelocity = (pos: number, start: number, end: number) => {
-  if (pos < start + AUTOSCROLL_ZONE_PX) {
-    return -AUTOSCROLL_MAX_SPEED_PX_PER_FRAME * minmax((start + AUTOSCROLL_ZONE_PX - pos) / AUTOSCROLL_ZONE_PX, 0, 1);
-  }
-  if (pos > end - AUTOSCROLL_ZONE_PX) {
-    return AUTOSCROLL_MAX_SPEED_PX_PER_FRAME * minmax((pos - (end - AUTOSCROLL_ZONE_PX)) / AUTOSCROLL_ZONE_PX, 0, 1);
-  }
-  return 0;
-};
-
-const findScrollContainer = (el: HTMLElement | null): HTMLElement | null => {
-  for (let node = el?.parentElement ?? null; node; node = node.parentElement) {
-    const { overflowX, overflowY } = getComputedStyle(node);
-    if (/auto|scroll/.test(overflowX + overflowY)) return node;
-  }
-  return null;
-};
 
 const cardCss = css({
   position: "relative",
@@ -105,7 +71,6 @@ const overflowProtectionCss = css({
   textOverflow: "ellipsis",
 });
 const interactionBlockerCss = css({ position: "absolute", inset: 0 });
-const errorDescriptionCss = css({ marginTop: "3" });
 
 const control = cva({
   base: { position: "absolute", zIndex: 1, boxShadow: "raised" },
@@ -131,37 +96,6 @@ const control = cva({
     },
   },
 });
-
-const WidgetRenderError = () => (
-  <>
-    <Heading>Oops</Heading>
-    <div className={errorDescriptionCss}>Widget failed to render, check console for details.</div>
-  </>
-);
-
-class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
-  constructor(props: { children: ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: unknown) {
-    console.error("Error happened inside widget");
-    console.error(error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <WidgetRenderError />;
-    }
-
-    return this.props.children;
-  }
-}
 
 type WidgetCardProps = {
   widget: SomeWidget;
@@ -220,144 +154,22 @@ export const WidgetCard = ({
   dragSnapPosition,
   ...props
 }: WidgetCardProps) => {
-  const convertUnitsToPixels = (unit: number) => unit * grid.boxSize - gapSize * 2;
-
-  const convertPixelsToUnits = (px: number) => Math.round((px + gapSize * 2) / grid.boxSize);
-
-  const startResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.currentTarget.setPointerCapture(e.pointerId);
-    resizeActive.current = true;
-    resizeStart.current = { x: e.clientX, y: e.clientY };
-    resizePointer.current = { x: e.clientX, y: e.clientY };
-    resizeScrollContainer.current = findScrollContainer(ref.current);
-    resizeScrollStart.current = {
-      left: resizeScrollContainer.current?.scrollLeft ?? 0,
-      top: resizeScrollContainer.current?.scrollTop ?? 0,
-    };
-    startResizeAutoscroll();
-    setIsResizing(true);
-    onResizePreview?.({ width: sizeToUse.width, height: sizeToUse.height });
-  };
-
-  const startResizeAutoscroll = () => {
-    const step = () => {
-      if (!resizeActive.current) {
-        autoscrollFrame.current = null;
-        return;
-      }
-      const container = resizeScrollContainer.current;
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const vx = autoscrollVelocity(resizePointer.current.x, rect.left, rect.right);
-        const vy = autoscrollVelocity(resizePointer.current.y, rect.top, rect.bottom);
-        if (vx !== 0 || vy !== 0) {
-          container.scrollLeft += vx;
-          container.scrollTop += vy;
-          applyResizeRef.current();
-        }
-      }
-      autoscrollFrame.current = requestAnimationFrame(step);
-    };
-    autoscrollFrame.current = requestAnimationFrame(step);
-  };
-
-  const updateResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    resizePointer.current = { x: e.clientX, y: e.clientY };
-    applyResize();
-  };
-
-  const applyResize = () => {
-    if (!resizeActive.current || !widget.appearance.resizable) return;
-    const res = widget.appearance.resizable;
-    const minWidth = res === true ? 1 : (res.min?.width ?? 1);
-    const minHeight = res === true ? 1 : (res.min?.height ?? 1);
-    const maxWidth = Math.min(
-      res === true ? 999 : (res.max?.width ?? 999),
-      position ? grid.columns + GRID_DRAG_EXTEND_SLOTS - position.x : 999,
-    );
-    const maxHeight = Math.min(
-      res === true ? 999 : (res.max?.height ?? 999),
-      position ? grid.rows + GRID_DRAG_EXTEND_SLOTS - position.y : 999,
-    );
-    const scrollDriftX = (resizeScrollContainer.current?.scrollLeft ?? 0) - resizeScrollStart.current.left;
-    const scrollDriftY = (resizeScrollContainer.current?.scrollTop ?? 0) - resizeScrollStart.current.top;
-    const offsetX = resizePointer.current.x - resizeStart.current.x + scrollDriftX;
-    const offsetY = resizePointer.current.y - resizeStart.current.y + scrollDriftY;
-    const newWidth = minmax(
-      convertUnitsToPixels(sizeToUse.width) + offsetX,
-      convertUnitsToPixels(minWidth),
-      convertUnitsToPixels(maxWidth),
-    );
-    const newHeight = minmax(
-      convertUnitsToPixels(sizeToUse.height) + offsetY,
-      convertUnitsToPixels(minHeight),
-      convertUnitsToPixels(maxHeight),
-    );
-    const widthUnits = convertPixelsToUnits(newWidth);
-    if (resizeWidthUnits !== widthUnits) setResizeWidthUnits(widthUnits);
-    const heightUnits = convertPixelsToUnits(newHeight);
-    if (resizeHeightUnits !== heightUnits) setResizeHeightUnits(heightUnits);
-    if (resizeWidthUnits !== widthUnits || resizeHeightUnits !== heightUnits) {
-      onResizePreview?.({ width: widthUnits, height: heightUnits });
-    }
-    resizeWidth.set(newWidth);
-    resizeHeight.set(newHeight);
-  };
-
-  const finishResize = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    if (!resizeActive.current) return;
-    resizeActive.current = false;
-    if (autoscrollFrame.current !== null) {
-      cancelAnimationFrame(autoscrollFrame.current);
-      autoscrollFrame.current = null;
-    }
-    e.currentTarget.releasePointerCapture(e.pointerId);
-    setIsResizing(false);
-    onResizePreview?.(null);
-    let shouldReset = true;
-    if (onResize) {
-      shouldReset = !onResize(resizeWidthUnits, resizeHeightUnits);
-    }
-    if (shouldReset) {
-      resizeWidth.set(convertUnitsToPixels(sizeToUse.width));
-      resizeHeight.set(convertUnitsToPixels(sizeToUse.height));
-      setResizeWidthUnits(sizeToUse.width);
-      setResizeHeightUnits(sizeToUse.height);
-    }
-  };
-
   const { isEditing, grid } = useParentFolder();
-
   const { gapSize } = useSizeSettings();
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
-  const resizeActive = useRef(false);
-  const resizeStart = useRef({ x: 0, y: 0 });
-  const resizePointer = useRef({ x: 0, y: 0 });
-  const resizeScrollContainer = useRef<HTMLElement | null>(null);
-  const resizeScrollStart = useRef({ left: 0, top: 0 });
-  const autoscrollFrame = useRef<number | null>(null);
-  const applyResizeRef = useMirrorStateToRef(applyResize);
-
-  useEffect(() => {
-    return () => {
-      if (autoscrollFrame.current !== null) cancelAnimationFrame(autoscrollFrame.current);
-    };
-  }, []);
 
   const sizeToUse = size ? size : widget.appearance.size;
   const withPadding = !widget.appearance.withoutPadding;
 
-  const resizeWidth = useMotionValue(convertUnitsToPixels(sizeToUse.width));
-  const resizeHeight = useMotionValue(convertUnitsToPixels(sizeToUse.height));
-  // We need a derived/readonly value to block framer motion from messing with value after initial render
-  // More info: https://github.com/OlegWock/anori/issues/115
-  const readonlyResizeWidth = useDerivedMotionValue(resizeWidth, (v) => v);
-  const readonlyResizeHeight = useDerivedMotionValue(resizeHeight, (v) => v);
-  const [isResizing, setIsResizing] = useState(false);
-  const [resizeWidthUnits, setResizeWidthUnits] = useState(sizeToUse.width);
-  const [resizeHeightUnits, setResizeHeightUnits] = useState(sizeToUse.height);
+  const resize = useWidgetResize({
+    resizable: widget.appearance.resizable,
+    size: sizeToUse,
+    position,
+    cardRef: ref,
+    onResize,
+    onResizePreview,
+  });
 
   const activePosition = dragSnapPosition ?? position;
   const pixelPosition = activePosition ? positionToPixelPosition({ grid, position: activePosition }) : { x: 0, y: 0 };
@@ -398,22 +210,14 @@ export const WidgetCard = ({
     return <widget.mainScreen instanceId={instanceId} config={parsedConfig} pluginConfig={pluginConfig} />;
   }, [type, widget, instanceId, configParseFailed, parsedConfig, pluginConfig]);
 
-  useOnChangeLayoutEffect(() => {
-    resizeWidth.set(convertUnitsToPixels(sizeToUse.width));
-    resizeHeight.set(convertUnitsToPixels(sizeToUse.height));
-    setResizeWidthUnits(sizeToUse.width);
-    setResizeHeightUnits(sizeToUse.height);
-    setIsResizing(false);
-  }, [sizeToUse.width, sizeToUse.height, grid.boxSize, gapSize]);
-
   const card = (
     <m.div
       id={instanceId ? `WidgetCard-${instanceId}` : undefined}
       ref={mergeRefs([ref, draggableRef as Ref<HTMLDivElement>])}
       key={`card-${instanceId}`}
       className={cx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
-      data-busy={isDragging || isResizing ? true : undefined}
-      data-resizing={isResizing ? true : undefined}
+      data-busy={isDragging || resize.isResizing ? true : undefined}
+      data-resizing={resize.isResizing ? true : undefined}
       transition={{ ease: "easeInOut", duration: 0.15, top: positionSpring, left: positionSpring }}
       initial={false}
       animate={
@@ -437,8 +241,8 @@ export const WidgetCard = ({
           : undefined
       }
       style={{
-        width: readonlyResizeWidth,
-        height: readonlyResizeHeight,
+        width: resize.width,
+        height: resize.height,
         margin: type === "widget" ? 0 : gapSize,
         position: type === "widget" ? "absolute" : undefined,
         ...(type === "widget" && isDragging ? { top: pixelPosition.y + gapSize, left: pixelPosition.x + gapSize } : {}),
@@ -446,7 +250,7 @@ export const WidgetCard = ({
       }}
       {...props}
     >
-      {isEditing && !otherWidgetDragging && type === "widget" && !isResizing && !!onPositionChange && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !resize.isResizing && !!onPositionChange && (
         <IconButton
           ref={handleRef}
           className={cx("widget-control", control({ position: "drag" }))}
@@ -455,7 +259,7 @@ export const WidgetCard = ({
           showTooltip={!isDragging}
         />
       )}
-      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !isResizing && !!onRemove && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !resize.isResizing && !!onRemove && (
         <IconButton
           className={cx("widget-control", control({ position: "remove" }))}
           icon={builtinIcons.close}
@@ -463,7 +267,7 @@ export const WidgetCard = ({
           onClick={onRemove}
         />
       )}
-      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !isResizing && !!onEdit && (
+      {isEditing && !otherWidgetDragging && type === "widget" && !isDragging && !resize.isResizing && !!onEdit && (
         <IconButton
           className={cx("widget-control", control({ position: "edit" }))}
           icon={builtinIcons.pencil}
@@ -476,18 +280,16 @@ export const WidgetCard = ({
           className={cx("widget-control", control({ position: "resize" }))}
           icon={builtinIcons.resize}
           label={t("resizeWidget")}
-          showTooltip={!isResizing}
-          onPointerDown={startResize}
-          onPointerMove={updateResize}
-          onPointerUp={finishResize}
+          showTooltip={!resize.isResizing}
+          {...resize.handleProps}
         />
       )}
-      <ErrorBoundary>
+      <WidgetErrorBoundary>
         <div className={overflowProtectionCss} style={{ borderRadius: withPadding ? 0 : "inherit" }}>
           {children}
-          {(type === "mock" || isResizing || widgetDragActive) && <div className={interactionBlockerCss} />}
+          {(type === "mock" || resize.isResizing || widgetDragActive) && <div className={interactionBlockerCss} />}
         </div>
-      </ErrorBoundary>
+      </WidgetErrorBoundary>
     </m.div>
   );
 
@@ -501,7 +303,7 @@ export const WidgetCard = ({
       pluginId: plugin.id,
       widgetId: widget.id,
       instanceId: instanceId ?? "mock",
-      size: isResizing ? { width: resizeWidthUnits, height: resizeHeightUnits } : sizeToUse,
+      size: resize.isResizing ? { width: resize.widthUnits, height: resize.heightUnits } : sizeToUse,
       config: parsedConfig,
       updateConfig,
     }),
@@ -509,9 +311,9 @@ export const WidgetCard = ({
       plugin.id,
       widget.id,
       instanceId,
-      isResizing,
-      resizeWidthUnits,
-      resizeHeightUnits,
+      resize.isResizing,
+      resize.widthUnits,
+      resize.heightUnits,
       sizeToUse,
       parsedConfig,
       updateConfig,
