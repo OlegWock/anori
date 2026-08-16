@@ -5,7 +5,7 @@ import { Link } from "@anori/design-system/components/Link/Link";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import type { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { css, cx } from "styled-system/css";
+import { css } from "styled-system/css";
 
 const CHANGELOG_URL = "https://github.com/OlegWock/anori/blob/master/CHANGELOG.md";
 const CURRENT_VERSION = "2.1.0";
@@ -35,25 +35,30 @@ const hero = css({
   paddingInline: "5",
   paddingBlock: "5",
   borderRadius: "lg",
-  bg: "accent",
-  color: "on-accent",
-  boxShadow: "accent.edge",
+  bg: "surface.elevated",
+  boxShadow: "surface.elevated.edge",
   _before: {
     content: '""',
     position: "absolute",
     inset: 0,
     pointerEvents: "none",
-    opacity: 0.25,
-    backgroundImage: "radial-gradient(currentcolor, currentcolor 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%)",
+    opacity: 0.4,
+    backgroundImage:
+      "radial-gradient(token(colors.accent), token(colors.accent) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%)",
     backgroundSize: "22px 22px",
   },
 });
-const heroVersion = css({ position: "relative", fontSize: "3xl", fontWeight: "light", lineHeight: "none" });
+const heroVersion = css({
+  position: "relative",
+  fontSize: "3xl",
+  fontWeight: "light",
+  lineHeight: "none",
+  color: "text.primary",
+});
 const heroHeadline = css({ position: "relative", fontSize: "base", textWrap: "pretty" });
 
 const scrollArea = css({ marginTop: 0, marginInline: "1-5", marginBottom: "3", minHeight: 0 });
-const scrollBody = css({ display: "flex", flexDirection: "column", gap: "4", paddingInline: "4", paddingBottom: "1" });
-const content = css({ display: "flex", flexDirection: "column", gap: "3" });
+const scrollBody = css({ display: "flex", flexDirection: "column", gap: "3", paddingInline: "4", paddingBottom: "1" });
 
 const featureCard = css({
   display: "flex",
@@ -73,8 +78,7 @@ const featureTitle = css({
   fontWeight: "regular",
   color: "text.primary",
 });
-const featureIcon = css({ flexShrink: 0, color: "accent" });
-const featureIconMuted = css({ color: "icon.subtle" });
+const featureIcon = css({ flexShrink: 0, color: "icon.subtle" });
 const featureBody = css({
   display: "flex",
   flexDirection: "column",
@@ -99,21 +103,11 @@ const minorTag = css({ marginInlineEnd: "1-5", verticalAlign: "top" });
 
 const footer = css({ fontSize: "sm", color: "text.placeholder", textWrap: "pretty" });
 
-const Feature = ({
-  icon,
-  title,
-  muted,
-  children,
-}: {
-  icon: string;
-  title: string;
-  muted?: boolean;
-  children: ReactNode;
-}) => {
+const Feature = ({ icon, title, children }: { icon: string; title: string; children: ReactNode }) => {
   return (
     <section className={featureCard}>
       <h3 className={featureTitle}>
-        <Icon icon={icon} width={20} height={20} className={cx(featureIcon, muted && featureIconMuted)} aria-hidden />
+        <Icon icon={icon} width={20} height={20} className={featureIcon} aria-hidden />
         {title}
       </h3>
       <div className={featureBody}>{children}</div>
@@ -132,27 +126,25 @@ export const WhatsNewImpl = () => {
             <div className={heroHeadline}>{t(`${RELEASE}.headline`)}</div>
           </div>
 
-          <div className={content}>
-            <Feature icon={builtinIcons.archive} title={t(`${RELEASE}.stashTitle`)}>
-              <p>{t(`${RELEASE}.stashBody`)}</p>
-              <p>{t(`${RELEASE}.stashSync`)}</p>
-            </Feature>
+          <Feature icon={builtinIcons.archive} title={t(`${RELEASE}.stashTitle`)}>
+            <p>{t(`${RELEASE}.stashBody`)}</p>
+            <p>{t(`${RELEASE}.stashSync`)}</p>
+          </Feature>
 
-            <Feature icon={builtinIcons.tabsFill} title={t(`${RELEASE}.syncedTabsTitle`)}>
-              <p>{t(`${RELEASE}.syncedTabsBody`)}</p>
-            </Feature>
+          <Feature icon={builtinIcons.tabsFill} title={t(`${RELEASE}.syncedTabsTitle`)}>
+            <p>{t(`${RELEASE}.syncedTabsBody`)}</p>
+          </Feature>
 
-            <Feature icon={builtinIcons.checklist} title={t("releaseNotes.alsoInThisRelease")} muted>
-              <ul className={minorList}>
-                {MINOR_CHANGES.map(({ tag, key }) => (
-                  <li className={minorItem} key={key}>
-                    <Badge className={minorTag}>{t(`releaseNotes.${tag}`)}</Badge>
-                    {t(`${RELEASE}.${key}`)}
-                  </li>
-                ))}
-              </ul>
-            </Feature>
-          </div>
+          <Feature icon={builtinIcons.checklist} title={t("releaseNotes.alsoInThisRelease")}>
+            <ul className={minorList}>
+              {MINOR_CHANGES.map(({ tag, key }) => (
+                <li className={minorItem} key={key}>
+                  <Badge className={minorTag}>{t(`releaseNotes.${tag}`)}</Badge>
+                  {t(`${RELEASE}.${key}`)}
+                </li>
+              ))}
+            </ul>
+          </Feature>
 
           <div className={footer}>
             <Trans
