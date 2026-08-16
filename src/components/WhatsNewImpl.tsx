@@ -89,13 +89,13 @@ const minorList = css({
   flexDirection: "column",
   gap: "2",
   margin: 0,
-  paddingLeft: "5",
+  paddingInlineStart: "5",
   listStyleType: "disc",
   fontSize: "sm",
   color: "text.subtle",
 });
 const minorItem = css({ display: "list-item", textWrap: "pretty" });
-const minorTag = css({ marginRight: "1-5", verticalAlign: "top" });
+const minorTag = css({ marginInlineEnd: "1-5", verticalAlign: "top" });
 
 const footer = css({ fontSize: "sm", color: "text.placeholder", textWrap: "pretty" });
 
