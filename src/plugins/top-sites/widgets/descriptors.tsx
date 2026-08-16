@@ -10,7 +10,7 @@ export const topSitesWidgetDescriptorHorizontal = defineWidget({
   },
   configurationScreen: null,
   mainScreen: (props) => (
-    <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}>
+    <RequirePermissions variant="compact" permissions={REQUIRED_PERMISSIONS}>
       <TopSitesWidget type="horizontal" {...props} />
     </RequirePermissions>
   ),
@@ -40,7 +40,7 @@ export const topSitesWidgetDescriptorVertical = defineWidget({
   },
   configurationScreen: null,
   mainScreen: (props) => (
-    <RequirePermissions compact permissions={REQUIRED_PERMISSIONS}>
+    <RequirePermissions variant="compact" permissions={REQUIRED_PERMISSIONS}>
       <TopSitesWidget type="vertical" {...props} />
     </RequirePermissions>
   ),

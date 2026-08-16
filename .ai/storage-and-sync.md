@@ -95,7 +95,7 @@ const storage = await getAnoriStorage();
 
 ```ts
 storage.sync.getOutbox();           // Pending changes
-storage.sync.exportForFullSync();   // All tracked data
+storage.sync.exportForFullSync('profile');   // All tracked data
 storage.sync.exportOutbox();        // Only outbox entries
 storage.sync.mergeRemoteChanges([...]); // Apply remote changes with LWW
 ```

@@ -21,6 +21,13 @@ export const parseHost = (url: string) => {
   }
 };
 
+export const isModifiedClick = (e: {
+  metaKey: boolean;
+  ctrlKey: boolean;
+  shiftKey: boolean;
+  altKey: boolean;
+}): boolean => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;
+
 export const normalizeUrl = (url: string) => {
   if (!url.includes("://") && !url.startsWith("#")) {
     return `https://${url}`;

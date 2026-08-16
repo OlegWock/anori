@@ -1,8 +1,10 @@
+import { CheckboxWithPermission } from "@anori/components/CheckboxWithPermission";
 import { Alert } from "@anori/design-system/components/Alert/Alert";
 import { Badge } from "@anori/design-system/components/Badge/Badge";
 import { Button } from "@anori/design-system/components/Button/Button";
 import { Card } from "@anori/design-system/components/Card/Card";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
+import { Hint } from "@anori/design-system/components/Hint/Hint";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
@@ -19,10 +21,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { trpc } from "../api-client";
-import { login, logout } from "../auth";
+import { cancelPendingLogin, completePendingLogin, login, logout, type PendingLogin } from "../auth";
 import { ACCOUNT_URL } from "../consts";
 import { useCloudAccount, useIsBehindCloudSchema } from "../hooks";
 import { connectToProfile, disconnectFromProfile } from "../sync-manager";
+import { DevicesSection } from "./DevicesSection";
 
 const modal = css({ width: "600px" });
 
@@ -52,6 +55,8 @@ const profilesHeader = css({
   gap: "3",
 });
 const profilesTitle = css({ fontSize: "lg", fontWeight: "medium" });
+const settingsSection = css({ display: "flex", flexDirection: "column", gap: "3" });
+const settingsTitle = css({ fontSize: "lg", fontWeight: "medium" });
 // Shared by the loading + empty notes.
 const mutedNote = css({ fontSize: "sm", opacity: 0.7, paddingBlock: "2" });
 const profilesList = css({ display: "flex", flexDirection: "column", gap: "2", overflowY: "auto" });
@@ -95,19 +100,27 @@ const plusDescription = css({
 });
 const authForm = css({ display: "flex", flexDirection: "column", gap: "4" });
 const loginActions = css({ display: "flex", flexDirection: "column", alignItems: "center", gap: "4" });
+const conflictOptions = css({ display: "flex", flexDirection: "column", gap: "4" });
+const conflictOption = css({ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "1" });
+const conflictHint = css({ fontSize: "sm", opacity: 0.7 });
 const registerLink = css({ textAlign: "center", fontSize: "sm", opacity: 0.8, margin: 0, "& a": mutedLink });
 
 type Props = {
   onClose: () => void;
 };
 
+export const CloudAccountContent = () => {
+  const { account, isConnected } = useCloudAccount();
+  return isConnected && account ? <ConnectedView account={account} /> : <AuthView />;
+};
+
 export const CloudAccountModal = ({ onClose }: Props) => {
   const { t } = useTranslation();
-  const { account, isConnected } = useCloudAccount();
+  const { isConnected } = useCloudAccount();
 
   return (
     <Modal className={modal} title={isConnected ? t("cloud.account") : t("cloud.login")} closable onClose={onClose}>
-      {isConnected && account ? <ConnectedView account={account} /> : <AuthView />}
+      <CloudAccountContent />
     </Modal>
   );
 };
@@ -144,6 +157,7 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
   const updateProfileMutation = trpc.sync.updateProfile.useMutation();
   const deleteProfileMutation = trpc.sync.deleteProfile.useMutation();
   const [syncSettings] = useStorageValue(anoriSchema.cloudSyncSettings);
+  const [shareOpenTabs, setShareOpenTabs] = useStorageValue(anoriSchema.shareOpenTabs);
   const connectedProfileId = syncSettings?.profileId ?? null;
 
   const sortedProfiles = useMemo(() => {
@@ -493,6 +507,14 @@ const ConnectedView = ({ account }: { account: NonNullable<ReturnType<typeof use
           </div>
         )}
       </div>
+      <DevicesSection />
+      <div className={settingsSection}>
+        <div className={settingsTitle}>{t("cloud.settings.title")}</div>
+        <CheckboxWithPermission permissions={["tabs"]} checked={shareOpenTabs} onChange={setShareOpenTabs}>
+          {t("cloud.settings.shareOpenTabs")}
+          <Hint content={t("cloud.settings.shareOpenTabsHint")} />
+        </CheckboxWithPermission>
+      </div>
     </div>
   );
 };
@@ -503,13 +525,17 @@ const AuthView = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingLogin, setPendingLogin] = useState<PendingLogin | null>(null);
 
   const handleLogin = async () => {
     setError(null);
     setIsLoading(true);
 
     try {
-      await login(email, password);
+      const result = await login(email, password);
+      if (result.status === "userDataConflict") {
+        setPendingLogin(result.pending);
+      }
     } catch (e) {
       if (isAppErrorOfType(e, InvalidCredentialsError)) {
         setError(t("cloud.error.invalidCredentials"));
@@ -520,6 +546,54 @@ const AuthView = () => {
       setIsLoading(false);
     }
   };
+
+  const handleResolveConflict = async (localUserData: "upload" | "discard") => {
+    if (!pendingLogin) return;
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      await completePendingLogin(pendingLogin, localUserData);
+      setPendingLogin(null);
+    } catch (e) {
+      setError(getAppError(e)?.message ?? t("cloud.error.unknown"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCancelConflict = async () => {
+    setPendingLogin(null);
+    await cancelPendingLogin();
+  };
+
+  if (pendingLogin) {
+    return (
+      <div className={authView}>
+        {error && <Alert variant="accent">{error}</Alert>}
+        <p>{t("cloud.userDataConflict.description")}</p>
+        <div className={conflictOptions}>
+          <div className={conflictOption}>
+            <Button variant="primary" loading={isLoading} onClick={() => handleResolveConflict("upload")}>
+              {t("cloud.userDataConflict.upload")}
+            </Button>
+            <span className={conflictHint}>{t("cloud.userDataConflict.uploadHint")}</span>
+          </div>
+          <div className={conflictOption}>
+            <Button variant="secondary" loading={isLoading} onClick={() => handleResolveConflict("discard")}>
+              {t("cloud.userDataConflict.discard")}
+            </Button>
+            <span className={conflictHint}>{t("cloud.userDataConflict.discardHint")}</span>
+          </div>
+        </div>
+        <div className={actionsRight}>
+          <Button variant="secondary" disabled={isLoading} onClick={handleCancelConflict}>
+            {t("cloud.cancel")}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={authView}>

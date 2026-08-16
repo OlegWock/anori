@@ -306,18 +306,112 @@ const chunk = <T>(arr: T[], size: number): T[][] => {
   return result;
 };
 
+const PLURAL_CATEGORIES = ["zero", "one", "two", "few", "many", "other"] as const;
+type PluralCategory = (typeof PLURAL_CATEGORIES)[number];
+const PLURAL_SUFFIX_RE = /_(zero|one|two|few|many|other)$/;
+
+const toBcp47 = (lang: string): string => {
+  const [base, region] = lang.split("-");
+  return region ? `${base}-${region.toUpperCase()}` : base;
+};
+
+const pluralCategoriesForLanguage = (lang: string): PluralCategory[] => {
+  const available = new Set<string>(new Intl.PluralRules(toBcp47(lang)).resolvedOptions().pluralCategories);
+  return PLURAL_CATEGORIES.filter((category) => available.has(category));
+};
+
+const exampleCountsForCategory = (lang: string, category: PluralCategory): number[] => {
+  const rules = new Intl.PluralRules(toBcp47(lang));
+  const examples: number[] = [];
+  for (let n = 0; n <= 120 && examples.length < 5; n++) {
+    if (rules.select(n) === category) examples.push(n);
+  }
+  return examples;
+};
+
+const pluralBaseOf = (key: string): string => {
+  const match = key.match(PLURAL_SUFFIX_RE);
+  return match ? key.slice(0, -match[0].length) : key;
+};
+
+const findPluralBases = (enFlat: Record<string, string>): Map<string, Set<PluralCategory>> => {
+  const groups = new Map<string, Set<PluralCategory>>();
+  for (const key of Object.keys(enFlat)) {
+    const match = key.match(PLURAL_SUFFIX_RE);
+    if (!match) continue;
+    const base = key.slice(0, -match[0].length);
+    const categories = groups.get(base) ?? new Set<PluralCategory>();
+    categories.add(match[1] as PluralCategory);
+    groups.set(base, categories);
+  }
+  const bases = new Map<string, Set<PluralCategory>>();
+  for (const [base, categories] of groups) {
+    const usesCount = [...categories].some((category) => /\{\{count\}\}/.test(enFlat[`${base}_${category}`]));
+    if (categories.has("other") && usesCount) bases.set(base, categories);
+  }
+  return bases;
+};
+
+const englishSourceCategory = (target: PluralCategory, available: Set<PluralCategory>): PluralCategory => {
+  if (available.has(target)) return target;
+  if ((target === "one" || target === "zero" || target === "two") && available.has("one")) return "one";
+  if (available.has("other")) return "other";
+  return [...available][0] ?? "other";
+};
+
+type ExpectedKey = { key: string; enKey: string; category?: PluralCategory };
+
+const buildExpectedKeys = (lang: string, enFlat: Record<string, string>): ExpectedKey[] => {
+  const pluralBases = findPluralBases(enFlat);
+  const targetCategories = pluralCategoriesForLanguage(lang);
+  const emittedBases = new Set<string>();
+  const expected: ExpectedKey[] = [];
+  for (const key of Object.keys(enFlat)) {
+    const base = pluralBases.has(pluralBaseOf(key)) ? pluralBaseOf(key) : null;
+    if (base) {
+      if (emittedBases.has(base)) continue;
+      emittedBases.add(base);
+      const available = pluralBases.get(base) as Set<PluralCategory>;
+      for (const category of targetCategories) {
+        expected.push({
+          key: `${base}_${category}`,
+          enKey: `${base}_${englishSourceCategory(category, available)}`,
+          category,
+        });
+      }
+    } else {
+      expected.push({ key, enKey: key });
+    }
+  }
+  return expected;
+};
+
+const pluralNote = (lang: string, category: PluralCategory, baseNote: string | undefined): string => {
+  const examples = exampleCountsForCategory(lang, category);
+  const examplesText = examples.length > 0 ? ` (used for counts like ${examples.join(", ")})` : "";
+  const instruction =
+    `This is the CLDR "${category}" plural form for {{count}}${examplesText}. English has only "one"/"other"; ` +
+    `produce the grammatically correct "${category}" form for ${LANGUAGE_ENGLISH_NAMES[lang]}, keeping {{count}}.`;
+  return baseNote ? `${baseNote} ${instruction}` : instruction;
+};
+
 // Determines which keys of a language are missing or stale relative to the English source.
-const computeOutdated = (lang: string, enFlat: Record<string, string>, fingerprints: Fingerprints) => {
+const computeOutdated = (
+  lang: string,
+  expectedKeys: ExpectedKey[],
+  enFlat: Record<string, string>,
+  fingerprints: Fingerprints,
+) => {
   const langFlat = flattenStrings(getTranslationRoot(lang));
   const langFingerprints = fingerprints[lang] ?? {};
-  const missing: string[] = [];
-  const stale: string[] = [];
-  for (const [key, enValue] of Object.entries(enFlat)) {
-    const expected = fingerprint(enValue);
-    if (langFlat[key] === undefined) {
-      missing.push(key);
-    } else if (langFingerprints[key] !== expected) {
-      stale.push(key);
+  const missing: ExpectedKey[] = [];
+  const stale: ExpectedKey[] = [];
+  for (const expected of expectedKeys) {
+    const expectedFingerprint = fingerprint(enFlat[expected.enKey]);
+    if (langFlat[expected.key] === undefined) {
+      missing.push(expected);
+    } else if (langFingerprints[expected.key] !== expectedFingerprint) {
+      stale.push(expected);
     }
   }
   return { langFlat, missing, stale };
@@ -337,7 +431,8 @@ const translateLanguage = async (
     return;
   }
 
-  const { langFlat, missing, stale } = computeOutdated(lang, enFlat, fingerprints);
+  const expectedKeys = buildExpectedKeys(lang, enFlat);
+  const { langFlat, missing, stale } = computeOutdated(lang, expectedKeys, enFlat, fingerprints);
   const outdated = [...missing, ...stale];
   if (outdated.length === 0) {
     console.log(`✅ ${lang}: already up to date.`);
@@ -349,14 +444,16 @@ const translateLanguage = async (
   let failures = 0;
 
   for (const batch of chunk(outdated, BATCH_SIZE)) {
-    const items: TranslationItem[] = batch.map((key) => {
-      const usage = (usages.get(key) ?? []).map((u) => `${u.file}:${u.line} — ${u.text}`).join("\n");
+    const items: TranslationItem[] = batch.map((expected) => {
+      const baseNote = notes[expected.key] ?? notes[pluralBaseOf(expected.key)];
+      const usageList = usages.get(expected.key) ?? usages.get(pluralBaseOf(expected.key)) ?? [];
+      const usage = usageList.map((u) => `${u.file}:${u.line} — ${u.text}`).join("\n");
       return {
-        key,
-        en: enFlat[key],
-        uk: lang === SECONDARY_REFERENCE ? undefined : ukFlat[key],
-        previous: langFlat[key] || undefined,
-        note: notes[key] || undefined,
+        key: expected.key,
+        en: enFlat[expected.enKey],
+        uk: lang === SECONDARY_REFERENCE ? undefined : ukFlat[expected.key],
+        previous: langFlat[expected.key] || undefined,
+        note: expected.category ? pluralNote(lang, expected.category, baseNote) : baseNote || undefined,
         usage: usage || undefined,
       };
     });
@@ -365,41 +462,43 @@ const translateLanguage = async (
 
     // Retry once for keys that came back with broken interpolation placeholders.
     const placeholderBroken = batch.filter(
-      (key) => result[key] !== undefined && !placeholdersMatch(enFlat[key], result[key]),
+      (expected) =>
+        result[expected.key] !== undefined && !placeholdersMatch(enFlat[expected.enKey], result[expected.key]),
     );
     if (placeholderBroken.length > 0) {
-      const retryItems = items.filter((item) => placeholderBroken.includes(item.key));
+      const brokenKeys = new Set(placeholderBroken.map((expected) => expected.key));
+      const retryItems = items.filter((item) => brokenKeys.has(item.key));
       const retry = await translateBatch(languageName, retryItems);
       result = { ...result, ...retry };
     }
 
-    for (const key of batch) {
-      const value = result[key];
+    for (const expected of batch) {
+      const value = result[expected.key];
       if (value === undefined) {
-        console.warn(`  ⚠️  ${key}: no translation returned, skipping.`);
+        console.warn(`  ⚠️  ${expected.key}: no translation returned, skipping.`);
         failures++;
         continue;
       }
-      if (!placeholdersMatch(enFlat[key], value)) {
-        console.warn(`  ⚠️  ${key}: placeholder mismatch, keeping previous value (will retry next run).`);
+      if (!placeholdersMatch(enFlat[expected.enKey], value)) {
+        console.warn(`  ⚠️  ${expected.key}: placeholder mismatch, keeping previous value (will retry next run).`);
         failures++;
         continue;
       }
-      langFlat[key] = value;
-      langFingerprints[key] = fingerprint(enFlat[key]);
+      langFlat[expected.key] = value;
+      langFingerprints[expected.key] = fingerprint(enFlat[expected.enKey]);
     }
   }
 
   fingerprints[lang] = langFingerprints;
-  writeLanguageFile(lang, enFlat, langFlat);
+  writeLanguageFile(lang, expectedKeys, langFlat);
   console.log(`✅ ${lang}: done${failures > 0 ? ` (${failures} keys failed)` : ""}.`);
 };
 
-// Rebuilds a language file following the key order of English, keeping only keys that
-// still exist in the source and dropping the rest. Preserves existing/hand-edited values.
-const writeLanguageFile = (lang: string, enFlat: Record<string, string>, langFlat: Record<string, string>) => {
+// Rebuilds a language file following the language's expected key order, keeping only keys the
+// language should have (its own plural forms included) and dropping the rest. Preserves existing values.
+const writeLanguageFile = (lang: string, expectedKeys: ExpectedKey[], langFlat: Record<string, string>) => {
   const translation: Record<string, unknown> = {};
-  for (const key of Object.keys(enFlat)) {
+  for (const { key } of expectedKeys) {
     const value = langFlat[key];
     if (value !== undefined) set(translation, key, value);
   }
@@ -427,8 +526,9 @@ const main = async () => {
     const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
     let hasIssues = false;
     for (const lang of targetLanguages) {
-      const { missing, stale } = computeOutdated(lang, enFlat, fingerprints);
-      const total = Object.keys(enFlat).length;
+      const expectedKeys = buildExpectedKeys(lang, enFlat);
+      const { missing, stale } = computeOutdated(lang, expectedKeys, enFlat, fingerprints);
+      const total = expectedKeys.length;
       const ok = total - missing.length - stale.length;
       const mark = missing.length === 0 && stale.length === 0 ? "✅" : "⚠️ ";
       if (missing.length > 0 || stale.length > 0) hasIssues = true;
@@ -459,15 +559,17 @@ const main = async () => {
   } else if (command === "remove-excessive") {
     const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
     for (const lang of targetLanguages) {
+      const expectedKeys = buildExpectedKeys(lang, enFlat);
+      const expectedSet = new Set(expectedKeys.map((expected) => expected.key));
       const langFlat = flattenStrings(getTranslationRoot(lang));
-      const excessive = Object.keys(langFlat).filter((key) => enFlat[key] === undefined);
+      const excessive = Object.keys(langFlat).filter((key) => !expectedSet.has(key));
       if (excessive.length === 0) continue;
       console.log(`Removing ${excessive.length} excessive keys from ${lang}`);
       for (const key of excessive) {
         delete langFlat[key];
         if (fingerprints[lang]) delete fingerprints[lang][key];
       }
-      writeLanguageFile(lang, enFlat, langFlat);
+      writeLanguageFile(lang, expectedKeys, langFlat);
     }
     saveJsonFile(FINGERPRINTS_FILE, fingerprints);
   } else if (command === "generate-locales") {

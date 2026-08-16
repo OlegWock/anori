@@ -41,7 +41,7 @@ export const rssLastestPostDescriptor = defineWidget({
   schema: rssLatestPostConfigSchema,
   configurationScreen: RssLatestPostConfigScreen,
   mainScreen: (props: WidgetRenderProps<RssLatestPostConfig>) => (
-    <RequirePermissions compact hosts={[parseHost(props.config.feedUrl)]} permissions={["tabs"]}>
+    <RequirePermissions variant="compact" hosts={[parseHost(props.config.feedUrl)]} permissions={["tabs"]}>
       <RssLatestPost {...props} />
     </RequirePermissions>
   ),

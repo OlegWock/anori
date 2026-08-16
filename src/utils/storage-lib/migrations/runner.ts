@@ -12,10 +12,10 @@ export type MigrationDiff = Record<string, StorageRecord<unknown>>;
 function isKeyTrackedInSchema(key: string, schema: SchemaDefinition): boolean {
   for (const descriptor of Object.values(schema)) {
     if ("key" in descriptor && descriptor.key === key) {
-      return "tracked" in descriptor && descriptor.tracked === true;
+      return "sync" in descriptor && descriptor.sync !== "off";
     }
     if ("keyPrefix" in descriptor && key.startsWith(`${descriptor.keyPrefix}:`)) {
-      return "tracked" in descriptor && descriptor.tracked === true;
+      return "sync" in descriptor && descriptor.sync !== "off";
     }
   }
   return false;

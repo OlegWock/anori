@@ -1,4 +1,4 @@
-function getBrowser(): string {
+export function getBrowser(): string {
   if (typeof navigator === "undefined") return "Unknown browser";
 
   const uaData = (navigator as Navigator & { userAgentData?: NavigatorUAData }).userAgentData;
@@ -16,7 +16,7 @@ function getBrowser(): string {
   return "Unknown browser";
 }
 
-function getOS(): string {
+export function getOS(): string {
   if (typeof navigator === "undefined") return "Unknown OS";
 
   const uaData = (navigator as Navigator & { userAgentData?: NavigatorUAData }).userAgentData;

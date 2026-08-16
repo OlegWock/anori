@@ -7,9 +7,9 @@ import { iframePlugin } from "./iframe/iframe-plugin";
 import { mathPlugin } from "./math/math-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { picturePlugin } from "./picture/picture-plugin";
-import { recentlyClosedPlugin } from "./recently-closed/recently-closed-plugin";
 import { rssPlugin } from "./rss/rss-plugin";
 import { systemStatusPlugin } from "./system-status/system-status-plugin";
+import { tabsPlugin } from "./tabs/tabs-plugin";
 import { tasksPlugin } from "./tasks/tasks-plugin";
 import { testPlugin } from "./test/test-plugin";
 import { topSitesPlugin } from "./top-sites/top-sites-plugin";
@@ -27,7 +27,7 @@ export const allPlugins: SomePlugin[] = [
   mathPlugin,
   weatherPlugin,
   calendarPlugin,
-  recentlyClosedPlugin,
+  tabsPlugin,
   topSitesPlugin,
   systemStatusPlugin,
   picturePlugin,

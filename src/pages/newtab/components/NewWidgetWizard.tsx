@@ -111,12 +111,14 @@ export const NewWidgetWizard = ({ onClose, folder, gridDimensions, layout }: New
 
   const pluginsList = useMemo(
     () =>
-      availablePluginsWithWidgets.filter((plugin) => {
-        return (
-          plugin.name.toLowerCase().includes(searchQuery) ||
-          plugin.widgets.some((widget) => widget.name.toLowerCase().includes(searchQuery))
-        );
-      }),
+      availablePluginsWithWidgets
+        .filter((plugin) => {
+          return (
+            plugin.name.toLowerCase().includes(searchQuery) ||
+            plugin.widgets.some((widget) => widget.name.toLowerCase().includes(searchQuery))
+          );
+        })
+        .sort((a, b) => a.name.localeCompare(b.name)),
     [searchQuery],
   );
 

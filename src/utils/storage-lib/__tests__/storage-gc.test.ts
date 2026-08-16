@@ -24,14 +24,14 @@ function record<T>(value: T, pt = NOW, brand?: string): StorageRecord<T> {
 
 function createTestSchema() {
   const v1 = defineSchemaVersion(1, {
-    theme: cell({ key: "theme", schema: z.string(), defaultValue: "Forest", tracked: true, includedInBackup: true }),
-    counter: cell({ key: "counter", schema: z.number(), tracked: false, includedInBackup: true }),
+    theme: cell({ key: "theme", schema: z.string(), defaultValue: "Forest", sync: "profile", includedInBackup: true }),
+    counter: cell({ key: "counter", schema: z.number(), sync: "off", includedInBackup: true }),
     folders: collection({
       keyPrefix: "Folder",
       entities: {
         folder: entity({ brand: "FolderDetails", schema: z.object({ name: z.string() }) }),
       },
-      tracked: true,
+      sync: "profile",
       includedInBackup: true,
     }),
   });
@@ -59,7 +59,7 @@ describe("Storage GC", () => {
   describe("deleteInternal no-op on absent", () => {
     it("writes nothing when deleting a key that was never set", async () => {
       const storage = await makeStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.delete(storage.schema.folders.folder.byId("ghost"));
 
@@ -70,7 +70,7 @@ describe("Storage GC", () => {
     it("does not re-tombstone or re-enqueue an already-deleted key", async () => {
       browserState.storage["Folder:t"] = tombstone(NOW - DAY);
       const storage = await makeStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.delete(storage.schema.folders.folder.byId("t"));
 
@@ -82,7 +82,7 @@ describe("Storage GC", () => {
     it("hard-deletes untracked cells outright, without a tombstone", async () => {
       browserState.storage.counter = record(5);
       const storage = await makeStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.delete(storage.schema.counter);
 
@@ -93,7 +93,7 @@ describe("Storage GC", () => {
 
     it("still tombstones and enqueues a live key", async () => {
       const storage = await makeStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
       await storage.set(storage.schema.folders.folder.byId("a"), { name: "A" });
 
       await storage.delete(storage.schema.folders.folder.byId("a"));
@@ -109,7 +109,7 @@ describe("Storage GC", () => {
       browserState.storage["Folder:old"] = tombstone(NOW - TOMBSTONE_RETENTION_MS - DAY);
       browserState.storage["Folder:recent"] = tombstone(NOW - DAY);
       browserState.storage["Folder:live"] = record({ name: "Live" }, NOW, "FolderDetails");
-      // Untracked tombstone (counter is tracked: false) — must be left alone.
+      // Untracked tombstone (counter is sync: "off") — must be left alone.
       browserState.storage.counter = tombstone(NOW - TOMBSTONE_RETENTION_MS - DAY);
 
       const storage = await makeStorage();
@@ -145,7 +145,7 @@ describe("Storage GC", () => {
 
     it("protects keys with pending outbox changes by default", async () => {
       const storage = await makeStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
       await storage.set(storage.schema.folders.folder.byId("c"), { name: "C" });
 
       const removed = await storage.sync.reconcileAgainstServerKeys(new Set());
@@ -156,7 +156,7 @@ describe("Storage GC", () => {
 
     it("discards local-only data when protectOutbox is false (explicit pull replace)", async () => {
       const storage = await makeStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
       await storage.set(storage.schema.folders.folder.byId("c"), { name: "C" });
 
       const removed = await storage.sync.reconcileAgainstServerKeys(new Set(), { protectOutbox: false });
@@ -169,7 +169,7 @@ describe("Storage GC", () => {
       // A synced live key not in the outbox (seeded directly, as if pushed long ago).
       browserState.storage["Folder:a"] = record({ name: "A" }, NOW, "FolderDetails");
       const storage = await makeStorage();
-      storage.sync.enableOutbox();
+      storage.sync.enableOutbox("profile");
 
       await storage.sync.reconcileAgainstServerKeys(new Set());
 

@@ -6,6 +6,7 @@ import { extractIdFromKey, isKeyMatchingPrefix, type Query, resolveQuery } from 
 import type { CellDescriptor } from "./schema/cell";
 import type { CollectionAllQuery, CollectionByIdQuery } from "./schema/collection";
 import { isFileCollectionAllQuery, isFileCollectionByIdQuery, isFileDescriptor } from "./schema/file";
+import type { SyncScope } from "./schema/sync-mode";
 import type { VersionedSchema } from "./schema/versioned";
 import { createBackupInterface } from "./storage-backup";
 import { createSchemaHelpers } from "./storage-helpers";
@@ -68,11 +69,11 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
   const versionedSchema = options.schema;
   const latestSchema = versionedSchema.latestSchema;
   const storageId = generateNodeId();
-  const { isKeyTracked, isKeyBackupEligible, isFileKey } = createSchemaHelpers(latestSchema.definition);
+  const { getKeySyncMode, isKeyTracked, isKeyBackupEligible, isFileKey } = createSchemaHelpers(latestSchema.definition);
 
   let hlc: Hlc | null = null;
   let initialized = false;
-  let outboxEnabled = false;
+  const enabledOutboxScopes = new Set<SyncScope>();
   let cache: Record<string, unknown> = {};
   const subscriptions: Subscription[] = [];
   const outboxSubscriptions: OutboxSubscription[] = [];
@@ -353,7 +354,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     schedulePersist(resolved.key);
     persistHlcState();
 
-    if (outboxEnabled && "tracked" in query && query.tracked) {
+    if ("sync" in query && query.sync !== "off" && enabledOutboxScopes.has(query.sync)) {
       const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
       addToOutbox(resolved.key, type, hlcTs);
     }
@@ -379,7 +380,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
     // Untracked cells are never synced, so a tombstone would serve no purpose
     // and would linger forever
-    const isTracked = "tracked" in query && query.tracked === true;
+    const isTracked = "sync" in query && query.sync !== "off";
     if (!isTracked) {
       delete cache[resolved.key];
       await browser.storage.local.remove(resolved.key);
@@ -406,7 +407,7 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     schedulePersist(resolved.key);
     persistHlcState();
 
-    if (outboxEnabled && "tracked" in query && query.tracked) {
+    if ("sync" in query && enabledOutboxScopes.has(query.sync)) {
       const type = isFileDescriptor(query) || isFileCollectionByIdQuery(query) ? "file" : "kv";
       addToOutbox(resolved.key, type, hlcTs);
     }
@@ -543,11 +544,12 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
     waitForPersist,
     getOutboxFromCache,
     notifyOutboxSubscribers,
+    getKeySyncMode,
     isKeyTracked,
     isKeyBackupEligible,
     isFileKey,
     outboxSubscriptions,
-    getOutboxEnabled: () => outboxEnabled,
+    isOutboxScopeEnabled: (scope) => enabledOutboxScopes.has(scope),
     currentSchemaVersion: versionedSchema.currentVersion,
   };
 
@@ -652,11 +654,11 @@ export function createStorage<S extends VersionedSchema>(options: CreateStorageO
 
     sync: {
       ...syncInterface,
-      enableOutbox(): void {
-        outboxEnabled = true;
+      enableOutbox(scope: SyncScope): void {
+        enabledOutboxScopes.add(scope);
       },
-      disableOutbox(): void {
-        outboxEnabled = false;
+      disableOutbox(scope: SyncScope): void {
+        enabledOutboxScopes.delete(scope);
       },
     },
 

@@ -32,7 +32,9 @@ export const initTranslation = async () => {
   const storage = await getAnoriStorage();
   const lang = storage.get(anoriSchema.language);
 
-  applyHtmlLangAttributes(lang);
+  if (typeof document !== "undefined") {
+    applyHtmlLangAttributes(lang);
+  }
 
   const [bundle] = await Promise.all([loadTranslationBundle(lang), loadMomentLocale(lang)]);
 
@@ -67,7 +69,10 @@ export const switchTranslationLanguage = async (lang: Language) => {
   }
   i18n.changeLanguage(lang);
   moment.locale(lang.toLowerCase()); // Moment uses lowecase locales (e.g. zh-cn), but i18next requires them to be like zh-CN
-  applyHtmlLangAttributes(lang);
+
+  if (typeof document !== "undefined") {
+    applyHtmlLangAttributes(lang);
+  }
 };
 
 export const translate = i18n.t;

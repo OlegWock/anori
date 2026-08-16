@@ -1,5 +1,6 @@
 import { availableTranslations, type Language } from "@anori/translations/metadata";
 import { type HslColor, hslColorToOklch } from "@anori/utils/color";
+import { StashEntrySchema, StashSchema } from "@anori/utils/storage/schema/stash";
 import {
   BookmarkWidgetStoreSchema,
   NotesWidgetStoreSchema,
@@ -108,7 +109,7 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "folders",
     schema: z.array(FolderSchema),
     defaultValue: [],
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   folderDetails: collection({
@@ -119,14 +120,14 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: FolderDetailsSchema,
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   newTabTitle: cell({
     key: "newTabTitle",
     schema: z.string(),
     defaultValue: "Anori",
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
 
@@ -135,14 +136,14 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "theme",
     schema: z.string(),
     defaultValue: "Greenery",
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   customThemes: cell({
     key: "customThemes",
     schema: z.array(CustomThemeSchemaV1),
     defaultValue: [],
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
 
@@ -151,21 +152,21 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "sidebarOrientation",
     schema: SidebarOrientationSchema,
     defaultValue: "auto" as const,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   autoHideSidebar: cell({
     key: "autoHideSidebar",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   showBookmarksBar: cell({
     key: "showBookmarksBar",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
 
@@ -174,14 +175,14 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "rememberLastFolder",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   lastFolder: cell({
     key: "lastFolder",
     schema: z.string().optional(),
     defaultValue: undefined,
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
 
@@ -190,28 +191,28 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "compactMode",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   automaticCompactMode: cell({
     key: "automaticCompactMode",
     schema: z.boolean(),
     defaultValue: true,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   automaticCompactModeThreshold: cell({
     key: "automaticCompactModeThreshold",
     schema: z.number(),
     defaultValue: 1500,
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
   showLoadAnimation: cell({
     key: "showLoadAnimation",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
 
@@ -220,7 +221,7 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "language",
     schema: LanguageSchema,
     defaultValue: "en" as Language,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
 
@@ -229,14 +230,14 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "hasUnreadReleaseNotes",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
   finishedOnboarding: cell({
     key: "finishedOnboarding",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
 
@@ -245,42 +246,42 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "userId",
     schema: z.string(),
     defaultValue: "",
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
   analyticsEnabled: cell({
     key: "analyticsEnabled",
     schema: z.boolean(),
     defaultValue: false,
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
   analyticsLastSend: cell({
     key: "analyticsLastSend",
     schema: z.number(),
     defaultValue: 0,
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
   dailyUsageMetrics: cell({
     key: "dailyUsageMetrics",
     schema: DailyUsageMetricsSchema,
     defaultValue: {},
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
   performanceAvgLcp: cell({
     key: "performanceAvgLcp",
     schema: PerformanceAvgLcpSchema,
     defaultValue: { avg: 0, n: 0 },
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
   performanceRawInp: cell({
     key: "performanceRawInp",
     schema: z.array(z.number()),
     defaultValue: [],
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
 
@@ -289,7 +290,7 @@ export const schemaV1 = defineSchemaVersion(1, {
     key: "cloudAccount",
     schema: CloudAccountSchema,
     defaultValue: null,
-    tracked: false,
+    sync: "off",
     includedInBackup: false,
   }),
   cloudSyncSettings: cell({
@@ -305,7 +306,28 @@ export const schemaV1 = defineSchemaVersion(1, {
       })
       .nullable(),
     defaultValue: null,
-    tracked: false,
+    sync: "off",
+    includedInBackup: false,
+  }),
+  shareOpenTabs: cell({
+    key: "shareOpenTabs",
+    schema: z.boolean(),
+    defaultValue: false,
+    sync: "off",
+    includedInBackup: false,
+  }),
+  deviceId: cell({
+    key: "deviceId",
+    schema: z.string().nullable(),
+    defaultValue: null,
+    sync: "off",
+    includedInBackup: false,
+  }),
+  deviceRegisteredForUserId: cell({
+    key: "deviceRegisteredForUserId",
+    schema: z.string().nullable(),
+    defaultValue: null,
+    sync: "off",
     includedInBackup: false,
   }),
 
@@ -318,7 +340,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: z.record(z.string(), z.unknown()),
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   pluginStorage: collection({
@@ -329,7 +351,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: z.record(z.string(), z.unknown()),
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
 
@@ -342,7 +364,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: TasksWidgetStoreSchema,
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   notesWidgetStore: collection({
@@ -353,7 +375,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: NotesWidgetStoreSchema,
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   weatherCurrentWidgetStore: collection({
@@ -364,7 +386,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: WeatherCurrentWidgetStoreSchema,
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   weatherForecastWidgetStore: collection({
@@ -375,7 +397,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: WeatherForecastWidgetStoreSchema,
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   topSitesWidgetStore: collection({
@@ -386,7 +408,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: TopSitesWidgetStoreSchema,
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   rssWidgetStore: collection({
@@ -397,7 +419,7 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: RssWidgetStoreSchema,
       }),
     },
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   bookmarkWidgetStore: collection({
@@ -408,14 +430,14 @@ export const schemaV1 = defineSchemaVersion(1, {
         schema: BookmarkWidgetStoreSchema,
       }),
     },
-    tracked: false,
+    sync: "off",
     includedInBackup: true,
   }),
 
   // File collections
   customIcons: fileCollection({
     keyPrefix: "CustomIcon",
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
     propertiesSchema: z.object({
       mimeType: z.string().optional(),
@@ -423,12 +445,12 @@ export const schemaV1 = defineSchemaVersion(1, {
   }),
   themeBackgrounds: fileCollection({
     keyPrefix: "ThemeBackground",
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   pictureWidgetImages: fileCollection({
     keyPrefix: "PictureWidgetImage",
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
     propertiesSchema: z.object({
       mimeType: z.string().optional(),
@@ -444,15 +466,55 @@ export const schemaV2 = defineSchemaVersion(2, {
     key: "customThemes",
     schema: z.array(CustomThemeSchema),
     defaultValue: [],
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
   colorScheme: cell({
     key: "colorScheme",
     schema: ColorSchemeSchema,
     defaultValue: "dark" as const,
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
+  }),
+
+  // Stashes are user-scoped; entries are split into separate records so concurrent adds touch distinct keys.
+  stashes: collection({
+    keyPrefix: "Stash",
+    entities: {
+      stash: entity({ brand: "Stash", schema: StashSchema }),
+    },
+    sync: "user",
+    includedInBackup: true,
+  }),
+  stashEntries: collection({
+    keyPrefix: "StashEntry",
+    entities: {
+      entry: entity({ brand: "StashEntry", schema: StashEntrySchema }),
+    },
+    sync: "user",
+    includedInBackup: true,
+  }),
+
+  // User-scope sync cursor/version state. Deliberately separate from cloudSyncSettings: user
+  // cells are account-global, so this must survive profile switches.
+  cloudUserSyncState: cell({
+    key: "cloudUserSyncState",
+    schema: z
+      .object({
+        latestSeq: z.number(),
+        // Observed schema version of the account's user-cell store.
+        userSchemaVersion: z.number().optional(),
+        // User-store schema version our local user cells are reconciled to.
+        syncedSchemaVersion: z.number().optional(),
+        // Which account the local user-scope data was last synced against. Survives logout so
+        // a later login can tell "same account, resume" from "different account, ask what to
+        // do with the local copy".
+        ownerUserId: z.string().optional(),
+      })
+      .nullable(),
+    defaultValue: null,
+    sync: "off",
+    includedInBackup: false,
   }),
 });
 
@@ -477,7 +539,7 @@ export const schemaV3 = defineSchemaVersion(3, {
     key: "customThemes",
     schema: z.array(CustomThemeSchema),
     defaultValue: [],
-    tracked: true,
+    sync: "profile",
     includedInBackup: true,
   }),
 });
@@ -501,6 +563,13 @@ export const anoriVersionedSchema = defineVersionedSchema({
 
 export const anoriSchema = anoriVersionedSchema.latestSchema.definition;
 
+export type {
+  Stash,
+  StashEntry,
+  StashGroupEntry,
+  StashLink,
+  StashLinkEntry,
+} from "./stash";
 export type {
   BookmarkWidgetStore,
   NotesWidgetStore,

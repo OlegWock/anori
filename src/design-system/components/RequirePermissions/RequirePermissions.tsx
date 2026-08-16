@@ -1,6 +1,8 @@
 import { Button } from "@anori/design-system/components/Button/Button";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { ListItem } from "@anori/design-system/components/ListItem/ListItem";
 import { Modal } from "@anori/design-system/components/Modal/Modal";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import {
@@ -32,10 +34,13 @@ const centeredViewport = css({
   },
 });
 const promptEmptyState = css({ gap: "3", paddingBlock: "3", maxWidth: "40rem" });
+const listItemLabel = css({ flex: 1, minWidth: 0 });
 const text = css({ fontWeight: "light" });
 const additionalInfoClass = css({ marginTop: "4" });
 const grantButton = css({ alignSelf: "center", marginTop: "2", whiteSpace: "break-spaces" });
 const modalClass = css({ maxWidth: "600px" });
+
+export type RequirePermissionsVariant = "full" | "compact" | "list-item";
 
 export type RequirePermissionsProps = {
   additionalInfo?: string;
@@ -43,8 +48,9 @@ export type RequirePermissionsProps = {
   hosts?: string[];
   permissions?: CorrectPermission[];
   children?: ReactNode;
-  compact?: boolean;
+  variant?: RequirePermissionsVariant;
   onGrant?: () => void;
+  onRequestStart?: () => void;
   className?: string;
 };
 
@@ -52,20 +58,23 @@ export const RequirePermissions = ({
   hosts = [],
   permissions = [],
   children,
-  compact,
+  variant = "full",
   onGrant,
+  onRequestStart,
   className,
   enabled = true,
   additionalInfo,
 }: RequirePermissionsProps) => {
   const grantPermissions = async () => {
-    const granted = await browser.permissions.request({
+    const request = browser.permissions.request({
       // @ts-expect-error Incompatible types between webextension-polyfill and what is actually available in Chrome
       permissions: missingPermissions,
       origins: missingHostPermissions.map((host) => {
         return `*://${normalizeHost(host)}/*`;
       }),
     });
+    onRequestStart?.();
+    const granted = await request;
     if (granted) updateAvailablePermissions();
     console.log("Permissions granted", granted);
     if (onGrant) onGrant();
@@ -109,7 +118,16 @@ export const RequirePermissions = ({
     </Button>
   );
 
-  if (compact) {
+  if (variant === "list-item") {
+    return (
+      <ListItem as="button" type="button" className={className} onClick={grantPermissions}>
+        <Icon icon={builtinIcons.key} width={18} color="icon" />
+        <span className={listItemLabel}>{additionalInfo ?? t("requirePermissions.grant")}</span>
+      </ListItem>
+    );
+  }
+
+  if (variant === "compact") {
     return (
       <>
         <ScrollArea

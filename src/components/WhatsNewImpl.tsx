@@ -24,6 +24,21 @@ export const WhatsNewImpl = () => {
           {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
           <section>
+            <Heading marginBottom="2">2.1.0</Heading>
+            <ul>
+              <li>
+                Added new Tab stash widget. Use it to quickly save link you'd like to return to later. With Anori Plus,
+                it's synced to all your other browsers.
+              </li>
+              <li>
+                Added new Synced tabs widget. It allows you to to see at a glance and open tabs from your other devices.
+                Requires Anori Plus.
+              </li>
+              <li>Minor fixes and adjustments.</li>
+            </ul>
+          </section>
+
+          <section>
             <Heading marginBottom="2">2.0.2</Heading>
             <p>Second follow-up to big 2.0 release with improvements to appearance and custom themes.</p>
             <ul>

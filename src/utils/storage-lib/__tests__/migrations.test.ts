@@ -35,7 +35,13 @@ describe("Migration System", () => {
   describe("needsMigration", () => {
     it("should return false for fresh install (version 0)", async () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const schema = defineVersionedSchema({ versions: [v1], migrations: [] });
 
@@ -47,7 +53,13 @@ describe("Migration System", () => {
       await setStoredSchemaVersion(1);
 
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const schema = defineVersionedSchema({ versions: [v1], migrations: [] });
 
@@ -59,11 +71,29 @@ describe("Migration System", () => {
       await setStoredSchemaVersion(1);
 
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const v2 = defineSchemaVersion(2, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
-        newField: cell({ key: "newField", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
+        newField: cell({
+          key: "newField",
+          schema: z.number(),
+          defaultValue: 0,
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const schema = defineVersionedSchema({
         versions: [v1, v2],
@@ -78,7 +108,13 @@ describe("Migration System", () => {
   describe("runMigrations", () => {
     it("should set version on fresh install without running migrations", async () => {
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const schema = defineVersionedSchema({ versions: [v1], migrations: [] });
 
@@ -95,10 +131,22 @@ describe("Migration System", () => {
       await setStoredSchemaVersion(2);
 
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const v2 = defineSchemaVersion(2, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const migrationFn = vi.fn();
       const schema = defineVersionedSchema({
@@ -121,14 +169,20 @@ describe("Migration System", () => {
       };
 
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const v2 = defineSchemaVersion(2, {
         themeMode: cell({
           key: "themeMode",
           schema: z.string(),
           defaultValue: "light",
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
       });
@@ -168,11 +222,11 @@ describe("Migration System", () => {
       };
 
       const v1 = defineSchemaVersion(1, {
-        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
-        added: cell({ key: "added", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
+        added: cell({ key: "added", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
 
       const schema = defineVersionedSchema({
@@ -204,19 +258,19 @@ describe("Migration System", () => {
           key: "trackedKey",
           schema: z.string(),
           defaultValue: "",
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
         localKey: cell({
           key: "localKey",
           schema: z.string(),
           defaultValue: "",
-          tracked: false,
+          sync: "off",
           includedInBackup: true,
         }),
       });
       const v2 = defineSchemaVersion(2, {
-        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
 
       const schema = defineVersionedSchema({
@@ -248,16 +302,16 @@ describe("Migration System", () => {
       };
 
       const v1 = defineSchemaVersion(1, {
-        counter: cell({ key: "counter", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        counter: cell({ key: "counter", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        counter: cell({ key: "counter", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
-        doubled: cell({ key: "doubled", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        counter: cell({ key: "counter", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
+        doubled: cell({ key: "doubled", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
       const v3 = defineSchemaVersion(3, {
-        counter: cell({ key: "counter", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
-        doubled: cell({ key: "doubled", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
-        tripled: cell({ key: "tripled", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        counter: cell({ key: "counter", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
+        doubled: cell({ key: "doubled", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
+        tripled: cell({ key: "tripled", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
 
       const schema = defineVersionedSchema({
@@ -313,13 +367,18 @@ describe("Migration System", () => {
       });
 
       const v1 = defineSchemaVersion(1, {
-        items: collection({ keyPrefix: "Item", entities: { item: itemEntity }, tracked: true, includedInBackup: true }),
+        items: collection({
+          keyPrefix: "Item",
+          entities: { item: itemEntity },
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const v2 = defineSchemaVersion(2, {
         items: collection({
           keyPrefix: "Item",
           entities: { item: newItemEntity },
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
       });
@@ -360,10 +419,22 @@ describe("Migration System", () => {
       };
 
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const v2 = defineSchemaVersion(2, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "light", tracked: true, includedInBackup: true }),
+        theme: cell({
+          key: "theme",
+          schema: z.string(),
+          defaultValue: "light",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
 
       const schema = defineVersionedSchema({
@@ -393,7 +464,7 @@ describe("Migration System", () => {
           key: "theme",
           schema: z.object({ hsl: z.number() }),
           defaultValue: { hsl: 0 },
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
       });
@@ -402,7 +473,7 @@ describe("Migration System", () => {
           key: "theme",
           schema: z.object({ oklch: z.number() }),
           defaultValue: { oklch: 0 },
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
       });
@@ -428,11 +499,11 @@ describe("Migration System", () => {
       browserState.storage.theme = { hlc: { pt: 1000, lc: 0, node: "abc123" }, value: "dark" };
 
       const v1 = defineSchemaVersion(1, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        theme: cell({ key: "theme", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        theme: cell({ key: "theme", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
-        added: cell({ key: "added", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        theme: cell({ key: "theme", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
+        added: cell({ key: "added", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
       const schema = defineVersionedSchema({
         versions: [v1, v2],
@@ -452,10 +523,10 @@ describe("Migration System", () => {
       browserState.storage.token = { hlc: { pt: 1000, lc: 0, node: "abc123" }, value: "old" };
 
       const v1 = defineSchemaVersion(1, {
-        token: cell({ key: "token", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        token: cell({ key: "token", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        token: cell({ key: "token", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        token: cell({ key: "token", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
       const schema = defineVersionedSchema({
         versions: [v1, v2],
@@ -477,10 +548,22 @@ describe("Migration System", () => {
       browserState.storage.oldName = { hlc: sourceHlc, value: "v" };
 
       const v1 = defineSchemaVersion(1, {
-        oldName: cell({ key: "oldName", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        oldName: cell({
+          key: "oldName",
+          schema: z.string(),
+          defaultValue: "",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const v2 = defineSchemaVersion(2, {
-        newName: cell({ key: "newName", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        newName: cell({
+          key: "newName",
+          schema: z.string(),
+          defaultValue: "",
+          sync: "profile",
+          includedInBackup: true,
+        }),
       });
       const schema = defineVersionedSchema({
         versions: [v1, v2],
@@ -504,16 +587,16 @@ describe("Migration System", () => {
       await setStoredSchemaVersion(1);
 
       const v1 = defineSchemaVersion(1, {
-        a: cell({ key: "a", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        a: cell({ key: "a", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        a: cell({ key: "a", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
-        b: cell({ key: "b", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        a: cell({ key: "a", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
+        b: cell({ key: "b", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
       const v3 = defineSchemaVersion(3, {
-        a: cell({ key: "a", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
-        b: cell({ key: "b", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
-        c: cell({ key: "c", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        a: cell({ key: "a", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
+        b: cell({ key: "b", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
+        c: cell({ key: "c", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
 
       const migration2to3 = vi.fn();
@@ -557,7 +640,7 @@ describe("Migration System", () => {
           key: "theme",
           schema: z.object({ hsl: z.number() }),
           defaultValue: { hsl: 0 },
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
       });
@@ -566,14 +649,14 @@ describe("Migration System", () => {
           key: "theme",
           schema: z.object({ oklch: z.number() }),
           defaultValue: { oklch: 0 },
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
         scheme: cell({
           key: "scheme",
           schema: z.string(),
           defaultValue: "dark",
-          tracked: true,
+          sync: "profile",
           includedInBackup: true,
         }),
       });
@@ -609,13 +692,13 @@ describe("Migration System", () => {
 
     it("accumulates the net diff across a chain, later step winning", async () => {
       const v1 = defineSchemaVersion(1, {
-        n: cell({ key: "n", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        n: cell({ key: "n", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        n: cell({ key: "n", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        n: cell({ key: "n", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
       const v3 = defineSchemaVersion(3, {
-        n: cell({ key: "n", schema: z.number(), defaultValue: 0, tracked: true, includedInBackup: true }),
+        n: cell({ key: "n", schema: z.number(), defaultValue: 0, sync: "profile", includedInBackup: true }),
       });
       const schema = defineVersionedSchema({
         versions: [v1, v2, v3],
@@ -642,10 +725,10 @@ describe("Migration System", () => {
 
     it("includes tombstones for deleted keys in the diff", async () => {
       const v1 = defineSchemaVersion(1, {
-        old: cell({ key: "old", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        old: cell({ key: "old", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
       const v2 = defineSchemaVersion(2, {
-        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", tracked: true, includedInBackup: true }),
+        kept: cell({ key: "kept", schema: z.string(), defaultValue: "", sync: "profile", includedInBackup: true }),
       });
       const schema = defineVersionedSchema({
         versions: [v1, v2],

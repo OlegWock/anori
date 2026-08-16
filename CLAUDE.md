@@ -27,14 +27,12 @@ TypeScript only. Use `assertValue()` from `@anori/utils/asserts` instead of `!` 
 Full rules: @.ai/base.md
 
 ### Comments
-**Default to NO comments.** Add one only when it is genuinely functional and the code cannot convey it on its own: a third-party quirk/workaround, a non-obvious "why" (a tricky algorithm, an unobvious invariant, a deliberate trick around a bug), a `biome-ignore`/`@ts-expect-error` justification, or a TODO. If a comment doesn't fall in one of those buckets, do not write it.
+**Do not write new code comments — at all.** This is a hard rule, not a preference. When you write or change code, add zero comments; put the effort into clear names and structure instead. If you feel a comment is needed to explain something, treat that as a signal to make the code clearer.
 
-Never write comments that:
-- restate what the code plainly does (`// loop over widgets`), or label a token/prop/variable/branch (`// visible accent outline`, `// the fallback`);
-- narrate design rationale ("we do X so it reads as Y", "this keeps Z consistent") that the names and structure already make clear;
-- reference the task, this conversation, a review, or how the code used to be ("now lazy", "changed to…").
+- **Do not remove existing comments.** You may *edit* an existing comment only when your change makes it contradict the code — update it to match, or trim just the now-false part.
+- The **only** exception is tooling-required directives that are not prose (`biome-ignore`, `@ts-expect-error`, `eslint-disable`): write these only when the tool actually needs them, and keep them minimal.
 
-Write for someone reading the code in 6 months with no memory of why it was written. When in doubt, leave it out, and match the comment density of the surrounding code — most files here have none. Adding decorative comments is a recurring problem; treat this as a hard rule, not a preference.
+After writing or editing code, scan your diff for any `//`, `/* */`, or `{/* */}` you introduced and delete them (except the tooling directives above).
 
 ### Plugins & Widgets
 Widgets are the main building block. Plugins provide widgets via `definePlugin`/`defineWidget` (from `@anori/utils/plugins/define`) and are registered in `src/plugins/all.ts`. A plugin has an **identity** — `definePlugin({ id, name, icon, config?, widgets })` — and **behaviors** chained on it: `.withMessaging()`, `.withScheduledCallback(intervalMinutes, cb)`, `.withOnStart(cb)`, then `.build()` (required). Behavior callbacks receive a typed `PluginContext` (`ctx.getWidgets()` — instances typed/correlated per descriptor; `ctx.getConfig()` — plugin config); recover its type with `export type FooContext = ContextOf<typeof base>` and import it **type-only** into `background.ts` (avoids the plugin↔background cycle). `config?: { schema, configurationScreen }` declares plugin-level config shared across widgets (delivered to widgets as `pluginConfig`). `defineWidget` takes an optional `schema` (a zod type; decoded on read, encoded on write — defaults to a passthrough cast); widgets get `WidgetRenderProps<WidgetConfig, PluginConfig>`. Widgets also have hooks like `useWidgetMetadata()`, `useParentFolder()`, `useSizeSettings()`, and storage APIs (`usePluginStorage`, `useWidgetStorage`). Small plugins live in a single file; larger ones split into `types.ts`, `storage.ts`, `messaging.ts`, `background.ts`, and a `widgets/` subfolder with per-widget components, config screens, and `descriptors.ts`. Wrap every widget `mainScreen`/`mock` component in `React.memo` (named function, not anonymous arrow) — the folder grid re-renders for reasons unrelated to any one widget, and `memo` lets it bail; see `blueprint`'s `BlueprintWidget`.

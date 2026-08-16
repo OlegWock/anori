@@ -9,9 +9,6 @@ export const SettingsModal = createLazyComponent(() => import("./settings/Settin
 export const NewWidgetWizard = createLazyComponent(() =>
   import("./components/NewWidgetWizard").then((m) => m.NewWidgetWizard),
 );
-export const CloudAccountModal = createLazyComponent(() =>
-  import("@anori/cloud-integration/components/CloudAccountModal").then((m) => m.CloudAccountModal),
-);
 
 export const scheduleLazyComponentsPreload = () =>
   schedulePreload([
@@ -22,5 +19,4 @@ export const scheduleLazyComponentsPreload = () =>
     WhatsNew.preload,
     SettingsModal.preload,
     NewWidgetWizard.preload,
-    CloudAccountModal.preload,
   ]);

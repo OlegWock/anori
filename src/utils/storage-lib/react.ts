@@ -1,4 +1,4 @@
-import { atom, useAtom, type WritableAtom } from "jotai";
+import { atom, useAtom, useAtomValue, type WritableAtom } from "jotai";
 import { createContext, type SetStateAction, useContext } from "react";
 import { getQueryId } from "./query";
 import type { CellDescriptor } from "./schema/cell";
@@ -363,6 +363,13 @@ export function useStorageValue<T>(query: WritableStorageQuery<T>): WritableStor
   const [state, setValue] = useAtom(storageAtom);
 
   return [state.value, setValue as (value: SetStateAction<T>) => Promise<void>, state.meta];
+}
+
+export function useStorageCollectionAllValue<T>(query: CollectionAllQuery<T>): Record<string, T> {
+  const storage = useStorage();
+  const storageAtom = atomWithStorageQuery(query, storage);
+  const state = useAtomValue(storageAtom);
+  return state.value;
 }
 
 type SingleFileQuery<P = unknown> = FileDescriptor<P> | FileCollectionByIdQuery<P>;

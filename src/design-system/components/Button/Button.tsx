@@ -2,7 +2,7 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 import { css, cva, cx } from "styled-system/css";
 
-export type ButtonSize = "normal" | "compact";
+export type ButtonSize = "normal" | "medium" | "compact";
 export type ButtonVariant = "primary" | "secondary" | "frosted" | "ghost";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -69,6 +69,7 @@ export const button = cva({
     },
     size: {
       normal: { height: "2.25rem", px: "5", fontSize: "base" },
+      medium: { height: "2rem", px: "4", fontSize: "sm" },
       compact: { height: "1.75rem", px: "4", fontSize: "sm" },
     },
     block: { true: { width: "100%" } },

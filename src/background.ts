@@ -1,3 +1,4 @@
+import { ensureDeviceRegistered } from "@anori/cloud-integration/device-registration";
 import { performSync } from "@anori/cloud-integration/sync-manager";
 import { availablePlugins } from "@anori/plugins/all";
 import { incrementDailyUsageMetric, sendAnalyticsIfEnabled, trackEvent } from "@anori/utils/analytics";
@@ -40,6 +41,7 @@ const VERSIONS_WITH_CHANGES = [
   "1.27.0",
   "2.0.0",
   "2.0.2",
+  "2.1.0",
 ];
 
 const compareVersions = (v1: string, v2: string): -1 | 0 | 1 => {
@@ -172,6 +174,8 @@ availablePlugins.forEach((plugin) => {
   }
 });
 
+ensureDeviceRegistered();
+
 browser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "scheduledCallbacks") {
     runScheduledCallbacks();
@@ -231,13 +235,6 @@ browser.alarms.create("tombstoneCompaction", {
 });
 
 browser.runtime.setUninstallURL(`https://anori.app/goodbye`);
-
-(X_BROWSER === "chrome" ? browser.action : browser.browserAction).onClicked.addListener(() => {
-  browser.tabs.create({
-    url: browser.runtime.getURL("/pages/newtab/start.html"),
-    active: true,
-  });
-});
 
 // @ts-expect-error unknwon onRuleMatchedDebug event
 if (X_BROWSER === "chrome" && X_MODE === "development" && browser.declarativeNetRequest?.onRuleMatchedDebug) {

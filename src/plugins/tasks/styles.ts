@@ -8,7 +8,6 @@ export const tasksWidget = css({
   flexGrow: 1,
   overflow: "hidden",
 });
-export const tasksHeader = css({ display: "flex", justifyContent: "space-between", alignItems: "center" });
 export const tasksList = css({
   display: "flex",
   flexDirection: "column",

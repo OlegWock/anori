@@ -21,15 +21,17 @@ const notesWidget = css({
   textDecoration: "none",
   flexGrow: 1,
   overflow: "hidden",
+  padding: "4",
 });
 const noteInput = css({
-  margin: "0-5",
   minWidth: 0,
   paddingBlock: "1",
   paddingInline: "2!",
+  marginInline: "-2",
+  marginTop: "-1",
   height: "auto",
 });
-const noteTitle = css({ fontSize: "xl!" });
+const noteTitle = css({ fontSize: "xl!", fontWeight: "light", minHeight: "2.25rem", marginBottom: "1" });
 const noteBodyEditor = css({
   resize: "none",
   flexGrow: 1,
@@ -47,7 +49,6 @@ const noteBodyRendered = css({
   fontSize: "inherit",
   lineHeight: "inherit",
   marginBlock: "0-5",
-  marginInline: "3",
   cursor: "text",
   textAlign: "start",
   display: "flex",

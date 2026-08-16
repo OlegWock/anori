@@ -26,7 +26,7 @@ export const bookmarkWidgetDescriptor = defineWidget({
         additionalInfo={t("bookmark-plugin.permissionExplanation")}
         hosts={[parseHost(config.url)]}
         enabled={config.checkStatus === true}
-        compact
+        variant="compact"
       >
         <BookmarkWidget instanceId={instanceId} config={config} isMock={false} />
       </RequirePermissions>
