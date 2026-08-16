@@ -7,6 +7,7 @@ import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { mountPage } from "@anori/utils/react";
 import { getAnoriStorage } from "@anori/utils/storage";
 import { StorageContext } from "@anori/utils/storage-lib";
+import { domMax, LazyMotion } from "motion/react";
 import { Popup } from "./components/Popup";
 
 watchForPermissionChanges();
@@ -18,7 +19,9 @@ getAnoriStorage().then(async (storage) => {
     <StorageContext.Provider value={storage}>
       <CompactModeProvider>
         <TooltipProvider delay={200} closeDelay={100} timeout={0}>
-          <Popup />
+          <LazyMotion features={domMax}>
+            <Popup />
+          </LazyMotion>
         </TooltipProvider>
       </CompactModeProvider>
     </StorageContext.Provider>,

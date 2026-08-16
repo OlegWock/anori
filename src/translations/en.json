@@ -366,7 +366,7 @@
                 "loading": "Loading tabs...",
                 "unnamedGroup": "Group",
                 "notConnectedTitle": "See tabs from your other devices",
-                "notConnectedDescription": "Connect Anori to sync open tabs across your devices.",
+                "notConnectedDescription": "Connect Anori Plus to sync open tabs across your devices.",
                 "connect": "Connect",
                 "emptyTitle": "No other devices are sharing tabs yet",
                 "emptyDescription": "Log into your Anori Plus account on another computer and turn on tab sync there."

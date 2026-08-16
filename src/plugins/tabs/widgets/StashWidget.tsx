@@ -8,6 +8,7 @@ import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageCollectionAllValue } from "@anori/utils/storage-lib";
+import { m } from "motion/react";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
@@ -45,7 +46,7 @@ export const StashWidget = memo(function StashWidget({ config }: WidgetRenderPro
   }, [allEntries, stashId]);
 
   return (
-    <div className={widget}>
+    <m.div className={widget} layoutRoot>
       <WidgetHeader
         title={t("tabs-plugin.stash.title")}
         action={
@@ -65,6 +66,6 @@ export const StashWidget = memo(function StashWidget({ config }: WidgetRenderPro
           <StashEntryList entries={entries} showHost={showHost} handlers={handlers} />
         </ScrollArea>
       )}
-    </div>
+    </m.div>
   );
 });

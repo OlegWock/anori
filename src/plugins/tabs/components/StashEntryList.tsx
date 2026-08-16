@@ -7,7 +7,8 @@ import { Input } from "@anori/design-system/components/Input/Input";
 import { ListItem } from "@anori/design-system/components/ListItem/ListItem";
 import { isModifiedClick, parseHost } from "@anori/utils/misc";
 import type { StashEntry, StashGroupEntry, StashLink } from "@anori/utils/storage";
-import { useState } from "react";
+import { AnimatePresence, m } from "motion/react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { sendMessage } from "../messaging";
@@ -64,6 +65,22 @@ const actions = css({
 const groupBody = css({ display: "flex", flexDirection: "column", paddingLeft: "5" });
 const groupNameInput = css({ flex: 1 });
 
+const rowMotionProps = {
+  layout: "position",
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0, transition: { duration: 0.12 } },
+} as const;
+
+const getGroupLinkKeys = (links: StashLink[]) => {
+  const occurrences = new Map<string, number>();
+  return links.map((link) => {
+    const seen = occurrences.get(link.url) ?? 0;
+    occurrences.set(link.url, seen + 1);
+    return `${link.url}#${seen}`;
+  });
+};
+
 const RemoveButton = ({ onClick }: { onClick: () => void }) => {
   const { t } = useTranslation();
   return (
@@ -88,7 +105,7 @@ const LinkRow = ({
 }) => {
   const { openLink } = handlers;
   return (
-    <ListItem className={entryRow}>
+    <ListItem as={m.div} className={entryRow} {...rowMotionProps}>
       <a
         className={entryMain}
         href={entry.url}
@@ -126,7 +143,7 @@ const GroupLinkRow = ({
 }) => {
   const { openLink } = handlers;
   return (
-    <ListItem className={entryRow}>
+    <ListItem as={m.div} className={entryRow} {...rowMotionProps}>
       <a
         className={entryMain}
         href={link.url}
@@ -163,6 +180,7 @@ const GroupRow = ({
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [editingName, setEditingName] = useState<string | null>(null);
+  const linkKeys = useMemo(() => getGroupLinkKeys(entry.links), [entry.links]);
 
   const commitRename = async () => {
     if (editingName?.trim()) {
@@ -172,7 +190,7 @@ const GroupRow = ({
   };
 
   return (
-    <div>
+    <m.div {...rowMotionProps}>
       <ListItem className={entryRow}>
         <button type="button" className={entryMain} onClick={() => setExpanded((v) => !v)}>
           <Icon
@@ -222,18 +240,20 @@ const GroupRow = ({
       </ListItem>
       {expanded && (
         <div className={groupBody}>
-          {entry.links.map((link, index) => (
-            <GroupLinkRow
-              key={`${link.url}-${index}`}
-              link={link}
-              showHost={showHost}
-              handlers={handlers}
-              onRemove={() => sendMessage("removeGroupLink", { entryId: entry.id, linkIndex: index })}
-            />
-          ))}
+          <AnimatePresence initial={false}>
+            {entry.links.map((link, index) => (
+              <GroupLinkRow
+                key={linkKeys[index]}
+                link={link}
+                showHost={showHost}
+                handlers={handlers}
+                onRemove={() => sendMessage("removeGroupLink", { entryId: entry.id, linkIndex: index })}
+              />
+            ))}
+          </AnimatePresence>
         </div>
       )}
-    </div>
+    </m.div>
   );
 };
 
@@ -247,7 +267,7 @@ export const StashEntryList = ({
   handlers: StashOpenHandlers;
 }) => {
   return (
-    <>
+    <AnimatePresence initial={false}>
       {entries.map((entry) =>
         entry.type === "group" ? (
           <GroupRow key={entry.id} entry={entry} showHost={showHost} handlers={handlers} />
@@ -255,6 +275,6 @@ export const StashEntryList = ({
           <LinkRow key={entry.id} entry={entry} showHost={showHost} handlers={handlers} />
         ),
       )}
-    </>
+    </AnimatePresence>
   );
 };
