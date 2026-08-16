@@ -11,7 +11,12 @@ export type PluginWidgetsSectionProps = {
 };
 
 const section = css({ display: "flex", flexDirection: "column", gap: "2" });
-const mockBackground = css({ backgroundImage: "var(--background-image)", backgroundSize: "cover", borderRadius: "lg" });
+const mockBackground = css({
+  backgroundImage: "var(--background-image)",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  borderRadius: "lg",
+});
 const mocks = css({
   display: "flex",
   flexWrap: "wrap",

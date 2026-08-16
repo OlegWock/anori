@@ -12,6 +12,7 @@ body {
   /* The user's wallpaper, set at runtime. */
   background: var(--background-image);
   background-size: cover;
+  background-position: center;
   overflow: hidden;
 }
 
