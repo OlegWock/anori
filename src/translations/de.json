@@ -365,7 +365,7 @@
                 "loading": "Tabs werden geladen...",
                 "unnamedGroup": "Gruppe",
                 "notConnectedTitle": "Tabs von deinen anderen Geräten anzeigen",
-                "notConnectedDescription": "Verbinde Anori, um offene Tabs geräteübergreifend zu synchronisieren.",
+                "notConnectedDescription": "Verbinde Anori Plus, um offene Tabs geräteübergreifend zu synchronisieren.",
                 "connect": "Verbinden",
                 "emptyTitle": "Noch kein anderes Gerät teilt Tabs",
                 "emptyDescription": "Melde dich auf einem anderen Computer bei deinem Anori Plus-Konto an und aktiviere dort die Tab-Synchronisierung."
@@ -473,6 +473,30 @@
             "errorTitle": "AnkiConnect ist nicht erreichbar",
             "error": "Stelle sicher, dass Anki läuft und das AnkiConnect-Add-on installiert ist.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Auch in diesem Release",
+            "tagNew": "Neu",
+            "tagImproved": "Verbessert",
+            "tagFixed": "Behoben",
+            "changelogNote": "Suchen Sie das Changelog für ältere Versionen? Sie finden es <0>auf GitHub</0>.",
+            "v2_1_0": {
+                "headline": "Jetzt mit erweitertem Tabs-Plugin. Behalte die Links, zu denen du zurückkehren möchtest, und mach dort weiter, wo du auf einem anderen Gerät aufgehört hast.",
+                "stashTitle": "Tab-Ablage",
+                "stashBody": "Verwende dieses Widget, um Links zu speichern, zu denen du später zurückkehren möchtest. Behalte sie auf deinem neuen Tab, damit du sie nicht vergisst. Ein Tab kann direkt im Widget oder über das neue Anori-Popup-Fenster abgelegt werden – klicke einfach auf das Anori-Symbol in der Symbolleiste der Erweiterung.",
+                "stashSync": "Mit Anori Plus wird deine Ablage über alle Browser, in denen du angemeldet bist, und über alle Profile hinweg synchronisiert.",
+                "syncedTabsTitle": "Synchronisierte Tabs",
+                "syncedTabsBody": "Sieh, was auf deinen anderen Geräten geöffnet ist, und mach mühelos dort weiter, wo du auf einem anderen Gerät aufgehört hast. Bitte beachte, dass diese Funktion Anori Plus und eine ausdrückliche Aktivierung in den Einstellungen erfordert.",
+                "minorPopup": "Ein Klick auf das Anori-Symbol in der Symbolleiste öffnet jetzt ein Popup statt nur einen neuen Tab.",
+                "minorDevices": "Die Einstellungen haben einen Bereich \"Geräte\" erhalten, in dem du alles sehen kannst, was mit deinem Anori Plus-Konto verbunden ist, und es umbenennen oder entfernen kannst.",
+                "minorTabsPlugin": "Das Widget \"Kürzlich geschlossene Tabs\" wurde zusammen mit den beiden obigen Widgets in ein neues Tabs-Plugin integriert und kann jetzt größer als zuvor skaliert werden.",
+                "minorWidgetHeaders": "Aufgaben, Notizen, RSS-Feed, Wettervorhersage und Kürzlich geschlossene Tabs teilen sich jetzt ein einheitliches Header-Layout, sodass ihre Titel und Schaltflächen nebeneinander ausgerichtet sind.",
+                "minorPlurals": "Übersetzte Sprachen verwenden jetzt korrekte Pluralformen, anstatt die englische Einzel-oder-Mehrfach-Regel zu übernehmen.",
+                "minorWhatsNew": "Der Bildschirm, den du gerade liest, wurde neu gestaltet, und die Hinweise zu älteren Versionen wurden aus der Erweiterung in ein Changelog auf GitHub verschoben.",
+                "minorTranslatedNotes": "Die Versionshinweise werden jetzt in alle von Anori unterstützten Sprachen übersetzt, anstatt nur auf Englisch verfügbar zu sein.",
+                "minorBackground": "Hintergrundbilder bleiben beim Ändern der Browserfenstergröße zentriert, anstatt von rechts und unten abgeschnitten zu werden.",
+                "minorFirefoxPermission": "Unter Firefox wird die Berechtigungsabfrage nicht mehr hinter dem Symbolleisten-Popup verborgen."
+            }
         }
     }
 }

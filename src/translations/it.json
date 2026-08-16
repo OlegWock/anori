@@ -366,7 +366,7 @@
                 "loading": "Caricamento schede...",
                 "unnamedGroup": "Gruppo",
                 "notConnectedTitle": "Visualizza le schede dagli altri tuoi dispositivi",
-                "notConnectedDescription": "Connetti Anori per sincronizzare le schede aperte su tutti i tuoi dispositivi.",
+                "notConnectedDescription": "Connetti Anori Plus per sincronizzare le schede aperte su tutti i tuoi dispositivi.",
                 "connect": "Connetti",
                 "emptyTitle": "Nessun altro dispositivo sta ancora condividendo le schede",
                 "emptyDescription": "Accedi al tuo account Anori Plus su un altro computer e attiva la sincronizzazione delle schede lì."
@@ -474,6 +474,30 @@
             "errorTitle": "AnkiConnect non è raggiungibile",
             "error": "Assicurati che Anki sia in esecuzione e che il componente aggiuntivo AnkiConnect sia installato.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Altro in questa versione",
+            "tagNew": "Nuovo",
+            "tagImproved": "Migliorato",
+            "tagFixed": "Corretto",
+            "changelogNote": "Cerchi il changelog per le versioni precedenti? Puoi trovarlo <0>su GitHub</0>.",
+            "v2_1_0": {
+                "headline": "Ora con il plugin Schede esteso. Tieni i link a cui vuoi tornare e riprendi le schede lasciate aperte su un altro dispositivo.",
+                "stashTitle": "Archivio schede",
+                "stashBody": "Usa questo widget per salvare i link a cui vuoi tornare in seguito. Tienili nella nuova scheda così non te ne dimenticherai. Una scheda può essere archiviata dal widget stesso o dalla nuova finestra popup di Anori: basta fare clic sull'icona di Anori nella barra degli strumenti dell'estensione.",
+                "stashSync": "Con Anori Plus il tuo archivio è condiviso su ogni browser in cui hai effettuato l'accesso e su tutti i profili.",
+                "syncedTabsTitle": "Schede sincronizzate",
+                "syncedTabsBody": "Guarda cosa è aperto sugli altri tuoi dispositivi e riprendi facilmente da dove ti eri fermato. Tieni presente che questa funzione richiede Anori Plus e un'attivazione esplicita nelle impostazioni.",
+                "minorPopup": "Facendo clic sull'icona di Anori nella barra degli strumenti ora si apre un popup invece di aprire semplicemente una nuova scheda.",
+                "minorDevices": "Le impostazioni hanno guadagnato una sezione Dispositivi, dove puoi vedere tutto ciò che è connesso al tuo account Anori Plus, rinominarlo o rimuoverlo.",
+                "minorTabsPlugin": "Il widget Schede chiuse di recente è stato integrato in un nuovo plugin Schede insieme ai due widget sopra, e ora può essere ridimensionato in altezza più di prima.",
+                "minorWidgetHeaders": "Attività, Note, Feed RSS, Previsioni meteo e Schede chiuse di recente ora condividono un unico layout di intestazione, così i loro titoli e pulsanti sono allineati fianco a fianco.",
+                "minorPlurals": "Le lingue tradotte ora usano le forme plurali corrette, invece di prendere in prestito la regola uno-o-molti dell'inglese.",
+                "minorWhatsNew": "La schermata che stai leggendo è stata riprogettata e le note per le versioni precedenti sono state spostate dall'estensione a un changelog su GitHub.",
+                "minorTranslatedNotes": "Le note di rilascio sono ora tradotte in ogni lingua supportata da Anori, invece di essere solo in inglese.",
+                "minorBackground": "Le immagini di sfondo rimangono centrate quando si ridimensiona la finestra del browser, invece di essere ritagliate da destra e dal basso.",
+                "minorFirefoxPermission": "Su Firefox, la richiesta di autorizzazione non viene più nascosta dietro il popup della barra degli strumenti."
+            }
         }
     }
 }

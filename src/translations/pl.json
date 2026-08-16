@@ -367,7 +367,7 @@
                 "loading": "Ładowanie kart...",
                 "unnamedGroup": "Grupa",
                 "notConnectedTitle": "Zobacz karty z innych urządzeń",
-                "notConnectedDescription": "Połącz Anori, aby synchronizować otwarte karty między urządzeniami.",
+                "notConnectedDescription": "Połącz Anori Plus, aby synchronizować otwarte karty między urządzeniami.",
                 "connect": "Połącz",
                 "emptyTitle": "Żadne inne urządzenie nie udostępnia jeszcze kart",
                 "emptyDescription": "Zaloguj się na konto Anori Plus na innym komputerze i włącz tam synchronizację kart."
@@ -475,6 +475,30 @@
             "errorTitle": "Nie można połączyć się z AnkiConnect",
             "error": "Upewnij się, że Anki jest uruchomione i dodatek AnkiConnect jest zainstalowany.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Również w tej wersji",
+            "tagNew": "Nowe",
+            "tagImproved": "Ulepszone",
+            "tagFixed": "Naprawione",
+            "changelogNote": "Szukasz dziennika zmian dla starszych wersji? Znajdziesz go <0>na GitHubie</0>.",
+            "v2_1_0": {
+                "headline": "Teraz z rozszerzonym wtyczką Karty. Zachowaj linki, do których chcesz wrócić, i wznów pracę z kartami otwartymi na innym urządzeniu.",
+                "stashTitle": "Schowek kart",
+                "stashBody": "Użyj tego widżetu, aby przechowywać linki, do których chcesz wrócić później. Trzymaj je na nowej karcie, żebyś naprawdę o nich pamiętał. Kartę można dodać do schowka bezpośrednio z widżetu lub z nowego okna podręcznego Anori — wystarczy kliknąć ikonę Anori na pasku narzędzi rozszerzenia.",
+                "stashSync": "Dzięki Anori Plus Twój schowek jest współdzielony we wszystkich przeglądarkach, do których jesteś zalogowany, oraz we wszystkich profilach.",
+                "syncedTabsTitle": "Zsynchronizowane karty",
+                "syncedTabsBody": "Zobacz, co jest otwarte na Twoich innych urządzeniach, i bez wysiłku wróć do miejsca, w którym skończyłeś na poprzednim urządzeniu. Pamiętaj, że ta funkcja wymaga Anori Plus i wyraźnego włączenia jej w ustawieniach.",
+                "minorPopup": "Kliknięcie ikony Anori na pasku narzędzi otwiera teraz okno podręczne zamiast zwykłego otwierania nowej karty.",
+                "minorDevices": "W ustawieniach pojawiła się sekcja Urządzenia, w której możesz zobaczyć wszystko zalogowane na Twoje konto Anori Plus, a także zmieniać nazwy urządzeń lub je usuwać.",
+                "minorTabsPlugin": "Widżet Ostatnio zamknięte karty został włączony do nowej wtyczki Karty razem z dwoma powyższymi widżetami i można go teraz powiększyć bardziej niż wcześniej.",
+                "minorWidgetHeaders": "Zadania, Notatki, Kanał RSS, Prognoza pogody i Ostatnio zamknięte karty mają teraz wspólny układ nagłówka, dzięki czemu ich tytuły i przyciski są wyrównane obok siebie.",
+                "minorPlurals": "Przetłumaczone języki używają teraz poprawnych form liczby mnogiej, zamiast stosować angielską zasadę jeden-lub-wiele.",
+                "minorWhatsNew": "Ekran, który właśnie czytasz, został przeprojektowany, a informacje o starszych wersjach przeniesiono z rozszerzenia do dziennika zmian na GitHubie.",
+                "minorTranslatedNotes": "Informacje o wydaniu są teraz tłumaczone na wszystkie języki obsługiwane przez Anori, zamiast być dostępne wyłącznie po angielsku.",
+                "minorBackground": "Obrazy tła pozostają wyśrodkowane podczas zmiany rozmiaru okna przeglądarki, zamiast być przycinane od prawej i dolnej strony.",
+                "minorFirefoxPermission": "W Firefoksie monit o uprawnienia nie jest już ukryty za oknem podręcznym paska narzędzi."
+            }
         }
     }
 }

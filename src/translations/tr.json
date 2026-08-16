@@ -365,7 +365,7 @@
                 "loading": "Sekmeler yükleniyor...",
                 "unnamedGroup": "Grup",
                 "notConnectedTitle": "Diğer cihazlarınızdaki sekmeleri görün",
-                "notConnectedDescription": "Cihazlarınız arasında açık sekmeleri senkronize etmek için Anori'yi bağlayın.",
+                "notConnectedDescription": "Cihazlarınız arasında açık sekmeleri senkronize etmek için Anori Plus'ı bağlayın.",
                 "connect": "Bağlan",
                 "emptyTitle": "Henüz sekme paylaşan başka cihaz yok",
                 "emptyDescription": "Başka bir bilgisayarda Anori Plus hesabınıza giriş yapın ve orada sekme senkronizasyonunu açın."
@@ -473,6 +473,30 @@
             "errorTitle": "AnkiConnect'e ulaşılamıyor",
             "error": "Anki'nin çalıştığından ve AnkiConnect eklentisinin yüklü olduğundan emin olun.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Bu sürümde ayrıca",
+            "tagNew": "Yeni",
+            "tagImproved": "İyileştirildi",
+            "tagFixed": "Düzeltildi",
+            "changelogNote": "Eski sürümlerin değişiklik günlüğünü mü arıyorsunuz? <0>GitHub'da</0> bulabilirsiniz.",
+            "v2_1_0": {
+                "headline": "Artık genişletilmiş Sekmeler eklentisiyle. Geri dönmek istediğiniz bağlantıları saklayın ve başka bir cihazda açık bıraktığınız sekmeleri kaldığınız yerden devam edin.",
+                "stashTitle": "Sekme deposu",
+                "stashBody": "Daha sonra geri dönmek istediğiniz bağlantıları saklamak için bu widget'ı kullanın. Yeni sekme sayfanızda tutun ki gerçekten hatırlayasınız. Bir sekme, widget'ın kendisinden veya yeni Anori açılır penceresinden depolanabilir; bunun için uzantı araç çubuğundaki Anori simgesine tıklamanız yeterli.",
+                "stashSync": "Anori Plus ile deponuz, oturum açtığınız her tarayıcıda ve tüm profillerde paylaşılır.",
+                "syncedTabsTitle": "Senkronize sekmeler",
+                "syncedTabsBody": "Diğer cihazlarınızda nelerin açık olduğunu görün ve önceki bir cihazda kaldığınız yerden zahmetsizce devam edin. Bu özelliğin Anori Plus gerektirdiğini ve ayarlardan açıkça etkinleştirilmesi gerektiğini lütfen unutmayın.",
+                "minorPopup": "Araç çubuğundaki Anori simgesine tıklamak artık yeni bir sekme açmak yerine bir açılır pencere açıyor.",
+                "minorDevices": "Ayarlara bir Cihazlar bölümü eklendi; burada Anori Plus hesabınıza bağlı tüm cihazları görebilir, yeniden adlandırabilir veya kaldırabilirsiniz.",
+                "minorTabsPlugin": "Son kapatılan sekmeler widget'ı, yukarıdaki iki widget'la birlikte yeni bir Sekmeler eklentisi altında toplandı ve artık eskisinden daha uzun boyutlandırılabiliyor.",
+                "minorWidgetHeaders": "Görevler, Notlar, RSS akışı, Hava durumu tahmini ve Son kapatılan sekmeler artık ortak bir başlık düzeni kullanıyor; böylece başlıkları ve düğmeleri yan yana hizalanıyor.",
+                "minorPlurals": "Çevrilen diller artık İngilizce'nin tek-ya-çok kuralını ödünç almak yerine kendi doğru çoğul biçimlerini kullanıyor.",
+                "minorWhatsNew": "Okuduğunuz ekran yeniden tasarlandı ve eski sürümlere ait notlar uzantıdan çıkarılarak GitHub'daki bir değişiklik günlüğüne taşındı.",
+                "minorTranslatedNotes": "Sürüm notları artık yalnızca İngilizce gösterilmek yerine Anori'nin desteklediği her dile çevriliyor.",
+                "minorBackground": "Arka plan görselleri, tarayıcı penceresi yeniden boyutlandırıldığında sağdan ve alttan kırpılmak yerine artık ortalanmış kalıyor.",
+                "minorFirefoxPermission": "Firefox'ta izin istemi artık araç çubuğu açılır penceresinin arkasında gizli kalmıyor."
+            }
         }
     }
 }

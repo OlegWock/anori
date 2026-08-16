@@ -366,7 +366,7 @@
                 "loading": "Cargando pestañas...",
                 "unnamedGroup": "Grupo",
                 "notConnectedTitle": "Ver pestañas de tus otros dispositivos",
-                "notConnectedDescription": "Conecta Anori para sincronizar las pestañas abiertas entre tus dispositivos.",
+                "notConnectedDescription": "Conecta Anori Plus para sincronizar las pestañas abiertas entre tus dispositivos.",
                 "connect": "Conectar",
                 "emptyTitle": "Ningún otro dispositivo está compartiendo pestañas todavía",
                 "emptyDescription": "Inicia sesión en tu cuenta de Anori Plus en otro equipo y activa la sincronización de pestañas allí."
@@ -474,6 +474,30 @@
             "errorTitle": "No se puede conectar con AnkiConnect",
             "error": "Asegúrate de que Anki está en ejecución y el complemento AnkiConnect está instalado.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "También en esta versión",
+            "tagNew": "Nuevo",
+            "tagImproved": "Mejorado",
+            "tagFixed": "Corregido",
+            "changelogNote": "¿Buscas el registro de cambios de versiones anteriores? Puedes encontrarlo <0>en GitHub</0>.",
+            "v2_1_0": {
+                "headline": "Ahora con el plugin de Pestañas ampliado. Guarda los enlaces a los que quieres volver y retoma las pestañas que dejaste abiertas en otro dispositivo.",
+                "stashTitle": "Almacén de pestañas",
+                "stashBody": "Usa este widget para guardar los enlaces a los que quieres volver más tarde. Mantenlos en tu nueva pestaña para que no se te olviden. Puedes almacenar una pestaña desde el propio widget o desde la nueva ventana emergente de Anori; simplemente haz clic en el icono de Anori en la barra de herramientas de la extensión.",
+                "stashSync": "Con Anori Plus, tu almacén se comparte en todos los navegadores en los que hayas iniciado sesión y en todos los perfiles.",
+                "syncedTabsTitle": "Pestañas sincronizadas",
+                "syncedTabsBody": "Consulta qué tienes abierto en tus otros dispositivos y retoma fácilmente donde lo dejaste. Ten en cuenta que esta función requiere Anori Plus y activarla explícitamente en los ajustes.",
+                "minorPopup": "Al hacer clic en el icono de Anori en la barra de herramientas ahora se abre una ventana emergente en lugar de simplemente abrir una nueva pestaña.",
+                "minorDevices": "Los ajustes incorporan una sección Dispositivos, donde puedes ver todo lo que ha iniciado sesión en tu cuenta de Anori Plus, y renombrarlo o eliminarlo.",
+                "minorTabsPlugin": "El widget Pestañas cerradas recientemente se integró en el nuevo plugin de Pestañas junto con los dos widgets anteriores, y ahora puede redimensionarse para ser más alto que antes.",
+                "minorWidgetHeaders": "Tareas, Notas, Feed RSS, Previsión meteorológica y Pestañas cerradas recientemente ahora comparten un mismo diseño de encabezado, por lo que sus títulos y botones se alinean uno al lado del otro.",
+                "minorPlurals": "Los idiomas traducidos ahora usan las formas plurales correctas, en lugar de tomar prestada la regla de singular o plural del inglés.",
+                "minorWhatsNew": "La pantalla que estás leyendo fue rediseñada, y las notas de versiones anteriores se trasladaron fuera de la extensión a un registro de cambios en GitHub.",
+                "minorTranslatedNotes": "Las notas de la versión ahora están traducidas a todos los idiomas que Anori admite, en lugar de estar disponibles solo en inglés.",
+                "minorBackground": "Las imágenes de fondo permanecen centradas al redimensionar la ventana del navegador, en lugar de recortarse por la derecha y por abajo.",
+                "minorFirefoxPermission": "En Firefox, el aviso de permisos ya no queda oculto detrás de la ventana emergente de la barra de herramientas."
+            }
         }
     }
 }

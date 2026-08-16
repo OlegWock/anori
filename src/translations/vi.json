@@ -364,7 +364,7 @@
                 "loading": "Đang tải tab...",
                 "unnamedGroup": "Nhóm",
                 "notConnectedTitle": "Xem các tab từ thiết bị khác của bạn",
-                "notConnectedDescription": "Kết nối Anori để đồng bộ các tab đang mở trên các thiết bị của bạn.",
+                "notConnectedDescription": "Kết nối Anori Plus để đồng bộ các tab đang mở trên các thiết bị của bạn.",
                 "connect": "Kết nối",
                 "emptyTitle": "Chưa có thiết bị nào khác đang chia sẻ tab",
                 "emptyDescription": "Đăng nhập vào tài khoản Anori Plus của bạn trên máy tính khác và bật đồng bộ tab ở đó."
@@ -472,6 +472,30 @@
             "errorTitle": "Không thể kết nối AnkiConnect",
             "error": "Hãy đảm bảo Anki đang chạy và đã cài đặt tiện ích AnkiConnect.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Cũng trong bản phát hành này",
+            "tagNew": "Mới",
+            "tagImproved": "Cải tiến",
+            "tagFixed": "Đã sửa",
+            "changelogNote": "Bạn đang tìm nhật ký thay đổi cho các phiên bản cũ hơn? Bạn có thể tìm thấy nó <0>trên GitHub</0>.",
+            "v2_1_0": {
+                "headline": "Nay có plugin Tabs mở rộng. Lưu lại những liên kết bạn muốn quay lại, và tiếp tục các tab bạn đã để mở trên thiết bị khác.",
+                "stashTitle": "Tab stash",
+                "stashBody": "Dùng widget này để lưu các liên kết bạn muốn quay lại sau. Giữ chúng trên tab mới để bạn thực sự nhớ đến chúng. Một tab có thể được stash từ chính widget hoặc từ cửa sổ popup Anori mới, chỉ cần nhấp vào biểu tượng Anori trên thanh công cụ tiện ích.",
+                "stashSync": "Với Anori Plus, stash của bạn được chia sẻ trên mọi trình duyệt bạn đã đăng nhập và trên tất cả các hồ sơ.",
+                "syncedTabsTitle": "Tab đã đồng bộ",
+                "syncedTabsBody": "Xem những gì đang mở trên các thiết bị khác của bạn và dễ dàng tiếp tục từ nơi bạn đã dừng trên thiết bị trước. Lưu ý rằng tính năng này yêu cầu Anori Plus và phải bật thủ công trong cài đặt.",
+                "minorPopup": "Nhấp vào biểu tượng Anori trên thanh công cụ giờ đây mở một popup thay vì chỉ mở tab mới.",
+                "minorDevices": "Cài đặt có thêm mục Thiết bị, nơi bạn có thể xem tất cả thiết bị đã đăng nhập vào tài khoản Anori Plus của mình, và đổi tên hoặc xóa chúng.",
+                "minorTabsPlugin": "Widget Tab đã đóng gần đây đã được gộp vào plugin Tabs mới cùng với hai widget trên, và giờ đây có thể thay đổi kích thước cao hơn trước.",
+                "minorWidgetHeaders": "Nhiệm vụ, Ghi chú, Nguồn RSS, Dự báo thời tiết và Tab đã đóng gần đây giờ dùng chung một bố cục tiêu đề, nên tiêu đề và nút của chúng được căn thẳng hàng nhau.",
+                "minorPlurals": "Các ngôn ngữ đã dịch giờ sử dụng dạng số nhiều chính xác, thay vì dùng quy tắc một-hoặc-nhiều của tiếng Anh.",
+                "minorWhatsNew": "Màn hình bạn đang đọc đã được thiết kế lại, và ghi chú cho các phiên bản cũ hơn đã được chuyển ra khỏi tiện ích vào nhật ký thay đổi trên GitHub.",
+                "minorTranslatedNotes": "Ghi chú phát hành giờ được dịch sang mọi ngôn ngữ mà Anori hỗ trợ, thay vì chỉ có tiếng Anh.",
+                "minorBackground": "Hình nền được giữ ở giữa khi bạn thay đổi kích thước cửa sổ trình duyệt, thay vì bị cắt từ phía phải và phía dưới.",
+                "minorFirefoxPermission": "Trên Firefox, hộp thoại cấp quyền không còn bị ẩn sau popup thanh công cụ nữa."
+            }
         }
     }
 }

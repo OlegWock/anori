@@ -367,7 +367,7 @@
                 "loading": "Načítání karet...",
                 "unnamedGroup": "Skupina",
                 "notConnectedTitle": "Zobrazit karty z vašich ostatních zařízení",
-                "notConnectedDescription": "Připojte Anori a synchronizujte otevřené karty napříč vašimi zařízeními.",
+                "notConnectedDescription": "Připojte Anori Plus a synchronizujte otevřené karty napříč vašimi zařízeními.",
                 "connect": "Připojit",
                 "emptyTitle": "Žádná jiná zařízení zatím nesdílejí karty",
                 "emptyDescription": "Přihlaste se ke svému účtu Anori Plus na jiném počítači a tam zapněte synchronizaci karet."
@@ -475,6 +475,30 @@
             "errorTitle": "AnkiConnect není dostupný",
             "error": "Ujistěte se, že Anki běží a doplněk AnkiConnect je nainstalován.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Také v tomto vydání",
+            "tagNew": "Nové",
+            "tagImproved": "Vylepšeno",
+            "tagFixed": "Opraveno",
+            "changelogNote": "Hledáte changelog pro starší verze? Najdete ho <0>na GitHubu</0>.",
+            "v2_1_0": {
+                "headline": "Nyní s rozšířeným pluginem Karty. Ukládejte si odkazy, ke kterým se chcete vrátit, a navažte na karty, které jste nechali otevřené na jiném zařízení.",
+                "stashTitle": "Úschovna karet",
+                "stashBody": "Tento widget použijte k ukládání odkazů, ke kterým se chcete vrátit později. Mějte je na nové kartě, abyste na ně skutečně nezapomněli. Kartu lze uložit přímo z widgetu nebo z nového vyskakovacího okna Anori – stačí kliknout na ikonu Anori na panelu nástrojů rozšíření.",
+                "stashSync": "S Anori Plus je vaše úschovna sdílena napříč všemi prohlížeči, do kterých jste přihlášeni, a napříč všemi profily.",
+                "syncedTabsTitle": "Synchronizované karty",
+                "syncedTabsBody": "Zjistěte, co máte otevřeno na jiných zařízeních, a plynule navažte tam, kde jste skončili. Upozorňujeme, že tato funkce vyžaduje Anori Plus a explicitní povolení v nastavení.",
+                "minorPopup": "Kliknutí na ikonu Anori na panelu nástrojů nyní otevře vyskakovací okno místo pouhého otevření nové karty.",
+                "minorDevices": "V nastavení přibyla sekce Zařízení, kde uvidíte vše přihlášené k vašemu účtu Anori Plus a můžete to přejmenovat nebo odebrat.",
+                "minorTabsPlugin": "Widget Nedávno zavřené karty byl začleněn do nového pluginu Karty spolu s výše uvedenými dvěma widgety a nyní ho lze zvětšit do větší výšky než dříve.",
+                "minorWidgetHeaders": "Úkoly, Poznámky, RSS kanál, Předpověď počasí a Nedávno zavřené karty nyní sdílejí jednotné rozložení záhlaví, takže jejich názvy a tlačítka jsou zarovnány vedle sebe.",
+                "minorPlurals": "Přeložené jazyky nyní používají správné tvary množného čísla místo přejímání anglického pravidla jeden-nebo-více.",
+                "minorWhatsNew": "Obrazovka, kterou právě čtete, byla přepracována a poznámky ke starším verzím byly přesunuty z rozšíření do changelogu na GitHubu.",
+                "minorTranslatedNotes": "Poznámky k vydání jsou nyní přeloženy do všech jazyků, které Anori podporuje, místo toho aby byly pouze v angličtině.",
+                "minorBackground": "Obrázky na pozadí zůstávají vycentrovány při změně velikosti okna prohlížeče, místo aby byly oříznuty zprava a zdola.",
+                "minorFirefoxPermission": "Ve Firefoxu již výzva k udělení oprávnění nezůstává skryta za vyskakovacím oknem panelu nástrojů."
+            }
         }
     }
 }

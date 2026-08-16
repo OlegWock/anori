@@ -366,7 +366,7 @@
                 "loading": "Chargement des onglets...",
                 "unnamedGroup": "Groupe",
                 "notConnectedTitle": "Voir les onglets de vos autres appareils",
-                "notConnectedDescription": "Connectez Anori pour synchroniser les onglets ouverts sur tous vos appareils.",
+                "notConnectedDescription": "Connectez Anori Plus pour synchroniser les onglets ouverts sur tous vos appareils.",
                 "connect": "Connecter",
                 "emptyTitle": "Aucun autre appareil ne partage encore ses onglets",
                 "emptyDescription": "Connectez-vous à votre compte Anori Plus sur un autre ordinateur et activez la synchronisation des onglets sur celui-ci."
@@ -474,6 +474,30 @@
             "errorTitle": "AnkiConnect est inaccessible",
             "error": "Assurez-vous qu'Anki est en cours d'exécution et que l'extension AnkiConnect est installée.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Également dans cette version",
+            "tagNew": "Nouveau",
+            "tagImproved": "Amélioré",
+            "tagFixed": "Corrigé",
+            "changelogNote": "Vous cherchez le journal des modifications pour les versions antérieures ? Vous pouvez le trouver <0>sur GitHub</0>.",
+            "v2_1_0": {
+                "headline": "Désormais avec le plugin Onglets étendu. Gardez les liens auxquels vous souhaitez revenir, et reprenez les onglets laissés ouverts sur un autre appareil.",
+                "stashTitle": "Réserve d'onglets",
+                "stashBody": "Utilisez ce widget pour stocker les liens auxquels vous souhaitez revenir plus tard. Gardez-les sur votre nouvel onglet pour ne pas les oublier. Un onglet peut être mis en réserve depuis le widget lui-même ou depuis la nouvelle fenêtre popup Anori, il suffit de cliquer sur l'icône Anori dans la barre d'outils de l'extension.",
+                "stashSync": "Avec Anori Plus, votre réserve est partagée sur tous les navigateurs auxquels vous êtes connecté, et sur tous les profils.",
+                "syncedTabsTitle": "Onglets synchronisés",
+                "syncedTabsBody": "Voyez ce qui est ouvert sur vos autres appareils, et reprenez facilement là où vous vous étiez arrêté. Veuillez noter que cette fonctionnalité nécessite Anori Plus et une activation explicite dans les paramètres.",
+                "minorPopup": "Cliquer sur l'icône Anori dans la barre d'outils ouvre désormais une popup au lieu de simplement ouvrir un nouvel onglet.",
+                "minorDevices": "Les paramètres disposent désormais d'une section Appareils, où vous pouvez voir tout ce qui est connecté à votre compte Anori Plus, et le renommer ou le supprimer.",
+                "minorTabsPlugin": "Le widget Onglets récemment fermés a été intégré dans un nouveau plugin Onglets aux côtés des deux widgets ci-dessus, et il peut désormais être redimensionné plus en hauteur qu'auparavant.",
+                "minorWidgetHeaders": "Tâches, Notes, Flux RSS, Prévisions météo et Onglets récemment fermés partagent désormais une même mise en page d'en-tête, de sorte que leurs titres et boutons s'alignent côte à côte.",
+                "minorPlurals": "Les langues traduites utilisent désormais les formes plurielles correctes, au lieu d'emprunter la règle anglaise du singulier ou du pluriel.",
+                "minorWhatsNew": "L'écran que vous lisez a été repensé, et les notes des versions antérieures ont été déplacées hors de l'extension vers un journal des modifications sur GitHub.",
+                "minorTranslatedNotes": "Les notes de version sont désormais traduites dans toutes les langues prises en charge par Anori, au lieu d'être uniquement en anglais.",
+                "minorBackground": "Les images d'arrière-plan restent centrées lorsque vous redimensionnez la fenêtre du navigateur, au lieu d'être rognées par la droite et le bas.",
+                "minorFirefoxPermission": "Sur Firefox, la demande de permission n'est plus cachée derrière la popup de la barre d'outils."
+            }
         }
     }
 }

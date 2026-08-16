@@ -364,7 +364,7 @@
                 "loading": "正在加载标签页...",
                 "unnamedGroup": "分组",
                 "notConnectedTitle": "查看其他设备上的标签页",
-                "notConnectedDescription": "连接 Anori 以在您的设备间同步打开的标签页。",
+                "notConnectedDescription": "连接 Anori Plus 以在您的设备间同步打开的标签页。",
                 "connect": "连接",
                 "emptyTitle": "暂无其他设备正在共享标签页",
                 "emptyDescription": "在另一台电脑上登录您的 Anori Plus 账户，并在那里开启标签页同步。"
@@ -472,6 +472,30 @@
             "errorTitle": "无法连接到 AnkiConnect",
             "error": "请确保 Anki 正在运行并且已安装 AnkiConnect 扩展。",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "此版本中的其他更新",
+            "tagNew": "新增",
+            "tagImproved": "改进",
+            "tagFixed": "修复",
+            "changelogNote": "想查看旧版本的更新日志？您可以在 <0>GitHub</0> 上找到。",
+            "v2_1_0": {
+                "headline": "全新扩展的标签页插件。保存您想稍后回顾的链接，并接续您在其他设备上未关闭的标签页。",
+                "stashTitle": "标签页暂存",
+                "stashBody": "使用此小组件保存您想稍后回顾的链接。将它们保留在新标签页上，这样您就不会忘记。您可以直接在小组件中暂存标签页，也可以通过新的 Anori 弹出窗口来操作，只需点击扩展工具栏中的 Anori 图标即可。",
+                "stashSync": "使用 Anori Plus，您的暂存内容将在所有已登录的浏览器及所有配置文件之间同步共享。",
+                "syncedTabsTitle": "已同步标签页",
+                "syncedTabsBody": "查看您其他设备上正在打开的内容，轻松接续在其他设备上未完成的工作。请注意，此功能需要 Anori Plus，并需在设置中明确开启。",
+                "minorPopup": "点击工具栏中的 Anori 图标现在会打开一个弹出窗口，而不仅仅是打开一个新标签页。",
+                "minorDevices": "设置中新增了\"设备\"部分，您可以在此查看所有已登录 Anori Plus 账户的设备，并对其进行重命名或移除。",
+                "minorTabsPlugin": "\"最近关闭的标签页\"小组件已与上述两个小组件合并到新的标签页插件中，且现在可以调整为比以前更高的尺寸。",
+                "minorWidgetHeaders": "任务、笔记、RSS 订阅、天气预报和最近关闭的标签页现在共用同一种标题栏布局，其标题和按钮并排对齐显示。",
+                "minorPlurals": "已翻译的语言现在使用正确的复数形式，而不再沿用英语的单复数规则。",
+                "minorWhatsNew": "您正在阅读的此页面已重新设计，旧版本的说明已从扩展中移出，改为在 GitHub 上的更新日志中呈现。",
+                "minorTranslatedNotes": "版本说明现已翻译成 Anori 支持的所有语言，而不再仅以英语显示。",
+                "minorBackground": "调整浏览器窗口大小时，背景图片将保持居中显示，而不再从右侧和底部裁剪。",
+                "minorFirefoxPermission": "在 Firefox 上，权限提示框不再被工具栏弹出窗口遮挡。"
+            }
         }
     }
 }

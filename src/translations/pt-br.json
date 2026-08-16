@@ -366,7 +366,7 @@
                 "loading": "Carregando abas...",
                 "unnamedGroup": "Grupo",
                 "notConnectedTitle": "Veja as abas dos seus outros dispositivos",
-                "notConnectedDescription": "Conecte o Anori para sincronizar abas abertas entre seus dispositivos.",
+                "notConnectedDescription": "Conecte o Anori Plus para sincronizar abas abertas entre seus dispositivos.",
                 "connect": "Conectar",
                 "emptyTitle": "Nenhum outro dispositivo está compartilhando abas ainda",
                 "emptyDescription": "Entre na sua conta Anori Plus em outro computador e ative a sincronização de abas lá."
@@ -474,6 +474,30 @@
             "errorTitle": "O AnkiConnect não pode ser acessado",
             "error": "Certifique-se de que o Anki está em execução e o AnkiConnect está instalado.",
             "widgetName": "Anki"
+        },
+        "releaseNotes": {
+            "alsoInThisRelease": "Também nesta versão",
+            "tagNew": "Novo",
+            "tagImproved": "Melhorado",
+            "tagFixed": "Corrigido",
+            "changelogNote": "Procurando o changelog de versões anteriores? Você pode encontrá-lo <0>no GitHub</0>.",
+            "v2_1_0": {
+                "headline": "Agora com o plugin de Abas expandido. Guarde os links aos quais você quer voltar e retome as abas que deixou abertas em outro dispositivo.",
+                "stashTitle": "Stash de abas",
+                "stashBody": "Use este widget para guardar os links aos quais você quer voltar mais tarde. Mantenha-os na sua nova aba para não esquecê-los. Uma aba pode ser guardada no stash pelo próprio widget ou pela nova janela popup do Anori — basta clicar no ícone do Anori na barra de ferramentas da extensão.",
+                "stashSync": "Com o Anori Plus, seu stash é compartilhado em todos os navegadores nos quais você está conectado e em todos os perfis.",
+                "syncedTabsTitle": "Abas sincronizadas",
+                "syncedTabsBody": "Veja o que está aberto nos seus outros dispositivos e retome de onde parou com facilidade. Observe que este recurso requer o Anori Plus e uma ativação explícita nas configurações.",
+                "minorPopup": "Clicar no ícone do Anori na barra de ferramentas agora abre um popup em vez de apenas abrir uma nova aba.",
+                "minorDevices": "As configurações ganharam uma seção Dispositivos, onde você pode ver tudo que está conectado à sua conta do Anori Plus, além de renomear ou remover dispositivos.",
+                "minorTabsPlugin": "O widget Abas fechadas recentemente foi incorporado a um novo plugin de Abas junto com os dois widgets acima, e agora pode ser redimensionado para uma altura maior do que antes.",
+                "minorWidgetHeaders": "Tarefas, Notas, Feed RSS, Previsão do tempo e Abas fechadas recentemente agora compartilham um layout de cabeçalho único, de modo que seus títulos e botões ficam alinhados lado a lado.",
+                "minorPlurals": "Os idiomas traduzidos agora usam as formas plurais corretas, em vez de seguir a regra de singular ou plural do inglês.",
+                "minorWhatsNew": "A tela que você está lendo foi redesenhada, e as notas de versões anteriores foram movidas da extensão para um changelog no GitHub.",
+                "minorTranslatedNotes": "As notas de versão agora são traduzidas para todos os idiomas suportados pelo Anori, em vez de serem exibidas apenas em inglês.",
+                "minorBackground": "As imagens de fundo permanecem centralizadas ao redimensionar a janela do navegador, em vez de serem cortadas pela direita e pela parte inferior.",
+                "minorFirefoxPermission": "No Firefox, a solicitação de permissão não fica mais oculta atrás do popup da barra de ferramentas."
+            }
         }
     }
 }
