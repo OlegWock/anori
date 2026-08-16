@@ -1,176 +1,199 @@
-import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { Badge } from "@anori/design-system/components/Badge/Badge";
+import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { Icon } from "@anori/design-system/components/Icon/Icon";
+import { Link } from "@anori/design-system/components/Link/Link";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "styled-system/css";
+import { css, cx } from "styled-system/css";
 
-const whatsNew = css({ maxWidth: "600px", overflow: "hidden", display: "flex", flexDirection: "column" });
-const scrollArea = css({ marginTop: 0, marginInline: "1-5", marginBottom: "3" });
-const content = css({
+const CHANGELOG_URL = "https://github.com/OlegWock/anori/blob/master/CHANGELOG.md";
+const CURRENT_VERSION = "2.1.0";
+
+const whatsNew = css({ maxWidth: "600px", overflow: "hidden", display: "flex", flexDirection: "column", minHeight: 0 });
+
+const hero = css({
+  position: "relative",
+  overflow: "hidden",
+  flexShrink: 0,
   display: "flex",
   flexDirection: "column",
-  gap: "8",
-  paddingInline: "4",
-  "& ul": { marginLeft: "6", display: "flex", flexDirection: "column", gap: "2" },
-  "& p:not(:last-child)": { marginBottom: "4" },
+  gap: "2",
+  paddingInline: "5",
+  paddingBlock: "5",
+  borderRadius: "lg",
+  bg: "accent",
+  color: "on-accent",
+  boxShadow: "accent.edge",
+  _before: {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    pointerEvents: "none",
+    opacity: 0.25,
+    backgroundImage: "radial-gradient(currentcolor, currentcolor 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 100%)",
+    backgroundSize: "22px 22px",
+  },
 });
-const plusLink = css({ display: "block", textAlign: "center", marginBottom: "4" });
+const heroVersion = css({ position: "relative", fontSize: "3xl", fontWeight: "light", lineHeight: "none" });
+const heroHeadline = css({ position: "relative", fontSize: "base", textWrap: "pretty" });
+
+const scrollArea = css({ marginTop: 0, marginInline: "1-5", marginBottom: "3", minHeight: 0 });
+const scrollBody = css({ display: "flex", flexDirection: "column", gap: "4", paddingInline: "4", paddingBottom: "1" });
+const content = css({ display: "flex", flexDirection: "column", gap: "3" });
+
+const featureCard = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "2",
+  padding: "4",
+  borderRadius: "lg",
+  bg: "surface.elevated",
+  boxShadow: "surface.elevated.edge",
+});
+const featureTitle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: "2",
+  margin: 0,
+  fontSize: "lg",
+  fontWeight: "regular",
+  color: "text.primary",
+});
+const featureIcon = css({ flexShrink: 0, color: "accent" });
+const featureIconMuted = css({ color: "icon.subtle" });
+const featureBody = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "2",
+  fontSize: "sm",
+  color: "text.subtle",
+  textWrap: "pretty",
+});
+
+const minorList = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "2",
+  margin: 0,
+  paddingLeft: "5",
+  listStyleType: "disc",
+  fontSize: "sm",
+  color: "text.subtle",
+});
+const minorItem = css({ display: "list-item", textWrap: "pretty" });
+const minorTag = css({ marginRight: "1-5", verticalAlign: "top" });
+
+const footer = css({ fontSize: "sm", color: "text.placeholder", textWrap: "pretty" });
+
+const MinorChange = ({ tag, children }: { tag: string; children: ReactNode }) => {
+  return (
+    <li className={minorItem}>
+      <Badge className={minorTag}>{tag}</Badge>
+      {children}
+    </li>
+  );
+};
+
+const Feature = ({
+  icon,
+  title,
+  muted,
+  children,
+}: {
+  icon: string;
+  title: string;
+  muted?: boolean;
+  children: ReactNode;
+}) => {
+  return (
+    <section className={featureCard}>
+      <h3 className={featureTitle}>
+        <Icon icon={icon} width={20} height={20} className={cx(featureIcon, muted && featureIconMuted)} aria-hidden />
+        {title}
+      </h3>
+      <div className={featureBody}>{children}</div>
+    </section>
+  );
+};
 
 export const WhatsNewImpl = () => {
   const { t, i18n } = useTranslation();
   return (
     <div className={whatsNew}>
       <ScrollArea className={scrollArea}>
-        <div className={content}>
-          {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
+        <div className={scrollBody}>
+          <div className={hero}>
+            <div className={heroVersion}>{CURRENT_VERSION}</div>
+            <div className={heroHeadline}>
+              Now with extended Tabs plugin. Keep the links you mean to get back to, and pick up the tabs you left open
+              on another device.
+            </div>
+          </div>
 
-          <section>
-            <Heading marginBottom="2">2.1.0</Heading>
-            <ul>
-              <li>
-                Added new Tab stash widget. Use it to quickly save link you'd like to return to later. With Anori Plus,
-                it's synced to all your other browsers.
-              </li>
-              <li>
-                Added new Synced tabs widget. It allows you to to see at a glance and open tabs from your other devices.
-                Requires Anori Plus.
-              </li>
-              <li>Minor fixes and adjustments.</li>
-            </ul>
-          </section>
+          <div className={content}>
+            {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
 
-          <section>
-            <Heading marginBottom="2">2.0.2</Heading>
-            <p>Second follow-up to big 2.0 release with improvements to appearance and custom themes.</p>
-            <ul>
-              <li>Removed translucent plate behind widgets. Widgets now have more space to occupy.</li>
-              <li>Custom themes now have a lightness control which enables more granular control over appearance.</li>
-              <li>Custom themes can now hide the dot pattern in the background.</li>
-              <li>Updates and bug fixes for widgets organization and resizing system.</li>
-              <li>Minor tweaks and bug fixes for custom theme editor.</li>
-            </ul>
-          </section>
+            <Feature icon={builtinIcons.archive} title="Tab stash">
+              <p>
+                Use this widget to store the links you mean to get back to later. Keep them on your new tab so you'll
+                actually remember them. A tab can be stashed from the widget itself or from the new Anori popup window,
+                just click on the Anori icon in the extension's toolbar.
+              </p>
+              <p>
+                With Anori Plus your stash is shared across every browser you're signed into, and across all profiles.
+              </p>
+            </Feature>
 
-          <section>
-            <Heading marginBottom="2">2.0.1</Heading>
-            <ul>
-              <li>Fixed 'Just give me a productive setup' doing nothing on click.</li>
-              <li>Minor bug fixes.</li>
-            </ul>
-          </section>
+            <Feature icon={builtinIcons.tabsFill} title="Synced tabs">
+              <p>
+                See what's open on your other devices, and effortlessly pick up where you left off on a previous device.
+                Please note that this feature requires Anori Plus and an explicit opt-in in settings.
+              </p>
+            </Feature>
 
-          <section>
-            <Heading marginBottom="2">2.0.0</Heading>
-            <ul>
-              <li>
-                Anori has a new look! I tried not to stray too far from the established visual identity, but I finally
-                had a chance to polish all the rough edges. I hope you'll like it.
-              </li>
-              <li>
-                Theming was reworked. Now you can switch between light and dark modes for each theme, including your
-                custom ones.
-              </li>
-              <li>
-                To create a custom theme you now need to only select one color and Anori will derrive whole palette from
-                it. This should make it easier to create your own themes as well as make generated colors more coherent.
-                You existing custom themes were migrated automatically.
-              </li>
-              <li>Performance improvements.</li>
-              <li>Bug fixes, of course!</li>
-            </ul>
-          </section>
+            <Feature icon={builtinIcons.checklist} title="Also in this release" muted>
+              <ul className={minorList}>
+                <MinorChange tag="New">
+                  Clicking the Anori icon in the toolbar now opens a popup instead of just opening a new tab.
+                </MinorChange>
+                <MinorChange tag="New">
+                  Settings gained a Devices section, where you can see everything signed into your Anori Plus account,
+                  and rename or remove it.
+                </MinorChange>
+                <MinorChange tag="Improved">
+                  The Recently closed tabs widget was folded into a new Tabs plugin alongside the two widgets above, and
+                  it can now be resized taller than before.
+                </MinorChange>
+                <MinorChange tag="Improved">
+                  Tasks, Notes, RSS feed, Weather forecast and Recently closed tabs now share one header layout, so
+                  their titles and buttons line up side by side.
+                </MinorChange>
+                <MinorChange tag="Improved">
+                  Translated languages now use correct plural forms, instead of borrowing English's one-or-many rule.
+                </MinorChange>
+                <MinorChange tag="Improved">
+                  The screen you're reading was redesigned, and notes for older versions moved out of the extension into
+                  a changelog on GitHub.
+                </MinorChange>
+                <MinorChange tag="Fixed">
+                  Background images stay centered when you resize the browser window, instead of being cropped from the
+                  right and bottom.
+                </MinorChange>
+                <MinorChange tag="Fixed">
+                  On Firefox, the permission prompt is no longer left hidden behind the toolbar popup.
+                </MinorChange>
+              </ul>
+            </Feature>
+          </div>
 
-          <section>
-            <Heading marginBottom="2">1.27.0</Heading>
-            <ul>
-              <li>Picture widget can now display local images from your device, not just remote URLs.</li>
-              <li>Calendar widget now supports Hijri, Persian, Hebrew, and Buddhist calendars.</li>
-              <li>Added Vietnamese translation. This was contribution from @itsccao. Thanks!</li>
-              <li>
-                Translation system was reworked. From now on, new strings will be machine translated into target
-                languages rather than kept in English. Translation might not be perfect, so if you notice a mistake or
-                awkward wording, you're very welcome to{" "}
-                <a href="https://github.com/OlegWock/anori/issues/104" target="_blank" rel="noreferrer">
-                  help fix it
-                </a>
-                .
-              </li>
-              <li>
-                Added Polish, Slovak, Czech, Indonesian, Filipino, and Hindi (machine) translations. If you notice
-                something off, please file an issue.
-              </li>
-              <li>Relaxed size limitation for embedded page, bookmark, and RSS widgets.</li>
-            </ul>
-          </section>
-
-          <section>
-            <Heading marginBottom="2">1.26.0</Heading>
-            <p>Couple of big ones in this release!</p>
-            <p>
-              First of all, we're launching beta of Anori Plus — companion service for Anori. Currently, provides a
-              realtime sync of your Anori setup between multiple browsers and devices. We plan to add other features
-              later too. It's free while in beta, so give it a try, no credit card required.
-            </p>
-            <a className={plusLink} href="https://anori.app/plus" target="_blank" rel="noreferrer">
-              Learn more about Anori Plus
-            </a>
-            <p>
-              To power sync we had to significantly rework internals of Anori responsible for storage. This also affects
-              backup format, as older backups won't be compatible with this version.{" "}
-              <strong>If you use backups you need to export fresh backup now.</strong>
-            </p>
-            <p>
-              And last but not least, Anori now has a Japanese translation. This was contribution from @monta-gh.
-              Thanks!
-            </p>
-          </section>
-
-          <section>
-            <Heading marginBottom="2">1.25.0</Heading>
-            <ul>
-              <li>New design of "Add widget" modal.</li>
-              <li>Fixed some bugs.</li>
-              <li>Added couple of new bugs probably.</li>
-            </ul>
-          </section>
-
-          <section>
-            <Heading marginBottom="2">1.24.0</Heading>
-            <ul>
-              <li>Top sites widget is now resizable.</li>
-              <li>
-                This is again a housekeeping release. I want to cleanup and polish existing features in Anori before
-                adding any new ones.
-              </li>
-              <li>
-                I removed some of the features: windowing system (e.g. for widgets like calculator and embedded page),
-                command menu, focus stealer, option to hide edit folder button, label plugin. All of them were either
-                very rarely used, or didn't feel right from product and/or design point of view.
-              </li>
-              <li>
-                Significantly changed how icons are stored and loaded. All your existing icons should work as previosuly
-                (let me know if something broke!), but now they are loaded directly from the icons service (we use{" "}
-                <a href="https://iconify.design/" target="_blank" rel="noreferrer">
-                  Iconify
-                </a>
-                , it's great). This allowed to significantly reduce size of the extension and provide even more icons
-                than before at the same time.
-              </li>
-              <li>Bunch of bug fixes and optimization.</li>
-              <li>If you enabled sending analytics, in addition to Posthog it will be now sent to Amplitude.</li>
-            </ul>
-          </section>
-
-          <section>
-            <Heading marginBottom="2">1.23.0</Heading>
-            <ul>
-              <li>This is a housekeeping release. A lot of refactoring, a bit of optimizations, bunch of bugfixes.</li>
-              <li>
-                Significant changes to analytics. As always, Anori doesn't send any analytics if you didn't enable it
-                explicitly. And even then we don't track any sensetive data. You can read more{" "}
-                <a href="https://anori.app/privacy">here</a>.
-              </li>
-            </ul>
-          </section>
+          <div className={footer}>
+            Looking for the changelog for older versions? You can find it{" "}
+            <Link href={CHANGELOG_URL} target="_blank" rel="noreferrer">
+              on GitHub
+            </Link>
+            .
+          </div>
         </div>
       </ScrollArea>
     </div>
