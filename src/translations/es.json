@@ -22,7 +22,6 @@
         "loading": "Cargando...",
         "lastUpdatedAt": "Se actualizó por ultima vez a las {{datetime}}",
         "home": "Inicio",
-        "availableOnlyInEnglish": "Disponible solo en Inglés",
         "px": "px",
         "whatsNew": "Novedades",
         "editWidget": "Editar widget",

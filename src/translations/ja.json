@@ -22,7 +22,6 @@
         "loading": "読み込み中...",
         "lastUpdatedAt": "最終更新：{{datetime}}",
         "home": "ホーム",
-        "availableOnlyInEnglish": "英語のみ対応",
         "px": "px",
         "whatsNew": "新着情報",
         "editWidget": "ウィジェットを編集",

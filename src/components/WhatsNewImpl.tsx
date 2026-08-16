@@ -4,11 +4,24 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { Link } from "@anori/design-system/components/Link/Link";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import type { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { css, cx } from "styled-system/css";
 
 const CHANGELOG_URL = "https://github.com/OlegWock/anori/blob/master/CHANGELOG.md";
 const CURRENT_VERSION = "2.1.0";
+const RELEASE = "releaseNotes.v2_1_0";
+
+const MINOR_CHANGES = [
+  { tag: "tagNew", key: "minorPopup" },
+  { tag: "tagNew", key: "minorDevices" },
+  { tag: "tagImproved", key: "minorTabsPlugin" },
+  { tag: "tagImproved", key: "minorWidgetHeaders" },
+  { tag: "tagImproved", key: "minorPlurals" },
+  { tag: "tagImproved", key: "minorWhatsNew" },
+  { tag: "tagImproved", key: "minorTranslatedNotes" },
+  { tag: "tagFixed", key: "minorBackground" },
+  { tag: "tagFixed", key: "minorFirefoxPermission" },
+] as const;
 
 const whatsNew = css({ maxWidth: "600px", overflow: "hidden", display: "flex", flexDirection: "column", minHeight: 0 });
 
@@ -86,15 +99,6 @@ const minorTag = css({ marginRight: "1-5", verticalAlign: "top" });
 
 const footer = css({ fontSize: "sm", color: "text.placeholder", textWrap: "pretty" });
 
-const MinorChange = ({ tag, children }: { tag: string; children: ReactNode }) => {
-  return (
-    <li className={minorItem}>
-      <Badge className={minorTag}>{tag}</Badge>
-      {children}
-    </li>
-  );
-};
-
 const Feature = ({
   icon,
   title,
@@ -118,81 +122,43 @@ const Feature = ({
 };
 
 export const WhatsNewImpl = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <div className={whatsNew}>
       <ScrollArea className={scrollArea}>
         <div className={scrollBody}>
           <div className={hero}>
             <div className={heroVersion}>{CURRENT_VERSION}</div>
-            <div className={heroHeadline}>
-              Now with extended Tabs plugin. Keep the links you mean to get back to, and pick up the tabs you left open
-              on another device.
-            </div>
+            <div className={heroHeadline}>{t(`${RELEASE}.headline`)}</div>
           </div>
 
           <div className={content}>
-            {i18n.language !== "en" && <section>{t("availableOnlyInEnglish")}</section>}
-
-            <Feature icon={builtinIcons.archive} title="Tab stash">
-              <p>
-                Use this widget to store the links you mean to get back to later. Keep them on your new tab so you'll
-                actually remember them. A tab can be stashed from the widget itself or from the new Anori popup window,
-                just click on the Anori icon in the extension's toolbar.
-              </p>
-              <p>
-                With Anori Plus your stash is shared across every browser you're signed into, and across all profiles.
-              </p>
+            <Feature icon={builtinIcons.archive} title={t(`${RELEASE}.stashTitle`)}>
+              <p>{t(`${RELEASE}.stashBody`)}</p>
+              <p>{t(`${RELEASE}.stashSync`)}</p>
             </Feature>
 
-            <Feature icon={builtinIcons.tabsFill} title="Synced tabs">
-              <p>
-                See what's open on your other devices, and effortlessly pick up where you left off on a previous device.
-                Please note that this feature requires Anori Plus and an explicit opt-in in settings.
-              </p>
+            <Feature icon={builtinIcons.tabsFill} title={t(`${RELEASE}.syncedTabsTitle`)}>
+              <p>{t(`${RELEASE}.syncedTabsBody`)}</p>
             </Feature>
 
-            <Feature icon={builtinIcons.checklist} title="Also in this release" muted>
+            <Feature icon={builtinIcons.checklist} title={t("releaseNotes.alsoInThisRelease")} muted>
               <ul className={minorList}>
-                <MinorChange tag="New">
-                  Clicking the Anori icon in the toolbar now opens a popup instead of just opening a new tab.
-                </MinorChange>
-                <MinorChange tag="New">
-                  Settings gained a Devices section, where you can see everything signed into your Anori Plus account,
-                  and rename or remove it.
-                </MinorChange>
-                <MinorChange tag="Improved">
-                  The Recently closed tabs widget was folded into a new Tabs plugin alongside the two widgets above, and
-                  it can now be resized taller than before.
-                </MinorChange>
-                <MinorChange tag="Improved">
-                  Tasks, Notes, RSS feed, Weather forecast and Recently closed tabs now share one header layout, so
-                  their titles and buttons line up side by side.
-                </MinorChange>
-                <MinorChange tag="Improved">
-                  Translated languages now use correct plural forms, instead of borrowing English's one-or-many rule.
-                </MinorChange>
-                <MinorChange tag="Improved">
-                  The screen you're reading was redesigned, and notes for older versions moved out of the extension into
-                  a changelog on GitHub.
-                </MinorChange>
-                <MinorChange tag="Fixed">
-                  Background images stay centered when you resize the browser window, instead of being cropped from the
-                  right and bottom.
-                </MinorChange>
-                <MinorChange tag="Fixed">
-                  On Firefox, the permission prompt is no longer left hidden behind the toolbar popup.
-                </MinorChange>
+                {MINOR_CHANGES.map(({ tag, key }) => (
+                  <li className={minorItem} key={key}>
+                    <Badge className={minorTag}>{t(`releaseNotes.${tag}`)}</Badge>
+                    {t(`${RELEASE}.${key}`)}
+                  </li>
+                ))}
               </ul>
             </Feature>
           </div>
 
           <div className={footer}>
-            Looking for the changelog for older versions? You can find it{" "}
-            <Link href={CHANGELOG_URL} target="_blank" rel="noreferrer">
-              on GitHub
-            </Link>
-            .
+            <Trans
+              i18nKey="releaseNotes.changelogNote"
+              components={[<Link key="changelog" href={CHANGELOG_URL} target="_blank" rel="noreferrer" />]}
+            />
           </div>
         </div>
       </ScrollArea>

@@ -11,6 +11,7 @@
 - **Improved.** Anori Plus now opens as a section in Settings rather than its own modal, next to your devices and profiles.
 - **Improved.** Translated languages now use correct plural forms, instead of borrowing English's one-or-many rule.
 - **Improved.** The What's new screen was redesigned, and notes for older versions moved out of the extension into this changelog.
+- **Improved.** Release notes are now translated into every language Anori supports, instead of being English-only.
 - **Improved.** Config sync and synced tabs now share a single realtime connection instead of opening one each.
 - **Fixed.** Background images stay centered when you resize the browser window, instead of being cropped from the right and bottom.
 - **Fixed.** On Firefox, the permission prompt is no longer left hidden behind the toolbar popup.

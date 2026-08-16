@@ -22,7 +22,6 @@
         "loading": "Загрузка...",
         "lastUpdatedAt": "Последнее обновление в {{datetime}}",
         "home": "Главная",
-        "availableOnlyInEnglish": "Доступно только на английском языке",
         "px": "px",
         "whatsNew": "Что нового",
         "editWidget": "Редактировать виджет",

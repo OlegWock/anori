@@ -21,7 +21,6 @@
     "loading": "Generic loading status shown while fetching data (weather/RSS widgets, cloud profile list).",
     "lastUpdatedAt": "Timestamp label showing when a data source was last refreshed (weather, RSS).",
     "home": "Name of the default folder where widgets are placed by default; also appears in onboarding text about folders.",
-    "availableOnlyInEnglish": "Notice shown in the 'What's new' modal when the browser language is not English, indicating release notes are English-only.",
     "px": "Unit suffix (pixels) appended to numeric size/breakpoint inputs.",
     "whatsNew": "Sidebar button label and modal title for the release notes / changelog feature.",
     "editWidget": "Modal dialog title for editing the configuration of an already-placed widget.",
@@ -429,5 +428,29 @@
     "widgetRenderError": {
         "title": "Heading of the error card shown in place of a widget that crashed while rendering. Casual interjection.",
         "description": "Body of the error card shown when a widget crashes while rendering, pointing the user to the browser console."
+    },
+    "releaseNotes": {
+        "alsoInThisRelease": "Heading of the card in the What's new modal that lists smaller changes, below the highlighted feature cards.",
+        "tagNew": "Short badge label before a change in the What's new list, marking a newly added capability. Keep it to one word if possible.",
+        "tagImproved": "Short badge label before a change in the What's new list, marking an improvement to something that already existed. Keep it to one word if possible.",
+        "tagFixed": "Short badge label before a change in the What's new list, marking a bug fix. Keep it to one word if possible.",
+        "changelogNote": "Muted footnote at the bottom of the What's new modal. <0>...</0> wraps the link text pointing to the changelog file on GitHub; keep the tags around whatever words become the link in the target language.",
+        "v2_1_0": {
+            "headline": "One-sentence summary of release 2.1.0, shown large on an accent-coloured banner in the What's new modal. Informal, addresses the user directly.",
+            "stashTitle": "Name of the Tab stash widget, used as a card heading. Keep it consistent with the widget name elsewhere in the app.",
+            "stashBody": "Description of the Tab stash feature in the What's new modal. Informal, second person.",
+            "stashSync": "Follow-up sentence about Tab stash syncing via the paid Anori Plus service. 'Anori Plus' is a product name and stays untranslated.",
+            "syncedTabsTitle": "Name of the Synced tabs widget, used as a card heading. Keep it consistent with the widget name elsewhere in the app.",
+            "syncedTabsBody": "Description of the Synced tabs feature in the What's new modal. 'Anori Plus' is a product name and stays untranslated.",
+            "minorPopup": "Minor change entry: the browser toolbar button now opens a small popup window.",
+            "minorDevices": "Minor change entry: a Devices section was added to Settings. 'Anori Plus' is a product name and stays untranslated.",
+            "minorTabsPlugin": "Minor change entry: the Recently closed tabs widget moved under a new Tabs plugin and can be made taller.",
+            "minorWidgetHeaders": "Minor change entry: several widgets now share one header layout. The listed names (Tasks, Notes, RSS feed, Weather forecast, Recently closed tabs) are widget names and should match their translations elsewhere in the app.",
+            "minorPlurals": "Minor change entry: translations now use the target language's own plural rules.",
+            "minorWhatsNew": "Minor change entry: this What's new screen was redesigned and older release notes moved to GitHub.",
+            "minorTranslatedNotes": "Minor change entry: the What's new release notes themselves are now machine-translated like the rest of the interface, rather than shown in English to everyone.",
+            "minorBackground": "Minor change entry: bug fix for wallpaper cropping when the window is resized.",
+            "minorFirefoxPermission": "Minor change entry: bug fix for a Firefox permission prompt appearing behind the toolbar popup."
+        }
     }
 }
