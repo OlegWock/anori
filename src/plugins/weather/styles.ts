@@ -2,7 +2,7 @@ import { css, cva } from "styled-system/css";
 
 export const weatherWidget = cva({
   base: {
-    "& svg": { color: "icon.subtle" },
+    _nestedSvgIcon: { color: "icon.subtle" },
     backfaceVisibility: "hidden",
   },
   variants: {

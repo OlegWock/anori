@@ -21,6 +21,7 @@ export default defineConfig({
   conditions: {
     extend: {
       compact: ".compact-mode-active &",
+      nestedSvgIcon: "& :where(svg, [data-anori-svg-icon])",
     },
   },
 
@@ -37,7 +38,6 @@ export default defineConfig({
           md: { value: "0.5rem" },
           lg: { value: "0.75rem" },
           xl: { value: "1.5rem" },
-          "2xl": { value: "2.25rem" },
           full: { value: "9999px" },
         },
         fontSizes: {

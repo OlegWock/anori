@@ -52,6 +52,10 @@
             "title": "Widget nicht verfügbar",
             "description": "Dieser Widget-Typ ist in diesem Browser nicht verfügbar. Er bleibt in deinen anderen synchronisierten Browsern erhalten, und du kannst ihn hier trotzdem verschieben, skalieren oder entfernen."
         },
+        "widgetRenderError": {
+            "title": "Hoppla",
+            "description": "Widget konnte nicht gerendert werden, Details in der Konsole."
+        },
         "cloud": {
             "connect": "Verbinden",
             "connected": "Verbunden",
@@ -186,6 +190,8 @@
                 "colorText": "Text",
                 "colorCode": "Farbcode",
                 "colorScheme": "Farbschema",
+                "previewColorScheme": "Farbschema der Vorschau",
+                "hideDotPattern": "Punktmuster ausblenden",
                 "colorSchemeSystem": "System",
                 "colorSchemeLight": "Hell",
                 "colorSchemeDark": "Dunkel"

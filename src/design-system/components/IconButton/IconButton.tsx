@@ -11,8 +11,8 @@ export type IconButtonProps = Omit<ButtonProps, "children" | "iconStart" | "icon
 };
 
 export const iconButton = css({ px: 0, aspectRatio: "1", justifyContent: "center" });
-export const ghostIcon = css({ "& svg": { height: "1.375em" } });
-export const iconColor = css({ "& svg": { color: "icon" } });
+export const ghostIcon = css({ _nestedSvgIcon: { height: "1.375em!" } });
+export const iconColor = css({ _nestedSvgIcon: { color: "icon" } });
 
 export const IconButton = ({
   icon,

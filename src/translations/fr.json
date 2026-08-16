@@ -52,6 +52,10 @@
             "title": "Widget indisponible",
             "description": "Ce type de widget n'est pas disponible dans ce navigateur. Il reste sur vos autres navigateurs synchronisés, et vous pouvez toujours le déplacer, le redimensionner ou le supprimer ici."
         },
+        "widgetRenderError": {
+            "title": "Oups",
+            "description": "Le widget n'a pas pu s'afficher, consultez la console pour plus de détails."
+        },
         "cloud": {
             "connect": "Connecter",
             "connected": "Connecté",
@@ -186,6 +190,8 @@
                 "colorText": "Texte",
                 "colorCode": "Code couleur",
                 "colorScheme": "Schéma de couleurs",
+                "previewColorScheme": "Schéma de couleurs de l'aperçu",
+                "hideDotPattern": "Masquer le motif de points",
                 "colorSchemeSystem": "Système",
                 "colorSchemeLight": "Clair",
                 "colorSchemeDark": "Sombre"

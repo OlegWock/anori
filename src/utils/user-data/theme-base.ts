@@ -18,6 +18,7 @@ export type CustomTheme = {
   type: "custom";
   blur: number;
   accent: OklchColor;
+  hideDotPattern?: boolean;
 };
 
 export type PartialCustomTheme = {
@@ -25,6 +26,7 @@ export type PartialCustomTheme = {
   type: "custom";
   blur: number;
   accent: OklchColor;
+  hideDotPattern?: boolean;
   background?: string;
   originalBackground?: string;
 };
@@ -40,49 +42,49 @@ export const themes: BuiltinTheme[] = [
     name: "Greenery",
     type: "builtin",
     background: bg("greenery.jpg", "greenery-light.jpg"),
-    accent: { l: 0.6886, c: 0.13, h: 160.26 },
+    accent: { l: 0.38, c: 0.13, h: 160.26 },
   },
   {
     name: "Forest lake",
     type: "builtin",
     background: bg("forest-lake.jpg", "forest-lake-light.jpg"),
-    accent: { l: 0.7706, c: 0.114, h: 219.46 },
+    accent: { l: 0.38, c: 0.114, h: 219.46 },
   },
   {
     name: "Mountains",
     type: "builtin",
     background: bg("mountains.jpg", "mountains-light.jpg"),
-    accent: { l: 0.5443, c: 0.1589, h: 251.13 },
+    accent: { l: 0.38, c: 0.1589, h: 251.13 },
   },
   {
     name: "Sakura",
     type: "builtin",
     background: bg("sakura.jpg", "sakura-light.jpg"),
-    accent: { l: 0.7831, c: 0.0838, h: 345.08 },
+    accent: { l: 0.38, c: 0.0838, h: 345.08 },
   },
   {
     name: "Sunflowers",
     type: "builtin",
     background: bg("sunflowers.jpg", "sunflowers-light.jpg"),
-    accent: { l: 0.5325, c: 0.0831, h: 209.0 },
+    accent: { l: 0.38, c: 0.0831, h: 209.0 },
   },
   {
     name: "Hygge",
     type: "builtin",
     background: bg("table.jpg", "table-light.jpg"),
-    accent: { l: 0.6574, c: 0.0063, h: 84.57 },
+    accent: { l: 0.38, c: 0.0063, h: 84.57 },
   },
   {
     name: "Maples",
     type: "builtin",
     background: bg("maple.jpg", "maple-light.jpg"),
-    accent: { l: 0.5572, c: 0.1783, h: 32.38 },
+    accent: { l: 0.38, c: 0.1783, h: 32.38 },
   },
   {
     name: "Highlands",
     type: "builtin",
     background: bg("highlands.jpg", "highlands-light.jpg"),
-    accent: { l: 0.7612, c: 0.1611, h: 73.8 },
+    accent: { l: 0.38, c: 0.1611, h: 73.8 },
   },
 ];
 
@@ -113,7 +115,16 @@ export const applyTheme = async (theme: Theme, mode: Mode) => {
   }
 
   applyThemeColors(theme.accent, mode);
+  applyThemeDecorations(theme.type === "custom" ? theme : {});
   await prom;
+};
+
+export type ThemeDecorations = {
+  hideDotPattern?: boolean;
+};
+
+export const applyThemeDecorations = (decorations: ThemeDecorations) => {
+  document.documentElement.classList.toggle("theme-hide-dot-pattern", !!decorations.hideDotPattern);
 };
 
 export const applyThemeColors = (accent: OklchColor, mode: Mode) => {

@@ -1,3 +1,4 @@
+import { FolderButton } from "@anori/components/FolderButton/FolderButton";
 import { SidebarButton } from "@anori/components/SidebarButton/SidebarButton";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
@@ -108,12 +109,10 @@ export const Sidebar = memo(function Sidebar({
           <TooltipProvider delay={50} closeDelay={50}>
             {folders.map((f) => {
               return (
-                <SidebarButton
-                  dropDestination={{ id: f.id }}
-                  sidebarOrientation={orientation}
+                <FolderButton
                   key={f.id}
-                  icon={f.icon}
-                  name={f.name}
+                  folder={f}
+                  sidebarOrientation={orientation}
                   active={activeFolder === f}
                   onClick={() => {
                     onFolderClick(f);

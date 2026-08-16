@@ -52,6 +52,10 @@
             "title": "Widget indisponível",
             "description": "Este tipo de widget não está disponível neste navegador. Ele permanece nos seus outros navegadores sincronizados, e você ainda pode movê-lo, redimensioná-lo ou removê-lo aqui."
         },
+        "widgetRenderError": {
+            "title": "Ops",
+            "description": "O widget falhou ao renderizar, verifique o console para mais detalhes."
+        },
         "cloud": {
             "connect": "Conectar",
             "connected": "Conectado",
@@ -186,6 +190,8 @@
                 "colorText": "Texto",
                 "colorCode": "Código de cor",
                 "colorScheme": "Esquema de cores",
+                "previewColorScheme": "Esquema de cores da pré-visualização",
+                "hideDotPattern": "Ocultar padrão de pontos",
                 "colorSchemeSystem": "Sistema",
                 "colorSchemeLight": "Claro",
                 "colorSchemeDark": "Escuro"

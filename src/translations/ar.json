@@ -52,6 +52,10 @@
             "title": "الأداة غير متاحة",
             "description": "نوع هذه الأداة غير متاح في هذا المتصفح. ستبقى في متصفحاتك الأخرى المزامنة، ولا يزال بإمكانك تحريكها أو تغيير حجمها أو إزالتها من هنا."
         },
+        "widgetRenderError": {
+            "title": "عذراً",
+            "description": "فشلت الأداة في العرض، تحقق من وحدة التحكم للمزيد من التفاصيل."
+        },
         "cloud": {
             "connect": "اتصال",
             "connected": "متصل",
@@ -186,6 +190,8 @@
                 "colorText": "النص",
                 "colorCode": "رمز اللون",
                 "colorScheme": "نظام الألوان",
+                "previewColorScheme": "نظام الألوان للمعاينة",
+                "hideDotPattern": "إخفاء نمط النقاط",
                 "colorSchemeSystem": "النظام",
                 "colorSchemeLight": "فاتح",
                 "colorSchemeDark": "داكن"

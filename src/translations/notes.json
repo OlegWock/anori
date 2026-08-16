@@ -154,7 +154,9 @@
             "colorAccent": "Label for the accent color picker in the custom theme editor.",
             "colorBackground": "Label for the background color picker in the custom theme editor.",
             "colorText": "Label for the text color picker in the custom theme editor.",
-            "colorCode": "Label for the hex color code input in the color picker."
+            "colorCode": "Label for the hex color code input in the color picker.",
+            "previewColorScheme": "Label for a dropdown in the custom theme editor that switches the live preview between light and dark mode without changing the user setting",
+            "hideDotPattern": "Checkbox in the custom theme editor; when checked, the decorative dot pattern overlaid on the page background is not rendered"
         },
         "importExport": {
             "title": "Title of the Import & export tab in Settings.",
@@ -423,5 +425,9 @@
         "hard": "Answer-grade button rating a reviewed card as hard.",
         "error": "Error shown when the widget can't reach AnkiConnect (Anki not running or addon missing).",
         "widgetName": "Anki widget name in the add-widget picker."
+    },
+    "widgetRenderError": {
+        "title": "Heading of the error card shown in place of a widget that crashed while rendering. Casual interjection.",
+        "description": "Body of the error card shown when a widget crashes while rendering, pointing the user to the browser console."
     }
 }

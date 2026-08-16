@@ -28,7 +28,7 @@ const bookmark = css({
   cursor: "pointer",
   transition: "0.15s ease-in-out",
   "@media (any-hover: hover)": { "&:hover": { background: "ghost.hover" } },
-  "& svg": { minWidth: "18px", maxWidth: "18px" },
+  _nestedSvgIcon: { minWidth: "18px", maxWidth: "18px" },
 });
 const bookmarkTitle = css({
   flexGrow: 1,

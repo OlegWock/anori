@@ -384,7 +384,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "de": {
         "appName": "55adda81af29",
@@ -767,7 +771,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "es": {
         "appName": "55adda81af29",
@@ -1151,7 +1159,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "fr": {
         "appName": "55adda81af29",
@@ -1535,7 +1547,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "it": {
         "appName": "55adda81af29",
@@ -1919,7 +1935,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "ja": {
         "appName": "55adda81af29",
@@ -2301,7 +2321,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "pt-br": {
         "appName": "55adda81af29",
@@ -2685,7 +2709,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "ru": {
         "appName": "55adda81af29",
@@ -3070,7 +3098,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "th": {
         "appName": "55adda81af29",
@@ -3452,7 +3484,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "tr": {
         "appName": "55adda81af29",
@@ -3835,7 +3871,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "uk": {
         "appName": "55adda81af29",
@@ -4220,7 +4260,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "vi": {
         "appName": "55adda81af29",
@@ -4602,7 +4646,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "zh-cn": {
         "appName": "55adda81af29",
@@ -4984,7 +5032,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "cs": {
         "appName": "55adda81af29",
@@ -5369,7 +5421,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "fil": {
         "appName": "55adda81af29",
@@ -5752,7 +5808,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "hi": {
         "appName": "55adda81af29",
@@ -6135,7 +6195,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "id": {
         "appName": "55adda81af29",
@@ -6517,7 +6581,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "pl": {
         "appName": "55adda81af29",
@@ -6902,7 +6970,11 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     },
     "sk": {
         "appName": "55adda81af29",
@@ -7287,6 +7359,10 @@
         "tabs-plugin.syncedTabs.notConnectedDescription": "0dc7d9a7d218",
         "tabs-plugin.syncedTabs.connect": "1a2303ede074",
         "tabs-plugin.syncedTabs.emptyTitle": "ab7e18657d24",
-        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd"
+        "tabs-plugin.syncedTabs.emptyDescription": "893d4459cafd",
+        "settings.theme.previewColorScheme": "5aa7b263adbb",
+        "settings.theme.hideDotPattern": "b38f1c51c3aa",
+        "widgetRenderError.title": "31d694956ddc",
+        "widgetRenderError.description": "cc7b4c1b65d4"
     }
 }

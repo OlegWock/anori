@@ -1,4 +1,12 @@
-import type { Gamut, OklchInput } from "@anori/design-system/color-engine";
+import {
+  accentLToBandPosition,
+  bandPositionToAccentL,
+  clampAccentL,
+  type Gamut,
+  type Mode,
+  type OklchInput,
+  surfaceColorForLightness,
+} from "@anori/design-system/color-engine";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { clampChroma, formatHex, toOklch, toP3, toRgb } from "@anori/utils/color";
 import { type ReactNode, useEffect, useRef, useState } from "react";
@@ -8,6 +16,7 @@ const C_MAX = 0.37;
 const RENDER_L = 0.72; // lightness the hue×chroma map is previewed at
 const FIELD_W = 160;
 const FIELD_H = 72;
+const STRIP_W = 160;
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
@@ -18,6 +27,15 @@ const field = css({
   position: "relative",
   width: "100%",
   height: "9rem",
+  borderRadius: "md",
+  overflow: "hidden",
+  cursor: "crosshair",
+  touchAction: "none",
+});
+const strip = css({
+  position: "relative",
+  width: "100%",
+  height: "2rem",
   borderRadius: "md",
   overflow: "hidden",
   cursor: "crosshair",
@@ -79,14 +97,85 @@ function PickerCanvas({ gamut }: { gamut: Gamut }) {
   return <canvas ref={ref} className={fieldCanvas} />;
 }
 
+function StripCanvas({ value, mode, gamut }: { value: OklchInput; mode: Mode; gamut: Gamut }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    canvas.width = STRIP_W;
+    canvas.height = 1;
+    const space = gamut === "p3" ? "display-p3" : "srgb";
+    const ctx = canvas.getContext("2d", { colorSpace: space }) ?? canvas.getContext("2d");
+    if (!ctx) return;
+    let img: ImageData;
+    try {
+      img = ctx.createImageData(STRIP_W, 1, { colorSpace: space });
+    } catch {
+      img = ctx.createImageData(STRIP_W, 1);
+    }
+    const data = img.data;
+    for (let x = 0; x < STRIP_W; x++) {
+      const color = surfaceColorForLightness(value, mode, x / (STRIP_W - 1), gamut);
+      const col = gamut === "p3" ? toP3(color) : toRgb(color);
+      const i = x * 4;
+      data[i] = Math.round(clamp01(col?.r ?? 0) * 255);
+      data[i + 1] = Math.round(clamp01(col?.g ?? 0) * 255);
+      data[i + 2] = Math.round(clamp01(col?.b ?? 0) * 255);
+      data[i + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+  }, [value, mode, gamut]);
+  return <canvas ref={ref} className={fieldCanvas} />;
+}
+
+function LightnessStrip({
+  value,
+  mode,
+  gamut,
+  onChange,
+}: {
+  value: OklchInput;
+  mode: Mode;
+  gamut: Gamut;
+  onChange: (v: OklchInput) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const pick = (clientX: number) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const t = clamp01((clientX - rect.left) / rect.width);
+    onChange({ ...value, l: bandPositionToAccentL(t) });
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={strip}
+      onPointerDown={(e) => {
+        e.currentTarget.setPointerCapture(e.pointerId);
+        pick(e.clientX);
+      }}
+      onPointerMove={(e) => {
+        if (e.buttons & 1) pick(e.clientX);
+      }}
+    >
+      <StripCanvas value={value} mode={mode} gamut={gamut} />
+      <div className={handle} style={{ left: `${accentLToBandPosition(value.l) * 100}%`, top: "50%" }} />
+    </div>
+  );
+}
+
 export function HueChromaPicker({
   label,
   value,
+  mode,
   gamut,
   onChange,
 }: {
   label?: ReactNode;
   value: OklchInput;
+  mode: Mode;
   gamut: Gamut;
   onChange: (v: OklchInput) => void;
 }) {
@@ -108,7 +197,7 @@ export function HueChromaPicker({
 
   const commitCode = () => {
     const parsed = toOklch(code);
-    if (parsed) onChange({ ...value, c: parsed.c ?? 0, h: parsed.h ?? 0 });
+    if (parsed) onChange({ l: clampAccentL(parsed.l ?? value.l), c: parsed.c ?? 0, h: parsed.h ?? 0 });
     else setCode(formatCode(value, gamut));
   };
 
@@ -133,6 +222,8 @@ export function HueChromaPicker({
             style={{ left: `${(value.h / 360) * 100}%`, top: `${(1 - value.c / C_MAX) * 100}%` }}
           />
         </div>
+
+        <LightnessStrip value={value} mode={mode} gamut={gamut} onChange={onChange} />
 
         <Input
           value={code}

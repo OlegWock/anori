@@ -71,6 +71,7 @@ const CustomThemeSchema = z.object({
   type: z.literal("custom"),
   blur: z.number(),
   accent: OklchColorSchema,
+  hideDotPattern: z.boolean().optional(),
 });
 
 export type CustomTheme = z.infer<typeof CustomThemeSchema>;
@@ -532,9 +533,32 @@ const migrateV1ToV2 = createMigration(schemaV1, schemaV2, async (ctx) => {
   );
 });
 
+export const schemaV3 = defineSchemaVersion(3, {
+  ...schemaV2.definition,
+  customThemes: cell({
+    key: "customThemes",
+    schema: z.array(CustomThemeSchema),
+    defaultValue: [],
+    sync: "profile",
+    includedInBackup: true,
+  }),
+});
+
+export type AnoriSchemaV3 = typeof schemaV3.definition;
+
+// Up to v2 the engine ignored accent.l and always rendered surfaces at L 0.38; from v3 on accent.l is
+// live, so pin stored themes to 0.38 to keep them looking exactly as they did.
+const migrateV2ToV3 = createMigration(schemaV2, schemaV3, async (ctx) => {
+  const oldThemes = ctx.from.get(ctx.from.schema.customThemes) ?? [];
+  ctx.to.set(
+    ctx.to.schema.customThemes,
+    oldThemes.map((theme) => ({ ...theme, accent: { ...theme.accent, l: 0.38 } })),
+  );
+});
+
 export const anoriVersionedSchema = defineVersionedSchema({
-  versions: [schemaV1, schemaV2],
-  migrations: [migrateV1ToV2],
+  versions: [schemaV1, schemaV2, schemaV3],
+  migrations: [migrateV1ToV2, migrateV2ToV3],
 });
 
 export const anoriSchema = anoriVersionedSchema.latestSchema.definition;

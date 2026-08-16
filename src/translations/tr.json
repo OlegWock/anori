@@ -52,6 +52,10 @@
             "title": "Widget kullanılamıyor",
             "description": "Bu widget türü bu tarayıcıda kullanılamıyor. Diğer senkronize tarayıcılarınızda kalmaya devam eder ve burada taşıyabilir, yeniden boyutlandırabilir veya kaldırabilirsiniz."
         },
+        "widgetRenderError": {
+            "title": "Hata",
+            "description": "Widget oluşturulamadı, ayrıntılar için konsolu kontrol edin."
+        },
         "cloud": {
             "connect": "Bağlan",
             "connected": "Bağlandı",
@@ -186,6 +190,8 @@
                 "colorText": "Metin",
                 "colorCode": "Renk kodu",
                 "colorScheme": "Renk şeması",
+                "previewColorScheme": "Önizleme renk şeması",
+                "hideDotPattern": "Nokta desenini gizle",
                 "colorSchemeSystem": "Sistem",
                 "colorSchemeLight": "Açık",
                 "colorSchemeDark": "Koyu"

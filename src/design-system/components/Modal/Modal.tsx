@@ -63,8 +63,8 @@ const headerCss = css({
 const headerFlushPadding = css({ pt: "6", px: "6" });
 
 const closeButton = css({
-  "& svg": { transition: "transform 0.2s ease" },
-  "&:hover svg": { transform: "rotate(180deg)" },
+  _nestedSvgIcon: { transition: "transform 0.2s ease" },
+  _hover: { _nestedSvgIcon: { transform: "rotate(180deg)" } },
 });
 
 export const Modal = ({

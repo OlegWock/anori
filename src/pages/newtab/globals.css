@@ -38,6 +38,10 @@ body {
   background-size: 30px 30px;
 }
 
+html.theme-hide-dot-pattern #root::before {
+  display: none;
+}
+
 .loading-cover {
   position: fixed;
   inset: 0;

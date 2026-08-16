@@ -127,8 +127,11 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
       const existingMeta = getSingleMeta(query);
       const newPath = generateFilePath();
 
-      await writeFile(newPath, blob);
-      blobCache.set(newPath, blob);
+      // The incoming blob may be a File backed by the OPFS entry we're about to delete (read -> re-save
+      // of the same key); such a File dies with its backing file, so materialize a stable copy first.
+      const stableBlob = new Blob([await blob.arrayBuffer()], { type: blob.type });
+      await writeFile(newPath, stableBlob);
+      blobCache.set(newPath, stableBlob);
 
       if (existingMeta?.path) {
         blobCache.delete(existingMeta.path);
@@ -151,8 +154,9 @@ export function createFilesStorage(internals: FilesStorageInternals): FilesStora
 
       const newPath = generateFilePath();
 
-      await writeFile(newPath, blob);
-      blobCache.set(newPath, blob);
+      const stableBlob = new Blob([await blob.arrayBuffer()], { type: blob.type });
+      await writeFile(newPath, stableBlob);
+      blobCache.set(newPath, stableBlob);
       blobCache.delete(existingMeta.path);
       await deleteFile(existingMeta.path);
 
