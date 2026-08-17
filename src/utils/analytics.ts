@@ -11,6 +11,8 @@ import { isBackground } from "webext-detect";
 import browser from "webextension-polyfill";
 import { guid, wait } from "./misc";
 
+export type TrackInteraction = (name: string) => void;
+
 const ANALYTICS_TIMEOUT = 1000 * 60 * 60 * 24;
 
 const POSTHOG_ENDPOINT_URL = "https://eu.i.posthog.com/i/v0/e/";
@@ -125,6 +127,20 @@ const gatherUsedWidgetsCount = async (): Promise<WidgetsCount> => {
   return widgetsCount;
 };
 
+const gatherStashMetrics = async () => {
+  const storage = await getAnoriStorage();
+
+  const stashes = storage.get(anoriSchema.stashes.stash.all());
+  const entries = Object.values(storage.get(anoriSchema.stashEntries.entry.all()));
+  const groupEntries = entries.filter((entry) => entry.type === "group");
+
+  return {
+    "Stash / Stashes count": Object.keys(stashes).length,
+    "Stash / Entries count": entries.length,
+    "Stash / Group entries count": groupEntries.length,
+  };
+};
+
 const aggregateInp = (values: number[]) => {
   if (values.length === 0) return null;
 
@@ -158,6 +174,7 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
   const dailyUsageMetrics = storage.get(anoriSchema.dailyUsageMetrics);
   const performanceAvgLcp = storage.get(anoriSchema.performanceAvgLcp);
   const performanceRawInp = storage.get(anoriSchema.performanceRawInp);
+  const shareOpenTabs = storage.get(anoriSchema.shareOpenTabs) ?? false;
 
   const { os } = await browser.runtime.getPlatformInfo();
   const extVersion = browser.runtime.getManifest().version;
@@ -178,6 +195,8 @@ const gatherDailyUsageData = async (): Promise<AnalyticEvents["Usage statistics"
     "Color mode": colorScheme,
     "Performance / Avg LCP": performanceAvgLcp.avg || null,
     "Performance / INP": aggregateInp(performanceRawInp),
+    "Tab sync enabled": shareOpenTabs,
+    ...(await gatherStashMetrics()),
     ...dailyUsageMetrics,
     ...(await gatherUsedWidgetsCount()),
   };
@@ -258,7 +277,11 @@ export async function trackEvent<K extends keyof AnalyticEvents>(eventName: K, p
   return browser.runtime.sendMessage({ type: "track-event", eventName, props });
 }
 
-export const useWidgetInteractionTracker = () => {
+export const trackPopupInteraction: TrackInteraction = (name) => {
+  incrementDailyUsageMetric(`Popup / ${name}`);
+};
+
+export const useWidgetInteractionTracker = (): TrackInteraction => {
   const ctx = useWidgetMetadata();
   const trackInteraction = useCallback(
     (name: string) => incrementDailyUsageMetric(`Interactions / ${ctx.pluginId} / ${ctx.widgetId} / ${name}`),

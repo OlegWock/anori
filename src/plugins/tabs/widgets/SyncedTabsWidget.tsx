@@ -7,6 +7,7 @@ import { Button } from "@anori/design-system/components/Button/Button";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import { useWidgetInteractionTracker } from "@anori/utils/analytics";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import { useWidgetMetadata } from "@anori/utils/plugins/widget";
 import type { EmptyObject } from "@anori/utils/types";
@@ -40,6 +41,12 @@ export const SyncedTabsWidget = memo(function SyncedTabsWidget(_props: WidgetRen
   const {
     size: { height },
   } = useWidgetMetadata();
+  const trackInteraction = useWidgetInteractionTracker();
+
+  const handleConnect = () => {
+    trackInteraction("Connect account");
+    openAnoriPlusSettings();
+  };
 
   const devicesQuery = trpc.tabs.listDevices.useQuery(undefined, { enabled: isConnected });
   const { refetch } = devicesQuery;
@@ -64,7 +71,7 @@ export const SyncedTabsWidget = memo(function SyncedTabsWidget(_props: WidgetRen
           title={t("tabs-plugin.syncedTabs.notConnectedTitle")}
           description={t("tabs-plugin.syncedTabs.notConnectedDescription")}
         >
-          <Button onClick={openAnoriPlusSettings}>{t("tabs-plugin.syncedTabs.connect")}</Button>
+          <Button onClick={handleConnect}>{t("tabs-plugin.syncedTabs.connect")}</Button>
         </EmptyState>
       ) : isLoading && devices.length === 0 ? (
         <div className={loadingText}>{t("tabs-plugin.syncedTabs.loading")}</div>
@@ -77,7 +84,12 @@ export const SyncedTabsWidget = memo(function SyncedTabsWidget(_props: WidgetRen
         />
       ) : (
         <ScrollArea className={scroll} type="hover">
-          <SyncedDeviceList devices={devices} onOpenAll={openAllTabs} heightBoxes={height} />
+          <SyncedDeviceList
+            devices={devices}
+            onOpenAll={openAllTabs}
+            heightBoxes={height}
+            trackInteraction={trackInteraction}
+          />
         </ScrollArea>
       )}
     </div>

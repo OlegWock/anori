@@ -2,6 +2,7 @@ import { Card } from "@anori/design-system/components/Card/Card";
 import { EmptyState } from "@anori/design-system/components/EmptyState/EmptyState";
 import { StashEntryList, type StashOpenHandlers } from "@anori/plugins/tabs/components/StashEntryList";
 import { DEFAULT_STASH_ID } from "@anori/plugins/tabs/consts";
+import { trackPopupInteraction } from "@anori/utils/analytics";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageCollectionAllValue } from "@anori/utils/storage-lib";
 import { useMemo } from "react";
@@ -41,7 +42,7 @@ export const RecentlyStashed = () => {
         <EmptyState className={emptyState} title={t("tabs-plugin.popup.nothingStashed")} muted compact />
       ) : (
         <div className={list}>
-          <StashEntryList entries={recent} showHost handlers={stashHandlers} />
+          <StashEntryList entries={recent} showHost handlers={stashHandlers} trackInteraction={trackPopupInteraction} />
         </div>
       )}
     </Card>

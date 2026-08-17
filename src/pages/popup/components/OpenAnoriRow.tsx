@@ -1,10 +1,12 @@
 import { Card } from "@anori/design-system/components/Card/Card";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
+import { trackPopupInteraction } from "@anori/utils/analytics";
 import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 import { iconOf, list, Row } from "./PopupRow";
 
 const openAnori = () => {
+  trackPopupInteraction("Open Anori");
   browser.tabs.create({ url: browser.runtime.getURL("/pages/newtab/start.html"), active: true });
   window.close();
 };

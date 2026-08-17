@@ -7,6 +7,7 @@ export type UsageQuantifiableMetrics =
   | "Times new tab opened"
   | "Times hotkey used"
   | "Times navigated to another folder"
+  | `Popup / ${string}`
   | `Interactions / ${string} / ${string} / ${string}`; // plugin id / widget id / interaction type
 export type DailyUsageMetrics = { [key in UsageQuantifiableMetrics]?: number };
 
@@ -29,6 +30,10 @@ export type AnalyticEvents = {
     "Color mode": ColorScheme;
     "Performance / Avg LCP": number | null;
     "Performance / INP": number | null;
+    "Stash / Stashes count": number;
+    "Stash / Entries count": number;
+    "Stash / Group entries count": number;
+    "Tab sync enabled": boolean;
   } & DailyUsageMetrics &
     WidgetsCount;
   "Configuration imported": NoParams;

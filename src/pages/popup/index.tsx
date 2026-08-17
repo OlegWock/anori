@@ -2,6 +2,7 @@ import "../../panda.css";
 import "./globals.css";
 import { TooltipProvider } from "@anori/design-system/components/Tooltip/Tooltip";
 import { initTranslation } from "@anori/translations/utils";
+import { trackPopupInteraction } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { mountPage } from "@anori/utils/react";
@@ -11,6 +12,7 @@ import { domMax, LazyMotion } from "motion/react";
 import { Popup } from "./components/Popup";
 
 watchForPermissionChanges();
+trackPopupInteraction("Opened");
 
 getAnoriStorage().then(async (storage) => {
   await initTranslation();

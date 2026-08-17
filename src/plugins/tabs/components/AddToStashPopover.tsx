@@ -6,6 +6,7 @@ import { ListItem } from "@anori/design-system/components/ListItem/ListItem";
 import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
+import type { TrackInteraction } from "@anori/utils/analytics";
 import { normalizeUrl, parseHost } from "@anori/utils/misc";
 import type { StashLink } from "@anori/utils/storage";
 import { type SubmitEvent, useEffect, useState } from "react";
@@ -20,7 +21,15 @@ const urlInput = css({ flexGrow: 1, minWidth: 0 });
 const tabList = css({ maxHeight: "260px" });
 const rowTitle = css({ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" });
 
-const OpenTabsPicker = ({ stashId, onDone }: { stashId: string; onDone: () => void }) => {
+const OpenTabsPicker = ({
+  stashId,
+  onDone,
+  trackInteraction,
+}: {
+  stashId: string;
+  onDone: () => void;
+  trackInteraction: TrackInteraction;
+}) => {
   const [tabs, setTabs] = useState<OpenTab[]>([]);
 
   useEffect(() => {
@@ -28,6 +37,7 @@ const OpenTabsPicker = ({ stashId, onDone }: { stashId: string; onDone: () => vo
   }, []);
 
   const pick = async (tab: OpenTab) => {
+    trackInteraction("Stash open tab");
     await sendMessage("stashLinks", { stashId, links: [tabToLink(tab)] });
     onDone();
   };
@@ -44,7 +54,10 @@ const OpenTabsPicker = ({ stashId, onDone }: { stashId: string; onDone: () => vo
   );
 };
 
-export const AddToStashPopover = ({ close, data }: PopoverRenderProps<{ stashId: string }>) => {
+export const AddToStashPopover = ({
+  close,
+  data,
+}: PopoverRenderProps<{ stashId: string; trackInteraction: TrackInteraction }>) => {
   const { t } = useTranslation();
   const [url, setUrl] = useState("");
 
@@ -54,6 +67,7 @@ export const AddToStashPopover = ({ close, data }: PopoverRenderProps<{ stashId:
     if (!trimmed) return;
     const normalized = normalizeUrl(trimmed);
     const link: StashLink = { url: normalized, title: parseHost(normalized) };
+    data.trackInteraction("Stash link from URL");
     await sendMessage("stashLinks", { stashId: data.stashId, links: [link] });
     close();
   };
@@ -67,7 +81,7 @@ export const AddToStashPopover = ({ close, data }: PopoverRenderProps<{ stashId:
         </Button>
       </form>
       <RequirePermissions permissions={["tabs"]}>
-        <OpenTabsPicker stashId={data.stashId} onDone={close} />
+        <OpenTabsPicker stashId={data.stashId} onDone={close} trackInteraction={data.trackInteraction} />
       </RequirePermissions>
     </div>
   );

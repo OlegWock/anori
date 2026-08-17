@@ -5,10 +5,11 @@ import { Icon } from "@anori/design-system/components/Icon/Icon";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
 import { Input } from "@anori/design-system/components/Input/Input";
 import { ListItem } from "@anori/design-system/components/ListItem/ListItem";
+import type { TrackInteraction } from "@anori/utils/analytics";
 import { isModifiedClick, parseHost } from "@anori/utils/misc";
 import type { StashEntry, StashGroupEntry, StashLink } from "@anori/utils/storage";
 import { AnimatePresence, m } from "motion/react";
-import { useMemo, useState } from "react";
+import { type MouseEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 import { sendMessage } from "../messaging";
@@ -98,33 +99,36 @@ const LinkRow = ({
   entry,
   showHost,
   handlers,
+  trackInteraction,
 }: {
   entry: Extract<StashEntry, { type: "link" }>;
   showHost: boolean;
   handlers: StashOpenHandlers;
+  trackInteraction: TrackInteraction;
 }) => {
   const { openLink } = handlers;
+
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    trackInteraction("Open stashed link");
+    if (!openLink || isModifiedClick(e)) return;
+    e.preventDefault();
+    openLink(entry.url);
+  };
+
+  const handleRemove = () => {
+    trackInteraction("Remove entry");
+    sendMessage("removeEntry", { entryId: entry.id });
+  };
+
   return (
     <ListItem as={m.div} className={entryRow} {...rowMotionProps}>
-      <a
-        className={entryMain}
-        href={entry.url}
-        onClick={
-          openLink
-            ? (e) => {
-                if (isModifiedClick(e)) return;
-                e.preventDefault();
-                openLink(entry.url);
-              }
-            : undefined
-        }
-      >
+      <a className={entryMain} href={entry.url} onClick={handleClick}>
         <Favicon url={entry.url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
         <span className={entryTitle}>{entry.title || entry.url}</span>
         {showHost && <span className={entryHost}>{parseHost(entry.url)}</span>}
       </a>
       <div className={`${actions} stash-entry-actions`}>
-        <RemoveButton onClick={() => sendMessage("removeEntry", { entryId: entry.id })} />
+        <RemoveButton onClick={handleRemove} />
       </div>
     </ListItem>
   );
@@ -135,28 +139,26 @@ const GroupLinkRow = ({
   showHost,
   onRemove,
   handlers,
+  trackInteraction,
 }: {
   link: StashLink;
   showHost: boolean;
   onRemove: () => void;
   handlers: StashOpenHandlers;
+  trackInteraction: TrackInteraction;
 }) => {
   const { openLink } = handlers;
+
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    trackInteraction("Open stashed link");
+    if (!openLink || isModifiedClick(e)) return;
+    e.preventDefault();
+    openLink(link.url);
+  };
+
   return (
     <ListItem as={m.div} className={entryRow} {...rowMotionProps}>
-      <a
-        className={entryMain}
-        href={link.url}
-        onClick={
-          openLink
-            ? (e) => {
-                if (isModifiedClick(e)) return;
-                e.preventDefault();
-                openLink(link.url);
-              }
-            : undefined
-        }
-      >
+      <a className={entryMain} href={link.url} onClick={handleClick}>
         <Favicon url={link.url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
         <span className={entryTitle}>{link.title || link.url}</span>
         {showHost && <span className={entryHost}>{parseHost(link.url)}</span>}
@@ -172,10 +174,12 @@ const GroupRow = ({
   entry,
   showHost,
   handlers,
+  trackInteraction,
 }: {
   entry: StashGroupEntry;
   showHost: boolean;
   handlers: StashOpenHandlers;
+  trackInteraction: TrackInteraction;
 }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
@@ -187,6 +191,21 @@ const GroupRow = ({
       await sendMessage("renameGroup", { entryId: entry.id, name: editingName.trim() });
     }
     setEditingName(null);
+  };
+
+  const handleOpenAll = () => {
+    trackInteraction("Open all in group");
+    handlers.openAll(entry.links);
+  };
+
+  const handleRemove = () => {
+    trackInteraction("Remove entry");
+    sendMessage("removeEntry", { entryId: entry.id });
+  };
+
+  const handleRemoveGroupLink = (linkIndex: number) => {
+    trackInteraction("Remove entry");
+    sendMessage("removeGroupLink", { entryId: entry.id, linkIndex });
   };
 
   return (
@@ -226,7 +245,7 @@ const GroupRow = ({
             label={t("tabs-plugin.stash.openAll")}
             variant="ghost"
             size="compact"
-            onClick={() => handlers.openAll(entry.links)}
+            onClick={handleOpenAll}
           />
           <IconButton
             icon={builtinIcons.pencil}
@@ -235,7 +254,7 @@ const GroupRow = ({
             size="compact"
             onClick={() => setEditingName(entry.name)}
           />
-          <RemoveButton onClick={() => sendMessage("removeEntry", { entryId: entry.id })} />
+          <RemoveButton onClick={handleRemove} />
         </div>
       </ListItem>
       {expanded && (
@@ -247,7 +266,8 @@ const GroupRow = ({
                 link={link}
                 showHost={showHost}
                 handlers={handlers}
-                onRemove={() => sendMessage("removeGroupLink", { entryId: entry.id, linkIndex: index })}
+                trackInteraction={trackInteraction}
+                onRemove={() => handleRemoveGroupLink(index)}
               />
             ))}
           </AnimatePresence>
@@ -261,18 +281,32 @@ export const StashEntryList = ({
   entries,
   showHost,
   handlers,
+  trackInteraction,
 }: {
   entries: StashEntry[];
   showHost: boolean;
   handlers: StashOpenHandlers;
+  trackInteraction: TrackInteraction;
 }) => {
   return (
     <AnimatePresence initial={false}>
       {entries.map((entry) =>
         entry.type === "group" ? (
-          <GroupRow key={entry.id} entry={entry} showHost={showHost} handlers={handlers} />
+          <GroupRow
+            key={entry.id}
+            entry={entry}
+            showHost={showHost}
+            handlers={handlers}
+            trackInteraction={trackInteraction}
+          />
         ) : (
-          <LinkRow key={entry.id} entry={entry} showHost={showHost} handlers={handlers} />
+          <LinkRow
+            key={entry.id}
+            entry={entry}
+            showHost={showHost}
+            handlers={handlers}
+            trackInteraction={trackInteraction}
+          />
         ),
       )}
     </AnimatePresence>

@@ -1,5 +1,6 @@
 import { TabList, type TabListEntry } from "@anori/components/TabList/TabList";
 import { Badge } from "@anori/design-system/components/Badge/Badge";
+import type { TrackInteraction } from "@anori/utils/analytics";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
@@ -27,11 +28,13 @@ const DeviceSection = ({
   onOpenAll,
   collapsible,
   collapseAfter,
+  trackInteraction,
 }: {
   device: SyncedDevice;
   onOpenAll: (urls: string[]) => void;
   collapsible: boolean;
   collapseAfter: number;
+  trackInteraction?: TrackInteraction;
 }) => {
   const { t } = useTranslation();
 
@@ -70,7 +73,12 @@ const DeviceSection = ({
         <span className={deviceName}>{device.name}</span>
         <Badge className={deviceBadge}>{t("tabs-plugin.stash.tabCount", { count: device.tabs.length })}</Badge>
       </div>
-      <TabList entries={entries} collapsible={collapsible} collapseAfter={collapseAfter} />
+      <TabList
+        entries={entries}
+        collapsible={collapsible}
+        collapseAfter={collapseAfter}
+        trackInteraction={trackInteraction}
+      />
     </div>
   );
 };
@@ -79,10 +87,12 @@ export const SyncedDeviceList = ({
   devices,
   onOpenAll,
   heightBoxes,
+  trackInteraction,
 }: {
   devices: SyncedDevice[];
   onOpenAll: (urls: string[]) => void;
   heightBoxes: number;
+  trackInteraction?: TrackInteraction;
 }) => {
   const collapsible = devices.length > 1;
   const collapseAfter = computeCollapseAfter(heightBoxes, devices.length);
@@ -95,6 +105,7 @@ export const SyncedDeviceList = ({
           onOpenAll={onOpenAll}
           collapsible={collapsible}
           collapseAfter={collapseAfter}
+          trackInteraction={trackInteraction}
         />
       ))}
     </div>
