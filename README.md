@@ -6,6 +6,7 @@
 * Add widgets to homepage and organize them however you want
 * Use bookmarks, calendar, todo, notes and other useful widgets
 * Organize packs of widgets in folders
+* Supports both light and dark mode
 * Choose from 8 different color schemes and backgrounds or create your own
 * Supports Chrome and Firefox
 
@@ -28,6 +29,8 @@
 * Weather
 * Calendar
 * Recently closed tabs
+* Tab stash
+* Tabs on other devices
 * Top sites
 * CPU and RAM load (only Chrome)
 * Pictures
