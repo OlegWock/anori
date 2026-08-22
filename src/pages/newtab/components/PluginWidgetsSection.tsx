@@ -1,3 +1,4 @@
+import { AnoriPlusBadge } from "@anori/components/AnoriPlusBadge/AnoriPlusBadge";
 import { WidgetCard } from "@anori/components/WidgetCard/WidgetCard";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
 import type { SomePlugin, SomeWidget } from "@anori/utils/plugins/types";
@@ -25,8 +26,16 @@ const mocks = css({
   padding: "3",
   borderRadius: "lg",
 });
-const widgetButton = css({ textAlign: "start", cursor: "pointer" });
-const widgetName = css({ marginTop: "1-5", marginLeft: "2", wordWrap: "normal" });
+const widgetButton = css({ textAlign: "start", cursor: "pointer", padding: "4" });
+const widgetLabel = css({
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: "2",
+  marginTop: "3",
+  marginLeft: "1",
+});
+const widgetName = css({ wordWrap: "normal" });
 
 export const PluginWidgetsSection = memo(function PluginWidgetsSection({
   plugin,
@@ -50,7 +59,10 @@ export const PluginWidgetsSection = memo(function PluginWidgetsSection({
               }}
             >
               <WidgetCard type="mock" widget={widget} plugin={plugin} />
-              <div className={widgetName}>{widget.name}</div>
+              <div className={widgetLabel}>
+                <div className={widgetName}>{widget.name}</div>
+                {widget.requiresAnoriPlus && <AnoriPlusBadge />}
+              </div>
             </div>
           ))}
         </div>

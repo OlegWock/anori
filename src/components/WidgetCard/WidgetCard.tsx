@@ -243,7 +243,6 @@ export const WidgetCard = ({
       style={{
         width: resize.width,
         height: resize.height,
-        margin: type === "widget" ? 0 : gapSize,
         position: type === "widget" ? "absolute" : undefined,
         ...(type === "widget" && isDragging ? { top: pixelPosition.y + gapSize, left: pixelPosition.x + gapSize } : {}),
         ...style,

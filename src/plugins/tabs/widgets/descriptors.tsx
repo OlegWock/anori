@@ -58,6 +58,7 @@ export const syncedTabsWidgetDescriptor = defineWidget<"synced-tabs-widget", Emp
   get name() {
     return translate("tabs-plugin.syncedTabs.title");
   },
+  requiresAnoriPlus: true,
   configurationScreen: null,
   mainScreen: SyncedTabsWidget,
   mock: SyncedTabsWidgetMock,

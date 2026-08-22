@@ -26,6 +26,7 @@ export type WidgetDef<Id extends string, WC extends Mapping, PC extends Mapping>
   id: Id;
   name: string;
   schema?: z.ZodType<WC>;
+  requiresAnoriPlus?: boolean;
   appearance: Appearance;
   mainScreen: ComponentType<WidgetRenderProps<WC, PC>>;
   mock: ComponentType;
@@ -105,6 +106,7 @@ export const toSomeWidget = (def: AnyWidgetDef): SomeWidget => {
   const widget: SomeWidget = {
     id: def.id,
     name: def.name,
+    requiresAnoriPlus: def.requiresAnoriPlus,
     appearance: def.appearance,
     mock: def.mock,
     decode,

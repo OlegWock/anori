@@ -33,6 +33,7 @@ export type WidgetDescriptor<I extends ID = ID, T extends Mapping = Mapping | Em
   mock: ComponentType<EmptyObject>;
   configurationScreen: ComponentType<WidgetConfigScreenProps<T>> | null;
   mainScreen: ComponentType<WidgetRenderProps<T>>;
+  requiresAnoriPlus?: boolean;
   appearance: {
     withHoverAnimation?: boolean;
     withoutPadding?: boolean;
