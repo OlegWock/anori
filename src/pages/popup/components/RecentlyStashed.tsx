@@ -39,7 +39,7 @@ export const RecentlyStashed = () => {
     <Card gap="1" padding="2">
       <SectionHeading>{t("tabs-plugin.popup.recentlyStashed")}</SectionHeading>
       {recent.length === 0 ? (
-        <EmptyState className={emptyState} title={t("tabs-plugin.popup.nothingStashed")} muted compact />
+        <EmptyState contentClassName={emptyState} title={t("tabs-plugin.popup.nothingStashed")} muted compact />
       ) : (
         <div className={list}>
           <StashEntryList entries={recent} showHost handlers={stashHandlers} trackInteraction={trackPopupInteraction} />

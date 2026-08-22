@@ -18,7 +18,7 @@ const latestWidget = css({
 });
 const latestPost = css({ maxHeight: "100%", padding: "4", justifyContent: "space-between" });
 const latestMessage = css({ padding: "4" });
-const emptyPost = css({ flexGrow: 1, justifyContent: "center" });
+const emptyPost = css({ flexGrow: 1 });
 
 export const RssLatestPost = memo(function RssLatestPost({ config }: WidgetRenderProps<RssLatestPostConfig>) {
   const { t } = useTranslation();

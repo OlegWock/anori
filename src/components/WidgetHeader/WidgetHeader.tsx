@@ -5,7 +5,7 @@ import { css, cx } from "styled-system/css";
 const header = css({
   display: "grid",
   gridTemplateColumns: "minmax(0, 1fr) auto",
-  gridTemplateRows: "2rem",
+  gridTemplateRows: "minmax(2rem, auto)",
   alignItems: "center",
   columnGap: "2",
   rowGap: "0-5",
@@ -32,7 +32,9 @@ export type WidgetHeaderProps = {
 export const WidgetHeader = ({ title, subtitle, action, className }: WidgetHeaderProps) => (
   <div className={cx(header, className)}>
     <div className={titleCell}>
-      <Heading>{title}</Heading>
+      <Heading singleLine={false} lineHeight="tight">
+        {title}
+      </Heading>
     </div>
     {action != null && <div className={actionCell}>{action}</div>}
     {subtitle != null && <div className={subtitleText}>{subtitle}</div>}

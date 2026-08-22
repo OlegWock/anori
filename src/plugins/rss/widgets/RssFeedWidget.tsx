@@ -24,7 +24,7 @@ const separator = css({
   borderBottomColor: "divider",
 });
 const feedPost = css({ padding: "1", borderRadius: "sm" });
-const emptyFeed = css({ flexGrow: 1, justifyContent: "center" });
+const emptyFeed = css({ flexGrow: 1 });
 
 export const RssFeed = memo(function RssFeed({ config }: WidgetRenderProps<RssFeedConfig>) {
   const { t } = useTranslation();

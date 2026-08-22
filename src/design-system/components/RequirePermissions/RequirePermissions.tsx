@@ -33,7 +33,8 @@ const centeredViewport = css({
     textAlign: "center",
   },
 });
-const promptEmptyState = css({ gap: "3", paddingBlock: "3", maxWidth: "40rem" });
+const promptEmptyStateBox = css({ maxWidth: "40rem" });
+const promptEmptyState = css({ gap: "3", paddingBlock: "3" });
 const listItemLabel = css({ flex: 1, minWidth: 0 });
 const text = css({ fontWeight: "light" });
 const additionalInfoClass = css({ marginTop: "4" });
@@ -168,7 +169,12 @@ export const RequirePermissions = ({
 
   return (
     <ScrollArea className={cx(prompt, className)} viewportClassName={centeredViewport} size="thin">
-      <EmptyState className={promptEmptyState} icon={builtinIcons.key} title={t("requirePermissions.modalTitle")}>
+      <EmptyState
+        className={promptEmptyStateBox}
+        contentClassName={promptEmptyState}
+        icon={builtinIcons.key}
+        title={t("requirePermissions.modalTitle")}
+      >
         {permDetails}
         {grantBtn}
       </EmptyState>

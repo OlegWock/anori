@@ -68,9 +68,9 @@ export const button = cva({
       },
     },
     size: {
-      normal: { height: "2.25rem", px: "5", fontSize: "base" },
-      medium: { height: "2rem", px: "4", fontSize: "sm" },
-      compact: { height: "1.75rem", px: "4", fontSize: "sm" },
+      normal: { height: "2.25rem", minHeight: "2.25rem", px: "5", fontSize: "base" },
+      medium: { height: "2rem", minHeight: "2rem", px: "4", fontSize: "sm" },
+      compact: { height: "1.75rem", minHeight: "1.75rem", px: "4", fontSize: "sm" },
     },
     block: { true: { width: "100%" } },
     loading: { true: { cursor: "wait" } },
