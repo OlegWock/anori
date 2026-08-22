@@ -356,7 +356,7 @@
                 "stashGroup": "Stash a tab group",
                 "stashWindow": "Stash this window",
                 "window": "Window",
-                "grantTabs": "Additional permissions are required for Tabs stash feature",
+                "grantTabs": "Additional permissions are required for $t(tabs-plugin.stash.title) feature",
                 "recentlyStashed": "Recently stashed",
                 "nothingStashed": "Nothing stashed yet"
             },
@@ -481,7 +481,7 @@
             "tagFixed": "Fixed",
             "changelogNote": "Looking for the changelog for older versions? You can find it <0>on GitHub</0>.",
             "v2_1_0": {
-                "headline": "Now with extended Tabs plugin. Keep the links you mean to get back to, and pick up the tabs you left open on another device.",
+                "headline": "Now with extended $t(tabs-plugin.name) plugin. Keep the links you mean to get back to, and pick up the tabs you left open on another device.",
                 "stashTitle": "Tab stash",
                 "stashBody": "Use this widget to store the links you mean to get back to later. Keep them on your new tab so you'll actually remember them. A tab can be stashed from the widget itself or from the new Anori popup window, just click on the Anori icon in the extension's toolbar.",
                 "stashSync": "With Anori Plus your stash is shared across every browser you're signed into, and across all profiles.",
@@ -489,8 +489,8 @@
                 "syncedTabsBody": "See what's open on your other devices, and effortlessly pick up where you left off on a previous device. Please note that this feature requires Anori Plus and an explicit opt-in in settings.",
                 "minorPopup": "Clicking the Anori icon in the toolbar now opens a popup instead of just opening a new tab.",
                 "minorDevices": "Settings gained a Devices section, where you can see everything signed into your Anori Plus account, and rename or remove it.",
-                "minorTabsPlugin": "The Recently closed tabs widget was folded into a new Tabs plugin alongside the two widgets above, and it can now be resized taller than before.",
-                "minorWidgetHeaders": "Tasks, Notes, RSS feed, Weather forecast and Recently closed tabs now share one header layout, so their titles and buttons line up side by side.",
+                "minorTabsPlugin": "The $t(recently-closed-plugin.name) widget was folded into a new $t(tabs-plugin.name) plugin alongside the two widgets above, and it can now be resized taller than before.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) and $t(recently-closed-plugin.name) now share one header layout, so their titles and buttons line up side by side.",
                 "minorPlurals": "Translated languages now use correct plural forms, instead of borrowing English's one-or-many rule.",
                 "minorWhatsNew": "The screen you're reading was redesigned, and notes for older versions moved out of the extension into a changelog on GitHub.",
                 "minorTranslatedNotes": "Release notes are now translated into every language Anori supports, instead of being English-only.",

@@ -241,7 +241,7 @@
             "customization": {
                 "title": "Pag-customize",
                 "p1": "Habang pinapayagan ka ng Anori na bumuo ng sariling start page mula sa mga widget, maaari pa itong i-customize nang higit pa.",
-                "p2": "Maaari mong baguhin ang pamagat ng bagong tab, baguhin ang color scheme kasama ang background image at mag-upload ng iyong sariling mga icon para gamitin sa mga widget (bilang karagdagan sa 10,000+ built-in na icon).",
+                "p2": "Maaari mong baguhin ang pamagat ng bagong tab, baguhin ang color scheme kasama ang background image at mag-upload ng iyong mga custom na icon para gamitin sa mga widget (bilang karagdagan sa 10,000+ built-in na icon).",
                 "p3": "At hindi pa ito kalahati ng mga opsyon. Baka gusto mong tingnan ang mga setting upang makita ang lahat ng ito."
             },
             "analytics": {
@@ -356,7 +356,7 @@
                 "stashGroup": "Mag-stash ng grupo ng tab",
                 "stashWindow": "I-stash ang window na ito",
                 "window": "Window",
-                "grantTabs": "Kailangan ng karagdagang mga pahintulot para sa tampok na Tab stash",
+                "grantTabs": "Kailangan ng karagdagang mga pahintulot para sa tampok na $t(tabs-plugin.stash.title)",
                 "recentlyStashed": "Kamakailan lang na na-stash",
                 "nothingStashed": "Wala pang naka-stash"
             },
@@ -481,16 +481,16 @@
             "tagFixed": "Naayos",
             "changelogNote": "Naghahanap ng changelog para sa mga lumang bersyon? Makikita mo ito <0>sa GitHub</0>.",
             "v2_1_0": {
-                "headline": "Ngayon may extended Tabs plugin na. Itago ang mga link na balak mong balikan, at kunin ang mga tab na naiwan mo sa ibang device.",
+                "headline": "Ngayon may extended na $t(tabs-plugin.name) plugin. Itago ang mga link na balak mong balikan, at kunin ang mga tab na naiwan mo sa ibang device.",
                 "stashTitle": "Tab stash",
                 "stashBody": "Gamitin ang widget na ito para itago ang mga link na balak mong balikan mamaya. Panatilihin ang mga ito sa iyong bagong tab para hindi mo malimutan. Maaaring i-stash ang isang tab mula sa widget mismo o mula sa bagong Anori popup window — i-click lang ang Anori icon sa toolbar ng extension.",
                 "stashSync": "Sa Anori Plus, ang iyong stash ay ibinabahagi sa bawat browser na naka-sign in ka, at sa lahat ng profile.",
                 "syncedTabsTitle": "Mga naka-sync na tab",
                 "syncedTabsBody": "Tingnan kung ano ang bukas sa iyong ibang mga device, at madaling ituloy kung saan ka natigil sa nakaraang device. Pakitandaan na ang feature na ito ay nangangailangan ng Anori Plus at ng malinaw na pag-opt-in sa mga setting.",
                 "minorPopup": "Ang pag-click sa Anori icon sa toolbar ay nagbubukas na ngayon ng popup sa halip na basta magbukas ng bagong tab.",
-                "minorDevices": "Nagkaroon ng seksyong Mga Device ang Settings, kung saan makikita mo ang lahat ng naka-sign in sa iyong Anori Plus account, at maaari mo itong palitan ng pangalan o alisin.",
-                "minorTabsPlugin": "Ang widget na Mga kamakailang saradong tab ay isinama sa bagong Tabs plugin kasama ang dalawang widget sa itaas, at maaari na itong palakihin nang mas mataas kaysa dati.",
-                "minorWidgetHeaders": "Ang Mga Gawain, Mga Tala, RSS feed, Pagtataya ng panahon, at Mga kamakailang saradong tab ay gumagamit na ngayon ng iisang layout ng header, kaya nakahanay ang kanilang mga pamagat at button nang magkatabi.",
+                "minorDevices": "Nagkaroon ng seksyong Mga Device ang Mga Setting, kung saan makikita mo ang lahat ng naka-sign in sa iyong Anori Plus account, at maaari mo itong palitan ng pangalan o alisin.",
+                "minorTabsPlugin": "Ang widget na $t(recently-closed-plugin.name) ay isinama sa bagong $t(tabs-plugin.name) plugin kasama ang dalawang widget sa itaas, at maaari na itong palakihin nang mas mataas kaysa dati.",
+                "minorWidgetHeaders": "Ang $t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast), at $t(recently-closed-plugin.name) ay gumagamit na ngayon ng iisang layout ng header, kaya nakahanay ang kanilang mga pamagat at button nang magkatabi.",
                 "minorPlurals": "Ang mga isinalin na wika ay gumagamit na ngayon ng tamang plural forms, sa halip na gamitin ang panuntunan ng Ingles na isa o marami.",
                 "minorWhatsNew": "Ang screen na binabasa mo ay na-redesign, at ang mga tala para sa mga lumang bersyon ay inilipat na mula sa extension patungo sa isang changelog sa GitHub.",
                 "minorTranslatedNotes": "Ang mga release note ay isinalin na ngayon sa bawat wikang sinusuportahan ng Anori, sa halip na Ingles lamang para sa lahat.",

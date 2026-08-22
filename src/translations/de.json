@@ -72,7 +72,7 @@
             "noAccount": "Kein Konto?",
             "createAccount": "Hier erstellen",
             "userDataConflict": {
-                "description": "Dieser Browser enthält Anori Plus-Daten — zum Beispiel deinen Tab-Speicher — die mit einem anderen Konto synchronisiert wurden als dem, bei dem du dich gerade anmeldest. Was soll damit geschehen?",
+                "description": "Dieser Browser enthält Anori Plus-Daten — zum Beispiel deine Tab-Ablage — die mit einem anderen Konto synchronisiert wurden als dem, bei dem du dich gerade anmeldest. Was soll damit geschehen?",
                 "upload": "Zu diesem Konto hinzufügen",
                 "uploadHint": "Behält diese Daten und fügt sie dem Konto hinzu, bei dem du dich anmeldest. Wähle dies, wenn sie dir gehören — zum Beispiel wenn du zu einem neuen Konto gewechselt bist.",
                 "discard": "Verwerfen",
@@ -120,8 +120,8 @@
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Custom Icons sind Symbole die für die spätere Nutzung in Anori hochgeladen werden können.",
-            "customIconsAbsent": "Aktuell hast du keine Custom Icons. Um dein erstes Icon hochzuladen, musst du in die Einstellungen gehen.",
+            "customIconsInfo": "Benutzerdefinierte Symbole sind Symbole, die du für die spätere Nutzung in Anori hochlädst.",
+            "customIconsAbsent": "Aktuell hast du keine Benutzerdefinierten Symbole. Um dein erstes Benutzerdefiniertes Symbol hochzuladen, gehe bitte in die Einstellungen.",
             "iconFamily": "Icon Family",
             "allIcons": "Alle Icons",
             "selectFamilyOrSearch": "Wähle eine Icon-Familie oder suche, um Icon-Vorschläge zu sehen."
@@ -236,12 +236,12 @@
             "folders": {
                 "title": "Ordner",
                 "p1": "Standardmäßig werden alle deine Widgets dem Ordner \"$t(home)\" hinzugefügt. Du kannst deine Widgets aber auch in verschiedenen Ordnern organisieren. Du könntest zum Beispiel verschiedene Ordner für berufliche und private Widgets haben. Oder du könntest einen separaten Ordner für jedes einzelne Projekt haben.",
-                "p2": "Um Ordner zu verwalten, klicke auf das Zahnrad-Symbol in der unteren linken Ecke. Dadurch werden die Einstellungen geöffnet, in denen du Anori nach deinen Wünschen anpassen kannst. Klicke dort auf \"$t(settings.folders.title)\", um den Ordner-Manager zu öffnen."
+                "p2": "Um Ordner zu verwalten, klicke auf das Zahnrad-Symbol in der unteren linken Ecke. Dadurch werden die Einstellungen geöffnet, in denen du Anori nach deinen Wünschen anpassen kannst. Klicke dort auf '$t(settings.folders.title)', um den Ordner-Manager zu öffnen."
             },
             "customization": {
                 "title": "Personalisierung",
                 "p1": "Mit Anori kannst du zwar deine eigene Startseite aus Widgets zusammenstellen, aber sie kann noch weiter angepasst werden.",
-                "p2": "Du kannst den Titel einer neuen Registerkarte ändern, das Farbschema zusammen mit dem Hintergrundbild ändern und deine eigenen Symbole hochladen, um sie in Widgets zu verwenden (zusätzlich zu den mehr als 10.000 integrierten Symbolen).",
+                "p2": "Du kannst den Titel des neuen Tabs ändern, das Farbschema zusammen mit dem Hintergrundbild ändern und deine Benutzerdefinierten Symbole hochladen, um sie in Widgets zu verwenden (zusätzlich zu den mehr als 10.000 integrierten Symbolen).",
                 "p3": "Und das ist noch nicht einmal die Hälfte der Optionen. Schau dir die Einstellungen an, um sie alle zu sehen."
             },
             "analytics": {
@@ -356,7 +356,7 @@
                 "stashGroup": "Tab-Gruppe speichern",
                 "stashWindow": "Dieses Fenster speichern",
                 "window": "Fenster",
-                "grantTabs": "Für die Tab-Ablage-Funktion sind zusätzliche Berechtigungen erforderlich",
+                "grantTabs": "Für die $t(tabs-plugin.stash.title)-Funktion sind zusätzliche Berechtigungen erforderlich",
                 "recentlyStashed": "Zuletzt gespeichert",
                 "nothingStashed": "Noch nichts gespeichert"
             },
@@ -481,16 +481,16 @@
             "tagFixed": "Behoben",
             "changelogNote": "Suchen Sie das Changelog für ältere Versionen? Sie finden es <0>auf GitHub</0>.",
             "v2_1_0": {
-                "headline": "Jetzt mit erweitertem Tabs-Plugin. Behalte die Links, zu denen du zurückkehren möchtest, und mach dort weiter, wo du auf einem anderen Gerät aufgehört hast.",
+                "headline": "Jetzt mit erweitertem $t(tabs-plugin.name)-Plugin. Behalte die Links, zu denen du zurückkehren möchtest, und mach dort weiter, wo du auf einem anderen Gerät aufgehört hast.",
                 "stashTitle": "Tab-Ablage",
                 "stashBody": "Verwende dieses Widget, um Links zu speichern, zu denen du später zurückkehren möchtest. Behalte sie auf deinem neuen Tab, damit du sie nicht vergisst. Ein Tab kann direkt im Widget oder über das neue Anori-Popup-Fenster abgelegt werden – klicke einfach auf das Anori-Symbol in der Symbolleiste der Erweiterung.",
                 "stashSync": "Mit Anori Plus wird deine Ablage über alle Browser, in denen du angemeldet bist, und über alle Profile hinweg synchronisiert.",
                 "syncedTabsTitle": "Synchronisierte Tabs",
                 "syncedTabsBody": "Sieh, was auf deinen anderen Geräten geöffnet ist, und mach mühelos dort weiter, wo du auf einem anderen Gerät aufgehört hast. Bitte beachte, dass diese Funktion Anori Plus und eine ausdrückliche Aktivierung in den Einstellungen erfordert.",
                 "minorPopup": "Ein Klick auf das Anori-Symbol in der Symbolleiste öffnet jetzt ein Popup statt nur einen neuen Tab.",
-                "minorDevices": "Die Einstellungen haben einen Bereich \"Geräte\" erhalten, in dem du alles sehen kannst, was mit deinem Anori Plus-Konto verbunden ist, und es umbenennen oder entfernen kannst.",
-                "minorTabsPlugin": "Das Widget \"Kürzlich geschlossene Tabs\" wurde zusammen mit den beiden obigen Widgets in ein neues Tabs-Plugin integriert und kann jetzt größer als zuvor skaliert werden.",
-                "minorWidgetHeaders": "Aufgaben, Notizen, RSS-Feed, Wettervorhersage und Kürzlich geschlossene Tabs teilen sich jetzt ein einheitliches Header-Layout, sodass ihre Titel und Schaltflächen nebeneinander ausgerichtet sind.",
+                "minorDevices": "Die Einstellungen haben einen Bereich Geräte erhalten, in dem du alles sehen kannst, was mit deinem Anori Plus-Konto verbunden ist, und es umbenennen oder entfernen kannst.",
+                "minorTabsPlugin": "Das Widget $t(recently-closed-plugin.name) wurde zusammen mit den beiden obigen Widgets in ein neues $t(tabs-plugin.name)-Plugin integriert und kann jetzt größer als zuvor skaliert werden.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) und $t(recently-closed-plugin.name) teilen sich jetzt ein einheitliches Header-Layout, sodass ihre Titel und Schaltflächen nebeneinander ausgerichtet sind.",
                 "minorPlurals": "Übersetzte Sprachen verwenden jetzt korrekte Pluralformen, anstatt die englische Einzel-oder-Mehrfach-Regel zu übernehmen.",
                 "minorWhatsNew": "Der Bildschirm, den du gerade liest, wurde neu gestaltet, und die Hinweise zu älteren Versionen wurden aus der Erweiterung in ein Changelog auf GitHub verschoben.",
                 "minorTranslatedNotes": "Die Versionshinweise werden jetzt in alle von Anori unterstützten Sprachen übersetzt, anstatt nur auf Englisch verfügbar zu sein.",

@@ -72,7 +72,7 @@
             "noAccount": "Nemáte účet?",
             "createAccount": "Vytvorte si ho tu",
             "userDataConflict": {
-                "description": "Tento prehliadač obsahuje údaje Anori Plus — napríklad váš Zásobník kariet — ktoré boli synchronizované s iným účtom, než do ktorého sa prihlasujete. Čo sa s nimi má stať?",
+                "description": "Tento prehliadač obsahuje údaje Anori Plus — napríklad vaše Odložené karty — ktoré boli synchronizované s iným účtom, než do ktorého sa prihlasujete. Čo sa s nimi má stať?",
                 "upload": "Pridať do tohto účtu",
                 "uploadHint": "Zachová tieto údaje a zlúči ich s účtom, do ktorého sa prihlasujete. Vyberte túto možnosť, ak sú vaše — napríklad ak ste prešli na nový účet.",
                 "discard": "Zahodiť lokálne údaje",
@@ -120,7 +120,7 @@
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Vlastné ikony sú ikony, ktoré ste nahral a môžete ich používať v Anori.",
+            "customIconsInfo": "Vlastné ikony sú ikony, ktoré ste nahrali a môžete ich používať v Anori.",
             "customIconsAbsent": "Momentálne nemáte žiadne vlastné ikony. Ak chcete nahrať prvú vlastnú ikonu, prejdite do nastavení.",
             "iconFamily": "Sada ikon",
             "allIcons": "Všetky ikony",
@@ -358,7 +358,7 @@
                 "stashGroup": "Uložiť skupinu kariet",
                 "stashWindow": "Uložiť toto okno",
                 "window": "Okno",
-                "grantTabs": "Pre funkciu odkladania kariet sú potrebné ďalšie oprávnenia",
+                "grantTabs": "Pre funkciu $t(tabs-plugin.stash.title) sú potrebné ďalšie oprávnenia",
                 "recentlyStashed": "Nedávno uložené",
                 "nothingStashed": "Zatiaľ nič neuložené"
             },
@@ -483,16 +483,16 @@
             "tagFixed": "Opravené",
             "changelogNote": "Hľadáte changelog pre staršie verzie? Nájdete ho <0>na GitHube</0>.",
             "v2_1_0": {
-                "headline": "Teraz s rozšíreným doplnkom Karty. Uchovajte si odkazy, ku ktorým sa chcete vrátiť, a nadviažte tam, kde ste skončili na inom zariadení.",
+                "headline": "Teraz s rozšíreným doplnkom $t(tabs-plugin.name). Uchovajte si odkazy, ku ktorým sa chcete vrátiť, a nadviažte tam, kde ste skončili na inom zariadení.",
                 "stashTitle": "Odložené karty",
                 "stashBody": "Tento widget použite na ukladanie odkazov, ku ktorým sa chcete neskôr vrátiť. Nechajte ich na novej karte, aby ste na ne nezabudli. Kartu môžete odložiť priamo z widgetu alebo z nového vyskakovacieho okna Anori – stačí kliknúť na ikonu Anori na paneli nástrojov rozšírenia.",
                 "stashSync": "S Anori Plus sa vaše odložené karty zdieľajú naprieč všetkými prehliadačmi, do ktorých ste prihlásení, a naprieč všetkými profilmi.",
                 "syncedTabsTitle": "Synchronizované karty",
                 "syncedTabsBody": "Pozrite sa, čo máte otvorené na iných zariadeniach, a plynulo nadviažte tam, kde ste skončili. Upozorňujeme, že táto funkcia vyžaduje Anori Plus a výslovné povolenie v nastaveniach.",
                 "minorPopup": "Kliknutie na ikonu Anori na paneli nástrojov teraz otvorí vyskakovacie okno namiesto novej karty.",
-                "minorDevices": "V nastaveniach pribudla sekcia Zariadenia, kde vidíte všetko prihlásené do vášho účtu Anori Plus a môžete to premenovať alebo odstrániť.",
-                "minorTabsPlugin": "Widget Nedávno zatvorené karty bol začlenený do nového doplnku Karty spolu s dvoma vyššie uvedenými widgetmi a teraz ho možno zväčšiť na väčšiu výšku ako predtým.",
-                "minorWidgetHeaders": "Úlohy, Poznámky, RSS kanál, Predpoveď počasia a Nedávno zatvorené karty teraz zdieľajú jedno rozloženie hlavičky, takže ich názvy a tlačidlá sú zarovnané vedľa seba.",
+                "minorDevices": "V Nastaveniach pribudla sekcia Zariadenia, kde vidíte všetko prihlásené do vášho účtu Anori Plus a môžete to premenovať alebo odstrániť.",
+                "minorTabsPlugin": "Widget $t(recently-closed-plugin.name) bol začlenený do nového doplnku $t(tabs-plugin.name) spolu s dvoma vyššie uvedenými widgetmi a teraz ho možno zväčšiť na väčšiu výšku ako predtým.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) a $t(recently-closed-plugin.name) teraz zdieľajú jedno rozloženie hlavičky, takže ich názvy a tlačidlá sú zarovnané vedľa seba.",
                 "minorPlurals": "Preložené jazyky teraz používajú správne tvary množného čísla namiesto preberania anglického pravidla jeden-alebo-viac.",
                 "minorWhatsNew": "Obrazovka, ktorú práve čítate, bola prepracovaná a poznámky k starším verziám boli presunuté z rozšírenia do changelogu na GitHube.",
                 "minorTranslatedNotes": "Poznámky k vydaniu sú teraz preložené do každého jazyka, ktorý Anori podporuje, namiesto toho, aby boli len v angličtine.",

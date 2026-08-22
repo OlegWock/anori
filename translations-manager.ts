@@ -182,6 +182,8 @@ const extractPlaceholders = (value: string): string[] => {
   return [...tokens].sort();
 };
 
+const describePlaceholders = (tokens: string[]): string => (tokens.length === 0 ? "none" : tokens.join(" "));
+
 const placeholdersMatch = (english: string, translated: string): boolean => {
   const a = extractPlaceholders(english);
   const b = extractPlaceholders(translated);
@@ -230,6 +232,7 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
     `- Translate the "en" value. Use the "uk" (Ukrainian) value only as a secondary reference for meaning and tone.`,
     `- Words in quotes that name a UI element (a button, tab, folder, or menu label — e.g. 'Next', 'Home', 'Folders') refer to other parts of the app; translate them into the target language to match that label rather than leaving them in English. Keep only brand/product names (such as Anori) untranslated.`,
     `- If a "previous" value is given, it is an existing translation of an earlier, slightly different version of the English string. Keep its tone, terminology, and word choice, and adjust it to match the current "en" rather than translating from scratch.`,
+    `- When a "note" gives the app's established term for a feature in the target language, reuse that exact term for the same feature instead of inventing a new one. Inflect it as the sentence requires (case, number, gender, articles, prepositions) — matching the terminology matters, pasting it unchanged at the cost of grammar does not.`,
     `- "note" and "usage" are context only — never translate them. The "usage" lines are raw code excerpts, so they may include characters around the string (e.g. a trailing colon, quotes, or brackets) that are NOT part of it; never copy that punctuation into the translation. The translation's punctuation must follow the "en" value alone.`,
     `- Preserve every interpolation placeholder EXACTLY: {{variables}}, numbered tags like <0>...</0> or <1/>, and $t(...) references. Never translate text inside {{ }} or tag contents.`,
     `- Mirror the source's trailing punctuation: if the English ends with an ellipsis ("..."), a colon, or other trailing punctuation, keep the same in the translation; if it doesn't, don't add any.`,
@@ -417,6 +420,35 @@ const computeOutdated = (
   return { langFlat, missing, stale };
 };
 
+const TERM_REFERENCE_RE = /\$\(([\w.-]+)\)/g;
+
+const referencedTermKeys = (notes: Notes): Set<string> => {
+  const keys = new Set<string>();
+  for (const note of Object.values(notes)) {
+    for (const match of note.matchAll(TERM_REFERENCE_RE)) keys.add(match[1]);
+  }
+  return keys;
+};
+
+// Resolves `$(some.key)` references in a note to that key's current translation in the
+// target language.
+const hydrateTermReferences = (
+  note: string,
+  lang: string,
+  langFlat: Record<string, string>,
+  enFlat: Record<string, string>,
+): string =>
+  note.replace(TERM_REFERENCE_RE, (_full, key: string) => {
+    const translated = langFlat[key];
+    if (translated !== undefined) return translated;
+    if (enFlat[key] === undefined) {
+      console.warn(`  ⚠️  note references unknown key "${key}"; check notes.json.`);
+      return key;
+    }
+    if (verbose) console.warn(`  ⚠️  ${lang}: "${key}" not translated yet; using the English term in the note.`);
+    return enFlat[key];
+  });
+
 const translateLanguage = async (
   lang: string,
   enFlat: Record<string, string>,
@@ -433,7 +465,9 @@ const translateLanguage = async (
 
   const expectedKeys = buildExpectedKeys(lang, enFlat);
   const { langFlat, missing, stale } = computeOutdated(lang, expectedKeys, enFlat, fingerprints);
-  const outdated = [...missing, ...stale];
+  // Keys other notes reference go first, so their fresh translations seed the terms those notes carry.
+  const termKeys = referencedTermKeys(notes);
+  const outdated = [...missing, ...stale].sort((a, b) => Number(termKeys.has(b.key)) - Number(termKeys.has(a.key)));
   if (outdated.length === 0) {
     console.log(`✅ ${lang}: already up to date.`);
     return;
@@ -446,6 +480,7 @@ const translateLanguage = async (
   for (const batch of chunk(outdated, BATCH_SIZE)) {
     const items: TranslationItem[] = batch.map((expected) => {
       const baseNote = notes[expected.key] ?? notes[pluralBaseOf(expected.key)];
+      const note = expected.category ? pluralNote(lang, expected.category, baseNote) : baseNote || undefined;
       const usageList = usages.get(expected.key) ?? usages.get(pluralBaseOf(expected.key)) ?? [];
       const usage = usageList.map((u) => `${u.file}:${u.line} — ${u.text}`).join("\n");
       return {
@@ -453,7 +488,7 @@ const translateLanguage = async (
         en: enFlat[expected.enKey],
         uk: lang === SECONDARY_REFERENCE ? undefined : ukFlat[expected.key],
         previous: langFlat[expected.key] || undefined,
-        note: expected.category ? pluralNote(lang, expected.category, baseNote) : baseNote || undefined,
+        note: note ? hydrateTermReferences(note, lang, langFlat, enFlat) : undefined,
         usage: usage || undefined,
       };
     });
@@ -480,7 +515,11 @@ const translateLanguage = async (
         continue;
       }
       if (!placeholdersMatch(enFlat[expected.enKey], value)) {
-        console.warn(`  ⚠️  ${expected.key}: placeholder mismatch, keeping previous value (will retry next run).`);
+        const wanted = describePlaceholders(extractPlaceholders(enFlat[expected.enKey]));
+        const got = describePlaceholders(extractPlaceholders(value));
+        console.warn(
+          `  ⚠️  ${expected.key}: placeholder mismatch — en has ${wanted}, translation has ${got}. Keeping previous value (will retry next run).`,
+        );
         failures++;
         continue;
       }

@@ -48,7 +48,7 @@
         "noAccount": "Prompt text shown before the sign-up link on the login form.",
         "createAccount": "Link on the login form that takes the user to create an account.",
         "userDataConflict": {
-            "description": "Shown during login when this device holds account-level synced data (currently the Tab stash — saved tabs/groups) that belongs to a different account than the one logging in. Names the tab stash as a concrete example. The user must decide before login completes.",
+            "description": "Shown during login when this device holds account-level synced data (currently the Tab stash — saved tabs/groups) that belongs to a different account than the one logging in. Names the tab stash as a concrete example. The user must decide before login completes. Established term: Tab stash = '$(tabs-plugin.stash.title)'.",
             "upload": "Button that keeps the local data and uploads (merges) it into the account being logged into.",
             "uploadHint": "One-line explanation under the 'Add it to this account' button describing when to choose it (the data is yours / you switched accounts).",
             "discard": "Button that deletes the local copy and uses the account's cloud data instead.",
@@ -96,8 +96,8 @@
         }
     },
     "iconsPicker": {
-        "customIconsInfo": "Informational text in the icon picker explaining what custom icons are.",
-        "customIconsAbsent": "Empty-state in the icon picker's custom-icons view prompting the user to upload one in settings.",
+        "customIconsInfo": "Informational text in the icon picker explaining what custom icons are. Established term: custom icons = '$(settings.customIcons.title)'.",
+        "customIconsAbsent": "Empty-state in the icon picker's custom-icons view prompting the user to upload one in settings. Established terms: custom icons = '$(settings.customIcons.title)', settings = '$(settings.title)'.",
         "iconFamily": "Label for the dropdown that selects an icon family in the icon picker.",
         "allIcons": "Option in the icon-family dropdown showing icons from all families.",
         "selectFamilyOrSearch": "Hint in the icon picker prompting the user to pick a family or search."
@@ -198,13 +198,13 @@
         "folders": {
             "title": "Heading of the onboarding step about folders.",
             "p1": "Paragraph on the folders onboarding step explaining the default Home folder and organizing widgets into folders.",
-            "p2": "Paragraph on the folders onboarding step explaining how to open the folders manager in settings."
+            "p2": "Paragraph on the folders onboarding step explaining how to open the folders manager in settings. Established term: settings = '$(settings.title)'."
         },
         "customization": {
             "title": "Heading of the onboarding step about customization.",
             "p1": "Paragraph on the customization onboarding step noting Anori can be customized further.",
-            "p2": "Paragraph on the customization onboarding step listing options like tab title, theme, background, and custom icons.",
-            "p3": "Paragraph on the customization onboarding step encouraging the user to explore settings."
+            "p2": "Paragraph on the customization onboarding step listing options like tab title, theme, background, and custom icons. Established terms: title of a new tab = '$(settings.general.newTabTitle)', color scheme = '$(settings.theme.colorScheme)', custom icons = '$(settings.customIcons.title)'.",
+            "p3": "Paragraph on the customization onboarding step encouraging the user to explore settings. Established term: settings = '$(settings.title)'."
         },
         "analytics": {
             "title": "Heading of the onboarding step about analytics.",
@@ -221,7 +221,7 @@
         },
         "preset": {
             "task": {
-                "themes": "Checklist item seeded into the starter setup, suggesting trying themes.",
+                "themes": "Checklist item seeded into the starter setup, suggesting trying themes. Established terms: themes = '$(settings.theme.title)', settings = '$(settings.title)'.",
                 "anoriPlus": "Checklist item seeded into the starter setup, suggesting checking out Anori Plus.",
                 "widgets": "Checklist item seeded into the starter setup, suggesting exploring widgets."
             }
@@ -312,7 +312,7 @@
             "stashGroup": "Section heading in the toolbar popup for saving a named tab group.",
             "stashWindow": "Popup menu item that saves every tab in the current window as one stashed group.",
             "window": "Fallback label for a captured window, combined with a date (e.g. 'Window · Jul 9').",
-            "grantTabs": "List-item prompt shown in the toolbar popup when the tabs permission is missing; clicking it requests access so open tabs can be listed and stashed.",
+            "grantTabs": "List-item prompt shown in the toolbar popup when the tabs permission is missing; clicking it requests access so open tabs can be listed and stashed. The $t(...) placeholder expands to the Tab stash widget name already translated elsewhere.",
             "recentlyStashed": "Section heading in the toolbar popup listing the most recently stashed items.",
             "nothingStashed": "Empty-state text in the popup's recently-stashed section."
         },
@@ -436,16 +436,16 @@
         "tagFixed": "Short badge label before a change in the What's new list, marking a bug fix. Keep it to one word if possible.",
         "changelogNote": "Muted footnote at the bottom of the What's new modal. <0>...</0> wraps the link text pointing to the changelog file on GitHub; keep the tags around whatever words become the link in the target language.",
         "v2_1_0": {
-            "headline": "One-sentence summary of release 2.1.0, shown large on an accent-coloured banner in the What's new modal. Informal, addresses the user directly.",
+            "headline": "One-sentence summary of release 2.1.0, shown large on an accent-coloured banner in the What's new modal. Informal, addresses the user directly. The $t(...) placeholder expands to the Tabs plugin name already translated elsewhere.",
             "stashTitle": "Name of the Tab stash widget, used as a card heading. Keep it consistent with the widget name elsewhere in the app.",
             "stashBody": "Description of the Tab stash feature in the What's new modal. Informal, second person.",
             "stashSync": "Follow-up sentence about Tab stash syncing via the paid Anori Plus service. 'Anori Plus' is a product name and stays untranslated.",
             "syncedTabsTitle": "Name of the Synced tabs widget, used as a card heading. Keep it consistent with the widget name elsewhere in the app.",
-            "syncedTabsBody": "Description of the Synced tabs feature in the What's new modal. 'Anori Plus' is a product name and stays untranslated.",
+            "syncedTabsBody": "Description of the Synced tabs feature in the What's new modal. 'Anori Plus' is a product name and stays untranslated. Established term: settings = '$(settings.title)'.",
             "minorPopup": "Minor change entry: the browser toolbar button now opens a small popup window.",
-            "minorDevices": "Minor change entry: a Devices section was added to Settings. 'Anori Plus' is a product name and stays untranslated.",
-            "minorTabsPlugin": "Minor change entry: the Recently closed tabs widget moved under a new Tabs plugin and can be made taller.",
-            "minorWidgetHeaders": "Minor change entry: several widgets now share one header layout. The listed names (Tasks, Notes, RSS feed, Weather forecast, Recently closed tabs) are widget names and should match their translations elsewhere in the app.",
+            "minorDevices": "Minor change entry: a Devices section was added to Settings. 'Anori Plus' is a product name and stays untranslated. Established terms: Settings = '$(settings.title)', Devices = '$(cloud.devices.title)'.",
+            "minorTabsPlugin": "Minor change entry: the Recently closed tabs widget moved under a new Tabs plugin and can be made taller. The $t(...) placeholders expand to the widget name and the plugin name already translated elsewhere.",
+            "minorWidgetHeaders": "Minor change entry: several widgets now share one header layout. Each $t(...) placeholder expands to a widget name already translated elsewhere; keep them as a list and adapt only the words around them.",
             "minorPlurals": "Minor change entry: translations now use the target language's own plural rules.",
             "minorWhatsNew": "Minor change entry: this What's new screen was redesigned and older release notes moved to GitHub.",
             "minorTranslatedNotes": "Minor change entry: the What's new release notes themselves are now machine-translated like the rest of the interface, rather than shown in English to everyone.",

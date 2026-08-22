@@ -72,7 +72,7 @@
             "noAccount": "没有账户？",
             "createAccount": "在此创建",
             "userDataConflict": {
-                "description": "此浏览器中存有 Anori Plus 数据（例如您的标签页收藏），该数据之前已同步至与您当前登录账户不同的账户。您希望如何处理这些数据？",
+                "description": "此浏览器中存有 Anori Plus 数据（例如您的标签页暂存），该数据之前已同步至与您当前登录账户不同的账户。您希望如何处理这些数据？",
                 "upload": "添加到此账户",
                 "uploadHint": "保留此数据并将其合并到您正在登录的账户中。如果这是您的数据（例如您切换了新账户），请选择此项。",
                 "discard": "丢弃",
@@ -236,13 +236,13 @@
             "folders": {
                 "title": "目录",
                 "p1": "默认情况下，所有的小部件都会被添加到\"$t(home)\"文件夹中。但是，你也可以将你的小部件组织到不同的文件夹中。例如，你可以为工作和个人小部件设置不同的文件夹。或者你可以为每个单独的项目设置一个单独的文件夹。",
-                "p2": "要管理文件夹，请单击左下角的齿轮图标。这将打开设置，你可以根据自己的喜好自定义 Anori。在那里单击\"$t(settings.folders.title)\"以打开文件夹管理器。"
+                "p2": "要管理文件夹，请单击左下角的齿轮图标。这将打开设置，您可以根据自己的喜好自定义 Anori。在那里单击\"$t(settings.folders.title)\"以打开文件夹管理器。"
             },
             "customization": {
                 "title": "自定义",
                 "p1": "虽然 Anori 允许你从小部件中组合自己的起始页，但它还可以进行更多的自定义。",
-                "p2": "你可以更改新标签页的标题，更改配色方案以及背景图像，并上传自定义图标以在小部件中使用（除了 10,000 多个内置图标之外）",
-                "p3": "这还不到所有选项的一半。你可能想要查看设置以查看它们全部。"
+                "p2": "您可以更改新标签页的标题，更改配色方案以及背景图像，并上传自定义图标以在小部件中使用（除了 10,000 多个内置图标之外）。",
+                "p3": "这还不到所有选项的一半。您可能想要查看设置以查看它们全部。"
             },
             "analytics": {
                 "title": "诊断数据",
@@ -355,7 +355,7 @@
                 "stashGroup": "暂存标签页组",
                 "stashWindow": "暂存此窗口",
                 "window": "窗口",
-                "grantTabs": "标签页暂存功能需要额外权限",
+                "grantTabs": "$t(tabs-plugin.stash.title) 功能需要额外权限",
                 "recentlyStashed": "最近暂存",
                 "nothingStashed": "暂无暂存内容"
             },
@@ -480,7 +480,7 @@
             "tagFixed": "修复",
             "changelogNote": "想查看旧版本的更新日志？您可以在 <0>GitHub</0> 上找到。",
             "v2_1_0": {
-                "headline": "全新扩展的标签页插件。保存您想稍后回顾的链接，并接续您在其他设备上未关闭的标签页。",
+                "headline": "全新扩展的 $t(tabs-plugin.name) 插件。保存您想稍后回顾的链接，并接续您在其他设备上未关闭的标签页。",
                 "stashTitle": "标签页暂存",
                 "stashBody": "使用此小组件保存您想稍后回顾的链接。将它们保留在新标签页上，这样您就不会忘记。您可以直接在小组件中暂存标签页，也可以通过新的 Anori 弹出窗口来操作，只需点击扩展工具栏中的 Anori 图标即可。",
                 "stashSync": "使用 Anori Plus，您的暂存内容将在所有已登录的浏览器及所有配置文件之间同步共享。",
@@ -488,8 +488,8 @@
                 "syncedTabsBody": "查看您其他设备上正在打开的内容，轻松接续在其他设备上未完成的工作。请注意，此功能需要 Anori Plus，并需在设置中明确开启。",
                 "minorPopup": "点击工具栏中的 Anori 图标现在会打开一个弹出窗口，而不仅仅是打开一个新标签页。",
                 "minorDevices": "设置中新增了\"设备\"部分，您可以在此查看所有已登录 Anori Plus 账户的设备，并对其进行重命名或移除。",
-                "minorTabsPlugin": "\"最近关闭的标签页\"小组件已与上述两个小组件合并到新的标签页插件中，且现在可以调整为比以前更高的尺寸。",
-                "minorWidgetHeaders": "任务、笔记、RSS 订阅、天气预报和最近关闭的标签页现在共用同一种标题栏布局，其标题和按钮并排对齐显示。",
+                "minorTabsPlugin": "$t(recently-closed-plugin.name) 小组件已与上述两个小组件合并到新的 $t(tabs-plugin.name) 插件中，且现在可以调整为比以前更高的尺寸。",
+                "minorWidgetHeaders": "$t(tasks-plugin.name)、$t(notes-plugin.name)、$t(rss-plugin.widgetFeedName)、$t(weather-plugin.weatherForecast) 和 $t(recently-closed-plugin.name) 现在共用同一种标题栏布局，其标题和按钮并排对齐显示。",
                 "minorPlurals": "已翻译的语言现在使用正确的复数形式，而不再沿用英语的单复数规则。",
                 "minorWhatsNew": "您正在阅读的此页面已重新设计，旧版本的说明已从扩展中移出，改为在 GitHub 上的更新日志中呈现。",
                 "minorTranslatedNotes": "版本说明现已翻译成 Anori 支持的所有语言，而不再仅以英语显示。",

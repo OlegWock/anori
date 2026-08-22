@@ -72,7 +72,7 @@
             "noAccount": "Não tem uma conta?",
             "createAccount": "Crie uma aqui",
             "userDataConflict": {
-                "description": "Este navegador tem dados do Anori Plus — por exemplo, seu Arquivo de abas — que foram sincronizados com uma conta diferente da que você está entrando. O que deve acontecer com eles?",
+                "description": "Este navegador tem dados do Anori Plus — por exemplo, suas Abas guardadas — que foram sincronizados com uma conta diferente da que você está entrando. O que deve acontecer com eles?",
                 "upload": "Adicionar a esta conta",
                 "uploadHint": "Mantém esses dados e os mescla na conta em que você está entrando. Escolha esta opção se forem seus — por exemplo, se você mudou para uma nova conta.",
                 "discard": "Descartar dados locais",
@@ -120,8 +120,8 @@
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Ícones customiozados são ícones que você sobe para depois usar no Anori.",
-            "customIconsAbsent": "Atualmente, você não tem nenhum ícone customizado. Para subir seu primeiro ícone customizado por favor vá para as configurações.",
+            "customIconsInfo": "Ícones customizados são ícones que você sobe para depois usar no Anori.",
+            "customIconsAbsent": "Atualmente, você não tem nenhum ícone customizado. Para subir seu primeiro ícone customizado, por favor vá para as configurações.",
             "iconFamily": "Família de ícones",
             "allIcons": "Todos os ícones",
             "selectFamilyOrSearch": "Selecione uma família de ícones específica ou tente pesquisar para ver sugestões de ícones."
@@ -357,7 +357,7 @@
                 "stashGroup": "Guardar um grupo de abas",
                 "stashWindow": "Guardar esta janela",
                 "window": "Janela",
-                "grantTabs": "Permissões adicionais são necessárias para o recurso de abas guardadas",
+                "grantTabs": "Permissões adicionais são necessárias para o recurso $t(tabs-plugin.stash.title)",
                 "recentlyStashed": "Guardados recentemente",
                 "nothingStashed": "Nada guardado ainda"
             },
@@ -482,16 +482,16 @@
             "tagFixed": "Corrigido",
             "changelogNote": "Procurando o changelog de versões anteriores? Você pode encontrá-lo <0>no GitHub</0>.",
             "v2_1_0": {
-                "headline": "Agora com o plugin de Abas expandido. Guarde os links aos quais você quer voltar e retome as abas que deixou abertas em outro dispositivo.",
+                "headline": "Agora com o plugin de $t(tabs-plugin.name) expandido. Guarde os links aos quais você quer voltar e retome as abas que deixou abertas em outro dispositivo.",
                 "stashTitle": "Stash de abas",
                 "stashBody": "Use este widget para guardar os links aos quais você quer voltar mais tarde. Mantenha-os na sua nova aba para não esquecê-los. Uma aba pode ser guardada no stash pelo próprio widget ou pela nova janela popup do Anori — basta clicar no ícone do Anori na barra de ferramentas da extensão.",
                 "stashSync": "Com o Anori Plus, seu stash é compartilhado em todos os navegadores nos quais você está conectado e em todos os perfis.",
                 "syncedTabsTitle": "Abas sincronizadas",
                 "syncedTabsBody": "Veja o que está aberto nos seus outros dispositivos e retome de onde parou com facilidade. Observe que este recurso requer o Anori Plus e uma ativação explícita nas configurações.",
                 "minorPopup": "Clicar no ícone do Anori na barra de ferramentas agora abre um popup em vez de apenas abrir uma nova aba.",
-                "minorDevices": "As configurações ganharam uma seção Dispositivos, onde você pode ver tudo que está conectado à sua conta do Anori Plus, além de renomear ou remover dispositivos.",
-                "minorTabsPlugin": "O widget Abas fechadas recentemente foi incorporado a um novo plugin de Abas junto com os dois widgets acima, e agora pode ser redimensionado para uma altura maior do que antes.",
-                "minorWidgetHeaders": "Tarefas, Notas, Feed RSS, Previsão do tempo e Abas fechadas recentemente agora compartilham um layout de cabeçalho único, de modo que seus títulos e botões ficam alinhados lado a lado.",
+                "minorDevices": "Configurações ganhou uma seção Dispositivos, onde você pode ver tudo que está conectado à sua conta do Anori Plus, além de renomear ou remover dispositivos.",
+                "minorTabsPlugin": "O widget $t(recently-closed-plugin.name) foi incorporado a um novo plugin $t(tabs-plugin.name) junto com os dois widgets acima, e agora pode ser redimensionado para uma altura maior do que antes.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) e $t(recently-closed-plugin.name) agora compartilham um layout de cabeçalho único, de modo que seus títulos e botões ficam alinhados lado a lado.",
                 "minorPlurals": "Os idiomas traduzidos agora usam as formas plurais corretas, em vez de seguir a regra de singular ou plural do inglês.",
                 "minorWhatsNew": "A tela que você está lendo foi redesenhada, e as notas de versões anteriores foram movidas da extensão para um changelog no GitHub.",
                 "minorTranslatedNotes": "As notas de versão agora são traduzidas para todos os idiomas suportados pelo Anori, em vez de serem exibidas apenas em inglês.",

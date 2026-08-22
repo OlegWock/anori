@@ -72,7 +72,7 @@
             "noAccount": "Chưa có tài khoản?",
             "createAccount": "Tạo tại đây",
             "userDataConflict": {
-                "description": "Trình duyệt này có dữ liệu Anori Plus — ví dụ như Kho tab của bạn — đã được đồng bộ với một tài khoản khác với tài khoản bạn đang đăng nhập. Bạn muốn xử lý dữ liệu đó như thế nào?",
+                "description": "Trình duyệt này có dữ liệu Anori Plus — ví dụ như Kho thẻ của bạn — đã được đồng bộ với một tài khoản khác với tài khoản bạn đang đăng nhập. Bạn muốn xử lý dữ liệu đó như thế nào?",
                 "upload": "Thêm vào tài khoản này",
                 "uploadHint": "Giữ dữ liệu này và hợp nhất vào tài khoản bạn đang đăng nhập. Chọn tùy chọn này nếu dữ liệu là của bạn — ví dụ nếu bạn đã chuyển sang tài khoản mới.",
                 "discard": "Xóa đi",
@@ -120,8 +120,8 @@
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Biểu tượng tùy chỉnh là biểu tượng bạn tải lên để dùng trong Anori.",
-            "customIconsAbsent": "Bạn chưa có biểu tượng tùy chỉnh nào. Hãy vào Cài đặt để tải lên.",
+            "customIconsInfo": "Biểu tượng tùy chỉnh là biểu tượng bạn tải lên để dùng sau này trong Anori.",
+            "customIconsAbsent": "Hiện tại, bạn chưa có biểu tượng tùy chỉnh nào. Để tải lên biểu tượng tùy chỉnh đầu tiên, hãy vào Cài đặt.",
             "iconFamily": "Bộ biểu tượng",
             "allIcons": "Tất cả biểu tượng",
             "selectFamilyOrSearch": "Chọn bộ biểu tượng hoặc tìm kiếm gợi ý."
@@ -236,13 +236,13 @@
             "folders": {
                 "title": "Thư mục",
                 "p1": "Mặc định tất cả tiện ích của bạn được thêm vào thư mục '$t(home)'. Tuy nhiên, bạn cũng có thể sắp xếp chúng vào các thư mục khác nhau. Ví dụ, bạn có thể có các thư mục riêng cho tiện ích công việc và cá nhân. Hoặc một thư mục riêng cho từng dự án cụ thể.",
-                "p2": "Để quản lý thư mục, nhấp vào biểu tượng bánh răng ở góc dưới bên trái. Thao tác này sẽ mở Cài đặt, nơi bạn có thể tùy chỉnh Anori theo ý thích. Nhấp vào '$t(settings.folders.title)' để mở trình quản lý thư mục."
+                "p2": "Để quản lý thư mục, nhấp vào biểu tượng bánh răng ở góc dưới bên trái. Thao tác này sẽ mở Cài đặt, nơi bạn có thể tùy chỉnh Anori theo ý thích. Nhấp vào '$t(settings.folders.title)' ở đó để mở trình quản lý thư mục."
             },
             "customization": {
                 "title": "Tùy biến",
                 "p1": "Anori còn cho phép tùy biến nhiều hơn thế.",
-                "p2": "Bạn có thể đổi bảng màu, hình nền và tải lên biểu tượng của riêng mình (ngoài 10.000+ biểu tượng có sẵn).",
-                "p3": "Vẫn còn rất nhiều tùy chọn khác đang chờ bạn khám phá trong Cài đặt."
+                "p2": "Bạn có thể đổi tiêu đề tab mới, thay đổi bảng màu cùng hình nền và tải lên biểu tượng tùy chỉnh để dùng trong widget (ngoài 10.000+ biểu tượng có sẵn).",
+                "p3": "Và đây thậm chí chưa phải là một nửa số tùy chọn. Hãy vào Cài đặt để xem tất cả."
             },
             "analytics": {
                 "title": "Phân tích",
@@ -355,7 +355,7 @@
                 "stashGroup": "Lưu một nhóm thẻ",
                 "stashWindow": "Lưu cửa sổ này",
                 "window": "Cửa sổ",
-                "grantTabs": "Cần có thêm quyền cho tính năng lưu thẻ",
+                "grantTabs": "Cần có thêm quyền cho tính năng $t(tabs-plugin.stash.title)",
                 "recentlyStashed": "Đã lưu gần đây",
                 "nothingStashed": "Chưa có gì được lưu"
             },
@@ -480,16 +480,16 @@
             "tagFixed": "Đã sửa",
             "changelogNote": "Bạn đang tìm nhật ký thay đổi cho các phiên bản cũ hơn? Bạn có thể tìm thấy nó <0>trên GitHub</0>.",
             "v2_1_0": {
-                "headline": "Nay có plugin Tabs mở rộng. Lưu lại những liên kết bạn muốn quay lại, và tiếp tục các tab bạn đã để mở trên thiết bị khác.",
+                "headline": "Nay có plugin $t(tabs-plugin.name) mở rộng. Lưu lại những liên kết bạn muốn quay lại, và tiếp tục các tab bạn đã để mở trên thiết bị khác.",
                 "stashTitle": "Tab stash",
                 "stashBody": "Dùng widget này để lưu các liên kết bạn muốn quay lại sau. Giữ chúng trên tab mới để bạn thực sự nhớ đến chúng. Một tab có thể được stash từ chính widget hoặc từ cửa sổ popup Anori mới, chỉ cần nhấp vào biểu tượng Anori trên thanh công cụ tiện ích.",
                 "stashSync": "Với Anori Plus, stash của bạn được chia sẻ trên mọi trình duyệt bạn đã đăng nhập và trên tất cả các hồ sơ.",
                 "syncedTabsTitle": "Tab đã đồng bộ",
-                "syncedTabsBody": "Xem những gì đang mở trên các thiết bị khác của bạn và dễ dàng tiếp tục từ nơi bạn đã dừng trên thiết bị trước. Lưu ý rằng tính năng này yêu cầu Anori Plus và phải bật thủ công trong cài đặt.",
+                "syncedTabsBody": "Xem những gì đang mở trên các thiết bị khác của bạn và dễ dàng tiếp tục từ nơi bạn đã dừng trên thiết bị trước. Lưu ý rằng tính năng này yêu cầu Anori Plus và phải bật thủ công trong Cài đặt.",
                 "minorPopup": "Nhấp vào biểu tượng Anori trên thanh công cụ giờ đây mở một popup thay vì chỉ mở tab mới.",
                 "minorDevices": "Cài đặt có thêm mục Thiết bị, nơi bạn có thể xem tất cả thiết bị đã đăng nhập vào tài khoản Anori Plus của mình, và đổi tên hoặc xóa chúng.",
-                "minorTabsPlugin": "Widget Tab đã đóng gần đây đã được gộp vào plugin Tabs mới cùng với hai widget trên, và giờ đây có thể thay đổi kích thước cao hơn trước.",
-                "minorWidgetHeaders": "Nhiệm vụ, Ghi chú, Nguồn RSS, Dự báo thời tiết và Tab đã đóng gần đây giờ dùng chung một bố cục tiêu đề, nên tiêu đề và nút của chúng được căn thẳng hàng nhau.",
+                "minorTabsPlugin": "Widget $t(recently-closed-plugin.name) đã được gộp vào plugin $t(tabs-plugin.name) mới cùng với hai widget trên, và giờ đây có thể thay đổi kích thước cao hơn trước.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) và $t(recently-closed-plugin.name) giờ dùng chung một bố cục tiêu đề, nên tiêu đề và nút của chúng được căn thẳng hàng nhau.",
                 "minorPlurals": "Các ngôn ngữ đã dịch giờ sử dụng dạng số nhiều chính xác, thay vì dùng quy tắc một-hoặc-nhiều của tiếng Anh.",
                 "minorWhatsNew": "Màn hình bạn đang đọc đã được thiết kế lại, và ghi chú cho các phiên bản cũ hơn đã được chuyển ra khỏi tiện ích vào nhật ký thay đổi trên GitHub.",
                 "minorTranslatedNotes": "Ghi chú phát hành giờ được dịch sang mọi ngôn ngữ mà Anori hỗ trợ, thay vì chỉ có tiếng Anh.",

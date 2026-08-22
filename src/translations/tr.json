@@ -72,7 +72,7 @@
             "noAccount": "Hesabınız yok mu?",
             "createAccount": "Buradan oluşturun",
             "userDataConflict": {
-                "description": "Bu tarayıcıda Anori Plus verileri var — örneğin Sekme arşiviniz — ve bu veriler oturum açtığınız hesaptan farklı bir hesaba senkronize edilmiş. Bu verilerle ne yapılsın?",
+                "description": "Bu tarayıcıda Anori Plus verileri var — örneğin Sekme saklama'nız — ve bu veriler oturum açtığınız hesaptan farklı bir hesaba senkronize edilmiş. Bu verilerle ne yapılsın?",
                 "upload": "Bu hesaba ekle",
                 "uploadHint": "Bu verileri korur ve oturum açtığınız hesaba ekler. Veriler size aitse bunu seçin — örneğin yeni bir hesaba geçtiyseniz.",
                 "discard": "Yerel verileri sil",
@@ -121,7 +121,7 @@
         },
         "iconsPicker": {
             "customIconsInfo": "Özel ikonlar, Anori'de daha sonra kullanmak üzere yüklediğiniz ikonlardır.",
-            "customIconsAbsent": "Şu anda özel ikonlarınız yok. İlk özel ikonunuzu yüklemek için ayarlara gidin.",
+            "customIconsAbsent": "Şu anda özel ikonlarınız yok. İlk özel ikonunuzu yüklemek için lütfen ayarlara gidin.",
             "iconFamily": "İkon ailesi",
             "allIcons": "Tüm ikonlar",
             "selectFamilyOrSearch": "Belirli bir simge ailesi seçin veya daha fazla simge görmek için arama yapın."
@@ -241,7 +241,7 @@
             "customization": {
                 "title": "Özelleştirme",
                 "p1": "Anori, kendi başlangıç sayfanızı widget'lardan oluşturmanıza izin verirken daha da fazla özelleştirilebilir.",
-                "p2": "Yeni sekmenin başlığını değiştirebilir, renk şemasını ve arka plan görselini değiştirebilir ve widget'larda kullanmak üzere kendi özel simgelerinizi yükleyebilirsiniz (10.000'den fazla yerleşik simgeye ek olarak).",
+                "p2": "Yeni sekmenin başlığını değiştirebilir, renk şemasını ve arka plan görselini değiştirebilir ve widget'larda kullanmak üzere kendi özel ikonlarınızı yükleyebilirsiniz (10.000'den fazla yerleşik simgeye ek olarak).",
                 "p3": "Ve bu seçeneklerin yarısı bile değil. Tümünü görmek için ayarlara göz atmak isteyebilirsiniz."
             },
             "analytics": {
@@ -356,7 +356,7 @@
                 "stashGroup": "Sekme grubunu sakla",
                 "stashWindow": "Bu pencereyi sakla",
                 "window": "Pencere",
-                "grantTabs": "Sekmeler saklama özelliği için ek izinler gerekiyor",
+                "grantTabs": "$t(tabs-plugin.stash.title) özelliği için ek izinler gerekiyor",
                 "recentlyStashed": "Son saklananlar",
                 "nothingStashed": "Henüz hiçbir şey saklanmadı"
             },
@@ -481,16 +481,16 @@
             "tagFixed": "Düzeltildi",
             "changelogNote": "Eski sürümlerin değişiklik günlüğünü mü arıyorsunuz? <0>GitHub'da</0> bulabilirsiniz.",
             "v2_1_0": {
-                "headline": "Artık genişletilmiş Sekmeler eklentisiyle. Geri dönmek istediğiniz bağlantıları saklayın ve başka bir cihazda açık bıraktığınız sekmeleri kaldığınız yerden devam edin.",
+                "headline": "Artık genişletilmiş $t(tabs-plugin.name) eklentisiyle. Geri dönmek istediğiniz bağlantıları saklayın ve başka bir cihazda açık bıraktığınız sekmeleri kaldığınız yerden devam edin.",
                 "stashTitle": "Sekme deposu",
                 "stashBody": "Daha sonra geri dönmek istediğiniz bağlantıları saklamak için bu widget'ı kullanın. Yeni sekme sayfanızda tutun ki gerçekten hatırlayasınız. Bir sekme, widget'ın kendisinden veya yeni Anori açılır penceresinden depolanabilir; bunun için uzantı araç çubuğundaki Anori simgesine tıklamanız yeterli.",
                 "stashSync": "Anori Plus ile deponuz, oturum açtığınız her tarayıcıda ve tüm profillerde paylaşılır.",
                 "syncedTabsTitle": "Senkronize sekmeler",
                 "syncedTabsBody": "Diğer cihazlarınızda nelerin açık olduğunu görün ve önceki bir cihazda kaldığınız yerden zahmetsizce devam edin. Bu özelliğin Anori Plus gerektirdiğini ve ayarlardan açıkça etkinleştirilmesi gerektiğini lütfen unutmayın.",
                 "minorPopup": "Araç çubuğundaki Anori simgesine tıklamak artık yeni bir sekme açmak yerine bir açılır pencere açıyor.",
-                "minorDevices": "Ayarlara bir Cihazlar bölümü eklendi; burada Anori Plus hesabınıza bağlı tüm cihazları görebilir, yeniden adlandırabilir veya kaldırabilirsiniz.",
-                "minorTabsPlugin": "Son kapatılan sekmeler widget'ı, yukarıdaki iki widget'la birlikte yeni bir Sekmeler eklentisi altında toplandı ve artık eskisinden daha uzun boyutlandırılabiliyor.",
-                "minorWidgetHeaders": "Görevler, Notlar, RSS akışı, Hava durumu tahmini ve Son kapatılan sekmeler artık ortak bir başlık düzeni kullanıyor; böylece başlıkları ve düğmeleri yan yana hizalanıyor.",
+                "minorDevices": "Ayarlar sayfasına bir Cihazlar bölümü eklendi; burada Anori Plus hesabınıza bağlı tüm cihazları görebilir, yeniden adlandırabilir veya kaldırabilirsiniz.",
+                "minorTabsPlugin": "$t(recently-closed-plugin.name) widget'ı, yukarıdaki iki widget'la birlikte yeni bir $t(tabs-plugin.name) eklentisi altında toplandı ve artık eskisinden daha uzun boyutlandırılabiliyor.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) ve $t(recently-closed-plugin.name) artık ortak bir başlık düzeni kullanıyor; böylece başlıkları ve düğmeleri yan yana hizalanıyor.",
                 "minorPlurals": "Çevrilen diller artık İngilizce'nin tek-ya-çok kuralını ödünç almak yerine kendi doğru çoğul biçimlerini kullanıyor.",
                 "minorWhatsNew": "Okuduğunuz ekran yeniden tasarlandı ve eski sürümlere ait notlar uzantıdan çıkarılarak GitHub'daki bir değişiklik günlüğüne taşındı.",
                 "minorTranslatedNotes": "Sürüm notları artık yalnızca İngilizce gösterilmek yerine Anori'nin desteklediği her dile çevriliyor.",

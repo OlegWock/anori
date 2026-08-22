@@ -72,7 +72,7 @@
             "noAccount": "Belum punya akun?",
             "createAccount": "Buat di sini",
             "userDataConflict": {
-                "description": "Browser ini memiliki data Anori Plus — misalnya Simpanan Tab Anda — yang telah disinkronkan ke akun berbeda dari akun yang Anda masuki. Apa yang harus dilakukan dengan data tersebut?",
+                "description": "Browser ini memiliki data Anori Plus — misalnya Simpanan tab Anda — yang telah disinkronkan ke akun berbeda dari akun yang Anda masuki. Apa yang harus dilakukan dengan data tersebut?",
                 "upload": "Tambahkan ke akun ini",
                 "uploadHint": "Menyimpan data ini dan menggabungkannya ke akun yang Anda masuki. Pilih ini jika data tersebut milik Anda — misalnya jika Anda beralih ke akun baru.",
                 "discard": "Buang data lokal",
@@ -355,7 +355,7 @@
                 "stashGroup": "Simpan grup tab",
                 "stashWindow": "Simpan jendela ini",
                 "window": "Jendela",
-                "grantTabs": "Izin tambahan diperlukan untuk fitur simpanan Tab",
+                "grantTabs": "Izin tambahan diperlukan untuk fitur $t(tabs-plugin.stash.title)",
                 "recentlyStashed": "Baru saja disimpan",
                 "nothingStashed": "Belum ada yang disimpan"
             },
@@ -480,7 +480,7 @@
             "tagFixed": "Diperbaiki",
             "changelogNote": "Mencari changelog untuk versi lama? Anda dapat menemukannya <0>di GitHub</0>.",
             "v2_1_0": {
-                "headline": "Kini hadir dengan plugin Tab yang diperluas. Simpan tautan yang ingin Anda kunjungi kembali, dan lanjutkan tab yang Anda tinggalkan di perangkat lain.",
+                "headline": "Kini hadir dengan plugin $t(tabs-plugin.name) yang diperluas. Simpan tautan yang ingin Anda kunjungi kembali, dan lanjutkan tab yang Anda tinggalkan di perangkat lain.",
                 "stashTitle": "Simpanan tab",
                 "stashBody": "Gunakan widget ini untuk menyimpan tautan yang ingin Anda kunjungi kembali nanti. Simpan di tab baru Anda agar Anda benar-benar mengingatnya. Tab dapat disimpan dari widget itu sendiri atau dari jendela popup Anori yang baru, cukup klik ikon Anori di toolbar ekstensi.",
                 "stashSync": "Dengan Anori Plus, simpanan Anda dibagikan ke setiap browser yang Anda masuki, dan ke semua profil.",
@@ -488,8 +488,8 @@
                 "syncedTabsBody": "Lihat apa yang terbuka di perangkat lain Anda, dan lanjutkan dengan mudah dari tempat Anda berhenti di perangkat sebelumnya. Harap diperhatikan bahwa fitur ini memerlukan Anori Plus dan persetujuan eksplisit di pengaturan.",
                 "minorPopup": "Mengklik ikon Anori di toolbar kini membuka popup, bukan sekadar membuka tab baru.",
                 "minorDevices": "Pengaturan kini memiliki bagian Perangkat, di mana Anda dapat melihat semua yang masuk ke akun Anori Plus Anda, serta mengganti nama atau menghapusnya.",
-                "minorTabsPlugin": "Widget Tab yang baru saja ditutup digabungkan ke dalam plugin Tab baru bersama dua widget di atas, dan kini dapat diubah ukurannya menjadi lebih tinggi dari sebelumnya.",
-                "minorWidgetHeaders": "Tugas, Catatan, Umpan RSS, Prakiraan cuaca, dan Tab yang baru saja ditutup kini berbagi satu tata letak header, sehingga judul dan tombol mereka sejajar berdampingan.",
+                "minorTabsPlugin": "Widget $t(recently-closed-plugin.name) digabungkan ke dalam plugin $t(tabs-plugin.name) baru bersama dua widget di atas, dan kini dapat diubah ukurannya menjadi lebih tinggi dari sebelumnya.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast), dan $t(recently-closed-plugin.name) kini berbagi satu tata letak header, sehingga judul dan tombol mereka sejajar berdampingan.",
                 "minorPlurals": "Bahasa yang diterjemahkan kini menggunakan bentuk jamak yang benar, bukan meminjam aturan satu-atau-banyak dari bahasa Inggris.",
                 "minorWhatsNew": "Layar yang sedang Anda baca telah didesain ulang, dan catatan untuk versi lama dipindahkan dari ekstensi ke changelog di GitHub.",
                 "minorTranslatedNotes": "Catatan rilis kini diterjemahkan ke setiap bahasa yang didukung Anori, bukan hanya dalam bahasa Inggris.",

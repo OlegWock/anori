@@ -72,7 +72,7 @@
             "noAccount": "¿No tienes una cuenta?",
             "createAccount": "Crear una aquí",
             "userDataConflict": {
-                "description": "Este navegador tiene datos de Anori Plus — por ejemplo tu Guardado de pestañas — que fueron sincronizados con una cuenta diferente a la que estás iniciando sesión. ¿Qué debería ocurrir con ellos?",
+                "description": "Este navegador tiene datos de Anori Plus — por ejemplo tu Pestañas guardadas — que fueron sincronizados con una cuenta diferente a la que estás iniciando sesión. ¿Qué debería ocurrir con ellos?",
                 "upload": "Añadirlos a esta cuenta",
                 "uploadHint": "Conserva estos datos y los fusiona con la cuenta en la que estás iniciando sesión. Elige esto si son tuyos — por ejemplo, si cambiaste a una cuenta nueva.",
                 "discard": "Descartarlos",
@@ -120,8 +120,8 @@
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Los iconos personalizados son iconos que puede subir para usarlos después en Anori.",
-            "customIconsAbsent": "Actualmente, usted no cuenta con iconos personalizados. Para subir su primer icono personalizado por favor vaya a configuración.",
+            "customIconsInfo": "Los iconos personalizables son iconos que puedes subir para usarlos después en Anori.",
+            "customIconsAbsent": "Actualmente, no tienes ningún icono personalizable. Para subir tu primer icono personalizable, por favor ve a Configuración.",
             "iconFamily": "Familia de iconos",
             "allIcons": "Todos los iconos",
             "selectFamilyOrSearch": "Selecciona una familia de iconos específica o busca para ver sugerencias de iconos."
@@ -236,13 +236,13 @@
             "folders": {
                 "title": "Carpetas",
                 "p1": "Por defecto, todos los widgets se agregan a la carpeta '$t(home)'. Sin embargo, también puedes organizar tus widgets en diferentes carpetas. Por ejemplo, podrías tener carpetas separadas para widgets de trabajo y personales. O podrías tener una carpeta para cada proyecto individual.",
-                "p2": "Para gestionar carpetas, haz clic en el icono de engranaje en la esquina inferior izquierda. Esto abrirá la configuración, donde puedes personalizar Anori a tu gusto. Haz clic en '$t(settings.folders.title)' para abrir el gestor de carpetas."
+                "p2": "Para gestionar carpetas, haz clic en el icono de engranaje en la esquina inferior izquierda. Esto abrirá la Configuración, donde puedes personalizar Anori a tu gusto. Haz clic en '$t(settings.folders.title)' allí para abrir el gestor de carpetas."
             },
             "customization": {
                 "title": "Personalización",
                 "p1": "Mientras Anori te permite componer tu propia pagina de inicio con widgets, puede ser incluso más personalizable.",
-                "p2": "Puedes cambiar el titulo de una nueva pestaña, cambiar el esquema de colores junto a la imagen de fondo y subir tus propios iconos personalizados para usarla en widgets (sumándole los más de 10,000 iconos integrados).",
-                "p3": "Y esta no es ni siquiera la mitad de las opciones. Deberías revisar configuración si quieres verlas todas."
+                "p2": "Puedes cambiar el titulo de una nueva pestaña, cambiar el esquema de color junto a la imagen de fondo y subir tus propios iconos personalizables para usarlos en widgets (sumándole los más de 10,000 iconos integrados).",
+                "p3": "Y esta no es ni siquiera la mitad de las opciones. Deberías revisar la Configuración si quieres verlas todas."
             },
             "analytics": {
                 "title": "Analíticas",
@@ -259,7 +259,7 @@
             },
             "preset": {
                 "task": {
-                    "themes": "Prueba diferentes temas en la configuración",
+                    "themes": "Prueba diferentes temas en la Configuración",
                     "anoriPlus": "Descubre Anori Plus",
                     "widgets": "Explora los widgets disponibles"
                 }
@@ -357,7 +357,7 @@
                 "stashGroup": "Guardar un grupo de pestañas",
                 "stashWindow": "Guardar esta ventana",
                 "window": "Ventana",
-                "grantTabs": "Se requieren permisos adicionales para la función de pestañas guardadas",
+                "grantTabs": "Se requieren permisos adicionales para la función $t(tabs-plugin.stash.title)",
                 "recentlyStashed": "Guardado recientemente",
                 "nothingStashed": "Nada guardado aún"
             },
@@ -482,16 +482,16 @@
             "tagFixed": "Corregido",
             "changelogNote": "¿Buscas el registro de cambios de versiones anteriores? Puedes encontrarlo <0>en GitHub</0>.",
             "v2_1_0": {
-                "headline": "Ahora con el plugin de Pestañas ampliado. Guarda los enlaces a los que quieres volver y retoma las pestañas que dejaste abiertas en otro dispositivo.",
+                "headline": "Ahora con el plugin de $t(tabs-plugin.name) ampliado. Guarda los enlaces a los que quieres volver y retoma las pestañas que dejaste abiertas en otro dispositivo.",
                 "stashTitle": "Almacén de pestañas",
                 "stashBody": "Usa este widget para guardar los enlaces a los que quieres volver más tarde. Mantenlos en tu nueva pestaña para que no se te olviden. Puedes almacenar una pestaña desde el propio widget o desde la nueva ventana emergente de Anori; simplemente haz clic en el icono de Anori en la barra de herramientas de la extensión.",
                 "stashSync": "Con Anori Plus, tu almacén se comparte en todos los navegadores en los que hayas iniciado sesión y en todos los perfiles.",
                 "syncedTabsTitle": "Pestañas sincronizadas",
-                "syncedTabsBody": "Consulta qué tienes abierto en tus otros dispositivos y retoma fácilmente donde lo dejaste. Ten en cuenta que esta función requiere Anori Plus y activarla explícitamente en los ajustes.",
+                "syncedTabsBody": "Consulta qué tienes abierto en tus otros dispositivos y retoma fácilmente donde lo dejaste en un dispositivo anterior. Ten en cuenta que esta función requiere Anori Plus y activarla explícitamente en la Configuración.",
                 "minorPopup": "Al hacer clic en el icono de Anori en la barra de herramientas ahora se abre una ventana emergente en lugar de simplemente abrir una nueva pestaña.",
-                "minorDevices": "Los ajustes incorporan una sección Dispositivos, donde puedes ver todo lo que ha iniciado sesión en tu cuenta de Anori Plus, y renombrarlo o eliminarlo.",
-                "minorTabsPlugin": "El widget Pestañas cerradas recientemente se integró en el nuevo plugin de Pestañas junto con los dos widgets anteriores, y ahora puede redimensionarse para ser más alto que antes.",
-                "minorWidgetHeaders": "Tareas, Notas, Feed RSS, Previsión meteorológica y Pestañas cerradas recientemente ahora comparten un mismo diseño de encabezado, por lo que sus títulos y botones se alinean uno al lado del otro.",
+                "minorDevices": "Configuración incorpora una sección Dispositivos, donde puedes ver todo lo que ha iniciado sesión en tu cuenta de Anori Plus, y renombrarlo o eliminarlo.",
+                "minorTabsPlugin": "El widget $t(recently-closed-plugin.name) se integró en el nuevo plugin $t(tabs-plugin.name) junto con los dos widgets anteriores, y ahora puede redimensionarse para ser más alto que antes.",
+                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) y $t(recently-closed-plugin.name) ahora comparten un mismo diseño de encabezado, por lo que sus títulos y botones se alinean uno al lado del otro.",
                 "minorPlurals": "Los idiomas traducidos ahora usan las formas plurales correctas, en lugar de tomar prestada la regla de singular o plural del inglés.",
                 "minorWhatsNew": "La pantalla que estás leyendo fue rediseñada, y las notas de versiones anteriores se trasladaron fuera de la extensión a un registro de cambios en GitHub.",
                 "minorTranslatedNotes": "Las notas de la versión ahora están traducidas a todos los idiomas que Anori admite, en lugar de estar disponibles solo en inglés.",
