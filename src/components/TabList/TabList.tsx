@@ -35,21 +35,11 @@ const rowTitle = css({ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "
 const groupRow = css({
   position: "relative",
   overflow: "hidden",
-  "&:hover .tab-list-actions": { opacity: 1, pointerEvents: "auto" },
+  "&:hover .tab-list-actions": { opacity: 1 },
+  "&:hover .tab-list-actions button": { pointerEvents: "auto" },
+  "@media (any-hover: hover)": { "&:hover .tab-list-main": { background: "ghost.hover" } },
 });
-const groupMain = css({
-  display: "flex",
-  alignItems: "center",
-  gap: "3",
-  flex: 1,
-  minWidth: 0,
-  border: "none",
-  background: "transparent",
-  textAlign: "left",
-  cursor: "pointer",
-  color: "text.primary",
-  font: "inherit",
-});
+const groupMain = css({ gap: "3!" });
 const groupDot = css({ width: "0-5rem", height: "0-5rem", borderRadius: "full", flexShrink: 0, background: "control" });
 const groupActions = css({
   position: "absolute",
@@ -118,8 +108,13 @@ const GroupRow = ({ group, trackInteraction }: { group: TabListGroup; trackInter
 
   return (
     <div>
-      <ListItem className={groupRow}>
-        <button type="button" className={groupMain} onClick={() => setExpanded((value) => !value)}>
+      <div className={groupRow}>
+        <ListItem
+          as="button"
+          type="button"
+          className={`${groupMain} tab-list-main`}
+          onClick={() => setExpanded((value) => !value)}
+        >
           <Icon
             icon={expanded ? builtinIcons.chevronDown : builtinIcons.chevronForward}
             width={16}
@@ -129,7 +124,7 @@ const GroupRow = ({ group, trackInteraction }: { group: TabListGroup; trackInter
           {group.color && <span className={groupDot} style={{ background: group.color }} />}
           <span className={rowTitle}>{group.name}</span>
           <Badge>{t("tabs-plugin.stash.tabCount", { count: group.tabs.length })}</Badge>
-        </button>
+        </ListItem>
         {group.onOpenAll && (
           <div className={`${groupActions} tab-list-actions`}>
             <IconButton
@@ -141,7 +136,7 @@ const GroupRow = ({ group, trackInteraction }: { group: TabListGroup; trackInter
             />
           </div>
         )}
-      </ListItem>
+      </div>
       {expanded && (
         <div className={groupBody}>
           {group.tabs.map((tab) => (

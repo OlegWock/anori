@@ -22,20 +22,10 @@ export type StashOpenHandlers = {
 const entryRow = css({
   position: "relative",
   overflow: "hidden",
-  "&:hover .stash-entry-actions": { opacity: 1, pointerEvents: "auto" },
-});
-const entryMain = css({
-  display: "flex",
-  alignItems: "center",
-  gap: "4",
-  flex: 1,
-  minWidth: 0,
-  border: "none",
-  background: "transparent",
-  textAlign: "left",
-  cursor: "pointer",
-  color: "text.primary",
-  textDecoration: "none",
+  borderRadius: "md",
+  "&:hover .stash-entry-actions": { opacity: 1 },
+  "&:hover .stash-entry-actions button": { pointerEvents: "auto" },
+  "@media (any-hover: hover)": { "&:hover .stash-entry-main": { background: "ghost.hover" } },
 });
 const entryTitle = css({
   flex: 1,
@@ -121,16 +111,16 @@ const LinkRow = ({
   };
 
   return (
-    <ListItem as={m.div} className={entryRow} {...rowMotionProps}>
-      <a className={entryMain} href={entry.url} onClick={handleClick}>
+    <m.div className={entryRow} {...rowMotionProps}>
+      <ListItem as="a" className="stash-entry-main" href={entry.url} onClick={handleClick}>
         <Favicon url={entry.url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
         <span className={entryTitle}>{entry.title || entry.url}</span>
         {showHost && <span className={entryHost}>{parseHost(entry.url)}</span>}
-      </a>
+      </ListItem>
       <div className={`${actions} stash-entry-actions`}>
         <RemoveButton onClick={handleRemove} />
       </div>
-    </ListItem>
+    </m.div>
   );
 };
 
@@ -157,16 +147,16 @@ const GroupLinkRow = ({
   };
 
   return (
-    <ListItem as={m.div} className={entryRow} {...rowMotionProps}>
-      <a className={entryMain} href={link.url} onClick={handleClick}>
+    <m.div className={entryRow} {...rowMotionProps}>
+      <ListItem as="a" className="stash-entry-main" href={link.url} onClick={handleClick}>
         <Favicon url={link.url} useFaviconApiIfPossible width={18} height={18} fallback={builtinIcons.globe} />
         <span className={entryTitle}>{link.title || link.url}</span>
         {showHost && <span className={entryHost}>{parseHost(link.url)}</span>}
-      </a>
+      </ListItem>
       <div className={`${actions} stash-entry-actions`}>
         <RemoveButton onClick={onRemove} />
       </div>
-    </ListItem>
+    </m.div>
   );
 };
 
@@ -210,8 +200,8 @@ const GroupRow = ({
 
   return (
     <m.div {...rowMotionProps}>
-      <ListItem className={entryRow}>
-        <button type="button" className={entryMain} onClick={() => setExpanded((v) => !v)}>
+      <div className={entryRow}>
+        <ListItem as="button" type="button" className="stash-entry-main" onClick={() => setExpanded((v) => !v)}>
           <Icon
             icon={expanded ? builtinIcons.chevronDown : builtinIcons.chevronForward}
             width={16}
@@ -238,7 +228,7 @@ const GroupRow = ({
               autoFocus
             />
           )}
-        </button>
+        </ListItem>
         <div className={`${actions} stash-entry-actions`}>
           <IconButton
             icon={builtinIcons.openOutline}
@@ -256,7 +246,7 @@ const GroupRow = ({
           />
           <RemoveButton onClick={handleRemove} />
         </div>
-      </ListItem>
+      </div>
       {expanded && (
         <div className={groupBody}>
           <AnimatePresence initial={false}>
