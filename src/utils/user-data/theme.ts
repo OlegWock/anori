@@ -21,8 +21,34 @@ const getThemeBackgroundKey = (themeName: string, variant: "original" | "blurred
   return `${themeName}:${variant}`;
 };
 
+/* original non-animated gif code
 export const getThemeBackground = async (themeName: string): Promise<Blob> => {
   const storage = await getAnoriStorage({ sync: false });
+  const key = getThemeBackgroundKey(themeName, "blurred");
+  const result = await storage.files.get(anoriSchema.themeBackgrounds.byId(key));
+
+  if (!result) {
+    throw new Error(`Theme background not found: ${themeName}`);
+  }
+
+  return result.blob;
+};*/
+
+export const getThemeBackground = async (themeName: string): Promise<Blob> => {
+  const storage = await getAnoriStorage({ sync: false });
+
+  const customThemes = storage.get(anoriSchema.customThemes);
+  const theme = customThemes.find((t) => t.name === themeName);
+
+  // If blur is turned off, serve the untouched original so animated backgrounds still animate.
+  if (theme && theme.blur === 0) {
+    try {
+      return await getThemeBackgroundOriginal(themeName);
+    } catch {
+      // fall through to blurred below if something's wrong with the original copy
+    }
+  }
+
   const key = getThemeBackgroundKey(themeName, "blurred");
   const result = await storage.files.get(anoriSchema.themeBackgrounds.byId(key));
 
