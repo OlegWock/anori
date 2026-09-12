@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Tutup jendela modal",
             "switchToFolderAbove": "Beralih ke folder di atas",
             "switchToFolderBelow": "Beralih ke folder di bawah",
+            "switchFolderWithWheel": "Ganti folder dengan roda mouse atau trackpad",
             "switchToNFolder": "Beralih ke folder ke-1 (berlaku untuk angka lain juga!)",
             "editCurrentFolder": "Edit folder saat ini",
             "addNewWidget": "Tambahkan widget baru ke folder saat ini"
@@ -486,6 +487,8 @@
                 "animatedBackgroundsTitle": "Latar belakang animasi",
                 "animatedBackgroundsBody": "Tema kustom kini menerima file GIF, sehingga latar belakang tab baru kamu bisa dianimasikan. Atur Blur ke nol untuk menjaga animasi tetap berjalan.",
                 "animatedBackgroundsPixelArt": "Menggunakan pixel art? Aktifkan '$t(settings.theme.pixelatedBackground)' di editor tema untuk menjaga setiap piksel tetap tajam.",
+                "minorWheelSwitching": "Tahan Alt (Option di Mac) dan gulir dengan roda mouse atau trackpad untuk beralih antar folder.",
+                "minorRtlArrows": "Pada bahasa kanan-ke-kiri, pintasan folder kiri dan kanan kini mengikuti arah tata letak folder.",
                 "minorBrowserDetection": "Deteksi browser yang lebih baik saat masuk ke Anori Plus di Chrome atau Brave."
             }
         }

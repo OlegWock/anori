@@ -223,6 +223,7 @@
             "closeMenuOrModal": "关闭命令菜单或模态窗口",
             "switchToFolderAbove": "切换到上一级文件夹",
             "switchToFolderBelow": "切换到下一级文件夹",
+            "switchFolderWithWheel": "按住 Alt（Mac 上为 Option）并滚动鼠标滚轮或触控板以切换目录",
             "switchToNFolder": "切换到第一个目录（任意数字均可！）",
             "editCurrentFolder": "编辑当前目录",
             "addNewWidget": "在当前目录添加小部件"
@@ -486,6 +487,8 @@
                 "animatedBackgroundsTitle": "动态背景",
                 "animatedBackgroundsBody": "自定义主题现已支持 GIF 文件，让你的新标签页背景动起来。将模糊设为零以保留动画效果。",
                 "animatedBackgroundsPixelArt": "使用像素艺术？在主题编辑器中启用\"$t(settings.theme.pixelatedBackground)\"，让每个像素都保持清晰。",
+                "minorWheelSwitching": "按住 Alt（Mac 上为 Option）并滚动鼠标滚轮或触控板以在目录之间切换。",
+                "minorRtlArrows": "在从右到左的语言中，切换目录的左右快捷键现在会按照目录的排列方向操作。",
                 "minorBrowserDetection": "改进了在 Chrome 或 Brave 中登录 Anori Plus 时的浏览器检测。"
             }
         }

@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Zavřít modální okno",
             "switchToFolderAbove": "Přepnout na složku výše",
             "switchToFolderBelow": "Přepnout na složku níže",
+            "switchFolderWithWheel": "Přepínání složek kolečkem myši nebo trackpadem",
             "switchToNFolder": "Přepnout na 1. složku (funguje i s jinými čísly!)",
             "editCurrentFolder": "Upravit aktuální složku",
             "addNewWidget": "Přidat nový widget do aktuální složky"
@@ -489,6 +490,8 @@
                 "animatedBackgroundsTitle": "Animovaná pozadí",
                 "animatedBackgroundsBody": "Vlastní motivy nyní přijímají soubory GIF, takže pozadí nové karty může být animované. Nastav Rozostření na nulu, aby animace zůstala zachována.",
                 "animatedBackgroundsPixelArt": "Používáš pixel art? Povol '$t(settings.theme.pixelatedBackground)' v editoru motivů, aby každý pixel zůstal ostrý.",
+                "minorWheelSwitching": "Podržte Alt (Option na Macu) a scrollujte kolečkem myši nebo trackpadem pro přepínání mezi složkami.",
+                "minorRtlArrows": "V jazycích se zápisem zprava doleva nyní klávesové zkratky pro přepínání složek doleva a doprava odpovídají směru, ve kterém jsou složky zobrazeny.",
                 "minorBrowserDetection": "Lepší detekce prohlížeče při přihlašování do Anori Plus v Chrome nebo Brave."
             }
         }

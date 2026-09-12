@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Befehlsmenü oder Fenster schließen",
             "switchToFolderAbove": "Zum übergeordneten Ordner wechseln",
             "switchToFolderBelow": "Zum untergeordneten Ordner wechseln",
+            "switchFolderWithWheel": "Ordner mit dem Mausrad oder Trackpad wechseln",
             "switchToNFolder": "Zum 1. Ordner wechseln (funktioniert mit anderne Zahlen auch!)",
             "editCurrentFolder": "Aktuellen Ordner bearbeiten",
             "addNewWidget": "Neues Widget zum aktuellen Ordner hinzufügen"
@@ -487,6 +488,8 @@
                 "animatedBackgroundsTitle": "Animierte Hintergründe",
                 "animatedBackgroundsBody": "Benutzerdefinierte Themes akzeptieren jetzt GIF-Dateien, sodass dein Neuer-Tab-Hintergrund animiert sein kann. Setze die Unschärfe auf null, um die Animation beizubehalten.",
                 "animatedBackgroundsPixelArt": "Verwendest du Pixel-Art? Aktiviere '$t(settings.theme.pixelatedBackground)' im Theme-Editor, damit jeder Pixel gestochen scharf bleibt.",
+                "minorWheelSwitching": "Halte Alt (Option auf dem Mac) gedrückt und scrolle mit dem Mausrad oder Trackpad, um zwischen Ordnern zu wechseln.",
+                "minorRtlArrows": "In Sprachen mit Rechts-nach-links-Schreibrichtung folgen die linken und rechten Ordner-Tastenkürzel nun der Richtung, in der die Ordner angeordnet sind.",
                 "minorBrowserDetection": "Bessere Browsererkennung beim Anmelden bei Anori Plus in Chrome oder Brave."
             }
         }

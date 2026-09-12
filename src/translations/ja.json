@@ -223,6 +223,7 @@
             "closeMenuOrModal": "モーダルウィンドウを閉じる",
             "switchToFolderAbove": "上のフォルダに切り替え",
             "switchToFolderBelow": "下のフォルダに切り替え",
+            "switchFolderWithWheel": "マウスホイールまたはトラックパッドでフォルダを切り替える",
             "switchToNFolder": "1番目のフォルダに切り替え（他の数字でも使えます！）",
             "editCurrentFolder": "現在のフォルダを編集",
             "addNewWidget": "現在のフォルダにウィジェットを追加"
@@ -486,6 +487,8 @@
                 "animatedBackgroundsTitle": "アニメーション背景",
                 "animatedBackgroundsBody": "カスタムテーマでGIFファイルが使えるようになり、新しいタブの背景をアニメーションにできます。アニメーションを維持するには、ぼかしをゼロに設定してください。",
                 "animatedBackgroundsPixelArt": "ピクセルアートを使用していますか？テーマエディターで'$t(settings.theme.pixelatedBackground)'を有効にすると、すべてのピクセルをくっきり保てます。",
+                "minorWheelSwitching": "Alt（MacではOption）を押しながらマウスホイールまたはトラックパッドでスクロールすると、フォルダを切り替えられます。",
+                "minorRtlArrows": "右から左へ記述する言語では、左右のフォルダ切り替えショートカットがフォルダの配置方向に合わせて動作するようになりました。",
                 "minorBrowserDetection": "ChromeまたはBraveでAnori Plusにサインインする際のブラウザ検出を改善しました。"
             }
         }

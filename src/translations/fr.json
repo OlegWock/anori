@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Fermer le menu de commande ou la fenêtre modale",
             "switchToFolderAbove": "Passer au dossier ci-dessus",
             "switchToFolderBelow": "Passer au dossier ci-dessous",
+            "switchFolderWithWheel": "Changer de dossier avec la molette de la souris ou le trackpad",
             "switchToNFolder": "Passer au premier dossier (fonctionne aussi avec d'autres numéros !)",
             "editCurrentFolder": "Modifier le dossier en cours",
             "addNewWidget": "Ajouter un nouveau widget au dossier en cours"
@@ -488,6 +489,8 @@
                 "animatedBackgroundsTitle": "Arrière-plans animés",
                 "animatedBackgroundsBody": "Les thèmes personnalisés acceptent désormais les fichiers GIF, votre arrière-plan de nouvel onglet peut donc être animé. Réglez le Flou à zéro pour conserver l'animation.",
                 "animatedBackgroundsPixelArt": "Vous utilisez du pixel art ? Activez '$t(settings.theme.pixelatedBackground)' dans l'éditeur de thème pour garder chaque pixel net.",
+                "minorWheelSwitching": "Maintenez Alt (Option sur Mac) et faites défiler avec la molette de la souris ou le trackpad pour changer de dossier.",
+                "minorRtlArrows": "Dans les langues s'écrivant de droite à gauche, les raccourcis de navigation entre dossiers gauche et droite suivent désormais le sens dans lequel les dossiers sont disposés.",
                 "minorBrowserDetection": "Meilleure détection du navigateur lors de la connexion à Anori Plus dans Chrome ou Brave."
             }
         }

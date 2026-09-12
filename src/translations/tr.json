@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Modal pencereyi kapat",
             "switchToFolderAbove": "Üstteki klasöre geç",
             "switchToFolderBelow": "Alttaki klasöre geç",
+            "switchFolderWithWheel": "Fare tekerleği veya izleme turuyla klasörler arasında geçiş yapın",
             "switchToNFolder": "1. klasöre geç (diğer sayılarla da çalışır!)",
             "editCurrentFolder": "Geçerli klasörü düzenle",
             "addNewWidget": "Geçerli klasöre yeni widget ekle"
@@ -487,6 +488,8 @@
                 "animatedBackgroundsTitle": "Animasyonlu arka planlar",
                 "animatedBackgroundsBody": "Özel temalar artık GIF dosyalarını kabul ediyor, böylece yeni sekme arka planınız animasyonlu olabilir. Animasyonu korumak için Bulanıklığı sıfıra ayarlayın.",
                 "animatedBackgroundsPixelArt": "Piksel sanatı mı kullanıyorsunuz? Her pikseli net tutmak için tema düzenleyicisinde '$t(settings.theme.pixelatedBackground)' seçeneğini etkinleştirin.",
+                "minorWheelSwitching": "Klasörler arasında geçiş yapmak için Alt (Mac'te Option) tuşunu basılı tutun ve fare tekerleği veya izleme turuyla kaydırın.",
+                "minorRtlArrows": "Sağdan sola dillerde, sol ve sağ klasör kısayolları artık klasörlerin yerleşim yönünü takip ediyor.",
                 "minorBrowserDetection": "Chrome veya Brave'de Anori Plus'a giriş yaparken daha iyi tarayıcı algılama."
             }
         }

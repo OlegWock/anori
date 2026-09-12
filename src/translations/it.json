@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Chiudi menu dei comandi o finestra modale",
             "switchToFolderAbove": "Passa alla cartella sopra",
             "switchToFolderBelow": "Passa alla cartella sotto",
+            "switchFolderWithWheel": "Passa da una cartella all'altra con la rotella del mouse o il trackpad",
             "switchToNFolder": "Passa alla prima cartella (funziona anche con altri numeri!)",
             "editCurrentFolder": "Modifica la cartella corrente",
             "addNewWidget": "Aggiungi un nuovo widget alla cartella corrente"
@@ -488,6 +489,8 @@
                 "animatedBackgroundsTitle": "Sfondi animati",
                 "animatedBackgroundsBody": "I temi personalizzati ora accettano file GIF, quindi lo sfondo della nuova scheda può essere animato. Imposta la Sfocatura a zero per mantenere l'animazione.",
                 "animatedBackgroundsPixelArt": "Usi la pixel art? Abilita '$t(settings.theme.pixelatedBackground)' nell'editor dei temi per mantenere ogni pixel nitido.",
+                "minorWheelSwitching": "Tieni premuto Alt (Option su Mac) e scorri con la rotella del mouse o il trackpad per passare tra le cartelle.",
+                "minorRtlArrows": "Nelle lingue da destra a sinistra, le scorciatoie per le cartelle sinistra e destra seguono ora la direzione in cui le cartelle sono disposte.",
                 "minorBrowserDetection": "Migliore rilevamento del browser durante l'accesso ad Anori Plus in Chrome o Brave."
             }
         }

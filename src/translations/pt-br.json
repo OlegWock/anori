@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Fechar menu de comandos or janela modal",
             "switchToFolderAbove": "Mudar para a pasta acima",
             "switchToFolderBelow": "Mudar para a pasta abaixo",
+            "switchFolderWithWheel": "Alternar pastas com a roda do mouse ou trackpad",
             "switchToNFolder": "Mude para a primeira pasta (também funciona com outros números!)",
             "editCurrentFolder": "Editar pasta atual",
             "addNewWidget": "Adicionar novo widget à pasta atual"
@@ -488,6 +489,8 @@
                 "animatedBackgroundsTitle": "Planos de fundo animados",
                 "animatedBackgroundsBody": "Os temas personalizados agora aceitam arquivos GIF, então o plano de fundo da sua nova aba pode ser animado. Defina o Desfoque como zero para manter a animação.",
                 "animatedBackgroundsPixelArt": "Usando pixel art? Ative '$t(settings.theme.pixelatedBackground)' no editor de temas para manter cada pixel nítido.",
+                "minorWheelSwitching": "Segure Alt (Option no Mac) e role com a roda do mouse ou trackpad para alternar entre pastas.",
+                "minorRtlArrows": "Em idiomas da direita para a esquerda, os atalhos de pasta para esquerda e direita agora seguem a direção em que as pastas estão dispostas.",
                 "minorBrowserDetection": "Melhor detecção de navegador ao fazer login no Anori Plus no Chrome ou Brave."
             }
         }

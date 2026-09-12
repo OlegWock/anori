@@ -9,7 +9,8 @@ export const localizeShortcut = (shortcut: string) => {
     .replace(/DOWN/g, "↓")
     .replace(/CTRL/g, "Ctrl")
     .replace(/SHIFT/g, "Shift")
-    .replace(/ESC/g, "Esc");
+    .replace(/ESC/g, "Esc")
+    .replace(/SCROLL/g, "Scroll");
 
   if (isMacLike) {
     pretty = pretty.replace(/ALT/g, "⌥").replace(/META/g, "⌘");

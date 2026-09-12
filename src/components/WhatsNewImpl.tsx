@@ -11,7 +11,11 @@ const CHANGELOG_URL = "https://github.com/OlegWock/anori/blob/master/CHANGELOG.m
 const CURRENT_VERSION = "2.2.0";
 const RELEASE = "releaseNotes.v2_2_0";
 
-const MINOR_CHANGES = [{ tag: "tagFixed", key: "minorBrowserDetection" }] as const;
+const MINOR_CHANGES = [
+  { tag: "tagNew", key: "minorWheelSwitching" },
+  { tag: "tagFixed", key: "minorRtlArrows" },
+  { tag: "tagFixed", key: "minorBrowserDetection" },
+] as const;
 
 const whatsNew = css({ maxWidth: "600px", overflow: "hidden", display: "flex", flexDirection: "column", minHeight: 0 });
 

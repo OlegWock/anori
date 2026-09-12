@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Zavrieť modálne okno",
             "switchToFolderAbove": "Prejsť do priečinka vyššie",
             "switchToFolderBelow": "Prepnúť na priečinok nižšie",
+            "switchFolderWithWheel": "Prepínanie priečinkov pomocou kolieska myši alebo trackpadu",
             "switchToNFolder": "Prepnúť na 1. priečinok (funguje aj s inými číslami!)",
             "editCurrentFolder": "Upraviť aktuálny priečinok",
             "addNewWidget": "Pridať nový widget do aktuálneho priečinka"
@@ -489,6 +490,8 @@
                 "animatedBackgroundsTitle": "Animované pozadia",
                 "animatedBackgroundsBody": "Vlastné témy teraz akceptujú GIF súbory, takže pozadie novej karty môže byť animované. Nastavte Rozmazanie na nulu, aby sa animácia zachovala.",
                 "animatedBackgroundsPixelArt": "Používate pixel art? Povoľte '$t(settings.theme.pixelatedBackground)' v editore tém, aby každý pixel zostal ostrý.",
+                "minorWheelSwitching": "Podržte Alt (Option na Macu) a rolujte kolieskom myši alebo trackpadom na prepínanie medzi priečinkami.",
+                "minorRtlArrows": "V jazykoch so zápisom sprava doľava teraz klávesové skratky pre ľavý a pravý priečinok sledujú smer, v ktorom sú priečinky rozložené.",
                 "minorBrowserDetection": "Lepšie rozpoznávanie prehliadača pri prihlasovaní do Anori Plus v Chrome alebo Brave."
             }
         }

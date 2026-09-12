@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Cerrar el menú de comandos o ventana modal",
             "switchToFolderAbove": "Cambiar a la carpeta superior",
             "switchToFolderBelow": "Cambiar a la carpeta inferior",
+            "switchFolderWithWheel": "Cambiar carpetas con la rueda del ratón o el trackpad",
             "switchToNFolder": "Cambiar a la 1era carpeta (¡Funciona con otros números también!)",
             "editCurrentFolder": "Editar la carpeta actual",
             "addNewWidget": "Agregar un nuevo widget a la carpeta actual"
@@ -488,6 +489,8 @@
                 "animatedBackgroundsTitle": "Fondos animados",
                 "animatedBackgroundsBody": "Los temas personalizados ahora aceptan archivos GIF, por lo que el fondo de tu nueva pestaña puede ser animado. Establece el Desenfoque en cero para mantener la animación.",
                 "animatedBackgroundsPixelArt": "¿Usas pixel art? Activa '$t(settings.theme.pixelatedBackground)' en el editor de temas para mantener cada píxel nítido.",
+                "minorWheelSwitching": "Mantén Alt (Option en Mac) y desplázate con la rueda del ratón o el trackpad para cambiar entre carpetas.",
+                "minorRtlArrows": "En idiomas de derecha a izquierda, los atajos de carpeta izquierda y derecha ahora siguen la dirección en que se muestran las carpetas.",
                 "minorBrowserDetection": "Mejor detección del navegador al iniciar sesión en Anori Plus en Chrome o Brave."
             }
         }

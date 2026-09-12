@@ -223,6 +223,7 @@
             "closeMenuOrModal": "मोडल विंडो बंद करें",
             "switchToFolderAbove": "ऊपर वाले फ़ोल्डर पर जाएं",
             "switchToFolderBelow": "नीचे वाले फ़ोल्डर पर जाएं",
+            "switchFolderWithWheel": "माउस व्हील या ट्रैकपैड से फ़ोल्डर बदलें",
             "switchToNFolder": "पहले फ़ोल्डर पर जाएं (अन्य नंबरों के साथ भी काम करता है!)",
             "editCurrentFolder": "वर्तमान फ़ोल्डर संपादित करें",
             "addNewWidget": "वर्तमान फ़ोल्डर में नया विजेट जोड़ें"
@@ -487,6 +488,8 @@
                 "animatedBackgroundsTitle": "एनिमेटेड बैकग्राउंड",
                 "animatedBackgroundsBody": "कस्टम थीम अब GIF फ़ाइलें स्वीकार करती हैं, इसलिए आपका नया टैब बैकग्राउंड एनिमेटेड हो सकता है। एनिमेशन बनाए रखने के लिए धुंधलापन को शून्य पर सेट करें।",
                 "animatedBackgroundsPixelArt": "पिक्सेल आर्ट उपयोग कर रहे हैं? हर पिक्सेल को साफ़ रखने के लिए थीम एडिटर में '$t(settings.theme.pixelatedBackground)' सक्षम करें।",
+                "minorWheelSwitching": "Alt (Mac पर Option) दबाए रखें और फ़ोल्डर बदलने के लिए माउस व्हील या ट्रैकपैड से स्क्रॉल करें।",
+                "minorRtlArrows": "दाएं-से-बाएं भाषाओं में, बाएं और दाएं फ़ोल्डर शॉर्टकट अब फ़ोल्डर की लेआउट दिशा के अनुसार काम करते हैं।",
                 "minorBrowserDetection": "Chrome या Brave में Anori Plus में साइन इन करते समय बेहतर ब्राउज़र पहचान।"
             }
         }

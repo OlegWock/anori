@@ -54,6 +54,12 @@ export const ShortcutsHelp = () => {
       </div>
       <div className={shortcutRow}>
         <div className={hintWrapper}>
+          <ShortcutHint shortcut="alt+scroll" />
+        </div>
+        <div>{t("shortcuts.switchFolderWithWheel")}</div>
+      </div>
+      <div className={shortcutRow}>
+        <div className={hintWrapper}>
           <ShortcutHint shortcut="alt+1" />
         </div>
         <div>{t("shortcuts.switchToNFolder")}</div>

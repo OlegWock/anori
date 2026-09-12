@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Close modal window",
             "switchToFolderAbove": "Switch to folder above",
             "switchToFolderBelow": "Switch to folder below",
+            "switchFolderWithWheel": "Switch folders with the mouse wheel or trackpad",
             "switchToNFolder": "Switch to 1st folder (works with other numbers too!)",
             "editCurrentFolder": "Edit current folder",
             "addNewWidget": "Add new widget to current folder"
@@ -487,6 +488,8 @@
                 "animatedBackgroundsTitle": "Animated backgrounds",
                 "animatedBackgroundsBody": "Custom themes now accept GIF files, so your new tab background can be animated. Set blur to zero to keep the animation.",
                 "animatedBackgroundsPixelArt": "Using pixel art? Enable '$t(settings.theme.pixelatedBackground)' in the theme editor to keep every pixel crisp.",
+                "minorWheelSwitching": "Hold Alt (Option on Mac) and scroll with the mouse wheel or trackpad to switch between folders.",
+                "minorRtlArrows": "In right-to-left languages, the left and right folder shortcuts now follow the direction the folders are laid out in.",
                 "minorBrowserDetection": "Better browser detection when signing into Anori Plus in Chrome or Brave."
             }
         }

@@ -20,6 +20,7 @@ import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import type { Folder } from "@anori/utils/user-data/types";
+import { useAltWheelFolderSwitch } from "@anori/utils/user-data/use-alt-wheel-folder-switch";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import { AnimatePresence, domMax, LazyMotion, MotionConfig, m } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -75,6 +76,7 @@ const Start = () => {
   const [lastFolder, setLastFolder] = useStorageValue(anoriSchema.lastFolder);
   const [language] = useStorageValue(anoriSchema.language);
   const dir = useMemo(() => languageDirections[language], [language]);
+  const isRtl = dir === "rtl";
   const { folders, activeFolder, setActiveFolder } = useFolders({
     includeHome: true,
     defaultFolderId: rememberLastFolder ? lastFolder : undefined,
@@ -94,17 +96,30 @@ const Start = () => {
       : activeFolderIndex > previousActiveFolderIndex
         ? sidebarOrientation === "vertical"
           ? "down"
-          : "right"
+          : isRtl
+            ? "left"
+            : "right"
         : sidebarOrientation === "vertical"
           ? "up"
-          : "left";
+          : isRtl
+            ? "right"
+            : "left";
 
   const [showBookmarksBar] = useStorageValue(anoriSchema.showBookmarksBar);
 
+  const switchFolderLeft = isRtl ? swithFolderDown : swithFolderUp;
+  const switchFolderRight = isRtl ? swithFolderUp : swithFolderDown;
   useHotkeys("meta+up, alt+up", () => swithFolderUp());
-  useHotkeys("meta+left, alt+left", () => swithFolderUp());
+  useHotkeys("meta+left, alt+left", () => switchFolderLeft());
   useHotkeys("meta+down, alt+down", () => swithFolderDown());
-  useHotkeys("meta+right, alt+right", () => swithFolderDown());
+  useHotkeys("meta+right, alt+right", () => switchFolderRight());
+  useAltWheelFolderSwitch({
+    orientation: sidebarOrientation,
+    isRtl,
+    activeFolderIndex,
+    foldersCount: folders.length,
+    switchToFolderByIndex,
+  });
 
   useHotkeys("alt+1", () => switchToFolderByIndex(0));
   useHotkeys("alt+2", () => switchToFolderByIndex(1));

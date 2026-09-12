@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Đóng cửa sổ",
             "switchToFolderAbove": "Chuyển lên thư mục trên",
             "switchToFolderBelow": "Chuyển xuống thư mục dưới",
+            "switchFolderWithWheel": "Chuyển thư mục bằng con lăn chuột hoặc bàn di chuột",
             "switchToNFolder": "Chuyển đến thư mục 1 (áp dụng với số khác)",
             "editCurrentFolder": "Sửa thư mục hiện tại",
             "addNewWidget": "Thêm tiện ích vào thư mục hiện tại"
@@ -486,6 +487,8 @@
                 "animatedBackgroundsTitle": "Nền động",
                 "animatedBackgroundsBody": "Chủ đề tùy chỉnh hiện chấp nhận tệp GIF, vì vậy nền tab mới của bạn có thể được làm động. Đặt Độ mờ về không để giữ nguyên hiệu ứng động.",
                 "animatedBackgroundsPixelArt": "Đang dùng pixel art? Bật '$t(settings.theme.pixelatedBackground)' trong trình chỉnh sửa chủ đề để giữ từng pixel luôn sắc nét.",
+                "minorWheelSwitching": "Giữ Alt (Option trên Mac) và cuộn bằng con lăn chuột hoặc bàn di chuột để chuyển giữa các thư mục.",
+                "minorRtlArrows": "Trong các ngôn ngữ từ phải sang trái, phím tắt thư mục trái và phải nay tuân theo hướng bố trí của các thư mục.",
                 "minorBrowserDetection": "Cải thiện khả năng nhận diện trình duyệt khi đăng nhập Anori Plus trên Chrome hoặc Brave."
             }
         }

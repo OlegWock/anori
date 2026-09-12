@@ -223,6 +223,7 @@
             "closeMenuOrModal": "Zamknij okno modalne",
             "switchToFolderAbove": "Przejdź do folderu powyżej",
             "switchToFolderBelow": "Przejdź do folderu poniżej",
+            "switchFolderWithWheel": "Przełączaj teczki kółkiem myszy lub touchpadem",
             "switchToNFolder": "Przejdź do 1. folderu (działa też z innymi numerami!)",
             "editCurrentFolder": "Edytuj bieżący folder",
             "addNewWidget": "Dodaj nowy widget do bieżącego folderu"
@@ -489,6 +490,8 @@
                 "animatedBackgroundsTitle": "Animowane tła",
                 "animatedBackgroundsBody": "Motywy niestandardowe akceptują teraz pliki GIF, dzięki czemu tło nowej karty może być animowane. Ustaw Rozmycie na zero, aby zachować animację.",
                 "animatedBackgroundsPixelArt": "Używasz pixel artu? Włącz '$t(settings.theme.pixelatedBackground)' w edytorze motywu, aby każdy piksel był ostry.",
+                "minorWheelSwitching": "Przytrzymaj Alt (Option na Macu) i przewijaj kółkiem myszy lub touchpadem, aby przełączać między teczkami.",
+                "minorRtlArrows": "W językach pisanych od prawej do lewej skróty teczek w lewo i w prawo teraz podążają za kierunkiem, w którym teczki są ułożone.",
                 "minorBrowserDetection": "Lepsza wykrywalność przeglądarki podczas logowania do Anori Plus w Chrome lub Brave."
             }
         }
