@@ -1,5 +1,6 @@
 import { incrementDailyUsageMetric } from "@anori/utils/analytics";
-import { useMirrorStateToRef } from "@anori/utils/hooks";
+import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
+import type { Folder } from "@anori/utils/user-data/types";
 import { useEffect } from "react";
 
 const WHEEL_FIRST_SWITCH_PX = 10;
@@ -14,7 +15,7 @@ const foldersForScrollDistance = (distance: number) => {
   return distance > 0 ? count : -count;
 };
 
-export const useAltWheelFolderSwitch = ({
+const useAltWheelFolderSwitch = ({
   orientation,
   isRtl,
   activeFolderIndex,
@@ -71,4 +72,73 @@ export const useAltWheelFolderSwitch = ({
     window.addEventListener("wheel", handler, { passive: false });
     return () => window.removeEventListener("wheel", handler);
   }, []);
+};
+
+export type FolderSwitchAnimationDirection = "up" | "down" | "left" | "right" | null;
+
+const FOLDER_INDEX_HOTKEYS = ["alt+1", "alt+2", "alt+3", "alt+4", "alt+5", "alt+6", "alt+7", "alt+8", "alt+9"];
+
+export const useFolderNavigation = ({
+  folders,
+  activeFolder,
+  setActiveFolder,
+  orientation,
+  isRtl,
+}: {
+  folders: Folder[];
+  activeFolder: Folder;
+  setActiveFolder: (folder: Folder) => void;
+  orientation: "vertical" | "horizontal";
+  isRtl: boolean;
+}) => {
+  const activeFolderIndex = Math.max(
+    0,
+    folders.findIndex((f) => f.id === activeFolder.id),
+  );
+
+  const switchToFolderByIndex = (index: number) => {
+    if (index >= folders.length) return;
+    setActiveFolder(folders[index]);
+  };
+
+  const switchToPreviousFolder = () => {
+    switchToFolderByIndex(activeFolderIndex === 0 ? folders.length - 1 : activeFolderIndex - 1);
+  };
+
+  const switchToNextFolder = () => {
+    switchToFolderByIndex(activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1);
+  };
+
+  const switchFolderLeft = isRtl ? switchToNextFolder : switchToPreviousFolder;
+  const switchFolderRight = isRtl ? switchToPreviousFolder : switchToNextFolder;
+
+  useHotkeys("meta+up, alt+up", () => switchToPreviousFolder());
+  useHotkeys("meta+left, alt+left", () => switchFolderLeft());
+  useHotkeys("meta+down, alt+down", () => switchToNextFolder());
+  useHotkeys("meta+right, alt+right", () => switchFolderRight());
+  useHotkeys(FOLDER_INDEX_HOTKEYS, (_event, handler) => {
+    const index = Number(handler.keys?.[0]) - 1;
+    if (Number.isInteger(index) && index >= 0) switchToFolderByIndex(index);
+  });
+
+  useAltWheelFolderSwitch({
+    orientation,
+    isRtl,
+    activeFolderIndex,
+    foldersCount: folders.length,
+    switchToFolderByIndex,
+  });
+
+  const previousActiveFolderIndex = usePrevious(activeFolderIndex);
+  let animationDirection: FolderSwitchAnimationDirection = null;
+  if (previousActiveFolderIndex !== undefined && previousActiveFolderIndex !== activeFolderIndex) {
+    const movedForward = activeFolderIndex > previousActiveFolderIndex;
+    if (orientation === "vertical") {
+      animationDirection = movedForward ? "down" : "up";
+    } else {
+      animationDirection = movedForward !== isRtl ? "right" : "left";
+    }
+  }
+
+  return { animationDirection };
 };

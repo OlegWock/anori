@@ -11,7 +11,7 @@ import { initTranslation } from "@anori/translations/utils";
 import { incrementDailyUsageMetric, plantPerformanceMetricsListeners } from "@anori/utils/analytics";
 import { CompactModeProvider } from "@anori/utils/compact";
 import { IS_ANDROID, IS_TOUCH_DEVICE } from "@anori/utils/device";
-import { useHotkeys, useMirrorStateToRef, usePrevious } from "@anori/utils/hooks";
+import { useMirrorStateToRef } from "@anori/utils/hooks";
 import { OverlayLayersProvider } from "@anori/utils/overlay-layers";
 import { watchForPermissionChanges } from "@anori/utils/permissions";
 import { QueryClientProvider } from "@anori/utils/react-query";
@@ -20,7 +20,7 @@ import { StorageContext, useStorageValue } from "@anori/utils/storage-lib";
 import { useFolders } from "@anori/utils/user-data/hooks";
 import { watchForThemeUpdates } from "@anori/utils/user-data/theme";
 import type { Folder } from "@anori/utils/user-data/types";
-import { useAltWheelFolderSwitch } from "@anori/utils/user-data/use-alt-wheel-folder-switch";
+import { useFolderNavigation } from "@anori/utils/user-data/use-folder-navigation";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import { AnimatePresence, domMax, LazyMotion, MotionConfig, m } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -58,78 +58,31 @@ const useSidebarOrientation = () => {
 };
 
 const Start = () => {
-  const switchToFolderByIndex = (ind: number) => {
-    if (ind >= folders.length) return;
-    setActiveFolder(folders[ind]);
-  };
-
-  const swithFolderUp = () => {
-    setActiveFolder(folders[activeFolderIndex === 0 ? folders.length - 1 : activeFolderIndex - 1]);
-  };
-
-  const swithFolderDown = () => {
-    setActiveFolder(folders[activeFolderIndex === folders.length - 1 ? 0 : activeFolderIndex + 1]);
-  };
-
   const sidebarOrientation = useSidebarOrientation();
   const [rememberLastFolder] = useStorageValue(anoriSchema.rememberLastFolder);
   const [lastFolder, setLastFolder] = useStorageValue(anoriSchema.lastFolder);
   const [language] = useStorageValue(anoriSchema.language);
   const dir = useMemo(() => languageDirections[language], [language]);
-  const isRtl = dir === "rtl";
   const { folders, activeFolder, setActiveFolder } = useFolders({
     includeHome: true,
     defaultFolderId: rememberLastFolder ? lastFolder : undefined,
   });
-  const onFolderClick = useCallback(
+  const navigateToFolder = useCallback(
     (f: Folder) => {
       setActiveFolder(f);
       if (rememberLastFolder) setLastFolder(f.id);
     },
     [setActiveFolder, rememberLastFolder, setLastFolder],
   );
-  const activeFolderIndex = folders.findIndex((f) => f.id === activeFolder.id) ?? 0;
-  const previousActiveFolderIndex = usePrevious(activeFolderIndex);
-  const animationDirection =
-    previousActiveFolderIndex === undefined || previousActiveFolderIndex === activeFolderIndex
-      ? null
-      : activeFolderIndex > previousActiveFolderIndex
-        ? sidebarOrientation === "vertical"
-          ? "down"
-          : isRtl
-            ? "left"
-            : "right"
-        : sidebarOrientation === "vertical"
-          ? "up"
-          : isRtl
-            ? "right"
-            : "left";
-
-  const [showBookmarksBar] = useStorageValue(anoriSchema.showBookmarksBar);
-
-  const switchFolderLeft = isRtl ? swithFolderDown : swithFolderUp;
-  const switchFolderRight = isRtl ? swithFolderUp : swithFolderDown;
-  useHotkeys("meta+up, alt+up", () => swithFolderUp());
-  useHotkeys("meta+left, alt+left", () => switchFolderLeft());
-  useHotkeys("meta+down, alt+down", () => swithFolderDown());
-  useHotkeys("meta+right, alt+right", () => switchFolderRight());
-  useAltWheelFolderSwitch({
+  const { animationDirection } = useFolderNavigation({
+    folders,
+    activeFolder,
+    setActiveFolder: navigateToFolder,
     orientation: sidebarOrientation,
-    isRtl,
-    activeFolderIndex,
-    foldersCount: folders.length,
-    switchToFolderByIndex,
+    isRtl: dir === "rtl",
   });
 
-  useHotkeys("alt+1", () => switchToFolderByIndex(0));
-  useHotkeys("alt+2", () => switchToFolderByIndex(1));
-  useHotkeys("alt+3", () => switchToFolderByIndex(2));
-  useHotkeys("alt+4", () => switchToFolderByIndex(3));
-  useHotkeys("alt+5", () => switchToFolderByIndex(4));
-  useHotkeys("alt+6", () => switchToFolderByIndex(5));
-  useHotkeys("alt+7", () => switchToFolderByIndex(6));
-  useHotkeys("alt+8", () => switchToFolderByIndex(7));
-  useHotkeys("alt+9", () => switchToFolderByIndex(8));
+  const [showBookmarksBar] = useStorageValue(anoriSchema.showBookmarksBar);
 
   return (
     <DirectionProvider dir={dir}>
@@ -145,7 +98,7 @@ const Start = () => {
                   orientation={sidebarOrientation}
                   bookmarksBarVisible={showBookmarksBar}
                   animationDirection={animationDirection}
-                  onFolderClick={onFolderClick}
+                  onFolderClick={navigateToFolder}
                 />
               </m.div>
             </AnimatePresence>
