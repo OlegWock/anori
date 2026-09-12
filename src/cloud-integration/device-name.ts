@@ -3,8 +3,12 @@ export function getBrowser(): string {
 
   const uaData = (navigator as Navigator & { userAgentData?: NavigatorUAData }).userAgentData;
   if (uaData?.brands) {
-    const dominated = new Set(["Chromium", "Not A(Brand", "Not;A=Brand", "Not_A Brand", "Google Chrome"]);
-    const brand = uaData.brands.find((b) => !dominated.has(b.brand));
+    const genericBrands = new Set(["chromium", "googlechrome"]);
+    const isGenericBrand = (brand: string) => {
+      const normalized = brand.toLowerCase().replace(/[^a-z0-9]/g, "");
+      return normalized === "notabrand" || genericBrands.has(normalized);
+    };
+    const brand = uaData.brands.find((b) => !isGenericBrand(b.brand));
     if (brand) return brand.brand;
     if (uaData.brands.some((b) => b.brand === "Google Chrome")) return "Chrome";
     return "Chromium";
