@@ -6,29 +6,68 @@ import { useSizeSettings } from "@anori/utils/compact";
 import { useDirection } from "@radix-ui/react-direction";
 import * as Menubar from "@radix-ui/react-menubar";
 import { memo } from "react";
-import { css } from "styled-system/css";
+import { css, cva } from "styled-system/css";
 import { VirtualizedBookmarksMenuContent, zIndexFix } from "./BookmarksMenuContent";
+import {
+  useBookmarkDragSource,
+  useBookmarkDropTarget,
+  useDropPlacement,
+  useMergedElementRefs,
+  useSubmenuOpenState,
+} from "./dnd";
 import type { BookmarkType } from "./useBookmarks";
 
-const menuItem = css({
-  padding: "2",
-  borderRadius: "md",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-start",
-  gap: "2",
-  textDecoration: "none",
-  transitionProperty: "background-color",
-  transitionDuration: "0.1s",
-  transitionTimingFunction: "ease-in-out",
-  lineHeight: "tight",
-  fontSize: "sm",
-  userSelect: "none",
-  _hover: { background: "ghost.hover" },
-  "&:focus-visible": { outline: "none", background: "ghost.hover" },
+const rowShell = css({ position: "relative" });
+const menuItem = cva({
+  base: {
+    padding: "2",
+    borderRadius: "md",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: "2",
+    textDecoration: "none",
+    transitionProperty: "background-color, opacity",
+    transitionDuration: "0.1s",
+    transitionTimingFunction: "ease-in-out",
+    lineHeight: "tight",
+    fontSize: "sm",
+    userSelect: "none",
+    _hover: { background: "ghost.hover" },
+    "&:focus-visible": { outline: "none", background: "ghost.hover" },
+    "&[data-dnd-placeholder]": {
+      visibility: "visible!",
+      background: "transparent",
+      boxShadow: "none",
+      outline: "2px dashed token(colors.frosted.strong)",
+      outlineOffset: "-2px",
+    },
+    "&[data-dnd-placeholder] > *": { visibility: "hidden" },
+  },
+  variants: {
+    dragging: { true: { boxShadow: "overlay" } },
+    dropInto: { true: { background: "ghost.hover", boxShadow: "inset 0 0 0 2px token(colors.accent)" } },
+  },
+});
+const dropLine = cva({
+  base: {
+    position: "absolute",
+    insetInline: "1",
+    height: "2px",
+    borderRadius: "full",
+    background: "accent",
+    pointerEvents: "none",
+    zIndex: 1,
+  },
+  variants: {
+    side: {
+      before: { top: "-1px" },
+      after: { bottom: "-1px" },
+    },
+  },
 });
 const content = css({
   flexGrow: 1,
@@ -49,34 +88,47 @@ export const MenuBookmark = memo(function MenuBookmark({
 }) {
   const { rem } = useSizeSettings();
   const dir = useDirection();
+  const { ref: dragRef, isDragging } = useBookmarkDragSource(bm);
+  const dropRef = useBookmarkDropTarget(bm, "menu");
+  const placement = useDropPlacement(bm.id);
+  const [submenuOpen, onSubmenuOpenChange] = useSubmenuOpenState(bm.id);
+  const ref = useMergedElementRefs(dragRef, dropRef);
+  const className = menuItem({ dragging: isDragging, dropInto: placement === "into" });
+  const line = (placement === "before" || placement === "after") && <div className={dropLine({ side: placement })} />;
 
   if (bm.type === "bookmark") {
     return (
-      <Menubar.Item asChild>
-        <Link className={menuItem} href={bm.url}>
-          <div className={content}>
-            <Favicon url={bm.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />
-            {!!bm.title && <span className={title}>{bm.title}</span>}
-          </div>
-        </Link>
-      </Menubar.Item>
+      <div className={rowShell}>
+        <Menubar.Item asChild>
+          <Link ref={ref} className={className} href={bm.url} draggable={false}>
+            <div className={content}>
+              <Favicon url={bm.url} useFaviconApiIfPossible height={rem(1)} width={rem(1)} />
+              {!!bm.title && <span className={title}>{bm.title}</span>}
+            </div>
+          </Link>
+        </Menubar.Item>
+        {line}
+      </div>
     );
   }
   return (
-    <Menubar.Sub>
-      <Menubar.SubTrigger className={menuItem}>
-        <div className={content}>
-          <Icon icon={builtinIcons.folder} size="sm" />
-          <span className={title}>{bm.title}</span>
-        </div>
+    <div className={rowShell}>
+      <Menubar.Sub open={submenuOpen} onOpenChange={onSubmenuOpenChange}>
+        <Menubar.SubTrigger ref={ref} className={className}>
+          <div className={content}>
+            <Icon icon={builtinIcons.folder} size="sm" />
+            <span className={title}>{bm.title}</span>
+          </div>
 
-        <Icon size="sm" icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
-      </Menubar.SubTrigger>
-      <Menubar.Portal>
-        <div className={zIndexFix}>
-          <VirtualizedBookmarksMenuContent bookmarks={bm.items} isSubmenu shiftSubmenu={shiftSubmenu} />
-        </div>
-      </Menubar.Portal>
-    </Menubar.Sub>
+          <Icon size="sm" icon={dir === "ltr" ? builtinIcons.chevronForward : builtinIcons.chevronBack} />
+        </Menubar.SubTrigger>
+        <Menubar.Portal>
+          <div className={zIndexFix}>
+            <VirtualizedBookmarksMenuContent bookmarks={bm.items} isSubmenu shiftSubmenu={shiftSubmenu} />
+          </div>
+        </Menubar.Portal>
+      </Menubar.Sub>
+      {line}
+    </div>
   );
 });

@@ -488,6 +488,7 @@
                 "animatedBackgroundsBody": "カスタムテーマでGIFファイルが使えるようになり、新しいタブの背景をアニメーションにできます。アニメーションを維持するには、ぼかしをゼロに設定してください。",
                 "animatedBackgroundsPixelArt": "ピクセルアートを使用していますか？テーマエディターで'$t(settings.theme.pixelatedBackground)'を有効にすると、すべてのピクセルをくっきり保てます。",
                 "minorWheelSwitching": "Alt（MacではOption）を押しながらマウスホイールまたはトラックパッドでスクロールすると、フォルダを切り替えられます。",
+                "minorBookmarksDnd": "ブックマークバー内のブックマークは、フォルダへの移動や取り出しを含め、ドラッグして並べ替えることができます。",
                 "minorRtlArrows": "右から左へ記述する言語では、左右のフォルダ切り替えショートカットがフォルダの配置方向に合わせて動作するようになりました。",
                 "minorBrowserDetection": "ChromeまたはBraveでAnori Plusにサインインする際のブラウザ検出を改善しました。"
             }

@@ -402,7 +402,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "de": {
         "appName": "55adda81af29",
@@ -803,7 +804,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "es": {
         "appName": "55adda81af29",
@@ -1205,7 +1207,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "fr": {
         "appName": "55adda81af29",
@@ -1607,7 +1610,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "it": {
         "appName": "55adda81af29",
@@ -2009,7 +2013,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "ja": {
         "appName": "55adda81af29",
@@ -2409,7 +2414,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "pt-br": {
         "appName": "55adda81af29",
@@ -2811,7 +2817,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "ru": {
         "appName": "55adda81af29",
@@ -3214,7 +3221,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "th": {
         "appName": "55adda81af29",
@@ -3614,7 +3622,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "tr": {
         "appName": "55adda81af29",
@@ -4015,7 +4024,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "uk": {
         "appName": "55adda81af29",
@@ -4418,7 +4428,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "vi": {
         "appName": "55adda81af29",
@@ -4818,7 +4829,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "zh-cn": {
         "appName": "55adda81af29",
@@ -5218,7 +5230,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "cs": {
         "appName": "55adda81af29",
@@ -5621,7 +5634,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "fil": {
         "appName": "55adda81af29",
@@ -6022,7 +6036,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "hi": {
         "appName": "55adda81af29",
@@ -6423,7 +6438,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "id": {
         "appName": "55adda81af29",
@@ -6823,7 +6839,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "pl": {
         "appName": "55adda81af29",
@@ -7226,7 +7243,8 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     },
     "sk": {
         "appName": "55adda81af29",
@@ -7629,6 +7647,7 @@
         "releaseNotes.v2_2_0.minorBrowserDetection": "92ca0a8aec12",
         "shortcuts.switchFolderWithWheel": "a3f6cb67628b",
         "releaseNotes.v2_2_0.minorWheelSwitching": "71f9554490d5",
-        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904"
+        "releaseNotes.v2_2_0.minorRtlArrows": "d16f5a40b904",
+        "releaseNotes.v2_2_0.minorBookmarksDnd": "af932fd5994c"
     }
 }

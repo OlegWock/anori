@@ -5,6 +5,7 @@ import * as Menubar from "@radix-ui/react-menubar";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef, useState } from "react";
 import { css, cva } from "styled-system/css";
+import { preventDismissDuringDrag } from "./dnd";
 import { MenuBookmark } from "./MenuBookmark";
 import type { BookmarkType } from "./useBookmarks";
 
@@ -86,6 +87,7 @@ export const VirtualizedBookmarksMenuContent = ({
       alignOffset={rem(-0.5)}
       sideOffset={rem(0.75)}
       collisionPadding={10}
+      onInteractOutside={preventDismissDuringDrag}
     >
       {content}
     </Menubar.SubContent>
@@ -96,6 +98,7 @@ export const VirtualizedBookmarksMenuContent = ({
       sideOffset={5}
       alignOffset={-3}
       collisionPadding={10}
+      onInteractOutside={preventDismissDuringDrag}
     >
       {content}
     </Menubar.Content>

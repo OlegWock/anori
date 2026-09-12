@@ -490,6 +490,7 @@
                 "animatedBackgroundsBody": "Los temas personalizados ahora aceptan archivos GIF, por lo que el fondo de tu nueva pestaña puede ser animado. Establece el Desenfoque en cero para mantener la animación.",
                 "animatedBackgroundsPixelArt": "¿Usas pixel art? Activa '$t(settings.theme.pixelatedBackground)' en el editor de temas para mantener cada píxel nítido.",
                 "minorWheelSwitching": "Mantén Alt (Option en Mac) y desplázate con la rueda del ratón o el trackpad para cambiar entre carpetas.",
+                "minorBookmarksDnd": "Los marcadores de la barra de marcadores se pueden reorganizar arrastrándolos, incluyendo moverlos dentro y fuera de carpetas.",
                 "minorRtlArrows": "En idiomas de derecha a izquierda, los atajos de carpeta izquierda y derecha ahora siguen la dirección en que se muestran las carpetas.",
                 "minorBrowserDetection": "Mejor detección del navegador al iniciar sesión en Anori Plus en Chrome o Brave."
             }

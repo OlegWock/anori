@@ -444,6 +444,7 @@
             "animatedBackgroundsBody": "Description of the animated background feature. Informal, second person. 'GIF' stays as is. Established term: blur = '$(settings.theme.blur)' (the blur slider in the theme editor).",
             "animatedBackgroundsPixelArt": "Follow-up paragraph about the new pixel art option. The $t(...) placeholder expands to the checkbox label already translated elsewhere; keep the quotes around it.",
             "minorWheelSwitching": "Minor change entry: new shortcut, holding Alt (Option on Mac) while scrolling switches folders in the sidebar. Established term: folder = '$(settings.folders.title)'.",
+            "minorBookmarksDnd": "Minor change entry: the bookmarks bar at the top of the page now supports drag and drop to reorder bookmarks and move them between folders, like the browser's own bookmarks bar. Established term: the bookmarks bar setting label is '$(settings.general.showBookmarksBar)'; reuse its wording for 'bookmarks bar'.",
             "minorRtlArrows": "Minor change entry: bug fix for the Alt+Left / Alt+Right folder shortcuts, which moved the wrong way when the interface is in a right-to-left language such as Arabic.",
             "minorBrowserDetection": "Minor change entry: bug fix in how the browser name is detected for the device list of the paid Anori Plus service. 'Anori Plus', 'Chrome' and 'Brave' are product names and stay untranslated."
         }

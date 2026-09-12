@@ -488,6 +488,7 @@
                 "animatedBackgroundsBody": "自定义主题现已支持 GIF 文件，让你的新标签页背景动起来。将模糊设为零以保留动画效果。",
                 "animatedBackgroundsPixelArt": "使用像素艺术？在主题编辑器中启用\"$t(settings.theme.pixelatedBackground)\"，让每个像素都保持清晰。",
                 "minorWheelSwitching": "按住 Alt（Mac 上为 Option）并滚动鼠标滚轮或触控板以在目录之间切换。",
+                "minorBookmarksDnd": "书签栏中的书签可以通过拖拽重新排列，包括将其移入或移出文件夹。",
                 "minorRtlArrows": "在从右到左的语言中，切换目录的左右快捷键现在会按照目录的排列方向操作。",
                 "minorBrowserDetection": "改进了在 Chrome 或 Brave 中登录 Anori Plus 时的浏览器检测。"
             }

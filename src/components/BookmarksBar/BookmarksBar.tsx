@@ -1,6 +1,7 @@
 import { RequirePermissions } from "@anori/design-system/components/RequirePermissions/RequirePermissions";
 import { ScrollArea } from "@anori/design-system/components/ScrollArea/ScrollArea";
 import { useSizeSettings } from "@anori/utils/compact";
+import { useWidgetDragActive } from "@anori/utils/dnd";
 import { usePermissionsQuery } from "@anori/utils/permissions";
 import { useDirection } from "@radix-ui/react-direction";
 import * as Menubar from "@radix-ui/react-menubar";
@@ -8,7 +9,8 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { memo, useRef } from "react";
 import { css, cva, cx } from "styled-system/css";
 import { Bookmark } from "./Bookmark";
-import { useBookmarks } from "./useBookmarks";
+import { useBookmarksBarDnd, useDropPlacement } from "./dnd";
+import { type BookmarkType, useBookmarks } from "./useBookmarks";
 
 const container = cva({
   base: {
@@ -32,14 +34,57 @@ const container = cva({
 
 const bookmarks = css({ display: "flex", alignItems: "flex-start", gap: "4", flexGrow: 1, overflow: "hidden" });
 const barWrapper = css({ flex: 1, overflow: "hidden", paddingBottom: "2" });
+const lockedViewport = css({ overflowX: "hidden!" });
 const barInner = css({ display: "flex", gap: "3", width: "fit-content" });
-const barItem = css({ display: "flex", flexShrink: 0 });
+const barItem = css({ display: "flex", flexShrink: 0, position: "relative" });
+const dropLine = cva({
+  base: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    width: "4px",
+    borderRadius: "full",
+    background: "accent",
+    pointerEvents: "none",
+  },
+  variants: {
+    side: {
+      before: { insetInlineStart: "calc(-1 * token(spacing.3) / 2 - 1px)" },
+      after: { insetInlineEnd: "calc(-1 * token(spacing.3) / 2 - 1px)" },
+    },
+  },
+});
 const placeholder = css({ height: "2.08rem" });
 
-const BookmarksBarComponent = memo(function BookmarksBarComponent() {
-  const [bar, other] = useBookmarks();
-  const dir = useDirection();
+const BarItem = memo(function BarItem({
+  bookmark,
+  index,
+  measureRef,
+}: {
+  bookmark: BookmarkType;
+  index: number;
+  measureRef: (element: HTMLDivElement | null) => void;
+}) {
+  const placement = useDropPlacement(bookmark.id);
+  return (
+    <div className={barItem} data-index={index} ref={measureRef}>
+      <Bookmark bookmark={bookmark} />
+      {(placement === "before" || placement === "after") && <div className={dropLine({ side: placement })} />}
+    </div>
+  );
+});
 
+const BookmarksBarComponent = memo(function BookmarksBarComponent() {
+  const { bar, other, byId, moveBookmarkLocally, reload } = useBookmarks();
+  const dir = useDirection();
+  const { menubarValue, onMenubarValueChange } = useBookmarksBarDnd({
+    bookmarksById: byId,
+    isRtl: dir === "rtl",
+    moveBookmarkLocally,
+    reload,
+  });
+
+  const widgetDragActive = useWidgetDragActive();
   const { rem } = useSizeSettings();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const virtualizer = useVirtualizer({
@@ -55,7 +100,7 @@ const BookmarksBarComponent = memo(function BookmarksBarComponent() {
   const firstItemOffset = virtualizedItems[0]?.start ?? 0;
 
   return (
-    <Menubar.Root className={bookmarks} dir={dir}>
+    <Menubar.Root className={bookmarks} dir={dir} value={menubarValue} onValueChange={onMenubarValueChange}>
       {bar.length === 0 && !other && <div className={placeholder} />}
 
       <ScrollArea
@@ -63,6 +108,7 @@ const BookmarksBarComponent = memo(function BookmarksBarComponent() {
         direction="horizontal"
         size="thin"
         className={barWrapper}
+        viewportClassName={widgetDragActive ? lockedViewport : undefined}
         mirrorVerticalScrollToHorizontal
         viewportRef={scrollAreaRef}
       >
@@ -71,15 +117,13 @@ const BookmarksBarComponent = memo(function BookmarksBarComponent() {
             {virtualizedItems.map((virtualItem) => {
               const bm = bar[virtualItem.index];
               return (
-                <div className={barItem} data-index={virtualItem.index} ref={virtualizer.measureElement} key={bm.id}>
-                  <Bookmark bookmark={bm} />
-                </div>
+                <BarItem key={bm.id} bookmark={bm} index={virtualItem.index} measureRef={virtualizer.measureElement} />
               );
             })}
           </div>
         </div>
       </ScrollArea>
-      {!!other && <Bookmark bookmark={other} fullWidth />}
+      {!!other && <Bookmark bookmark={other} fullWidth isRoot />}
     </Menubar.Root>
   );
 });

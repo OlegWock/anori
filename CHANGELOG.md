@@ -5,6 +5,7 @@
 - **New.** Custom themes accept animated GIF backgrounds. Set blur to zero to keep the animation.
 - **New.** Custom themes gained a "Sharp pixel scaling" option that turns off the browser's image smoothing, so pixel art backgrounds stay crisp.
 - **New.** Hold Alt and scroll with the mouse wheel or trackpad to switch between folders. A longer scroll skips several folders at once.
+- **New.** Bookmarks in the bookmarks bar can be rearranged by dragging, including moving them into and out of folders.
 - **Fixed.** In right-to-left languages, the left and right folder shortcuts now follow the direction the folders are laid out in.
 - **Fixed.** Better browser detection when signing into Anori Plus in Chrome or Brave.
 

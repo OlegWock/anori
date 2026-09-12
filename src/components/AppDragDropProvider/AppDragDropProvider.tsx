@@ -1,5 +1,5 @@
 import type { WidgetDragData } from "@anori/utils/dnd";
-import { Feedback } from "@dnd-kit/dom";
+import { AutoScroller, Feedback } from "@dnd-kit/dom";
 import { DragDropProvider } from "@dnd-kit/react";
 import type { ReactNode } from "react";
 import { flushSync } from "react-dom";
@@ -10,6 +10,7 @@ export const AppDragDropProvider = ({ children }: { children: ReactNode }) => {
       plugins={(defaults) => [
         ...defaults,
         Feedback.configure({ dropAnimation: { duration: 150, easing: "ease-out" } }),
+        AutoScroller.configure({ threshold: { x: 0.08, y: 0.1 } }),
       ]}
       onDragEnd={(event) => {
         const { source, target } = event.operation;

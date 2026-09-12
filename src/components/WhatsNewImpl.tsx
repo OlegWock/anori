@@ -13,6 +13,7 @@ const RELEASE = "releaseNotes.v2_2_0";
 
 const MINOR_CHANGES = [
   { tag: "tagNew", key: "minorWheelSwitching" },
+  { tag: "tagNew", key: "minorBookmarksDnd" },
   { tag: "tagFixed", key: "minorRtlArrows" },
   { tag: "tagFixed", key: "minorBrowserDetection" },
 ] as const;

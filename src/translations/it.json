@@ -490,6 +490,7 @@
                 "animatedBackgroundsBody": "I temi personalizzati ora accettano file GIF, quindi lo sfondo della nuova scheda può essere animato. Imposta la Sfocatura a zero per mantenere l'animazione.",
                 "animatedBackgroundsPixelArt": "Usi la pixel art? Abilita '$t(settings.theme.pixelatedBackground)' nell'editor dei temi per mantenere ogni pixel nitido.",
                 "minorWheelSwitching": "Tieni premuto Alt (Option su Mac) e scorri con la rotella del mouse o il trackpad per passare tra le cartelle.",
+                "minorBookmarksDnd": "I segnalibri nella barra segnalibri possono essere riorganizzati trascinandoli, incluso lo spostamento all'interno e all'esterno delle cartelle.",
                 "minorRtlArrows": "Nelle lingue da destra a sinistra, le scorciatoie per le cartelle sinistra e destra seguono ora la direzione in cui le cartelle sono disposte.",
                 "minorBrowserDetection": "Migliore rilevamento del browser durante l'accesso ad Anori Plus in Chrome o Brave."
             }

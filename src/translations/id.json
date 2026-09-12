@@ -488,6 +488,7 @@
                 "animatedBackgroundsBody": "Tema kustom kini menerima file GIF, sehingga latar belakang tab baru kamu bisa dianimasikan. Atur Blur ke nol untuk menjaga animasi tetap berjalan.",
                 "animatedBackgroundsPixelArt": "Menggunakan pixel art? Aktifkan '$t(settings.theme.pixelatedBackground)' di editor tema untuk menjaga setiap piksel tetap tajam.",
                 "minorWheelSwitching": "Tahan Alt (Option di Mac) dan gulir dengan roda mouse atau trackpad untuk beralih antar folder.",
+                "minorBookmarksDnd": "Bookmark di bilah bookmark dapat disusun ulang dengan menyeret, termasuk memindahkannya ke dalam dan keluar dari folder.",
                 "minorRtlArrows": "Pada bahasa kanan-ke-kiri, pintasan folder kiri dan kanan kini mengikuti arah tata letak folder.",
                 "minorBrowserDetection": "Deteksi browser yang lebih baik saat masuk ke Anori Plus di Chrome atau Brave."
             }

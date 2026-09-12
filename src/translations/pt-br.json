@@ -490,6 +490,7 @@
                 "animatedBackgroundsBody": "Os temas personalizados agora aceitam arquivos GIF, então o plano de fundo da sua nova aba pode ser animado. Defina o Desfoque como zero para manter a animação.",
                 "animatedBackgroundsPixelArt": "Usando pixel art? Ative '$t(settings.theme.pixelatedBackground)' no editor de temas para manter cada pixel nítido.",
                 "minorWheelSwitching": "Segure Alt (Option no Mac) e role com a roda do mouse ou trackpad para alternar entre pastas.",
+                "minorBookmarksDnd": "Os favoritos na barra de favoritos podem ser reorganizados arrastando, incluindo movê-los para dentro e fora de pastas.",
                 "minorRtlArrows": "Em idiomas da direita para a esquerda, os atalhos de pasta para esquerda e direita agora seguem a direção em que as pastas estão dispostas.",
                 "minorBrowserDetection": "Melhor detecção de navegador ao fazer login no Anori Plus no Chrome ou Brave."
             }
