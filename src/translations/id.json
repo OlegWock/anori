@@ -191,6 +191,8 @@
                 "colorScheme": "Skema warna",
                 "previewColorScheme": "Skema warna pratinjau",
                 "hideDotPattern": "Sembunyikan pola titik",
+                "pixelatedBackground": "Penskalaan piksel tajam",
+                "pixelatedBackgroundHint": "Menonaktifkan penghalusan gambar yang diterapkan browser saat menskalakan latar belakang. Direkomendasikan untuk pixel art.",
                 "colorSchemeSystem": "Sistem",
                 "colorSchemeLight": "Terang",
                 "colorSchemeDark": "Gelap"
@@ -479,22 +481,12 @@
             "tagImproved": "Ditingkatkan",
             "tagFixed": "Diperbaiki",
             "changelogNote": "Mencari changelog untuk versi lama? Anda dapat menemukannya <0>di GitHub</0>.",
-            "v2_1_0": {
-                "headline": "Kini hadir dengan plugin $t(tabs-plugin.name) yang diperluas. Simpan tautan yang ingin Anda kunjungi kembali, dan lanjutkan tab yang Anda tinggalkan di perangkat lain.",
-                "stashTitle": "Simpanan tab",
-                "stashBody": "Gunakan widget ini untuk menyimpan tautan yang ingin Anda kunjungi kembali nanti. Simpan di tab baru Anda agar Anda benar-benar mengingatnya. Tab dapat disimpan dari widget itu sendiri atau dari jendela popup Anori yang baru, cukup klik ikon Anori di toolbar ekstensi.",
-                "stashSync": "Dengan Anori Plus, simpanan Anda dibagikan ke setiap browser yang Anda masuki, dan ke semua profil.",
-                "syncedTabsTitle": "Tab tersinkron",
-                "syncedTabsBody": "Lihat apa yang terbuka di perangkat lain Anda, dan lanjutkan dengan mudah dari tempat Anda berhenti di perangkat sebelumnya. Harap diperhatikan bahwa fitur ini memerlukan Anori Plus dan persetujuan eksplisit di pengaturan.",
-                "minorPopup": "Mengklik ikon Anori di toolbar kini membuka popup, bukan sekadar membuka tab baru.",
-                "minorDevices": "Pengaturan kini memiliki bagian Perangkat, di mana Anda dapat melihat semua yang masuk ke akun Anori Plus Anda, serta mengganti nama atau menghapusnya.",
-                "minorTabsPlugin": "Widget $t(recently-closed-plugin.name) digabungkan ke dalam plugin $t(tabs-plugin.name) baru bersama dua widget di atas, dan kini dapat diubah ukurannya menjadi lebih tinggi dari sebelumnya.",
-                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast), dan $t(recently-closed-plugin.name) kini berbagi satu tata letak header, sehingga judul dan tombol mereka sejajar berdampingan.",
-                "minorPlurals": "Bahasa yang diterjemahkan kini menggunakan bentuk jamak yang benar, bukan meminjam aturan satu-atau-banyak dari bahasa Inggris.",
-                "minorWhatsNew": "Layar yang sedang Anda baca telah didesain ulang, dan catatan untuk versi lama dipindahkan dari ekstensi ke changelog di GitHub.",
-                "minorTranslatedNotes": "Catatan rilis kini diterjemahkan ke setiap bahasa yang didukung Anori, bukan hanya dalam bahasa Inggris.",
-                "minorBackground": "Gambar latar belakang tetap berada di tengah saat Anda mengubah ukuran jendela browser, bukan terpotong dari kanan dan bawah.",
-                "minorFirefoxPermission": "Di Firefox, prompt izin tidak lagi tersembunyi di balik popup toolbar."
+            "v2_2_0": {
+                "headline": "Tema kustom kini mendukung latar belakang GIF animasi dan pixel art.",
+                "animatedBackgroundsTitle": "Latar belakang animasi",
+                "animatedBackgroundsBody": "Tema kustom kini menerima file GIF, sehingga latar belakang tab baru kamu bisa dianimasikan. Atur Blur ke nol untuk menjaga animasi tetap berjalan.",
+                "animatedBackgroundsPixelArt": "Menggunakan pixel art? Aktifkan '$t(settings.theme.pixelatedBackground)' di editor tema untuk menjaga setiap piksel tetap tajam.",
+                "minorBrowserDetection": "Deteksi browser yang lebih baik saat masuk ke Anori Plus di Chrome atau Brave."
             }
         }
     }

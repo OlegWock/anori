@@ -1,7 +1,7 @@
 import { buildPalette, type Gamut, type Mode } from "@anori/design-system/color-engine";
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconButton } from "@anori/design-system/components/IconButton/IconButton";
-import { getThemeBackground, type Theme } from "@anori/utils/user-data/theme";
+import { getDisplayedBackgroundVariant, getThemeBackground, type Theme } from "@anori/utils/user-data/theme";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css, cva, cx } from "styled-system/css";
@@ -72,7 +72,7 @@ export const ThemePlate = ({
   useEffect(() => {
     if (theme.type !== "custom") return;
     let objectUrl: string | null = null;
-    getThemeBackground(theme.name).then((blob) => {
+    getThemeBackground(theme.name, getDisplayedBackgroundVariant(theme)).then((blob) => {
       objectUrl = URL.createObjectURL(blob);
       setCustomBackgroundUrl(objectUrl);
     });

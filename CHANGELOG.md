@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+- **New.** Custom themes accept animated GIF backgrounds. Set blur to zero to keep the animation.
+- **New.** Custom themes gained a "Sharp pixel scaling" option that turns off the browser's image smoothing, so pixel art backgrounds stay crisp.
+- **Fixed.** Better browser detection when signing into Anori Plus in Chrome or Brave.
+
 ## 2.1.0
 
 - **New.** Tab stash widget. Use it to store the links you mean to get back to later, and keep them on your new tab so you'll actually remember them. A tab can be stashed from the widget itself or from the new Anori popup window — just click the Anori icon in the extension's toolbar. With Anori Plus your stash is shared across every browser you're signed into, and across all profiles.

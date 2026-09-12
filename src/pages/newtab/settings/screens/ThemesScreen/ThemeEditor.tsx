@@ -3,9 +3,11 @@ import { Button as DSButton } from "@anori/design-system/components/Button/Butto
 import { Checkbox } from "@anori/design-system/components/Checkbox/Checkbox";
 import { Field } from "@anori/design-system/components/Field/Field";
 import { Heading } from "@anori/design-system/components/Heading/Heading";
+import { Hint } from "@anori/design-system/components/Hint/Hint";
 import { HueChromaPicker } from "@anori/design-system/components/HueChromaPicker/HueChromaPicker";
 import { Select } from "@anori/design-system/components/Select/Select";
 import { Slider } from "@anori/design-system/components/Slider/Slider";
+import { assertValue } from "@anori/utils/asserts";
 import { showOpenFilePicker } from "@anori/utils/files";
 import { useMirrorStateToRef, useRunAfterNextRender } from "@anori/utils/hooks";
 import { guid } from "@anori/utils/misc";
@@ -47,20 +49,39 @@ const previewImage = css({ position: "absolute", backgroundSize: "cover", backgr
 const backgroundSection = css({ display: "flex", flexDirection: "column", gap: "2" });
 const editorActions = css({ display: "flex", justifyContent: "flex-end", gap: "3" });
 
+const captureStillFrame = async (image: Blob): Promise<Blob> => {
+  const bitmap = await createImageBitmap(image);
+  const canvas = document.createElement("canvas");
+  canvas.width = bitmap.width;
+  canvas.height = bitmap.height;
+  const ctx = canvas.getContext("2d");
+  assertValue(ctx, "couldn't get 2D context from canvas");
+  ctx.drawImage(bitmap, 0, 0);
+  bitmap.close();
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("couldn't export still frame"))), "image/png");
+  });
+};
+
 export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: CustomTheme; onClose: VoidFunction }) => {
   const loadBackground = async () => {
-    const files = await showOpenFilePicker(false, ".jpg,.jpeg,.png");
+    const files = await showOpenFilePicker(false, ".jpg,.jpeg,.png,.gif");
     if (!files[0]) return;
     const background = files[0];
-    originalBackgroundBlob.current = background;
     backgroundPickedRef.current = true;
-    setOriginalUrl(URL.createObjectURL(background));
+    setOriginalBackground(background);
     applyBlur(theme.blur);
   };
 
   const applyBlur = useCallback((blur: number) => {
     if (!originalBackgroundBlob.current) return;
     const bgUrl = URL.createObjectURL(originalBackgroundBlob.current);
+    if (blur === 0) {
+      blurredBackgroundBlob.current = originalBackgroundBlob.current;
+      setBackgroundUrl(bgUrl);
+      setPageBackground(bgUrl);
+      return;
+    }
     const img = new Image();
     img.src = bgUrl;
     img.onload = () => {
@@ -119,6 +140,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
       blur: theme.blur,
       accent: theme.accent,
       hideDotPattern: theme.hideDotPattern,
+      pixelatedBackground: theme.pixelatedBackground,
     };
     const storage = await getAnoriStorage();
     let customThemes = storage.get(anoriSchema.customThemes);
@@ -168,9 +190,8 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
       try {
         const original = await getThemeBackgroundOriginal(theme.name);
         const blurred = await getThemeBackground(theme.name);
-        originalBackgroundBlob.current = original;
         blurredBackgroundBlob.current = blurred;
-        setOriginalUrl(URL.createObjectURL(original));
+        setOriginalBackground(original);
         applyBlur(theme.blur);
       } catch (err) {
         console.log("Error while trying to load background", err);
@@ -192,6 +213,19 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
   useEffect(() => {
     return () => (originalUrl ? URL.revokeObjectURL(originalUrl) : undefined);
   }, [originalUrl]);
+  const [stillFrameUrl, setStillFrameUrl] = useState<string | null>(null);
+  useEffect(() => {
+    return () => (stillFrameUrl ? URL.revokeObjectURL(stillFrameUrl) : undefined);
+  }, [stillFrameUrl]);
+
+  const setOriginalBackground = (background: Blob) => {
+    originalBackgroundBlob.current = background;
+    setOriginalUrl(URL.createObjectURL(background));
+    setStillFrameUrl(null);
+    captureStillFrame(background)
+      .then((frame) => setStillFrameUrl(URL.createObjectURL(frame)))
+      .catch((err) => console.log("Error while capturing still frame of background", err));
+  };
 
   // The preview box is far smaller than the full-screen background, so the same px blur reads much
   // stronger here than the baked image does behind the page. Scale the live CSS blur by the box's
@@ -251,8 +285,9 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
                 className={previewImage}
                 style={{
                   inset: `-${previewBlur * 2}px`,
-                  backgroundImage: `url(${originalUrl})`,
+                  backgroundImage: `url(${theme.blur > 0 && stillFrameUrl ? stillFrameUrl : originalUrl})`,
                   filter: `blur(${previewBlur}px)`,
+                  imageRendering: theme.pixelatedBackground ? "pixelated" : undefined,
                 }}
               />
             )}
@@ -293,6 +328,16 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
         }}
       >
         {t("settings.theme.hideDotPattern")}
+      </Checkbox>
+
+      <Checkbox
+        checked={!!theme.pixelatedBackground}
+        onChange={(v) => {
+          setTheme((p) => ({ ...p, pixelatedBackground: v }));
+          applyThemeDecorations({ ...theme, pixelatedBackground: v });
+        }}
+      >
+        {t("settings.theme.pixelatedBackground")} <Hint content={t("settings.theme.pixelatedBackgroundHint")} />
       </Checkbox>
 
       <div className={editorActions}>

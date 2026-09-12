@@ -191,6 +191,8 @@
                 "colorScheme": "Esquema de cores",
                 "previewColorScheme": "Esquema de cores da pré-visualização",
                 "hideDotPattern": "Ocultar padrão de pontos",
+                "pixelatedBackground": "Escalonamento de pixel nítido",
+                "pixelatedBackgroundHint": "Desativa o suavizamento de imagem que os navegadores aplicam ao redimensionar o plano de fundo. Recomendado para pixel art.",
                 "colorSchemeSystem": "Sistema",
                 "colorSchemeLight": "Claro",
                 "colorSchemeDark": "Escuro"
@@ -481,22 +483,12 @@
             "tagImproved": "Melhorado",
             "tagFixed": "Corrigido",
             "changelogNote": "Procurando o changelog de versões anteriores? Você pode encontrá-lo <0>no GitHub</0>.",
-            "v2_1_0": {
-                "headline": "Agora com o plugin de $t(tabs-plugin.name) expandido. Guarde os links aos quais você quer voltar e retome as abas que deixou abertas em outro dispositivo.",
-                "stashTitle": "Stash de abas",
-                "stashBody": "Use este widget para guardar os links aos quais você quer voltar mais tarde. Mantenha-os na sua nova aba para não esquecê-los. Uma aba pode ser guardada no stash pelo próprio widget ou pela nova janela popup do Anori — basta clicar no ícone do Anori na barra de ferramentas da extensão.",
-                "stashSync": "Com o Anori Plus, seu stash é compartilhado em todos os navegadores nos quais você está conectado e em todos os perfis.",
-                "syncedTabsTitle": "Abas sincronizadas",
-                "syncedTabsBody": "Veja o que está aberto nos seus outros dispositivos e retome de onde parou com facilidade. Observe que este recurso requer o Anori Plus e uma ativação explícita nas configurações.",
-                "minorPopup": "Clicar no ícone do Anori na barra de ferramentas agora abre um popup em vez de apenas abrir uma nova aba.",
-                "minorDevices": "Configurações ganhou uma seção Dispositivos, onde você pode ver tudo que está conectado à sua conta do Anori Plus, além de renomear ou remover dispositivos.",
-                "minorTabsPlugin": "O widget $t(recently-closed-plugin.name) foi incorporado a um novo plugin $t(tabs-plugin.name) junto com os dois widgets acima, e agora pode ser redimensionado para uma altura maior do que antes.",
-                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) e $t(recently-closed-plugin.name) agora compartilham um layout de cabeçalho único, de modo que seus títulos e botões ficam alinhados lado a lado.",
-                "minorPlurals": "Os idiomas traduzidos agora usam as formas plurais corretas, em vez de seguir a regra de singular ou plural do inglês.",
-                "minorWhatsNew": "A tela que você está lendo foi redesenhada, e as notas de versões anteriores foram movidas da extensão para um changelog no GitHub.",
-                "minorTranslatedNotes": "As notas de versão agora são traduzidas para todos os idiomas suportados pelo Anori, em vez de serem exibidas apenas em inglês.",
-                "minorBackground": "As imagens de fundo permanecem centralizadas ao redimensionar a janela do navegador, em vez de serem cortadas pela direita e pela parte inferior.",
-                "minorFirefoxPermission": "No Firefox, a solicitação de permissão não fica mais oculta atrás do popup da barra de ferramentas."
+            "v2_2_0": {
+                "headline": "Os temas personalizados agora suportam planos de fundo em GIF animado e pixel art.",
+                "animatedBackgroundsTitle": "Planos de fundo animados",
+                "animatedBackgroundsBody": "Os temas personalizados agora aceitam arquivos GIF, então o plano de fundo da sua nova aba pode ser animado. Defina o Desfoque como zero para manter a animação.",
+                "animatedBackgroundsPixelArt": "Usando pixel art? Ative '$t(settings.theme.pixelatedBackground)' no editor de temas para manter cada pixel nítido.",
+                "minorBrowserDetection": "Melhor detecção de navegador ao fazer login no Anori Plus no Chrome ou Brave."
             }
         }
     }

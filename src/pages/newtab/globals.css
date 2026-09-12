@@ -43,6 +43,14 @@ html.theme-hide-dot-pattern #root::before {
   display: none;
 }
 
+html.theme-pixelated-background body {
+  image-rendering: pixelated;
+}
+
+html.theme-pixelated-background #root {
+  image-rendering: auto;
+}
+
 .loading-cover {
   position: fixed;
   inset: 0;

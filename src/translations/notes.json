@@ -155,7 +155,9 @@
             "colorText": "Label for the text color picker in the custom theme editor.",
             "colorCode": "Label for the hex color code input in the color picker.",
             "previewColorScheme": "Label for a dropdown in the custom theme editor that switches the live preview between light and dark mode without changing the user setting",
-            "hideDotPattern": "Checkbox in the custom theme editor; when checked, the decorative dot pattern overlaid on the page background is not rendered"
+            "hideDotPattern": "Checkbox in the custom theme editor; when checked, the decorative dot pattern overlaid on the page background is not rendered",
+            "pixelatedBackground": "Checkbox in the custom theme editor; when checked, the background image is upscaled with nearest-neighbor (no smoothing), intended for pixel art. 'Pixel' here refers to image pixels.",
+            "pixelatedBackgroundHint": "Help tooltip next to the '$(settings.theme.pixelatedBackground)' checkbox explaining when to enable it (pixel art) and when to keep it off (photos)."
         },
         "importExport": {
             "title": "Title of the Import & export tab in Settings.",
@@ -435,22 +437,12 @@
         "tagImproved": "Short badge label before a change in the What's new list, marking an improvement to something that already existed. Keep it to one word if possible.",
         "tagFixed": "Short badge label before a change in the What's new list, marking a bug fix. Keep it to one word if possible.",
         "changelogNote": "Muted footnote at the bottom of the What's new modal. <0>...</0> wraps the link text pointing to the changelog file on GitHub; keep the tags around whatever words become the link in the target language.",
-        "v2_1_0": {
-            "headline": "One-sentence summary of release 2.1.0, shown large on an accent-coloured banner in the What's new modal. Informal, addresses the user directly. The $t(...) placeholder expands to the Tabs plugin name already translated elsewhere.",
-            "stashTitle": "Name of the Tab stash widget, used as a card heading. Keep it consistent with the widget name elsewhere in the app.",
-            "stashBody": "Description of the Tab stash feature in the What's new modal. Informal, second person.",
-            "stashSync": "Follow-up sentence about Tab stash syncing via the paid Anori Plus service. 'Anori Plus' is a product name and stays untranslated.",
-            "syncedTabsTitle": "Name of the Synced tabs widget, used as a card heading. Keep it consistent with the widget name elsewhere in the app.",
-            "syncedTabsBody": "Description of the Synced tabs feature in the What's new modal. 'Anori Plus' is a product name and stays untranslated. Established term: settings = '$(settings.title)'.",
-            "minorPopup": "Minor change entry: the browser toolbar button now opens a small popup window.",
-            "minorDevices": "Minor change entry: a Devices section was added to Settings. 'Anori Plus' is a product name and stays untranslated. Established terms: Settings = '$(settings.title)', Devices = '$(cloud.devices.title)'.",
-            "minorTabsPlugin": "Minor change entry: the Recently closed tabs widget moved under a new Tabs plugin and can be made taller. The $t(...) placeholders expand to the widget name and the plugin name already translated elsewhere.",
-            "minorWidgetHeaders": "Minor change entry: several widgets now share one header layout. Each $t(...) placeholder expands to a widget name already translated elsewhere; keep them as a list and adapt only the words around them.",
-            "minorPlurals": "Minor change entry: translations now use the target language's own plural rules.",
-            "minorWhatsNew": "Minor change entry: this What's new screen was redesigned and older release notes moved to GitHub.",
-            "minorTranslatedNotes": "Minor change entry: the What's new release notes themselves are now machine-translated like the rest of the interface, rather than shown in English to everyone.",
-            "minorBackground": "Minor change entry: bug fix for wallpaper cropping when the window is resized.",
-            "minorFirefoxPermission": "Minor change entry: bug fix for a Firefox permission prompt appearing behind the toolbar popup."
+        "v2_2_0": {
+            "headline": "One-sentence summary of release 2.2.0, shown large on an accent-coloured banner in the What's new modal. Informal, addresses the user directly. 'GIF' is a file format name and stays as is.",
+            "animatedBackgroundsTitle": "Card heading in the What's new modal for the feature that lets custom theme backgrounds be animated GIF files.",
+            "animatedBackgroundsBody": "Description of the animated background feature. Informal, second person. 'GIF' stays as is. Established term: blur = '$(settings.theme.blur)' (the blur slider in the theme editor).",
+            "animatedBackgroundsPixelArt": "Follow-up paragraph about the new pixel art option. The $t(...) placeholder expands to the checkbox label already translated elsewhere; keep the quotes around it.",
+            "minorBrowserDetection": "Minor change entry: bug fix in how the browser name is detected for the device list of the paid Anori Plus service. 'Anori Plus', 'Chrome' and 'Brave' are product names and stay untranslated."
         }
     }
 }

@@ -8,20 +8,10 @@ import { Trans, useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 
 const CHANGELOG_URL = "https://github.com/OlegWock/anori/blob/master/CHANGELOG.md";
-const CURRENT_VERSION = "2.1.0";
-const RELEASE = "releaseNotes.v2_1_0";
+const CURRENT_VERSION = "2.2.0";
+const RELEASE = "releaseNotes.v2_2_0";
 
-const MINOR_CHANGES = [
-  { tag: "tagNew", key: "minorPopup" },
-  { tag: "tagNew", key: "minorDevices" },
-  { tag: "tagImproved", key: "minorTabsPlugin" },
-  { tag: "tagImproved", key: "minorWidgetHeaders" },
-  { tag: "tagImproved", key: "minorPlurals" },
-  { tag: "tagImproved", key: "minorWhatsNew" },
-  { tag: "tagImproved", key: "minorTranslatedNotes" },
-  { tag: "tagFixed", key: "minorBackground" },
-  { tag: "tagFixed", key: "minorFirefoxPermission" },
-] as const;
+const MINOR_CHANGES = [{ tag: "tagFixed", key: "minorBrowserDetection" }] as const;
 
 const whatsNew = css({ maxWidth: "600px", overflow: "hidden", display: "flex", flexDirection: "column", minHeight: 0 });
 
@@ -126,13 +116,9 @@ export const WhatsNewImpl = () => {
             <div className={heroHeadline}>{t(`${RELEASE}.headline`)}</div>
           </div>
 
-          <Feature icon={builtinIcons.archive} title={t(`${RELEASE}.stashTitle`)}>
-            <p>{t(`${RELEASE}.stashBody`)}</p>
-            <p>{t(`${RELEASE}.stashSync`)}</p>
-          </Feature>
-
-          <Feature icon={builtinIcons.tabsFill} title={t(`${RELEASE}.syncedTabsTitle`)}>
-            <p>{t(`${RELEASE}.syncedTabsBody`)}</p>
+          <Feature icon={builtinIcons.picture} title={t(`${RELEASE}.animatedBackgroundsTitle`)}>
+            <p>{t(`${RELEASE}.animatedBackgroundsBody`)}</p>
+            <p>{t(`${RELEASE}.animatedBackgroundsPixelArt`)}</p>
           </Feature>
 
           <Feature icon={builtinIcons.checklist} title={t("releaseNotes.alsoInThisRelease")}>

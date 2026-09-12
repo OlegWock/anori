@@ -191,6 +191,8 @@
                 "colorScheme": "カラースキーム",
                 "previewColorScheme": "プレビューのカラースキーム",
                 "hideDotPattern": "ドットパターンを非表示",
+                "pixelatedBackground": "シャープなピクセルスケーリング",
+                "pixelatedBackgroundHint": "背景を拡大縮小する際にブラウザが適用する画像スムージングを無効にします。ピクセルアートに推奨します。",
                 "colorSchemeSystem": "システム",
                 "colorSchemeLight": "ライト",
                 "colorSchemeDark": "ダーク"
@@ -479,22 +481,12 @@
             "tagImproved": "改善",
             "tagFixed": "修正",
             "changelogNote": "旧バージョンの変更履歴をお探しですか？<0>GitHub</0>でご確認いただけます。",
-            "v2_1_0": {
-                "headline": "拡張された$t(tabs-plugin.name)プラグインが登場。後で戻りたいリンクを保存し、別のデバイスで開いたままのタブを引き継げます。",
-                "stashTitle": "タブスタッシュ",
-                "stashBody": "後で戻りたいリンクを保存するためのウィジェットです。新しいタブに表示しておけば、忘れずに済みます。タブはウィジェット自体から、または新しい Anori ポップアップウィンドウからスタッシュできます。拡張機能のツールバーにある Anori アイコンをクリックしてください。",
-                "stashSync": "Anori Plus をご利用の場合、スタッシュはサインイン済みのすべてのブラウザおよびすべてのプロファイルで共有されます。",
-                "syncedTabsTitle": "同期済みタブ",
-                "syncedTabsBody": "他のデバイスで開いているタブを確認し、前のデバイスの続きをスムーズに再開できます。この機能は Anori Plus が必要で、設定で明示的に有効にする必要があります。",
-                "minorPopup": "ツールバーの Anori アイコンをクリックすると、新しいタブを開く代わりにポップアップが表示されるようになりました。",
-                "minorDevices": "設定にデバイスセクションが追加され、Anori Plus アカウントにサインインしているすべてのデバイスを確認したり、名前の変更や削除ができるようになりました。",
-                "minorTabsPlugin": "$t(recently-closed-plugin.name)ウィジェットが、上記の2つのウィジェットとともに新しい$t(tabs-plugin.name)プラグインに統合され、以前より縦に大きくリサイズできるようになりました。",
-                "minorWidgetHeaders": "$t(tasks-plugin.name)、$t(notes-plugin.name)、$t(rss-plugin.widgetFeedName)、$t(weather-plugin.weatherForecast)、$t(recently-closed-plugin.name)が共通のヘッダーレイアウトを使用するようになり、タイトルとボタンが横並びに揃うようになりました。",
-                "minorPlurals": "翻訳済みの言語で、英語の単数・複数ルールを借用する代わりに、各言語固有の複数形が使用されるようになりました。",
-                "minorWhatsNew": "現在ご覧の画面がリデザインされ、旧バージョンのリリースノートは拡張機能から GitHub の変更履歴に移動しました。",
-                "minorTranslatedNotes": "リリースノートが、英語のみの表示ではなく、Anori がサポートするすべての言語に翻訳されるようになりました。",
-                "minorBackground": "ブラウザウィンドウのサイズを変更したとき、背景画像が右端や下端で切れる代わりに中央に維持されるようになりました。",
-                "minorFirefoxPermission": "Firefox で、権限の確認ダイアログがツールバーのポップアップの後ろに隠れたままになる問題が修正されました。"
+            "v2_2_0": {
+                "headline": "カスタムテーマがアニメーションGIF背景とピクセルアートに対応しました。",
+                "animatedBackgroundsTitle": "アニメーション背景",
+                "animatedBackgroundsBody": "カスタムテーマでGIFファイルが使えるようになり、新しいタブの背景をアニメーションにできます。アニメーションを維持するには、ぼかしをゼロに設定してください。",
+                "animatedBackgroundsPixelArt": "ピクセルアートを使用していますか？テーマエディターで'$t(settings.theme.pixelatedBackground)'を有効にすると、すべてのピクセルをくっきり保てます。",
+                "minorBrowserDetection": "ChromeまたはBraveでAnori Plusにサインインする際のブラウザ検出を改善しました。"
             }
         }
     }

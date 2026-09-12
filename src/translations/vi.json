@@ -191,6 +191,8 @@
                 "colorScheme": "Bảng màu",
                 "previewColorScheme": "Bảng màu xem trước",
                 "hideDotPattern": "Ẩn họa tiết chấm",
+                "pixelatedBackground": "Tỷ lệ pixel sắc nét",
+                "pixelatedBackgroundHint": "Tắt tính năng làm mịn hình ảnh mà trình duyệt áp dụng khi phóng to nền. Khuyến nghị cho pixel art.",
                 "colorSchemeSystem": "Hệ thống",
                 "colorSchemeLight": "Sáng",
                 "colorSchemeDark": "Tối"
@@ -479,22 +481,12 @@
             "tagImproved": "Cải tiến",
             "tagFixed": "Đã sửa",
             "changelogNote": "Bạn đang tìm nhật ký thay đổi cho các phiên bản cũ hơn? Bạn có thể tìm thấy nó <0>trên GitHub</0>.",
-            "v2_1_0": {
-                "headline": "Nay có plugin $t(tabs-plugin.name) mở rộng. Lưu lại những liên kết bạn muốn quay lại, và tiếp tục các tab bạn đã để mở trên thiết bị khác.",
-                "stashTitle": "Tab stash",
-                "stashBody": "Dùng widget này để lưu các liên kết bạn muốn quay lại sau. Giữ chúng trên tab mới để bạn thực sự nhớ đến chúng. Một tab có thể được stash từ chính widget hoặc từ cửa sổ popup Anori mới, chỉ cần nhấp vào biểu tượng Anori trên thanh công cụ tiện ích.",
-                "stashSync": "Với Anori Plus, stash của bạn được chia sẻ trên mọi trình duyệt bạn đã đăng nhập và trên tất cả các hồ sơ.",
-                "syncedTabsTitle": "Tab đã đồng bộ",
-                "syncedTabsBody": "Xem những gì đang mở trên các thiết bị khác của bạn và dễ dàng tiếp tục từ nơi bạn đã dừng trên thiết bị trước. Lưu ý rằng tính năng này yêu cầu Anori Plus và phải bật thủ công trong Cài đặt.",
-                "minorPopup": "Nhấp vào biểu tượng Anori trên thanh công cụ giờ đây mở một popup thay vì chỉ mở tab mới.",
-                "minorDevices": "Cài đặt có thêm mục Thiết bị, nơi bạn có thể xem tất cả thiết bị đã đăng nhập vào tài khoản Anori Plus của mình, và đổi tên hoặc xóa chúng.",
-                "minorTabsPlugin": "Widget $t(recently-closed-plugin.name) đã được gộp vào plugin $t(tabs-plugin.name) mới cùng với hai widget trên, và giờ đây có thể thay đổi kích thước cao hơn trước.",
-                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) và $t(recently-closed-plugin.name) giờ dùng chung một bố cục tiêu đề, nên tiêu đề và nút của chúng được căn thẳng hàng nhau.",
-                "minorPlurals": "Các ngôn ngữ đã dịch giờ sử dụng dạng số nhiều chính xác, thay vì dùng quy tắc một-hoặc-nhiều của tiếng Anh.",
-                "minorWhatsNew": "Màn hình bạn đang đọc đã được thiết kế lại, và ghi chú cho các phiên bản cũ hơn đã được chuyển ra khỏi tiện ích vào nhật ký thay đổi trên GitHub.",
-                "minorTranslatedNotes": "Ghi chú phát hành giờ được dịch sang mọi ngôn ngữ mà Anori hỗ trợ, thay vì chỉ có tiếng Anh.",
-                "minorBackground": "Hình nền được giữ ở giữa khi bạn thay đổi kích thước cửa sổ trình duyệt, thay vì bị cắt từ phía phải và phía dưới.",
-                "minorFirefoxPermission": "Trên Firefox, hộp thoại cấp quyền không còn bị ẩn sau popup thanh công cụ nữa."
+            "v2_2_0": {
+                "headline": "Chủ đề tùy chỉnh hiện hỗ trợ nền GIF động và pixel art.",
+                "animatedBackgroundsTitle": "Nền động",
+                "animatedBackgroundsBody": "Chủ đề tùy chỉnh hiện chấp nhận tệp GIF, vì vậy nền tab mới của bạn có thể được làm động. Đặt Độ mờ về không để giữ nguyên hiệu ứng động.",
+                "animatedBackgroundsPixelArt": "Đang dùng pixel art? Bật '$t(settings.theme.pixelatedBackground)' trong trình chỉnh sửa chủ đề để giữ từng pixel luôn sắc nét.",
+                "minorBrowserDetection": "Cải thiện khả năng nhận diện trình duyệt khi đăng nhập Anori Plus trên Chrome hoặc Brave."
             }
         }
     }

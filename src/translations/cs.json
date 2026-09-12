@@ -191,6 +191,8 @@
                 "colorScheme": "Barevné schéma",
                 "previewColorScheme": "Barevné schéma náhledu",
                 "hideDotPattern": "Skrýt tečkovaný vzor",
+                "pixelatedBackground": "Ostrý pixelový scaling",
+                "pixelatedBackgroundHint": "Vypne vyhlazování obrazu, které prohlížeče aplikují při škálování pozadí. Doporučeno pro pixel art.",
                 "colorSchemeSystem": "Systém",
                 "colorSchemeLight": "Světlé",
                 "colorSchemeDark": "Tmavé"
@@ -482,22 +484,12 @@
             "tagImproved": "Vylepšeno",
             "tagFixed": "Opraveno",
             "changelogNote": "Hledáte changelog pro starší verze? Najdete ho <0>na GitHubu</0>.",
-            "v2_1_0": {
-                "headline": "Nyní s rozšířeným pluginem $t(tabs-plugin.name). Ukládejte si odkazy, ke kterým se chcete vrátit, a navažte na karty, které jste nechali otevřené na jiném zařízení.",
-                "stashTitle": "Úschovna karet",
-                "stashBody": "Tento widget použijte k ukládání odkazů, ke kterým se chcete vrátit později. Mějte je na nové kartě, abyste na ně skutečně nezapomněli. Kartu lze uložit přímo z widgetu nebo z nového vyskakovacího okna Anori – stačí kliknout na ikonu Anori na panelu nástrojů rozšíření.",
-                "stashSync": "S Anori Plus je vaše úschovna sdílena napříč všemi prohlížeči, do kterých jste přihlášeni, a napříč všemi profily.",
-                "syncedTabsTitle": "Synchronizované karty",
-                "syncedTabsBody": "Zjistěte, co máte otevřeno na jiných zařízeních, a plynule navažte tam, kde jste skončili na předchozím zařízení. Upozorňujeme, že tato funkce vyžaduje Anori Plus a explicitní povolení v nastavení.",
-                "minorPopup": "Kliknutí na ikonu Anori na panelu nástrojů nyní otevře vyskakovací okno místo pouhého otevření nové karty.",
-                "minorDevices": "V Nastavení přibyla sekce Zařízení, kde uvidíte vše přihlášené k vašemu účtu Anori Plus a můžete to přejmenovat nebo odebrat.",
-                "minorTabsPlugin": "Widget $t(recently-closed-plugin.name) byl začleněn do nového pluginu $t(tabs-plugin.name) spolu s výše uvedenými dvěma widgety a nyní ho lze zvětšit do větší výšky než dříve.",
-                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) a $t(recently-closed-plugin.name) nyní sdílejí jednotné rozložení záhlaví, takže jejich názvy a tlačítka jsou zarovnány vedle sebe.",
-                "minorPlurals": "Přeložené jazyky nyní používají správné tvary množného čísla místo přejímání anglického pravidla jeden-nebo-více.",
-                "minorWhatsNew": "Obrazovka, kterou právě čtete, byla přepracována a poznámky ke starším verzím byly přesunuty z rozšíření do changelogu na GitHubu.",
-                "minorTranslatedNotes": "Poznámky k vydání jsou nyní přeloženy do všech jazyků, které Anori podporuje, místo toho aby byly pouze v angličtině.",
-                "minorBackground": "Obrázky na pozadí zůstávají vycentrovány při změně velikosti okna prohlížeče, místo aby byly oříznuty zprava a zdola.",
-                "minorFirefoxPermission": "Ve Firefoxu již výzva k udělení oprávnění nezůstává skryta za vyskakovacím oknem panelu nástrojů."
+            "v2_2_0": {
+                "headline": "Vlastní motivy nyní podporují animovaná GIF pozadí a pixel art.",
+                "animatedBackgroundsTitle": "Animovaná pozadí",
+                "animatedBackgroundsBody": "Vlastní motivy nyní přijímají soubory GIF, takže pozadí nové karty může být animované. Nastav Rozostření na nulu, aby animace zůstala zachována.",
+                "animatedBackgroundsPixelArt": "Používáš pixel art? Povol '$t(settings.theme.pixelatedBackground)' v editoru motivů, aby každý pixel zůstal ostrý.",
+                "minorBrowserDetection": "Lepší detekce prohlížeče při přihlašování do Anori Plus v Chrome nebo Brave."
             }
         }
     }

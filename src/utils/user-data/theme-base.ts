@@ -19,6 +19,7 @@ export type CustomTheme = {
   blur: number;
   accent: OklchColor;
   hideDotPattern?: boolean;
+  pixelatedBackground?: boolean;
 };
 
 export type PartialCustomTheme = {
@@ -27,11 +28,18 @@ export type PartialCustomTheme = {
   blur: number;
   accent: OklchColor;
   hideDotPattern?: boolean;
+  pixelatedBackground?: boolean;
   background?: string;
   originalBackground?: string;
 };
 
 export type Theme = BuiltinTheme | CustomTheme;
+
+export type ThemeBackgroundVariant = "original" | "blurred";
+
+export const getDisplayedBackgroundVariant = (theme: Pick<CustomTheme, "blur">): ThemeBackgroundVariant => {
+  return theme.blur === 0 ? "original" : "blurred";
+};
 
 export type ColorScheme = "light" | "dark" | "system";
 
@@ -108,7 +116,7 @@ export const applyTheme = async (theme: Theme, mode: Mode) => {
   if (theme.type === "builtin") {
     setPageBackground(browser.runtime.getURL(`/assets/images/backgrounds/${theme.background[mode]}`));
   } else {
-    prom = getThemeBackgroundImpl(theme.name).then((blob) => {
+    prom = getThemeBackgroundImpl(theme.name, getDisplayedBackgroundVariant(theme)).then((blob) => {
       const url = URL.createObjectURL(blob);
       setPageBackground(url);
     });
@@ -121,10 +129,12 @@ export const applyTheme = async (theme: Theme, mode: Mode) => {
 
 export type ThemeDecorations = {
   hideDotPattern?: boolean;
+  pixelatedBackground?: boolean;
 };
 
 export const applyThemeDecorations = (decorations: ThemeDecorations) => {
   document.documentElement.classList.toggle("theme-hide-dot-pattern", !!decorations.hideDotPattern);
+  document.documentElement.classList.toggle("theme-pixelated-background", !!decorations.pixelatedBackground);
 };
 
 export const applyThemeColors = (accent: OklchColor, mode: Mode) => {
@@ -139,7 +149,7 @@ export const applyThemeColors = (accent: OklchColor, mode: Mode) => {
   meta.content = tokens.surface;
 };
 
-type ThemeBackgroundResolver = (themeName: string) => Promise<Blob>;
+type ThemeBackgroundResolver = (themeName: string, variant: ThemeBackgroundVariant) => Promise<Blob>;
 
 const g = self as typeof self & {
   __anoriThemeBgResolver?: ThemeBackgroundResolver;
@@ -156,9 +166,9 @@ const getResolverPromise = (): Promise<ThemeBackgroundResolver> => {
   return g.__anoriThemeBgResolverPromise;
 };
 
-const getThemeBackgroundImpl: ThemeBackgroundResolver = (themeName) => {
-  if (g.__anoriThemeBgResolver) return g.__anoriThemeBgResolver(themeName);
-  return getResolverPromise().then((resolver) => resolver(themeName));
+const getThemeBackgroundImpl: ThemeBackgroundResolver = (themeName, variant) => {
+  if (g.__anoriThemeBgResolver) return g.__anoriThemeBgResolver(themeName, variant);
+  return getResolverPromise().then((resolver) => resolver(themeName, variant));
 };
 
 export const registerThemeBackgroundResolver = (resolver: ThemeBackgroundResolver) => {

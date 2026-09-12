@@ -1,6 +1,12 @@
 import { type AnoriStorage, anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import isEqual from "lodash/isEqual";
-import { applyTheme, registerThemeBackgroundResolver, resolveColorScheme, themes } from "./theme-base";
+import {
+  applyTheme,
+  registerThemeBackgroundResolver,
+  resolveColorScheme,
+  type ThemeBackgroundVariant,
+  themes,
+} from "./theme-base";
 
 export type { BuiltinTheme, ColorScheme, CustomTheme, PartialCustomTheme, Theme, ThemeDecorations } from "./theme-base";
 export {
@@ -9,6 +15,7 @@ export {
   applyThemeColors,
   applyThemeDecorations,
   defaultTheme,
+  getDisplayedBackgroundVariant,
   resolveColorScheme,
   themes,
 } from "./theme-base";
@@ -17,13 +24,16 @@ export {
  * Creates the composite key for theme background files.
  * Format: {themeName}:{variant}
  */
-const getThemeBackgroundKey = (themeName: string, variant: "original" | "blurred"): string => {
+const getThemeBackgroundKey = (themeName: string, variant: ThemeBackgroundVariant): string => {
   return `${themeName}:${variant}`;
 };
 
-export const getThemeBackground = async (themeName: string): Promise<Blob> => {
+export const getThemeBackground = async (
+  themeName: string,
+  variant: ThemeBackgroundVariant = "blurred",
+): Promise<Blob> => {
   const storage = await getAnoriStorage({ sync: false });
-  const key = getThemeBackgroundKey(themeName, "blurred");
+  const key = getThemeBackgroundKey(themeName, variant);
   const result = await storage.files.get(anoriSchema.themeBackgrounds.byId(key));
 
   if (!result) {
@@ -37,7 +47,7 @@ registerThemeBackgroundResolver(getThemeBackground);
 
 export const saveThemeBackground = async (
   themeName: string,
-  variant: "original" | "blurred",
+  variant: ThemeBackgroundVariant,
   content: ArrayBuffer | Blob,
 ) => {
   const storage = await getAnoriStorage();
@@ -79,7 +89,7 @@ export const deleteAllThemeBackgrounds = async () => {
 };
 
 export const getAllCustomThemeBackgroundFiles = async (): Promise<
-  Array<{ themeName: string; variant: "original" | "blurred" }>
+  Array<{ themeName: string; variant: ThemeBackgroundVariant }>
 > => {
   const storage = await getAnoriStorage();
   const allMeta = storage.files.getMeta(anoriSchema.themeBackgrounds.all());
@@ -103,15 +113,18 @@ export const watchForThemeUpdates = (storage: AnoriStorage) => {
   const subscribeToCurrentThemeParameters = () => {
     const themeName = storage.get(anoriSchema.theme);
 
-    const unsubBackground = storage.files.subscribe(
-      anoriSchema.themeBackgrounds.byId(`${themeName}:blurred`),
-      async (meta, oldMeta, info) => {
-        if (info.source === "remote" || info.source === "external") {
-          if (meta && meta.path !== oldMeta?.path) {
-            applyCurrentTheme();
+    const backgroundVariants: ThemeBackgroundVariant[] = ["original", "blurred"];
+    const unsubBackgrounds = backgroundVariants.map((variant) =>
+      storage.files.subscribe(
+        anoriSchema.themeBackgrounds.byId(getThemeBackgroundKey(themeName, variant)),
+        async (meta, oldMeta, info) => {
+          if (info.source === "remote" || info.source === "external") {
+            if (meta && meta.path !== oldMeta?.path) {
+              applyCurrentTheme();
+            }
           }
-        }
-      },
+        },
+      ),
     );
     const unsubParameters = storage.subscribe(anoriSchema.customThemes, (newCustomThemes, oldCustomThemes, info) => {
       if (info.source === "remote" || info.source === "external") {
@@ -125,7 +138,7 @@ export const watchForThemeUpdates = (storage: AnoriStorage) => {
 
     unsubCurrentThemeParameters?.();
     unsubCurrentThemeParameters = () => {
-      unsubBackground();
+      for (const unsub of unsubBackgrounds) unsub();
       unsubParameters();
     };
   };

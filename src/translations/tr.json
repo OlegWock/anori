@@ -191,6 +191,8 @@
                 "colorScheme": "Renk şeması",
                 "previewColorScheme": "Önizleme renk şeması",
                 "hideDotPattern": "Nokta desenini gizle",
+                "pixelatedBackground": "Keskin piksel ölçekleme",
+                "pixelatedBackgroundHint": "Tarayıcıların arka planı ölçeklendirirken uyguladığı görüntü yumuşatmayı devre dışı bırakır. Piksel sanatı için önerilir.",
                 "colorSchemeSystem": "Sistem",
                 "colorSchemeLight": "Açık",
                 "colorSchemeDark": "Koyu"
@@ -480,22 +482,12 @@
             "tagImproved": "İyileştirildi",
             "tagFixed": "Düzeltildi",
             "changelogNote": "Eski sürümlerin değişiklik günlüğünü mü arıyorsunuz? <0>GitHub'da</0> bulabilirsiniz.",
-            "v2_1_0": {
-                "headline": "Artık genişletilmiş $t(tabs-plugin.name) eklentisiyle. Geri dönmek istediğiniz bağlantıları saklayın ve başka bir cihazda açık bıraktığınız sekmeleri kaldığınız yerden devam edin.",
-                "stashTitle": "Sekme deposu",
-                "stashBody": "Daha sonra geri dönmek istediğiniz bağlantıları saklamak için bu widget'ı kullanın. Yeni sekme sayfanızda tutun ki gerçekten hatırlayasınız. Bir sekme, widget'ın kendisinden veya yeni Anori açılır penceresinden depolanabilir; bunun için uzantı araç çubuğundaki Anori simgesine tıklamanız yeterli.",
-                "stashSync": "Anori Plus ile deponuz, oturum açtığınız her tarayıcıda ve tüm profillerde paylaşılır.",
-                "syncedTabsTitle": "Senkronize sekmeler",
-                "syncedTabsBody": "Diğer cihazlarınızda nelerin açık olduğunu görün ve önceki bir cihazda kaldığınız yerden zahmetsizce devam edin. Bu özelliğin Anori Plus gerektirdiğini ve ayarlardan açıkça etkinleştirilmesi gerektiğini lütfen unutmayın.",
-                "minorPopup": "Araç çubuğundaki Anori simgesine tıklamak artık yeni bir sekme açmak yerine bir açılır pencere açıyor.",
-                "minorDevices": "Ayarlar sayfasına bir Cihazlar bölümü eklendi; burada Anori Plus hesabınıza bağlı tüm cihazları görebilir, yeniden adlandırabilir veya kaldırabilirsiniz.",
-                "minorTabsPlugin": "$t(recently-closed-plugin.name) widget'ı, yukarıdaki iki widget'la birlikte yeni bir $t(tabs-plugin.name) eklentisi altında toplandı ve artık eskisinden daha uzun boyutlandırılabiliyor.",
-                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) ve $t(recently-closed-plugin.name) artık ortak bir başlık düzeni kullanıyor; böylece başlıkları ve düğmeleri yan yana hizalanıyor.",
-                "minorPlurals": "Çevrilen diller artık İngilizce'nin tek-ya-çok kuralını ödünç almak yerine kendi doğru çoğul biçimlerini kullanıyor.",
-                "minorWhatsNew": "Okuduğunuz ekran yeniden tasarlandı ve eski sürümlere ait notlar uzantıdan çıkarılarak GitHub'daki bir değişiklik günlüğüne taşındı.",
-                "minorTranslatedNotes": "Sürüm notları artık yalnızca İngilizce gösterilmek yerine Anori'nin desteklediği her dile çevriliyor.",
-                "minorBackground": "Arka plan görselleri, tarayıcı penceresi yeniden boyutlandırıldığında sağdan ve alttan kırpılmak yerine artık ortalanmış kalıyor.",
-                "minorFirefoxPermission": "Firefox'ta izin istemi artık araç çubuğu açılır penceresinin arkasında gizli kalmıyor."
+            "v2_2_0": {
+                "headline": "Özel temalar artık animasyonlu GIF arka planlarını ve piksel sanatını destekliyor.",
+                "animatedBackgroundsTitle": "Animasyonlu arka planlar",
+                "animatedBackgroundsBody": "Özel temalar artık GIF dosyalarını kabul ediyor, böylece yeni sekme arka planınız animasyonlu olabilir. Animasyonu korumak için Bulanıklığı sıfıra ayarlayın.",
+                "animatedBackgroundsPixelArt": "Piksel sanatı mı kullanıyorsunuz? Her pikseli net tutmak için tema düzenleyicisinde '$t(settings.theme.pixelatedBackground)' seçeneğini etkinleştirin.",
+                "minorBrowserDetection": "Chrome veya Brave'de Anori Plus'a giriş yaparken daha iyi tarayıcı algılama."
             }
         }
     }

@@ -191,6 +191,8 @@
                 "colorScheme": "Kulay ng scheme",
                 "previewColorScheme": "Color scheme ng preview",
                 "hideDotPattern": "Itago ang dot pattern",
+                "pixelatedBackground": "Malinaw na pixel scaling",
+                "pixelatedBackgroundHint": "Inaalis ang image smoothing na inilalapat ng mga browser kapag sine-scale ang background. Inirerekomenda para sa pixel art.",
                 "colorSchemeSystem": "System",
                 "colorSchemeLight": "Maliwanag",
                 "colorSchemeDark": "Madilim"
@@ -480,22 +482,12 @@
             "tagImproved": "Pinahusay",
             "tagFixed": "Naayos",
             "changelogNote": "Naghahanap ng changelog para sa mga lumang bersyon? Makikita mo ito <0>sa GitHub</0>.",
-            "v2_1_0": {
-                "headline": "Ngayon may extended na $t(tabs-plugin.name) plugin. Itago ang mga link na balak mong balikan, at kunin ang mga tab na naiwan mo sa ibang device.",
-                "stashTitle": "Tab stash",
-                "stashBody": "Gamitin ang widget na ito para itago ang mga link na balak mong balikan mamaya. Panatilihin ang mga ito sa iyong bagong tab para hindi mo malimutan. Maaaring i-stash ang isang tab mula sa widget mismo o mula sa bagong Anori popup window — i-click lang ang Anori icon sa toolbar ng extension.",
-                "stashSync": "Sa Anori Plus, ang iyong stash ay ibinabahagi sa bawat browser na naka-sign in ka, at sa lahat ng profile.",
-                "syncedTabsTitle": "Mga naka-sync na tab",
-                "syncedTabsBody": "Tingnan kung ano ang bukas sa iyong ibang mga device, at madaling ituloy kung saan ka natigil sa nakaraang device. Pakitandaan na ang feature na ito ay nangangailangan ng Anori Plus at ng malinaw na pag-opt-in sa mga setting.",
-                "minorPopup": "Ang pag-click sa Anori icon sa toolbar ay nagbubukas na ngayon ng popup sa halip na basta magbukas ng bagong tab.",
-                "minorDevices": "Nagkaroon ng seksyong Mga Device ang Mga Setting, kung saan makikita mo ang lahat ng naka-sign in sa iyong Anori Plus account, at maaari mo itong palitan ng pangalan o alisin.",
-                "minorTabsPlugin": "Ang widget na $t(recently-closed-plugin.name) ay isinama sa bagong $t(tabs-plugin.name) plugin kasama ang dalawang widget sa itaas, at maaari na itong palakihin nang mas mataas kaysa dati.",
-                "minorWidgetHeaders": "Ang $t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast), at $t(recently-closed-plugin.name) ay gumagamit na ngayon ng iisang layout ng header, kaya nakahanay ang kanilang mga pamagat at button nang magkatabi.",
-                "minorPlurals": "Ang mga isinalin na wika ay gumagamit na ngayon ng tamang plural forms, sa halip na gamitin ang panuntunan ng Ingles na isa o marami.",
-                "minorWhatsNew": "Ang screen na binabasa mo ay na-redesign, at ang mga tala para sa mga lumang bersyon ay inilipat na mula sa extension patungo sa isang changelog sa GitHub.",
-                "minorTranslatedNotes": "Ang mga release note ay isinalin na ngayon sa bawat wikang sinusuportahan ng Anori, sa halip na Ingles lamang para sa lahat.",
-                "minorBackground": "Ang mga background na imahe ay nananatiling nakasentro kapag binago mo ang laki ng browser window, sa halip na ma-crop mula sa kanan at ibaba.",
-                "minorFirefoxPermission": "Sa Firefox, ang prompt ng pahintulot ay hindi na naitatago sa likod ng toolbar popup."
+            "v2_2_0": {
+                "headline": "Ang mga custom na tema ay sumusuporta na ngayon sa animated GIF na background at pixel art.",
+                "animatedBackgroundsTitle": "Mga animated na background",
+                "animatedBackgroundsBody": "Tinatanggap na ngayon ng mga custom na tema ang mga GIF file, kaya maaaring mag-animate ang background ng iyong bagong tab. Itakda ang Blur sa zero upang mapanatili ang animation.",
+                "animatedBackgroundsPixelArt": "Gumagamit ng pixel art? I-enable ang '$t(settings.theme.pixelatedBackground)' sa theme editor upang manatiling malinaw ang bawat pixel.",
+                "minorBrowserDetection": "Mas mahusay na pag-detect ng browser kapag nag-sign in sa Anori Plus sa Chrome o Brave."
             }
         }
     }

@@ -191,6 +191,8 @@
                 "colorScheme": "Schemat kolorów",
                 "previewColorScheme": "Schemat kolorów podglądu",
                 "hideDotPattern": "Ukryj wzór kropkowany",
+                "pixelatedBackground": "Ostre skalowanie pikseli",
+                "pixelatedBackgroundHint": "Wyłącza wygładzanie obrazu stosowane przez przeglądarki podczas skalowania tła. Zalecane dla pixel artu.",
                 "colorSchemeSystem": "Systemowy",
                 "colorSchemeLight": "Jasny",
                 "colorSchemeDark": "Ciemny"
@@ -482,22 +484,12 @@
             "tagImproved": "Ulepszone",
             "tagFixed": "Naprawione",
             "changelogNote": "Szukasz dziennika zmian dla starszych wersji? Znajdziesz go <0>na GitHubie</0>.",
-            "v2_1_0": {
-                "headline": "Teraz z rozszerzonym wtyczką $t(tabs-plugin.name). Zachowaj linki, do których chcesz wrócić, i wznów pracę z kartami otwartymi na innym urządzeniu.",
-                "stashTitle": "Schowek kart",
-                "stashBody": "Użyj tego widżetu, aby przechowywać linki, do których chcesz wrócić później. Trzymaj je na nowej karcie, żebyś naprawdę o nich pamiętał. Kartę można dodać do schowka bezpośrednio z widżetu lub z nowego okna podręcznego Anori — wystarczy kliknąć ikonę Anori na pasku narzędzi rozszerzenia.",
-                "stashSync": "Dzięki Anori Plus Twój schowek jest współdzielony we wszystkich przeglądarkach, do których jesteś zalogowany, oraz we wszystkich profilach.",
-                "syncedTabsTitle": "Zsynchronizowane karty",
-                "syncedTabsBody": "Zobacz, co jest otwarte na Twoich innych urządzeniach, i bez wysiłku wróć do miejsca, w którym skończyłeś na poprzednim urządzeniu. Pamiętaj, że ta funkcja wymaga Anori Plus i wyraźnego włączenia jej w ustawieniach.",
-                "minorPopup": "Kliknięcie ikony Anori na pasku narzędzi otwiera teraz okno podręczne zamiast zwykłego otwierania nowej karty.",
-                "minorDevices": "W Ustawieniach pojawiła się sekcja Urządzenia, w której możesz zobaczyć wszystko zalogowane na Twoje konto Anori Plus, a także zmieniać nazwy urządzeń lub je usuwać.",
-                "minorTabsPlugin": "Widżet $t(recently-closed-plugin.name) został włączony do nowej wtyczki $t(tabs-plugin.name) razem z dwoma powyższymi widżetami i można go teraz powiększyć bardziej niż wcześniej.",
-                "minorWidgetHeaders": "$t(tasks-plugin.name), $t(notes-plugin.name), $t(rss-plugin.widgetFeedName), $t(weather-plugin.weatherForecast) i $t(recently-closed-plugin.name) mają teraz wspólny układ nagłówka, dzięki czemu ich tytuły i przyciski są wyrównane obok siebie.",
-                "minorPlurals": "Przetłumaczone języki używają teraz poprawnych form liczby mnogiej, zamiast stosować angielską zasadę jeden-lub-wiele.",
-                "minorWhatsNew": "Ekran, który właśnie czytasz, został przeprojektowany, a informacje o starszych wersjach przeniesiono z rozszerzenia do dziennika zmian na GitHubie.",
-                "minorTranslatedNotes": "Informacje o wydaniu są teraz tłumaczone na wszystkie języki obsługiwane przez Anori, zamiast być dostępne wyłącznie po angielsku.",
-                "minorBackground": "Obrazy tła pozostają wyśrodkowane podczas zmiany rozmiaru okna przeglądarki, zamiast być przycinane od prawej i dolnej strony.",
-                "minorFirefoxPermission": "W Firefoksie monit o uprawnienia nie jest już ukryty za oknem podręcznym paska narzędzi."
+            "v2_2_0": {
+                "headline": "Motywy niestandardowe obsługują teraz animowane tła GIF oraz pixel art.",
+                "animatedBackgroundsTitle": "Animowane tła",
+                "animatedBackgroundsBody": "Motywy niestandardowe akceptują teraz pliki GIF, dzięki czemu tło nowej karty może być animowane. Ustaw Rozmycie na zero, aby zachować animację.",
+                "animatedBackgroundsPixelArt": "Używasz pixel artu? Włącz '$t(settings.theme.pixelatedBackground)' w edytorze motywu, aby każdy piksel był ostry.",
+                "minorBrowserDetection": "Lepsza wykrywalność przeglądarki podczas logowania do Anori Plus w Chrome lub Brave."
             }
         }
     }
