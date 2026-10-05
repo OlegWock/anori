@@ -44,7 +44,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
   const isWatch = process.argv.includes("--watch");
   const currentYear = new Date().getFullYear();
 
-  const paths = createPathsObject(baseSrc, joinPath(baseDist, targetBrowser));
+  const paths = createPathsObject(baseSrc, joinPath(baseDist, env.outDir ?? targetBrowser));
   const { entries, outputs } = constructEntriesAndOutputs(paths, mode, {
     includeDebugEntries: mode === "development" || !!env.profiling,
   });
@@ -245,6 +245,7 @@ export default defineConfig(async (env, argv): Promise<RspackOptions> => {
       new DefinePlugin({
         X_MODE: JSON.stringify(mode),
         X_BROWSER: JSON.stringify(targetBrowser),
+        X_HARNESS: JSON.stringify(env.outDir === "harness"),
       }),
       new CopyRspackPlugin({
         patterns: [

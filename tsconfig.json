@@ -1,5 +1,5 @@
 {
-    "include": ["declarations.d.ts", "src/**/*", "rspack.config.ts", "build_helpers/**/*"],
+    "include": ["declarations.d.ts", "src/**/*", "rspack.config.ts", "build_helpers/**/*", "harness/**/*"],
     "exclude": ["node_modules", "dist"],
     "compilerOptions": {
         "lib": ["es6", "es2023", "dom", "dom.iterable", "WebWorker"],

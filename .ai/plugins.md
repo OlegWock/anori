@@ -143,7 +143,7 @@ Across the extension we use `<ScrollArea />` instead of normal `overflow: scroll
 
 ## Other components
 
-There is also a bunch of more common UI element like `<Alert />`, `<Button />`, `<Checkbox />`, `<Hint />`, `<Input />`, `<Modal />`, `<Popover />` and `<Select />`. They are pretty much same you can find in any other frontend project, you can see examples of usage across extensions ui and/in plugins. 
+There is also a bunch of more common UI element like `<Alert />`, `<Button />`, `<Checkbox />`, `<Hint />`, `<Input />`, `<Modal />`, `<Popover />` and `<Select />`. They are pretty much same you can find in any other frontend project, you can see examples of usage across extensions ui and/in plugins.
 
 ## `useParentFolder()`
 

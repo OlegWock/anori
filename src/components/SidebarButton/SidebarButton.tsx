@@ -61,7 +61,7 @@ export const SidebarButton = ({
   const { rem } = useSizeSettings();
 
   const content = (
-    <m.button className={cx("SidebarButton", button, className)} {...props}>
+    <m.button className={cx("SidebarButton", button, className)} aria-label={name} {...props}>
       {active && (
         <m.div className={activeRing} layoutId="SidebarButton-glow" transition={{ duration: 0.2, type: "spring" }} />
       )}

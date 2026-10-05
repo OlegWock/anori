@@ -77,10 +77,12 @@ browser.runtime.onInstalled.addListener(async (details) => {
   }
 
   if (details.reason === "install") {
-    browser.tabs.create({
-      url: "https://anori.app/welcome",
-      active: true,
-    });
+    if (!X_HARNESS) {
+      browser.tabs.create({
+        url: "https://anori.app/welcome",
+        active: true,
+      });
+    }
     const acceptedLanguages = await browser.i18n.getAcceptLanguages();
     const userLocale = browser.i18n.getUILanguage().replace("_", "-");
     const possibleLanguages = [userLocale, ...acceptedLanguages].map((l) => l.toLowerCase());

@@ -31,7 +31,10 @@
         "translations:check": "ts-node translations-manager.ts status --strict",
         "translations:translate": "ts-node translations-manager.ts translate",
         "translations:clean": "ts-node translations-manager.ts remove-excessive",
-        "translations:locales": "ts-node translations-manager.ts generate-locales"
+        "translations:locales": "ts-node translations-manager.ts generate-locales",
+        "build:harness": "rspack build --mode development --env outDir=harness",
+        "harness": "node harness/cli.ts",
+        "harness:send": "node harness/send.ts"
     },
     "lint-staged": {
         "*": [
@@ -131,6 +134,7 @@
         "@types/culori": "^4.0.1",
         "jsdom": "^29.1.1",
         "lint-staged": "^17.0.7",
+        "playwright": "^1.63.0",
         "postcss": "^8.5.15",
         "postcss-loader": "^8.2.1",
         "vitest": "^4.1.8"

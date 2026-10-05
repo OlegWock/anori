@@ -11,7 +11,7 @@ import { WidgetMetadataContext, type WidgetMetadataContextType } from "@anori/ut
 import type { Mapping } from "@anori/utils/types";
 import { useDraggable } from "@dnd-kit/react";
 import { m } from "motion/react";
-import { type ComponentProps, type Ref, useCallback, useMemo, useRef } from "react";
+import { type ComponentProps, type Ref, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { mergeRefs } from "react-merge-refs";
 import { css, cva, cx } from "styled-system/css";
@@ -134,6 +134,16 @@ type WidgetCardProps = {
 ) &
   Omit<ComponentProps<typeof m.div>, "children" | "onDragEnd" | "onResize">;
 
+const attributesSetByDndKit = [
+  "role",
+  "tabindex",
+  "aria-roledescription",
+  "aria-describedby",
+  "aria-pressed",
+  "aria-grabbed",
+  "aria-disabled",
+];
+
 export const WidgetCard = ({
   className,
   style,
@@ -158,6 +168,17 @@ export const WidgetCard = ({
   const { gapSize } = useSizeSettings();
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const card = ref.current;
+    if (isEditing || !card) return;
+    const stripDndKitAttributes = () => {
+      for (const attribute of attributesSetByDndKit) card.removeAttribute(attribute);
+    };
+    stripDndKitAttributes();
+    const observer = new MutationObserver(stripDndKitAttributes);
+    observer.observe(card, { attributes: true, attributeFilter: attributesSetByDndKit });
+    return () => observer.disconnect();
+  }, [isEditing]);
 
   const sizeToUse = size ? size : widget.appearance.size;
   const withPadding = !widget.appearance.withoutPadding;
@@ -213,7 +234,7 @@ export const WidgetCard = ({
   const card = (
     <m.div
       id={instanceId ? `WidgetCard-${instanceId}` : undefined}
-      ref={mergeRefs([ref, draggableRef as Ref<HTMLDivElement>])}
+      ref={mergeRefs([ref, type === "widget" && isEditing ? (draggableRef as Ref<HTMLDivElement>) : null])}
       key={`card-${instanceId}`}
       className={cx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
       data-busy={isDragging || resize.isResizing ? true : undefined}

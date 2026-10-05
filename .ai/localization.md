@@ -1,6 +1,6 @@
 # Localization
 
-* Anori supports multiple languages. 
+* Anori supports multiple languages.
 
 * We use `i18next` and `react-i18next` libraries for translations.
 

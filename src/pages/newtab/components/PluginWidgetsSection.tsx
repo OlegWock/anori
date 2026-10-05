@@ -51,6 +51,7 @@ export const PluginWidgetsSection = memo(function PluginWidgetsSection({
             <div
               role="button"
               tabIndex={0}
+              aria-label={widget.name}
               key={widget.id}
               className={widgetButton}
               onClick={() => onWidgetClick(widget, plugin)}

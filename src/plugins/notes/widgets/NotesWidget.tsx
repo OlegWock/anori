@@ -234,6 +234,7 @@ export const NotesWidget = memo(function NotesWidget(_props: WidgetRenderProps<E
         <div
           role="button"
           tabIndex={0}
+          aria-label={t("notes-plugin.noteText")}
           className={noteBodyRendered}
           onFocus={() => {
             trackInteraction("Initiate editing");

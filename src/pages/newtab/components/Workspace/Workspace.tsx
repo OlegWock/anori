@@ -10,6 +10,7 @@ import { useHotkeys } from "@anori/utils/hooks";
 import { useOverlayLayers } from "@anori/utils/overlay-layers";
 import { anoriSchema } from "@anori/utils/storage";
 import { useStorageValue } from "@anori/utils/storage-lib";
+import { type AnoriTestApi, useInstallTestApi } from "@anori/utils/test-api";
 import { tryMoveWidgetToFolder, useFolderWidgets } from "@anori/utils/user-data/hooks";
 import type { Folder, WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { AnimatePresence, m } from "motion/react";
@@ -146,6 +147,29 @@ export const Workspace = ({
   );
 
   const shouldShowOnboarding = widgets.length === 0 && !isEditing;
+
+  const testApi = useMemo<AnoriTestApi>(
+    () => ({
+      getState: () => ({
+        activeFolderId: activeFolder.id,
+        isEditing,
+        grid: gridDimensions,
+        widgets: widgets.map(({ instanceId, pluginId, widgetId, x, y, width, height, configuration }) => ({
+          instanceId,
+          pluginId,
+          widgetId,
+          x,
+          y,
+          width,
+          height,
+          configuration,
+        })),
+      }),
+      setEditMode: setIsEditing,
+    }),
+    [activeFolder.id, isEditing, gridDimensions, widgets],
+  );
+  useInstallTestApi(testApi);
 
   return (
     <>

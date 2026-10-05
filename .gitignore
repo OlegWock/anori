@@ -112,3 +112,8 @@ dist
 ## Panda
 styled-system
 styled-system-studio
+
+## Browser harness state (profile, screenshots, socket) and ad-hoc scripts
+.harness/
+harness/scratch/*
+!harness/scratch/.gitkeep

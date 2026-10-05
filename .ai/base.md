@@ -1,18 +1,12 @@
-- **Keep responses concise and purposeful.**
-  Only provide information or code that directly helps solve the request.
+- **Keep responses concise and purposeful.** Only provide information or code that directly helps solve the request.
 
-- **Do not add filler or fluff.**
-  Avoid phrases like _“You’re absolutely right”_, motivational comments, or unnecessary small talk.
+- **Do not add filler or fluff.** Avoid phrases like _“You’re absolutely right”_, motivational comments, or unnecessary small talk.
 
-- **Do not write new code comments — at all.** This is a hard rule, not a preference. Add zero comments to code you write or change; invest in naming and structure instead. If you feel a comment is needed, make the code clearer instead.
-  Do **not** remove existing comments; you may *edit* one only when your change makes it contradict the code (update it to match, or trim the now-false part). The **sole** exception is tooling-required directives that aren't prose (`biome-ignore`, `@ts-expect-error`, `eslint-disable`), written only when the tool needs them and kept minimal.
-  After writing/editing code, scan your diff for any `//`, `/* */`, or `{/* */}` you introduced and delete them (except the tooling directives above).
+- **Do not write new code comments — at all.** This is a hard rule, not a preference. Add zero comments to code you write or change; invest in naming and structure instead. If you feel a comment is needed, make the code clearer instead. Do **not** remove existing comments; you may *edit* one only when your change makes it contradict the code (update it to match, or trim the now-false part). The **sole** exception is tooling-required directives that aren't prose (`biome-ignore`, `@ts-expect-error`, `eslint-disable`), written only when the tool needs them and kept minimal. After writing/editing code, scan your diff for any `//`, `/* */`, or `{/* */}` you introduced and delete them (except the tooling directives above).
 
-- **End responses with precision.**
-  If a closing note is needed, use short bullet points to summarize critical outcomes, decisions, or next steps—no long narrative recaps.
+- **End responses with precision.** If a closing note is needed, use short bullet points to summarize critical outcomes, decisions, or next steps—no long narrative recaps.
 
-- **Stay task-focused.**
-  Do not drift into explanations or elaborations unless directly requested.
+- **Stay task-focused.** Do not drift into explanations or elaborations unless directly requested.
 
 # Project description
 
