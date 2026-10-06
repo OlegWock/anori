@@ -36,7 +36,8 @@ Colours are **not** known at build time: the design system computes an OKLCH pal
 
 * **Surfaces**: `surface` / `surface.edge`, `surface.elevated` / `surface.elevated.edge` / `surface.elevated.border` (cards, modals, and panels all use this one family; there is no separate `card`/`modal` token)
 * **Controls**: `control` / `control.border` / `control.hover` / `control.disabled` / `control.edge`
-* **Accent**: `accent` / `accent.hover` / `accent.disabled` / `accent.border` / `accent.edge`, and `on-accent` / `on-accent.disabled` for content on an accent fill
+* **Track**: `track` — the unfilled part of a meter (progress bar remainder, donut remainder, empty grid squares): a sub-step shade of the surface, lighter in dark mode and darker in light mode, so it never reads as a near-white block on a light card
+* **Accent**: `accent` / `accent.hover` / `accent.disabled` / `accent.border` / `accent.edge`, and `on-accent` / `on-accent.subtle` / `on-accent.disabled` for content on an accent fill (subtle = the `on-accent` colour at 65% alpha, for secondary labels on the fill)
 * **Text**: `text.primary` → `text.subtle` → `text.placeholder` → `text.disabled` (hierarchy)
 * **Icons**: `icon`, `icon.strong`, `icon.subtle`, `icon.placeholder`
 * **Frosted overlays** (translucent text-primary, for blurred surfaces): `frosted` / `frosted.subtle` / `frosted.strong`

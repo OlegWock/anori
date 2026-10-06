@@ -1,3 +1,5 @@
+import { addDays } from "@anori/utils/time";
+
 // Generic calendar adapter built on top of `Intl.DateTimeFormat`. A single implementation
 // supports every calendar system the runtime knows about — we just parameterize it with a
 // BCP-47 calendar identifier (e.g. "gregory", "islamic-umalqura", "persian"). The calendar
@@ -32,6 +34,12 @@ export type CalendarAdapter = {
   startOfMonth: (date: Date) => Date;
   /** First day of the calendar month `amount` months away (negative goes back). */
   addMonths: (date: Date, amount: number) => Date;
+  /** First day of the calendar month after the one `date` falls into. */
+  startOfNextMonth: (date: Date) => Date;
+  /** First day of the calendar year that `date` falls into. */
+  startOfYear: (date: Date) => Date;
+  /** First day of the calendar year after the one `date` falls into. */
+  startOfNextYear: (date: Date) => Date;
   /** Whether two dates fall in the same calendar month and year. */
   isSameMonth: (a: Date, b: Date) => boolean;
   /** Whether two dates fall in the same calendar year. */
@@ -44,12 +52,6 @@ export type CalendarAdapter = {
   monthLabel: (date: Date) => string;
   /** Stable, unique key for a calendar month — useful as a React key. */
   monthKey: (date: Date) => string;
-};
-
-const addDays = (date: Date, days: number): Date => {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
 };
 
 export const makeCalendarAdapter = (calendar: string, locale: string): CalendarAdapter => {
@@ -86,6 +88,24 @@ export const makeCalendarAdapter = (calendar: string, locale: string): CalendarA
   const nextMonth = (date: Date): Date => startOfMonth(addDays(startOfMonth(date), 32));
   const prevMonth = (date: Date): Date => startOfMonth(addDays(startOfMonth(date), -1));
 
+  const isSameYear = (a: Date, b: Date) => read(a).year === read(b).year;
+
+  const startOfYear = (date: Date): Date => {
+    let month = startOfMonth(date);
+    while (isSameYear(prevMonth(month), date)) {
+      month = prevMonth(month);
+    }
+    return month;
+  };
+
+  const startOfNextYear = (date: Date): Date => {
+    let month = nextMonth(date);
+    while (isSameYear(month, date)) {
+      month = nextMonth(month);
+    }
+    return month;
+  };
+
   return {
     startOfMonth,
     addMonths: (date, amount) => {
@@ -96,8 +116,11 @@ export const makeCalendarAdapter = (calendar: string, locale: string): CalendarA
       }
       return result;
     },
+    startOfNextMonth: nextMonth,
+    startOfYear,
+    startOfNextYear,
     isSameMonth: (a, b) => read(a).month === read(b).month,
-    isSameYear: (a, b) => read(a).year === read(b).year,
+    isSameYear,
     dayLabel: (date) => dayFormat.format(date),
     monthName: (date) => capitalizeFirst(monthFormat.format(date)),
     monthLabel: (date) => capitalizeFirst(labelFormat.format(date)),

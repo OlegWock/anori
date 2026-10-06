@@ -93,3 +93,11 @@ export const BookmarkWidgetStoreSchema = z.object({
 });
 
 export type BookmarkWidgetStore = z.infer<typeof BookmarkWidgetStoreSchema>;
+
+export const FocusWidgetStoreSchema = z.object({
+  text: z.string(),
+  setOn: z.string(),
+  done: z.boolean(),
+});
+
+export type FocusWidgetStore = z.infer<typeof FocusWidgetStoreSchema>;

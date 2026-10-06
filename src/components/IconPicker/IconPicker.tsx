@@ -235,7 +235,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
     <IconPickerContext.Provider value={{ rowRefs, moveFocus }}>
       <div className={iconPicker} style={{ width: GRID_WIDTH }}>
         <section className={section}>
-          <Field label={`${t("iconsPicker.iconFamily")}:`}>
+          <Field label={t("iconsPicker.iconFamily")}>
             <Select<string>
               options={[ALL_SETS, ...iconSetIds]}
               value={selectedFamily}
@@ -247,7 +247,7 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
         </section>
 
         <section className={cx(section, gridSection)}>
-          <Field label={`${t("icons")}:`}>
+          <Field label={t("icons")}>
             <div className={searchWrapper}>
               <Input
                 ref={data.inputRef}

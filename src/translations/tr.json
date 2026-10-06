@@ -276,6 +276,10 @@
             "hostPermissions": "Ana bilgisayar izinleri",
             "grant": "İzinleri ver"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Haftanın ilk günü",
+            "calendarType": "Takvim türü"
+        },
         "bookmark-plugin": {
             "name": "Yer İmleri",
             "widgetName": "Yer İmi",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Takvim",
             "widgetName": "Takvim",
-            "firstDayOfWeek": "Haftanın ilk günü",
-            "calendarType": "Takvim türü",
             "previousMonth": "Önceki ay",
             "nextMonth": "Sonraki ay"
         },
@@ -482,17 +484,7 @@
             "tagNew": "Yeni",
             "tagImproved": "İyileştirildi",
             "tagFixed": "Düzeltildi",
-            "changelogNote": "Eski sürümlerin değişiklik günlüğünü mü arıyorsunuz? <0>GitHub'da</0> bulabilirsiniz.",
-            "v2_2_0": {
-                "headline": "Özel temalar artık animasyonlu GIF arka planlarını ve piksel sanatını destekliyor.",
-                "animatedBackgroundsTitle": "Animasyonlu arka planlar",
-                "animatedBackgroundsBody": "Özel temalar artık GIF dosyalarını kabul ediyor, böylece yeni sekme arka planınız animasyonlu olabilir. Animasyonu korumak için Bulanıklığı sıfıra ayarlayın.",
-                "animatedBackgroundsPixelArt": "Piksel sanatı mı kullanıyorsunuz? Her pikseli net tutmak için tema düzenleyicisinde '$t(settings.theme.pixelatedBackground)' seçeneğini etkinleştirin.",
-                "minorWheelSwitching": "Klasörler arasında geçiş yapmak için Alt (Mac'te Option) tuşunu basılı tutun ve fare tekerleği veya izleme turuyla kaydırın.",
-                "minorBookmarksDnd": "Yer imleri çubuğundaki yer imleri, klasörlerin içine ve dışına taşımak da dahil olmak üzere sürükleyerek yeniden düzenlenebilir.",
-                "minorRtlArrows": "Sağdan sola dillerde, sol ve sağ klasör kısayolları artık klasörlerin yerleşim yönünü takip ediyor.",
-                "minorBrowserDetection": "Chrome veya Brave'de Anori Plus'a giriş yaparken daha iyi tarayıcı algılama."
-            }
+            "changelogNote": "Eski sürümlerin değişiklik günlüğünü mü arıyorsunuz? <0>GitHub'da</0> bulabilirsiniz."
         }
     }
 }

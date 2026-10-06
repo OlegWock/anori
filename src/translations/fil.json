@@ -276,6 +276,10 @@
             "hostPermissions": "Mga pahintulot sa host",
             "grant": "Bigyan ng pahintulot"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Unang araw ng linggo",
+            "calendarType": "Uri ng kalendaryo"
+        },
         "bookmark-plugin": {
             "name": "Mga Bookmark",
             "widgetName": "Bookmark",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Kalendaryo",
             "widgetName": "Kalendaryo",
-            "firstDayOfWeek": "Unang araw ng linggo",
-            "calendarType": "Uri ng kalendaryo",
             "previousMonth": "Nakaraang buwan",
             "nextMonth": "Susunod na buwan"
         },
@@ -482,17 +484,7 @@
             "tagNew": "Bago",
             "tagImproved": "Pinahusay",
             "tagFixed": "Naayos",
-            "changelogNote": "Naghahanap ng changelog para sa mga lumang bersyon? Makikita mo ito <0>sa GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Ang mga custom na tema ay sumusuporta na ngayon sa animated GIF na background at pixel art.",
-                "animatedBackgroundsTitle": "Mga animated na background",
-                "animatedBackgroundsBody": "Tinatanggap na ngayon ng mga custom na tema ang mga GIF file, kaya maaaring mag-animate ang background ng iyong bagong tab. Itakda ang Blur sa zero upang mapanatili ang animation.",
-                "animatedBackgroundsPixelArt": "Gumagamit ng pixel art? I-enable ang '$t(settings.theme.pixelatedBackground)' sa theme editor upang manatiling malinaw ang bawat pixel.",
-                "minorWheelSwitching": "Pindutin nang matagal ang Alt (Option sa Mac) at mag-scroll gamit ang mouse wheel o trackpad upang lumipat sa pagitan ng mga folder.",
-                "minorBookmarksDnd": "Ang mga bookmark sa bookmarks bar ay maaaring muling ayusin sa pamamagitan ng pag-drag, kasama na ang paglipat ng mga ito papasok at palabas ng mga folder.",
-                "minorRtlArrows": "Sa mga wikang right-to-left, ang mga shortcut para sa kaliwa at kanang folder ay sumusunod na ngayon sa direksyon ng pagkakasunod-sunod ng mga folder.",
-                "minorBrowserDetection": "Mas mahusay na pag-detect ng browser kapag nag-sign in sa Anori Plus sa Chrome o Brave."
-            }
+            "changelogNote": "Naghahanap ng changelog para sa mga lumang bersyon? Makikita mo ito <0>sa GitHub</0>."
         }
     }
 }

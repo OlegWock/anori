@@ -46,6 +46,12 @@
         "icons": "Icons",
         "customIcons": "Custom icons",
         "canBeEmpty": "can be empty",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}d {{hours}}h",
+            "days_one": "{{count}} day",
+            "days_other": "{{count}} days"
+        },
         "unsupportedWidget": {
             "short": "Unavailable",
             "title": "Widget unavailable",
@@ -276,6 +282,10 @@
             "hostPermissions": "Host permissions",
             "grant": "Grant permissions"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "First day of the week",
+            "calendarType": "Calendar type"
+        },
         "bookmark-plugin": {
             "name": "Bookmarks",
             "widgetName": "Bookmark",
@@ -298,8 +308,6 @@
         "calendar-plugin": {
             "name": "Calendar",
             "widgetName": "Calendar",
-            "firstDayOfWeek": "First day of the week",
-            "calendarType": "Calendar type",
             "previousMonth": "Previous month",
             "nextMonth": "Next month"
         },
@@ -483,16 +491,70 @@
             "tagImproved": "Improved",
             "tagFixed": "Fixed",
             "changelogNote": "Looking for the changelog for older versions? You can find it <0>on GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Custom themes now support animated GIF backgrounds and pixel art.",
-                "animatedBackgroundsTitle": "Animated backgrounds",
-                "animatedBackgroundsBody": "Custom themes now accept GIF files, so your new tab background can be animated. Set blur to zero to keep the animation.",
-                "animatedBackgroundsPixelArt": "Using pixel art? Enable '$t(settings.theme.pixelatedBackground)' in the theme editor to keep every pixel crisp.",
-                "minorWheelSwitching": "Hold Alt (Option on Mac) and scroll with the mouse wheel or trackpad to switch between folders.",
-                "minorBookmarksDnd": "Bookmarks in the bookmarks bar can be rearranged by dragging, including moving them into and out of folders.",
-                "minorRtlArrows": "In right-to-left languages, the left and right folder shortcuts now follow the direction the folders are laid out in.",
-                "minorBrowserDetection": "Better browser detection when signing into Anori Plus in Chrome or Brave."
+            "v2_3_0": {
+                "headline": "Meet the new $t(motivation-plugin.name) plugin: eight widgets to track your time, keep the big picture in view, stay focused and count the days that matter.",
+                "periodsTitle": "Where did the day go?",
+                "periodsBody": "New progress widgets show how much of the day, week, month or year is already behind you. Day and week can cover just part of it, so you can follow your workday and work week, or keep an eye on how much of the weekend you still have.",
+                "periodsCalendar": "Month and year can also follow a different calendar system, if that's the one you live by.",
+                "lifeTitle": "The long view",
+                "lifeBody": "Zoom all the way out with life progress: your life as a grid of years, quietly filling in. A gentle memento mori, minus the skulls. And if you'd rather watch the seconds, the age ticker counts how old you are, live.",
+                "focusTitle": "Keep it in sight",
+                "focusBody": "Focus keeps one line of text on your new tab, so the important thing doesn't get buried under everything else. Use it for your task of the day, a goal for the week, or one thing you're grateful for. It can start fresh every day, week or month, or stay until you change it.",
+                "counterTitle": "Count the days",
+                "counterBody": "If your focus comes with a deadline, it helps to see the days run out. That's what day counter is for. It counts the other way too: stopped smoking two weeks ago? Put that number on your new tab and watch it grow day after day.",
+                "minorLocalizedNumbers": "CPU and memory usage percentages and wind speed now follow the number format of your language, like '12,3 %' in German or '%12,3' in Turkish."
             }
+        },
+        "motivation-plugin": {
+            "name": "Motivation",
+            "dayProgress": "Day progress",
+            "weekProgress": "Week progress",
+            "monthProgress": "Month progress",
+            "yearProgress": "Year progress",
+            "lifeProgress": "Life progress",
+            "ageTicker": "Age ticker",
+            "focus": "Focus",
+            "dayCounter": "Day counter",
+            "period": {
+                "day": "Day",
+                "week": "Week",
+                "month": "Month",
+                "year": "Year"
+            },
+            "elapsedTooltip": "{{percent}} elapsed · {{duration}}",
+            "remainingTooltip": "{{percent}} left · {{duration}}",
+            "countOnlyPartOfDay": "Count only part of the day",
+            "countOnlyPartOfWeek": "Count only part of the week",
+            "from": "From",
+            "to": "To",
+            "dateOfBirth": "Date of birth",
+            "expectedLifespan": "Expected lifespan, years",
+            "yearsLived_one": "{{lived}} of {{count}} year lived",
+            "yearsLived_other": "{{lived}} of {{count}} years lived",
+            "yourAge": "Your age",
+            "focusPrompt": "Prompt",
+            "focusPlaceholder": "Type and press Enter",
+            "resetCadence": "Reset",
+            "cadences": {
+                "daily": "Every day",
+                "weekly": "Every week",
+                "monthly": "Every month",
+                "manual": "Manually"
+            },
+            "markDone": "Mark as done",
+            "markNotDone": "Mark as not done",
+            "editFocus": "Edit",
+            "targetDate": "Date",
+            "today": "Today",
+            "daysLeft_one": "day left",
+            "daysLeft_other": "days left",
+            "daysSince_one": "day since",
+            "daysSince_other": "days since",
+            "hoursLeft_one": "hour left",
+            "hoursLeft_other": "hours left",
+            "mockFocusText": "Finish the quarterly report",
+            "mockCounterTitle": "Vacation",
+            "defaultPrompt": "Today's focus"
         }
     }
 }

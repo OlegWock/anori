@@ -264,7 +264,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
     <div className={editorPanel}>
       <Heading level={3}>{themeFromProps ? t("settings.theme.editTheme") : t("settings.theme.newTheme")}</Heading>
 
-      <Field label={`${t("settings.theme.previewColorScheme")}:`}>
+      <Field label={t("settings.theme.previewColorScheme")}>
         <Select<Mode>
           options={PREVIEW_MODES}
           value={previewMode}
@@ -277,7 +277,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
         />
       </Field>
 
-      <Field label={`${t("settings.theme.colorBackground")}:`}>
+      <Field label={t("settings.theme.colorBackground")}>
         <div className={backgroundSection}>
           <div ref={previewRef} className={preview}>
             {originalUrl && (
@@ -299,7 +299,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
         </div>
       </Field>
 
-      <Field label={`${t("settings.theme.blur")}:`}>
+      <Field label={t("settings.theme.blur")}>
         <Slider
           value={theme.blur}
           min={0}
@@ -310,7 +310,7 @@ export const ThemeEditor = ({ theme: themeFromProps, onClose }: { theme?: Custom
       </Field>
 
       <HueChromaPicker
-        label={`${t("settings.theme.colorAccent")}:`}
+        label={t("settings.theme.colorAccent")}
         value={theme.accent}
         mode={previewMode}
         gamut={gamut}

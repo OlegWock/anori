@@ -276,6 +276,10 @@
             "hostPermissions": "Uprawnienia hosta",
             "grant": "Przyznaj uprawnienia"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Pierwszy dzień tygodnia",
+            "calendarType": "Typ kalendarza"
+        },
         "bookmark-plugin": {
             "name": "Zakładki",
             "widgetName": "Zakładka",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Kalendarz",
             "widgetName": "Kalendarz",
-            "firstDayOfWeek": "Pierwszy dzień tygodnia",
-            "calendarType": "Typ kalendarza",
             "previousMonth": "Poprzedni miesiąc",
             "nextMonth": "Następny miesiąc"
         },
@@ -484,17 +486,7 @@
             "tagNew": "Nowe",
             "tagImproved": "Ulepszone",
             "tagFixed": "Naprawione",
-            "changelogNote": "Szukasz dziennika zmian dla starszych wersji? Znajdziesz go <0>na GitHubie</0>.",
-            "v2_2_0": {
-                "headline": "Motywy niestandardowe obsługują teraz animowane tła GIF oraz pixel art.",
-                "animatedBackgroundsTitle": "Animowane tła",
-                "animatedBackgroundsBody": "Motywy niestandardowe akceptują teraz pliki GIF, dzięki czemu tło nowej karty może być animowane. Ustaw Rozmycie na zero, aby zachować animację.",
-                "animatedBackgroundsPixelArt": "Używasz pixel artu? Włącz '$t(settings.theme.pixelatedBackground)' w edytorze motywu, aby każdy piksel był ostry.",
-                "minorWheelSwitching": "Przytrzymaj Alt (Option na Macu) i przewijaj kółkiem myszy lub touchpadem, aby przełączać między teczkami.",
-                "minorBookmarksDnd": "Zakładki na pasku zakładek można zmieniać kolejność przez przeciąganie, w tym przenosić je do folderów i z powrotem.",
-                "minorRtlArrows": "W językach pisanych od prawej do lewej skróty teczek w lewo i w prawo teraz podążają za kierunkiem, w którym teczki są ułożone.",
-                "minorBrowserDetection": "Lepsza wykrywalność przeglądarki podczas logowania do Anori Plus w Chrome lub Brave."
-            }
+            "changelogNote": "Szukasz dziennika zmian dla starszych wersji? Znajdziesz go <0>na GitHubie</0>."
         }
     }
 }

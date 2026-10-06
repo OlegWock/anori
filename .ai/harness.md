@@ -77,6 +77,7 @@ A small, **development-build-only** API. `src/utils/test-api.ts` defines the typ
 
 * `getState()` → `{ activeFolderId, isEditing, grid, widgets: [{ instanceId, pluginId, widgetId, x, y, width, height, configuration }] }`
 * `setEditMode(enabled)`
+* `moveWidget(instanceId, { x, y })` — repositions a widget with the same overlap/bounds validation the drop handler uses (`canPlaceItemInGrid`), then persists through `handleLayoutUpdate`; throws if the target is occupied or out of bounds. Added because `@dnd-kit` drag cannot be driven reliably with synthetic pointer events.
 
 The base is deliberately tiny. **Extend it when Playwright can't do something** — the known case is drag-and-drop widget repositioning, which `@dnd-kit` makes hard to drive with synthetic pointer events:
 

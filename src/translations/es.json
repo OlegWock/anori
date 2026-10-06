@@ -276,6 +276,10 @@
             "hostPermissions": "Permisos Host",
             "grant": "Otorgar permisos"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Primer día de la semana",
+            "calendarType": "Tipo de calendario"
+        },
         "bookmark-plugin": {
             "name": "Marcadores",
             "widgetName": "Marcador",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Calendario",
             "widgetName": "Calendario",
-            "firstDayOfWeek": "Primer día de la semana",
-            "calendarType": "Tipo de calendario",
             "previousMonth": "Mes anterior",
             "nextMonth": "Mes siguiente"
         },
@@ -483,17 +485,7 @@
             "tagNew": "Nuevo",
             "tagImproved": "Mejorado",
             "tagFixed": "Corregido",
-            "changelogNote": "¿Buscas el registro de cambios de versiones anteriores? Puedes encontrarlo <0>en GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Los temas personalizados ahora admiten fondos GIF animados y pixel art.",
-                "animatedBackgroundsTitle": "Fondos animados",
-                "animatedBackgroundsBody": "Los temas personalizados ahora aceptan archivos GIF, por lo que el fondo de tu nueva pestaña puede ser animado. Establece el Desenfoque en cero para mantener la animación.",
-                "animatedBackgroundsPixelArt": "¿Usas pixel art? Activa '$t(settings.theme.pixelatedBackground)' en el editor de temas para mantener cada píxel nítido.",
-                "minorWheelSwitching": "Mantén Alt (Option en Mac) y desplázate con la rueda del ratón o el trackpad para cambiar entre carpetas.",
-                "minorBookmarksDnd": "Los marcadores de la barra de marcadores se pueden reorganizar arrastrándolos, incluyendo moverlos dentro y fuera de carpetas.",
-                "minorRtlArrows": "En idiomas de derecha a izquierda, los atajos de carpeta izquierda y derecha ahora siguen la dirección en que se muestran las carpetas.",
-                "minorBrowserDetection": "Mejor detección del navegador al iniciar sesión en Anori Plus en Chrome o Brave."
-            }
+            "changelogNote": "¿Buscas el registro de cambios de versiones anteriores? Puedes encontrarlo <0>en GitHub</0>."
         }
     }
 }

@@ -57,7 +57,7 @@ export const BookmarGroupkWidgetConfigScreen = ({
   return (
     <m.div className={config}>
       <div className={row}>
-        <Field label={`${t("icon")}:`}>
+        <Field label={t("icon")}>
           <Popover
             component={IconPicker}
             initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
@@ -73,10 +73,10 @@ export const BookmarGroupkWidgetConfigScreen = ({
           </Popover>
         </Field>
         <div className={mainColumn}>
-          <Field label={`${t("title")}:`}>
+          <Field label={t("title")}>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
           </Field>
-          <Field label={`${t("bookmark-plugin.pages")}:`}>
+          <Field label={t("bookmark-plugin.pages")}>
             <div className={urlsClass}>
               <AnimatePresence initial={false}>
                 {urls.map(({ id, url }, ind) => {

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.3.0
+
+- **New.** Motivation plugin with eight widgets that keep time, goals and dates on your new tab.
+    - **New.** Day, week, month and year progress widgets show how much of each period has passed, as a ring in the smallest size and as a bar when made wider. Day progress can count only your working hours and week progress only your working days. Month and year progress support the Gregorian, Hijri, Persian, Hebrew and Buddhist calendars.
+    - **New.** Life progress widget shows your life as a grid of years, based on your date of birth and expected lifespan.
+    - **New.** Age ticker widget counts your age live, to several decimal places.
+    - **New.** Focus widget holds the one thing you want to get done. It starts fresh every day, week or month, or stays until you change it, and can be marked as done.
+    - **New.** Day counter widget counts down to a date, or counts the days since one.
+- **Improved.** CPU and memory percentages and wind speed now use your language's number format, for example "12,3 %" in German or "%12,3" in Turkish.
+
 ## 2.2.0
 
 - **New.** Custom themes accept animated GIF backgrounds. Set blur to zero to keep the animation.

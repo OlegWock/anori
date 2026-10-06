@@ -276,6 +276,10 @@
             "hostPermissions": "Quyền truy cập trang",
             "grant": "Cấp quyền"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Ngày đầu tuần",
+            "calendarType": "Loại lịch"
+        },
         "bookmark-plugin": {
             "name": "Dấu trang",
             "widgetName": "Dấu trang",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Lịch",
             "widgetName": "Lịch",
-            "firstDayOfWeek": "Ngày đầu tuần",
-            "calendarType": "Loại lịch",
             "previousMonth": "Tháng trước",
             "nextMonth": "Tháng sau"
         },
@@ -481,17 +483,7 @@
             "tagNew": "Mới",
             "tagImproved": "Cải tiến",
             "tagFixed": "Đã sửa",
-            "changelogNote": "Bạn đang tìm nhật ký thay đổi cho các phiên bản cũ hơn? Bạn có thể tìm thấy nó <0>trên GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Chủ đề tùy chỉnh hiện hỗ trợ nền GIF động và pixel art.",
-                "animatedBackgroundsTitle": "Nền động",
-                "animatedBackgroundsBody": "Chủ đề tùy chỉnh hiện chấp nhận tệp GIF, vì vậy nền tab mới của bạn có thể được làm động. Đặt Độ mờ về không để giữ nguyên hiệu ứng động.",
-                "animatedBackgroundsPixelArt": "Đang dùng pixel art? Bật '$t(settings.theme.pixelatedBackground)' trong trình chỉnh sửa chủ đề để giữ từng pixel luôn sắc nét.",
-                "minorWheelSwitching": "Giữ Alt (Option trên Mac) và cuộn bằng con lăn chuột hoặc bàn di chuột để chuyển giữa các thư mục.",
-                "minorBookmarksDnd": "Các dấu trang trên thanh dấu trang có thể được sắp xếp lại bằng cách kéo thả, bao gồm di chuyển chúng vào và ra khỏi các thư mục.",
-                "minorRtlArrows": "Trong các ngôn ngữ từ phải sang trái, phím tắt thư mục trái và phải nay tuân theo hướng bố trí của các thư mục.",
-                "minorBrowserDetection": "Cải thiện khả năng nhận diện trình duyệt khi đăng nhập Anori Plus trên Chrome hoặc Brave."
-            }
+            "changelogNote": "Bạn đang tìm nhật ký thay đổi cho các phiên bản cũ hơn? Bạn có thể tìm thấy nó <0>trên GitHub</0>."
         }
     }
 }

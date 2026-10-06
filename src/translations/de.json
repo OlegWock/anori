@@ -276,6 +276,10 @@
             "hostPermissions": "Host Berechtigungen",
             "grant": "Berechtigungen erteilen"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Woche beginnt mit",
+            "calendarType": "Kalendertyp"
+        },
         "bookmark-plugin": {
             "name": "Lesezeichen",
             "widgetName": "Lesezeichen",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Kalendar",
             "widgetName": "Kalendar",
-            "firstDayOfWeek": "Woche beginnt mit",
-            "calendarType": "Kalendertyp",
             "previousMonth": "Vorheriger Monat",
             "nextMonth": "Nächster Monat"
         },
@@ -482,17 +484,7 @@
             "tagNew": "Neu",
             "tagImproved": "Verbessert",
             "tagFixed": "Behoben",
-            "changelogNote": "Suchen Sie das Changelog für ältere Versionen? Sie finden es <0>auf GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Benutzerdefinierte Themes unterstützen jetzt animierte GIF-Hintergründe und Pixel-Art.",
-                "animatedBackgroundsTitle": "Animierte Hintergründe",
-                "animatedBackgroundsBody": "Benutzerdefinierte Themes akzeptieren jetzt GIF-Dateien, sodass dein Neuer-Tab-Hintergrund animiert sein kann. Setze die Unschärfe auf null, um die Animation beizubehalten.",
-                "animatedBackgroundsPixelArt": "Verwendest du Pixel-Art? Aktiviere '$t(settings.theme.pixelatedBackground)' im Theme-Editor, damit jeder Pixel gestochen scharf bleibt.",
-                "minorWheelSwitching": "Halte Alt (Option auf dem Mac) gedrückt und scrolle mit dem Mausrad oder Trackpad, um zwischen Ordnern zu wechseln.",
-                "minorBookmarksDnd": "Lesezeichen in der Lesezeichenleiste können per Drag-and-Drop neu angeordnet werden, einschließlich des Verschiebens in und aus Ordnern.",
-                "minorRtlArrows": "In Sprachen mit Rechts-nach-links-Schreibrichtung folgen die linken und rechten Ordner-Tastenkürzel nun der Richtung, in der die Ordner angeordnet sind.",
-                "minorBrowserDetection": "Bessere Browsererkennung beim Anmelden bei Anori Plus in Chrome oder Brave."
-            }
+            "changelogNote": "Suchen Sie das Changelog für ältere Versionen? Sie finden es <0>auf GitHub</0>."
         }
     }
 }

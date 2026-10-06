@@ -150,8 +150,10 @@ export default defineConfig({
             hover: { value: "var(--ds-accent-hover)" },
             disabled: { value: "var(--ds-accent-disabled)" },
           },
+          track: { value: "var(--ds-track)" },
           "on-accent": {
             DEFAULT: { value: "var(--ds-on-accent)" },
+            subtle: { value: "var(--ds-on-accent-subtle)" },
             disabled: { value: "var(--ds-on-accent-disabled)" },
           },
           icon: {

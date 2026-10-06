@@ -61,7 +61,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
       <Heading level={2} size={1}>
         {t("settings.general.title")}
       </Heading>
-      <Field label={`${t("settings.general.language")}:`}>
+      <Field label={t("settings.general.language")}>
         <Select<Language>
           value={language}
           onChange={(newLang) => {
@@ -81,7 +81,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
         </Trans>
       </Alert>
 
-      <Field label={`${t("settings.general.sidebarOrientation")}:`}>
+      <Field label={t("settings.general.sidebarOrientation")}>
         <Select<"auto" | "vertical" | "horizontal">
           value={sidebarOrientation}
           onChange={setSidebarOrientation}
@@ -90,7 +90,7 @@ export const GeneralSettingsScreen = (props: ComponentProps<typeof m.div>) => {
           getOptionLabel={(o) => t(`settings.general.sidebarOrientationOption-${o}`)}
         />
       </Field>
-      <Field label={`${t("settings.general.newTabTitle")}:`}>
+      <Field label={t("settings.general.newTabTitle")}>
         <Input value={newTabTitle} onValueChange={setNewTabTitle} />
       </Field>
 

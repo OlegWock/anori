@@ -3,6 +3,7 @@ import { type HslColor, hslColorToOklch } from "@anori/utils/color";
 import { StashEntrySchema, StashSchema } from "@anori/utils/storage/schema/stash";
 import {
   BookmarkWidgetStoreSchema,
+  FocusWidgetStoreSchema,
   NotesWidgetStoreSchema,
   RssWidgetStoreSchema,
   TasksWidgetStoreSchema,
@@ -543,6 +544,17 @@ export const schemaV3 = defineSchemaVersion(3, {
     sync: "profile",
     includedInBackup: true,
   }),
+  focusWidgetStore: collection({
+    keyPrefix: "FocusWidgetStore",
+    entities: {
+      store: entity({
+        brand: "FocusWidgetStore",
+        schema: FocusWidgetStoreSchema,
+      }),
+    },
+    sync: "profile",
+    includedInBackup: true,
+  }),
 });
 
 export type AnoriSchemaV3 = typeof schemaV3.definition;
@@ -573,6 +585,7 @@ export type {
 } from "./stash";
 export type {
   BookmarkWidgetStore,
+  FocusWidgetStore,
   NotesWidgetStore,
   RssFeed,
   RssPost,

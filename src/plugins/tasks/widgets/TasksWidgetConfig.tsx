@@ -20,7 +20,7 @@ export const TasksWidgetConfigScreen = ({
 
   return (
     <div className={config}>
-      <Field label={`${t("title")}:`}>
+      <Field label={t("title")}>
         <Input value={title} onValueChange={setTitle} />
       </Field>
 

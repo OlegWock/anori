@@ -276,6 +276,10 @@
             "hostPermissions": "Autorisations de l'hôte",
             "grant": "Accorder des autorisations"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Premier jour de la semaine",
+            "calendarType": "Type de calendrier"
+        },
         "bookmark-plugin": {
             "name": "Favoris",
             "widgetName": "Favoris",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Calendrier",
             "widgetName": "Calendrier",
-            "firstDayOfWeek": "Premier jour de la semaine",
-            "calendarType": "Type de calendrier",
             "previousMonth": "Mois précédent",
             "nextMonth": "Mois suivant"
         },
@@ -483,17 +485,7 @@
             "tagNew": "Nouveau",
             "tagImproved": "Amélioré",
             "tagFixed": "Corrigé",
-            "changelogNote": "Vous cherchez le journal des modifications pour les versions antérieures ? Vous pouvez le trouver <0>sur GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Les thèmes personnalisés prennent désormais en charge les arrière-plans GIF animés et le pixel art.",
-                "animatedBackgroundsTitle": "Arrière-plans animés",
-                "animatedBackgroundsBody": "Les thèmes personnalisés acceptent désormais les fichiers GIF, votre arrière-plan de nouvel onglet peut donc être animé. Réglez le Flou à zéro pour conserver l'animation.",
-                "animatedBackgroundsPixelArt": "Vous utilisez du pixel art ? Activez '$t(settings.theme.pixelatedBackground)' dans l'éditeur de thème pour garder chaque pixel net.",
-                "minorWheelSwitching": "Maintenez Alt (Option sur Mac) et faites défiler avec la molette de la souris ou le trackpad pour changer de dossier.",
-                "minorBookmarksDnd": "Les favoris de la barre des favoris peuvent être réorganisés par glisser-déposer, y compris en les déplaçant dans et hors des dossiers.",
-                "minorRtlArrows": "Dans les langues s'écrivant de droite à gauche, les raccourcis de navigation entre dossiers gauche et droite suivent désormais le sens dans lequel les dossiers sont disposés.",
-                "minorBrowserDetection": "Meilleure détection du navigateur lors de la connexion à Anori Plus dans Chrome ou Brave."
-            }
+            "changelogNote": "Vous cherchez le journal des modifications pour les versions antérieures ? Vous pouvez le trouver <0>sur GitHub</0>."
         }
     }
 }

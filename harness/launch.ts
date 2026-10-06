@@ -2,7 +2,7 @@ import { execSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { type BrowserContext, chromium, type Page, type Worker } from "playwright";
-import type { AnoriTestApi } from "../src/utils/test-api.ts";
+import type { AnoriTestApi, TestApiState } from "../src/utils/test-api.ts";
 import { EXT_DIR, PROFILE_DIR, REPO_DIR, SCREENSHOTS_DIR } from "./paths.ts";
 
 export type LaunchOptions = {
@@ -10,6 +10,8 @@ export type LaunchOptions = {
   viewport?: { width: number; height: number };
   colorScheme?: "light" | "dark";
 };
+
+export type { TestApiState };
 
 export type TestApiProxy = {
   [K in keyof AnoriTestApi]: (...args: Parameters<AnoriTestApi[K]>) => Promise<Awaited<ReturnType<AnoriTestApi[K]>>>;

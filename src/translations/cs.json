@@ -276,6 +276,10 @@
             "hostPermissions": "Oprávnění pro hostitele",
             "grant": "Udělit oprávnění"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "První den týdne",
+            "calendarType": "Typ kalendáře"
+        },
         "bookmark-plugin": {
             "name": "Záložky",
             "widgetName": "Záložka",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Kalendář",
             "widgetName": "Kalendář",
-            "firstDayOfWeek": "První den týdne",
-            "calendarType": "Typ kalendáře",
             "previousMonth": "Předchozí měsíc",
             "nextMonth": "Další měsíc"
         },
@@ -484,17 +486,7 @@
             "tagNew": "Nové",
             "tagImproved": "Vylepšeno",
             "tagFixed": "Opraveno",
-            "changelogNote": "Hledáte changelog pro starší verze? Najdete ho <0>na GitHubu</0>.",
-            "v2_2_0": {
-                "headline": "Vlastní motivy nyní podporují animovaná GIF pozadí a pixel art.",
-                "animatedBackgroundsTitle": "Animovaná pozadí",
-                "animatedBackgroundsBody": "Vlastní motivy nyní přijímají soubory GIF, takže pozadí nové karty může být animované. Nastav Rozostření na nulu, aby animace zůstala zachována.",
-                "animatedBackgroundsPixelArt": "Používáš pixel art? Povol '$t(settings.theme.pixelatedBackground)' v editoru motivů, aby každý pixel zůstal ostrý.",
-                "minorWheelSwitching": "Podržte Alt (Option na Macu) a scrollujte kolečkem myši nebo trackpadem pro přepínání mezi složkami.",
-                "minorBookmarksDnd": "Záložky v panelu záložek lze přeuspořádat přetažením, včetně přesouvání do složek a ze složek.",
-                "minorRtlArrows": "V jazycích se zápisem zprava doleva nyní klávesové zkratky pro přepínání složek doleva a doprava odpovídají směru, ve kterém jsou složky zobrazeny.",
-                "minorBrowserDetection": "Lepší detekce prohlížeče při přihlašování do Anori Plus v Chrome nebo Brave."
-            }
+            "changelogNote": "Hledáte changelog pro starší verze? Najdete ho <0>na GitHubu</0>."
         }
     }
 }

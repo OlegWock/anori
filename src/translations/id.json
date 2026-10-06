@@ -276,6 +276,10 @@
             "hostPermissions": "Izin host",
             "grant": "Berikan izin"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Hari pertama dalam seminggu",
+            "calendarType": "Tipe kalender"
+        },
         "bookmark-plugin": {
             "name": "Bookmark",
             "widgetName": "Bookmark",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "Kalender",
             "widgetName": "Kalender",
-            "firstDayOfWeek": "Hari pertama dalam seminggu",
-            "calendarType": "Tipe kalender",
             "previousMonth": "Bulan sebelumnya",
             "nextMonth": "Bulan berikutnya"
         },
@@ -481,17 +483,7 @@
             "tagNew": "Baru",
             "tagImproved": "Ditingkatkan",
             "tagFixed": "Diperbaiki",
-            "changelogNote": "Mencari changelog untuk versi lama? Anda dapat menemukannya <0>di GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Tema kustom kini mendukung latar belakang GIF animasi dan pixel art.",
-                "animatedBackgroundsTitle": "Latar belakang animasi",
-                "animatedBackgroundsBody": "Tema kustom kini menerima file GIF, sehingga latar belakang tab baru kamu bisa dianimasikan. Atur Blur ke nol untuk menjaga animasi tetap berjalan.",
-                "animatedBackgroundsPixelArt": "Menggunakan pixel art? Aktifkan '$t(settings.theme.pixelatedBackground)' di editor tema untuk menjaga setiap piksel tetap tajam.",
-                "minorWheelSwitching": "Tahan Alt (Option di Mac) dan gulir dengan roda mouse atau trackpad untuk beralih antar folder.",
-                "minorBookmarksDnd": "Bookmark di bilah bookmark dapat disusun ulang dengan menyeret, termasuk memindahkannya ke dalam dan keluar dari folder.",
-                "minorRtlArrows": "Pada bahasa kanan-ke-kiri, pintasan folder kiri dan kanan kini mengikuti arah tata letak folder.",
-                "minorBrowserDetection": "Deteksi browser yang lebih baik saat masuk ke Anori Plus di Chrome atau Brave."
-            }
+            "changelogNote": "Mencari changelog untuk versi lama? Anda dapat menemukannya <0>di GitHub</0>."
         }
     }
 }

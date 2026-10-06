@@ -5,6 +5,7 @@ export {
   type BookmarkWidgetStore,
   type ColorScheme,
   type CustomTheme,
+  type FocusWidgetStore,
   type Folder,
   type FolderDetails,
   type NotesWidgetStore,

@@ -1,5 +1,7 @@
 import { builtinIcons } from "@anori/design-system/components/Icon/builtin-icons";
 import { translate } from "@anori/translations/utils";
+import { formatDecimal } from "@anori/utils/format";
+import i18n from "i18next";
 import type { City, Speed, Temperature } from "./api";
 
 export const formatCityLabel = (c: City) => {
@@ -13,9 +15,9 @@ export const formatTemperature = (valueInCelsius: number, to: Temperature, withU
 };
 
 export const formatSpeed = (speedInKmPerHour: number, to: Speed): string => {
-  if (to === "km/h") return `${speedInKmPerHour.toFixed(1)} ${translate("weather-plugin.kmh")}`;
+  if (to === "km/h") return `${formatDecimal(speedInKmPerHour, i18n.language, 1)} ${translate("weather-plugin.kmh")}`;
   if (to === "m/s") return `${Math.round(speedInKmPerHour * (5 / 18))} ${translate("weather-plugin.ms")}`;
-  return `${(speedInKmPerHour * 0.6213).toFixed(1)} ${translate("weather-plugin.mph")}`;
+  return `${formatDecimal(speedInKmPerHour * 0.6213, i18n.language, 1)} ${translate("weather-plugin.mph")}`;
 };
 
 export const weatherCodeToIcon = (code: number) => {

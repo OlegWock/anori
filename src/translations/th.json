@@ -276,6 +276,10 @@
             "hostPermissions": "สิทธิ์ Host",
             "grant": "ให้สิทธิ์"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "วันแรกของสัปดาห์",
+            "calendarType": "ประเภทปฏิทิน"
+        },
         "bookmark-plugin": {
             "name": "Url ที่บันทึกไว้",
             "widgetName": "Url ที่บันทึกไว้",
@@ -298,8 +302,6 @@
         "calendar-plugin": {
             "name": "ปฏิทิน",
             "widgetName": "ปฏิทิน",
-            "firstDayOfWeek": "วันแรกของสัปดาห์",
-            "calendarType": "ประเภทปฏิทิน",
             "previousMonth": "เดือนก่อนหน้า",
             "nextMonth": "เดือนถัดไป"
         },
@@ -481,17 +483,7 @@
             "tagNew": "ใหม่",
             "tagImproved": "ปรับปรุง",
             "tagFixed": "แก้ไข",
-            "changelogNote": "ต้องการ changelog สำหรับเวอร์ชันเก่า? ดูได้ <0>บน GitHub</0>",
-            "v2_2_0": {
-                "headline": "ธีมที่กำหนดเองรองรับพื้นหลัง GIF แบบเคลื่อนไหวและ pixel art แล้ว",
-                "animatedBackgroundsTitle": "พื้นหลังแบบเคลื่อนไหว",
-                "animatedBackgroundsBody": "ธีมที่กำหนดเองรองรับไฟล์ GIF แล้ว ทำให้พื้นหลังแท็บใหม่ของคุณเคลื่อนไหวได้ ตั้งค่าเบลอเป็นศูนย์เพื่อให้แอนิเมชันแสดงผลได้เต็มที่",
-                "animatedBackgroundsPixelArt": "ใช้ pixel art อยู่ไหม? เปิดใช้งาน '$t(settings.theme.pixelatedBackground)' ในตัวแก้ไขธีมเพื่อให้ทุกพิกเซลคมชัด",
-                "minorWheelSwitching": "กด Alt (Option บน Mac) แล้วเลื่อนล้อเมาส์หรือแทร็กแพดเพื่อสลับระหว่างโฟลเดอร์",
-                "minorBookmarksDnd": "บุ๊กมาร์กในแถบบุ๊กมาร์กสามารถจัดเรียงใหม่ได้โดยการลากและวาง รวมถึงย้ายเข้าหรือออกจากโฟลเดอร์ได้ด้วย",
-                "minorRtlArrows": "ในภาษาที่เขียนจากขวาไปซ้าย ปุ่มลัดโฟลเดอร์ซ้ายและขวาจะเป็นไปตามทิศทางที่โฟลเดอร์ถูกจัดวางแล้ว",
-                "minorBrowserDetection": "การตรวจจับเบราว์เซอร์ที่ดีขึ้นเมื่อลงชื่อเข้าใช้ Anori Plus ใน Chrome หรือ Brave"
-            }
+            "changelogNote": "ต้องการ changelog สำหรับเวอร์ชันเก่า? ดูได้ <0>บน GitHub</0>"
         }
     }
 }
