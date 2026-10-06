@@ -1,9 +1,18 @@
-import { getSubscriptionClient } from "./subscription-client";
+import { getSubscriptionClient, onSubscriptionClientReconnect } from "./subscription-client";
 
 export function subscribeToSyncedTabsUpdates(onChange: () => void): () => void {
-  const subscription = getSubscriptionClient().client.tabs.onSnapshotUpdated.subscribe(undefined, {
-    onData: () => onChange(),
-    onError: (error) => console.error("Synced tabs subscription error:", error),
+  const subscribe = () =>
+    getSubscriptionClient().client.tabs.onSnapshotUpdated.subscribe(undefined, {
+      onData: () => onChange(),
+      onError: (error) => console.error("Synced tabs subscription error:", error),
+    });
+  let subscription = subscribe();
+  const stopListening = onSubscriptionClientReconnect(() => {
+    subscription.unsubscribe();
+    subscription = subscribe();
   });
-  return () => subscription.unsubscribe();
+  return () => {
+    stopListening();
+    subscription.unsubscribe();
+  };
 }

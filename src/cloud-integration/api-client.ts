@@ -3,12 +3,15 @@ import { API_BASE_URL } from "./consts";
 import { getCloudAccount } from "./storage";
 
 let apiClient: HttpApiClient | null = null;
+let pendingSessionToken: string | undefined;
+
+const getSessionToken = () => pendingSessionToken ?? getCloudAccount()?.sessionToken;
 
 export const getApiClient = () => {
   if (!apiClient) {
     apiClient = createHttpClient({
       url: API_BASE_URL,
-      token: () => getCloudAccount()?.sessionToken,
+      token: getSessionToken,
     });
   }
   return apiClient.client;
@@ -17,16 +20,14 @@ export const getApiClient = () => {
 // @ts-expect-error for debug
 self.getApiClient = getApiClient;
 
-export const updateApiClientToken = (token: string | undefined) => {
-  if (apiClient) {
-    apiClient.setToken(token);
-  }
+export const setPendingSessionToken = (token: string | undefined) => {
+  pendingSessionToken = token;
 };
 
 export const createReactClient = () => {
   return createReactHttpClient({
     url: API_BASE_URL,
-    getToken: () => getCloudAccount()?.sessionToken ?? null,
+    getToken: () => getSessionToken() ?? null,
   });
 };
 

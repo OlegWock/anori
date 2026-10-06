@@ -1,7 +1,7 @@
 import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { isAppErrorOfType } from "@anori-app/api-client";
 import { SessionExpiredError, UnauthorizedError } from "@anori-app/api-types";
-import { getApiClient, updateApiClientToken } from "./api-client";
+import { getApiClient, setPendingSessionToken } from "./api-client";
 import { getOrCreateDeviceId } from "./device-id";
 import { getBrowser, getDeviceName, getOS } from "./device-name";
 import { disconnectFromProfile, getSyncManager, performSync, startSync } from "./sync-manager";
@@ -62,6 +62,7 @@ async function finalizeLogin(pending: PendingLogin, localUserData: "merge" | "fo
   }
 
   await storage.set(anoriSchema.cloudAccount, pending);
+  setPendingSessionToken(undefined);
   startSync(storage);
   await performSync(storage);
   await getSyncManager(storage).flushPendingChanges();
@@ -71,17 +72,22 @@ async function authenticate(
   result: { sessionToken: string },
   client: ReturnType<typeof getApiClient>,
 ): Promise<LoginResult> {
-  updateApiClientToken(result.sessionToken);
+  setPendingSessionToken(result.sessionToken);
 
-  const me = await client.auth.me.query();
-  const pending: PendingLogin = { sessionToken: result.sessionToken, email: me.email, userId: me.id };
+  try {
+    const me = await client.auth.me.query();
+    const pending: PendingLogin = { sessionToken: result.sessionToken, email: me.email, userId: me.id };
 
-  if (await hasForeignUserData(me.id)) {
-    return { status: "userDataConflict", pending };
+    if (await hasForeignUserData(me.id)) {
+      return { status: "userDataConflict", pending };
+    }
+
+    await finalizeLogin(pending, "merge");
+    return { status: "ok" };
+  } catch (error) {
+    setPendingSessionToken(undefined);
+    throw error;
   }
-
-  await finalizeLogin(pending, "merge");
-  return { status: "ok" };
 }
 
 export const login = async (email: string, password: string): Promise<LoginResult> => {
@@ -129,7 +135,7 @@ export const cancelPendingLogin = async (): Promise<void> => {
   } catch (_e) {
     // Ignore errors during logout
   }
-  updateApiClientToken(undefined);
+  setPendingSessionToken(undefined);
 };
 
 export const logout = async () => {
@@ -144,7 +150,7 @@ export const logout = async () => {
   const storage = await getAnoriStorage();
   await storage.set(anoriSchema.cloudAccount, null);
   await disconnectFromProfile(storage);
-  updateApiClientToken(undefined);
+  setPendingSessionToken(undefined);
 };
 
 /**
@@ -155,7 +161,7 @@ export const clearSession = async () => {
   const storage = await getAnoriStorage();
   await storage.set(anoriSchema.cloudAccount, null);
   await disconnectFromProfile(storage);
-  updateApiClientToken(undefined);
+  setPendingSessionToken(undefined);
 };
 
 export const isSessionError = (error: unknown): boolean => {

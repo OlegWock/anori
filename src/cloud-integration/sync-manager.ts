@@ -12,7 +12,7 @@ import { isAppErrorOfType } from "@anori-app/api-client";
 import { CommitLogPrunedError, SchemaUpgradeConflictError, SchemaVersionMismatchError } from "@anori-app/api-types";
 import { getApiClient } from "./api-client";
 import { clearSession, isSessionError } from "./auth";
-import { getSubscriptionClient } from "./subscription-client";
+import { getSubscriptionClient, onSubscriptionClientReconnect } from "./subscription-client";
 
 type RemoteCell = {
   key: string;
@@ -100,6 +100,7 @@ export class SyncManager {
   private outboxUnsubscribe: (() => void) | null = null;
   private profileSubscription: { unsubscribe: () => void } | null = null;
   private userCellsSubscription: { unsubscribe: () => void } | null = null;
+  private stopListeningForReconnects: (() => void) | null = null;
   private flushOutboxTimeout: ReturnType<typeof setTimeout> | null = null;
   private isFlushingOutbox = false;
 
@@ -114,6 +115,7 @@ export class SyncManager {
    */
   start(): void {
     this.setupOutboxSync();
+    this.stopListeningForReconnects ??= onSubscriptionClientReconnect(() => this.refreshRemoteSubscriptions());
     this.refreshRemoteSubscriptions();
   }
 
@@ -131,6 +133,8 @@ export class SyncManager {
       this.flushOutboxTimeout = null;
     }
 
+    this.stopListeningForReconnects?.();
+    this.stopListeningForReconnects = null;
     this.teardownRemoteSubscriptions();
   }
 
