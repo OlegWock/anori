@@ -234,7 +234,7 @@ export const WidgetCard = ({
   const card = (
     <m.div
       id={instanceId ? `WidgetCard-${instanceId}` : undefined}
-      ref={mergeRefs([ref, type === "widget" && isEditing ? (draggableRef as Ref<HTMLDivElement>) : null])}
+      ref={mergeRefs([ref, draggableRef as Ref<HTMLDivElement>])}
       key={`card-${instanceId}`}
       className={cx(cardCss, withPadding ? cardPaddedCss : cardFlushCss, "WidgetCard", className)}
       data-busy={isDragging || resize.isResizing ? true : undefined}
