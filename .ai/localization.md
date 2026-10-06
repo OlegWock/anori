@@ -26,6 +26,8 @@
 
 * `src/translations/notes.json` holds optional human-readable usage notes that are fed to the model as extra context. It is nested like the translation files (but without the `translation` wrapper) so notes can be hand-edited alongside `en.json`. It is hand-maintained (seed it for existing keys with the help of Claude Code; add notes for new keys manually). Missing notes are fine — the translator also auto-greps `src` for `t('key')` usages as fallback context.
 
+* **Notes for plural keys go on the root key, never on the individual forms.** For `daysLeft_one` / `daysLeft_other`, write one note under `daysLeft`, not one per form; the translator falls back from each form to its root, and a single note keeps every form (including the extra ones other languages need, like `_few` and `_many`) on the same context. Say in the note that the string uses i18next plural forms and, if there is more than one number in it, which one (`{{count}}`) picks the form. See `tabs-plugin.stash.tabCount`.
+
 * **Term references in notes.** A note may contain `$(some.key)`, which the translator replaces with that key's **current translation in the target language** before sending the item to the model. Use it whenever a string mentions a feature, screen, or widget that has its own key, so every language keeps one name for it:
 
     ```jsonc
@@ -47,15 +49,17 @@
     * `pnpm translations:clean` — removes keys no longer found in `en` from other translations (and from `fingerprints.json`). Run after removing strings from `en`.
     * `pnpm translations:locales` — generates files in `src/_locales` folder. Those are used by browser and extension stores to show extension name and description in preferred user language. They shouldn't be edited manually.
 
+* **Agents: never run `pnpm translations:translate` on your own.** Add or change `en` strings (and `notes.json` entries) and stop there; the user runs the translation script themselves when they decide to. It costs API credits and rewrites many files, and while the watcher is running its writes also trigger a rebuild per language. Only run it when the user explicitly asks in that conversation.
+
 * General flow when working with translations is as follows
     * When adding new strings:
         1. Add them to `en` translation.
         2. Add usage notes for the new keys to `notes.json`. If a string names a feature that has its own key, cite it with `$(that.key)` in the note.
-        3. Run `pnpm translations:translate all`.
+        3. The user runs `pnpm translations:translate all` (not you, unless explicitly asked).
     * When removing strings
         1. Remove them from `en` translation.
         2. Run `pnpm translations:clean`
     * When changing strings
         1. Update string(s) in `en`. The changed fingerprint marks them stale automatically.
-        2. Run `pnpm translations:translate all` to refresh every language.
+        2. The user runs `pnpm translations:translate all` to refresh every language.
     * To correct a single bad translation, just edit the value in the language file directly — it will persist until that `en` string changes.

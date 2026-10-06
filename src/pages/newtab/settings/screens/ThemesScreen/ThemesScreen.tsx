@@ -94,7 +94,7 @@ export const ThemesScreen = (props: ComponentProps<typeof m.div>) => {
             ))}
           </div>
 
-          <Field label={`${t("settings.theme.colorScheme")}:`}>
+          <Field label={t("settings.theme.colorScheme")}>
             <Select<ColorScheme>
               options={COLOR_SCHEMES}
               value={colorScheme}

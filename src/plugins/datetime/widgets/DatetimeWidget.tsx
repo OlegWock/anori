@@ -91,7 +91,7 @@ export const DatetimeWidget = memo(function DatetimeWidget({
   const forceRerender = useForceRerender();
 
   // TODO: probably should refactor this so dependencies are explicit?
-  // TODO: also would be good to migrate to dayjs
+  // TODO: also would be good to migrate off moment to native Intl APIs (formatting, time zones) and date-fns (date math)
   // biome-ignore lint/correctness/useExhaustiveDependencies: both using i18n as proxy and mutable moment messes with deps array
   const time = useMemo(
     () => currentMoment.format(config.timeFormat),

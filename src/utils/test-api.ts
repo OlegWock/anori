@@ -22,6 +22,7 @@ export type TestApiState = {
 export type AnoriTestApi = {
   getState: () => TestApiState;
   setEditMode: (enabled: boolean) => void;
+  moveWidget: (instanceId: string, position: { x: number; y: number }) => void;
 };
 
 declare global {

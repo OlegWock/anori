@@ -46,6 +46,14 @@
         "icons": "Ikony",
         "customIcons": "Vlastné ikony",
         "canBeEmpty": "môže byť prázdne",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}d {{hours}}h",
+            "days_one": "{{count}} deň",
+            "days_few": "{{count}} dni",
+            "days_many": "{{count}} dní",
+            "days_other": "{{count}} dní"
+        },
         "unsupportedWidget": {
             "short": "Nedostupné",
             "title": "Widget nedostupný",
@@ -276,6 +284,10 @@
             "hostPermissions": "Oprávnenia hostiteľa",
             "grant": "Udeliť oprávnenia"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Prvý deň týždňa",
+            "calendarType": "Typ kalendára"
+        },
         "bookmark-plugin": {
             "name": "Záložky",
             "widgetName": "Záložka",
@@ -298,8 +310,6 @@
         "calendar-plugin": {
             "name": "Kalendár",
             "widgetName": "Kalendár",
-            "firstDayOfWeek": "Prvý deň týždňa",
-            "calendarType": "Typ kalendára",
             "previousMonth": "Predchádzajúci mesiac",
             "nextMonth": "Nasledujúci mesiac"
         },
@@ -485,16 +495,77 @@
             "tagImproved": "Vylepšené",
             "tagFixed": "Opravené",
             "changelogNote": "Hľadáte changelog pre staršie verzie? Nájdete ho <0>na GitHube</0>.",
-            "v2_2_0": {
-                "headline": "Vlastné témy teraz podporujú animované GIF pozadia a pixel art.",
-                "animatedBackgroundsTitle": "Animované pozadia",
-                "animatedBackgroundsBody": "Vlastné témy teraz akceptujú GIF súbory, takže pozadie novej karty môže byť animované. Nastavte Rozmazanie na nulu, aby sa animácia zachovala.",
-                "animatedBackgroundsPixelArt": "Používate pixel art? Povoľte '$t(settings.theme.pixelatedBackground)' v editore tém, aby každý pixel zostal ostrý.",
-                "minorWheelSwitching": "Podržte Alt (Option na Macu) a rolujte kolieskom myši alebo trackpadom na prepínanie medzi priečinkami.",
-                "minorBookmarksDnd": "Záložky v paneli záložiek je možné presúvať ťahaním, vrátane presúvania do priečinkov a z nich.",
-                "minorRtlArrows": "V jazykoch so zápisom sprava doľava teraz klávesové skratky pre ľavý a pravý priečinok sledujú smer, v ktorom sú priečinky rozložené.",
-                "minorBrowserDetection": "Lepšie rozpoznávanie prehliadača pri prihlasovaní do Anori Plus v Chrome alebo Brave."
+            "v2_3_0": {
+                "headline": "Spoznajte nový plugin $t(motivation-plugin.name): osem widgetov na sledovanie času, udržanie prehľadu, sústredenie a počítanie dní, na ktorých záleží.",
+                "periodsTitle": "Kam sa podal deň?",
+                "periodsBody": "Nové widgety priebehu ukazujú, koľko z dňa, týždňa, mesiaca alebo roka je už za vami. Deň a týždeň môžu pokrývať len ich časť, takže môžete sledovať pracovný deň a pracovný týždeň, alebo mať prehľad o tom, koľko víkendu vám ešte zostáva.",
+                "periodsCalendar": "Mesiac a rok môžu tiež sledovať iný kalendárny systém, ak podľa neho žijete.",
+                "lifeTitle": "Dlhý pohľad",
+                "lifeBody": "Pozrite sa na svoj život z nadhľadu pomocou Priebehu života: váš život ako mriežka rokov, ktorá sa ticho vypĺňa. Jemné memento mori, bez lebiek. A ak radšej sledujete sekundy, Počítadlo veku ukazuje, koľko máte rokov, naživo.",
+                "focusTitle": "Majte to na očiach",
+                "focusBody": "Fokus zobrazuje jeden riadok textu na vašej novej karte, aby dôležitá vec nezapadla pod všetko ostatné. Použite ho pre svoju úlohu dňa, cieľ týždňa alebo niečo, za čo ste vďační. Môže sa obnoviť každý deň, týždeň alebo mesiac, alebo zostať, kým ho nezmeníte.",
+                "counterTitle": "Počítajte dni",
+                "counterBody": "Ak má váš fokus termín, pomáha vidieť, ako dni ubúdajú. Na to slúži počítadlo dní. Počíta aj opačným smerom: prestali ste fajčiť pred dvoma týždňami? Dajte to číslo na svoju novú kartu a sledujte, ako deň po dni rastie.",
+                "minorLocalizedNumbers": "Percentá využitia CPU a pamäte a rýchlosť vetra teraz zodpovedajú formátu čísel vášho jazyka, napríklad '12,3 %' v nemčine alebo '%12,3' v turečtine."
             }
+        },
+        "motivation-plugin": {
+            "name": "Motivácia",
+            "dayProgress": "Priebeh dňa",
+            "weekProgress": "Priebeh týždňa",
+            "monthProgress": "Priebeh mesiaca",
+            "yearProgress": "Priebeh roka",
+            "lifeProgress": "Priebeh života",
+            "ageTicker": "Počítadlo veku",
+            "focus": "Fokus",
+            "dayCounter": "Počítadlo dní",
+            "period": {
+                "day": "Deň",
+                "week": "Týždeň",
+                "month": "Mesiac",
+                "year": "Rok"
+            },
+            "elapsedTooltip": "{{percent}} uplynulo · {{duration}}",
+            "remainingTooltip": "{{percent}} zostáva · {{duration}}",
+            "countOnlyPartOfDay": "Počítať len časť dňa",
+            "countOnlyPartOfWeek": "Počítať len časť týždňa",
+            "from": "Od",
+            "to": "Do",
+            "dateOfBirth": "Dátum narodenia",
+            "expectedLifespan": "Očakávaná dĺžka života, roky",
+            "yearsLived_one": "{{lived}} z {{count}} roka prežitého",
+            "yearsLived_few": "{{lived}} z {{count}} rokov prežitých",
+            "yearsLived_many": "{{lived}} z {{count}} rokov prežitých",
+            "yearsLived_other": "{{lived}} z {{count}} rokov prežitých",
+            "yourAge": "Váš vek",
+            "focusPlaceholder": "Napíšte a stlačte Enter",
+            "resetCadence": "Resetovať",
+            "cadences": {
+                "daily": "Každý deň",
+                "weekly": "Každý týždeň",
+                "monthly": "Každý mesiac",
+                "manual": "Manuálne"
+            },
+            "markDone": "Označiť ako hotové",
+            "markNotDone": "Označiť ako nehotové",
+            "editFocus": "Upraviť",
+            "targetDate": "Dátum",
+            "today": "Dnes",
+            "daysLeft_one": "zostávajúci deň",
+            "daysLeft_few": "zostávajúce dni",
+            "daysLeft_many": "zostávajúcich dní",
+            "daysLeft_other": "zostávajúcich dní",
+            "daysSince_one": "deň uplynul",
+            "daysSince_few": "dni uplynuli",
+            "daysSince_many": "dní uplynulo",
+            "daysSince_other": "dní uplynulo",
+            "hoursLeft_one": "zostávajúca hodina",
+            "hoursLeft_few": "zostávajúce hodiny",
+            "hoursLeft_many": "zostávajúcich hodín",
+            "hoursLeft_other": "zostávajúcich hodín",
+            "mockFocusText": "Dokončiť štvrťročnú správu",
+            "mockCounterTitle": "Dovolenka",
+            "defaultPrompt": "Dnešné zameranie"
         }
     }
 }

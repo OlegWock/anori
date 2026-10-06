@@ -46,6 +46,12 @@
         "icons": "İkonlar",
         "customIcons": "Özel ikonlar",
         "canBeEmpty": "Boş olabilir",
+        "duration": {
+            "hoursMinutes": "{{hours}}s {{minutes}}d",
+            "daysHours": "{{days}}g {{hours}}s",
+            "days_one": "{{count}} gün",
+            "days_other": "{{count}} gün"
+        },
         "unsupportedWidget": {
             "short": "Kullanılamıyor",
             "title": "Widget kullanılamıyor",
@@ -276,6 +282,10 @@
             "hostPermissions": "Ana bilgisayar izinleri",
             "grant": "İzinleri ver"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Haftanın ilk günü",
+            "calendarType": "Takvim türü"
+        },
         "bookmark-plugin": {
             "name": "Yer İmleri",
             "widgetName": "Yer İmi",
@@ -298,8 +308,6 @@
         "calendar-plugin": {
             "name": "Takvim",
             "widgetName": "Takvim",
-            "firstDayOfWeek": "Haftanın ilk günü",
-            "calendarType": "Takvim türü",
             "previousMonth": "Önceki ay",
             "nextMonth": "Sonraki ay"
         },
@@ -483,16 +491,69 @@
             "tagImproved": "İyileştirildi",
             "tagFixed": "Düzeltildi",
             "changelogNote": "Eski sürümlerin değişiklik günlüğünü mü arıyorsunuz? <0>GitHub'da</0> bulabilirsiniz.",
-            "v2_2_0": {
-                "headline": "Özel temalar artık animasyonlu GIF arka planlarını ve piksel sanatını destekliyor.",
-                "animatedBackgroundsTitle": "Animasyonlu arka planlar",
-                "animatedBackgroundsBody": "Özel temalar artık GIF dosyalarını kabul ediyor, böylece yeni sekme arka planınız animasyonlu olabilir. Animasyonu korumak için Bulanıklığı sıfıra ayarlayın.",
-                "animatedBackgroundsPixelArt": "Piksel sanatı mı kullanıyorsunuz? Her pikseli net tutmak için tema düzenleyicisinde '$t(settings.theme.pixelatedBackground)' seçeneğini etkinleştirin.",
-                "minorWheelSwitching": "Klasörler arasında geçiş yapmak için Alt (Mac'te Option) tuşunu basılı tutun ve fare tekerleği veya izleme turuyla kaydırın.",
-                "minorBookmarksDnd": "Yer imleri çubuğundaki yer imleri, klasörlerin içine ve dışına taşımak da dahil olmak üzere sürükleyerek yeniden düzenlenebilir.",
-                "minorRtlArrows": "Sağdan sola dillerde, sol ve sağ klasör kısayolları artık klasörlerin yerleşim yönünü takip ediyor.",
-                "minorBrowserDetection": "Chrome veya Brave'de Anori Plus'a giriş yaparken daha iyi tarayıcı algılama."
+            "v2_3_0": {
+                "headline": "Yeni $t(motivation-plugin.name) eklentisiyle tanışın: zamanınızı takip etmek, büyük resmi gözden kaçırmamak, odaklanmak ve önemli günleri saymak için sekiz widget.",
+                "periodsTitle": "Gün nereye gitti?",
+                "periodsBody": "Yeni ilerleme widget'ları, günün, haftanın, ayın veya yılın ne kadarının geride kaldığını gösterir. Gün ve hafta ilerlemesi yalnızca belirli bir bölümü kapsayabilir; böylece iş gününüzü ve iş haftanızı takip edebilir ya da hafta sonundan ne kadar kaldığını görebilirsiniz.",
+                "periodsCalendar": "Ay ve yıl ilerlemesi, günlük hayatınızda kullandığınız takvim türüne göre farklı bir takvim sistemini de takip edebilir.",
+                "lifeTitle": "Uzun vadeli bakış",
+                "lifeBody": "Yaşam ilerlemesi ile tamamen uzaklaşın: hayatınız, sessizce dolmakta olan bir yıllar ızgarası olarak karşınızda. Kafatasları olmayan, nazik bir memento mori. Saniyeleri izlemeyi tercih ediyorsanız, yaş sayacı kaç yaşında olduğunuzu canlı olarak sayar.",
+                "focusTitle": "Gözden kaçırma",
+                "focusBody": "Odak, yeni sekmenizde tek satırlık bir metin tutar; böylece önemli olan şey diğer her şeyin altında kaybolmaz. Günün görevi, haftanın hedefi veya minnettar olduğunuz bir şey için kullanabilirsiniz. Her gün, hafta ya da ayda sıfırlanabilir veya siz değiştirene kadar sabit kalabilir.",
+                "counterTitle": "Günleri say",
+                "counterBody": "Odağınızın bir son tarihi varsa, günlerin tükenmesini görmek işe yarar. Gün sayacı bunun için var. Ters yönde de sayar: iki hafta önce sigarayı bıraktınız mı? O sayıyı yeni sekmenize koyun ve her geçen gün büyümesini izleyin.",
+                "minorLocalizedNumbers": "CPU ve bellek kullanım yüzdeleri ile rüzgar hızı artık dilinizin sayı biçimini takip ediyor; Almanca'da '12,3 %', Türkçe'de '%12,3' gibi."
             }
+        },
+        "motivation-plugin": {
+            "name": "Motivasyon",
+            "dayProgress": "Gün ilerlemesi",
+            "weekProgress": "Hafta ilerlemesi",
+            "monthProgress": "Ay ilerlemesi",
+            "yearProgress": "Yıl ilerlemesi",
+            "lifeProgress": "Yaşam ilerlemesi",
+            "ageTicker": "Yaş sayacı",
+            "focus": "Odak",
+            "dayCounter": "Gün sayacı",
+            "period": {
+                "day": "Gün",
+                "week": "Hafta",
+                "month": "Ay",
+                "year": "Yıl"
+            },
+            "elapsedTooltip": "{{percent}} geçti · {{duration}}",
+            "remainingTooltip": "{{percent}} kaldı · {{duration}}",
+            "countOnlyPartOfDay": "Günün yalnızca bir bölümünü say",
+            "countOnlyPartOfWeek": "Haftanın yalnızca bir bölümünü say",
+            "from": "Başlangıç",
+            "to": "Bitiş",
+            "dateOfBirth": "Doğum tarihi",
+            "expectedLifespan": "Beklenen yaşam süresi, yıl",
+            "yearsLived_one": "{{count}} yılın {{lived}} yılı yaşandı",
+            "yearsLived_other": "{{count}} yılın {{lived}} yılı yaşandı",
+            "yourAge": "Yaşınız",
+            "focusPlaceholder": "Yazın ve Enter'a basın",
+            "resetCadence": "Sıfırlama",
+            "cadences": {
+                "daily": "Her gün",
+                "weekly": "Her hafta",
+                "monthly": "Her ay",
+                "manual": "Manuel"
+            },
+            "markDone": "Tamamlandı olarak işaretle",
+            "markNotDone": "Tamamlanmadı olarak işaretle",
+            "editFocus": "Düzenle",
+            "targetDate": "Tarih",
+            "today": "Bugün",
+            "daysLeft_one": "gün kaldı",
+            "daysLeft_other": "gün kaldı",
+            "daysSince_one": "gün önce",
+            "daysSince_other": "gün önce",
+            "hoursLeft_one": "saat kaldı",
+            "hoursLeft_other": "saat kaldı",
+            "mockFocusText": "Üç aylık raporu bitir",
+            "mockCounterTitle": "Tatil",
+            "defaultPrompt": "Bugünün odağı"
         }
     }
 }

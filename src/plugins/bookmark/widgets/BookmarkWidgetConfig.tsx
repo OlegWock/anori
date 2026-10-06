@@ -49,7 +49,7 @@ export const BookmarkWidgetConfigScreen = ({
   return (
     <div className={config}>
       <div className={row}>
-        <Field label={`${t("icon")}:`}>
+        <Field label={t("icon")}>
           <Popover
             component={IconPicker}
             initialFocus={IS_TOUCH_DEVICE ? -1 : iconSearchRef}
@@ -65,10 +65,10 @@ export const BookmarkWidgetConfigScreen = ({
           </Popover>
         </Field>
         <div className={mainColumn}>
-          <Field label={`${t("title")}:`}>
+          <Field label={t("title")}>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} />
           </Field>
-          <Field label={`${t("url")}:`}>
+          <Field label={t("url")}>
             <div className={urlImportWrapper}>
               <Input value={url} onChange={(e) => setUrl(e.target.value)} />
               <Popover

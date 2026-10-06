@@ -65,7 +65,7 @@ export const PictureConfigScreen = ({
 
   return (
     <div className={config}>
-      <Field label={`${t("picture-plugin.imageSource")}:`}>
+      <Field label={t("picture-plugin.imageSource")}>
         <Select<Source>
           options={["url", "local"]}
           value={source}
@@ -76,11 +76,11 @@ export const PictureConfigScreen = ({
       </Field>
 
       {source === "url" ? (
-        <Field label={`${t("url")}:`}>
+        <Field label={t("url")}>
           <Input placeholder="https://example.com/image.jpg" value={url} onChange={(e) => setUrl(e.target.value)} />
         </Field>
       ) : (
-        <Field label={`${t("picture-plugin.image")}:`}>
+        <Field label={t("picture-plugin.image")}>
           {!!previewUrl && <img className={imagePreview} src={previewUrl} alt={t("picture-plugin.name")} />}
           <Button variant="secondary" className={selectButton} onClick={selectImage}>
             {hasLocalImage ? t("picture-plugin.changeImage") : t("picture-plugin.selectImage")}

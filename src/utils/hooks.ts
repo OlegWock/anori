@@ -148,6 +148,26 @@ export const useIntervalRender = (interval: number) => {
   }, [interval]);
 };
 
+export const useNow = (intervalMs: number): Date => {
+  useIntervalRender(intervalMs);
+  return new Date();
+};
+
+export type ElementSize = { width: number; height: number };
+
+export const useElementSize = (element: HTMLElement | null): ElementSize => {
+  const [size, setSize] = useState<ElementSize>({ width: 0, height: 0 });
+  useLayoutEffect(() => {
+    if (!element) return;
+    const update = () => setSize({ width: element.clientWidth, height: element.clientHeight });
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [element]);
+  return size;
+};
+
 export const useScheduledRender = () => {
   const forceUpdate = useForceRerender();
   const tid = useRef<null | NodeJS.Timeout>(null);

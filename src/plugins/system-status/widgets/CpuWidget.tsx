@@ -1,7 +1,9 @@
 import { isChromeLike } from "@anori/utils/browser";
+import { formatPercent } from "@anori/utils/format";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 import { metricValue, spacer, widget } from "../styles";
 
@@ -10,6 +12,7 @@ const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
 const avg = (arr: number[]) => (arr.length === 0 ? 0 : sum(arr) / arr.length);
 
 export const CpuWidgetScreen = memo(function CpuWidgetScreen(_props: WidgetRenderProps<EmptyObject>) {
+  const { i18n } = useTranslation();
   const [load, setLoad] = useState(0);
   useEffect(() => {
     const load = async () => {
@@ -46,7 +49,7 @@ export const CpuWidgetScreen = memo(function CpuWidgetScreen(_props: WidgetRende
 
   return (
     <div className={widget}>
-      <div className={metricValue}>{(load * 100).toFixed(1)}%</div>
+      <div className={metricValue}>{formatPercent(load, i18n.language, 1)}</div>
       <div className={spacer} />
       <div>CPU</div>
     </div>

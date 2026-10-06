@@ -34,6 +34,11 @@
     "icons": "Heading for the section listing available built-in icons in the icon picker.",
     "customIcons": "Option/tab label in the icon picker for the user's own uploaded icon set.",
     "canBeEmpty": "Inline parenthetical hint next to an optional form field label, indicating it may be left blank.",
+    "duration": {
+        "hoursMinutes": "Compact duration, e.g. '6h 20m'. Keep it short; unit letters may be localized.",
+        "daysHours": "Compact duration, e.g. '3d 4h'. Keep it short.",
+        "days": "Duration in whole days, e.g. '3 days'. Uses i18next plural forms."
+    },
     "cloud": {
         "connect": "Button to connect the current browser to a cloud sync profile (sidebar and profile cards).",
         "connected": "Badge next to a profile name indicating it is currently connected and syncing.",
@@ -239,6 +244,10 @@
         "hostPermissions": "Heading for the list of required host (website) permissions.",
         "grant": "Button that grants the requested permissions."
     },
+    "calendarSettings": {
+        "firstDayOfWeek": "Label for the first-day-of-week setting, shared by widget config screens (Calendar widget, week progress, focus).",
+        "calendarType": "Label for the setting that picks the calendar system (Gregorian, Hijri, Persian, Hebrew, Buddhist), shared by widget config screens (Calendar widget, month and year progress, focus)."
+    },
     "bookmark-plugin": {
         "name": "Bookmarks plugin name in the add-widget picker.",
         "widgetName": "Name of the single Bookmark widget in the add-widget picker.",
@@ -257,8 +266,7 @@
     },
     "calendar-plugin": {
         "name": "Calendar plugin name in the add-widget picker.",
-        "widgetName": "Calendar widget name in the add-widget picker.",
-        "firstDayOfWeek": "Label for the first-day-of-week setting in the Calendar widget config."
+        "widgetName": "Calendar widget name in the add-widget picker."
     },
     "datetime-plugin": {
         "name": "Date and time plugin name in the add-widget picker.",
@@ -438,15 +446,64 @@
         "tagImproved": "Short badge label before a change in the What's new list, marking an improvement to something that already existed. Keep it to one word if possible.",
         "tagFixed": "Short badge label before a change in the What's new list, marking a bug fix. Keep it to one word if possible.",
         "changelogNote": "Muted footnote at the bottom of the What's new modal. <0>...</0> wraps the link text pointing to the changelog file on GitHub; keep the tags around whatever words become the link in the target language.",
-        "v2_2_0": {
-            "headline": "One-sentence summary of release 2.2.0, shown large on an accent-coloured banner in the What's new modal. Informal, addresses the user directly. 'GIF' is a file format name and stays as is.",
-            "animatedBackgroundsTitle": "Card heading in the What's new modal for the feature that lets custom theme backgrounds be animated GIF files.",
-            "animatedBackgroundsBody": "Description of the animated background feature. Informal, second person. 'GIF' stays as is. Established term: blur = '$(settings.theme.blur)' (the blur slider in the theme editor).",
-            "animatedBackgroundsPixelArt": "Follow-up paragraph about the new pixel art option. The $t(...) placeholder expands to the checkbox label already translated elsewhere; keep the quotes around it.",
-            "minorWheelSwitching": "Minor change entry: new shortcut, holding Alt (Option on Mac) while scrolling switches folders in the sidebar. Established term: folder = '$(settings.folders.title)'.",
-            "minorBookmarksDnd": "Minor change entry: the bookmarks bar at the top of the page now supports drag and drop to reorder bookmarks and move them between folders, like the browser's own bookmarks bar. Established term: the bookmarks bar setting label is '$(settings.general.showBookmarksBar)'; reuse its wording for 'bookmarks bar'.",
-            "minorRtlArrows": "Minor change entry: bug fix for the Alt+Left / Alt+Right folder shortcuts, which moved the wrong way when the interface is in a right-to-left language such as Arabic.",
-            "minorBrowserDetection": "Minor change entry: bug fix in how the browser name is detected for the device list of the paid Anori Plus service. 'Anori Plus', 'Chrome' and 'Brave' are product names and stay untranslated."
+        "v2_3_0": {
+            "headline": "One-sentence summary of release 2.3.0, shown large on an accent-coloured banner in the What's new modal, right under the version number. Introduces the new plugin and its eight widgets in four groups (time progress, life progress, focus, day counter), which match the cards below. Informal, enthusiastic but not salesy. The $t(...) placeholder expands to the plugin name.",
+            "periodsTitle": "Card heading in the What's new modal for the widgets that show how much of the day, week, month or year has passed. A light rhetorical question, like someone wondering how the day went by so fast.",
+            "periodsBody": "Describes the period progress widgets by use case. Informal, second person. Day and week progress can be limited to part of the day/week (e.g. working hours, work days, the weekend). Established terms: '$(motivation-plugin.dayProgress)', '$(motivation-plugin.weekProgress)', '$(motivation-plugin.monthProgress)', '$(motivation-plugin.yearProgress)'.",
+            "periodsCalendar": "Follow-up sentence: month and year progress can use a non-Gregorian calendar (Hijri, Persian, Hebrew, Buddhist). 'Live by' means the calendar the reader uses day to day. Established term: calendar type setting = '$(calendarSettings.calendarType)'.",
+            "lifeTitle": "Card heading for the life progress and age ticker widgets. 'The long view' = looking at your whole life rather than a day or week.",
+            "lifeBody": "Describes two widgets: a grid with one square per year of life, and a live age counter. 'Zoom all the way out' is a metaphor for stepping back to see your whole life at once instead of days and weeks; translate that meaning, not the camera zoom (and never as zooming in or enlarging). 'Memento mori' is the Latin phrase (a reminder of mortality); keep it in Latin if that's natural in the target language, otherwise use the established local equivalent. 'Minus the skulls' is a light joke about skulls in memento mori art. Established terms: '$(motivation-plugin.lifeProgress)', '$(motivation-plugin.ageTicker)'.",
+            "focusTitle": "Card heading for the Focus widget: keep the important thing visible. Short and informal.",
+            "focusBody": "Describes the Focus widget: one line of text the user sets, e.g. a task, a weekly goal, or something they're grateful for. It resets daily, weekly, monthly or never. Informal, second person. Established term: '$(motivation-plugin.focus)'.",
+            "counterTitle": "Card heading for the Day counter widget. Short and informal.",
+            "counterBody": "Describes the Day counter widget, continuing from the Focus card: it counts down to a deadline, or counts days since a past event (example: quitting smoking). Warm, encouraging, informal. Established terms: '$(motivation-plugin.dayCounter)', '$(motivation-plugin.focus)'.",
+            "minorLocalizedNumbers": "Minor change entry: percentages in the CPU and memory widgets and the wind speed in weather widgets now use the locale's number format. Keep the two examples exactly as written ('12,3 %' and '%12,3'), they show German and Turkish formats."
         }
+    },
+    "motivation-plugin": {
+        "name": "Plugin name shown in the widget picker; the plugin groups widgets about staying motivated (time progress, life progress, daily focus, countdowns). It's a plain word, not a brand name: translate it.",
+        "dayProgress": "Widget name: shows how much of the current day has elapsed.",
+        "weekProgress": "Widget name: shows how much of the current week has elapsed.",
+        "monthProgress": "Widget name: shows how much of the current month has elapsed.",
+        "yearProgress": "Widget name: shows how much of the current year has elapsed.",
+        "lifeProgress": "Widget name: memento-mori grid of squares, one per year (or week) of expected lifespan, filled for time already lived.",
+        "ageTicker": "Widget name: shows the user's exact age in years with decimals, ticking live.",
+        "focus": "Widget name: a single line of text the user sets as their current focus (daily / weekly / monthly / manual reset).",
+        "dayCounter": "Widget name: countdown to a date that switches to counting days since the date after it passes.",
+        "period": {
+            "day": "Short title shown in the center of a donut chart / as header of a progress bar for the day progress widget. Noun, standalone.",
+            "week": "Same as period.day, for the week progress widget.",
+            "month": "Same as period.day, for the month progress widget.",
+            "year": "Same as period.day, for the year progress widget."
+        },
+        "elapsedTooltip": "Tooltip on the elapsed part of a progress chart. {{percent}} is like '64%', {{duration}} is a formatted duration like '15h 20m' or '12 days'.",
+        "remainingTooltip": "Tooltip on the remaining part of a progress chart, same placeholders as elapsedTooltip.",
+        "countOnlyPartOfDay": "Checkbox in the day progress widget settings: when on, only the time between two chosen clock times counts (e.g. excluding sleep, or a work day).",
+        "countOnlyPartOfWeek": "Checkbox in the week progress widget settings: when on, only the selected weekdays count (e.g. a work week).",
+        "from": "Label of the start field: a clock time in the day progress settings, or a weekday in the week progress settings.",
+        "to": "Label of the end field: a clock time in the day progress settings, or a weekday in the week progress settings.",
+        "dateOfBirth": "Form field label for the user's date of birth (life progress and age ticker settings).",
+        "expectedLifespan": "Form field label for a number of years the user expects to live (life progress settings).",
+        "yearsLived": "Tooltip over the life progress grid, e.g. '29.7 of 80 years lived'. {{lived}} is the current age with one decimal, {{count}} is the expected lifespan in whole years. Uses i18next plural forms, chosen by {{count}}.",
+        "yourAge": "Caption above the big age number in the age ticker widget ('Your age' / '29.7223518'). A standalone label, the number below it is the age in years.",
+        "focusPlaceholder": "Placeholder in the inline input where the user types their focus; Enter saves it.",
+        "resetCadence": "Settings field label for how often the focus text is cleared automatically (every day / week / month / manually).",
+        "cadences": {
+            "daily": "Option: the focus resets every day.",
+            "weekly": "Option: the focus resets every week.",
+            "monthly": "Option: the focus resets every month.",
+            "manual": "Option: the focus never resets by itself; the user changes it."
+        },
+        "markDone": "Tooltip of the small check button on the focus widget that strikes the focus through.",
+        "markNotDone": "Tooltip of the same button when the focus is already marked done.",
+        "editFocus": "Tooltip of the small pencil button on the focus widget that lets the user edit the text.",
+        "targetDate": "Form field label for the date the day counter counts down to.",
+        "today": "Shown in place of the big number in the day counter when the target date is today.",
+        "daysLeft": "Standalone caption under the big number in the day counter before the date, e.g. '47' / 'days left'. It's a separate line, not a continuation of the number: if your language can't naturally follow a number here, phrase it as a label (like 'remaining days'). Uses i18next plural forms; the count is passed, so pick the form that matches it where your language needs agreement.",
+        "daysSince": "Standalone caption under the big number in the day counter after the date has passed, e.g. '312' / 'days since'. It's a separate line, not a continuation of the number: if your language can't naturally follow a number here, phrase it as a label (like 'days since'). Uses i18next plural forms; the count is passed, so pick the form that matches it where your language needs agreement.",
+        "hoursLeft": "Standalone caption under the big number in the day counter when less than a day is left, e.g. '5' / 'hours left'. It's a separate line, not a continuation of the number: if your language can't naturally follow a number here, phrase it as a label (like 'remaining hours'). Uses i18next plural forms; the count is passed, so pick the form that matches it where your language needs agreement.",
+        "mockFocusText": "Sample focus text shown in the widget preview in the 'Add widget' dialog; a relatable everyday task.",
+        "mockCounterTitle": "Sample title of the day counter shown in the widget preview in the 'Add widget' dialog; an event people commonly count down to.",
+        "defaultPrompt": "Default prompt pre-filled in the focus widget settings and shown above the focus text; the user may replace it with anything (e.g. 'Highlight', 'Intention', 'One thing I'm grateful for')."
     }
 }

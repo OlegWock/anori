@@ -47,7 +47,7 @@ export const WeatherWidgetConfigScreen = ({
 
   return (
     <div className={config}>
-      <Field label={`${t("weather-plugin.selectCity")}:`}>
+      <Field label={t("weather-plugin.selectCity")}>
         <Combobox<City | null>
           options={cities}
           value={selectedCity}
@@ -65,7 +65,7 @@ export const WeatherWidgetConfigScreen = ({
       </Field>
 
       <div className={unitsRow}>
-        <Field className={unitField} label={`${t("weather-plugin.temperatureUnit")}:`}>
+        <Field className={unitField} label={t("weather-plugin.temperatureUnit")}>
           <Select<Temperature>
             options={["c", "f"]}
             getOptionKey={(o) => o}

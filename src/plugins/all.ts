@@ -5,6 +5,7 @@ import { calendarPlugin } from "./calendar/calendar-plugin";
 import { datetimePlugin } from "./datetime/datetime-plugin";
 import { iframePlugin } from "./iframe/iframe-plugin";
 import { mathPlugin } from "./math/math-plugin";
+import { motivationPlugin } from "./motivation/motivation-plugin";
 import { notesPlugin } from "./notes/notes-plugin";
 import { picturePlugin } from "./picture/picture-plugin";
 import { rssPlugin } from "./rss/rss-plugin";
@@ -32,6 +33,7 @@ export const allPlugins: SomePlugin[] = [
   systemStatusPlugin,
   picturePlugin,
   ankiPlugin,
+  motivationPlugin,
 ];
 
 if (X_MODE === "development") {

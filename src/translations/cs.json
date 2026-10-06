@@ -46,6 +46,14 @@
         "icons": "Ikony",
         "customIcons": "Vlastní ikony",
         "canBeEmpty": "může být prázdné",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}d {{hours}}h",
+            "days_one": "{{count}} den",
+            "days_few": "{{count}} dny",
+            "days_many": "{{count}} dne",
+            "days_other": "{{count}} dní"
+        },
         "unsupportedWidget": {
             "short": "Nedostupné",
             "title": "Widget nedostupný",
@@ -276,6 +284,10 @@
             "hostPermissions": "Oprávnění pro hostitele",
             "grant": "Udělit oprávnění"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "První den týdne",
+            "calendarType": "Typ kalendáře"
+        },
         "bookmark-plugin": {
             "name": "Záložky",
             "widgetName": "Záložka",
@@ -298,8 +310,6 @@
         "calendar-plugin": {
             "name": "Kalendář",
             "widgetName": "Kalendář",
-            "firstDayOfWeek": "První den týdne",
-            "calendarType": "Typ kalendáře",
             "previousMonth": "Předchozí měsíc",
             "nextMonth": "Další měsíc"
         },
@@ -485,16 +495,77 @@
             "tagImproved": "Vylepšeno",
             "tagFixed": "Opraveno",
             "changelogNote": "Hledáte changelog pro starší verze? Najdete ho <0>na GitHubu</0>.",
-            "v2_2_0": {
-                "headline": "Vlastní motivy nyní podporují animovaná GIF pozadí a pixel art.",
-                "animatedBackgroundsTitle": "Animovaná pozadí",
-                "animatedBackgroundsBody": "Vlastní motivy nyní přijímají soubory GIF, takže pozadí nové karty může být animované. Nastav Rozostření na nulu, aby animace zůstala zachována.",
-                "animatedBackgroundsPixelArt": "Používáš pixel art? Povol '$t(settings.theme.pixelatedBackground)' v editoru motivů, aby každý pixel zůstal ostrý.",
-                "minorWheelSwitching": "Podržte Alt (Option na Macu) a scrollujte kolečkem myši nebo trackpadem pro přepínání mezi složkami.",
-                "minorBookmarksDnd": "Záložky v panelu záložek lze přeuspořádat přetažením, včetně přesouvání do složek a ze složek.",
-                "minorRtlArrows": "V jazycích se zápisem zprava doleva nyní klávesové zkratky pro přepínání složek doleva a doprava odpovídají směru, ve kterém jsou složky zobrazeny.",
-                "minorBrowserDetection": "Lepší detekce prohlížeče při přihlašování do Anori Plus v Chrome nebo Brave."
+            "v2_3_0": {
+                "headline": "Seznamte se s novým pluginem $t(motivation-plugin.name): osm widgetů pro sledování času, udržení přehledu, soustředění a počítání dní, na kterých záleží.",
+                "periodsTitle": "Kam se poděl celý den?",
+                "periodsBody": "Nové widgety průběhu ukazují, kolik z dne, týdne, měsíce nebo roku už máte za sebou. Den a týden mohou pokrývat jen jejich část, takže můžete sledovat svůj pracovní den a pracovní týden, nebo mít přehled o tom, kolik víkendu vám ještě zbývá.",
+                "periodsCalendar": "Měsíc a rok mohou také sledovat jiný kalendářní systém, pokud se podle něj řídíte.",
+                "lifeTitle": "Velký pohled",
+                "lifeBody": "Oddalte pohled až na celý život s průběhem života: váš život jako mřížka let, která se tiše zaplňuje. Jemné memento mori, bez lebek. A pokud raději sledujete sekundy, čítač věku počítá, jak jste staří, živě.",
+                "focusTitle": "Mějte to na očích",
+                "focusBody": "Fokus zobrazuje jeden řádek textu na vaší nové kartě, aby důležitá věc nezapadla pod vším ostatním. Použijte ho pro svůj úkol dne, cíl na týden nebo něco, za co jste vděční. Může se obnovovat každý den, týden nebo měsíc, nebo zůstat, dokud ho nezměníte.",
+                "counterTitle": "Počítejte dny",
+                "counterBody": "Pokud váš fokus přichází s termínem, pomáhá vidět, jak dny ubývají. K tomu slouží čítač dní. Počítá i opačně: přestali jste kouřit před dvěma týdny? Dejte to číslo na novou kartu a sledujte, jak den za dnem roste.",
+                "minorLocalizedNumbers": "Procenta využití CPU a paměti a rychlost větru nyní odpovídají formátu čísel vašeho jazyka, například '12,3 %' v němčině nebo '%12,3' v turečtině."
             }
+        },
+        "motivation-plugin": {
+            "name": "Motivace",
+            "dayProgress": "Průběh dne",
+            "weekProgress": "Průběh týdne",
+            "monthProgress": "Průběh měsíce",
+            "yearProgress": "Průběh roku",
+            "lifeProgress": "Průběh života",
+            "ageTicker": "Čítač věku",
+            "focus": "Fokus",
+            "dayCounter": "Čítač dní",
+            "period": {
+                "day": "Den",
+                "week": "Týden",
+                "month": "Měsíc",
+                "year": "Rok"
+            },
+            "elapsedTooltip": "{{percent}} uplynulo · {{duration}}",
+            "remainingTooltip": "{{percent}} zbývá · {{duration}}",
+            "countOnlyPartOfDay": "Počítat pouze část dne",
+            "countOnlyPartOfWeek": "Počítat pouze část týdne",
+            "from": "Od",
+            "to": "Do",
+            "dateOfBirth": "Datum narození",
+            "expectedLifespan": "Očekávaná délka života, roky",
+            "yearsLived_one": "{{lived}} z {{count}} roku prožito",
+            "yearsLived_few": "{{lived}} z {{count}} let prožito",
+            "yearsLived_many": "{{lived}} z {{count}} let prožito",
+            "yearsLived_other": "{{lived}} z {{count}} let prožito",
+            "yourAge": "Váš věk",
+            "focusPlaceholder": "Napište a stiskněte Enter",
+            "resetCadence": "Resetovat",
+            "cadences": {
+                "daily": "Každý den",
+                "weekly": "Každý týden",
+                "monthly": "Každý měsíc",
+                "manual": "Ručně"
+            },
+            "markDone": "Označit jako hotové",
+            "markNotDone": "Označit jako nehotové",
+            "editFocus": "Upravit",
+            "targetDate": "Datum",
+            "today": "Dnes",
+            "daysLeft_one": "zbývající den",
+            "daysLeft_few": "zbývající dny",
+            "daysLeft_many": "zbývajících dní",
+            "daysLeft_other": "zbývajících dní",
+            "daysSince_one": "den uplynul",
+            "daysSince_few": "dny uplynuly",
+            "daysSince_many": "dní uplynulo",
+            "daysSince_other": "dní uplynulo",
+            "hoursLeft_one": "zbývající hodina",
+            "hoursLeft_few": "zbývající hodiny",
+            "hoursLeft_many": "zbývajících hodin",
+            "hoursLeft_other": "zbývajících hodin",
+            "mockFocusText": "Dokončit čtvrtletní zprávu",
+            "mockCounterTitle": "Dovolená",
+            "defaultPrompt": "Dnešní záměr"
         }
     }
 }

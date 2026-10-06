@@ -46,6 +46,13 @@
         "icons": "Icônes",
         "customIcons": "Icônes personnalisés",
         "canBeEmpty": "peut être vide",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}j {{hours}}h",
+            "days_one": "{{count}} jour",
+            "days_many": "{{count}} jours",
+            "days_other": "{{count}} jours"
+        },
         "unsupportedWidget": {
             "short": "Indisponible",
             "title": "Widget indisponible",
@@ -276,6 +283,10 @@
             "hostPermissions": "Autorisations de l'hôte",
             "grant": "Accorder des autorisations"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Premier jour de la semaine",
+            "calendarType": "Type de calendrier"
+        },
         "bookmark-plugin": {
             "name": "Favoris",
             "widgetName": "Favoris",
@@ -298,8 +309,6 @@
         "calendar-plugin": {
             "name": "Calendrier",
             "widgetName": "Calendrier",
-            "firstDayOfWeek": "Premier jour de la semaine",
-            "calendarType": "Type de calendrier",
             "previousMonth": "Mois précédent",
             "nextMonth": "Mois suivant"
         },
@@ -484,16 +493,73 @@
             "tagImproved": "Amélioré",
             "tagFixed": "Corrigé",
             "changelogNote": "Vous cherchez le journal des modifications pour les versions antérieures ? Vous pouvez le trouver <0>sur GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Les thèmes personnalisés prennent désormais en charge les arrière-plans GIF animés et le pixel art.",
-                "animatedBackgroundsTitle": "Arrière-plans animés",
-                "animatedBackgroundsBody": "Les thèmes personnalisés acceptent désormais les fichiers GIF, votre arrière-plan de nouvel onglet peut donc être animé. Réglez le Flou à zéro pour conserver l'animation.",
-                "animatedBackgroundsPixelArt": "Vous utilisez du pixel art ? Activez '$t(settings.theme.pixelatedBackground)' dans l'éditeur de thème pour garder chaque pixel net.",
-                "minorWheelSwitching": "Maintenez Alt (Option sur Mac) et faites défiler avec la molette de la souris ou le trackpad pour changer de dossier.",
-                "minorBookmarksDnd": "Les favoris de la barre des favoris peuvent être réorganisés par glisser-déposer, y compris en les déplaçant dans et hors des dossiers.",
-                "minorRtlArrows": "Dans les langues s'écrivant de droite à gauche, les raccourcis de navigation entre dossiers gauche et droite suivent désormais le sens dans lequel les dossiers sont disposés.",
-                "minorBrowserDetection": "Meilleure détection du navigateur lors de la connexion à Anori Plus dans Chrome ou Brave."
+            "v2_3_0": {
+                "headline": "Découvrez le nouveau plugin $t(motivation-plugin.name) : huit widgets pour suivre votre temps, garder la vue d'ensemble, rester concentré et compter les jours qui comptent.",
+                "periodsTitle": "Où est passée la journée ?",
+                "periodsBody": "De nouveaux widgets de progression montrent combien du jour, de la semaine, du mois ou de l'année est déjà derrière vous. La progression du jour et de la semaine peuvent ne couvrir qu'une partie de la période, pour suivre votre journée ou semaine de travail, ou garder un œil sur ce qu'il reste du week-end.",
+                "periodsCalendar": "La progression du mois et de l'année peuvent aussi suivre un autre système de calendrier, si c'est celui que vous utilisez au quotidien.",
+                "lifeTitle": "La vue d'ensemble",
+                "lifeBody": "Prenez du recul avec la progression de vie : votre vie sous forme d'une grille d'années qui se remplit doucement. Un memento mori tout en douceur, sans les crânes. Et si vous préférez regarder les secondes défiler, le compteur d'âge affiche votre âge en temps réel.",
+                "focusTitle": "Gardez-le en vue",
+                "focusBody": "Focus affiche une ligne de texte sur votre nouvel onglet, pour que l'essentiel ne se perde pas sous tout le reste. Utilisez-le pour votre tâche du jour, un objectif de la semaine, ou quelque chose dont vous êtes reconnaissant. Il peut se réinitialiser chaque jour, semaine ou mois, ou rester jusqu'à ce que vous le changiez.",
+                "counterTitle": "Comptez les jours",
+                "counterBody": "Si votre focus s'accompagne d'une échéance, voir les jours s'écouler peut aider. C'est à ça que sert le compteur de jours. Il compte aussi dans l'autre sens : vous avez arrêté de fumer il y a deux semaines ? Affichez ce chiffre sur votre nouvel onglet et regardez-le grandir jour après jour.",
+                "minorLocalizedNumbers": "Les pourcentages d'utilisation du CPU et de la mémoire ainsi que la vitesse du vent suivent désormais le format numérique de votre langue, comme '12,3 %' en allemand ou '%12,3' en turc."
             }
+        },
+        "motivation-plugin": {
+            "name": "Motivation",
+            "dayProgress": "Progression du jour",
+            "weekProgress": "Progression de la semaine",
+            "monthProgress": "Progression du mois",
+            "yearProgress": "Progression de l'année",
+            "lifeProgress": "Progression de vie",
+            "ageTicker": "Compteur d'âge",
+            "focus": "Focus",
+            "dayCounter": "Compteur de jours",
+            "period": {
+                "day": "Jour",
+                "week": "Semaine",
+                "month": "Mois",
+                "year": "Année"
+            },
+            "elapsedTooltip": "{{percent}} écoulé · {{duration}}",
+            "remainingTooltip": "{{percent}} restant · {{duration}}",
+            "countOnlyPartOfDay": "Ne compter qu'une partie de la journée",
+            "countOnlyPartOfWeek": "Ne compter qu'une partie de la semaine",
+            "from": "De",
+            "to": "À",
+            "dateOfBirth": "Date de naissance",
+            "expectedLifespan": "Espérance de vie, en années",
+            "yearsLived_one": "{{lived}} sur {{count}} an vécu",
+            "yearsLived_many": "{{lived}} sur {{count}} ans vécus",
+            "yearsLived_other": "{{lived}} sur {{count}} ans vécus",
+            "yourAge": "Votre âge",
+            "focusPlaceholder": "Tapez et appuyez sur Entrée",
+            "resetCadence": "Réinitialisation",
+            "cadences": {
+                "daily": "Chaque jour",
+                "weekly": "Chaque semaine",
+                "monthly": "Chaque mois",
+                "manual": "Manuellement"
+            },
+            "markDone": "Marquer comme terminé",
+            "markNotDone": "Marquer comme non terminé",
+            "editFocus": "Modifier",
+            "targetDate": "Date",
+            "today": "Aujourd'hui",
+            "daysLeft_one": "jour restant",
+            "daysLeft_many": "jours restants",
+            "daysLeft_other": "jours restants",
+            "daysSince_one": "jour écoulé",
+            "daysSince_many": "jours écoulés",
+            "daysSince_other": "jours écoulés",
+            "hoursLeft_one": "heure restante",
+            "hoursLeft_many": "heures restantes",
+            "hoursLeft_other": "heures restantes",
+            "mockFocusText": "Terminer le rapport trimestriel",
+            "mockCounterTitle": "Vacances",
+            "defaultPrompt": "Objectif du jour"
         }
     }
 }

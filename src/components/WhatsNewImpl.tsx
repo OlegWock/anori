@@ -8,15 +8,10 @@ import { Trans, useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 
 const CHANGELOG_URL = "https://github.com/OlegWock/anori/blob/master/CHANGELOG.md";
-const CURRENT_VERSION = "2.2.0";
-const RELEASE = "releaseNotes.v2_2_0";
+const CURRENT_VERSION = "2.3.0";
+const RELEASE = "releaseNotes.v2_3_0";
 
-const MINOR_CHANGES = [
-  { tag: "tagNew", key: "minorWheelSwitching" },
-  { tag: "tagNew", key: "minorBookmarksDnd" },
-  { tag: "tagFixed", key: "minorRtlArrows" },
-  { tag: "tagFixed", key: "minorBrowserDetection" },
-] as const;
+const MINOR_CHANGES = [{ tag: "tagImproved", key: "minorLocalizedNumbers" }] as const;
 
 const whatsNew = css({ maxWidth: "600px", overflow: "hidden", display: "flex", flexDirection: "column", minHeight: 0 });
 
@@ -121,9 +116,21 @@ export const WhatsNewImpl = () => {
             <div className={heroHeadline}>{t(`${RELEASE}.headline`)}</div>
           </div>
 
-          <Feature icon={builtinIcons.picture} title={t(`${RELEASE}.animatedBackgroundsTitle`)}>
-            <p>{t(`${RELEASE}.animatedBackgroundsBody`)}</p>
-            <p>{t(`${RELEASE}.animatedBackgroundsPixelArt`)}</p>
+          <Feature icon={builtinIcons.time} title={t(`${RELEASE}.periodsTitle`)}>
+            <p>{t(`${RELEASE}.periodsBody`)}</p>
+            <p>{t(`${RELEASE}.periodsCalendar`)}</p>
+          </Feature>
+
+          <Feature icon={builtinIcons.compass} title={t(`${RELEASE}.lifeTitle`)}>
+            <p>{t(`${RELEASE}.lifeBody`)}</p>
+          </Feature>
+
+          <Feature icon={builtinIcons.flame} title={t(`${RELEASE}.focusTitle`)}>
+            <p>{t(`${RELEASE}.focusBody`)}</p>
+          </Feature>
+
+          <Feature icon={builtinIcons.calendar} title={t(`${RELEASE}.counterTitle`)}>
+            <p>{t(`${RELEASE}.counterBody`)}</p>
           </Feature>
 
           <Feature icon={builtinIcons.checklist} title={t("releaseNotes.alsoInThisRelease")}>

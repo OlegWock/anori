@@ -46,6 +46,13 @@
         "icons": "Ícones",
         "customIcons": "Ícones customizados",
         "canBeEmpty": "pode estar vazio",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}d {{hours}}h",
+            "days_one": "{{count}} dia",
+            "days_many": "{{count}} dias",
+            "days_other": "{{count}} dias"
+        },
         "unsupportedWidget": {
             "short": "Indisponível",
             "title": "Widget indisponível",
@@ -276,6 +283,10 @@
             "hostPermissions": "Permissões de host",
             "grant": "Conceda as permissões"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Primeiro dia da semana",
+            "calendarType": "Tipo de calendário"
+        },
         "bookmark-plugin": {
             "name": "Favoritos",
             "widgetName": "Favorito",
@@ -298,8 +309,6 @@
         "calendar-plugin": {
             "name": "Calendário",
             "widgetName": "Calendário",
-            "firstDayOfWeek": "Primeiro dia da semana",
-            "calendarType": "Tipo de calendário",
             "previousMonth": "Mês anterior",
             "nextMonth": "Próximo mês"
         },
@@ -484,16 +493,73 @@
             "tagImproved": "Melhorado",
             "tagFixed": "Corrigido",
             "changelogNote": "Procurando o changelog de versões anteriores? Você pode encontrá-lo <0>no GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Os temas personalizados agora suportam planos de fundo em GIF animado e pixel art.",
-                "animatedBackgroundsTitle": "Planos de fundo animados",
-                "animatedBackgroundsBody": "Os temas personalizados agora aceitam arquivos GIF, então o plano de fundo da sua nova aba pode ser animado. Defina o Desfoque como zero para manter a animação.",
-                "animatedBackgroundsPixelArt": "Usando pixel art? Ative '$t(settings.theme.pixelatedBackground)' no editor de temas para manter cada pixel nítido.",
-                "minorWheelSwitching": "Segure Alt (Option no Mac) e role com a roda do mouse ou trackpad para alternar entre pastas.",
-                "minorBookmarksDnd": "Os favoritos na barra de favoritos podem ser reorganizados arrastando, incluindo movê-los para dentro e fora de pastas.",
-                "minorRtlArrows": "Em idiomas da direita para a esquerda, os atalhos de pasta para esquerda e direita agora seguem a direção em que as pastas estão dispostas.",
-                "minorBrowserDetection": "Melhor detecção de navegador ao fazer login no Anori Plus no Chrome ou Brave."
+            "v2_3_0": {
+                "headline": "Conheça o novo plugin $t(motivation-plugin.name): oito widgets para acompanhar seu tempo, manter o panorama geral em vista, manter o foco e contar os dias que importam.",
+                "periodsTitle": "Para onde foi o dia?",
+                "periodsBody": "Novos widgets de progresso mostram quanto do dia, da semana, do mês ou do ano já ficou para trás. O progresso do dia e da semana pode cobrir apenas uma parte, para que você acompanhe seu dia de trabalho e sua semana de trabalho, ou veja quanto do fim de semana ainda te resta.",
+                "periodsCalendar": "O mês e o ano também podem seguir um sistema de calendário diferente, se for esse o que você usa no dia a dia.",
+                "lifeTitle": "A visão de longo prazo",
+                "lifeBody": "Veja sua vida de uma perspectiva mais ampla com o Progresso da vida: sua vida como uma grade de anos, preenchendo-se silenciosamente. Um suave memento mori, sem as caveiras. E se preferir observar os segundos, o Contador de idade mostra sua idade em tempo real.",
+                "focusTitle": "Mantenha à vista",
+                "focusBody": "O Foco mantém uma linha de texto na sua nova aba, para que o que importa não se perca em meio a tudo o mais. Use para a sua tarefa do dia, uma meta da semana ou algo pelo qual você é grato. Ele pode começar do zero todo dia, toda semana ou todo mês, ou permanecer até você alterá-lo.",
+                "counterTitle": "Conte os dias",
+                "counterBody": "Se o seu foco tem um prazo, ajuda ver os dias passando. É para isso que serve o contador de dias. Ele também conta no sentido inverso: parou de fumar há duas semanas? Coloque esse número na sua nova aba e veja crescer dia após dia.",
+                "minorLocalizedNumbers": "As porcentagens de uso de CPU e memória e a velocidade do vento agora seguem o formato numérico do seu idioma, como '12,3 %' em alemão ou '%12,3' em turco."
             }
+        },
+        "motivation-plugin": {
+            "name": "Motivação",
+            "dayProgress": "Progresso do dia",
+            "weekProgress": "Progresso da semana",
+            "monthProgress": "Progresso do mês",
+            "yearProgress": "Progresso do ano",
+            "lifeProgress": "Progresso da vida",
+            "ageTicker": "Contador de idade",
+            "focus": "Foco",
+            "dayCounter": "Contador de dias",
+            "period": {
+                "day": "Dia",
+                "week": "Semana",
+                "month": "Mês",
+                "year": "Ano"
+            },
+            "elapsedTooltip": "{{percent}} decorrido · {{duration}}",
+            "remainingTooltip": "{{percent}} restante · {{duration}}",
+            "countOnlyPartOfDay": "Contar apenas parte do dia",
+            "countOnlyPartOfWeek": "Contar apenas parte da semana",
+            "from": "De",
+            "to": "Até",
+            "dateOfBirth": "Data de nascimento",
+            "expectedLifespan": "Expectativa de vida, em anos",
+            "yearsLived_one": "{{lived}} de {{count}} ano vivido",
+            "yearsLived_many": "{{lived}} de {{count}} anos vividos",
+            "yearsLived_other": "{{lived}} de {{count}} anos vividos",
+            "yourAge": "Sua idade",
+            "focusPlaceholder": "Digite e pressione Enter",
+            "resetCadence": "Redefinir",
+            "cadences": {
+                "daily": "Todo dia",
+                "weekly": "Toda semana",
+                "monthly": "Todo mês",
+                "manual": "Manualmente"
+            },
+            "markDone": "Marcar como concluído",
+            "markNotDone": "Marcar como não concluído",
+            "editFocus": "Editar",
+            "targetDate": "Data",
+            "today": "Hoje",
+            "daysLeft_one": "dia restante",
+            "daysLeft_many": "dias restantes",
+            "daysLeft_other": "dias restantes",
+            "daysSince_one": "dia decorrido",
+            "daysSince_many": "dias decorridos",
+            "daysSince_other": "dias decorridos",
+            "hoursLeft_one": "hora restante",
+            "hoursLeft_many": "horas restantes",
+            "hoursLeft_other": "horas restantes",
+            "mockFocusText": "Finalizar o relatório trimestral",
+            "mockCounterTitle": "Férias",
+            "defaultPrompt": "Foco de hoje"
         }
     }
 }

@@ -1,11 +1,14 @@
 import { isChromeLike } from "@anori/utils/browser";
+import { formatPercent } from "@anori/utils/format";
 import type { WidgetRenderProps } from "@anori/utils/plugins/define";
 import type { EmptyObject } from "@anori/utils/types";
 import { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import browser from "webextension-polyfill";
 import { metricValue, spacer, widget } from "../styles";
 
 export const MemoryWidgetScreen = memo(function MemoryWidgetScreen(_props: WidgetRenderProps<EmptyObject>) {
+  const { i18n } = useTranslation();
   const [allocatedMemory, setAllocatedMemory] = useState(0);
   useEffect(() => {
     const load = async () => {
@@ -24,7 +27,7 @@ export const MemoryWidgetScreen = memo(function MemoryWidgetScreen(_props: Widge
 
   return (
     <div className={widget}>
-      <div className={metricValue}>{(allocatedMemory * 100).toFixed(1)}%</div>
+      <div className={metricValue}>{formatPercent(allocatedMemory, i18n.language, 1)}</div>
       <div className={spacer} />
       <div>RAM</div>
     </div>

@@ -29,7 +29,7 @@ export const run = async ({ openNewTab, screenshot, testApi }: AnoriHarness) => 
   await page.getByLabel("Notes", { exact: true }).click();
   await pause(page, 1200);
 
-  await page.getByRole("button", { name: "Done" }).click();
+  await page.getByRole("button", { name: "Done", exact: true }).click();
   await pause(page);
 
   await page.getByPlaceholder("Note title").click();

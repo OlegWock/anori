@@ -46,6 +46,11 @@
         "icons": "アイコン",
         "customIcons": "カスタムアイコン",
         "canBeEmpty": "空にできます",
+        "duration": {
+            "hoursMinutes": "{{hours}}時間{{minutes}}分",
+            "daysHours": "{{days}}日{{hours}}時間",
+            "days_other": "{{count}}日"
+        },
         "unsupportedWidget": {
             "short": "利用不可",
             "title": "ウィジェットは利用できません",
@@ -276,6 +281,10 @@
             "hostPermissions": "ホスト権限",
             "grant": "権限を付与"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "週の最初の曜日",
+            "calendarType": "カレンダータイプ"
+        },
         "bookmark-plugin": {
             "name": "ブックマーク",
             "widgetName": "ブックマーク",
@@ -298,8 +307,6 @@
         "calendar-plugin": {
             "name": "カレンダー",
             "widgetName": "カレンダー",
-            "firstDayOfWeek": "週の最初の曜日",
-            "calendarType": "カレンダータイプ",
             "previousMonth": "前の月",
             "nextMonth": "次の月"
         },
@@ -482,16 +489,65 @@
             "tagImproved": "改善",
             "tagFixed": "修正",
             "changelogNote": "旧バージョンの変更履歴をお探しですか？<0>GitHub</0>でご確認いただけます。",
-            "v2_2_0": {
-                "headline": "カスタムテーマがアニメーションGIF背景とピクセルアートに対応しました。",
-                "animatedBackgroundsTitle": "アニメーション背景",
-                "animatedBackgroundsBody": "カスタムテーマでGIFファイルが使えるようになり、新しいタブの背景をアニメーションにできます。アニメーションを維持するには、ぼかしをゼロに設定してください。",
-                "animatedBackgroundsPixelArt": "ピクセルアートを使用していますか？テーマエディターで'$t(settings.theme.pixelatedBackground)'を有効にすると、すべてのピクセルをくっきり保てます。",
-                "minorWheelSwitching": "Alt（MacではOption）を押しながらマウスホイールまたはトラックパッドでスクロールすると、フォルダを切り替えられます。",
-                "minorBookmarksDnd": "ブックマークバー内のブックマークは、フォルダへの移動や取り出しを含め、ドラッグして並べ替えることができます。",
-                "minorRtlArrows": "右から左へ記述する言語では、左右のフォルダ切り替えショートカットがフォルダの配置方向に合わせて動作するようになりました。",
-                "minorBrowserDetection": "ChromeまたはBraveでAnori Plusにサインインする際のブラウザ検出を改善しました。"
+            "v2_3_0": {
+                "headline": "新しい $t(motivation-plugin.name) プラグインをご紹介：時間の進捗、人生の見通し、フォーカス、日数カウントに対応した8つのウィジェットで、大切な時間を見える化しましょう。",
+                "periodsTitle": "今日はどこへ消えた？",
+                "periodsBody": "新しい進捗ウィジェットで、今日・今週・今月・今年のどれだけが過ぎたかを確認できます。日の進捗と週の進捗は一部の時間帯だけを対象にできるので、仕事の時間や週の業務日を追ったり、週末の残り時間を確認したりするのに便利です。",
+                "periodsCalendar": "月の進捗と年の進捗は、普段お使いのカレンダータイプに合わせて別の暦を使うこともできます。",
+                "lifeTitle": "長い目で見る",
+                "lifeBody": "人生の進捗で視点を最大限に引いてみましょう。あなたの人生が年ごとのマス目として静かに埋まっていきます。ドクロなしの、やさしいメメント・モリです。秒単位で見たい方には、年齢カウンターがリアルタイムであなたの年齢を刻み続けます。",
+                "focusTitle": "目に見える場所に置く",
+                "focusBody": "フォーカスは新しいタブに1行のテキストを表示し、大切なことが他のものに埋もれないようにします。今日のタスク、今週の目標、感謝していることなど、何でも使えます。毎日・毎週・毎月リセットすることも、自分で変えるまでそのままにしておくこともできます。",
+                "counterTitle": "日数を数える",
+                "counterBody": "フォーカスに締め切りがあるなら、残り日数が目に見えると助かります。それが日数カウンターの役割です。逆方向にも数えられます。2週間前に禁煙した？その日数を新しいタブに表示して、日々増えていくのを見守りましょう。",
+                "minorLocalizedNumbers": "CPUとメモリ使用率のパーセンテージおよび風速が、ドイツ語の「12,3 %」やトルコ語の「%12,3」のように、お使いの言語の数値フォーマットに従って表示されるようになりました。"
             }
+        },
+        "motivation-plugin": {
+            "name": "モチベーション",
+            "dayProgress": "日の進捗",
+            "weekProgress": "週の進捗",
+            "monthProgress": "月の進捗",
+            "yearProgress": "年の進捗",
+            "lifeProgress": "人生の進捗",
+            "ageTicker": "年齢カウンター",
+            "focus": "フォーカス",
+            "dayCounter": "日数カウンター",
+            "period": {
+                "day": "日",
+                "week": "週",
+                "month": "月",
+                "year": "年"
+            },
+            "elapsedTooltip": "{{percent}} 経過 · {{duration}}",
+            "remainingTooltip": "{{percent}} 残り · {{duration}}",
+            "countOnlyPartOfDay": "1日の一部だけをカウントする",
+            "countOnlyPartOfWeek": "1週間の一部だけをカウントする",
+            "from": "開始",
+            "to": "終了",
+            "dateOfBirth": "生年月日",
+            "expectedLifespan": "予想寿命（年）",
+            "yearsLived_other": "{{count}}年中{{lived}}年を経過",
+            "yourAge": "あなたの年齢",
+            "focusPlaceholder": "入力してEnterを押す",
+            "resetCadence": "リセット",
+            "cadences": {
+                "daily": "毎日",
+                "weekly": "毎週",
+                "monthly": "毎月",
+                "manual": "手動"
+            },
+            "markDone": "完了としてマーク",
+            "markNotDone": "未完了としてマーク",
+            "editFocus": "編集",
+            "targetDate": "日付",
+            "today": "今日",
+            "daysLeft_other": "日残り",
+            "daysSince_other": "日経過",
+            "hoursLeft_other": "時間残り",
+            "mockFocusText": "四半期レポートを完成させる",
+            "mockCounterTitle": "休暇",
+            "defaultPrompt": "今日のフォーカス"
         }
     }
 }

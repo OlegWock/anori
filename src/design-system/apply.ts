@@ -27,6 +27,7 @@ export const applyDesignSystemTokens = (accent: OklchColor, mode: Mode): Palette
   for (const [key, value] of Object.entries(tokensToCssVars(palette))) {
     root.style.setProperty(key, value);
   }
+  root.style.setProperty("--ds-color-scheme", mode);
 
   return palette;
 };

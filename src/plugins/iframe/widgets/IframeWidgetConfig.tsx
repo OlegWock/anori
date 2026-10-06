@@ -30,7 +30,7 @@ export const MainWidgetConfigScreen = ({
       <Field label={`${t("title")} (${t("canBeEmpty")})`}>
         <Input value={title} onChange={(e) => setTitle(e.target.value)} />
       </Field>
-      <Field label={`${t("url")}:`}>
+      <Field label={t("url")}>
         <div className={urlImportWrapper}>
           <Input value={url} onChange={(e) => setUrl(e.target.value)} />
           <Popover

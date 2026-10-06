@@ -34,6 +34,7 @@ import IonCompass from "~icons/ion/compass?raw";
 import IonDice from "~icons/ion/dice?raw";
 import IonExpand from "~icons/ion/expand?raw";
 import IonFileTrayFull from "~icons/ion/file-tray-full?raw";
+import IonFlame from "~icons/ion/flame?raw";
 import IonFolderOpenSharp from "~icons/ion/folder-open-sharp?raw";
 import IonGlobeOutline from "~icons/ion/globe-outline?raw";
 import IonHelpBuoySharp from "~icons/ion/help-buoy-sharp?raw";
@@ -144,6 +145,7 @@ const builtinIconSvgsBySourceId = {
   "wi:thunderstorm": WiThunderstorm,
   "wi:cloud": WiCloud,
   "ion:calendar": IonCalendar,
+  "ion:flame": IonFlame,
   "ion:clock": IonClock,
   "bi:pip": BiPip,
   "boxicons:book-bookmark-filled": BoxiconsBookBookmarkFilled,
@@ -208,6 +210,7 @@ export const builtinIcons = {
   globe: "ion:globe-outline",
   bookmarksManager: "boxicons:book-bookmark-filled",
   calendar: "ion:calendar",
+  flame: "ion:flame",
   clock: "ion:clock",
   pip: "bi:pip",
   picture: "clarity:picture-solid",

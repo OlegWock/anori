@@ -75,12 +75,12 @@ export const RssFeedConfigScreen = ({ saveConfiguration, currentConfig }: Widget
 
   return (
     <m.div className={config}>
-      <Field label={`${t("title")}:`}>
+      <Field label={t("title")}>
         <Input value={title} placeholder={t("title")} onChange={(e) => setTitle(e.target.value)} />
       </Field>
 
       <Field
-        label={`${t("rss-plugin.feedUrls")}:`}
+        label={t("rss-plugin.feedUrls")}
         description={
           <Trans t={t} i18nKey="rss-plugin.presetsText">
             <TextButton onClick={() => applyPreset(presets[0])} />

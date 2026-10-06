@@ -26,7 +26,7 @@ export const ConfigScreen = ({
 
   return (
     <div className={config}>
-      <Field label={`${t("calendar-plugin.firstDayOfWeek")}:`}>
+      <Field label={t("calendarSettings.firstDayOfWeek")}>
         <Select<number>
           options={[0, 1, 2, 3, 4, 5, 6]}
           value={firstDay}
@@ -36,7 +36,7 @@ export const ConfigScreen = ({
         />
       </Field>
 
-      <Field label={`${t("calendar-plugin.calendarType")}:`}>
+      <Field label={t("calendarSettings.calendarType")}>
         <Select<SupportedCalendar>
           options={[...SUPPORTED_CALENDARS]}
           value={calendar}

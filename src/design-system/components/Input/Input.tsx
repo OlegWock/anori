@@ -38,6 +38,17 @@ const input = cva({
 });
 
 const inputControl = css({ height: "2.25rem", lineHeight: "none", flexShrink: 0 });
+const nativePickerInput = css({
+  colorScheme: "var(--ds-color-scheme)",
+  accentColor: "accent",
+  "&::-webkit-calendar-picker-indicator": {
+    cursor: "pointer",
+    opacity: 0.8,
+    transition: "opacity 0.15s ease",
+    _hover: { opacity: 1 },
+  },
+});
+const NATIVE_PICKER_TYPES = new Set(["date", "time", "datetime-local", "month", "week"]);
 
 export const Input = ({
   className,
@@ -56,7 +67,13 @@ export const Input = ({
     <input
       onChange={patchedOnChange}
       ref={ref}
-      className={cx(input({ variant }), inputControl, "Input", className)}
+      className={cx(
+        input({ variant }),
+        inputControl,
+        NATIVE_PICKER_TYPES.has(props.type ?? "") && nativePickerInput,
+        "Input",
+        className,
+      )}
       {...props}
     />
   );

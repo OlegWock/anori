@@ -25,7 +25,7 @@ export const RssLatestPostConfigScreen = ({
 
   return (
     <div className={config}>
-      <Field label={`${t("rss-plugin.feedUrl")}:`}>
+      <Field label={t("rss-plugin.feedUrl")}>
         <Input value={feedUrl} onValueChange={setFeedUrl} />
       </Field>
 

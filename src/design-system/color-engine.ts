@@ -179,6 +179,7 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
       ? surfaceL + (PRIMITIVE_LS[accentFillIdx] - defL) * ((0.98 - surfaceL) / (0.98 - defL))
       : PRIMITIVE_LS[accentFillIdx];
   const accentFill = sampleAccent(accentFillL);
+  const onAccent = bestTextOn(accentFill, neutral[13], neutral[0]);
   // Desaturated accent for disabled fills.
   const accentDisabled = colorAt(accentColor.h, accentColor.c * 0.4, accentFillL, gamut);
 
@@ -206,9 +207,15 @@ export function buildPalette(accentColor: OklchInput, mode: Mode, gamut: Gamut):
     ),
     "control-hover": shade(sampleSurface, controlL, HOVER_DELTA * deltaBoost),
     "control-disabled": tintedColorAt(accentColor.h, surfaceChroma * 0.5, controlL, gamut),
+    track: shade(
+      sampleSurface,
+      surfaceL,
+      byMode(mode, CONTROL_BUMP_DARK_DELTA, -CONTROL_BUMP_LIGHT_DELTA) * deltaBoost,
+    ),
 
     accent: accentFill,
-    "on-accent": bestTextOn(accentFill, neutral[13], neutral[0]),
+    "on-accent": onAccent,
+    "on-accent-subtle": withAlpha(onAccent, 0.65),
     "accent-border": accent[byMode(mode, 7, 5)],
     "accent-edge": shade(sampleAccent, accentFillL, EDGE_DELTA * 1.5),
     "accent-hover": shade(sampleAccent, accentFillL, HOVER_DELTA),

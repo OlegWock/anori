@@ -46,6 +46,11 @@
         "icons": "图标",
         "customIcons": "自定义图标",
         "canBeEmpty": "可以为空",
+        "duration": {
+            "hoursMinutes": "{{hours}}时{{minutes}}分",
+            "daysHours": "{{days}}天{{hours}}时",
+            "days_other": "{{count}}天"
+        },
         "unsupportedWidget": {
             "short": "不可用",
             "title": "小组件不可用",
@@ -276,6 +281,10 @@
             "hostPermissions": "Host 权限",
             "grant": "授予权限"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "每周的第一天",
+            "calendarType": "日历类型"
+        },
         "bookmark-plugin": {
             "name": "书签",
             "widgetName": "书签",
@@ -298,8 +307,6 @@
         "calendar-plugin": {
             "name": "日历",
             "widgetName": "日历",
-            "firstDayOfWeek": "每周的第一天",
-            "calendarType": "日历类型",
             "previousMonth": "上个月",
             "nextMonth": "下个月"
         },
@@ -482,16 +489,65 @@
             "tagImproved": "改进",
             "tagFixed": "修复",
             "changelogNote": "想查看旧版本的更新日志？您可以在 <0>GitHub</0> 上找到。",
-            "v2_2_0": {
-                "headline": "自定义主题现已支持 GIF 动态背景和像素艺术。",
-                "animatedBackgroundsTitle": "动态背景",
-                "animatedBackgroundsBody": "自定义主题现已支持 GIF 文件，让你的新标签页背景动起来。将模糊设为零以保留动画效果。",
-                "animatedBackgroundsPixelArt": "使用像素艺术？在主题编辑器中启用\"$t(settings.theme.pixelatedBackground)\"，让每个像素都保持清晰。",
-                "minorWheelSwitching": "按住 Alt（Mac 上为 Option）并滚动鼠标滚轮或触控板以在目录之间切换。",
-                "minorBookmarksDnd": "书签栏中的书签可以通过拖拽重新排列，包括将其移入或移出文件夹。",
-                "minorRtlArrows": "在从右到左的语言中，切换目录的左右快捷键现在会按照目录的排列方向操作。",
-                "minorBrowserDetection": "改进了在 Chrome 或 Brave 中登录 Anori Plus 时的浏览器检测。"
+            "v2_3_0": {
+                "headline": "认识全新的 $t(motivation-plugin.name) 插件：八个小组件，帮你追踪时间、把握全局、保持专注，并记录重要的每一天。",
+                "periodsTitle": "今天都去哪儿了？",
+                "periodsBody": "全新的进度小组件显示今天、本周、本月或本年已经过去了多少。今日进度和本周进度可以只覆盖其中一部分，让你追踪工作日和工作周，或者看看周末还剩多少时间。",
+                "periodsCalendar": "本月进度和本年进度也可以使用其他日历系统，如果那是你日常使用的日历的话。",
+                "lifeTitle": "纵观全局",
+                "lifeBody": "用人生进度拉到最远的视角：你的一生化作一格格方块，静静地填满。这是一份温和的\"记住你终将一死\"，没有骷髅头。如果你更想盯着秒数流逝，年龄计时器会实时显示你的精确年龄。",
+                "focusTitle": "让它始终在眼前",
+                "focusBody": "专注在你的新标签页上保留一行文字，让重要的事不被其他一切淹没。用它记录今天的任务、本周的目标，或者一件让你心存感激的事。它可以每天、每周或每月自动清空，也可以保留到你手动修改为止。",
+                "counterTitle": "倒数每一天",
+                "counterBody": "如果你的专注事项有截止日期，看着天数一天天减少会很有帮助。这正是天数计数器的用途。它也可以反向计数：两周前戒烟了？把这个数字放到新标签页上，看着它一天天增长。",
+                "minorLocalizedNumbers": "CPU 和内存使用率百分比以及风速现在会遵循你所用语言的数字格式，例如德语中的\"12,3 %\"或土耳其语中的\"%12,3\"。"
             }
+        },
+        "motivation-plugin": {
+            "name": "激励",
+            "dayProgress": "今日进度",
+            "weekProgress": "本周进度",
+            "monthProgress": "本月进度",
+            "yearProgress": "本年进度",
+            "lifeProgress": "人生进度",
+            "ageTicker": "年龄计时器",
+            "focus": "专注",
+            "dayCounter": "天数计数器",
+            "period": {
+                "day": "今天",
+                "week": "本周",
+                "month": "本月",
+                "year": "本年"
+            },
+            "elapsedTooltip": "已过 {{percent}} · {{duration}}",
+            "remainingTooltip": "剩余 {{percent}} · {{duration}}",
+            "countOnlyPartOfDay": "仅统计一天中的部分时间",
+            "countOnlyPartOfWeek": "仅统计一周中的部分时间",
+            "from": "从",
+            "to": "到",
+            "dateOfBirth": "出生日期",
+            "expectedLifespan": "预期寿命（年）",
+            "yearsLived_other": "已活 {{lived}} 年，共 {{count}} 年",
+            "yourAge": "你的年龄",
+            "focusPlaceholder": "输入后按 Enter 确认",
+            "resetCadence": "重置",
+            "cadences": {
+                "daily": "每天",
+                "weekly": "每周",
+                "monthly": "每月",
+                "manual": "手动"
+            },
+            "markDone": "标记为已完成",
+            "markNotDone": "标记为未完成",
+            "editFocus": "编辑",
+            "targetDate": "日期",
+            "today": "今天",
+            "daysLeft_other": "天后",
+            "daysSince_other": "天前",
+            "hoursLeft_other": "小时后",
+            "mockFocusText": "完成季度报告",
+            "mockCounterTitle": "假期",
+            "defaultPrompt": "今日重点"
         }
     }
 }

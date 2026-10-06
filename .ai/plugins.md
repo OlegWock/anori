@@ -115,6 +115,10 @@ const widgetDescriptor = defineWidget({
 
 The `mainScreen` receives `WidgetRenderProps<WidgetConfig, PluginConfig>` — `config` (this widget's own config) and `pluginConfig` (the plugin-level config, if the plugin declares one). The `configurationScreen` (`ComponentType<WidgetConfigScreenProps<WidgetConfig>>`, or `null`) is shown when the user adds the widget; its config is persisted per-widget. Both `WidgetRenderProps` and `WidgetConfigScreenProps` are imported from `@anori/utils/plugins/define`.
 
+## Mock widgets must look like the widget in use
+
+The `mock` component is what the user sees in the "Add widget" dialog, so it has to sell the widget: render the widget **in a realistic, populated state**, never its empty or onboarding state (no empty input with a placeholder, no "nothing here yet"). Fill it with content an average user would relate to — a countdown titled "Vacation", a focus like "Finish the quarterly report", a note with a shopping list — never the literal word "Example" or lorem ipsum. Mock content is user-facing text, so it goes through translations like any other string (see the notes plugin's `exampleTitle` / `exampleText` keys). If the real component reads its content from storage, give it a `preview` prop (or a small presentational sub-component) the mock can feed static content into, rather than rendering the empty state.
+
 ## Memoize widget components
 
 **Wrap every widget `mainScreen` (and `mock`) component in `React.memo`** — see `blueprint` plugin's `BlueprintWidget` for the canonical shape:

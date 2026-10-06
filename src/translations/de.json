@@ -46,6 +46,12 @@
         "icons": "Symbole",
         "customIcons": "Benutzerdefinierte Symbole",
         "canBeEmpty": "kann leer sein",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}T {{hours}}h",
+            "days_one": "{{count}} Tag",
+            "days_other": "{{count}} Tage"
+        },
         "unsupportedWidget": {
             "short": "Nicht verfügbar",
             "title": "Widget nicht verfügbar",
@@ -276,6 +282,10 @@
             "hostPermissions": "Host Berechtigungen",
             "grant": "Berechtigungen erteilen"
         },
+        "calendarSettings": {
+            "firstDayOfWeek": "Woche beginnt mit",
+            "calendarType": "Kalendertyp"
+        },
         "bookmark-plugin": {
             "name": "Lesezeichen",
             "widgetName": "Lesezeichen",
@@ -298,8 +308,6 @@
         "calendar-plugin": {
             "name": "Kalendar",
             "widgetName": "Kalendar",
-            "firstDayOfWeek": "Woche beginnt mit",
-            "calendarType": "Kalendertyp",
             "previousMonth": "Vorheriger Monat",
             "nextMonth": "Nächster Monat"
         },
@@ -483,16 +491,69 @@
             "tagImproved": "Verbessert",
             "tagFixed": "Behoben",
             "changelogNote": "Suchen Sie das Changelog für ältere Versionen? Sie finden es <0>auf GitHub</0>.",
-            "v2_2_0": {
-                "headline": "Benutzerdefinierte Themes unterstützen jetzt animierte GIF-Hintergründe und Pixel-Art.",
-                "animatedBackgroundsTitle": "Animierte Hintergründe",
-                "animatedBackgroundsBody": "Benutzerdefinierte Themes akzeptieren jetzt GIF-Dateien, sodass dein Neuer-Tab-Hintergrund animiert sein kann. Setze die Unschärfe auf null, um die Animation beizubehalten.",
-                "animatedBackgroundsPixelArt": "Verwendest du Pixel-Art? Aktiviere '$t(settings.theme.pixelatedBackground)' im Theme-Editor, damit jeder Pixel gestochen scharf bleibt.",
-                "minorWheelSwitching": "Halte Alt (Option auf dem Mac) gedrückt und scrolle mit dem Mausrad oder Trackpad, um zwischen Ordnern zu wechseln.",
-                "minorBookmarksDnd": "Lesezeichen in der Lesezeichenleiste können per Drag-and-Drop neu angeordnet werden, einschließlich des Verschiebens in und aus Ordnern.",
-                "minorRtlArrows": "In Sprachen mit Rechts-nach-links-Schreibrichtung folgen die linken und rechten Ordner-Tastenkürzel nun der Richtung, in der die Ordner angeordnet sind.",
-                "minorBrowserDetection": "Bessere Browsererkennung beim Anmelden bei Anori Plus in Chrome oder Brave."
+            "v2_3_0": {
+                "headline": "Neu: das $t(motivation-plugin.name)-Plugin mit acht Widgets, um deine Zeit im Blick zu behalten, das große Ganze nicht aus den Augen zu verlieren, fokussiert zu bleiben und die Tage zu zählen, die wirklich zählen.",
+                "periodsTitle": "Wo ist der Tag geblieben?",
+                "periodsBody": "Neue Fortschritts-Widgets zeigen, wie viel vom Tag, der Woche, dem Monat oder dem Jahr bereits hinter dir liegt. Tag und Woche können auch nur einen Teil davon abdecken – so kannst du deinen Arbeitstag und deine Arbeitswoche verfolgen oder im Blick behalten, wie viel vom Wochenende noch übrig ist.",
+                "periodsCalendar": "Monat und Jahr können auch einem anderen Kalendertyp folgen, wenn das der ist, nach dem du lebst.",
+                "lifeTitle": "Der große Blick",
+                "lifeBody": "Zoome ganz weit heraus mit dem Lebensfortschritt: dein Leben als Raster aus Jahren, das sich still füllt. Ein sanftes Memento mori – ganz ohne Totenköpfe. Und wer lieber die Sekunden beobachtet: der Alters-Ticker zählt live, wie alt du bist.",
+                "focusTitle": "Immer im Blick",
+                "focusBody": "Fokus hält eine Textzeile auf deinem neuen Tab, damit das Wichtige nicht unter allem anderen verschwindet. Nutze ihn für deine Aufgabe des Tages, ein Ziel für die Woche oder etwas, wofür du dankbar bist. Er kann täglich, wöchentlich oder monatlich neu beginnen – oder so lange bleiben, bis du ihn änderst.",
+                "counterTitle": "Die Tage zählen",
+                "counterBody": "Wenn dein Fokus eine Deadline hat, hilft es, die verbleibenden Tage zu sehen. Genau dafür ist der Tageszähler da. Er zählt aber auch andersherum: Vor zwei Wochen mit dem Rauchen aufgehört? Stell diese Zahl auf deinen neuen Tab und schau zu, wie sie Tag für Tag wächst.",
+                "minorLocalizedNumbers": "Prozentangaben für CPU- und Arbeitsspeicherauslastung sowie die Windgeschwindigkeit folgen jetzt dem Zahlenformat deiner Sprache, z. B. '12,3 %' auf Deutsch oder '%12,3' auf Türkisch."
             }
+        },
+        "motivation-plugin": {
+            "name": "Motivation",
+            "dayProgress": "Tagesfortschritt",
+            "weekProgress": "Wochenfortschritt",
+            "monthProgress": "Monatsfortschritt",
+            "yearProgress": "Jahresfortschritt",
+            "lifeProgress": "Lebensfortschritt",
+            "ageTicker": "Alters-Ticker",
+            "focus": "Fokus",
+            "dayCounter": "Tageszähler",
+            "period": {
+                "day": "Tag",
+                "week": "Woche",
+                "month": "Monat",
+                "year": "Jahr"
+            },
+            "elapsedTooltip": "{{percent}} vergangen · {{duration}}",
+            "remainingTooltip": "{{percent}} verbleibend · {{duration}}",
+            "countOnlyPartOfDay": "Nur einen Teil des Tages zählen",
+            "countOnlyPartOfWeek": "Nur einen Teil der Woche zählen",
+            "from": "Von",
+            "to": "Bis",
+            "dateOfBirth": "Geburtsdatum",
+            "expectedLifespan": "Erwartete Lebensdauer, Jahre",
+            "yearsLived_one": "{{lived}} von {{count}} Jahr gelebt",
+            "yearsLived_other": "{{lived}} von {{count}} Jahren gelebt",
+            "yourAge": "Dein Alter",
+            "focusPlaceholder": "Eingeben und Enter drücken",
+            "resetCadence": "Zurücksetzen",
+            "cadences": {
+                "daily": "Jeden Tag",
+                "weekly": "Jede Woche",
+                "monthly": "Jeden Monat",
+                "manual": "Manuell"
+            },
+            "markDone": "Als erledigt markieren",
+            "markNotDone": "Als nicht erledigt markieren",
+            "editFocus": "Bearbeiten",
+            "targetDate": "Datum",
+            "today": "Heute",
+            "daysLeft_one": "Tag verbleibend",
+            "daysLeft_other": "Tage verbleibend",
+            "daysSince_one": "Tag vergangen",
+            "daysSince_other": "Tage vergangen",
+            "hoursLeft_one": "Stunde verbleibend",
+            "hoursLeft_other": "Stunden verbleibend",
+            "mockFocusText": "Quartalsbericht fertigstellen",
+            "mockCounterTitle": "Urlaub",
+            "defaultPrompt": "Fokus des Tages"
         }
     }
 }

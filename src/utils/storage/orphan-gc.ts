@@ -54,6 +54,7 @@ export async function runOrphanGc(storage: AnoriStorage): Promise<GcResult> {
     // Widget stores: each keyed by widget instanceId
     { accessor: anoriSchema.tasksWidgetStore.store, validIds: validInstanceIds },
     { accessor: anoriSchema.notesWidgetStore.store, validIds: validInstanceIds },
+    { accessor: anoriSchema.focusWidgetStore.store, validIds: validInstanceIds },
     { accessor: anoriSchema.weatherCurrentWidgetStore.store, validIds: validInstanceIds },
     { accessor: anoriSchema.weatherForecastWidgetStore.store, validIds: validInstanceIds },
     { accessor: anoriSchema.topSitesWidgetStore.store, validIds: validInstanceIds },

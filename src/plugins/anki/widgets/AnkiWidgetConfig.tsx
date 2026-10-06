@@ -43,7 +43,7 @@ export const WidgetConfigScreen = ({
 
   return (
     <div className={config}>
-      <Field label={`${t("anki-plugin.deck")}:`}>
+      <Field label={t("anki-plugin.deck")}>
         <Select<string>
           options={Object.keys(decks)}
           value={deckName}
