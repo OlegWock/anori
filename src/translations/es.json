@@ -46,6 +46,13 @@
         "icons": "Iconos",
         "customIcons": "Iconos personalizados",
         "canBeEmpty": "puede estar vacío",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}d {{hours}}h",
+            "days_one": "{{count}} día",
+            "days_many": "{{count}} días",
+            "days_other": "{{count}} días"
+        },
         "unsupportedWidget": {
             "short": "No disponible",
             "title": "Widget no disponible",
@@ -485,7 +492,74 @@
             "tagNew": "Nuevo",
             "tagImproved": "Mejorado",
             "tagFixed": "Corregido",
-            "changelogNote": "¿Buscas el registro de cambios de versiones anteriores? Puedes encontrarlo <0>en GitHub</0>."
+            "changelogNote": "¿Buscas el registro de cambios de versiones anteriores? Puedes encontrarlo <0>en GitHub</0>.",
+            "v2_3_0": {
+                "headline": "Conoce el nuevo plugin $t(motivation-plugin.name): ocho widgets para seguir tu tiempo, mantener la perspectiva, mantenerte enfocado y contar los días que importan.",
+                "periodsTitle": "¿A dónde fue el día?",
+                "periodsBody": "Los nuevos widgets de progreso muestran cuánto del día, la semana, el mes o el año ya quedó atrás. El día y la semana pueden cubrir solo una parte, así que puedes seguir tu jornada laboral y tu semana de trabajo, o ver cuánto del fin de semana te queda.",
+                "periodsCalendar": "El mes y el año también pueden seguir un sistema de calendario diferente, si es el que usas en tu día a día.",
+                "lifeTitle": "La perspectiva larga",
+                "lifeBody": "Aleja el zoom al máximo con el progreso de vida: tu vida como una cuadrícula de años que se va llenando en silencio. Un suave memento mori, sin las calaveras. Y si prefieres ver los segundos pasar, el contador de edad cuenta cuántos años tienes, en vivo.",
+                "focusTitle": "Tenlo a la vista",
+                "focusBody": "Enfoque mantiene una línea de texto en tu nueva pestaña, para que lo importante no quede enterrado bajo todo lo demás. Úsalo para tu tarea del día, un objetivo de la semana, o algo por lo que estés agradecido. Puede empezar de cero cada día, semana o mes, o quedarse hasta que lo cambies.",
+                "counterTitle": "Cuenta los días",
+                "counterBody": "Si tu enfoque tiene una fecha límite, ayuda ver cómo se agotan los días. Para eso está el contador de días. También cuenta al revés: ¿dejaste de fumar hace dos semanas? Pon ese número en tu nueva pestaña y míralo crecer día a día.",
+                "minorLocalizedNumbers": "Los porcentajes de uso de CPU y memoria y la velocidad del viento ahora siguen el formato numérico de tu idioma, como '12,3 %' en alemán o '%12,3' en turco."
+            }
+        },
+        "motivation-plugin": {
+            "name": "Motivación",
+            "dayProgress": "Progreso del día",
+            "weekProgress": "Progreso de la semana",
+            "monthProgress": "Progreso del mes",
+            "yearProgress": "Progreso del año",
+            "lifeProgress": "Progreso de vida",
+            "ageTicker": "Contador de edad",
+            "focus": "Enfoque",
+            "dayCounter": "Contador de días",
+            "period": {
+                "day": "Día",
+                "week": "Semana",
+                "month": "Mes",
+                "year": "Año"
+            },
+            "elapsedTooltip": "{{percent}} transcurrido · {{duration}}",
+            "remainingTooltip": "{{percent}} restante · {{duration}}",
+            "countOnlyPartOfDay": "Contar solo parte del día",
+            "countOnlyPartOfWeek": "Contar solo parte de la semana",
+            "from": "Desde",
+            "to": "Hasta",
+            "dateOfBirth": "Fecha de nacimiento",
+            "expectedLifespan": "Esperanza de vida, años",
+            "yearsLived_one": "{{lived}} de {{count}} año vivido",
+            "yearsLived_many": "{{lived}} de {{count}} años vividos",
+            "yearsLived_other": "{{lived}} de {{count}} años vividos",
+            "yourAge": "Tu edad",
+            "focusPlaceholder": "Escribe y pulsa Intro",
+            "resetCadence": "Restablecer",
+            "cadences": {
+                "daily": "Cada día",
+                "weekly": "Cada semana",
+                "monthly": "Cada mes",
+                "manual": "Manualmente"
+            },
+            "markDone": "Marcar como hecho",
+            "markNotDone": "Marcar como no hecho",
+            "editFocus": "Editar",
+            "targetDate": "Fecha",
+            "today": "Hoy",
+            "daysLeft_one": "día restante",
+            "daysLeft_many": "días restantes",
+            "daysLeft_other": "días restantes",
+            "daysSince_one": "día transcurrido",
+            "daysSince_many": "días transcurridos",
+            "daysSince_other": "días transcurridos",
+            "hoursLeft_one": "hora restante",
+            "hoursLeft_many": "horas restantes",
+            "hoursLeft_other": "horas restantes",
+            "mockFocusText": "Terminar el informe trimestral",
+            "mockCounterTitle": "Vacaciones",
+            "defaultPrompt": "Enfoque de hoy"
         }
     }
 }

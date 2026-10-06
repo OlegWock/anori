@@ -46,6 +46,11 @@
         "icons": "Ikon",
         "customIcons": "Ikon kustom",
         "canBeEmpty": "boleh kosong",
+        "duration": {
+            "hoursMinutes": "{{hours}}j {{minutes}}m",
+            "daysHours": "{{days}}h {{hours}}j",
+            "days_other": "{{count}} hari"
+        },
         "unsupportedWidget": {
             "short": "Tidak tersedia",
             "title": "Widget tidak tersedia",
@@ -483,7 +488,66 @@
             "tagNew": "Baru",
             "tagImproved": "Ditingkatkan",
             "tagFixed": "Diperbaiki",
-            "changelogNote": "Mencari changelog untuk versi lama? Anda dapat menemukannya <0>di GitHub</0>."
+            "changelogNote": "Mencari changelog untuk versi lama? Anda dapat menemukannya <0>di GitHub</0>.",
+            "v2_3_0": {
+                "headline": "Kenali plugin $t(motivation-plugin.name) baru: delapan widget untuk melacak waktu, melihat gambaran besar, tetap fokus, dan menghitung hari-hari yang penting.",
+                "periodsTitle": "Ke mana perginya hari ini?",
+                "periodsBody": "Widget progres baru menampilkan seberapa banyak hari, minggu, bulan, atau tahun yang sudah berlalu. Progres hari dan minggu bisa mencakup sebagian saja, sehingga kamu bisa mengikuti hari kerja dan minggu kerja, atau memantau sisa akhir pekan yang masih ada.",
+                "periodsCalendar": "Progres bulan dan tahun juga bisa mengikuti sistem kalender lain, jika itulah yang kamu gunakan sehari-hari.",
+                "lifeTitle": "Pandangan jangka panjang",
+                "lifeBody": "Lihat hidupmu dari perspektif yang lebih luas dengan Progres hidup: hidupmu sebagai kisi-kisi tahun yang perlahan terisi. Sebuah memento mori yang lembut, tanpa tengkorak. Dan jika kamu lebih suka memantau detik demi detik, Penghitung usia menampilkan berapa umurmu secara langsung.",
+                "focusTitle": "Tetap dalam pandangan",
+                "focusBody": "Fokus menampilkan satu baris teks di tab baru kamu, agar hal penting tidak tenggelam di balik hal lainnya. Gunakan untuk tugas hari ini, tujuan minggu ini, atau satu hal yang kamu syukuri. Bisa dimulai ulang setiap hari, minggu, atau bulan, atau tetap ada sampai kamu mengubahnya.",
+                "counterTitle": "Hitung hari",
+                "counterBody": "Jika fokusmu punya tenggat waktu, melihat hari-hari yang tersisa bisa sangat membantu. Itulah kegunaan penghitung hari. Widget ini juga bisa menghitung ke arah sebaliknya: berhenti merokok dua minggu lalu? Tampilkan angka itu di tab baru dan saksikan terus bertambah hari demi hari.",
+                "minorLocalizedNumbers": "Persentase penggunaan CPU dan memori serta kecepatan angin kini mengikuti format angka bahasamu, seperti '12,3 %' dalam bahasa Jerman atau '%12,3' dalam bahasa Turki."
+            }
+        },
+        "motivation-plugin": {
+            "name": "Motivasi",
+            "dayProgress": "Progres hari",
+            "weekProgress": "Progres minggu",
+            "monthProgress": "Progres bulan",
+            "yearProgress": "Progres tahun",
+            "lifeProgress": "Progres hidup",
+            "ageTicker": "Penghitung usia",
+            "focus": "Fokus",
+            "dayCounter": "Penghitung hari",
+            "period": {
+                "day": "Hari",
+                "week": "Minggu",
+                "month": "Bulan",
+                "year": "Tahun"
+            },
+            "elapsedTooltip": "{{percent}} telah berlalu · {{duration}}",
+            "remainingTooltip": "{{percent}} tersisa · {{duration}}",
+            "countOnlyPartOfDay": "Hitung hanya sebagian hari",
+            "countOnlyPartOfWeek": "Hitung hanya sebagian minggu",
+            "from": "Dari",
+            "to": "Sampai",
+            "dateOfBirth": "Tanggal lahir",
+            "expectedLifespan": "Perkiraan usia hidup, tahun",
+            "yearsLived_other": "{{lived}} dari {{count}} tahun telah dijalani",
+            "yourAge": "Usiamu",
+            "focusPlaceholder": "Ketik dan tekan Enter",
+            "resetCadence": "Atur ulang",
+            "cadences": {
+                "daily": "Setiap hari",
+                "weekly": "Setiap minggu",
+                "monthly": "Setiap bulan",
+                "manual": "Secara manual"
+            },
+            "markDone": "Tandai sebagai selesai",
+            "markNotDone": "Tandai sebagai belum selesai",
+            "editFocus": "Edit",
+            "targetDate": "Tanggal",
+            "today": "Hari ini",
+            "daysLeft_other": "hari tersisa",
+            "daysSince_other": "hari berlalu",
+            "hoursLeft_other": "jam tersisa",
+            "mockFocusText": "Selesaikan laporan kuartalan",
+            "mockCounterTitle": "Liburan",
+            "defaultPrompt": "Fokus hari ini"
         }
     }
 }

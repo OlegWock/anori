@@ -46,6 +46,13 @@
         "icons": "Icone",
         "customIcons": "Icone personalizzate",
         "canBeEmpty": "può essere vuoto",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}g {{hours}}h",
+            "days_one": "{{count}} giorno",
+            "days_many": "{{count}} giorni",
+            "days_other": "{{count}} giorni"
+        },
         "unsupportedWidget": {
             "short": "Non disponibile",
             "title": "Widget non disponibile",
@@ -485,7 +492,74 @@
             "tagNew": "Nuovo",
             "tagImproved": "Migliorato",
             "tagFixed": "Corretto",
-            "changelogNote": "Cerchi il changelog per le versioni precedenti? Puoi trovarlo <0>su GitHub</0>."
+            "changelogNote": "Cerchi il changelog per le versioni precedenti? Puoi trovarlo <0>su GitHub</0>.",
+            "v2_3_0": {
+                "headline": "Scopri il nuovo plugin $t(motivation-plugin.name): otto widget per tenere traccia del tempo, mantenere la visione d'insieme, restare concentrati e contare i giorni che contano.",
+                "periodsTitle": "Dov'è finita la giornata?",
+                "periodsBody": "I nuovi widget di avanzamento mostrano quanto del giorno, della settimana, del mese o dell'anno è già alle tue spalle. Giorno e settimana possono coprire solo una parte, così puoi seguire la tua giornata lavorativa e la settimana lavorativa, o tenere d'occhio quanto weekend ti rimane ancora.",
+                "periodsCalendar": "Mese e anno possono anche seguire un sistema di calendario diverso, se è quello con cui vivi.",
+                "lifeTitle": "La visione a lungo termine",
+                "lifeBody": "Allarga al massimo la prospettiva con l'avanzamento della vita: la tua vita come una griglia di anni, che si riempie in silenzio. Un delicato memento mori, senza teschi. E se preferisci guardare i secondi scorrere, il contatore dell'età calcola quanti anni hai, in tempo reale.",
+                "focusTitle": "Tienilo in vista",
+                "focusBody": "Focus mantiene una riga di testo sul tuo nuovo tab, così la cosa importante non viene sepolta da tutto il resto. Usalo per il tuo compito del giorno, un obiettivo per la settimana, o qualcosa per cui sei grato. Può ricominciare ogni giorno, settimana o mese, oppure restare finché non lo cambi.",
+                "counterTitle": "Conta i giorni",
+                "counterBody": "Se il tuo focus ha una scadenza, aiuta vedere i giorni scorrere. È a questo che serve il contatore dei giorni. Conta anche nell'altro senso: hai smesso di fumare due settimane fa? Metti quel numero sul tuo nuovo tab e guardalo crescere giorno dopo giorno.",
+                "minorLocalizedNumbers": "Le percentuali di utilizzo di CPU e memoria e la velocità del vento seguono ora il formato numerico della tua lingua, come '12,3 %' in tedesco o '%12,3' in turco."
+            }
+        },
+        "motivation-plugin": {
+            "name": "Motivazione",
+            "dayProgress": "Avanzamento del giorno",
+            "weekProgress": "Avanzamento della settimana",
+            "monthProgress": "Avanzamento del mese",
+            "yearProgress": "Avanzamento dell'anno",
+            "lifeProgress": "Avanzamento della vita",
+            "ageTicker": "Contatore dell'età",
+            "focus": "Focus",
+            "dayCounter": "Contatore dei giorni",
+            "period": {
+                "day": "Giorno",
+                "week": "Settimana",
+                "month": "Mese",
+                "year": "Anno"
+            },
+            "elapsedTooltip": "{{percent}} trascorso · {{duration}}",
+            "remainingTooltip": "{{percent}} rimanente · {{duration}}",
+            "countOnlyPartOfDay": "Conta solo una parte del giorno",
+            "countOnlyPartOfWeek": "Conta solo una parte della settimana",
+            "from": "Da",
+            "to": "A",
+            "dateOfBirth": "Data di nascita",
+            "expectedLifespan": "Aspettativa di vita, anni",
+            "yearsLived_one": "{{lived}} di {{count}} anno vissuto",
+            "yearsLived_many": "{{lived}} di {{count}} anni vissuti",
+            "yearsLived_other": "{{lived}} di {{count}} anni vissuti",
+            "yourAge": "La tua età",
+            "focusPlaceholder": "Scrivi e premi Invio",
+            "resetCadence": "Ripristino",
+            "cadences": {
+                "daily": "Ogni giorno",
+                "weekly": "Ogni settimana",
+                "monthly": "Ogni mese",
+                "manual": "Manualmente"
+            },
+            "markDone": "Segna come completato",
+            "markNotDone": "Segna come non completato",
+            "editFocus": "Modifica",
+            "targetDate": "Data",
+            "today": "Oggi",
+            "daysLeft_one": "giorno rimanente",
+            "daysLeft_many": "giorni rimanenti",
+            "daysLeft_other": "giorni rimanenti",
+            "daysSince_one": "giorno fa",
+            "daysSince_many": "giorni fa",
+            "daysSince_other": "giorni fa",
+            "hoursLeft_one": "ora rimanente",
+            "hoursLeft_many": "ore rimanenti",
+            "hoursLeft_other": "ore rimanenti",
+            "mockFocusText": "Finire il report trimestrale",
+            "mockCounterTitle": "Vacanza",
+            "defaultPrompt": "Focus di oggi"
         }
     }
 }

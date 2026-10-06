@@ -452,7 +452,7 @@
             "periodsBody": "Describes the period progress widgets by use case. Informal, second person. Day and week progress can be limited to part of the day/week (e.g. working hours, work days, the weekend). Established terms: '$(motivation-plugin.dayProgress)', '$(motivation-plugin.weekProgress)', '$(motivation-plugin.monthProgress)', '$(motivation-plugin.yearProgress)'.",
             "periodsCalendar": "Follow-up sentence: month and year progress can use a non-Gregorian calendar (Hijri, Persian, Hebrew, Buddhist). 'Live by' means the calendar the reader uses day to day. Established term: calendar type setting = '$(calendarSettings.calendarType)'.",
             "lifeTitle": "Card heading for the life progress and age ticker widgets. 'The long view' = looking at your whole life rather than a day or week.",
-            "lifeBody": "Describes two widgets: a grid with one square per year of life, and a live age counter. 'Zoom all the way out' = from days and weeks to a whole life. 'Memento mori' is the Latin phrase (a reminder of mortality); keep it in Latin if that's natural in the target language, otherwise use the established local equivalent. 'Minus the skulls' is a light joke about skulls in memento mori art. Established terms: '$(motivation-plugin.lifeProgress)', '$(motivation-plugin.ageTicker)'.",
+            "lifeBody": "Describes two widgets: a grid with one square per year of life, and a live age counter. 'Zoom all the way out' is a metaphor for stepping back to see your whole life at once instead of days and weeks; translate that meaning, not the camera zoom (and never as zooming in or enlarging). 'Memento mori' is the Latin phrase (a reminder of mortality); keep it in Latin if that's natural in the target language, otherwise use the established local equivalent. 'Minus the skulls' is a light joke about skulls in memento mori art. Established terms: '$(motivation-plugin.lifeProgress)', '$(motivation-plugin.ageTicker)'.",
             "focusTitle": "Card heading for the Focus widget: keep the important thing visible. Short and informal.",
             "focusBody": "Describes the Focus widget: one line of text the user sets, e.g. a task, a weekly goal, or something they're grateful for. It resets daily, weekly, monthly or never. Informal, second person. Established term: '$(motivation-plugin.focus)'.",
             "counterTitle": "Card heading for the Day counter widget. Short and informal.",
@@ -461,7 +461,7 @@
         }
     },
     "motivation-plugin": {
-        "name": "Plugin name shown in the widget picker; the plugin groups widgets about staying motivated (time progress, life progress, daily focus, countdowns).",
+        "name": "Plugin name shown in the widget picker; the plugin groups widgets about staying motivated (time progress, life progress, daily focus, countdowns). It's a plain word, not a brand name: translate it.",
         "dayProgress": "Widget name: shows how much of the current day has elapsed.",
         "weekProgress": "Widget name: shows how much of the current week has elapsed.",
         "monthProgress": "Widget name: shows how much of the current month has elapsed.",
@@ -486,7 +486,6 @@
         "expectedLifespan": "Form field label for a number of years the user expects to live (life progress settings).",
         "yearsLived": "Tooltip over the life progress grid, e.g. '29.7 of 80 years lived'. {{lived}} is the current age with one decimal, {{count}} is the expected lifespan in whole years. Uses i18next plural forms, chosen by {{count}}.",
         "yourAge": "Caption above the big age number in the age ticker widget ('Your age' / '29.7223518'). A standalone label, the number below it is the age in years.",
-        "focusPrompt": "Settings field label for the short caption shown above the focus text.",
         "focusPlaceholder": "Placeholder in the inline input where the user types their focus; Enter saves it.",
         "resetCadence": "Settings field label for how often the focus text is cleared automatically (every day / week / month / manually).",
         "cadences": {

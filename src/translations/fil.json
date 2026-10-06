@@ -46,6 +46,12 @@
         "icons": "Mga icon",
         "customIcons": "Mga custom na icon",
         "canBeEmpty": "maaaring walang laman",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}d {{hours}}h",
+            "days_one": "{{count}} araw",
+            "days_other": "{{count}} araw"
+        },
         "unsupportedWidget": {
             "short": "Hindi available",
             "title": "Hindi available ang widget",
@@ -484,7 +490,70 @@
             "tagNew": "Bago",
             "tagImproved": "Pinahusay",
             "tagFixed": "Naayos",
-            "changelogNote": "Naghahanap ng changelog para sa mga lumang bersyon? Makikita mo ito <0>sa GitHub</0>."
+            "changelogNote": "Naghahanap ng changelog para sa mga lumang bersyon? Makikita mo ito <0>sa GitHub</0>.",
+            "v2_3_0": {
+                "headline": "Makilala ang bagong plugin na $t(motivation-plugin.name): walong widget para subaybayan ang iyong oras, makita ang malaking larawan, manatiling nakatuon, at bilangin ang mga araw na mahalaga.",
+                "periodsTitle": "Saan napunta ang araw?",
+                "periodsBody": "Ang mga bagong progress widget ay nagpapakita kung gaano na ng araw, linggo, buwan, o taon ang lumipas na. Ang araw at linggo ay maaaring sumasaklaw lamang sa bahagi nito, para masubaybayan mo ang iyong araw ng trabaho at linggo ng trabaho, o makita kung gaano pa ang natitira sa weekend.",
+                "periodsCalendar": "Ang buwan at taon ay maaari ring sumunod sa ibang sistema ng kalendaryo, kung iyon ang iyong ginagamit.",
+                "lifeTitle": "Ang mahabang tingin",
+                "lifeBody": "Tingnan ang iyong buhay sa mas malawak na pananaw gamit ang Progreso ng buhay: ang iyong buhay bilang isang grid ng mga taon, dahan-dahang napupuno. Isang mahinahong memento mori, wala lang ang mga bungo. At kung mas gusto mong panoorin ang mga segundo, ang Ticker ng edad ay nagbibilang kung gaano ka na katanda, live.",
+                "focusTitle": "Panatilihing nakikita",
+                "focusBody": "Ang Focus ay nagpapanatili ng isang linya ng teksto sa iyong bagong tab, para ang mahalagang bagay ay hindi malibing sa lahat ng iba pa. Gamitin ito para sa iyong gawain ngayon, isang layunin para sa linggo, o isang bagay na ikaw ay nagpapasalamat. Maaari itong magsimulang muli bawat araw, linggo, o buwan, o manatili hanggang baguhin mo ito.",
+                "counterTitle": "Bilangin ang mga araw",
+                "counterBody": "Kung ang iyong Focus ay may deadline, nakakatulong na makita ang mga araw na natitira. Iyon ang layunin ng Tagabilang ng araw. Nagbibilang din ito sa kabaligtaran: tumigil sa paninigarilyo dalawang linggo na ang nakakaraan? Ilagay ang numerong iyon sa iyong bagong tab at panoorin itong lumaki araw-araw.",
+                "minorLocalizedNumbers": "Ang mga porsyento ng paggamit ng CPU at memorya at bilis ng hangin ay sumusunod na ngayon sa format ng numero ng iyong wika, tulad ng '12,3 %' sa German o '%12,3' sa Turkish."
+            }
+        },
+        "motivation-plugin": {
+            "name": "Motibasyon",
+            "dayProgress": "Progreso ng araw",
+            "weekProgress": "Progreso ng linggo",
+            "monthProgress": "Progreso ng buwan",
+            "yearProgress": "Progreso ng taon",
+            "lifeProgress": "Progreso ng buhay",
+            "ageTicker": "Ticker ng edad",
+            "focus": "Focus",
+            "dayCounter": "Tagabilang ng araw",
+            "period": {
+                "day": "Araw",
+                "week": "Linggo",
+                "month": "Buwan",
+                "year": "Taon"
+            },
+            "elapsedTooltip": "{{percent}} lumipas · {{duration}}",
+            "remainingTooltip": "{{percent}} natitira · {{duration}}",
+            "countOnlyPartOfDay": "Bilangin lamang ang bahagi ng araw",
+            "countOnlyPartOfWeek": "Bilangin lamang ang bahagi ng linggo",
+            "from": "Mula",
+            "to": "Hanggang",
+            "dateOfBirth": "Petsa ng kapanganakan",
+            "expectedLifespan": "Inaasahang haba ng buhay, taon",
+            "yearsLived_one": "{{lived}} sa {{count}} taong nabuhay",
+            "yearsLived_other": "{{lived}} sa {{count}} taong nabuhay",
+            "yourAge": "Ang iyong edad",
+            "focusPlaceholder": "I-type at pindutin ang Enter",
+            "resetCadence": "I-reset",
+            "cadences": {
+                "daily": "Araw-araw",
+                "weekly": "Linggu-linggo",
+                "monthly": "Buwan-buwan",
+                "manual": "Mano-mano"
+            },
+            "markDone": "Markahan bilang tapos",
+            "markNotDone": "Markahan bilang hindi tapos",
+            "editFocus": "I-edit",
+            "targetDate": "Petsa",
+            "today": "Ngayon",
+            "daysLeft_one": "araw na natitira",
+            "daysLeft_other": "araw na natitira",
+            "daysSince_one": "araw mula noon",
+            "daysSince_other": "araw mula noon",
+            "hoursLeft_one": "oras na natitira",
+            "hoursLeft_other": "oras na natitira",
+            "mockFocusText": "Tapusin ang quarterly report",
+            "mockCounterTitle": "Bakasyon",
+            "defaultPrompt": "Focus ngayon"
         }
     }
 }

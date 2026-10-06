@@ -46,6 +46,11 @@
         "icons": "Biểu tượng",
         "customIcons": "Biểu tượng tùy chỉnh",
         "canBeEmpty": "có thể để trống",
+        "duration": {
+            "hoursMinutes": "{{hours}}h {{minutes}}m",
+            "daysHours": "{{days}}d {{hours}}h",
+            "days_other": "{{count}} ngày"
+        },
         "unsupportedWidget": {
             "short": "Không khả dụng",
             "title": "Widget không khả dụng",
@@ -483,7 +488,66 @@
             "tagNew": "Mới",
             "tagImproved": "Cải tiến",
             "tagFixed": "Đã sửa",
-            "changelogNote": "Bạn đang tìm nhật ký thay đổi cho các phiên bản cũ hơn? Bạn có thể tìm thấy nó <0>trên GitHub</0>."
+            "changelogNote": "Bạn đang tìm nhật ký thay đổi cho các phiên bản cũ hơn? Bạn có thể tìm thấy nó <0>trên GitHub</0>.",
+            "v2_3_0": {
+                "headline": "Khám phá plugin $t(motivation-plugin.name) mới: tám widget giúp bạn theo dõi thời gian, nhìn thấy bức tranh toàn cảnh, duy trì sự tập trung và đếm những ngày quan trọng.",
+                "periodsTitle": "Ngày đã trôi đi đâu vậy?",
+                "periodsBody": "Các widget tiến trình mới cho bạn thấy bao nhiêu phần của ngày, tuần, tháng hoặc năm đã qua đi. Tiến trình ngày và tiến trình tuần có thể chỉ tính một phần, giúp bạn theo dõi ngày làm việc, tuần làm việc, hoặc xem còn bao nhiêu thời gian cuối tuần.",
+                "periodsCalendar": "Tiến trình tháng và tiến trình năm cũng có thể theo một hệ thống lịch khác, nếu đó là loại lịch bạn đang dùng.",
+                "lifeTitle": "Nhìn từ xa",
+                "lifeBody": "Phóng tầm nhìn ra xa nhất với Tiến trình cuộc đời: cuộc sống của bạn hiện ra như một lưới ô năm tháng, lặng lẽ tô đầy dần. Một lời nhắc nhở nhẹ nhàng về sự hữu hạn — memento mori, nhưng không có đầu lâu. Và nếu bạn muốn đếm từng giây, Đồng hồ tuổi sẽ hiển thị tuổi của bạn theo thời gian thực.",
+                "focusTitle": "Giữ nó trước mắt",
+                "focusBody": "Tập trung giữ một dòng chữ trên trang tab mới, để điều quan trọng không bị chìm khuất giữa mọi thứ khác. Dùng nó cho nhiệm vụ trong ngày, mục tiêu của tuần, hoặc một điều bạn biết ơn. Nó có thể tự làm mới mỗi ngày, mỗi tuần, mỗi tháng, hoặc giữ nguyên cho đến khi bạn thay đổi.",
+                "counterTitle": "Đếm từng ngày",
+                "counterBody": "Nếu mục tiêu tập trung của bạn có thời hạn, việc nhìn thấy những ngày dần cạn đi sẽ rất hữu ích. Đó chính là lý do có đếm ngày. Nó cũng đếm theo chiều ngược lại: bỏ thuốc lá được hai tuần rồi? Đặt con số đó lên trang tab mới và xem nó tăng lên từng ngày.",
+                "minorLocalizedNumbers": "Phần trăm sử dụng CPU, bộ nhớ và tốc độ gió giờ đây hiển thị theo định dạng số của ngôn ngữ bạn, ví dụ '12,3 %' trong tiếng Đức hoặc '%12,3' trong tiếng Thổ Nhĩ Kỳ."
+            }
+        },
+        "motivation-plugin": {
+            "name": "Động lực",
+            "dayProgress": "Tiến trình ngày",
+            "weekProgress": "Tiến trình tuần",
+            "monthProgress": "Tiến trình tháng",
+            "yearProgress": "Tiến trình năm",
+            "lifeProgress": "Tiến trình cuộc đời",
+            "ageTicker": "Đồng hồ tuổi",
+            "focus": "Tập trung",
+            "dayCounter": "Đếm ngày",
+            "period": {
+                "day": "Ngày",
+                "week": "Tuần",
+                "month": "Tháng",
+                "year": "Năm"
+            },
+            "elapsedTooltip": "{{percent}} đã qua · {{duration}}",
+            "remainingTooltip": "Còn lại {{percent}} · {{duration}}",
+            "countOnlyPartOfDay": "Chỉ tính một phần của ngày",
+            "countOnlyPartOfWeek": "Chỉ tính một phần của tuần",
+            "from": "Từ",
+            "to": "Đến",
+            "dateOfBirth": "Ngày sinh",
+            "expectedLifespan": "Tuổi thọ dự kiến, năm",
+            "yearsLived_other": "{{lived}} trong {{count}} năm đã sống",
+            "yourAge": "Tuổi của bạn",
+            "focusPlaceholder": "Nhập và nhấn Enter",
+            "resetCadence": "Đặt lại",
+            "cadences": {
+                "daily": "Mỗi ngày",
+                "weekly": "Mỗi tuần",
+                "monthly": "Mỗi tháng",
+                "manual": "Thủ công"
+            },
+            "markDone": "Đánh dấu hoàn thành",
+            "markNotDone": "Đánh dấu chưa hoàn thành",
+            "editFocus": "Chỉnh sửa",
+            "targetDate": "Ngày",
+            "today": "Hôm nay",
+            "daysLeft_other": "ngày còn lại",
+            "daysSince_other": "ngày đã qua",
+            "hoursLeft_other": "giờ còn lại",
+            "mockFocusText": "Hoàn thành báo cáo quý",
+            "mockCounterTitle": "Kỳ nghỉ",
+            "defaultPrompt": "Mục tiêu hôm nay"
         }
     }
 }

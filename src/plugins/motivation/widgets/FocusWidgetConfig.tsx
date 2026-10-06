@@ -19,7 +19,7 @@ export const FocusConfigScreen = ({ currentConfig, saveConfiguration }: WidgetCo
 
   return (
     <div className={configForm}>
-      <Field label={t("motivation-plugin.focusPrompt")}>
+      <Field label={t("title")}>
         <Input value={prompt} onValueChange={setPrompt} />
       </Field>
       <Field label={t("motivation-plugin.resetCadence")}>

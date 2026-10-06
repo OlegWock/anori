@@ -349,8 +349,7 @@ const findPluralBases = (enFlat: Record<string, string>): Map<string, Set<Plural
   }
   const bases = new Map<string, Set<PluralCategory>>();
   for (const [base, categories] of groups) {
-    const usesCount = [...categories].some((category) => /\{\{count\}\}/.test(enFlat[`${base}_${category}`]));
-    if (categories.has("other") && usesCount) bases.set(base, categories);
+    if (categories.has("other") && categories.size > 1) bases.set(base, categories);
   }
   return bases;
 };
@@ -389,12 +388,20 @@ const buildExpectedKeys = (lang: string, enFlat: Record<string, string>): Expect
   return expected;
 };
 
-const pluralNote = (lang: string, category: PluralCategory, baseNote: string | undefined): string => {
+const pluralNote = (
+  lang: string,
+  category: PluralCategory,
+  baseNote: string | undefined,
+  enValue: string | undefined,
+): string => {
   const examples = exampleCountsForCategory(lang, category);
   const examplesText = examples.length > 0 ? ` (used for counts like ${examples.join(", ")})` : "";
+  const countHandling = /\{\{count\}\}/.test(enValue ?? "")
+    ? "keeping {{count}}"
+    : "agreeing with that number; the number itself is shown separately and is not part of this string";
   const instruction =
     `This is the CLDR "${category}" plural form for {{count}}${examplesText}. English has only "one"/"other"; ` +
-    `produce the grammatically correct "${category}" form for ${LANGUAGE_ENGLISH_NAMES[lang]}, keeping {{count}}.`;
+    `produce the grammatically correct "${category}" form for ${LANGUAGE_ENGLISH_NAMES[lang]}, ${countHandling}.`;
   return baseNote ? `${baseNote} ${instruction}` : instruction;
 };
 
@@ -480,7 +487,9 @@ const translateLanguage = async (
   for (const batch of chunk(outdated, BATCH_SIZE)) {
     const items: TranslationItem[] = batch.map((expected) => {
       const baseNote = notes[expected.key] ?? notes[pluralBaseOf(expected.key)];
-      const note = expected.category ? pluralNote(lang, expected.category, baseNote) : baseNote || undefined;
+      const note = expected.category
+        ? pluralNote(lang, expected.category, baseNote, enFlat[expected.enKey])
+        : baseNote || undefined;
       const usageList = usages.get(expected.key) ?? usages.get(pluralBaseOf(expected.key)) ?? [];
       const usage = usageList.map((u) => `${u.file}:${u.line} — ${u.text}`).join("\n");
       return {

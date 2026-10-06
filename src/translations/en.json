@@ -532,7 +532,6 @@
             "yearsLived_one": "{{lived}} of {{count}} year lived",
             "yearsLived_other": "{{lived}} of {{count}} years lived",
             "yourAge": "Your age",
-            "focusPrompt": "Prompt",
             "focusPlaceholder": "Type and press Enter",
             "resetCadence": "Reset",
             "cadences": {
