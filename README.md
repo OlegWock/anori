@@ -35,6 +35,7 @@
 * CPU and RAM load (only Chrome)
 * Pictures
 * Anki integration
+* Motivation: day, week, month and year progress, life progress, age ticker, daily focus, day counter
 </details>
 
 # Installation
