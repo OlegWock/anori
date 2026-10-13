@@ -23,6 +23,7 @@ export type AnoriTestApi = {
   getState: () => TestApiState;
   setEditMode: (enabled: boolean) => void;
   moveWidget: (instanceId: string, position: { x: number; y: number }) => void;
+  stashLinks: (links: { url: string; title: string }[], stashId?: string) => Promise<void>;
 };
 
 declare global {

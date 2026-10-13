@@ -1,3 +1,5 @@
+import { DEFAULT_STASH_ID } from "@anori/plugins/tabs/consts";
+import { sendMessage as sendTabsMessage } from "@anori/plugins/tabs/messaging";
 import type { GridDimensions } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid } from "@anori/utils/grid/utils";
 import { type AnoriTestApi, useInstallTestApi } from "@anori/utils/test-api";
@@ -58,6 +60,9 @@ export const useWorkspaceTestApi = ({
           );
         }
         handleLayoutUpdate([{ type: "change-position", instanceId, newPosition: position }]);
+      },
+      stashLinks: async (links, stashId = DEFAULT_STASH_ID) => {
+        await sendTabsMessage("stashLinks", { stashId, links });
       },
     }),
     [activeFolderId, isEditing, setIsEditing, grid, widgets, handleLayoutUpdate],

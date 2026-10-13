@@ -57,7 +57,7 @@ export const run = async ({ openNewTab, screenshot, testApi }: AnoriHarness) => 
 };
 ```
 
-Run it with `{"cmd":"script","file":"harness/scratch/<name>.ts"}`. `harness/examples/demo-tour.ts` is a longer tour (wizard, typing into widgets, test API, settings) meant for watching in `--headed` mode. Node 26 runs `.ts` natively: plain TypeScript, `.ts` extensions on relative imports, no path aliases, no enums. `harness/examples/add-first-widget.ts` is a complete example.
+Run it with `{"cmd":"script","file":"harness/scratch/<name>.ts"}`. Only the script file itself is re-imported fresh on each run; modules it imports (e.g. `harness/examples/helpers.ts`) stay cached by Node for the life of the harness process, so after editing a shared helper, `quit` and start the harness again. `harness/examples/demo-tour.ts` is a longer tour (wizard, typing into widgets, test API, settings) meant for watching in `--headed` mode. Node 26 runs `.ts` natively: plain TypeScript, `.ts` extensions on relative imports, no path aliases, no enums. `harness/examples/add-first-widget.ts` is a complete example.
 
 ## Finding elements
 
@@ -77,6 +77,7 @@ A small, **development-build-only** API. `src/utils/test-api.ts` defines the typ
 
 * `getState()` → `{ activeFolderId, isEditing, grid, widgets: [{ instanceId, pluginId, widgetId, x, y, width, height, configuration }] }`
 * `setEditMode(enabled)`
+* `stashLinks(links, stashId?)` — adds `{ url, title }` entries to the tab stash by sending the same `stashLinks` plugin message the "Stash a tab" popover sends (defaults to the inbox stash). Added because the open-tabs picker, the only UI path that stores real titles, sits behind the `tabs` permission.
 * `moveWidget(instanceId, { x, y })` — repositions a widget with the same overlap/bounds validation the drop handler uses (`canPlaceItemInGrid`), then persists through `handleLayoutUpdate`; throws if the target is occupied or out of bounds. Added because `@dnd-kit` drag cannot be driven reliably with synthetic pointer events.
 
 The base is deliberately tiny. **Extend it when Playwright can't do something** — the known case is drag-and-drop widget repositioning, which `@dnd-kit` makes hard to drive with synthetic pointer events:
@@ -92,6 +93,7 @@ The base is deliberately tiny. **Extend it when Playwright can't do something** 
 * MV3 extensions only load in Chromium's new headless mode, which is what `channel: "chromium"` + `headless: true` gives. Don't switch to the headless shell.
 * The viewport (and therefore `window.screen.width`, which Playwright emulates to match) defaults to 1920x1080 so the extension stays above the automatic compact-mode threshold of 1500px. Pass `viewport` to `launchAnori` to test compact mode.
 * Chrome 138+ shows a footer under extension new-tab pages ("Customize Chrome", extension attribution). The launcher writes `NewTabPage.FooterVisible = false` into the profile's `Default/Preferences` before every launch, so it stays hidden on fresh profiles too.
+* **Optional permissions cannot be granted in the harness.** `chrome.permissions.request` opens a native prompt that headless Chromium never answers, so anything behind `RequirePermissions` (top sites, recently closed tabs, bookmarks import, favicons) shows its permission screen. Remote Iconify icons do not need a permission and work in the harness; in the icon picker, searching for the exact id (e.g. `logos:google-maps`) lists it first.
 * The profile is an isolated fresh install: no cloud account, onboarding shown until the first widget is added. The onboarding's "apply preset" button is the quickest way to a populated folder.
 * Chrome caches an unpacked extension's compiled scripts inside the profile; the harness drops those caches on launch, so a stale bundle is not a thing you should see. If behavior looks stale anyway, `reload`.
 * **Styles look unstyled after a watch rebuild** (new Panda classes are on the elements but have no CSS): Panda's PostCSS plugin was not re-run for `src/panda.css`. `postcss.config.cjs` registers every extracted source file as a dependency of `panda.css` precisely so rspack re-runs it, and `panda.config.ts` must **not** list source files under `dependencies` (that makes every edit a "config change", which regenerates the context and emits stale CSS). If it happens anyway, `quit` and start the harness again — a fresh build always extracts everything — and then investigate `postcss.config.cjs` / `panda.config.ts`.
