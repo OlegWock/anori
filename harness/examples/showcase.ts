@@ -129,7 +129,14 @@ const HOME: Entry[] = [
     y: 0,
     width: 2,
     height: 2,
-    configure: clock("Lisbon", "Lisbon", "Europe/Lisbon"),
+    configure: async (p) => {
+      await clock("Warsaw", "Warsaw", "Europe/Warsaw")(p);
+      await fieldControl(p, "Time format").locator("button").first().click();
+      await p
+        .getByRole("option", { name: /^\d{2}:\d{2} \(24 hours\)$/ })
+        .first()
+        .click();
+    },
   },
   {
     name: "Current weather",
@@ -139,7 +146,7 @@ const HOME: Entry[] = [
     width: 2,
     height: 1,
     configure: async (p) => {
-      await pickComboboxOption(p, "Select city", "Lisbon", /Lisbon/);
+      await pickComboboxOption(p, "Select city", "Warsaw", /Warsaw/);
     },
   },
   {
@@ -169,8 +176,8 @@ const HOME: Entry[] = [
   {
     name: "Bookmark",
     widgetId: "bookmark",
-    x: 3,
-    y: 1,
+    x: 9,
+    y: 2,
     width: 1,
     height: 1,
     configure: bookmark("Reddit", "https://www.reddit.com", { query: "logos:reddit-icon", id: "logos:reddit-icon" }),
@@ -234,8 +241,8 @@ const HOME: Entry[] = [
   {
     name: "Day counter",
     widgetId: "day-counter",
-    x: 9,
-    y: 2,
+    x: 3,
+    y: 1,
     width: 1,
     height: 1,
     configure: async (p) => {
@@ -245,13 +252,16 @@ const HOME: Entry[] = [
   },
   { name: "Calculator — expandable", widgetId: "calc-widget-expandable", x: 3, y: 3, width: 1, height: 1 },
   {
-    name: "Date and time - size S",
-    widgetId: "datetime-widget",
+    name: "Bookmark",
+    widgetId: "bookmark",
     x: 9,
     y: 3,
     width: 1,
     height: 1,
-    configure: clock("Sydney", "Sydney", "Australia/Sydney"),
+    configure: bookmark("Netflix", "https://www.netflix.com", {
+      query: "logos:netflix-icon",
+      id: "logos:netflix-icon",
+    }),
   },
   { name: "Day progress", widgetId: "day-progress", x: 3, y: 4, width: 1, height: 1, configure: async () => {} },
   {

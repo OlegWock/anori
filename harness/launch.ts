@@ -7,7 +7,8 @@ import { EXT_DIR, PROFILE_DIR, REPO_DIR, SCREENSHOTS_DIR } from "./paths.ts";
 
 export type LaunchOptions = {
   headless?: boolean;
-  viewport?: { width: number; height: number };
+  viewport?: { width: number; height: number } | null;
+  windowSize?: { width: number; height: number };
   colorScheme?: "light" | "dark";
 };
 
@@ -92,7 +93,10 @@ const createTestApiProxy = (page: Page): TestApiProxy =>
   });
 
 export const launchAnori = async (options: LaunchOptions = {}): Promise<AnoriHarness> => {
-  const { headless = true, viewport = { width: 1920, height: 1080 }, colorScheme = "dark" } = options;
+  const { headless = true, colorScheme = "dark", windowSize = { width: 1920, height: 1080 } } = options;
+  // Headed: let the page fill the real window (no device-metrics override) so the window matches the
+  // rendered page exactly. Headless: keep a fixed viewport for stable screenshots.
+  const viewport = options.viewport !== undefined ? options.viewport : headless ? { width: 1920, height: 1080 } : null;
   ensureBuilt();
   ensureChromium();
   mkdirSync(PROFILE_DIR, { recursive: true });
@@ -116,6 +120,26 @@ export const launchAnori = async (options: LaunchOptions = {}): Promise<AnoriHar
   const pageIdOf = (page: Page) => [...pages.entries()].find(([, p]) => p === page)?.[0];
   const lastPage = () => [...pages.values()].at(-1);
 
+  let windowSized = false;
+  const sizeWindowToContent = async (page: Page) => {
+    if (headless || windowSized) return;
+    windowSized = true;
+    const cdp = await context.newCDPSession(page);
+    try {
+      const { windowId } = await cdp.send("Browser.getWindowForTarget");
+      const inner = await page.evaluate(() => ({ w: window.innerWidth, h: window.innerHeight }));
+      const { bounds } = await cdp.send("Browser.getWindowBounds", { windowId });
+      const chromeW = (bounds.width ?? inner.w) - inner.w;
+      const chromeH = (bounds.height ?? inner.h) - inner.h;
+      await cdp.send("Browser.setWindowBounds", {
+        windowId,
+        bounds: { width: windowSize.width + chromeW, height: windowSize.height + chromeH, windowState: "normal" },
+      });
+    } finally {
+      await cdp.detach();
+    }
+  };
+
   const openNewTab = async (options: { pageId?: number } = {}) => {
     const page = await context.newPage();
     const pageId = options.pageId ?? nextPageId;
@@ -131,6 +155,7 @@ export const launchAnori = async (options: LaunchOptions = {}): Promise<AnoriHar
     page.on("pageerror", (err) => console.error(`[pageerror] ${err.message}`));
     await page.goto(newTabUrl);
     await page.waitForLoadState("networkidle");
+    await sizeWindowToContent(page);
     return page;
   };
 

@@ -24,6 +24,8 @@ export type AnoriTestApi = {
   setEditMode: (enabled: boolean) => void;
   moveWidget: (instanceId: string, position: { x: number; y: number }) => void;
   stashLinks: (links: { url: string; title: string }[], stashId?: string) => Promise<void>;
+  listThemes: () => string[];
+  setTheme: (name: string) => Promise<void>;
 };
 
 declare global {

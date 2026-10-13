@@ -2,7 +2,9 @@ import { DEFAULT_STASH_ID } from "@anori/plugins/tabs/consts";
 import { sendMessage as sendTabsMessage } from "@anori/plugins/tabs/messaging";
 import type { GridDimensions } from "@anori/utils/grid/types";
 import { canPlaceItemInGrid } from "@anori/utils/grid/utils";
+import { anoriSchema, getAnoriStorage } from "@anori/utils/storage";
 import { type AnoriTestApi, useInstallTestApi } from "@anori/utils/test-api";
+import { applyTheme, resolveColorScheme, themes } from "@anori/utils/user-data/theme-base";
 import type { WidgetInFolderWithMeta } from "@anori/utils/user-data/types";
 import { useMemo } from "react";
 import type { LayoutChange } from "../WidgetsGrid/WidgetsGrid";
@@ -63,6 +65,14 @@ export const useWorkspaceTestApi = ({
       },
       stashLinks: async (links, stashId = DEFAULT_STASH_ID) => {
         await sendTabsMessage("stashLinks", { stashId, links });
+      },
+      listThemes: () => themes.map((theme) => theme.name),
+      setTheme: async (name) => {
+        const theme = themes.find((t) => t.name === name);
+        if (!theme) throw new Error(`No builtin theme named ${name}`);
+        const storage = await getAnoriStorage();
+        await storage.set(anoriSchema.theme, name);
+        await applyTheme(theme, resolveColorScheme(storage.get(anoriSchema.colorScheme)));
       },
     }),
     [activeFolderId, isEditing, setIsEditing, grid, widgets, handleLayoutUpdate],
