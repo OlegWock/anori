@@ -8,7 +8,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { css } from "styled-system/css";
 
 const CHANGELOG_URL = "https://github.com/OlegWock/anori/blob/master/CHANGELOG.md";
-const CURRENT_VERSION = "2.3.0";
+const CURRENT_VERSION = "2.3.1";
 const RELEASE = "releaseNotes.v2_3_0";
 
 const MINOR_CHANGES = [{ tag: "tagImproved", key: "minorLocalizedNumbers" }] as const;
