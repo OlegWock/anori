@@ -81,8 +81,19 @@ type ForecastAPIResponse = {
   };
 };
 
-export const searchCity = async (query: string): Promise<City[]> => {
-  const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}`);
+const GEOCODING_LANGUAGE_OVERRIDES: Record<string, string> = { fil: "tl" };
+
+const toGeocodingLanguage = (appLanguage: string): string => {
+  const base = appLanguage.toLowerCase().split("-")[0];
+  return GEOCODING_LANGUAGE_OVERRIDES[base] ?? base;
+};
+
+export const searchCity = async (query: string, appLanguage: string): Promise<City[]> => {
+  const response = await fetch(
+    "https://geocoding-api.open-meteo.com/v1/search" +
+      `?name=${encodeURIComponent(query)}` +
+      `&language=${encodeURIComponent(toGeocodingLanguage(appLanguage))}`,
+  );
   const json = (await response.json()) as GeocodingResponse;
 
   if (!json.results) {

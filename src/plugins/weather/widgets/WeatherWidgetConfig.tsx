@@ -27,7 +27,7 @@ export const WeatherWidgetConfigScreen = ({
   const onCitySearch = async (query: string) => {
     setLoadingCities(true);
     try {
-      const res = await searchCity(query);
+      const res = await searchCity(query, i18n.language);
       setCities(res);
     } catch (err) {
       console.error(err);
@@ -43,7 +43,7 @@ export const WeatherWidgetConfigScreen = ({
     currentConfig ? currentConfig.temperatureUnit : "c",
   );
   const [speedUnit, setSpeedUnit] = useState<Speed>(currentConfig ? currentConfig.speedUnit : "km/h");
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className={config}>
