@@ -1,11 +1,11 @@
 {
     "appName": {
-        "message": "Anori: Khởi động ngày làm việc năng suất"
+        "message": "Anori: tab mới năng suất"
     },
     "appDescription": {
-        "message": "Cá nhân hóa tab mới: Tự do thiết kế không gian làm việc với các tiện ích thông minh"
+        "message": "Tab mới tùy biến: tự xây dựng trang của riêng bạn từ các widget"
     },
     "appActionTitle": {
-        "message": "Mở Anori ở tab mới"
+        "message": "Mở tab Anori mới"
     }
 }

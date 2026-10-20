@@ -2,7 +2,7 @@
     "translation": {
         "appName": "Anori: tab mới năng suất",
         "appDescription": "Tab mới tùy biến: tự xây dựng trang của riêng bạn từ các widget",
-        "appActionTitle": "Mở tab mới Anori",
+        "appActionTitle": "Mở tab Anori mới",
         "openAnori": "Mở Anori",
         "icon": "Biểu tượng",
         "title": "Tiêu đề",
@@ -188,10 +188,9 @@
                 "removeTheme": "Xóa giao diện",
                 "selectBackground": "Chọn hình nền",
                 "changeBackground": "Đổi hình nền",
-                "blur": "Làm mờ",
+                "blur": "Độ mờ",
                 "colorAccent": "Màu nhấn",
                 "colorBackground": "Nền",
-                "colorText": "Chữ",
                 "colorCode": "Mã màu",
                 "colorScheme": "Bảng màu",
                 "previewColorScheme": "Xem trước bảng màu",
@@ -217,7 +216,7 @@
                 "p1": "Anori là tiện ích mở rộng miễn phí và mã nguồn mở. Bạn có thể xem mã nguồn trên <0>GitHub</0>. Nếu bạn muốn đề xuất tính năng hoặc báo lỗi, hãy tạo <1>issue mới</1> trong kho mã. Nếu chỉ muốn nói lời cảm ơn, bạn có thể gắn sao cho kho mã đó :).",
                 "p2": "Nếu bạn muốn sửa đổi tiện ích mở rộng này, thêm plugin hoặc widget của riêng mình, hãy xem <0>readme</0> để biết thêm thông tin.",
                 "p3": "Theo dõi tác giả trên <0>Twitter</0> và <1>ủng hộ Ukraina</1>.",
-                "p4": "Nếu bạn muốn ủng hộ việc phát triển Anori bằng chút tiền, bạn có thể làm điều đó <0>tại đây</0>. Có thể thanh toán bằng tiền mã hóa hoặc thẻ tín dụng.",
+                "p4": "Nếu bạn muốn ủng hộ việc phát triển Anori bằng một chút tiền, bạn có thể ủng hộ <0>tại đây</0>. Có thể thanh toán bằng tiền mã hóa hoặc thẻ tín dụng.",
                 "license": "Giấy phép"
             }
         },
@@ -229,7 +228,7 @@
             "switchToFolderAbove": "Chuyển đến thư mục phía trên",
             "switchToFolderBelow": "Chuyển đến thư mục phía dưới",
             "switchFolderWithWheel": "Chuyển thư mục bằng con lăn chuột hoặc bàn di chuột",
-            "switchToNFolder": "Chuyển đến thư mục thứ 1 (cũng dùng được với các số khác!)",
+            "switchToNFolder": "Chuyển đến thư mục số 1 (cũng dùng được với các số khác!)",
             "editCurrentFolder": "Chỉnh sửa thư mục hiện tại",
             "addNewWidget": "Thêm widget mới vào thư mục hiện tại"
         },
@@ -395,7 +394,7 @@
             "name": "Trang truy cập nhiều",
             "widgetHorizontal": "Trang truy cập nhiều - ngang",
             "widgetVertical": "Trang truy cập nhiều - dọc",
-            "removeSite": "Xóa trang"
+            "removeSite": "Xóa trang web"
         },
         "weather-plugin": {
             "name": "Thời tiết",
@@ -438,7 +437,7 @@
             "presetInteresting": "Chỉ là những thứ thú vị",
             "presetForDevelopersTitle": "Lập trình",
             "presetForDesignersTitle": "Thiết kế",
-            "presetInterestingTitle": "Thứ thú vị",
+            "presetInterestingTitle": "Điều thú vị",
             "examplePostTitle1": "Cách sắp xếp tab mới Anori như dân chuyên nghiệp!",
             "examplePostDescription1": "Bạn chỉ cần bắt đầu với một dấu trang quen thuộc rồi để trái tim dẫn lối. Đôi khi tất cả những gì bạn cần chỉ là một chút ngăn nắp...",
             "exampleFeedTitle1": "Blog Anori",

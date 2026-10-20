@@ -1,11 +1,11 @@
 {
     "appName": {
-        "message": "Anori: la tua scheda per la produttività"
+        "message": "Anori: nuova scheda per la produttività"
     },
     "appDescription": {
         "message": "Nuova scheda personalizzabile: componi la tua pagina con i widget"
     },
     "appActionTitle": {
-        "message": "Apri scheda Anori"
+        "message": "Apri una nuova scheda di Anori"
     }
 }

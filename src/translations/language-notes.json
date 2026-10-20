@@ -1,107 +1,566 @@
 {
-    "pl": [
-        "Address the user informally with 'ty' (second person singular verbs). Never use 'Pan' / 'Pani' / 'Państwo'. Prefer leaving the pronoun out when the verb form already makes it clear ('Możesz zmienić...', not 'Ty możesz zmienić...').",
-        "Personal and possessive pronouns referring to the user always start with a capital letter: 'Ty', 'Ciebie', 'Cię', 'Ci', 'Twój', 'Twoje', 'Twojego', etc.",
-        "Use gender-neutral phrasing for the user — the user's gender is unknown. Never use past-tense verbs ending in '-łeś' / '-łaś' / '-łbyś' or adjectives and participles describing the user ('gotowy', 'zmęczony', 'wdzięczny', 'pewny', 'zalogowany', 'sam'). Rephrase with the present tense, an impersonal form, a noun, or a question about the thing rather than the person: 'Za dużo wyboru?' (not 'Zmęczony wyborem?'), 'po przejściu na nowe konto' (not 'jeśli przeszedłeś na nowe konto'), 'coś, za co czujesz wdzięczność' (not 'za co jesteś wdzięczny'), 'od dwóch tygodni nie palisz?' (not 'rzuciłeś palenie?'), 'Zapisano' (not 'Zapisałeś').",
-        "Buttons and menu items use the imperative ('Zapisz', 'Edytuj folder', 'Anuluj').",
-        "Glossary: widget = 'widżet' (never 'widget'; declined 'widżetu', 'widżetów'); folder = 'folder' (never 'teczka'); tab = 'karta'; new tab = 'nowa karta'; bookmark = 'zakładka'; plugin = 'wtyczka'; keyboard shortcut = 'skrót klawiszowy'; browser extension = 'rozszerzenie'; settings = 'ustawienia'."
-    ],
-    "de": [
-        "Address the user informally with 'du' ('dein', 'dich'). Never use 'Sie'.",
-        "Buttons and menu items use the infinitive ('Speichern', 'Ordner bearbeiten').",
-        "Join compounds with English loanwords using a hyphen ('Plugin-Einstellungen', 'Widget-Konfiguration'), never write them as two separate words.",
-        "Glossary: widget = 'Widget' (das); folder = 'Ordner'; tab = 'Tab' (der); new tab = 'neuer Tab'; bookmark = 'Lesezeichen'; plugin = 'Plugin'; keyboard shortcut = 'Tastenkürzel'; browser extension = 'Erweiterung'; settings = 'Einstellungen'; to edit = 'bearbeiten' (never 'editieren'); theme = 'Design' (never 'Theme'); icon = 'Icon' (never 'Symbol' for an icon the user picks or uploads); custom icons = 'eigene Icons' (never 'benutzerdefinierte Icons'); compound brand names are fully hyphenated ('Anori-Plus-Konto')."
-    ],
-    "fr": [
-        "Address the user formally with 'vous' ('votre', 'vos'). Never use 'tu'.",
-        "Prefer phrasing that doesn't assign the user a gender ('Trop de choix ?' rather than 'Fatigué de choisir ?', 'plus rien ne vous empêche de...' rather than 'vous êtes prêt à...'). Don't use inclusive-writing dots ('prêt·e').",
-        "Buttons and menu items use the infinitive ('Enregistrer', 'Modifier le dossier').",
-        "Put a regular space before ':', ';', '?' and '!' as French typography requires; it is converted to a non-breaking space automatically.",
-        "Glossary: widget = 'widget' (masculine); folder = 'dossier'; tab = 'onglet'; new tab = 'nouvel onglet'; bookmark = 'favori'; plugin = 'plugin'; keyboard shortcut = 'raccourci clavier'; browser extension = 'extension'; settings = 'paramètres'; permission = 'autorisation' (never 'permission'); theme = 'thème'; icon = 'icône'; GitHub issue = 'issue' (feminine: 'une issue')."
-    ],
-    "es": [
-        "Use neutral Latin American Spanish: 'computadora' (not 'ordenador'), 'ustedes' for plural (never 'vosotros'), no voseo.",
-        "Address the user informally with 'tú' ('tu', 'te').",
-        "Buttons and menu items use the infinitive ('Guardar', 'Editar carpeta').",
-        "Glossary: widget = 'widget' (masculine); folder = 'carpeta'; tab = 'pestaña'; new tab = 'nueva pestaña'; bookmark = 'marcador'; plugin = 'plugin'; keyboard shortcut = 'atajo de teclado'; browser extension = 'extensión'; settings = 'configuración'; theme = 'tema'; icon = 'ícono' (with accent; custom icons = 'íconos personalizados'); permission = 'permiso'; to stash a tab = 'apartar' (Tab stash = 'Pestañas apartadas'; never 'guardar', which is Save); RSS preset = 'colección'; the onboarding's ready-made setup = 'plantilla'; feed = 'feed' (masculine); post = 'publicación'; add = 'agregar'; delete/remove = 'eliminar'."
-    ],
-    "it": [
-        "Address the user informally with 'tu' ('ti', 'tuo').",
-        "Buttons and menu items use the imperative ('Salva', 'Modifica cartella').",
-        "Glossary: widget = 'widget' (masculine, invariable plural); folder = 'cartella'; tab = 'scheda'; new tab = 'nuova scheda'; bookmark = 'segnalibro'; plugin = 'plugin'; keyboard shortcut = 'scorciatoia da tastiera'; browser extension = 'estensione'; settings = 'impostazioni'; theme = 'tema'; icon = 'icona' (custom icons = 'icone personalizzate'); permission = 'autorizzazione'; to stash a tab = 'accantonare' (Tab stash = 'Schede accantonate'; never 'salvare', which is Save, nor 'archiviare'); stash inbox = 'Da smistare'; RSS preset = 'preset'; the onboarding's ready-made setup = 'configurazione'; feed = 'feed'; post = 'post'; GitHub issue = 'segnalazione'; add = 'aggiungi', remove = 'rimuovi', delete = 'elimina'."
-    ],
-    "pt-br": [
-        "This is Brazilian Portuguese, not European Portuguese. Use Brazilian vocabulary and spelling throughout.",
-        "Address the user with 'você' (never 'tu' or 'o senhor').",
-        "Buttons and menu items use the infinitive ('Salvar', 'Editar pasta').",
-        "A browser tab is 'guia' (plural 'guias'), never 'aba'. This includes 'nova guia' for the new tab page, 'grupo de guias', and 'Guias' as the name of the Tabs plugin.",
-        "For enabling or disabling a feature or setting use 'ativar' / 'desativar' (and 'ativado' / 'desativado'), never 'habilitar' / 'desabilitar'.",
-        "The computer mouse is 'mouse', never 'rato'.",
-        "Glossary: widget = 'widget' (masculine); folder = 'pasta'; bookmark = 'favorito'; plugin = 'plugin'; keyboard shortcut = 'atalho'; browser extension = 'extensão'; settings = 'configurações'."
-    ],
-    "ru": [
-        "Address the user formally with 'вы' (lower-case 'вы', 'ваш'). Never use 'ты'.",
-        "Buttons and menu items use the infinitive ('Сохранить', 'Редактировать папку').",
-        "Glossary: widget = 'виджет'; folder = 'папка'; tab = 'вкладка'; new tab = 'новая вкладка'; bookmark = 'закладка'; plugin = 'плагин'; keyboard shortcut = 'сочетание клавиш'; browser extension = 'расширение'; settings = 'настройки'; theme = 'тема'; icon = 'иконка' (custom icons = 'свои иконки'); permission = 'разрешение'; to stash a tab = 'отложить' (Tab stash = 'Отложенные вкладки'; never 'сохранить', which is Save); RSS preset = 'подборка'; the onboarding's ready-made setup = 'готовый набор'; feed = 'лента'; post = 'пост'; account = 'аккаунт' (never 'учётная запись'); use 'ё' consistently."
-    ],
-    "uk": [
-        "Address the user formally with 'ви' (lower-case 'ви', 'ваш'). Never use 'ти'.",
-        "Buttons and menu items use the infinitive ('Зберегти', 'Редагувати папку').",
-        "Glossary: widget = 'віджет'; folder = 'папка'; tab = 'вкладка'; new tab = 'нова вкладка'; bookmark = 'закладка'; plugin = 'плагін'; keyboard shortcut = 'комбінація клавіш'; browser extension = 'розширення'; settings = 'налаштування'."
-    ],
-    "cs": [
-        "Address the user formally with 'vy' (lower-case 'vy', 'váš'). Never use 'ty'.",
-        "Use gender-neutral phrasing for the user — the user's gender is unknown. In formal address the past participle and predicate adjectives still show gender ('byl jste' / 'byla jste', 'přihlášen' / 'přihlášena', 'připraven', 'unaven', 'vděčný', 'sám'), so never use them about the user. Rephrase with the present tense, a passive or impersonal form, or a noun: 'Přihlášení proběhlo' (not 'Byl jste přihlášen'), 'Příliš mnoho možností?' (not 'Jste unaven z výběru?'), 'Uloženo' (not 'Uložil jste').",
-        "Buttons and menu items use the infinitive ('Uložit', 'Upravit složku').",
-        "Glossary: widget = 'widget'; folder = 'složka'; tab = 'karta'; new tab = 'nová karta'; bookmark = 'záložka'; plugin = 'plugin'; keyboard shortcut = 'klávesová zkratka'; browser extension = 'rozšíření'; settings = 'nastavení'; theme = 'motiv'; icon = 'ikona' (custom icons = 'vlastní ikony'; icon family = 'sada ikon'); permission = 'oprávnění'; to stash a tab = 'odložit' (Tab stash = 'Odložené karty'; never 'uložit', which is Save); RSS preset = 'sada'; the onboarding's ready-made setup = 'sestava'; feed = 'kanál'; post = 'příspěvek'; add = 'přidat', remove = 'odebrat', delete = 'smazat'; expandable = 'rozbalitelný'; Anori is neuter."
-    ],
-    "sk": [
-        "Address the user formally with 'vy' (lower-case 'vy', 'váš'). Never use 'ty'.",
-        "Buttons and menu items use the infinitive ('Uložiť', 'Upraviť priečinok').",
-        "Glossary: widget = 'widget'; folder = 'priečinok'; tab = 'karta'; new tab = 'nová karta'; bookmark = 'záložka'; plugin = 'plugin'; keyboard shortcut = 'klávesová skratka'; browser extension = 'rozšírenie'; settings = 'nastavenia'; theme = 'téma'; icon = 'ikona' (custom icons = 'vlastné ikony'; icon family = 'sada ikon'); permission = 'oprávnenie'; to stash a tab = 'odložiť' (Tab stash = 'Odložené karty'; never 'uložiť', which is Save); RSS preset = 'predvoľba'; the onboarding's ready-made setup = 'zostava'; feed = 'kanál'; post = 'príspevok'; add = 'pridať', remove = 'odstrániť', delete = 'vymazať'."
-    ],
-    "tr": [
-        "Address the user formally with 'siz' (second person plural verb forms, '-iniz' possessives).",
-        "Buttons and menu items use the bare imperative ('Kaydet', 'Klasörü düzenle').",
-        "Attach suffixes to English loanwords and brand names with an apostrophe ('widget'ı', 'Anori'yi').",
-        "Glossary: widget = 'widget'; folder = 'klasör'; tab = 'sekme'; new tab = 'yeni sekme'; bookmark = 'yer imi'; plugin = 'eklenti'; keyboard shortcut = 'klavye kısayolu'; browser extension = 'uzantı'; settings = 'ayarlar'; theme = 'tema'; icon = 'simge' (custom icons = 'özel simgeler'; never 'ikon'); permission = 'izin'; to stash a tab = 'depoya ekle' (Tab stash = 'Sekme deposu'; never 'kaydet', which is Save); RSS preset = 'hazır liste'; the onboarding's ready-made setup = 'düzen'; feed = 'akış'; post = 'gönderi'; add = 'ekle', remove = 'kaldır', delete = 'sil'; km/h = 'km/sa'; avoid attaching suffixes to {{placeholders}} and (...) references — use 'Label: {{value}}' or follow with a separate noun."
-    ],
-    "ja": [
-        "Use polite です/ます forms in sentences; buttons and menu items use short noun or plain forms ('保存', 'フォルダを編集'). Avoid honorific and humble keigo (尊敬語/謙譲語).",
-        "Use full-width Japanese punctuation (、。！？) in Japanese text, and put a half-width space between Japanese and Latin-script words ('Anori の設定'). Quotation marks stay straight per the general rule.",
-        "Glossary: widget = 'ウィジェット'; folder = 'フォルダ'; tab = 'タブ'; new tab = '新しいタブ'; bookmark = 'ブックマーク'; plugin = 'プラグイン'; keyboard shortcut = 'ショートカット'; browser extension = '拡張機能'; settings = '設定'; theme = 'テーマ'; icon = 'アイコン' (custom icons = 'カスタムアイコン'); permission = '権限'; to stash a tab = 'ストック' (Tab stash = 'タブストック'; never '保存', which is Save); RSS preset = 'プリセット'; the onboarding's ready-made setup = 'セットアップ'; feed = 'フィード'; post = '記事'; profile = 'プロファイル'; log in = 'ログイン'; numbers attached to Japanese counters/units take no space ('{{count}}日', '{{hours}}時間{{minutes}}分')."
-    ],
-    "zh-cn": [
-        "Address the user with '你' (never '您').",
-        "Use full-width Chinese punctuation (，。！？：) in Chinese text, and put a half-width space between Chinese characters and Latin-script words or numbers ('Anori 不会', '10 分钟'). Quotation marks stay straight per the general rule. Don't add a trailing full stop to buttons, labels or titles.",
-        "Glossary: widget = '小组件'; folder = '文件夹' (never '目录'); tab = '标签页'; new tab = '新标签页'; bookmark = '书签'; plugin = '插件'; keyboard shortcut = '快捷键'; browser extension = '扩展程序'; settings = '设置'; theme = '主题'; icon = '图标' (custom icons = '自定义图标'); permission = '权限'; to stash a tab = '暂存' (Tab stash = '标签页暂存区'); RSS preset = '预设'; the onboarding's ready-made setup = '布局'; feed = '订阅源'; post = '文章'; sync profile = '档案'; configuration = '配置'; remove = '移除', delete = '删除'."
-    ],
-    "vi": [
-        "Address the user as 'bạn'.",
-        "Glossary: widget = 'widget' (never 'tiện ích' — that word means a browser extension); folder = 'thư mục'; tab = 'tab'; new tab = 'tab mới'; bookmark = 'dấu trang'; plugin = 'plugin'; keyboard shortcut = 'phím tắt'; browser extension = 'tiện ích mở rộng'; settings = 'cài đặt'; theme = 'giao diện'; icon = 'biểu tượng' (custom icons = 'biểu tượng tùy chỉnh'); permission = 'quyền'; to stash a tab = 'cất' (Tab stash = 'Kho tab'; never 'lưu', which is Save); RSS preset = 'bộ có sẵn'; the onboarding's ready-made setup = 'bố cục'; feed = 'nguồn cấp'; post = 'bài viết'; compact durations = '{{hours}} giờ {{minutes}} phút'."
-    ],
-    "id": [
-        "Address the user formally with 'Anda' (capitalized). Never use 'kamu' or 'kau'.",
-        "Glossary: widget = 'widget'; folder = 'folder'; tab = 'tab'; new tab = 'tab baru'; bookmark = 'bookmark'; plugin = 'plugin'; keyboard shortcut = 'pintasan keyboard'; browser extension = 'ekstensi'; settings = 'pengaturan'; theme = 'tema'; icon = 'ikon' (custom icons = 'ikon kustom'); permission = 'izin'; to stash a tab = 'sisihkan' (Tab stash = 'Tab disisihkan'; never 'simpan', which is Save); RSS preset = 'preset'; the onboarding's ready-made setup = 'susunan'; feed = 'feed'; post = 'postingan'; sidebar = 'bilah sisi'; link = 'link'; add = 'tambah'; remove/delete = 'hapus'."
-    ],
-    "fil": [
-        "Use a formal register. Address the user with 'kayo' / 'ninyo' / 'inyo' (never 'ikaw' / 'mo' / 'iyo'), without adding 'po'.",
-        "Keep technical terms that have no established Filipino equivalent in English, spelled as in English; don't transliterate them.",
-        "Glossary: widget = 'widget'; folder = 'folder'; tab = 'tab'; new tab = 'bagong tab'; bookmark = 'bookmark'; plugin = 'plugin'; keyboard shortcut = 'keyboard shortcut'; browser extension = 'extension'; settings = 'mga setting'; theme = 'tema'; icon = 'icon' (custom icons = 'mga custom na icon'); permission = 'pahintulot'; to stash a tab = 'i-stash' (Tab stash = 'Tab stash'; never 'i-save'); RSS preset = 'preset'; the onboarding's ready-made setup = 'setup'; feed = 'feed'; post = 'post'; add = 'idagdag', remove = 'alisin', delete = 'burahin'; edit mode = 'editing mode'."
-    ],
-    "hi": [
-        "Address the user formally with 'आप'.",
-        "Write English loanwords in Devanagari, never in Latin script ('एनालिटिक्स', not 'analytics'). Brand names (Anori, Anori Plus, GitHub) stay in Latin script.",
-        "Glossary: widget = 'विजेट'; folder = 'फ़ोल्डर'; tab = 'टैब'; new tab = 'नया टैब'; bookmark = 'बुकमार्क'; plugin = 'प्लगइन'; keyboard shortcut = 'कीबोर्ड शॉर्टकट'; browser extension = 'एक्सटेंशन'; settings = 'सेटिंग्स'; theme = 'थीम'; icon = 'आइकन' (custom icons = 'कस्टम आइकन'); image = 'इमेज'; permission = 'अनुमति'; to stash a tab = 'स्टैश करें' (Tab stash = 'टैब स्टैश'; Save = 'सहेजें'); RSS preset = 'प्रीसेट'; the onboarding's ready-made setup = 'सेटअप'; feed = 'फ़ीड'; post = 'पोस्ट'; account = 'खाता'; add = 'जोड़ें', remove = 'हटाएं', delete = 'मिटाएं'; end sentences with '।'; use nuqta (फ़, ज़) consistently."
-    ],
-    "th": [
-        "Address the user as 'คุณ'. Don't use gendered polite particles (ครับ / ค่ะ).",
-        "Glossary: widget = 'วิดเจ็ต'; folder = 'โฟลเดอร์'; tab = 'แท็บ'; new tab = 'แท็บใหม่'; bookmark = 'บุ๊กมาร์ก'; plugin = 'ปลั๊กอิน'; keyboard shortcut = 'แป้นพิมพ์ลัด'; browser extension = 'ส่วนขยาย'; settings = 'การตั้งค่า'; theme = 'ธีม'; icon = 'ไอคอน' (custom icons = 'ไอคอนที่กำหนดเอง'); permission = 'สิทธิ์'; to stash a tab = 'เก็บ' (Tab stash = 'ที่เก็บแท็บ'; Save = 'บันทึก'); notes = 'โน้ต' (not 'บันทึกย่อ', which clashes with Save); RSS preset = 'พรีเซ็ต'; the onboarding's ready-made setup = 'การจัดหน้าพร้อมใช้'; feed = 'ฟีด'; post = 'โพสต์'; the developer's 'I' = 'ผม', but prefer phrasing without a pronoun."
-    ],
-    "ar": [
-        "Use Modern Standard Arabic. Address the user with gender-neutral phrasing where possible (e.g. verbal nouns instead of gendered imperatives); fall back to the masculine form only when unavoidable.",
-        "Use Western digits (0-9).",
-        "Keep brand names (Anori, Anori Plus, GitHub) in Latin script; never transliterate them into Arabic.",
-        "Glossary: widget = 'أداة'; folder = 'مجلد'; tab = 'علامة تبويب'; new tab = 'علامة تبويب جديدة'; bookmark = 'إشارة مرجعية'; plugin = 'مكوّن إضافي'; keyboard shortcut = 'اختصار لوحة المفاتيح'; browser extension = 'إضافة'; settings = 'الإعدادات'; theme = 'مظهر'; icon = 'أيقونة' (custom icons = 'الأيقونات المخصّصة'; never 'رمز'); permission = 'إذن' (plural 'أذونات'); to stash a tab = 'تخبئة' (Tab stash = 'مخبأ علامات التبويب'; never 'حفظ', which is Save); RSS preset = 'مجموعة جاهزة'; the onboarding's ready-made setup = 'إعداد جاهز'; feed = 'خلاصة'; post = 'منشور'; add = 'إضافة', remove = 'إزالة', delete = 'حذف'; write file formats as 'PNG' etc. without leading dots."
-    ]
+    "pl": {
+        "rules": [
+            "Address the user informally with 'ty' (second person singular verbs). Never use 'Pan' / 'Pani' / 'Państwo'. Prefer leaving the pronoun out when the verb form already makes it clear ('Możesz zmienić...', not 'Ty możesz zmienić...').",
+            "Personal and possessive pronouns referring to the user always start with a capital letter: 'Ty', 'Ciebie', 'Cię', 'Ci', 'Twój', 'Twoje', 'Twojego', etc.",
+            "Use gender-neutral phrasing for the user — the user's gender is unknown. Never use past-tense verbs ending in '-łeś' / '-łaś' / '-łbyś' or adjectives and participles describing the user ('gotowy', 'zmęczony', 'wdzięczny', 'pewny', 'zalogowany', 'sam'). Rephrase with the present tense, an impersonal form, a noun, or a question about the thing rather than the person: 'Za dużo wyboru?' (not 'Zmęczony wyborem?'), 'po przejściu na nowe konto' (not 'jeśli przeszedłeś na nowe konto'), 'coś, za co czujesz wdzięczność' (not 'za co jesteś wdzięczny'), 'od dwóch tygodni nie palisz?' (not 'rzuciłeś palenie?'), 'Zapisano' (not 'Zapisałeś').",
+            "Buttons and menu items use the imperative ('Zapisz', 'Edytuj folder', 'Anuluj')."
+        ],
+        "glossary": {
+            "widget": "'widżet' (never 'widget'; declined 'widżetu', 'widżetów')",
+            "folder": "'folder' (never 'teczka')",
+            "tab": "'karta'",
+            "new tab": "'nowa karta'",
+            "bookmark": "'zakładka'",
+            "plugin": "'wtyczka'",
+            "keyboard shortcut": "'skrót klawiszowy'",
+            "browser extension": "'rozszerzenie'",
+            "settings": "'ustawienia'",
+            "signed in to an account": "'zalogowany na konto' (never 'do konta')",
+            "developers (audience)": "'programiści' (never 'deweloperzy', which means property developers)"
+        }
+    },
+    "de": {
+        "rules": [
+            "Address the user informally with 'du' ('dein', 'dich'). Never use 'Sie'.",
+            "Buttons and menu items use the infinitive ('Speichern', 'Ordner bearbeiten').",
+            "Join compounds with English loanwords using a hyphen ('Plugin-Einstellungen', 'Widget-Konfiguration'), never write them as two separate words.",
+            "Compound brand names are fully hyphenated ('Anori-Plus-Konto')."
+        ],
+        "glossary": {
+            "widget": "'Widget' (das)",
+            "folder": "'Ordner'",
+            "tab": "'Tab' (der)",
+            "new tab": "'neuer Tab'",
+            "bookmark": "'Lesezeichen'",
+            "plugin": "'Plugin'",
+            "keyboard shortcut": "'Tastenkürzel'",
+            "browser extension": "'Erweiterung'",
+            "settings": "'Einstellungen'",
+            "to edit": "'bearbeiten' (never 'editieren')",
+            "theme": "'Design' (never 'Theme')",
+            "icon": "'Icon' (never 'Symbol' for an icon the user picks or uploads)",
+            "custom icons": "'eigene Icons' (never 'benutzerdefinierte Icons')"
+        }
+    },
+    "fr": {
+        "rules": [
+            "Address the user formally with 'vous' ('votre', 'vos'). Never use 'tu'.",
+            "Prefer phrasing that doesn't assign the user a gender ('Trop de choix ?' rather than 'Fatigué de choisir ?', 'plus rien ne vous empêche de...' rather than 'vous êtes prêt à...'). Don't use inclusive-writing dots ('prêt·e').",
+            "Buttons and menu items use the infinitive ('Enregistrer', 'Modifier le dossier').",
+            "Put a regular space before ':', ';', '?' and '!' as French typography requires; it is converted to a non-breaking space automatically."
+        ],
+        "glossary": {
+            "widget": "'widget' (masculine)",
+            "folder": "'dossier'",
+            "tab": "'onglet'",
+            "new tab": "'nouvel onglet'",
+            "bookmark": "'favori'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'raccourci clavier'",
+            "browser extension": "'extension'",
+            "settings": "'paramètres'",
+            "permission": "'autorisation' (never 'permission')",
+            "theme": "'thème'",
+            "icon": "'icône'",
+            "GitHub issue": "'issue' (feminine: 'une issue')",
+            "color scheme": "'apparence' (the light/dark mode setting; never 'palette de couleurs')"
+        }
+    },
+    "es": {
+        "rules": [
+            "Use neutral Latin American Spanish: 'computadora' (not 'ordenador'), 'ustedes' for plural (never 'vosotros'), no voseo.",
+            "Address the user informally with 'tú' ('tu', 'te').",
+            "Buttons and menu items use the infinitive ('Guardar', 'Editar carpeta')."
+        ],
+        "glossary": {
+            "widget": "'widget' (masculine)",
+            "folder": "'carpeta'",
+            "tab": "'pestaña'",
+            "new tab": "'nueva pestaña'",
+            "bookmark": "'marcador'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'atajo de teclado'",
+            "browser extension": "'extensión'",
+            "settings": "'configuración'",
+            "theme": "'tema'",
+            "icon": "'ícono' (with accent; custom icons = 'íconos personalizados')",
+            "permission": "'permiso'",
+            "to stash a tab": "'apartar' (Tab stash = 'Pestañas apartadas'; never 'guardar', which is Save)",
+            "RSS preset": "'colección'",
+            "the onboarding's ready-made setup": "'plantilla'",
+            "feed": "'feed' (masculine)",
+            "post": "'publicación'",
+            "add": "'agregar'",
+            "delete/remove": "'eliminar'"
+        }
+    },
+    "it": {
+        "rules": [
+            "Address the user informally with 'tu' ('ti', 'tuo').",
+            "Buttons and menu items use the imperative ('Salva', 'Modifica cartella')."
+        ],
+        "glossary": {
+            "widget": "'widget' (masculine, invariable plural)",
+            "folder": "'cartella'",
+            "tab": "'scheda'",
+            "new tab": "'nuova scheda'",
+            "bookmark": "'segnalibro'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'scorciatoia da tastiera'",
+            "browser extension": "'estensione'",
+            "settings": "'impostazioni'",
+            "theme": "'tema'",
+            "icon": "'icona' (custom icons = 'icone personalizzate')",
+            "permission": "'autorizzazione'",
+            "to stash a tab": "'accantonare' (Tab stash = 'Schede accantonate'; never 'salvare', which is Save, nor 'archiviare')",
+            "stash inbox": "'Da smistare'",
+            "RSS preset": "'preset'",
+            "the onboarding's ready-made setup": "'configurazione'",
+            "feed": "'feed'",
+            "post": "'post'",
+            "GitHub issue": "'segnalazione'",
+            "add": "'aggiungi'",
+            "remove": "'rimuovi'",
+            "delete": "'elimina'"
+        }
+    },
+    "pt-br": {
+        "rules": [
+            "This is Brazilian Portuguese, not European Portuguese. Use Brazilian vocabulary and spelling throughout.",
+            "Address the user with 'você' (never 'tu' or 'o senhor').",
+            "Buttons and menu items use the infinitive ('Salvar', 'Editar pasta').",
+            "A browser tab is 'guia' (plural 'guias'), never 'aba'. This includes 'nova guia' for the new tab page, 'grupo de guias', and 'Guias' as the name of the Tabs plugin.",
+            "For enabling or disabling a feature or setting use 'ativar' / 'desativar' (and 'ativado' / 'desativado'), never 'habilitar' / 'desabilitar'.",
+            "The computer mouse is 'mouse', never 'rato'."
+        ],
+        "glossary": {
+            "widget": "'widget' (masculine)",
+            "folder": "'pasta'",
+            "bookmark": "'favorito'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'atalho'",
+            "browser extension": "'extensão'",
+            "settings": "'configurações'",
+            "theme": "'tema'",
+            "custom (icons, theme)": "'personalizado' (also 'personalizar', 'personalização'; never 'customizado')",
+            "upload (icons)": "'enviar' (never 'subir')",
+            "icon": "'ícone'",
+            "permission": "'permissão'",
+            "to stash a tab": "'guardar' (Tab stash = 'Guias guardadas'; never 'salvar', which is Save)",
+            "RSS preset": "'predefinição'",
+            "the onboarding's ready-made setup": "'configuração' (never 'setup')",
+            "feed": "'feed'",
+            "post": "'post'",
+            "feature": "'recurso' (never 'funcionalidade')",
+            "add": "'adicionar'",
+            "remove": "'remover'",
+            "delete": "'excluir'",
+            "edit mode": "'modo de edição'",
+            "onboarding": "'introdução'",
+            "refresh": "'atualizar' (reload = 'recarregar')",
+            "compose (a page from widgets)": "'montar'",
+            "check (status)": "'verificar'",
+            "background (theme)": "'plano de fundo'",
+            "analytics": "'dados analíticos'",
+            "page up / down": "'no ar' / 'fora do ar'"
+        }
+    },
+    "ru": {
+        "rules": [
+            "Address the user formally with 'вы' (lower-case 'вы', 'ваш'). Never use 'ты'.",
+            "Buttons and menu items use the infinitive ('Сохранить', 'Редактировать папку').",
+            "Use 'ё' consistently."
+        ],
+        "glossary": {
+            "widget": "'виджет'",
+            "folder": "'папка'",
+            "tab": "'вкладка'",
+            "new tab": "'новая вкладка'",
+            "bookmark": "'закладка'",
+            "plugin": "'плагин'",
+            "keyboard shortcut": "'сочетание клавиш'",
+            "browser extension": "'расширение'",
+            "settings": "'настройки'",
+            "theme": "'тема'",
+            "icon": "'иконка' (custom icons = 'свои иконки')",
+            "permission": "'разрешение'",
+            "to stash a tab": "'отложить' (Tab stash = 'Отложенные вкладки'; never 'сохранить', which is Save)",
+            "RSS preset": "'подборка'",
+            "the onboarding's ready-made setup": "'готовый набор'",
+            "feed": "'лента'",
+            "post": "'пост'",
+            "account": "'аккаунт' (never 'учётная запись')"
+        }
+    },
+    "uk": {
+        "rules": [
+            "Address the user formally with 'ви' (lower-case 'ви', 'ваш'). Never use 'ти'.",
+            "Buttons and menu items use the infinitive ('Зберегти', 'Редагувати папку').",
+            "Write the apostrophe inside words as ʼ (U+02BC): 'компʼютер', 'підʼєднати', 'імʼя'."
+        ],
+        "glossary": {
+            "widget": "'віджет'",
+            "folder": "'папка'",
+            "tab": "'вкладка'",
+            "new tab": "'нова вкладка'",
+            "bookmark": "'закладка'",
+            "plugin": "'плагін'",
+            "keyboard shortcut": "'комбінація клавіш'",
+            "browser extension": "'розширення'",
+            "settings": "'налаштування'",
+            "to stash a tab": "'відкласти' (Tab stash = 'Відкладені вкладки'; never 'зберегти', which is Save)"
+        }
+    },
+    "cs": {
+        "rules": [
+            "Address the user formally with 'vy' (lower-case 'vy', 'váš'). Never use 'ty'.",
+            "Use gender-neutral phrasing for the user — the user's gender is unknown. In formal address the past participle and predicate adjectives still show gender ('byl jste' / 'byla jste', 'přihlášen' / 'přihlášena', 'připraven', 'unaven', 'vděčný', 'sám'), so never use them about the user. Rephrase with the present tense, a passive or impersonal form, or a noun: 'Přihlášení proběhlo' (not 'Byl jste přihlášen'), 'Příliš mnoho možností?' (not 'Jste unaven z výběru?'), 'Uloženo' (not 'Uložil jste').",
+            "Buttons and menu items use the infinitive ('Uložit', 'Upravit složku').",
+            "Anori is neuter."
+        ],
+        "glossary": {
+            "widget": "'widget'",
+            "folder": "'složka'",
+            "tab": "'karta'",
+            "new tab": "'nová karta'",
+            "bookmark": "'záložka'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'klávesová zkratka'",
+            "browser extension": "'rozšíření'",
+            "settings": "'nastavení'",
+            "theme": "'motiv'",
+            "icon": "'ikona' (custom icons = 'vlastní ikony'; icon family = 'sada ikon')",
+            "permission": "'oprávnění'",
+            "to stash a tab": "'odložit' (Tab stash = 'Odložené karty'; never 'uložit', which is Save)",
+            "RSS preset": "'sada'",
+            "the onboarding's ready-made setup": "'sestava'",
+            "feed": "'kanál'",
+            "post": "'příspěvek'",
+            "add": "'přidat'",
+            "remove": "'odebrat'",
+            "delete": "'smazat'",
+            "expandable": "'rozbalitelný'"
+        }
+    },
+    "sk": {
+        "rules": [
+            "Address the user formally with 'vy' (lower-case 'vy', 'váš'). Never use 'ty'.",
+            "Buttons and menu items use the infinitive ('Uložiť', 'Upraviť priečinok')."
+        ],
+        "glossary": {
+            "widget": "'widget'",
+            "folder": "'priečinok'",
+            "tab": "'karta'",
+            "new tab": "'nová karta'",
+            "bookmark": "'záložka'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'klávesová skratka'",
+            "browser extension": "'rozšírenie'",
+            "settings": "'nastavenia'",
+            "theme": "'téma'",
+            "icon": "'ikona' (custom icons = 'vlastné ikony'; icon family = 'sada ikon')",
+            "permission": "'oprávnenie'",
+            "to stash a tab": "'odložiť' (Tab stash = 'Odložené karty'; never 'uložiť', which is Save)",
+            "RSS preset": "'predvoľba'",
+            "the onboarding's ready-made setup": "'zostava'",
+            "feed": "'kanál'",
+            "post": "'príspevok'",
+            "add": "'pridať'",
+            "remove": "'odstrániť'",
+            "delete": "'vymazať'"
+        }
+    },
+    "tr": {
+        "rules": [
+            "Address the user formally with 'siz' (second person plural verb forms, '-iniz' possessives).",
+            "Buttons and menu items use the bare imperative ('Kaydet', 'Klasörü düzenle').",
+            "Attach suffixes to English loanwords and brand names with an apostrophe ('widget'ı', 'Anori'yi').",
+            "Avoid attaching suffixes to {{placeholders}} and $t(...) references — use 'Label: {{value}}' or follow with a separate noun."
+        ],
+        "glossary": {
+            "widget": "'widget'",
+            "folder": "'klasör'",
+            "tab": "'sekme'",
+            "new tab": "'yeni sekme'",
+            "bookmark": "'yer imi'",
+            "plugin": "'eklenti'",
+            "keyboard shortcut": "'klavye kısayolu'",
+            "browser extension": "'uzantı'",
+            "settings": "'ayarlar'",
+            "theme": "'tema'",
+            "icon": "'simge' (custom icons = 'özel simgeler'; never 'ikon')",
+            "permission": "'izin'",
+            "to stash a tab": "'depoya ekle' (Tab stash = 'Sekme deposu'; never 'kaydet', which is Save)",
+            "RSS preset": "'hazır liste'",
+            "the onboarding's ready-made setup": "'düzen'",
+            "feed": "'akış'",
+            "post": "'gönderi'",
+            "add": "'ekle'",
+            "remove": "'kaldır'",
+            "delete": "'sil'",
+            "km/h": "'km/sa'"
+        }
+    },
+    "ja": {
+        "rules": [
+            "Use polite です/ます forms in sentences; buttons and menu items use short noun or plain forms ('保存', 'フォルダを編集'). Use the standard UI courtesy phrases where natural ('ご覧ください', 'お試しください', 'ご協力ください', 'ご利用いただけます', 'お持ちでない方', 'ご紹介します', '〜していただけると'), as the original native translation does; avoid heavier honorific or humble constructions beyond these set phrases.",
+            "Use full-width Japanese punctuation (、。！？) in Japanese text, and put a half-width space between Japanese and Latin-script words ('Anori の設定'). Quotation marks stay straight per the general rule.",
+            "Numbers attached to Japanese counters/units take no space ('{{count}}日', '{{hours}}時間{{minutes}}分').",
+            "Settings labels and toggles end in a noun rather than a verb ('サイドバーを自動で非表示', 'コンパクトモードに自動切り替え', '結果なし').",
+            "Labels showing a value use 'label：value' with a full-width colon ('現在の画面幅：{{screenWidth}}px') rather than a full sentence.",
+            "Omitting the subject is fine; never use '私たち' for the solo developer."
+        ],
+        "glossary": {
+            "widget": "'ウィジェット'",
+            "folder": "'フォルダ'",
+            "tab": "'タブ'",
+            "new tab": "'新しいタブ'",
+            "bookmark": "'ブックマーク'",
+            "plugin": "'プラグイン'",
+            "keyboard shortcut": "'ショートカット'",
+            "browser extension": "'拡張機能'",
+            "settings": "'設定'",
+            "theme": "'テーマ'",
+            "icon": "'アイコン' (custom icons = 'カスタムアイコン')",
+            "permission": "'権限'",
+            "to stash a tab": "'ストック' (Tab stash = 'タブストック'; never '保存', which is Save)",
+            "RSS preset": "'プリセット'",
+            "the onboarding's ready-made setup": "'セットアップ'",
+            "feed": "'フィード'",
+            "post": "'投稿' (not '記事')",
+            "profile": "'プロファイル'",
+            "log in": "'ログイン'",
+            "onboarding": "'チュートリアル' (not 'ガイド')",
+            "status (page status)": "'ステータス'",
+            "format (time/date)": "'フォーマット'",
+            "hide (setting/toggle)": "'非表示' (show/hide = '表示/非表示')",
+            "select (verb)": "'選択する' (not '選ぶ')",
+            "grant permissions": "'権限を付与'",
+            "recommended": "'推奨'",
+            "What's new": "'新着情報'",
+            "Learn more (link)": "'詳細はこちら'",
+            "something went wrong": "'エラーが発生しました'",
+            "connected": "'接続中'",
+            "other (another)": "'他の' (kanji, not 'ほか')",
+            "Anki review buttons": "match Anki's own Japanese UI: 'もう一度' / '難しい' / '正解' / '簡単'; Show answer = '解答を表示'",
+            "freezing rain / drizzle": "'着氷性の雨' / '着氷性の霧雨' (not '凍雨', which means ice pellets)"
+        }
+    },
+    "zh-cn": {
+        "rules": [
+            "Address the user with '你' (never '您').",
+            "Use full-width Chinese punctuation (，。！？：) in Chinese text, and put a half-width space between Chinese characters and Latin-script words or numbers ('Anori 不会', '10 分钟'). Quotation marks stay straight per the general rule. Don't add a trailing full stop to buttons, labels or titles.",
+            "Separate list items with '、' and clauses with '，'.",
+            "In mock content (example tasks, posts), localize jokes to relatable Chinese everyday humour rather than translating them literally."
+        ],
+        "glossary": {
+            "widget": "'小部件' (as the original native translation uses)",
+            "folder": "'文件夹' (never '目录')",
+            "tab": "'标签页'",
+            "new tab": "'新标签页'",
+            "bookmark": "'书签'",
+            "plugin": "'插件'",
+            "keyboard shortcut": "'快捷键'",
+            "browser extension": "'扩展程序'",
+            "settings": "'设置'",
+            "theme": "'主题'",
+            "icon": "'图标' (custom icons = '自定义图标')",
+            "permission": "'权限'",
+            "to stash a tab": "'暂存' (Tab stash = '标签页暂存区')",
+            "RSS preset": "'预设'",
+            "the onboarding's ready-made setup": "'布局'",
+            "feed": "'订阅' (RSS feed = 'RSS 订阅')",
+            "post": "'文章'",
+            "sync profile": "'档案'",
+            "configuration": "'配置'",
+            "remove": "'移除'",
+            "delete": "'删除'",
+            "tab group": "'标签页组' (a group alone = '组')",
+            "top sites": "'热门网页'",
+            "customization": "'自定义'",
+            "Tasks plugin": "'待办事项'",
+            "developers (audience)": "'开发人员'"
+        }
+    },
+    "vi": {
+        "rules": ["Address the user as 'bạn'."],
+        "glossary": {
+            "widget": "'widget' (never 'tiện ích' — that word means a browser extension)",
+            "folder": "'thư mục'",
+            "tab": "'tab'",
+            "new tab": "'tab mới'",
+            "bookmark": "'dấu trang'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'phím tắt'",
+            "browser extension": "'tiện ích mở rộng'",
+            "settings": "'cài đặt'",
+            "theme": "'giao diện'",
+            "icon": "'biểu tượng' (custom icons = 'biểu tượng tùy chỉnh')",
+            "permission": "'quyền'",
+            "to stash a tab": "'cất' (Tab stash = 'Kho tab'; never 'lưu', which is Save)",
+            "RSS preset": "'bộ có sẵn'",
+            "the onboarding's ready-made setup": "'bố cục'",
+            "feed": "'nguồn cấp'",
+            "post": "'bài viết'",
+            "compact durations": "'{{hours}} giờ {{minutes}} phút'"
+        }
+    },
+    "id": {
+        "rules": ["Address the user formally with 'Anda' (capitalized). Never use 'kamu' or 'kau'."],
+        "glossary": {
+            "widget": "'widget'",
+            "folder": "'folder'",
+            "tab": "'tab'",
+            "new tab": "'tab baru'",
+            "bookmark": "'bookmark'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'pintasan keyboard'",
+            "browser extension": "'ekstensi'",
+            "settings": "'pengaturan'",
+            "theme": "'tema'",
+            "icon": "'ikon' (custom icons = 'ikon kustom')",
+            "permission": "'izin'",
+            "to stash a tab": "'sisihkan' (Tab stash = 'Tab disisihkan'; never 'simpan', which is Save)",
+            "RSS preset": "'preset'",
+            "the onboarding's ready-made setup": "'susunan'",
+            "feed": "'feed'",
+            "post": "'postingan'",
+            "sidebar": "'bilah sisi'",
+            "link": "'link'",
+            "add": "'tambah'",
+            "remove/delete": "'hapus'"
+        }
+    },
+    "fil": {
+        "rules": [
+            "Use a formal register. Address the user with 'kayo' / 'ninyo' / 'inyo' (never 'ikaw' / 'mo' / 'iyo'), without adding 'po'.",
+            "Keep technical terms that have no established Filipino equivalent in English, spelled as in English; don't transliterate them."
+        ],
+        "glossary": {
+            "widget": "'widget'",
+            "folder": "'folder'",
+            "tab": "'tab'",
+            "new tab": "'bagong tab'",
+            "bookmark": "'bookmark'",
+            "plugin": "'plugin'",
+            "keyboard shortcut": "'keyboard shortcut'",
+            "browser extension": "'extension'",
+            "settings": "'mga setting'",
+            "theme": "'tema'",
+            "icon": "'icon' (custom icons = 'mga custom na icon')",
+            "permission": "'pahintulot'",
+            "to stash a tab": "'i-stash' (Tab stash = 'Tab stash'; never 'i-save')",
+            "RSS preset": "'preset'",
+            "the onboarding's ready-made setup": "'setup'",
+            "feed": "'feed'",
+            "post": "'post'",
+            "add": "'idagdag'",
+            "remove": "'alisin'",
+            "delete": "'burahin'",
+            "edit mode": "'editing mode'"
+        }
+    },
+    "hi": {
+        "rules": [
+            "Address the user formally with 'आप'.",
+            "Write English loanwords in Devanagari, never in Latin script ('एनालिटिक्स', not 'analytics'). Brand names (Anori, Anori Plus, GitHub) stay in Latin script.",
+            "End sentences with '।'.",
+            "Use nuqta (फ़, ज़) consistently."
+        ],
+        "glossary": {
+            "widget": "'विजेट'",
+            "folder": "'फ़ोल्डर'",
+            "tab": "'टैब'",
+            "new tab": "'नया टैब'",
+            "bookmark": "'बुकमार्क'",
+            "plugin": "'प्लगइन'",
+            "keyboard shortcut": "'कीबोर्ड शॉर्टकट'",
+            "browser extension": "'एक्सटेंशन'",
+            "settings": "'सेटिंग्स'",
+            "theme": "'थीम'",
+            "icon": "'आइकन' (custom icons = 'कस्टम आइकन')",
+            "image": "'इमेज'",
+            "permission": "'अनुमति'",
+            "to stash a tab": "'स्टैश करें' (Tab stash = 'टैब स्टैश'; Save = 'सहेजें')",
+            "RSS preset": "'प्रीसेट'",
+            "the onboarding's ready-made setup": "'सेटअप'",
+            "feed": "'फ़ीड'",
+            "post": "'पोस्ट'",
+            "account": "'खाता'",
+            "add": "'जोड़ें'",
+            "remove": "'हटाएं'",
+            "delete": "'मिटाएं'"
+        }
+    },
+    "th": {
+        "rules": ["Address the user as 'คุณ'. Don't use gendered polite particles (ครับ / ค่ะ)."],
+        "glossary": {
+            "widget": "'วิดเจ็ต'",
+            "folder": "'โฟลเดอร์'",
+            "tab": "'แท็บ'",
+            "new tab": "'แท็บใหม่'",
+            "bookmark": "'บุ๊กมาร์ก'",
+            "plugin": "'ปลั๊กอิน'",
+            "keyboard shortcut": "'แป้นพิมพ์ลัด'",
+            "browser extension": "'ส่วนขยาย'",
+            "settings": "'การตั้งค่า'",
+            "theme": "'ธีม'",
+            "icon": "'ไอคอน' (custom icons = 'ไอคอนที่กำหนดเอง')",
+            "permission": "'สิทธิ์'",
+            "to stash a tab": "'เก็บ' (Tab stash = 'ที่เก็บแท็บ'; Save = 'บันทึก')",
+            "notes": "'โน้ต' (not 'บันทึกย่อ', which clashes with Save)",
+            "RSS preset": "'พรีเซ็ต'",
+            "the onboarding's ready-made setup": "'การจัดหน้าพร้อมใช้'",
+            "feed": "'ฟีด'",
+            "post": "'โพสต์'",
+            "the developer's 'I'": "'ผม', but prefer phrasing without a pronoun"
+        }
+    },
+    "ar": {
+        "rules": [
+            "Use Modern Standard Arabic. Address the user with gender-neutral phrasing where possible (e.g. verbal nouns instead of gendered imperatives); fall back to the masculine form only when unavoidable.",
+            "Use Western digits (0-9).",
+            "Keep brand names (Anori, Anori Plus, GitHub) in Latin script; never transliterate them into Arabic.",
+            "Write file formats as 'PNG' etc. without leading dots.",
+            "Write without short-vowel diacritics (harakat); only fathatan on alif (ًا) is used.",
+            "Buttons, menu items, settings labels and shortcut descriptions are verbal nouns ('حفظ', 'تحرير المجلد', 'إظهار/إخفاء'); progress labels use 'جار + verbal noun...' ('جار التحميل...')."
+        ],
+        "glossary": {
+            "widget": "'أداة'",
+            "folder": "'مجلد'",
+            "tab": "'علامة تبويب'",
+            "new tab": "'علامة تبويب جديدة'",
+            "bookmark": "'إشارة مرجعية'",
+            "plugin": "'مكوّن إضافي'",
+            "keyboard shortcut": "'اختصار لوحة المفاتيح'",
+            "browser extension": "'ملحق' (never 'إضافة', which is Add)",
+            "settings": "'الإعدادات'",
+            "theme": "'مظهر'",
+            "icon": "'أيقونة' (custom icons = 'الأيقونات المخصّصة'; never 'رمز')",
+            "permission": "'إذن' (plural 'أذونات')",
+            "to stash a tab": "'تخبئة' (Tab stash = 'مخبأ علامات التبويب'; never 'حفظ', which is Save)",
+            "RSS preset": "'مجموعة جاهزة'",
+            "the onboarding's ready-made setup": "'إعداد جاهز'",
+            "feed": "'تغذية' (plural 'تغذيات')",
+            "post": "'منشور'",
+            "add": "'إضافة'",
+            "remove": "'إزالة'",
+            "delete": "'حذف'",
+            "edit": "'تحرير' (edit mode = 'وضع التحرير')",
+            "configure": "'تكوين'",
+            "enable": "'تمكين' ('if enabled' = 'إذا تم تمكينه')",
+            "compose (a page from widgets)": "'تأليف'",
+            "start page": "'صفحة البداية'",
+            "color scheme": "'مخطط الألوان'",
+            "icon family": "'عائلة الأيقونات'",
+            "top sites": "'أهم المواقع'",
+            "cheatsheet": "'ورقة غش'",
+            "modal window": "'النافذة المنبثقة'",
+            "switch to (folder)": "'التبديل إلى'",
+            "GitHub issue": "'مشكلة'",
+            "onboarding": "'التقديم'",
+            "Home folder": "'الصفحة الرئيسية'"
+        }
+    }
 }

@@ -20,7 +20,7 @@
         "startTypingToSearch": "Pro vyhledávání začněte psát...",
         "search": "Hledat...",
         "loading": "Načítání...",
-        "lastUpdatedAt": "Aktualizováno v {{datetime}}",
+        "lastUpdatedAt": "Naposledy aktualizováno v {{datetime}}",
         "home": "Domů",
         "px": "px",
         "whatsNew": "Co je nového",
@@ -80,7 +80,7 @@
             "noAccount": "Nemáte účet?",
             "createAccount": "Vytvořte si ho zde",
             "userDataConflict": {
-                "description": "Tento prohlížeč obsahuje data Anori Plus — například vaše odložené karty — synchronizovaná s jiným účtem, než ke kterému se přihlašujete. Co s nimi má být?",
+                "description": "Tento prohlížeč obsahuje data Anori Plus — například vaše odložené karty — synchronizovaná s jiným účtem, než ke kterému se přihlašujete. Co se s nimi má stát?",
                 "upload": "Přidat do tohoto účtu",
                 "uploadHint": "Zachová tato data a sloučí je s účtem, ke kterému se přihlašujete. Zvolte tuto možnost, pokud jsou vaše — například po přechodu na nový účet.",
                 "discard": "Zahodit",
@@ -101,7 +101,7 @@
             "delete": "Smazat",
             "deleteConfirmation": "Opravdu chcete smazat profil \"{{profileName}}\"? Tuto akci nelze vrátit zpět.",
             "connectConfirmation": {
-                "message": "Připojení k profilu \"{{profileName}}\" přepíše vaši aktuální místní konfiguraci konfigurací uloženou v profilu. Chcete pokračovat?"
+                "message": "Připojení k profilu \"{{profileName}}\" přepíše vaši aktuální místní konfiguraci tou, která je uložená v profilu. Chcete pokračovat?"
             },
             "settings": {
                 "title": "Nastavení",
@@ -155,7 +155,7 @@
                 "automaticCompactModeThresholdHint": "Aktuální šířka vaší obrazovky je {{screenWidth}}px",
                 "useCompact": "Vždy používat kompaktní režim",
                 "showAnimationOnOpen": "Zobrazovat animaci při otevření",
-                "showAnimationOnOpenHint": "Když je tato možnost zapnutá, rozšíření zobrazí krátkou úvodní animaci, která skryje počáteční probliknutí při načítání dat a celkově vypadá lépe.",
+                "showAnimationOnOpenHint": "Když je tato možnost zapnutá, rozšíření zobrazí krátkou úvodní animaci, která skryje počáteční probliknutí při načítání dat a zajistí lepší vzhled.",
                 "rememberLastFolder": "Pamatovat si poslední otevřenou složku"
             },
             "customIcons": {
@@ -191,10 +191,9 @@
                 "removeTheme": "Odebrat motiv",
                 "selectBackground": "Vybrat pozadí",
                 "changeBackground": "Změnit pozadí",
-                "blur": "Rozmazání",
+                "blur": "Rozostření",
                 "colorAccent": "Zvýraznění",
                 "colorBackground": "Pozadí",
-                "colorText": "Text",
                 "colorCode": "Kód barvy",
                 "colorScheme": "Barevné schéma",
                 "previewColorScheme": "Barevné schéma náhledu",
@@ -351,7 +350,7 @@
             "stash": {
                 "title": "Odložené karty",
                 "inbox": "Doručené",
-                "empty": "Zatím nic odloženo",
+                "empty": "Zatím nic neodloženo",
                 "emptyHint": "Kartu přidáte tlačítkem + výše nebo ve vyskakovacím okně Anori na panelu nástrojů prohlížeče.",
                 "stashTab": "Odložit kartu",
                 "remove": "Odebrat",
@@ -373,13 +372,13 @@
                 "window": "Okno",
                 "grantTabs": "Funkce $t(tabs-plugin.stash.title) vyžaduje další oprávnění",
                 "recentlyStashed": "Nedávno odložené",
-                "nothingStashed": "Zatím nic odloženo"
+                "nothingStashed": "Zatím nic neodloženo"
             },
             "syncedTabs": {
                 "title": "Synchronizované karty",
                 "loading": "Načítání karet...",
                 "unnamedGroup": "Skupina",
-                "notConnectedTitle": "Karty z vašich dalších zařízení",
+                "notConnectedTitle": "Zobrazte si karty z vašich dalších zařízení",
                 "notConnectedDescription": "Připojte Anori Plus a synchronizujte otevřené karty mezi svými zařízeními.",
                 "connect": "Připojit",
                 "emptyTitle": "Karty zatím nesdílí žádné jiné zařízení",
@@ -496,16 +495,16 @@
             "tagFixed": "Opravené",
             "changelogNote": "Hledáte seznam změn starších verzí? Najdete ho <0>na GitHubu</0>.",
             "v2_3_0": {
-                "headline": "Seznamte se s novým pluginem $t(motivation-plugin.name): osm widgetů, které měří čas, drží celkový obraz na očích, pomáhají se soustředit a počítají dny, na kterých záleží.",
+                "headline": "Seznamte se s novým pluginem $t(motivation-plugin.name): osm widgetů, které měří čas, pomáhají udržet přehled a soustředit se a počítají dny, na kterých záleží.",
                 "periodsTitle": "Kam se ten den poděl?",
-                "periodsBody": "Nové widgety průběhu ukazují, kolik dne, týdne, měsíce nebo roku už máte za sebou. Den a týden mohou zahrnovat jen svou část, takže můžete sledovat pracovní den a pracovní týden, nebo mít přehled o tom, kolik víkendu vám ještě zbývá.",
-                "periodsCalendar": "Měsíc a rok se navíc mohou řídit jiným kalendářním systémem, pokud je to ten, podle kterého žijete.",
+                "periodsBody": "Nové widgety průběhu ukazují, kolik dne, týdne, měsíce nebo roku už máte za sebou. U dne a týdne lze počítat jen jejich část, takže můžete sledovat pracovní den a pracovní týden, nebo mít přehled o tom, kolik víkendu vám ještě zbývá.",
+                "periodsCalendar": "Měsíc a rok se navíc mohou řídit jiným kalendářním systémem, pokud podle něj žijete.",
                 "lifeTitle": "Pohled z odstupu",
                 "lifeBody": "Podívejte se na celý svůj život z největšího odstupu: widget Průběh života ho ukazuje jako mřížku let, která se tiše zaplňuje. Jemné memento mori, jen bez lebek. A pokud raději sledujete sekundy, Čítač věku živě ukazuje, kolik vám je.",
                 "focusTitle": "Mějte to na očích",
                 "focusBody": "Fokus drží na vaší nové kartě jeden řádek textu, aby to důležité nezapadlo pod vším ostatním. Použijte ho pro úkol dne, cíl na tento týden nebo jednu věc, za kterou cítíte vděčnost. Může začínat znovu každý den, týden nebo měsíc, nebo zůstat, dokud ho nezměníte.",
                 "counterTitle": "Počítejte dny",
-                "counterBody": "Pokud má váš fokus termín, pomáhá vidět, jak dny ubývají. Právě k tomu slouží Čítač dní. Počítá i opačně: před dvěma týdny konec s kouřením? Dejte si to číslo na novou kartu a sledujte, jak den za dnem roste.",
+                "counterBody": "Pokud má váš fokus termín, pomáhá vidět, jak dny ubývají. Právě k tomu slouží Čítač dní. Počítá i opačně: poslední cigareta před dvěma týdny? Dejte si to číslo na novou kartu a sledujte, jak den za dnem roste.",
                 "minorLocalizedNumbers": "Procenta využití CPU a paměti a rychlost větru se nyní řídí formátem čísel vašeho jazyka, například '12,3 %' v němčině nebo '%12,3' v turečtině."
             }
         },

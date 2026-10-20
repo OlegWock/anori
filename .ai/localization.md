@@ -12,11 +12,11 @@
 
 * `src/translations/metadata.ts` holds the list of available translations (codes, pretty names, text direction, resources). `src/translations/utils.ts` holds the i18next setup and the `translate` helper.
 
-* `en` is the only source of truth and the only language that is never auto-translated. `uk` is also hand-verified and trusted, and is passed to the model as a secondary reference when translating the other languages — but it is itself auto-translatable like any other target language.
+* `en` is the only source of truth and the only language that is never auto-translated. `uk` is also hand-verified and trusted, and serves as a secondary reference when translating the other languages. It can still be translated like any other target language, but the user reviews every `uk` change.
 
-* Other languages are translated by an LLM (via OpenRouter) and committed to source control, then freely hand-editable.
+* Other languages are translated with the **`/translate` Claude Code skill** (`.claude/skills/translate/`): one subagent per language, each working from the whole language file so terminology stays consistent, with `translations-manager.ts` doing the bookkeeping. The results are committed to source control and freely hand-editable. `/translate` fills missing and stale keys; `/translate <lang> --full` retranslates a whole language.
 
-* When adding a new language: create an empty `src/translations/<lang>.json` (`{ "translation": {} }`); register it in `src/translations/metadata.ts` (translation import, `moment/locale/<lang>` import, `availableTranslations`, `availableTranslationsPrettyNames`, `resources`, `languageDirections`); add it to `MomentLocalesPlugin.localesToKeep` in `rspack.config.ts`; and add it to `FINISHED_TRANSLATIONS` and `LANGUAGE_ENGLISH_NAMES` in `translations-manager.ts`. Then run `pnpm translations:translate <lang>` to fill it.
+* When adding a new language: create an empty `src/translations/<lang>.json` (`{ "translation": {} }`); register it in `src/translations/metadata.ts` (translation import, `moment/locale/<lang>` import, `availableTranslations`, `availableTranslationsPrettyNames`, `resources`, `languageDirections`); add it to `MomentLocalesPlugin.localesToKeep` in `rspack.config.ts`; and add it to `FINISHED_TRANSLATIONS` and `LANGUAGE_ENGLISH_NAMES` in `translations-manager.ts`. Add an entry for it to `src/translations/language-notes.json` (form of address, button verb form, glossary of core terms). Then the user runs `/translate <lang>` to fill it.
 
 * Authoring `en` strings: keep quotation marks straight (`'` and `"`) — the translator is steered to avoid typographic/curly quotes. To reference another UI label inside a string (a button, tab, or folder name), use i18next nesting `$t(key)` in the `en` source (e.g. `click '$t(next)'`) instead of hardcoding the label, so it resolves to each language's own translation. `$t(...)` is treated as a placeholder and preserved verbatim during machine translation.
 
@@ -26,7 +26,9 @@
 
 * `src/translations/notes.json` holds optional human-readable usage notes that are fed to the model as extra context. It is nested like the translation files (but without the `translation` wrapper) so notes can be hand-edited alongside `en.json`. It is hand-maintained (seed it for existing keys with the help of Claude Code; add notes for new keys manually). Missing notes are fine — the translator also auto-greps `src` for `t('key')` usages as fallback context.
 
-* `src/translations/language-notes.json` holds per-language conventions (`{ "<lang>": ["rule", ...] }`) that apply to every string in that language: the form of address (T/V), gender-neutral phrasing, button verb form, typography, regional variant, and a glossary of core terms (widget, folder, tab, bookmark, plugin, extension, …). They are added to the translator's system prompt for that language and override wording from `previous`/`uk`. Native-speaker feedback that isn't tied to a single key goes here. Like term references, it is context only: editing it does **not** mark existing translations stale. Fix the language file by hand, or have the user run `pnpm translations:translate <lang> --force`, which retranslates every key of that language from scratch (no `previous` passed, so old wording can't anchor it). Language-independent rules (sentence case, keeping the speaker's "I"/"we", length) live in the system prompt in `translations-manager.ts`.
+* `.ai/translation-rules.md` holds the rules that apply to every language (keep the meaning whole, glossary terms, consistent form of address, gender-neutral phrasing about the user, keep the developer's "I" singular, sentence case, length, placeholders, straight quotes, plural forms, mock content). The `/translate` agents follow it.
+
+* `src/translations/language-notes.json` holds per-language conventions: `{ "<lang>": { "rules": [...], "glossary": { "<concept>": "'<term>' (optional comment)" } } }`. `rules` covers the form of address (T/V), gender-neutral phrasing, button verb form, typography and regional variant. `glossary` fixes one term per recurring concept (widget, folder, tab, bookmark, plugin, extension, theme, stash, …). They override the general rules and existing wording. Native-speaker feedback that isn't tied to a single key goes here, and `/translate` adds the terms its agents establish to the glossary. Like term references, conventions are context only: editing them does **not** mark existing translations stale. Fix the language file by hand, or have the user run `/translate <lang> --full`.
 
 * **Notes for plural keys go on the root key, never on the individual forms.** For `daysLeft_one` / `daysLeft_other`, write one note under `daysLeft`, not one per form; the translator falls back from each form to its root, and a single note keeps every form (including the extra ones other languages need, like `_few` and `_many`) on the same context. Say in the note that the string uses i18next plural forms and, if there is more than one number in it, which one (`{{count}}`) picks the form. See `tabs-plugin.stash.tabCount`.
 
@@ -37,31 +39,32 @@
     "minorTabsPlugin": "Minor change entry: … Established terms: Recently closed tabs = '$(recently-closed-plugin.name)', the Tabs plugin = '$(tabs-plugin.name)'."
     ```
 
-    For `uk` the model then receives `Established terms: Recently closed tabs = 'Нещодавно закриті вкладки', the Tabs plugin = 'Вкладки'.` The system prompt tells it to reuse that exact term for the feature but to inflect it (case, number, gender, articles, prepositions) so the sentence stays grammatical — matching terminology matters, pasting the term unchanged at the cost of grammar does not.
+    For `uk` the model then receives `Established terms: Recently closed tabs = 'Нещодавно закриті вкладки', the Tabs plugin = 'Вкладки'.` `translation-rules.md` tells it to reuse that exact term for the feature but to inflect it (case, number, gender, articles, prepositions) so the sentence stays grammatical — matching terminology matters, pasting the term unchanged at the cost of grammar does not.
 
     Details worth knowing:
     * `$(...)` is deliberately **not** i18next's `$t(...)`: it lives only in `notes.json`, never in a translation file, and is not subject to placeholder validation.
-    * Keys referenced by any note are translated **first** in a run, so their fresh values seed the notes that cite them.
-    * If a referenced key has no translation in that language yet, its `en` value is substituted (reported under `-v`). If it doesn't exist in `en` at all, the translator warns — that's a typo in `notes.json`.
+    * If a referenced key has no translation in that language yet, its `en` value is substituted. If it doesn't exist in `en` at all, `translations:pending` warns — that's a typo in `notes.json`.
     * The reference is context, not a dependency: changing a term's `en` value does **not** mark the strings that cite it stale. Retranslate them by hand when a term is renamed.
 
-* Helper commands (all implemented in `translations-manager.ts`):
-    * `pnpm translations:status` — prints, per language, how many keys are up to date / missing / stale. Writes nothing.
-    * `pnpm translations:translate <lang-code|all> [--force]` — translates every missing-or-stale key for the given language (or all languages) via OpenRouter, validates that interpolation placeholders survive, writes the results, and updates `fingerprints.json`. A key whose placeholders don't survive keeps its previous value and stays stale for the next run. Requires `OPENROUTER_API_KEY` in the environment; the model is `OPENROUTER_MODEL` or a sensible default. Add `-v` for verbose output (dumps the raw model response on a parse failure, and reports term references that fell back to English).
+* Helper commands (all implemented in `translations-manager.ts`; run with `pnpm -s` when you need clean output):
+    * `pnpm translations:status [--strict]` — prints, per language, how many keys are up to date / missing / stale. Writes nothing. `--strict` (CI's `translations:check`) also validates every file and exits non-zero on any problem.
+    * `pnpm translations:pending <lang|all> [--all-keys]` — prints the missing and stale keys per language as JSON: the English source, the current translation, the key's note with term references resolved and plural instructions added, and its usages in code. `--all-keys` lists every key, for full retranslations.
+    * `pnpm translations:validate <lang|all>` — checks a language file: every expected key present (including the language's CLDR plural forms), no unexpected keys, placeholders matching the English, no typographic quotes, no leaked key markers.
+    * `pnpm translations:stamp <lang|all>` — after a language's pending keys have been translated: validates the file, rewrites it in canonical key order with the language's typography fixes (e.g. French non-breaking spaces before `: ; ? !`), and marks the pending keys up to date in `fingerprints.json`. It refuses to stamp an invalid file.
     * `pnpm translations:clean` — removes keys no longer found in `en` from other translations (and from `fingerprints.json`). Run after removing strings from `en`.
     * `pnpm translations:locales` — generates files in `src/_locales` folder. Those are used by browser and extension stores to show extension name and description in preferred user language. They shouldn't be edited manually.
 
-* **Agents: never run `pnpm translations:translate` on your own.** Add or change `en` strings (and `notes.json` entries) and stop there; the user runs the translation script themselves when they decide to. It costs API credits and rewrites many files, and while the watcher is running its writes also trigger a rebuild per language. Only run it when the user explicitly asks in that conversation.
+* **Agents: never translate on your own.** Add or change `en` strings (and `notes.json` entries) and stop there; the user runs `/translate` when they decide to. It rewrites many files, and while the harness watcher is running each write triggers a rebuild. Only translate when the user explicitly asks in that conversation.
 
 * General flow when working with translations is as follows
     * When adding new strings:
         1. Add them to `en` translation.
         2. Add usage notes for the new keys to `notes.json`. If a string names a feature that has its own key, cite it with `$(that.key)` in the note.
-        3. The user runs `pnpm translations:translate all` (not you, unless explicitly asked).
+        3. The user runs `/translate` (not you, unless explicitly asked).
     * When removing strings
         1. Remove them from `en` translation.
         2. Run `pnpm translations:clean`
     * When changing strings
         1. Update string(s) in `en`. The changed fingerprint marks them stale automatically.
-        2. The user runs `pnpm translations:translate all` to refresh every language.
+        2. The user runs `/translate` to refresh every language.
     * To correct a single bad translation, just edit the value in the language file directly — it will persist until that `en` string changes.

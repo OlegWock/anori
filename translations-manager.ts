@@ -10,23 +10,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const DEFAULT_LANGUAGE = "en";
-const SECONDARY_REFERENCE = "uk";
 const TRANSLATIONS_FOLDER = join(__dirname, "src/translations");
 const SOURCE_FOLDER = join(__dirname, "src");
 const FINGERPRINTS_FILE = join(TRANSLATIONS_FOLDER, "fingerprints.json");
 const NOTES_FILE = join(TRANSLATIONS_FOLDER, "notes.json");
-const LANGUAGE_NOTES_FILE = join(TRANSLATIONS_FOLDER, "language-notes.json");
 
-const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
-const BATCH_SIZE = 40;
 const MAX_USAGES_PER_KEY = 3;
 
-// Toggled by the -v/--verbose CLI flag; dumps raw model responses when parsing fails.
-let verbose = false;
 // Toggled by the --strict CLI flag; makes `status` exit non-zero when any key is missing or stale (for CI).
 let strict = false;
-let force = false;
+let allKeys = false;
 
 const FINISHED_TRANSLATIONS = [
   "en",
@@ -51,7 +44,7 @@ const FINISHED_TRANSLATIONS = [
   "hi",
 ];
 
-// English names of the languages, used in the translation prompt.
+// English names of the languages, used in the `pending` output and plural-form notes.
 const LANGUAGE_ENGLISH_NAMES: Record<string, string> = {
   uk: "Ukrainian",
   de: "German",
@@ -82,7 +75,6 @@ type Fingerprints = Record<string, Record<string, string>>;
 // Flattened in memory; on disk `notes.json` is nested like the translation files (without
 // the `translation` wrapper) so it can be hand-edited alongside `en.json`.
 type Notes = Record<string, string>;
-type LanguageNotes = Record<string, string[]>;
 type Usage = { file: string; line: number; text: string };
 
 const loadJsonFile = <T = Record<string, unknown>>(fname: string): T => {
@@ -197,141 +189,7 @@ const placeholdersMatch = (english: string, translated: string): boolean => {
   return a.length === b.length && a.every((token, i) => token === b[i]);
 };
 
-// Parses the model's delimited reply: each translation is introduced by a line `[[[<key>]]]`
-// followed by its (possibly multi-line) text. Using markers instead of JSON sidesteps the
-// frequent failure where models emit an unescaped quote inside a value and break the JSON.
-const parseKeyedBlocks = (content: string): Record<string, string> => {
-  const result: Record<string, string> = {};
-  const markerRe = /^\s*\[{2,3}([^[\]]+?)\]{2,3}\s*$/;
-  let key: string | null = null;
-  let buffer: string[] = [];
-  const flush = () => {
-    if (key !== null) result[key] = buffer.join("\n").trim();
-  };
-  for (const line of content.split(/\r?\n/)) {
-    const match = line.match(markerRe);
-    if (match) {
-      flush();
-      key = match[1].trim();
-      buffer = [];
-    } else if (key !== null && !/^\s*```/.test(line)) {
-      buffer.push(line);
-    }
-  }
-  flush();
-  return result;
-};
-
-type TranslationItem = { key: string; en: string; uk?: string; previous?: string; note?: string; usage?: string };
-
-const callOpenRouter = async (
-  languageName: string,
-  languageNotes: string[],
-  items: TranslationItem[],
-): Promise<Record<string, string>> => {
-  const apiKey = process.env.OPENROUTER_API_KEY;
-  if (!apiKey) {
-    console.error("❌ OPENROUTER_API_KEY environment variable is not set.");
-    process.exit(1);
-  }
-  const model = process.env.OPENROUTER_MODEL ?? DEFAULT_MODEL;
-
-  const system = [
-    `You are a professional software localization engine for Anori, a customizable browser new-tab extension.`,
-    `Translate the given UI strings from English into ${languageName}.`,
-    `Rules:`,
-    `- Translate the "en" value. Use the "uk" (Ukrainian) value only as a secondary reference for meaning and tone.`,
-    `- Words in quotes that name a UI element (a button, tab, folder, or menu label — e.g. 'Next', 'Home', 'Folders') refer to other parts of the app; translate them into the target language to match that label rather than leaving them in English. Keep only brand/product names (such as Anori) untranslated.`,
-    `- If a "previous" value is given, it is an existing translation of an earlier, slightly different version of the English string. Keep its tone, terminology, and word choice, and adjust it to match the current "en" rather than translating from scratch.`,
-    `- When a "note" gives the app's established term for a feature in the target language, reuse that exact term for the same feature instead of inventing a new one. Inflect it as the sentence requires (case, number, gender, articles, prepositions) — matching the terminology matters, pasting it unchanged at the cost of grammar does not.`,
-    `- "note" and "usage" are context only — never translate them. The "usage" lines are raw code excerpts, so they may include characters around the string (e.g. a trailing colon, quotes, or brackets) that are NOT part of it; never copy that punctuation into the translation. The translation's punctuation must follow the "en" value alone.`,
-    `- Preserve every interpolation placeholder EXACTLY: {{variables}}, numbered tags like <0>...</0> or <1/>, and $t(...) references. Never translate text inside {{ }} or tag contents.`,
-    `- Mirror the source's trailing punctuation: if the English ends with an ellipsis ("..."), a colon, or other trailing punctuation, keep the same in the translation; if it doesn't, don't add any.`,
-    `- Keep it concise and natural for UI, matching the punctuation style of the source. Where reasonably possible, keep buttons, labels and other short strings close to the English length, as they sit in fixed-width UI.`,
-    `- Use sentence case: capitalize only the first word and whatever the target language's grammar requires (proper nouns, brand names, German nouns). Never carry over English Title Case.`,
-    `- Keep the speaker as in the English. "I"/"me"/"my" is the app's solo developer speaking personally — keep it first person singular, never turn it into "we". "We"/"us" stays plural.`,
-    `- Address the user the same way in every string, using the form of address from the ${languageName} conventions below when they give one.`,
-    `- For quotation marks use ONLY straight quotes — the apostrophe ' (U+0027) and the double quote " (U+0022). Never use typographic, curly, or angled quotes (such as “ ” ‘ ’ „ ‚ « » 「 」); replace any of them with the matching straight quote.`,
-    ...(languageNotes.length > 0
-      ? [
-          `- Follow these ${languageName} conventions (form of address, style, and the glossary of established terms). They override any conflicting wording in "previous" or "uk":`,
-          ...languageNotes.map((note) => `  - ${note}`),
-        ]
-      : []),
-    `- Output ONLY the translations, nothing else — no JSON, no commentary, no code fences.`,
-    `- For each item, write a line containing exactly [[[<key>]]] (using the item's "key"), then the translated text on the following line(s). Example:`,
-    `[[[some.key]]]`,
-    `Translated text for some.key`,
-    `[[[another.key]]]`,
-    `Translated text for another.key`,
-  ].join("\n");
-
-  const user = JSON.stringify(items, null, 2);
-
-  if (verbose) {
-    console.log(`  → requesting ${items.length} key(s): ${items.map((i) => i.key).join(", ")}`);
-  }
-
-  const response = await fetch(OPENROUTER_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.2,
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: user },
-      ],
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`OpenRouter request failed (${response.status}): ${await response.text()}`);
-  }
-
-  const data = (await response.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error("OpenRouter returned an empty response");
-
-  const translations = parseKeyedBlocks(content);
-  if (Object.keys(translations).length === 0) {
-    if (verbose) console.error(`  ──── raw model response ────\n${content}\n  ──── end ────`);
-    throw new Error(`no translations parsed from model response: ${content.slice(0, 200)}`);
-  }
-  return translations;
-};
-
-// Translates a batch, isolating failures: on a network or JSON-parse error the batch is
-// split in half and retried, so one malformed key can't sink the others or the whole run.
-const translateBatch = async (
-  languageName: string,
-  languageNotes: string[],
-  items: TranslationItem[],
-): Promise<Record<string, string>> => {
-  try {
-    return await callOpenRouter(languageName, languageNotes, items);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    if (items.length === 1) {
-      console.warn(`  ⚠️  ${items[0].key}: translation failed (${message}); skipping.`);
-      return {};
-    }
-    console.warn(`  ⚠️  batch of ${items.length} failed (${message}); splitting and retrying.`);
-    const mid = Math.ceil(items.length / 2);
-    const left = await translateBatch(languageName, languageNotes, items.slice(0, mid));
-    const right = await translateBatch(languageName, languageNotes, items.slice(mid));
-    return { ...left, ...right };
-  }
-};
-
-const chunk = <T>(arr: T[], size: number): T[][] => {
-  const result: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
-  return result;
-};
+type KeyContext = { key: string; en: string; previous?: string; note?: string; usage?: string };
 
 const PLURAL_CATEGORIES = ["zero", "one", "two", "few", "many", "other"] as const;
 type PluralCategory = (typeof PLURAL_CATEGORIES)[number];
@@ -453,19 +311,10 @@ const computeOutdated = (
 
 const TERM_REFERENCE_RE = /\$\(([\w.-]+)\)/g;
 
-const referencedTermKeys = (notes: Notes): Set<string> => {
-  const keys = new Set<string>();
-  for (const note of Object.values(notes)) {
-    for (const match of note.matchAll(TERM_REFERENCE_RE)) keys.add(match[1]);
-  }
-  return keys;
-};
-
 // Resolves `$(some.key)` references in a note to that key's current translation in the
 // target language.
 const hydrateTermReferences = (
   note: string,
-  lang: string,
   langFlat: Record<string, string>,
   enFlat: Record<string, string>,
 ): string =>
@@ -476,108 +325,62 @@ const hydrateTermReferences = (
       console.warn(`  ⚠️  note references unknown key "${key}"; check notes.json.`);
       return key;
     }
-    if (verbose) console.warn(`  ⚠️  ${lang}: "${key}" not translated yet; using the English term in the note.`);
     return enFlat[key];
   });
 
-const translateLanguage = async (
+const describeKey = (
   lang: string,
+  expected: ExpectedKey,
   enFlat: Record<string, string>,
-  ukFlat: Record<string, string>,
+  langFlat: Record<string, string>,
   notes: Notes,
-  languageNotes: string[],
   usages: Map<string, Usage[]>,
-  fingerprints: Fingerprints,
-) => {
-  const languageName = LANGUAGE_ENGLISH_NAMES[lang];
-  if (!languageName) {
-    console.error(`❌ No English name configured for language "${lang}". Add it to LANGUAGE_ENGLISH_NAMES.`);
-    return;
-  }
+): KeyContext => {
+  const baseNote = notes[expected.key] ?? notes[pluralBaseOf(expected.key)];
+  const note = expected.category
+    ? pluralNote(lang, expected.category, baseNote, enFlat[expected.enKey])
+    : baseNote || undefined;
+  const usageList = usages.get(expected.key) ?? usages.get(pluralBaseOf(expected.key)) ?? [];
+  const usage = usageList.map((u) => `${u.file}:${u.line} — ${u.text}`).join("\n");
+  return {
+    key: expected.key,
+    en: enFlat[expected.enKey],
+    previous: langFlat[expected.key] || undefined,
+    note: note ? hydrateTermReferences(note, langFlat, enFlat) : undefined,
+    usage: usage || undefined,
+  };
+};
 
+const CURLY_QUOTES_RE = /[“”‘’„‚«»「」『』]/;
+
+const validateLanguage = (lang: string, enFlat: Record<string, string>): string[] => {
   const expectedKeys = buildExpectedKeys(lang, enFlat);
-  const { langFlat, missing, stale } = computeOutdated(lang, expectedKeys, enFlat, fingerprints);
-  // Keys other notes reference go first, so their fresh translations seed the terms those notes carry.
-  const termKeys = referencedTermKeys(notes);
-  const outdated = (force ? [...expectedKeys] : [...missing, ...stale]).sort(
-    (a, b) => Number(termKeys.has(b.key)) - Number(termKeys.has(a.key)),
-  );
-  if (outdated.length === 0) {
-    console.log(`✅ ${lang}: already up to date.`);
-    return;
-  }
-  console.log(
-    force
-      ? `🌐 ${lang}: retranslating all ${outdated.length} keys (--force)...`
-      : `🌐 ${lang}: translating ${outdated.length} keys (${missing.length} missing, ${stale.length} stale)...`,
-  );
-
-  const langFingerprints = fingerprints[lang] ?? {};
-  let failures = 0;
-
-  for (const batch of chunk(outdated, BATCH_SIZE)) {
-    const items: TranslationItem[] = batch.map((expected) => {
-      const baseNote = notes[expected.key] ?? notes[pluralBaseOf(expected.key)];
-      const note = expected.category
-        ? pluralNote(lang, expected.category, baseNote, enFlat[expected.enKey])
-        : baseNote || undefined;
-      const usageList = usages.get(expected.key) ?? usages.get(pluralBaseOf(expected.key)) ?? [];
-      const usage = usageList.map((u) => `${u.file}:${u.line} — ${u.text}`).join("\n");
-      return {
-        key: expected.key,
-        en: enFlat[expected.enKey],
-        uk: lang === SECONDARY_REFERENCE ? undefined : ukFlat[expected.key],
-        previous: force ? undefined : langFlat[expected.key] || undefined,
-        note: note ? hydrateTermReferences(note, lang, langFlat, enFlat) : undefined,
-        usage: usage || undefined,
-      };
-    });
-
-    let result = await translateBatch(languageName, languageNotes, items);
-
-    // Retry once for keys that came back with broken interpolation placeholders.
-    const placeholderBroken = batch.filter(
-      (expected) =>
-        result[expected.key] !== undefined && !placeholdersMatch(enFlat[expected.enKey], result[expected.key]),
-    );
-    if (placeholderBroken.length > 0) {
-      const brokenKeys = new Set(placeholderBroken.map((expected) => expected.key));
-      const retryItems = items.filter((item) => brokenKeys.has(item.key));
-      const retry = await translateBatch(languageName, languageNotes, retryItems);
-      result = { ...result, ...retry };
+  const expectedSet = new Set(expectedKeys.map((expected) => expected.key));
+  const langFlat = flattenStrings(getTranslationRoot(lang));
+  const problems: string[] = [];
+  for (const expected of expectedKeys) {
+    const value = langFlat[expected.key];
+    const english = enFlat[expected.enKey];
+    if (value === undefined) {
+      problems.push(`${expected.key}: missing`);
+      continue;
     }
-
-    for (const expected of batch) {
-      const value = result[expected.key];
-      if (value === undefined) {
-        console.warn(`  ⚠️  ${expected.key}: no translation returned, skipping.`);
-        failures++;
-        continue;
-      }
-      if (value.includes("[[") && !enFlat[expected.enKey].includes("[[")) {
-        console.warn(
-          `  ⚠️  ${expected.key}: translation contains a leaked key marker. Keeping previous value (will retry next run).`,
-        );
-        failures++;
-        continue;
-      }
-      if (!placeholdersMatch(enFlat[expected.enKey], value)) {
-        const wanted = describePlaceholders(extractPlaceholders(enFlat[expected.enKey]));
-        const got = describePlaceholders(extractPlaceholders(value));
-        console.warn(
-          `  ⚠️  ${expected.key}: placeholder mismatch — en has ${wanted}, translation has ${got}. Keeping previous value (will retry next run).`,
-        );
-        failures++;
-        continue;
-      }
-      langFlat[expected.key] = TYPOGRAPHY_FIXES[lang]?.(value) ?? value;
-      langFingerprints[expected.key] = fingerprint(enFlat[expected.enKey]);
+    if (value.trim() === "") problems.push(`${expected.key}: empty`);
+    if (!placeholdersMatch(english, value)) {
+      const wanted = describePlaceholders(extractPlaceholders(english));
+      const got = describePlaceholders(extractPlaceholders(value));
+      problems.push(`${expected.key}: placeholders differ — en has ${wanted}, translation has ${got}`);
+    }
+    if (value.includes("[[") && !english.includes("[[")) problems.push(`${expected.key}: contains a leaked key marker`);
+    if (CURLY_QUOTES_RE.test(value) && !CURLY_QUOTES_RE.test(english)) {
+      problems.push(`${expected.key}: uses typographic quotes; only ' and " are allowed`);
     }
   }
-
-  fingerprints[lang] = langFingerprints;
-  writeLanguageFile(lang, expectedKeys, langFlat);
-  console.log(`✅ ${lang}: done${failures > 0 ? ` (${failures} keys failed)` : ""}.`);
+  for (const key of Object.keys(langFlat)) {
+    if (!expectedSet.has(key))
+      problems.push(`${key}: not expected for this language (removed from en, or a wrong plural form)`);
+  }
+  return problems;
 };
 
 // Rebuilds a language file following the language's expected key order, keeping only keys the
@@ -593,12 +396,8 @@ const writeLanguageFile = (lang: string, expectedKeys: ExpectedKey[], langFlat: 
 
 const main = async () => {
   const args = process.argv.slice(2).filter((arg) => {
-    if (arg === "-v" || arg === "--verbose") {
-      verbose = true;
-      return false;
-    }
-    if (arg === "--force") {
-      force = true;
+    if (arg === "--all-keys") {
+      allKeys = true;
       return false;
     }
     if (arg === "--strict") {
@@ -611,6 +410,18 @@ const main = async () => {
 
   const enFlat = flattenStrings(getTranslationRoot(DEFAULT_LANGUAGE));
   const targetLanguages = listLanguages().filter((lang) => lang !== DEFAULT_LANGUAGE);
+  const resolveLanguages = (requested: string | undefined): string[] => {
+    if (!requested) {
+      console.error(`❌ Specify a language or 'all': pnpm translations:${command} <lang|all>`);
+      process.exit(1);
+    }
+    if (requested === "all") return targetLanguages;
+    if (!targetLanguages.includes(requested)) {
+      console.error(`❌ Unknown language "${requested}". Available: ${targetLanguages.join(", ")}`);
+      process.exit(1);
+    }
+    return [requested];
+  };
 
   if (command === "status") {
     const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
@@ -625,28 +436,73 @@ const main = async () => {
       console.log(
         `${mark} ${lang.padEnd(6)} ${ok}/${total} up to date — ${missing.length} missing, ${stale.length} stale`,
       );
+      if (strict) {
+        const problems = validateLanguage(lang, enFlat).filter((problem) => !problem.endsWith(": missing"));
+        if (problems.length > 0) {
+          hasIssues = true;
+          console.log(problems.map((problem) => `     ❌ ${problem}`).join("\n"));
+        }
+      }
     }
     if (strict && hasIssues) {
-      console.error("\n❌ Some translations are missing or stale. Run `pnpm translations:translate all`.");
+      console.error("\n❌ Some translations are missing, stale, or invalid. Run /translate in Claude Code.");
       process.exit(1);
     }
-  } else if (command === "translate") {
-    const requested = args[1];
-    if (!requested) {
-      console.error("❌ Specify a language or 'all': pnpm translations:translate <lang|all>");
-      process.exit(1);
-    }
-    const langs = requested === "all" ? targetLanguages : [requested];
+  } else if (command === "pending") {
+    const langs = resolveLanguages(args[1] ?? "all");
     const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
     const notes = flattenStrings(loadOptionalJson(NOTES_FILE, {}));
-    const ukFlat = flattenStrings(getTranslationRoot(SECONDARY_REFERENCE));
-    const languageNotes = loadOptionalJson<LanguageNotes>(LANGUAGE_NOTES_FILE, {});
     const usages = collectUsages();
-
+    const pending: Record<string, { language: string; keys: KeyContext[] }> = {};
     for (const lang of langs) {
-      await translateLanguage(lang, enFlat, ukFlat, notes, languageNotes[lang] ?? [], usages, fingerprints);
-      saveJsonFile(FINGERPRINTS_FILE, fingerprints);
+      const expectedKeys = buildExpectedKeys(lang, enFlat);
+      const { langFlat, missing, stale } = computeOutdated(lang, expectedKeys, enFlat, fingerprints);
+      const keys = allKeys ? expectedKeys : [...missing, ...stale];
+      if (keys.length === 0) continue;
+      pending[lang] = {
+        language: LANGUAGE_ENGLISH_NAMES[lang] ?? lang,
+        keys: keys.map((expected) => describeKey(lang, expected, enFlat, langFlat, notes, usages)),
+      };
     }
+    console.log(JSON.stringify(pending, null, 2));
+  } else if (command === "validate") {
+    let failed = false;
+    for (const lang of resolveLanguages(args[1] ?? "all")) {
+      const problems = validateLanguage(lang, enFlat);
+      if (problems.length === 0) {
+        console.log(`✅ ${lang}: valid`);
+        continue;
+      }
+      failed = true;
+      console.log(`❌ ${lang}: ${problems.length} problem(s)`);
+      console.log(problems.map((problem) => `   ${problem}`).join("\n"));
+    }
+    if (failed) process.exit(1);
+  } else if (command === "stamp") {
+    const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
+    let failed = false;
+    for (const lang of resolveLanguages(args[1])) {
+      const problems = validateLanguage(lang, enFlat);
+      if (problems.length > 0) {
+        failed = true;
+        console.log(`❌ ${lang}: not stamped, fix these first:`);
+        console.log(problems.map((problem) => `   ${problem}`).join("\n"));
+        continue;
+      }
+      const expectedKeys = buildExpectedKeys(lang, enFlat);
+      const { langFlat, stale } = computeOutdated(lang, expectedKeys, enFlat, fingerprints);
+      const typographyFix = TYPOGRAPHY_FIXES[lang];
+      if (typographyFix) {
+        for (const [key, value] of Object.entries(langFlat)) langFlat[key] = typographyFix(value);
+      }
+      writeLanguageFile(lang, expectedKeys, langFlat);
+      const langFingerprints = fingerprints[lang] ?? {};
+      for (const expected of stale) langFingerprints[expected.key] = fingerprint(enFlat[expected.enKey]);
+      fingerprints[lang] = langFingerprints;
+      console.log(`✅ ${lang}: normalized and marked ${stale.length} key(s) up to date`);
+    }
+    saveJsonFile(FINGERPRINTS_FILE, fingerprints);
+    if (failed) process.exit(1);
   } else if (command === "remove-excessive") {
     const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
     for (const lang of targetLanguages) {
@@ -684,7 +540,9 @@ const main = async () => {
     });
   } else {
     console.error(`Unknown command: ${command}`);
-    console.error("Available: status, translate <lang|all> [--force], remove-excessive, generate-locales");
+    console.error(
+      "Available: status [--strict], pending <lang|all> [--all-keys], validate <lang|all>, stamp <lang|all>, remove-excessive, generate-locales",
+    );
     process.exit(1);
   }
 };

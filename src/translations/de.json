@@ -2,7 +2,7 @@
     "translation": {
         "appName": "Anori: produktiver neuer Tab",
         "appDescription": "Anpassbarer neuer Tab: stelle deine eigene Seite aus Widgets zusammen",
-        "appActionTitle": "Anori neuen Tab öffnen",
+        "appActionTitle": "Neuen Anori-Tab öffnen",
         "openAnori": "Anori öffnen",
         "icon": "Icon",
         "title": "Titel",
@@ -148,10 +148,10 @@
                 "analyticsHintP1": "Analysedaten helfen mir, besser zu verstehen, wie Nutzer mit Anori interagieren und welche Funktionen am häufigsten verwendet werden. Es werden keine privaten Informationen übermittelt, wie z. B. der Inhalt von Notizen oder Lesezeichen-URLs.",
                 "analyticsHintP2": "Das hilft mir, ein besseres Produkt zu entwickeln, daher bitte ich dich, das Senden von Analysedaten zu aktivieren. <0>Mehr erfahren.</0>",
                 "showBookmarksBar": "Lesezeichenleiste anzeigen",
-                "automaticCompact": "Automatisch in den kompakten Modus wechseln, basierend auf der Bildschirmgröße",
-                "automaticCompactModeThreshold": "In den kompakten Modus wechseln, wenn die Bildschirmgröße kleiner ist als",
+                "automaticCompact": "Je nach Bildschirmgröße automatisch in den Kompaktmodus wechseln",
+                "automaticCompactModeThreshold": "In den Kompaktmodus wechseln, wenn die Bildschirmgröße kleiner ist als",
                 "automaticCompactModeThresholdHint": "Deine aktuelle Bildschirmbreite beträgt {{screenWidth}}px",
-                "useCompact": "Kompakten Modus immer verwenden",
+                "useCompact": "Kompaktmodus immer verwenden",
                 "showAnimationOnOpen": "Animation beim Öffnen anzeigen",
                 "showAnimationOnOpenHint": "Wenn aktiviert, zeigt die Erweiterung beim Öffnen eine kurze Ladeanimation, die das anfängliche Flackern beim Laden der Daten verbirgt und das Erscheinungsbild verbessert.",
                 "rememberLastFolder": "Zuletzt geöffneten Ordner merken"
@@ -192,10 +192,9 @@
                 "blur": "Unschärfe",
                 "colorAccent": "Akzent",
                 "colorBackground": "Hintergrund",
-                "colorText": "Text",
                 "colorCode": "Farbcode",
                 "colorScheme": "Farbschema",
-                "previewColorScheme": "Farbschema für Vorschau",
+                "previewColorScheme": "Farbschema der Vorschau",
                 "hideDotPattern": "Punktmuster ausblenden",
                 "pixelatedBackground": "Scharfe Pixelskalierung",
                 "pixelatedBackgroundHint": "Deaktiviert die Bildglättung, die Browser beim Skalieren des Hintergrunds anwenden. Empfohlen für Pixel-Art.",
@@ -244,24 +243,24 @@
             },
             "folders": {
                 "title": "Ordner",
-                "p1": "Standardmäßig werden alle deine Widgets dem Ordner '$t(home)' hinzugefügt. Du kannst deine Widgets jedoch auch in verschiedenen Ordnern organisieren. Zum Beispiel könntest du separate Ordner für Arbeits- und persönliche Widgets haben. Oder einen eigenen Ordner für jedes einzelne Projekt.",
-                "p2": "Um Ordner zu verwalten, klicke auf das Zahnrad-Symbol in der unteren linken Ecke. Dadurch öffnen sich die Einstellungen, wo du Anori nach deinem Geschmack anpassen kannst. Klicke dort auf '$t(settings.folders.title)', um den Ordner-Manager zu öffnen."
+                "p1": "Standardmäßig werden alle deine Widgets dem Ordner '$t(home)' hinzugefügt. Du kannst deine Widgets jedoch auch in verschiedenen Ordnern organisieren. Zum Beispiel könntest du separate Ordner für berufliche und private Widgets haben. Oder einen eigenen Ordner für jedes einzelne Projekt.",
+                "p2": "Um Ordner zu verwalten, klicke auf das Zahnrad-Symbol in der unteren linken Ecke. Dadurch öffnen sich die Einstellungen, in denen du Anori nach deinem Geschmack anpassen kannst. Klicke dort auf '$t(settings.folders.title)', um den Ordner-Manager zu öffnen."
             },
             "customization": {
                 "title": "Anpassung",
-                "p1": "Während Anori dir ermöglicht, deine eigene Startseite aus Widgets zusammenzustellen, lässt es sich noch weiter anpassen.",
+                "p1": "Mit Anori kannst du zwar deine eigene Startseite aus Widgets zusammenstellen, aber es lässt sich noch weiter anpassen.",
                 "p2": "Du kannst den Titel des neuen Tabs ändern, das Farbschema zusammen mit dem Hintergrundbild anpassen und eigene Icons für die Verwendung in Widgets hochladen (zusätzlich zu über 10.000 integrierten Icons).",
                 "p3": "Und das ist noch nicht einmal die Hälfte der Optionen. Schau dir die Einstellungen an, um sie alle zu sehen."
             },
             "analytics": {
-                "title": "Analyse",
+                "title": "Analysedaten",
                 "p1": "Wir sind fast fertig. Aber es gibt noch eine letzte Sache. Standardmäßig erfasst Anori keine Tracking-Daten und sendet nichts an externe Server. Ich nutze jedoch Analysedaten, die von Nutzern freiwillig gesendet werden, um zu sehen, welche Funktionen am häufigsten verwendet werden und was noch etwas Feinschliff braucht.",
                 "p2": "Daher bitte ich dich, das Senden von Analysedaten zu aktivieren. Anori sendet keine privaten Daten (wie deine Notizen oder URLs deiner Lesezeichen), sondern nur Metriken darüber, wie du die Erweiterung nutzt (z. B. wie viele Ordner du hast und wie oft du Tastenkürzel verwendest). Das liegt aber völlig bei dir – Anori funktioniert wie gewohnt, auch wenn du die Analyse nicht aktivierst.",
                 "p3": "Wenn du mehr darüber erfahren möchtest, welche Daten erfasst werden, klicke <0>hier</0>."
             },
             "presets": {
                 "title": "Neuer Start",
-                "p1": "Das war's. Jetzt hast du einen Schnellkurs in Anori absolviert und bist bereit, deine eigene Startseite zu erstellen. Füge dein erstes Widget hinzu und beginne, dein ultimatives Setup aufzubauen.",
+                "p1": "Das war's. Jetzt hast du einen Express-Bachelor-Abschluss in Anori und bist bereit, deine eigene Startseite zu erstellen. Füge dein erstes Widget hinzu und beginne, dein ultimatives Setup aufzubauen.",
                 "p2": "Keine Lust auf Entscheidungen? Kein Problem. Du musst deine perfekte Seite nicht beim ersten Versuch hinbekommen. Du musst nicht einmal mit einer leeren Seite anfangen. Wir haben ein produktives Setup für dich vorbereitet.",
                 "p3": "Es ist vielleicht nicht auf alle deine Bedürfnisse zugeschnitten, aber du kannst es als Ausgangspunkt nutzen, um dein eigenes Setup zu gestalten.",
                 "cta": "🚀 Gib mir einfach ein produktives Setup"
@@ -289,7 +288,7 @@
         "bookmark-plugin": {
             "name": "Lesezeichen",
             "widgetName": "Lesezeichen",
-            "groupWidgetName": "Lesezeichen-Gruppe",
+            "groupWidgetName": "Lesezeichengruppe",
             "openInGroup": "In Tab-Gruppe öffnen",
             "group": "Gruppe",
             "searchBookmarks": "Lesezeichen suchen",
@@ -388,7 +387,7 @@
             "completeTask": "\"{{task}}\" abschließen",
             "taskDescription": "Aufgabenbeschreibung...",
             "noTasks": "Noch keine Aufgaben vorhanden",
-            "exampleTask0": "Dummen Spaziergang für die Psyche machen",
+            "exampleTask0": "Blöder Spaziergang für die blöde Psyche",
             "exampleTask1": "Auf dem Sofa liegen",
             "exampleTask2": "Auf dem Boden liegen",
             "exampleTask3": "Versuchen, nicht zu weinen"
@@ -427,7 +426,7 @@
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "RSS-Feed",
-            "widgetLatestPostName": "Neuester Beitrag aus RSS-Feed",
+            "widgetLatestPostName": "Neuester Beitrag aus dem RSS-Feed",
             "feedUrl": "RSS-Feed-URL",
             "feedUrls": "RSS-Feed-URLs",
             "noPosts": "Noch keine Beiträge in diesem Feed",
@@ -437,23 +436,23 @@
             "addFeed": "Feed hinzufügen",
             "presetForDevelopers": "Für Entwickler",
             "presetForDesigners": "Für Designer",
-            "presetInteresting": "Einfach interessante Dinge",
+            "presetInteresting": "Einfach interessantes Zeug",
             "presetForDevelopersTitle": "Entwicklung",
             "presetForDesignersTitle": "Design",
-            "presetInterestingTitle": "Interessantes",
+            "presetInterestingTitle": "Interessantes Zeug",
             "examplePostTitle1": "So organisierst du deinen neuen Anori-Tab wie ein Profi!",
             "examplePostDescription1": "Fang einfach mit einem guten alten Lesezeichen an und lass dein Herz den Rest erledigen. Manchmal braucht es nur ein bisschen Ordnung...",
             "exampleFeedTitle1": "Anori-Blog",
             "examplePostTitle2": "Die 8 nützlichsten Browser-Erweiterungen",
             "examplePostDescription2": "Heute zeige ich dir, wie du deinen Browser mit diesen unverzichtbaren Erweiterungen in eine Produktivitätsmaschine verwandelst. Mit dem Star der Show – Anori.",
             "exampleFeedTitle2": "Produktivität 101",
-            "examplePostTitle3": "Eine Erweiterung, mit der du deinen neuen Tab aus Widgets zusammenstellen kannst!",
-            "examplePostDescription3": "Du kannst deinen eigenen neuen Tab aus bereitgestellten Widgets (Aufgaben, Notizen, Lesezeichen usw.) zusammenstellen und sie in Ordnern organisieren.",
+            "examplePostTitle3": "Eine Erweiterung, mit der du deinen eigenen neuen Tab aus Widgets zusammenstellen kannst!",
+            "examplePostDescription3": "Du kannst deinen eigenen neuen Tab aus den mitgelieferten Widgets (Aufgaben, Notizen, Lesezeichen usw.) zusammenstellen und sie in Ordnern organisieren.",
             "exampleFeedTitle3": "Reddit"
         },
         "iframe-plugin": {
             "name": "Webseite einbetten",
-            "expandWidgetName": "Webseite einbetten – erweiterbar",
+            "expandWidgetName": "Webseite einbetten – vergrößerbar",
             "showLink": "Link zur Originalseite anzeigen",
             "openPage": "Seite öffnen",
             "limitations": "Das Einbetten funktioniert nicht mit allen Seiten. Manche Websites wehren sich aktiv dagegen, als eingebettete Seite angezeigt zu werden, und leider kann Anori da wenig ausrichten. Das kann dazu führen, dass Seiten nicht laden (wie bei Gmail) oder schlecht funktionieren."
@@ -461,8 +460,8 @@
         "math-plugin": {
             "name": "Mathematik",
             "calculator": "Taschenrechner",
-            "expandWidgetName": "Taschenrechner – erweiterbar",
-            "cantCalc": "Das kann ich nicht berechnen"
+            "expandWidgetName": "Taschenrechner – vergrößerbar",
+            "cantCalc": "Das lässt sich nicht berechnen"
         },
         "picture-plugin": {
             "name": "Bild",
@@ -482,7 +481,7 @@
             "good": "Gut",
             "hard": "Schwer",
             "errorTitle": "AnkiConnect ist nicht erreichbar",
-            "error": "Stelle sicher, dass Anki läuft und das AnkiConnect-Plugin installiert ist.",
+            "error": "Stelle sicher, dass Anki läuft und das AnkiConnect-Add-on installiert ist.",
             "widgetName": "Anki"
         },
         "releaseNotes": {
@@ -492,16 +491,16 @@
             "tagFixed": "Behoben",
             "changelogNote": "Suchst du das Changelog für ältere Versionen? Du findest es <0>auf GitHub</0>.",
             "v2_3_0": {
-                "headline": "Lern das neue $t(motivation-plugin.name)-Plugin kennen: acht Widgets, um deine Zeit zu verfolgen, das große Ganze im Blick zu behalten, fokussiert zu bleiben und die Tage zu zählen, die zählen.",
+                "headline": "Lerne das neue $t(motivation-plugin.name)-Plugin kennen: acht Widgets, mit denen du deine Zeit im Auge behältst, das große Ganze nicht aus dem Blick verlierst, fokussiert bleibst und die Tage zählst, die wirklich zählen.",
                 "periodsTitle": "Wo ist der Tag geblieben?",
                 "periodsBody": "Neue Fortschritts-Widgets zeigen, wie viel des Tages, der Woche, des Monats oder des Jahres bereits hinter dir liegt. Tag und Woche können auch nur einen Teil davon abdecken, sodass du deinen Arbeitstag und deine Arbeitswoche verfolgen oder im Blick behalten kannst, wie viel vom Wochenende noch übrig ist.",
                 "periodsCalendar": "Monat und Jahr können auch einem anderen Kalendersystem folgen, wenn du danach lebst.",
                 "lifeTitle": "Der große Überblick",
-                "lifeBody": "Tritt ganz zurück und betrachte dein Leben mit dem Lebensfortschritt: dein Leben als Raster aus Jahren, das sich still füllt. Ein sanftes Memento mori – ohne Totenköpfe. Und wenn du lieber die Sekunden beobachten möchtest, zeigt der Alters-Ticker dein Alter in Echtzeit an.",
-                "focusTitle": "Behalte es im Blick",
+                "lifeBody": "Zoome ganz weit heraus mit dem Lebensfortschritt: dein Leben als Raster aus Jahren, das sich still füllt. Ein sanftes Memento mori – ohne Totenköpfe. Und wenn du lieber die Sekunden beobachtest, zählt der Alters-Ticker live, wie alt du bist.",
+                "focusTitle": "Immer im Blick",
                 "focusBody": "Fokus hält eine Textzeile auf deinem neuen Tab, damit das Wichtige nicht unter allem anderen verschwindet. Nutze ihn für deine Aufgabe des Tages, ein Ziel für die Woche oder etwas, wofür du dankbar bist. Er kann sich täglich, wöchentlich oder monatlich zurücksetzen oder so lange bleiben, bis du ihn selbst änderst.",
                 "counterTitle": "Tage zählen",
-                "counterBody": "Wenn dein Fokus eine Deadline hat, hilft es zu sehen, wie die Tage ablaufen. Genau dafür ist der Tageszähler da. Er zählt auch in die andere Richtung: vor zwei Wochen mit dem Rauchen aufgehört? Stell diese Zahl auf deinen neuen Tab und schau zu, wie sie Tag für Tag wächst.",
+                "counterBody": "Wenn dein Fokus eine Deadline hat, hilft es zu sehen, wie die Tage ablaufen. Genau dafür ist der Tageszähler da. Er zählt auch in die andere Richtung: Vor zwei Wochen mit dem Rauchen aufgehört? Stell diese Zahl auf deinen neuen Tab und schau zu, wie sie Tag für Tag wächst.",
                 "minorLocalizedNumbers": "Prozentangaben für CPU- und Arbeitsspeicherauslastung sowie die Windgeschwindigkeit folgen jetzt dem Zahlenformat deiner Sprache, z. B. '12,3 %' auf Deutsch oder '%12,3' auf Türkisch."
             }
         },
@@ -553,7 +552,7 @@
             "hoursLeft_other": "Stunden übrig",
             "mockFocusText": "Quartalsbericht fertigstellen",
             "mockCounterTitle": "Urlaub",
-            "defaultPrompt": "Fokus heute"
+            "defaultPrompt": "Fokus des Tages"
         }
     }
 }

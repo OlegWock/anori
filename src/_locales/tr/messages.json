@@ -1,11 +1,11 @@
 {
     "appName": {
-        "message": "Anori: Verimlilik Yeni Sekme"
+        "message": "Anori: verimlilik için yeni sekme"
     },
     "appDescription": {
-        "message": "Özelleştirilebilir yeni sekme: widget'lardan kendi sayfanızı oluşturun"
+        "message": "Özelleştirilebilir yeni sekme: kendi sayfanızı widget'lardan oluşturun"
     },
     "appActionTitle": {
-        "message": "Anori yeni sekmesini aç"
+        "message": "Yeni bir Anori sekmesi aç"
     }
 }

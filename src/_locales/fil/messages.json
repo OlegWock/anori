@@ -1,11 +1,11 @@
 {
     "appName": {
-        "message": "Anori: productivity new tab"
+        "message": "Anori: bagong tab para sa produktibidad"
     },
     "appDescription": {
-        "message": "Customizable new tab: compose your own page from widgets"
+        "message": "Nako-customize na bagong tab: buuin ang sarili ninyong pahina mula sa mga widget"
     },
     "appActionTitle": {
-        "message": "Buksan ang Anori new tab"
+        "message": "Buksan ang bagong tab ng Anori"
     }
 }

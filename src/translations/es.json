@@ -2,7 +2,7 @@
     "translation": {
         "appName": "Anori: nueva pestaña productiva",
         "appDescription": "Nueva pestaña personalizable: arma tu propia página con widgets",
-        "appActionTitle": "Abrir la nueva pestaña de Anori",
+        "appActionTitle": "Abrir nueva pestaña de Anori",
         "openAnori": "Abrir Anori",
         "icon": "Ícono",
         "title": "Título",
@@ -146,7 +146,7 @@
                 "autoHideSidebar": "Ocultar la barra lateral automáticamente",
                 "newTabTitle": "Título de la nueva pestaña",
                 "enableAnalytics": "Activar el envío de analíticas",
-                "analyticsHintP1": "Las analíticas me ayudan a entender mejor cómo se usa Anori y qué funciones se usan más. No se comparte ninguna información privada, como el contenido de las notas o las URL de los marcadores.",
+                "analyticsHintP1": "Las analíticas me ayudan a entender mejor cómo interactúan los usuarios con Anori y qué funciones se usan más. No se comparte ninguna información privada, como el contenido de las notas o las URL de los marcadores.",
                 "analyticsHintP2": "Esto me ayuda a crear un mejor producto, así que te pido que actives el envío de analíticas. <0>Más información.</0>",
                 "showBookmarksBar": "Mostrar la barra de marcadores",
                 "automaticCompact": "Cambiar automáticamente al modo compacto según el tamaño de la pantalla",
@@ -154,7 +154,7 @@
                 "automaticCompactModeThresholdHint": "El ancho actual de tu pantalla es de {{screenWidth}}px",
                 "useCompact": "Usar siempre el modo compacto",
                 "showAnimationOnOpen": "Mostrar animación al abrir",
-                "showAnimationOnOpenHint": "Si está activado, la extensión mostrará una breve animación de carga que oculta el parpadeo inicial mientras se cargan los datos y se ve mejor.",
+                "showAnimationOnOpenHint": "Si está activado, la extensión mostrará una breve animación de carga que oculta el parpadeo inicial de la carga de datos y le da un mejor aspecto.",
                 "rememberLastFolder": "Recordar la última carpeta abierta"
             },
             "customIcons": {
@@ -193,7 +193,6 @@
                 "blur": "Desenfoque",
                 "colorAccent": "Acento",
                 "colorBackground": "Fondo",
-                "colorText": "Texto",
                 "colorCode": "Código de color",
                 "colorScheme": "Esquema de color",
                 "previewColorScheme": "Vista previa del esquema de color",
@@ -209,7 +208,7 @@
                 "info": "Aquí puedes hacer una copia de seguridad de tu configuración o restaurar una anterior.",
                 "import": "Importar",
                 "export": "Exportar",
-                "cloudWarning": "Tienes activada la sincronización en la nube. Al importar una copia de seguridad, se desconectará tu perfil de sincronización y tendrás que volver a conectarte después. ¿Continuar?",
+                "cloudWarning": "Tienes activada la sincronización en la nube. Al importar una copia de seguridad, te desconectarás de tu perfil de sincronización y tendrás que volver a conectarte después. ¿Continuar?",
                 "cloudSyncHint": "¿Quieres guardar tu configuración en la nube o sincronizarla entre dispositivos en tiempo real? Prueba <0>Anori Plus</0>: lo hace sin complicaciones.",
                 "importError": "No se pudo importar la copia de seguridad: {{error}}"
             },
@@ -265,7 +264,7 @@
                 "p1": "Eso es todo. Ahora tienes una licenciatura exprés en Anori y todo lo necesario para crear tu propia página de inicio. Agrega tu primer widget y empieza a armar tu página ideal.",
                 "p2": "¿Demasiadas opciones? No pasa nada. No tienes que lograr la página perfecta al primer intento. Ni siquiera tienes que empezar desde cero. Tenemos una plantilla productiva lista para ti.",
                 "p3": "Puede que no se ajuste a todas tus necesidades, pero puedes usarla como base para armar una página que te encante.",
-                "cta": "🚀 Dame una plantilla productiva"
+                "cta": "🚀 Solo dame una plantilla productiva"
             },
             "preset": {
                 "task": {
@@ -295,7 +294,7 @@
             "group": "Grupo",
             "searchBookmarks": "Buscar marcadores",
             "checkStatus": "Comprobar el estado de la página",
-            "checkStatusHint": "Anori hará una solicitud a la página cada 10-15 minutos en segundo plano para ver si está en línea. Si el servidor no responde o devuelve un error HTTP 5xx, se considerará caída. Esto requiere un permiso adicional. No se harán comprobaciones mientras el navegador esté cerrado o la computadora esté en suspensión.",
+            "checkStatusHint": "Anori hará una solicitud a la página cada 10-15 minutos en segundo plano para ver si está en línea. Si el servidor no responde o devuelve un error HTTP 5xx, se considerará que la página está caída. Esto requiere un permiso adicional. No se harán comprobaciones mientras el navegador esté cerrado o la computadora esté en suspensión.",
             "checkingStatus": "Comprobando el estado de la página...",
             "status": "La página está {{status}} en este momento; su último cambio de estado fue {{lastChange}}. Última comprobación: {{lastCheck}}.",
             "statusUp": "en línea",
@@ -377,7 +376,7 @@
                 "title": "Pestañas sincronizadas",
                 "loading": "Cargando pestañas...",
                 "unnamedGroup": "Grupo",
-                "notConnectedTitle": "Ve las pestañas de tus otros dispositivos",
+                "notConnectedTitle": "Ver las pestañas de tus otros dispositivos",
                 "notConnectedDescription": "Conecta Anori Plus para sincronizar las pestañas abiertas entre tus dispositivos.",
                 "connect": "Conectar",
                 "emptyTitle": "Ningún otro dispositivo comparte pestañas todavía",
@@ -499,7 +498,7 @@
                 "periodsBody": "Los nuevos widgets de progreso muestran cuánto del día, la semana, el mes o el año ya quedó atrás. El día y la semana pueden abarcar solo una parte, así que puedes seguir tu jornada laboral y tu semana de trabajo, o ver cuánto te queda del fin de semana.",
                 "periodsCalendar": "El mes y el año también pueden seguir otro sistema de calendario, si es el que usas en tu día a día.",
                 "lifeTitle": "La vida en perspectiva",
-                "lifeBody": "Toma distancia y mira tu vida entera con el progreso de la vida: tu vida como una cuadrícula de años que se va llenando en silencio. Un amable memento mori, pero sin calaveras. Y si prefieres ver pasar los segundos, el contador de edad muestra tu edad exacta en vivo.",
+                "lifeBody": "Aleja el zoom al máximo con el progreso de la vida: tu vida como una cuadrícula de años que se va llenando en silencio. Un amable memento mori, pero sin calaveras. Y si prefieres ver pasar los segundos, el contador de edad muestra tu edad exacta en vivo.",
                 "focusTitle": "Tenlo a la vista",
                 "focusBody": "Enfoque mantiene una línea de texto en tu nueva pestaña, para que lo importante no quede enterrado bajo todo lo demás. Úsalo para tu tarea del día, un objetivo de la semana o algo que agradeces. Puede reiniciarse cada día, semana o mes, o quedarse hasta que lo cambies.",
                 "counterTitle": "Cuenta los días",

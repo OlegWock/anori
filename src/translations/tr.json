@@ -2,7 +2,7 @@
     "translation": {
         "appName": "Anori: verimlilik için yeni sekme",
         "appDescription": "Özelleştirilebilir yeni sekme: kendi sayfanızı widget'lardan oluşturun",
-        "appActionTitle": "Anori yeni sekmesini aç",
+        "appActionTitle": "Yeni bir Anori sekmesi aç",
         "openAnori": "Anori'yi aç",
         "icon": "Simge",
         "title": "Başlık",
@@ -78,7 +78,7 @@
             "noAccount": "Hesabınız yok mu?",
             "createAccount": "Buradan oluşturun",
             "userDataConflict": {
-                "description": "Bu tarayıcıda, giriş yaptığınız hesaptan farklı bir hesapla senkronize edilmiş Anori Plus verileri var (örneğin Sekme deponuz). Bu verilere ne olsun?",
+                "description": "Bu tarayıcıda, giriş yaptığınız hesaptan farklı bir hesapla senkronize edilmiş Anori Plus verileri var (örneğin Sekme deponuz). Bu verilerle ne yapılsın?",
                 "upload": "Bu hesaba ekle",
                 "uploadHint": "Bu verileri korur ve giriş yaptığınız hesaptaki verilerle birleştirir. Veriler size aitse bunu seçin; örneğin yeni bir hesaba geçtiyseniz.",
                 "discard": "Verileri sil",
@@ -104,7 +104,7 @@
             "settings": {
                 "title": "Ayarlar",
                 "shareOpenTabs": "Açık sekmeleri bağlı diğer cihazlarla paylaş",
-                "shareOpenTabsHint": "Etkinleştirildiğinde, bu bilgisayarda açık olan sekmeler bu Anori hesabında giriş yapmış diğer cihazlarınızla paylaşılır — böylece sekmeleri herhangi bir cihazdan görüp yeniden açabilirsiniz."
+                "shareOpenTabsHint": "Etkinleştirildiğinde, bu bilgisayarda açık olan sekmeler bu Anori hesabına giriş yapmış diğer cihazlarınızla paylaşılır — böylece sekmeleri herhangi bir cihazdan görüp yeniden açabilirsiniz."
             },
             "devices": {
                 "title": "Cihazlar",
@@ -114,7 +114,7 @@
                 "removeConfirmation": "\"{{name}}\" cihazı hesabınızdan kaldırılsın mı? Cihazın oturumu kapatılacak ve senkronizasyonu duracak.",
                 "namePlaceholder": "Cihaz adı",
                 "lastActive": "{{date}} etkindi",
-                "empty": "Bu hesapta henüz giriş yapmış cihaz yok"
+                "empty": "Bu hesaba henüz giriş yapmış cihaz yok"
             },
             "error": {
                 "invalidCredentials": "Geçersiz e-posta veya şifre",
@@ -192,10 +192,9 @@
                 "blur": "Bulanıklık",
                 "colorAccent": "Vurgu",
                 "colorBackground": "Arka plan",
-                "colorText": "Metin",
                 "colorCode": "Renk kodu",
                 "colorScheme": "Renk şeması",
-                "previewColorScheme": "Renk şemasını önizle",
+                "previewColorScheme": "Önizlemedeki renk şeması",
                 "hideDotPattern": "Nokta desenini gizle",
                 "pixelatedBackground": "Keskin piksel ölçekleme",
                 "pixelatedBackgroundHint": "Tarayıcıların arka planı ölçeklerken uyguladığı görüntü yumuşatmayı kapatır. Piksel sanatı için önerilir.",
@@ -255,7 +254,7 @@
             },
             "analytics": {
                 "title": "Analitik",
-                "p1": "Neredeyse bitirdik. Ama son bir şey kaldı. Anori varsayılan olarak hiçbir izleme verisi toplamaz ve uzak sunuculara hiçbir şey göndermez. Ancak hangi özelliklerin en çok kullanıldığını ve nelerin biraz cilalanması gerektiğini görmek için kullanıcıların gönüllü olarak gönderdiği analitik verileri kullanıyorum.",
+                "p1": "Neredeyse bitirdik. Ama son bir şey kaldı. Anori varsayılan olarak hiçbir izleme verisi toplamaz ve uzak sunuculara hiçbir şey göndermez. Ancak hangi özelliklerin en çok kullanıldığını ve nelerin biraz daha iyileştirilmesi gerektiğini görmek için kullanıcıların gönüllü olarak gönderdiği analitik verileri kullanıyorum.",
                 "p2": "Bu yüzden analitik veri gönderimini etkinleştirmenizi rica ediyorum. Anori hiçbir özel veri (notlarınız veya yer imlerinizin URL'leri gibi) göndermez; yalnızca uzantıyı nasıl kullandığınıza dair ölçümler gönderir (örneğin kaç klasörünüz olduğu ve klavye kısayollarını ne sıklıkla kullandığınız). Ama karar tamamen sizin; analitik veri gönderimini etkinleştirmeseniz de Anori her zamanki gibi çalışır.",
                 "p3": "Hangi verilerin toplandığı hakkında daha fazla bilgi almak isterseniz <0>buraya</0> tıklayın."
             },

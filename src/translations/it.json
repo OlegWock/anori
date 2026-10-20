@@ -2,7 +2,7 @@
     "translation": {
         "appName": "Anori: nuova scheda per la produttività",
         "appDescription": "Nuova scheda personalizzabile: componi la tua pagina con i widget",
-        "appActionTitle": "Apri la nuova scheda di Anori",
+        "appActionTitle": "Apri una nuova scheda di Anori",
         "openAnori": "Apri Anori",
         "icon": "Icona",
         "title": "Titolo",
@@ -100,7 +100,7 @@
             "delete": "Elimina",
             "deleteConfirmation": "Vuoi davvero eliminare il profilo \"{{profileName}}\"? Questa azione non può essere annullata.",
             "connectConfirmation": {
-                "message": "Connettendoti al profilo \"{{profileName}}\", la configurazione locale attuale verrà sovrascritta con quella salvata nel profilo. Vuoi continuare?"
+                "message": "Se ti connetti al profilo \"{{profileName}}\", la configurazione locale attuale verrà sovrascritta con quella salvata nel profilo. Vuoi continuare?"
             },
             "settings": {
                 "title": "Impostazioni",
@@ -193,10 +193,9 @@
                 "blur": "Sfocatura",
                 "colorAccent": "Accento",
                 "colorBackground": "Sfondo",
-                "colorText": "Testo",
                 "colorCode": "Codice colore",
                 "colorScheme": "Schema colori",
-                "previewColorScheme": "Anteprima dello schema colori",
+                "previewColorScheme": "Schema colori dell'anteprima",
                 "hideDotPattern": "Nascondi il motivo a punti",
                 "pixelatedBackground": "Pixel nitidi nel ridimensionamento",
                 "pixelatedBackgroundHint": "Disattiva lo smussamento che i browser applicano quando ridimensionano lo sfondo. Consigliato per la pixel art.",
@@ -239,7 +238,7 @@
             "start": {
                 "title": "Un caloroso benvenuto in Anori!",
                 "p1": "Che bello vederti! Questa introduzione è disponibile in {{languages}}.",
-                "p2": "Stai per configurare la tua nuova scheda ideale. La pagina iniziale di Anori è composta da diversi widget, come note, segnalibri, liste di cose da fare e così via. Sei tu a scegliere cosa aggiungere e come organizzarlo.",
+                "p2": "Stai per configurare la tua nuova scheda ideale. La pagina iniziale di Anori è composta da diversi widget, come note, segnalibri, liste di cose da fare e così via. Sei tu a scegliere cosa aggiungere e come organizzarli.",
                 "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita ('$t(editFolder)') nella barra laterale. La pagina passerà alla modalità di modifica, dove puoi aggiungere nuovi widget e riposizionare o rimuovere quelli esistenti.",
                 "p4": "Per aggiungere un nuovo widget, clicca sul pulsante '$t(addWidget)', oppure clicca su '$t(done)' per uscire dalla modalità di modifica. Quando avrai aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget subito ed esplorare l'estensione in autonomia oppure, se vuoi saperne un po' di più sulle funzionalità di Anori, clicca su '$t(next)'."
             },
@@ -256,7 +255,7 @@
             },
             "analytics": {
                 "title": "Statistiche d'uso",
-                "p1": "Abbiamo quasi finito. Manca solo un'ultima cosa. Per impostazione predefinita, Anori non raccoglie dati di tracciamento e non invia nulla a server remoti. Però uso le statistiche d'uso inviate volontariamente dagli utenti per capire quali funzionalità sono le più usate e cosa va rifinito.",
+                "p1": "Abbiamo quasi finito. Manca solo un'ultima cosa. Per impostazione predefinita, Anori non raccoglie dati di tracciamento e non invia nulla a server remoti. Però utilizzo le statistiche d'uso inviate volontariamente dagli utenti per capire quali funzionalità vengono usate di più e cosa va rifinito.",
                 "p2": "Per questo ti chiedo di abilitare l'invio delle statistiche d'uso. Anori non invia dati privati (come le tue note o gli URL dei tuoi segnalibri), ma solo dati su come usi l'estensione (ad esempio quante cartelle hai e quanto spesso usi le scorciatoie da tastiera). La scelta però è solo tua: Anori funzionerà normalmente anche se non abiliti le statistiche d'uso.",
                 "p3": "Se vuoi saperne di più su quali dati vengono raccolti, clicca <0>qui</0>."
             },
@@ -458,7 +457,7 @@
             "expandWidgetName": "Pagina web incorporata — espandibile",
             "showLink": "Mostra il link alla pagina originale",
             "openPage": "Apri pagina",
-            "limitations": "L'incorporamento non funziona con tutte le pagine. Alcuni siti impediscono attivamente di essere mostrati come pagina incorporata e, purtroppo, Anori non può farci molto. Di conseguenza, le pagine potrebbero non caricarsi (come succede con Gmail) o funzionare male."
+            "limitations": "L'incorporamento non funziona con tutte le pagine. Alcuni siti si rifiutano attivamente di essere mostrati come pagina incorporata e, purtroppo, Anori non può farci molto. Di conseguenza, le pagine potrebbero non caricarsi (come succede con Gmail) o funzionare male."
         },
         "math-plugin": {
             "name": "Matematica",
@@ -496,10 +495,10 @@
             "v2_3_0": {
                 "headline": "Ecco il nuovo plugin $t(motivation-plugin.name): otto widget per tenere traccia del tempo, non perdere di vista il quadro generale, mantenere la concentrazione e contare i giorni che contano.",
                 "periodsTitle": "Dov'è finita la giornata?",
-                "periodsBody": "I nuovi widget di avanzamento mostrano quanta parte del giorno, della settimana, del mese o dell'anno è già passata. Per giorno e settimana puoi contarne anche solo una parte, così puoi seguire la tua giornata e la tua settimana lavorativa, o tenere d'occhio quanto ti resta del weekend.",
+                "periodsBody": "I nuovi widget di avanzamento mostrano quanta parte del giorno, della settimana, del mese o dell'anno è già passata. Giorno e settimana possono anche coprirne solo una parte, così puoi seguire la tua giornata e la tua settimana lavorativa, o tenere d'occhio quanto ti resta del weekend.",
                 "periodsCalendar": "Mese e anno possono anche seguire un altro sistema di calendario, se è quello che usi nella vita di tutti i giorni.",
                 "lifeTitle": "Uno sguardo d'insieme",
-                "lifeBody": "Fai un passo indietro e guarda il quadro completo con l'avanzamento della vita: la tua vita come una griglia di anni che si riempie in silenzio. Un gentile memento mori, ma senza teschi. E se preferisci guardare scorrere i secondi, il contatore dell'età mostra quanti anni hai, in tempo reale.",
+                "lifeBody": "Fai un passo indietro e guarda il quadro completo con l'avanzamento della vita: la tua vita come una griglia di anni che si riempie in silenzio. Un delicato memento mori, ma senza teschi. E se preferisci guardare scorrere i secondi, il contatore dell'età mostra quanti anni hai, in tempo reale.",
                 "focusTitle": "Sempre sotto gli occhi",
                 "focusBody": "Focus tiene una riga di testo sulla tua nuova scheda, così la cosa importante non finisce sepolta sotto tutto il resto. Usalo per l'attività del giorno, un obiettivo della settimana o qualcosa per cui provi gratitudine. Può ricominciare da capo ogni giorno, settimana o mese, oppure restare finché non lo cambi.",
                 "counterTitle": "Conta i giorni",
@@ -541,7 +540,7 @@
                 "daily": "Ogni giorno",
                 "weekly": "Ogni settimana",
                 "monthly": "Ogni mese",
-                "manual": "Manuale"
+                "manual": "Manualmente"
             },
             "markDone": "Segna come fatto",
             "markNotDone": "Segna come non fatto",

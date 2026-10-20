@@ -1,37 +1,37 @@
 {
     "translation": {
-        "appName": "Anori：高效新标签页",
-        "appDescription": "可定制的新标签页：用小组件组合出你自己的页面",
+        "appName": "Anori：高效的新标签页",
+        "appDescription": "可定制的新标签页：从小部件中组合自己的页面",
         "appActionTitle": "打开 Anori 新标签页",
         "openAnori": "打开 Anori",
         "icon": "图标",
         "title": "标题",
         "url": "URL",
-        "urls": "URL",
+        "urls": "URLs",
         "save": "保存",
         "import": "导入",
         "add": "添加",
         "reload": "重新加载",
-        "noResults": "无结果",
+        "noResults": "没有结果",
         "example": "示例",
         "timezone": "时区",
-        "refreshing": "正在刷新...",
+        "refreshing": "刷新中...",
         "refresh": "刷新",
-        "startTypingToSearch": "输入内容开始搜索...",
+        "startTypingToSearch": "在此开始搜索...",
         "search": "搜索...",
         "loading": "加载中...",
-        "lastUpdatedAt": "上次更新于 {{datetime}}",
+        "lastUpdatedAt": "上一次更新 {{datetime}}",
         "home": "主页",
         "px": "px",
-        "whatsNew": "更新内容",
-        "editWidget": "编辑小组件",
-        "removeWidget": "移除小组件",
-        "moveWidget": "移动小组件",
-        "resizeWidget": "调整小组件大小",
-        "configureWidget": "配置小组件",
-        "addWidget": "添加小组件",
-        "addWidgetConfigInvalid": "无法添加小组件：其配置无效。请查看控制台了解详情。",
-        "saveWidgetConfigInvalid": "无法保存：小组件配置无效。请查看控制台了解详情。",
+        "whatsNew": "新鲜事",
+        "editWidget": "编辑小部件",
+        "removeWidget": "移除小部件",
+        "moveWidget": "移动小部件",
+        "resizeWidget": "调整小部件大小",
+        "configureWidget": "配置小部件",
+        "addWidget": "添加小部件",
+        "addWidgetConfigInvalid": "无法添加小部件：其配置无效。请查看控制台了解详情。",
+        "saveWidgetConfigInvalid": "无法保存：小部件配置无效。请查看控制台了解详情。",
         "edit": "编辑",
         "editFolder": "编辑文件夹",
         "done": "完成",
@@ -53,12 +53,12 @@
         },
         "unsupportedWidget": {
             "short": "不可用",
-            "title": "小组件不可用",
-            "description": "此类型的小组件在当前浏览器中不可用。它仍保留在你其他已同步的浏览器上，你也仍然可以在这里移动、调整大小或移除它。"
+            "title": "小部件不可用",
+            "description": "此类型的小部件在当前浏览器中不可用。它仍保留在你其他已同步的浏览器上，你也仍然可以在这里移动、调整大小或移除它。"
         },
         "widgetRenderError": {
             "title": "哎呀",
-            "description": "小组件渲染失败，请查看控制台了解详情。"
+            "description": "小部件渲染失败，请查看控制台了解详情。"
         },
         "cloud": {
             "connect": "连接",
@@ -144,26 +144,26 @@
                 "autoHideSidebar": "自动隐藏侧边栏",
                 "newTabTitle": "新标签页标题",
                 "enableAnalytics": "发送分析数据",
-                "analyticsHintP1": "分析数据能帮助我更好地了解用户如何使用 Anori，以及哪些功能最常用。它不会分享任何隐私信息，例如笔记内容或书签 URL。",
-                "analyticsHintP2": "这能帮助我打造更好的产品，所以希望你开启分析数据发送。<0>了解更多。</0>",
+                "analyticsHintP1": "分析帮助我更好地了解用户如何与 Anori 交互以及哪些功能被最多使用。它不会共享任何私人信息，例如笔记内容或书签 URL。",
+                "analyticsHintP2": "这有助于我开发更好的产品，因此我要求你启用发送分析。<0>了解更多。</0>",
                 "showBookmarksBar": "显示书签栏",
                 "automaticCompact": "根据屏幕尺寸自动切换到紧凑模式",
-                "automaticCompactModeThreshold": "屏幕尺寸小于此值时切换到紧凑模式",
+                "automaticCompactModeThreshold": "切换到紧凑模式，当屏幕尺寸小于某个值",
                 "automaticCompactModeThresholdHint": "你当前的屏幕宽度为 {{screenWidth}}px",
                 "useCompact": "始终使用紧凑模式",
                 "showAnimationOnOpen": "打开时显示动画",
-                "showAnimationOnOpenHint": "启用后，扩展程序会显示一段快速的加载动画，遮住数据初次加载时的闪烁，让界面看起来更美观。",
+                "showAnimationOnOpenHint": "如果启用，该扩展程序将显示一个快速加载动画，它将隐藏加载数据的闪烁，并提供更好的外观。",
                 "rememberLastFolder": "记住上次打开的文件夹"
             },
             "customIcons": {
                 "title": "自定义图标",
-                "incorrectFormat": "请提供有效的文件。Anori 支持 .png、.jpg、.gif、.jpeg 和 .svg 格式",
-                "noIcons": "你还没有任何自定义图标。",
+                "incorrectFormat": "请提供一个或多个有效的文件。Anori 支持 .png、.jpg、.gif、.jpeg 和 .svg 格式",
+                "noIcons": "你还没有自定义图标。",
                 "iconName": "图标名称",
-                "invalidNames": "部分图标的名称无效，请先修正名称再保存。",
-                "nameContainsInvalidChars": "名称包含无效字符，只允许使用字母、数字、- 和 _。",
+                "invalidNames": "一些图标存在无效的字符，请在保存之前删掉无效的字符。",
+                "nameContainsInvalidChars": "名称包含无效字符，只接受字母、数字、- 和 _ 的组合。",
                 "saveIcons": "保存图标",
-                "supportedFormats": "Anori 支持 .png、.jpg、.gif 和 .svg 格式。建议使用宽度在 128 到 256 像素之间的正方形图片（不适用于 .svg）。",
+                "supportedFormats": "Anori 支持 .png、.jpg、.gif 和 .svg 格式。推荐使用宽度在 128 到 256 像素之间的方形图片（.svg 除外）。",
                 "addIcons": "添加图标",
                 "removeIcon": "移除图标",
                 "newIcons": "新图标",
@@ -172,7 +172,7 @@
             "folders": {
                 "title": "文件夹",
                 "createNew": "新建文件夹",
-                "defaultName": "新文件夹",
+                "defaultName": "新建文件夹",
                 "reorder": "重新排序",
                 "changeIcon": "更换图标",
                 "removeFolder": "移除文件夹"
@@ -191,7 +191,6 @@
                 "blur": "模糊",
                 "colorAccent": "强调色",
                 "colorBackground": "背景",
-                "colorText": "文字",
                 "colorCode": "颜色代码",
                 "colorScheme": "配色方案",
                 "previewColorScheme": "预览配色方案",
@@ -203,8 +202,8 @@
                 "colorSchemeDark": "深色"
             },
             "importExport": {
-                "title": "导入和导出",
-                "info": "你可以在这里备份设置，或恢复以前的备份。",
+                "title": "导入 & 导出",
+                "info": "你可以在这里备份或恢复你的设置。",
                 "import": "导入",
                 "export": "导出",
                 "cloudWarning": "你已启用云同步。导入备份会断开你与同步档案的连接，导入后需要重新连接。要继续吗？",
@@ -212,73 +211,73 @@
                 "importError": "无法导入备份：{{error}}"
             },
             "aboutHelp": {
-                "title": "帮助和关于",
-                "onlyEnglishPlease": "我（项目作者）会说的语言不多，所以请用英语提交 issue。谢谢！",
-                "p1": "Anori 是一款免费开源的扩展程序，源代码托管在 <0>GitHub</0> 上。如果你想建议新功能或报告错误，请在仓库中创建<1>新 issue</1>。如果只是想说声谢谢，可以给仓库点个 star :)。",
-                "p2": "如果你想修改这个扩展程序，或添加自己的插件或小组件，请参阅 <0>readme</0> 了解更多信息。",
-                "p3": "在 <0>Twitter</0> 上关注作者，并<1>支持乌克兰</1>。",
+                "title": "关于此扩展程序 & 帮助",
+                "onlyEnglishPlease": "我（项目的作者）不会说很多语言，所以请用英语提交你的问题。谢谢！",
+                "p1": "Anori 是一个免费的开源扩展程序。源代码可以在 <0>GitHub</0> 上找到。如果你想建议一个功能或报告一个错误，请在存储库中创建<1>新问题</1>。如果你只是想说谢谢，你可以给该存储库点赞：）。",
+                "p2": "如果你想修改此扩展程序，添加自己的插件或小部件，请参阅 <0>readme</0> 获取更多信息。",
+                "p3": "关注作者的 <0>Twitter</0> 并<1>支持乌克兰</1>。",
                 "p4": "如果你愿意出点钱支持 Anori 的开发，可以在<0>这里</0>捐助。支持加密货币和信用卡付款。",
                 "license": "许可证"
             }
         },
         "shortcuts": {
             "title": "快捷键",
-            "showCheatsheet": "显示/隐藏快捷键速查表",
+            "showCheatsheet": "显示/隐藏快捷键列表",
             "toggleSettings": "显示/隐藏设置",
-            "closeMenuOrModal": "关闭弹窗",
+            "closeMenuOrModal": "关闭模态窗口",
             "switchToFolderAbove": "切换到上一个文件夹",
             "switchToFolderBelow": "切换到下一个文件夹",
             "switchFolderWithWheel": "使用鼠标滚轮或触控板切换文件夹",
-            "switchToNFolder": "切换到第 1 个文件夹（其他数字同样适用！）",
+            "switchToNFolder": "切换到第一个文件夹（任意数字均可！）",
             "editCurrentFolder": "编辑当前文件夹",
-            "addNewWidget": "向当前文件夹添加新的小组件"
+            "addNewWidget": "在当前文件夹添加小部件"
         },
         "onboarding": {
             "start": {
-                "title": "欢迎使用 Anori！",
-                "p1": "很高兴见到你！本介绍提供以下语言版本：{{languages}}。",
-                "p2": "你即将打造属于自己的理想新标签页。Anori 起始页由各种小组件组成，比如笔记、书签、待办清单等。添加什么、如何整理，都由你决定。",
-                "p3": "点击侧边栏中的铅笔图标（'$t(editFolder)'）即可添加第一个小组件。页面会切换到编辑模式，你可以在这里添加新的小组件，也可以移动或移除已有的小组件。",
-                "p4": "要添加新的小组件，请点击'$t(addWidget)'按钮；点击'$t(done)'则会退出编辑模式。添加第一个小组件后，这份引导就会消失。你可以现在就添加小组件，自行探索这个扩展程序；如果想进一步了解 Anori 提供的功能，请点击'$t(next)'。"
+                "title": "欢迎来到 Anori！",
+                "p1": "非常高兴见到你！此介绍页面在 {{languages}} 可用。",
+                "p2": "你正在设置你理想的新标签页。Anori 起始页由不同的小部件组成，如笔记、书签、待办事项列表等。你可以选择添加什么以及如何组织它们。",
+                "p3": "你可以通过点击侧边栏中的铅笔图标（'$t(editFolder)'）来添加第一个小部件。这将把页面切换到编辑模式。在这里，你可以添加新的小部件，重新定位或移除现有的小部件。",
+                "p4": "要添加新的小部件，请单击'$t(addWidget)'按钮，或单击'$t(done)'以退出编辑模式。一旦添加了第一个小部件，这个引导程序将消失。你现在可以添加一个小部件并自行探索扩展程序，或者如果你想了解更多关于 Anori 提供的功能，请单击'$t(next)'。"
             },
             "folders": {
                 "title": "文件夹",
-                "p1": "默认情况下，你的所有小组件都会添加到'$t(home)'文件夹中。不过，你也可以把小组件整理到不同的文件夹里。例如，可以把工作和个人的小组件分别放在不同的文件夹中，或者为每个项目单独建一个文件夹。",
-                "p2": "要管理文件夹，请点击左下角的齿轮图标。这会打开设置，你可以在其中按自己的喜好定制 Anori。在设置中点击'$t(settings.folders.title)'即可打开文件夹管理器。"
+                "p1": "默认情况下，所有的小部件都会被添加到'$t(home)'文件夹中。但是，你也可以将你的小部件组织到不同的文件夹中。例如，你可以为工作和个人小部件设置不同的文件夹。或者你可以为每个单独的项目设置一个单独的文件夹。",
+                "p2": "要管理文件夹，请单击左下角的齿轮图标。这将打开设置，你可以根据自己的喜好自定义 Anori。在那里单击'$t(settings.folders.title)'以打开文件夹管理器。"
             },
             "customization": {
-                "title": "个性化",
-                "p1": "Anori 不仅能让你用小组件组合出自己的起始页，还能进行更多个性化设置。",
-                "p2": "你可以修改新标签页标题，更改配色方案和背景图片，还可以上传自定义图标在小组件中使用（此外还有 10,000 多个内置图标）。",
-                "p3": "而这还不到全部选项的一半。不妨到设置里看看所有选项。"
+                "title": "自定义",
+                "p1": "虽然 Anori 允许你从小部件中组合自己的起始页，但它还可以进行更多的自定义。",
+                "p2": "你可以更改新标签页的标题，更改配色方案以及背景图像，并上传自定义图标以在小部件中使用（除了 10,000 多个内置图标之外）。",
+                "p3": "这还不到所有选项的一半。你可能想要查看设置以查看它们全部。"
             },
             "analytics": {
                 "title": "分析数据",
-                "p1": "我们快完成了，还剩最后一件事。默认情况下，Anori 不会收集任何跟踪数据，也不会向远程服务器发送任何内容。但我会使用用户自愿发送的分析数据，来了解哪些功能最常用、哪些地方还需要打磨。",
-                "p2": "因此，我希望你开启分析数据发送。Anori 不会发送任何隐私数据（比如你的笔记或书签 URL），只会发送关于你如何使用扩展程序的统计指标（例如你有多少个文件夹、使用快捷键的频率）。不过这完全由你决定，即使不开启分析数据，Anori 也会照常运行。",
+                "p1": "我们快要完成了。但是还有一件事。默认情况下，Anori 不会收集任何跟踪数据，也不会将任何内容发送到远程服务器。但是，我使用用户自愿发送的分析数据来查看哪些功能被使用最多，哪些需要进行一些改进。",
+                "p2": "因此，我要求你启用发送分析数据。Anori 不会发送任何私人数据（例如你的笔记或书签 URL），只会发送有关你如何使用扩展程序的指标（例如你有多少文件夹以及你使用快捷键的频率）。但这完全取决于你，即使你不启用分析，Anori 也将像往常一样工作。",
                 "p3": "如果想进一步了解会收集哪些数据，请点击<0>这里</0>。"
             },
             "presets": {
-                "title": "全新开始",
-                "p1": "就这些！现在你已经拿到了 Anori 速成学士学位，可以开始打造自己的起始页了。添加第一个小组件，开始搭建你的终极布局吧。",
-                "p2": "选择太多，有点累？没关系。你不必第一次就做出完美的页面，甚至不必从一张白纸开始。我们为你准备了一套高效布局。",
-                "p3": "它未必能满足你的所有需求，但你可以以它为基础，打造出自己喜爱的布局。",
-                "cta": "🚀 直接给我一套高效布局"
+                "title": "新的开始",
+                "p1": "这就是全部了。现在你拥有了 Anori 的快速学士学位，并准备创建自己的起始页。添加第一个小部件，开始构建终极布局。",
+                "p2": "厌倦了选择？没关系。你不需要在第一次尝试中就确定你的完美页面。你甚至不需要从空白画布开始。我们为你准备了一个高效的布局。",
+                "p3": "它可能不是为你的所有需求量身定制的，但你可以将其用作基础，打造出自己喜欢的布局。",
+                "cta": "🚀 请给我一个高效的布局"
             },
             "preset": {
                 "task": {
                     "themes": "在设置中试试不同的主题",
                     "anoriPlus": "了解一下 Anori Plus",
-                    "widgets": "探索可用的小组件"
+                    "widgets": "探索可用的小部件"
                 }
             }
         },
         "requirePermissions": {
-            "modalTitle": "需要额外权限",
-            "compactText": "需要额外权限。点击查看详情。",
-            "text": "此小组件需要以下额外权限：",
+            "modalTitle": "需要额外的权限",
+            "compactText": "需要额外的权限。点击查看细节。",
+            "text": "这个小部件需要额外的权限：",
             "apiPermissions": "API 权限",
-            "hostPermissions": "主机权限",
+            "hostPermissions": "Host 权限",
             "grant": "授予权限"
         },
         "calendarSettings": {
@@ -289,8 +288,8 @@
             "name": "书签",
             "widgetName": "书签",
             "groupWidgetName": "书签组",
-            "openInGroup": "在标签页分组中打开",
-            "group": "分组",
+            "openInGroup": "在标签页组中打开",
+            "group": "组",
             "searchBookmarks": "搜索书签",
             "checkStatus": "检查页面状态",
             "checkStatusHint": "Anori 会在后台每 10-15 分钟请求一次页面，检查它是否在线。如果服务器无法访问或返回 HTTP 5xx 错误，页面就会被视为离线。此功能需要额外权限。浏览器关闭或电脑休眠时不会进行检查。",
@@ -312,17 +311,17 @@
         },
         "datetime-plugin": {
             "name": "日期和时间",
-            "widgetNameS": "日期和时间 - S 尺寸",
-            "widgetNameM": "日期和时间 - M 尺寸",
+            "widgetNameS": "日期和时间 - 小",
+            "widgetNameM": "日期和时间 - 中",
             "withoutDate": "不显示日期",
             "timeFormat": "时间格式",
             "dateFormat": "日期格式",
-            "24hours": "24 小时制"
+            "24hours": "24 小时"
         },
         "notes-plugin": {
             "name": "笔记",
             "noteTitle": "笔记标题",
-            "noteText": "笔记内容（支持 Markdown）",
+            "noteText": "笔记内容（支持 Markdown 语法）",
             "exampleTitle": "购物清单",
             "exampleText": "蔬菜、番茄酱、奶酪、面粉、橄榄油"
         },
@@ -334,16 +333,16 @@
         },
         "system-status-plugin": {
             "name": "系统状态",
-            "ramLoad": "内存占用",
-            "cpuLoad": "CPU 占用"
+            "ramLoad": "RAM 占用",
+            "cpuLoad": "CPU 负载"
         },
         "tabs-plugin": {
             "name": "标签页",
-            "tabGroup": "标签页分组",
+            "tabGroup": "标签页组",
             "contextMenu": {
                 "stashTab": "暂存此标签页",
                 "stashLink": "暂存此链接",
-                "stashGroup": "暂存此标签页分组"
+                "stashGroup": "暂存此标签页组"
             },
             "stash": {
                 "title": "标签页暂存区",
@@ -362,7 +361,7 @@
             "popup": {
                 "stashTab": "暂存标签页",
                 "stashCurrentTab": "暂存当前标签页",
-                "stashGroup": "暂存标签页分组",
+                "stashGroup": "暂存标签页组",
                 "stashWindow": "暂存此窗口",
                 "window": "窗口",
                 "grantTabs": "使用$t(tabs-plugin.stash.title)功能需要额外权限",
@@ -372,7 +371,7 @@
             "syncedTabs": {
                 "title": "已同步的标签页",
                 "loading": "正在加载标签页...",
-                "unnamedGroup": "分组",
+                "unnamedGroup": "组",
                 "notConnectedTitle": "查看你其他设备上的标签页",
                 "notConnectedDescription": "连接 Anori Plus，即可在你的各个设备之间同步打开的标签页。",
                 "connect": "连接",
@@ -381,21 +380,21 @@
             }
         },
         "tasks-plugin": {
-            "name": "任务",
-            "todo": "待办",
+            "name": "待办事项",
+            "todo": "要做的",
             "completeTask": "完成\"{{task}}\"",
             "taskDescription": "任务描述...",
-            "noTasks": "这里还没有任务",
-            "exampleTask0": "为了该死的心理健康，去散个该死的步",
-            "exampleTask1": "躺沙发",
-            "exampleTask2": "躺地板",
-            "exampleTask3": "努力别哭"
+            "noTasks": "这里没有任务",
+            "exampleTask0": "今天吃什么",
+            "exampleTask1": "今天做什么",
+            "exampleTask2": "今天熬夜吗",
+            "exampleTask3": "今天加班吗"
         },
         "top-sites-plugin": {
-            "name": "常用网站",
-            "widgetHorizontal": "常用网站 - 横向",
-            "widgetVertical": "常用网站 - 纵向",
-            "removeSite": "移除网站"
+            "name": "热门网页",
+            "widgetHorizontal": "热门网页 - 横向",
+            "widgetVertical": "热门网页 - 纵向",
+            "removeSite": "移除网页"
         },
         "weather-plugin": {
             "name": "天气",
@@ -405,48 +404,48 @@
             "kmh": "km/h",
             "ms": "m/s",
             "mph": "mph",
-            "clearSky": "晴",
-            "partlyCloudy": "局部多云",
+            "clearSky": "晴天",
+            "partlyCloudy": "多云",
             "fog": "雾",
-            "drizzle": "毛毛雨",
-            "freezingDrizzle": "冻毛毛雨",
+            "drizzle": "细雨",
+            "freezingDrizzle": "冻细雨",
             "rain": "雨",
             "freezingRain": "冻雨",
             "snow": "雪",
             "rainShower": "阵雨",
-            "thunderstorm": "雷暴",
-            "unknownCode": "未知天气代码",
+            "thunderstorm": "雷雨",
+            "unknownCode": "未知的天气 id 代码",
             "selectCity": "选择城市",
             "temperatureUnit": "温度单位",
             "speedUnit": "风速单位",
-            "weatherCode": "天气代码 {{code}}",
+            "weatherCode": "天气 id 代码 {{code}}",
             "attribution": "天气数据由 <0>Open-Meteo</0> 提供"
         },
         "rss-plugin": {
             "name": "RSS",
-            "widgetFeedName": "RSS 订阅源",
-            "widgetLatestPostName": "RSS 订阅源最新文章",
-            "feedUrl": "RSS 订阅源 URL",
-            "feedUrls": "RSS 订阅源 URL",
-            "noPosts": "此订阅源还没有文章",
+            "widgetFeedName": "RSS 订阅",
+            "widgetLatestPostName": "RSS 订阅上的最新文章",
+            "feedUrl": "RSS 订阅 URL",
+            "feedUrls": "RSS 订阅 URLs",
+            "noPosts": "这个订阅还没有发表文章",
             "compactView": "紧凑视图",
-            "presetsTitle": "在这里添加你喜欢的订阅源，或从预设中选择一个：",
-            "presetsText": "还没添加任何订阅源？我们为<0>开发者</0>和<1>设计师</1>准备了预设，还有一个汇集了<2>各种有趣内容</2>的预设。",
-            "addFeed": "添加订阅源",
-            "presetForDevelopers": "面向开发者",
-            "presetForDesigners": "面向设计师",
-            "presetInteresting": "就是些有趣的内容",
+            "presetsTitle": "在这里放置你喜欢的订阅，或从预设中选择一个：",
+            "presetsText": "还没添加任何订阅？我们为<0>开发人员</0>和<1>设计师</1>准备了预设，还有一个汇集了<2>各种有趣的东西</2>的预设。",
+            "addFeed": "添加订阅",
+            "presetForDevelopers": "针对开发人员",
+            "presetForDesigners": "针对设计师",
+            "presetInteresting": "有趣的东西",
             "presetForDevelopersTitle": "开发",
             "presetForDesignersTitle": "设计",
-            "presetInterestingTitle": "有趣内容",
-            "examplePostTitle1": "像高手一样整理你的 Anori 新标签页！",
-            "examplePostDescription1": "先从一个经典的书签开始，然后跟着感觉走。有时候，你需要的只是一点点秩序...",
+            "presetInterestingTitle": "有趣的东西",
+            "examplePostTitle1": "如何像专业人士一样组织你的 Anori 新标签页！",
+            "examplePostDescription1": "你只需从一个好的旧书签开始，然后让你的内心引领你。有时，你所需要的只是一点秩序...",
             "exampleFeedTitle1": "Anori 博客",
-            "examplePostTitle2": "8 个最实用的浏览器扩展程序",
-            "examplePostDescription2": "今天我来教你用这些必备扩展程序，把浏览器打造成效率工作站。压轴明星：Anori。",
+            "examplePostTitle2": "8 个最有用的浏览器扩展程序",
+            "examplePostDescription2": "今天我将向你展示如何使用这些必备扩展程序将你的浏览器变成一个生产力站。其中的主角是 Anori。",
             "exampleFeedTitle2": "效率入门 101",
-            "examplePostTitle3": "一个能用小组件组合出专属新标签页的扩展程序！",
-            "examplePostDescription3": "你可以用现成的小组件（任务、笔记、书签等）组合出自己的新标签页，并把它们整理到文件夹中。",
+            "examplePostTitle3": "一款可以让你从小部件中组合自己的新标签页的扩展程序！",
+            "examplePostDescription3": "你可以从提供的小部件（任务、笔记、书签等）中组合自己的新标签页，并将它们组织成文件夹。",
             "exampleFeedTitle3": "Reddit"
         },
         "iframe-plugin": {
@@ -490,14 +489,14 @@
             "tagFixed": "修复",
             "changelogNote": "想查看旧版本的更新日志？可以<0>在 GitHub 上</0>找到。",
             "v2_3_0": {
-                "headline": "全新的$t(motivation-plugin.name)插件来了：八个小组件，帮你追踪时间、着眼全局、保持专注，记录重要的日子。",
+                "headline": "全新的$t(motivation-plugin.name)插件来了：八个小部件，帮你追踪时间、着眼全局、保持专注，记录重要的日子。",
                 "periodsTitle": "一天都去哪儿了？",
-                "periodsBody": "新的进度小组件会显示今天、本周、本月或今年已经过去了多少。日进度和周进度可以只统计其中一部分时间，这样你就能跟踪自己的工作日和工作周，或者看看周末还剩多少。",
+                "periodsBody": "新的进度小部件会显示今天、本周、本月或今年已经过去了多少。日进度和周进度可以只统计其中一部分时间，这样你就能跟踪自己的工作日和工作周，或者看看周末还剩多少。",
                 "periodsCalendar": "如果你日常使用的是其他历法，月进度和年进度也可以按该历法计算。",
                 "lifeTitle": "放眼一生",
                 "lifeBody": "把视野拉到最远，看看人生进度：你的一生化作一格格年份，正悄悄被填满。一句温和的 memento mori（勿忘人终有一死），只是少了骷髅头。如果你更想看着秒数跳动，年龄计时器会实时显示你的年龄。",
                 "focusTitle": "让它一直在眼前",
-                "focusBody": "专注小组件会在你的新标签页上保留一行文字，让重要的事不会被其他事情淹没。你可以写下今天的任务、本周的目标，或是一件让你心怀感激的事。它可以每天、每周或每月重新开始，也可以一直保留到你修改为止。",
+                "focusBody": "专注小部件会在你的新标签页上保留一行文字，让重要的事不会被其他事情淹没。你可以写下今天的任务、本周的目标，或是一件让你心怀感激的事。它可以每天、每周或每月重新开始，也可以一直保留到你修改为止。",
                 "counterTitle": "数着日子",
                 "counterBody": "如果你的专注事项有截止日期，看着日子一天天减少会很有帮助，这正是倒数日的用途。它也能正着数：两周前戒了烟？把这个数字放到新标签页上，看着它一天天增长。",
                 "minorLocalizedNumbers": "CPU 和内存使用率百分比以及风速现在会遵循你所用语言的数字格式，例如德语中的 '12,3 %' 或土耳其语中的 '%12,3'。"
@@ -544,10 +543,10 @@
             "today": "今天",
             "daysLeft_other": "剩余天数",
             "daysSince_other": "已过天数",
-            "hoursLeft_other": "剩余小时",
+            "hoursLeft_other": "剩余小时数",
             "mockFocusText": "完成季度报告",
             "mockCounterTitle": "假期",
-            "defaultPrompt": "今日专注"
+            "defaultPrompt": "今日重点"
         }
     }
 }

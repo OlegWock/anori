@@ -2,7 +2,7 @@
     "translation": {
         "appName": "Anori : nouvel onglet de productivité",
         "appDescription": "Nouvel onglet personnalisable : composez votre propre page à partir de widgets",
-        "appActionTitle": "Ouvrir le nouvel onglet Anori",
+        "appActionTitle": "Ouvrir un nouvel onglet Anori",
         "openAnori": "Ouvrir Anori",
         "icon": "Icône",
         "title": "Titre",
@@ -17,7 +17,7 @@
         "timezone": "Fuseau horaire",
         "refreshing": "Actualisation...",
         "refresh": "Actualiser",
-        "startTypingToSearch": "Commencez à saisir pour rechercher...",
+        "startTypingToSearch": "Commencez à taper pour rechercher...",
         "search": "Rechercher...",
         "loading": "Chargement...",
         "lastUpdatedAt": "Dernière mise à jour à {{datetime}}",
@@ -74,7 +74,7 @@
             "password": "Mot de passe",
             "connectedAs": "Connecté en tant que",
             "syncPausedBehind": "Cette version d'Anori est plus ancienne qu'un autre appareil sur ce profil, la synchronisation est donc suspendue jusqu'à sa mise à jour. Les modifications que vous effectuez d'ici là ne seront pas synchronisées avec vos autres appareils, mais elles sont sauvegardées dans une copie de secours avant la mise à jour, au cas où vous en auriez besoin.",
-            "preUpdateBackup": "Copie de secours avant votre dernière mise à jour ({{date}})",
+            "preUpdateBackup": "Copie de secours d'avant votre dernière mise à jour ({{date}})",
             "downloadBackup": "Télécharger",
             "noAccount": "Vous n'avez pas de compte ?",
             "createAccount": "En créer un ici",
@@ -159,7 +159,7 @@
             },
             "customIcons": {
                 "title": "Icônes personnalisées",
-                "incorrectFormat": "Veuillez fournir des fichiers valides. Anori prend en charge les formats .png, .jpg, .gif, .jpeg et .svg.",
+                "incorrectFormat": "Veuillez fournir des fichiers valides. Anori prend en charge les formats .png, .jpg, .gif, .jpeg et .svg",
                 "noIcons": "Vous n'avez encore aucune icône personnalisée.",
                 "iconName": "Nom de l'icône",
                 "invalidNames": "Certaines icônes ont un nom invalide, veuillez corriger les noms avant d'enregistrer.",
@@ -193,12 +193,11 @@
                 "blur": "Flou",
                 "colorAccent": "Accent",
                 "colorBackground": "Arrière-plan",
-                "colorText": "Texte",
                 "colorCode": "Code couleur",
-                "colorScheme": "Palette de couleurs",
-                "previewColorScheme": "Palette de couleurs de l'aperçu",
+                "colorScheme": "Apparence",
+                "previewColorScheme": "Apparence de l'aperçu",
                 "hideDotPattern": "Masquer le motif de points",
-                "pixelatedBackground": "Mise à l'échelle pixel nette",
+                "pixelatedBackground": "Mise à l'échelle en pixels nets",
                 "pixelatedBackgroundHint": "Désactive le lissage d'image que les navigateurs appliquent lors du redimensionnement de l'arrière-plan. Recommandé pour le pixel art.",
                 "colorSchemeSystem": "Système",
                 "colorSchemeLight": "Clair",
@@ -215,7 +214,7 @@
             },
             "aboutHelp": {
                 "title": "Aide & à propos de l'extension",
-                "onlyEnglishPlease": "Je (l'auteur du projet) ne parle pas beaucoup de langues, donc merci de soumettre vos problèmes en anglais. Merci !",
+                "onlyEnglishPlease": "Je (l'auteur du projet) ne parle pas beaucoup de langues, donc veuillez rédiger vos issues en anglais. Merci !",
                 "p1": "Anori est une extension gratuite et open source. Le code source est disponible sur <0>GitHub</0>. Si vous souhaitez suggérer une fonctionnalité ou signaler un bug, veuillez créer une <1>nouvelle issue</1> dans le dépôt. Si vous voulez simplement dire merci, vous pouvez mettre une étoile au dépôt :).",
                 "p2": "Si vous souhaitez modifier cette extension, ajouter votre propre plugin ou widget, veuillez consulter le <0>readme</0> pour plus d'informations.",
                 "p3": "Suivez l'auteur sur <0>Twitter</0> et <1>soutenez l'Ukraine</1>.",
@@ -231,7 +230,7 @@
             "switchToFolderAbove": "Passer au dossier au-dessus",
             "switchToFolderBelow": "Passer au dossier en dessous",
             "switchFolderWithWheel": "Changer de dossier avec la molette de la souris ou le pavé tactile",
-            "switchToNFolder": "Aller au 1er dossier (fonctionne aussi avec d'autres numéros !)",
+            "switchToNFolder": "Passer au 1er dossier (fonctionne aussi avec d'autres numéros !)",
             "editCurrentFolder": "Modifier le dossier actuel",
             "addNewWidget": "Ajouter un nouveau widget au dossier actuel"
         },
@@ -251,13 +250,13 @@
             "customization": {
                 "title": "Personnalisation",
                 "p1": "En plus de vous permettre de composer votre propre page de démarrage à partir de widgets, Anori peut être personnalisé encore davantage.",
-                "p2": "Vous pouvez modifier le titre du nouvel onglet, changer la palette de couleurs ainsi que l'image d'arrière-plan, et téléverser vos icônes personnalisées à utiliser dans les widgets (en plus des 10 000+ icônes intégrées).",
+                "p2": "Vous pouvez modifier le titre du nouvel onglet, changer la palette de couleurs ainsi que l'image d'arrière-plan, et importer vos icônes personnalisées à utiliser dans les widgets (en plus des 10 000+ icônes intégrées).",
                 "p3": "Et ce n'est même pas la moitié des options. Vous pouvez consulter les paramètres pour les voir toutes."
             },
             "analytics": {
-                "title": "Analytique",
+                "title": "Données analytiques",
                 "p1": "Nous avons presque terminé. Mais il reste une dernière chose. Par défaut, Anori ne collecte aucune donnée de suivi et n'envoie rien à des serveurs distants. Mais j'utilise les données analytiques envoyées volontairement par les utilisateurs pour voir quelles fonctionnalités sont les plus utilisées et lesquelles ont besoin d'un peu de peaufinage.",
-                "p2": "C'est pourquoi je vous demande d'activer l'envoi de données analytiques. Anori n'envoie aucune donnée privée (comme vos notes ou les URL de vos favoris), uniquement des métriques sur la façon dont vous utilisez l'extension (par exemple, combien de dossiers vous avez et à quelle fréquence vous utilisez les raccourcis clavier). Mais c'est entièrement à vous de décider, Anori fonctionnera normalement même si vous n'activez pas l'analytique.",
+                "p2": "C'est pourquoi je vous demande d'activer l'envoi de données analytiques. Anori n'envoie aucune donnée privée (comme vos notes ou les URL de vos favoris), uniquement des métriques sur la façon dont vous utilisez l'extension (par exemple, combien de dossiers vous avez et à quelle fréquence vous utilisez les raccourcis clavier). Mais c'est entièrement à vous de décider, Anori fonctionnera normalement même si vous n'activez pas l'envoi des données analytiques.",
                 "p3": "Si vous souhaitez en savoir plus sur les données collectées, cliquez <0>ici</0>."
             },
             "presets": {
@@ -335,7 +334,7 @@
             "window": "Fenêtre"
         },
         "system-status-plugin": {
-            "name": "Statut système",
+            "name": "État du système",
             "ramLoad": "Charge RAM",
             "cpuLoad": "Charge CPU"
         },
@@ -351,7 +350,7 @@
                 "title": "Onglets mis de côté",
                 "inbox": "Boîte de réception",
                 "empty": "Rien de mis de côté pour l'instant",
-                "emptyHint": "Ajoutez un onglet avec le bouton + ci-dessus, ou ouvrez le popup Anori depuis la barre d'outils de votre navigateur.",
+                "emptyHint": "Ajoutez un onglet avec le bouton + ci-dessus, ou ouvrez la fenêtre contextuelle Anori depuis la barre d'outils de votre navigateur.",
                 "stashTab": "Mettre un onglet de côté",
                 "remove": "Supprimer",
                 "rename": "Renommer",
@@ -390,7 +389,7 @@
             "completeTask": "Terminer \"{{task}}\"",
             "taskDescription": "Description de la tâche...",
             "noTasks": "Aucune tâche pour l'instant",
-            "exampleTask0": "Petite marche stupide pour la santé mentale",
+            "exampleTask0": "Marche stupide pour une stupide santé mentale",
             "exampleTask1": "S'allonger sur le canapé",
             "exampleTask2": "S'allonger par terre",
             "exampleTask3": "Essayer de ne pas pleurer"
@@ -417,7 +416,7 @@
             "rain": "Pluie",
             "freezingRain": "Pluie verglaçante",
             "snow": "Neige",
-            "rainShower": "Averse de pluie",
+            "rainShower": "Averse",
             "thunderstorm": "Orage",
             "unknownCode": "Code météo inconnu",
             "selectCity": "Sélectionner une ville",
@@ -496,9 +495,9 @@
             "v2_3_0": {
                 "headline": "Découvrez le nouveau plugin $t(motivation-plugin.name) : huit widgets pour suivre votre temps, garder une vue d'ensemble, garder le cap et compter les jours qui comptent.",
                 "periodsTitle": "Où est passée la journée ?",
-                "periodsBody": "De nouveaux widgets de progression montrent combien du jour, de la semaine, du mois ou de l'année est déjà derrière vous. Le jour et la semaine peuvent ne couvrir qu'une partie du temps, vous pouvez donc suivre votre journée de travail et votre semaine de travail, ou garder un œil sur ce qu'il vous reste du week-end.",
+                "periodsBody": "De nouveaux widgets de progression montrent combien du jour, de la semaine, du mois ou de l'année est déjà derrière vous. Ceux du jour et de la semaine peuvent ne couvrir qu'une partie de la période : suivez ainsi votre journée ou votre semaine de travail, ou gardez un œil sur ce qu'il vous reste du week-end.",
                 "periodsCalendar": "Le mois et l'année peuvent également suivre un autre système de calendrier, si c'est celui que vous utilisez au quotidien.",
-                "lifeTitle": "La vue à long terme",
+                "lifeTitle": "La vue d'ensemble",
                 "lifeBody": "Prenez du recul et contemplez votre vie dans son ensemble avec la Progression de la vie : votre vie sous forme d'une grille d'années qui se remplit doucement. Un doux memento mori, sans les crânes. Et si vous préférez regarder les secondes s'écouler, le Compteur d'âge affiche votre âge en temps réel.",
                 "focusTitle": "Gardez-le en vue",
                 "focusBody": "Focus affiche une ligne de texte sur votre nouvel onglet, pour que l'essentiel ne se perde pas sous tout le reste. Utilisez-le pour votre tâche du jour, un objectif de la semaine, ou quelque chose qui vous inspire de la gratitude. Il peut se réinitialiser chaque jour, chaque semaine ou chaque mois, ou rester jusqu'à ce que vous le changiez.",
@@ -535,7 +534,7 @@
             "yearsLived_many": "{{lived}} sur {{count}} ans vécus",
             "yearsLived_other": "{{lived}} sur {{count}} ans vécus",
             "yourAge": "Votre âge",
-            "focusPlaceholder": "Saisissez et appuyez sur Entrée",
+            "focusPlaceholder": "Tapez et appuyez sur Entrée",
             "resetCadence": "Réinitialisation",
             "cadences": {
                 "daily": "Chaque jour",
@@ -543,8 +542,8 @@
                 "monthly": "Chaque mois",
                 "manual": "Manuellement"
             },
-            "markDone": "Marquer comme fait",
-            "markNotDone": "Marquer comme non fait",
+            "markDone": "Marquer comme terminé",
+            "markNotDone": "Marquer comme non terminé",
             "editFocus": "Modifier",
             "targetDate": "Date",
             "today": "Aujourd'hui",

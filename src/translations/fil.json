@@ -76,7 +76,7 @@
             "preUpdateBackup": "Backup mula bago ang huli ninyong update ({{date}})",
             "downloadBackup": "I-download",
             "noAccount": "Wala pa kayong account?",
-            "createAccount": "Gumawa rito",
+            "createAccount": "Gumawa ng isa rito",
             "userDataConflict": {
                 "description": "May data ng Anori Plus ang browser na ito — halimbawa ang inyong Tab stash — na na-sync sa ibang account, hindi sa account na ginagamit ninyo ngayon sa pag-sign in. Ano ang dapat mangyari dito?",
                 "upload": "Idagdag ito sa account na ito",
@@ -192,7 +192,6 @@
                 "blur": "Blur",
                 "colorAccent": "Accent",
                 "colorBackground": "Background",
-                "colorText": "Teksto",
                 "colorCode": "Color code",
                 "colorScheme": "Color scheme",
                 "previewColorScheme": "Color scheme ng preview",
@@ -240,11 +239,11 @@
                 "p1": "Masayang makita kayo! Available ang panimulang ito sa {{languages}}.",
                 "p2": "Patungo na kayo sa pag-set up ng inyong ideal na bagong tab. Binubuo ang start page ng Anori ng iba't ibang widget, gaya ng mga tala, bookmark, listahan ng gagawin, atbp. Kayo ang pipili kung ano ang idadagdag at kung paano aayusin ang mga ito.",
                 "p3": "Maidaragdag ninyo ang inyong unang widget sa pag-click sa lapis ('$t(editFolder)') sa sidebar. Ililipat nito ang pahina sa editing mode. Dito maaari kayong magdagdag ng mga bagong widget at ilipat o alisin ang mga dati nang widget.",
-                "p4": "Para magdagdag ng bagong widget, i-click ang button na '$t(addWidget)', o i-click ang '$t(done)' para lumabas sa editing mode. Kapag naidagdag na ninyo ang inyong unang widget, mawawala ang panimulang ito. Maaari kayong magdagdag ng widget ngayon din at tuklasin ang extension nang kayo lang, o, kung gusto ninyong malaman nang kaunti pa ang tungkol sa mga feature na iniaalok ng Anori, i-click ang '$t(next)'."
+                "p4": "Para magdagdag ng bagong widget, i-click ang button na '$t(addWidget)', o i-click ang '$t(done)' para lumabas sa editing mode. Kapag naidagdag na ninyo ang inyong unang widget, mawawala ang panimulang ito. Maaari kayong magdagdag ng widget ngayon din at tuklasin ang extension nang mag-isa, o, kung gusto ninyong malaman nang kaunti pa ang tungkol sa mga feature na iniaalok ng Anori, i-click ang '$t(next)'."
             },
             "folders": {
                 "title": "Mga folder",
-                "p1": "Bilang default, idinadagdag ang lahat ng inyong widget sa folder na '$t(home)'. Gayunman, maaari din ninyong ayusin ang inyong mga widget sa iba't ibang folder. Halimbawa, maaari kayong magkaroon ng magkahiwalay na folder para sa mga widget sa trabaho at sa personal. O maaari kayong magkaroon ng hiwalay na folder para sa bawat proyekto.",
+                "p1": "Bilang default, idinadagdag ang lahat ng inyong widget sa folder na '$t(home)'. Gayunman, maaari din ninyong ayusin ang inyong mga widget sa iba't ibang folder. Halimbawa, maaari kayong magkaroon ng magkahiwalay na folder para sa mga widget na pantrabaho at pampersonal. O maaari kayong magkaroon ng hiwalay na folder para sa bawat proyekto.",
                 "p2": "Para pamahalaan ang mga folder, i-click ang icon na gear sa kaliwang ibabang sulok. Bubuksan nito ang mga setting, kung saan maaari ninyong i-customize ang Anori ayon sa gusto ninyo. I-click doon ang '$t(settings.folders.title)' para buksan ang folder manager."
             },
             "customization": {
@@ -255,7 +254,7 @@
             },
             "analytics": {
                 "title": "Analytics",
-                "p1": "Malapit na tayong matapos. Pero may isa pang huling bagay. Bilang default, hindi nangongolekta ang Anori ng anumang tracking data at hindi ito nagpapadala ng anuman sa mga remote server. Pero gumagamit ako ng analytics na kusang ipinapadala ng mga user para makita kung aling mga feature ang pinakaginagamit at kung ano ang kailangan pang pakinisin.",
+                "p1": "Malapit na tayong matapos. Pero may isa pang huling bagay. Bilang default, hindi nangongolekta ang Anori ng anumang tracking data at hindi ito nagpapadala ng anuman sa mga remote server. Pero gumagamit ako ng analytics na kusang ipinapadala ng mga user para makita kung aling mga feature ang pinakaginagamit at kung ano ang kailangan pang pagbutihin nang kaunti.",
                 "p2": "Kaya hinihiling ko sa inyong i-enable ang pagpapadala ng analytics. Hindi nagpapadala ang Anori ng anumang pribadong data (gaya ng inyong mga tala o mga URL ng inyong mga bookmark), kundi mga sukatan lang kung paano ninyo ginagamit ang extension (hal. kung ilang folder ang mayroon kayo at kung gaano kadalas ninyong ginagamit ang mga keyboard shortcut). Pero nasa inyo ang pasya; gagana pa rin ang Anori gaya ng dati kahit hindi ninyo i-enable ang analytics.",
                 "p3": "Kung gusto ninyong malaman pa kung anong data ang kinokolekta, i-click <0>dito</0>."
             },

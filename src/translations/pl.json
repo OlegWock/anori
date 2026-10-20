@@ -57,7 +57,7 @@
         "unsupportedWidget": {
             "short": "Niedostępny",
             "title": "Widżet niedostępny",
-            "description": "Ten typ widżetu nie jest dostępny w tej przeglądarce. Pozostaje on w innych zsynchronizowanych przeglądarkach, a tutaj nadal możesz go przenosić, zmieniać rozmiar lub usunąć."
+            "description": "Ten typ widżetu nie jest dostępny w tej przeglądarce. Pozostaje on w innych zsynchronizowanych przeglądarkach, a tutaj nadal możesz go przenosić, zmieniać rozmiar lub usuwać."
         },
         "widgetRenderError": {
             "title": "Ups",
@@ -106,7 +106,7 @@
             "settings": {
                 "title": "Ustawienia",
                 "shareOpenTabs": "Udostępniaj otwarte karty innym podłączonym urządzeniom",
-                "shareOpenTabsHint": "Po włączeniu karty otwarte na tym komputerze są widoczne na innych urządzeniach zalogowanych do tego konta Anori — dzięki czemu możesz przeglądać i ponownie otwierać karty z dowolnego z nich."
+                "shareOpenTabsHint": "Po włączeniu karty otwarte na tym komputerze są widoczne na innych urządzeniach zalogowanych na to konto Anori — dzięki czemu możesz przeglądać i ponownie otwierać karty z dowolnego z nich."
             },
             "devices": {
                 "title": "Urządzenia",
@@ -116,7 +116,7 @@
                 "removeConfirmation": "Usunąć \"{{name}}\" z Twojego konta? Urządzenie zostanie wylogowane i przestanie synchronizować dane.",
                 "namePlaceholder": "Nazwa urządzenia",
                 "lastActive": "aktywne {{date}}",
-                "empty": "Do tego konta nie jest jeszcze zalogowane żadne urządzenie"
+                "empty": "Żadne urządzenie nie jest jeszcze zalogowane na to konto"
             },
             "error": {
                 "invalidCredentials": "Nieprawidłowy e-mail lub hasło",
@@ -139,7 +139,7 @@
             "general": {
                 "title": "Ogólne",
                 "language": "Język",
-                "translationInfo": "Tłumaczenia Anori na języki inne niż angielski lub ukraiński mogą być wykonane maszynowo. Polegamy na społeczności przy ich weryfikacji. Jeśli zauważysz błąd lub nieprzetłumaczony tekst, pomóż nam go poprawić! <0>Tutaj</0> znajdziesz instrukcję, jak możesz wziąć udział.",
+                "translationInfo": "Tłumaczenia na języki inne niż angielski lub ukraiński mogą być wykonane maszynowo. Polegamy na społeczności przy ich weryfikacji. Jeśli zauważysz błąd lub nieprzetłumaczony tekst, pomóż nam go poprawić! <0>Tutaj</0> znajdziesz instrukcję, jak możesz wziąć udział.",
                 "sidebarOrientation": "Orientacja paska bocznego",
                 "sidebarOrientationOption-auto": "Na podstawie orientacji okna",
                 "sidebarOrientationOption-vertical": "Zawsze pionowa",
@@ -152,7 +152,7 @@
                 "showBookmarksBar": "Pokaż pasek zakładek",
                 "automaticCompact": "Automatycznie przełączaj na tryb kompaktowy na podstawie rozmiaru ekranu",
                 "automaticCompactModeThreshold": "Przełącz na tryb kompaktowy, jeśli rozmiar ekranu jest mniejszy niż",
-                "automaticCompactModeThresholdHint": "Szerokość bieżącego ekranu wynosi {{screenWidth}}px",
+                "automaticCompactModeThresholdHint": "Aktualna szerokość ekranu wynosi {{screenWidth}}px",
                 "useCompact": "Zawsze używaj trybu kompaktowego",
                 "showAnimationOnOpen": "Pokaż animację przy otwieraniu",
                 "showAnimationOnOpenHint": "Gdy ta opcja jest włączona, rozszerzenie wyświetli krótką animację ładowania, która ukryje początkowe migotanie podczas wczytywania danych i poprawi wygląd.",
@@ -160,7 +160,7 @@
             },
             "customIcons": {
                 "title": "Własne ikony",
-                "incorrectFormat": "Podaj prawidłowe pliki. Anori obsługuje formaty .png, .jpg, .gif, .jpeg i .svg.",
+                "incorrectFormat": "Podaj prawidłowe pliki. Anori obsługuje formaty .png, .jpg, .gif, .jpeg i .svg",
                 "noIcons": "Nie masz jeszcze żadnych własnych ikon.",
                 "iconName": "Nazwa ikony",
                 "invalidNames": "Niektóre ikony mają nieprawidłową nazwę. Popraw nazwy przed zapisaniem.",
@@ -194,7 +194,6 @@
                 "blur": "Rozmycie",
                 "colorAccent": "Akcent",
                 "colorBackground": "Tło",
-                "colorText": "Tekst",
                 "colorCode": "Kod koloru",
                 "colorScheme": "Schemat kolorów",
                 "previewColorScheme": "Schemat kolorów podglądu",
@@ -241,8 +240,8 @@
                 "title": "Witaj w Anori!",
                 "p1": "Miło Cię tu widzieć! Ten przewodnik jest dostępny w następujących językach: {{languages}}.",
                 "p2": "Jesteś na dobrej drodze do stworzenia idealnej nowej karty. Strona startowa Anori składa się z różnych widżetów, takich jak notatki, zakładki, listy zadań itp. Ty decydujesz, co dodać i jak to zorganizować.",
-                "p3": "Możesz dodać swój pierwszy widżet, klikając ikonę ołówka ('$t(editFolder)') na pasku bocznym. Spowoduje to przejście strony w tryb edycji. Tutaj możesz dodawać nowe widżety oraz zmieniać położenie lub usuwać istniejące.",
-                "p4": "Aby dodać nowy widżet, kliknij przycisk '$t(addWidget)' lub kliknij '$t(done)', aby wyjść z trybu edycji. Po dodaniu pierwszego widżetu ten przewodnik zniknie. Możesz dodać widżet teraz i samodzielnie odkrywać rozszerzenie, lub jeśli chcesz dowiedzieć się nieco więcej o funkcjach Anori, kliknij '$t(next)'."
+                "p3": "Możesz dodać swój pierwszy widżet, klikając ikonę ołówka ('$t(editFolder)') na pasku bocznym. Spowoduje to przełączenie strony w tryb edycji. Tutaj możesz dodawać nowe widżety oraz zmieniać położenie lub usuwać istniejące.",
+                "p4": "Aby dodać nowy widżet, kliknij przycisk '$t(addWidget)' lub kliknij '$t(done)', aby wyjść z trybu edycji. Po dodaniu pierwszego widżetu ten przewodnik zniknie. Możesz dodać widżet już teraz i samodzielnie poznawać rozszerzenie lub, jeśli chcesz dowiedzieć się nieco więcej o funkcjach Anori, kliknij '$t(next)'."
             },
             "folders": {
                 "title": "Foldery",
@@ -251,13 +250,13 @@
             },
             "customization": {
                 "title": "Personalizacja",
-                "p1": "Anori pozwala nie tylko tworzyć własną stronę startową z widżetów, ale też dostosować ją jeszcze bardziej.",
+                "p1": "Anori pozwala tworzyć własną stronę startową z widżetów, ale można go dostosować jeszcze bardziej.",
                 "p2": "Możesz zmienić tytuł nowej karty, schemat kolorów wraz z obrazem tła oraz przesłać własne ikony do użycia w widżetach (oprócz ponad 10 000 wbudowanych ikon).",
                 "p3": "A to nawet nie połowa opcji. Zajrzyj do ustawień, żeby zobaczyć je wszystkie."
             },
             "analytics": {
                 "title": "Analityka",
-                "p1": "Prawie skończyliśmy, ale została jeszcze jedna rzecz. Domyślnie Anori nie zbiera żadnych danych śledzenia i nic nie wysyła na zewnętrzne serwery. Ja jednak korzystam z analityki dobrowolnie przesyłanej przez użytkowników, aby zobaczyć, które funkcje są najczęściej używane i co wymaga jeszcze dopracowania.",
+                "p1": "Prawie skończyliśmy, ale została jeszcze jedna rzecz. Domyślnie Anori nie zbiera żadnych danych śledzenia i nic nie wysyła na zewnętrzne serwery. Korzystam jednak z analityki dobrowolnie przesyłanej przez użytkowników, aby zobaczyć, które funkcje są najczęściej używane i co wymaga jeszcze dopracowania.",
                 "p2": "Dlatego proszę Cię o włączenie wysyłania analityki. Anori nie przesyła żadnych prywatnych danych (takich jak treść notatek czy adresy URL zakładek), tylko metryki dotyczące sposobu korzystania z rozszerzenia (np. ile masz folderów i jak często używasz skrótów klawiszowych). Decyzja należy jednak wyłącznie do Ciebie — Anori będzie działać normalnie nawet bez włączonej analityki.",
                 "p3": "Jeśli chcesz dowiedzieć się więcej o tym, jakie dane są zbierane, kliknij <0>tutaj</0>."
             },
@@ -296,13 +295,13 @@
             "group": "Grupa",
             "searchBookmarks": "Szukaj zakładek",
             "checkStatus": "Sprawdzaj status strony",
-            "checkStatusHint": "Anori będzie wysyłać żądanie do strony co 10-15 minut w tle, aby sprawdzić, czy działa. Jeśli serwer jest niedostępny lub zwraca błąd HTTP 5xx, zostanie uznany za niedostępny. Wymaga to dodatkowego uprawnienia. Sprawdzanie nie będzie wykonywane, gdy przeglądarka jest zamknięta lub komputer jest w trybie uśpienia.",
+            "checkStatusHint": "Anori będzie wysyłać żądanie do strony co 10–15 minut w tle, aby sprawdzić, czy działa. Jeśli serwer jest niedostępny lub zwraca błąd HTTP 5xx, zostanie uznany za niedostępny. Wymaga to dodatkowego uprawnienia. Sprawdzanie nie będzie wykonywane, gdy przeglądarka jest zamknięta lub komputer jest w trybie uśpienia.",
             "checkingStatus": "Sprawdzanie statusu strony...",
             "status": "Strona jest obecnie {{status}}, ostatnia zmiana statusu nastąpiła {{lastChange}}. Ostatnie sprawdzenie: {{lastCheck}}.",
             "statusUp": "dostępna",
             "statusDown": "niedostępna",
             "permissionExplanation": "Anori potrzebuje tego uprawnienia, aby obejść CORS. Komunikat wyświetlany przez przeglądarkę może brzmieć niepokojąco, ale Anori nie zmienia ani nie odczytuje żadnych danych ze stron dodanych do zakładek.",
-            "openInNewTab": "Otwórz w nowej karcie",
+            "openInNewTab": "Otwieraj w nowej karcie",
             "openInIframe": "Otwórz w oknie podręcznym",
             "pages": "Strony",
             "addPage": "Dodaj stronę"
@@ -433,13 +432,13 @@
             "widgetFeedName": "Kanał RSS",
             "widgetLatestPostName": "Najnowszy wpis z kanału RSS",
             "feedUrl": "URL kanału RSS",
-            "feedUrls": "URL-e kanałów RSS",
+            "feedUrls": "Adresy URL kanałów RSS",
             "noPosts": "Brak wpisów w tym kanale",
             "compactView": "Widok kompaktowy",
             "presetsTitle": "Dodaj swoje ulubione kanały lub wybierz jeden z gotowych zestawów:",
-            "presetsText": "Nie dodano jeszcze żadnych kanałów? Mamy zestawy dla <0>deweloperów</0>, <1>projektantów</1> i jeden z <2>różnymi ciekawostkami</2>.",
+            "presetsText": "Nie dodano jeszcze żadnych kanałów? Mamy zestawy dla <0>programistów</0>, <1>projektantów</1> i jeden z <2>różnymi ciekawostkami</2>.",
             "addFeed": "Dodaj kanał",
-            "presetForDevelopers": "Dla deweloperów",
+            "presetForDevelopers": "Dla programistów",
             "presetForDesigners": "Dla projektantów",
             "presetInteresting": "Po prostu ciekawe rzeczy",
             "presetForDevelopersTitle": "Dev",
@@ -449,7 +448,7 @@
             "examplePostDescription1": "Zacznij od dobrych starych zakładek i pozwól, by serce cię prowadziło. Czasem wystarczy odrobina porządku...",
             "exampleFeedTitle1": "Blog Anori",
             "examplePostTitle2": "8 najbardziej przydatnych rozszerzeń do przeglądarki",
-            "examplePostDescription2": "Dziś pokażę ci, jak zamienić przeglądarkę w centrum produktywności dzięki tym niezbędnym rozszerzeniom. W roli głównej gwiazda programu — Anori.",
+            "examplePostDescription2": "Dziś pokażę wam, jak zamienić przeglądarkę w centrum produktywności dzięki tym niezbędnym rozszerzeniom. W roli głównej gwiazda programu — Anori.",
             "exampleFeedTitle2": "Produktywność 101",
             "examplePostTitle3": "Rozszerzenie, które pozwala tworzyć własną nową kartę z widżetów!",
             "examplePostDescription3": "Możesz tworzyć własną nową kartę z dostępnych widżetów (zadania, notatki, zakładki itp.) i organizować je w foldery.",
@@ -494,18 +493,18 @@
             "tagNew": "Nowe",
             "tagImproved": "Ulepszone",
             "tagFixed": "Naprawione",
-            "changelogNote": "Szukasz listy zmian dla starszych wersji? Znajdziesz ją <0>na GitHub</0>.",
+            "changelogNote": "Szukasz listy zmian dla starszych wersji? Znajdziesz ją <0>na GitHubie</0>.",
             "v2_3_0": {
                 "headline": "Poznaj nową wtyczkę $t(motivation-plugin.name): osiem widżetów do śledzenia czasu, patrzenia na szerszy obraz, utrzymania skupienia i liczenia ważnych dni.",
                 "periodsTitle": "Gdzie się podział ten dzień?",
-                "periodsBody": "Nowe widżety postępu pokazują, ile dnia, tygodnia, miesiąca lub roku już minęło. Dzień i tydzień mogą obejmować tylko część czasu, więc możesz śledzić swój dzień roboczy i tydzień pracy albo sprawdzać, ile weekendu jeszcze zostało.",
-                "periodsCalendar": "Miesiąc i rok mogą też korzystać z innego systemu kalendarza, jeśli to według niego żyjesz.",
+                "periodsBody": "Nowe widżety postępu pokazują, ile dnia, tygodnia, miesiąca lub roku już minęło. Postęp dnia i tygodnia może obejmować tylko ich część, więc możesz śledzić swój dzień roboczy i tydzień pracy albo sprawdzać, ile weekendu jeszcze zostało.",
+                "periodsCalendar": "Miesiąc i rok mogą też korzystać z innego systemu kalendarza, jeśli to nim posługujesz się na co dzień.",
                 "lifeTitle": "Spojrzenie z daleka",
                 "lifeBody": "Cofnij się i spójrz na całe swoje życie z lotu ptaka dzięki Postępowi życia: Twoje życie jako siatka lat, która cicho się wypełnia. Łagodne memento mori — bez czaszek. A jeśli wolisz śledzić sekundy, Licznik wieku pokazuje Twój wiek na żywo.",
                 "focusTitle": "Miej to przed oczami",
                 "focusBody": "Fokus wyświetla jeden wiersz tekstu na nowej karcie, żeby ważna rzecz nie zginęła wśród wszystkiego innego. Użyj go na zadanie dnia, cel tygodnia lub coś, za co czujesz wdzięczność. Może się odświeżać każdego dnia, tygodnia lub miesiąca albo pozostawać, dopóki go nie zmienisz.",
                 "counterTitle": "Licz dni",
-                "counterBody": "Jeśli Twój fokus ma deadline, warto widzieć, jak dni uciekają. Do tego służy Licznik dni. Liczy też w drugą stronę: od dwóch tygodni nie palisz? Umieść tę liczbę na nowej karcie i obserwuj, jak rośnie dzień po dniu.",
+                "counterBody": "Jeśli Twój fokus ma termin, warto widzieć, jak dni uciekają. Do tego służy Licznik dni. Liczy też w drugą stronę: od dwóch tygodni nie palisz? Umieść tę liczbę na nowej karcie i obserwuj, jak rośnie dzień po dniu.",
                 "minorLocalizedNumbers": "Wartości procentowe użycia procesora i pamięci oraz prędkość wiatru są teraz formatowane zgodnie z ustawieniami językowymi, np. '12,3 %' po niemiecku lub '%12,3' po turecku."
             }
         },
@@ -527,23 +526,23 @@
             },
             "elapsedTooltip": "{{percent}} minęło · {{duration}}",
             "remainingTooltip": "{{percent}} pozostało · {{duration}}",
-            "countOnlyPartOfDay": "Uwzględniaj tylko część dnia",
-            "countOnlyPartOfWeek": "Uwzględniaj tylko część tygodnia",
+            "countOnlyPartOfDay": "Licz tylko część dnia",
+            "countOnlyPartOfWeek": "Licz tylko część tygodnia",
             "from": "Od",
             "to": "Do",
             "dateOfBirth": "Data urodzenia",
             "expectedLifespan": "Oczekiwana długość życia, lata",
-            "yearsLived_one": "{{lived}} z {{count}} roku przeżyto",
-            "yearsLived_few": "{{lived}} z {{count}} lat przeżyto",
-            "yearsLived_many": "{{lived}} z {{count}} lat przeżyto",
-            "yearsLived_other": "{{lived}} z {{count}} lat przeżyto",
+            "yearsLived_one": "Przeżyto {{lived}} z {{count}} roku",
+            "yearsLived_few": "Przeżyto {{lived}} z {{count}} lat",
+            "yearsLived_many": "Przeżyto {{lived}} z {{count}} lat",
+            "yearsLived_other": "Przeżyto {{lived}} z {{count}} lat",
             "yourAge": "Twój wiek",
             "focusPlaceholder": "Wpisz i naciśnij Enter",
             "resetCadence": "Resetowanie",
             "cadences": {
-                "daily": "Każdego dnia",
-                "weekly": "Każdego tygodnia",
-                "monthly": "Każdego miesiąca",
+                "daily": "Codziennie",
+                "weekly": "Co tydzień",
+                "monthly": "Co miesiąc",
                 "manual": "Ręcznie"
             },
             "markDone": "Oznacz jako wykonane",
