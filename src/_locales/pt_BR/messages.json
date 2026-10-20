@@ -1,11 +1,11 @@
 {
     "appName": {
-        "message": "Anori: nova aba de produtividade"
+        "message": "Anori: nova guia de produtividade"
     },
     "appDescription": {
-        "message": "Nova aba customizável: monte sua própria página com widgets"
+        "message": "Nova guia customizável: monte sua própria página com widgets"
     },
     "appActionTitle": {
-        "message": "Abrir nova aba Anori"
+        "message": "Abrir nova guia Anori"
     }
 }

@@ -15,6 +15,7 @@ const TRANSLATIONS_FOLDER = join(__dirname, "src/translations");
 const SOURCE_FOLDER = join(__dirname, "src");
 const FINGERPRINTS_FILE = join(TRANSLATIONS_FOLDER, "fingerprints.json");
 const NOTES_FILE = join(TRANSLATIONS_FOLDER, "notes.json");
+const LANGUAGE_NOTES_FILE = join(TRANSLATIONS_FOLDER, "language-notes.json");
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
@@ -76,6 +77,7 @@ type Fingerprints = Record<string, Record<string, string>>;
 // Flattened in memory; on disk `notes.json` is nested like the translation files (without
 // the `translation` wrapper) so it can be hand-edited alongside `en.json`.
 type Notes = Record<string, string>;
+type LanguageNotes = Record<string, string[]>;
 type Usage = { file: string; line: number; text: string };
 
 const loadJsonFile = <T = Record<string, unknown>>(fname: string): T => {
@@ -128,7 +130,7 @@ const listLanguages = (): string[] => {
   return readdirSync(TRANSLATIONS_FOLDER)
     .filter((fn) => fn.endsWith(".json"))
     .map((fn) => fn.replace(".json", ""))
-    .filter((name) => name !== "fingerprints" && name !== "notes");
+    .filter((name) => name !== "fingerprints" && name !== "notes" && name !== "language-notes");
 };
 
 // Maps every translation key to the places in `src` where it's referenced, so the
@@ -217,7 +219,11 @@ const parseKeyedBlocks = (content: string): Record<string, string> => {
 
 type TranslationItem = { key: string; en: string; uk?: string; previous?: string; note?: string; usage?: string };
 
-const callOpenRouter = async (languageName: string, items: TranslationItem[]): Promise<Record<string, string>> => {
+const callOpenRouter = async (
+  languageName: string,
+  languageNotes: string[],
+  items: TranslationItem[],
+): Promise<Record<string, string>> => {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
     console.error("❌ OPENROUTER_API_KEY environment variable is not set.");
@@ -238,6 +244,12 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
     `- Mirror the source's trailing punctuation: if the English ends with an ellipsis ("..."), a colon, or other trailing punctuation, keep the same in the translation; if it doesn't, don't add any.`,
     `- Keep it concise and natural for UI, matching the punctuation and capitalization style of the source.`,
     `- For quotation marks use ONLY straight quotes — the apostrophe ' (U+0027) and the double quote " (U+0022). Never use typographic, curly, or angled quotes (such as “ ” ‘ ’ „ ‚ « » 「 」); replace any of them with the matching straight quote.`,
+    ...(languageNotes.length > 0
+      ? [
+          `- Follow these ${languageName}-specific conventions, collected from native-speaker feedback. They override any conflicting wording in "previous" or "uk":`,
+          ...languageNotes.map((note) => `  - ${note}`),
+        ]
+      : []),
     `- Output ONLY the translations, nothing else — no JSON, no commentary, no code fences.`,
     `- For each item, write a line containing exactly [[[<key>]]] (using the item's "key"), then the translated text on the following line(s). Example:`,
     `[[[some.key]]]`,
@@ -286,9 +298,13 @@ const callOpenRouter = async (languageName: string, items: TranslationItem[]): P
 
 // Translates a batch, isolating failures: on a network or JSON-parse error the batch is
 // split in half and retried, so one malformed key can't sink the others or the whole run.
-const translateBatch = async (languageName: string, items: TranslationItem[]): Promise<Record<string, string>> => {
+const translateBatch = async (
+  languageName: string,
+  languageNotes: string[],
+  items: TranslationItem[],
+): Promise<Record<string, string>> => {
   try {
-    return await callOpenRouter(languageName, items);
+    return await callOpenRouter(languageName, languageNotes, items);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     if (items.length === 1) {
@@ -297,8 +313,8 @@ const translateBatch = async (languageName: string, items: TranslationItem[]): P
     }
     console.warn(`  ⚠️  batch of ${items.length} failed (${message}); splitting and retrying.`);
     const mid = Math.ceil(items.length / 2);
-    const left = await translateBatch(languageName, items.slice(0, mid));
-    const right = await translateBatch(languageName, items.slice(mid));
+    const left = await translateBatch(languageName, languageNotes, items.slice(0, mid));
+    const right = await translateBatch(languageName, languageNotes, items.slice(mid));
     return { ...left, ...right };
   }
 };
@@ -461,6 +477,7 @@ const translateLanguage = async (
   enFlat: Record<string, string>,
   ukFlat: Record<string, string>,
   notes: Notes,
+  languageNotes: string[],
   usages: Map<string, Usage[]>,
   fingerprints: Fingerprints,
 ) => {
@@ -502,7 +519,7 @@ const translateLanguage = async (
       };
     });
 
-    let result = await translateBatch(languageName, items);
+    let result = await translateBatch(languageName, languageNotes, items);
 
     // Retry once for keys that came back with broken interpolation placeholders.
     const placeholderBroken = batch.filter(
@@ -512,7 +529,7 @@ const translateLanguage = async (
     if (placeholderBroken.length > 0) {
       const brokenKeys = new Set(placeholderBroken.map((expected) => expected.key));
       const retryItems = items.filter((item) => brokenKeys.has(item.key));
-      const retry = await translateBatch(languageName, retryItems);
+      const retry = await translateBatch(languageName, languageNotes, retryItems);
       result = { ...result, ...retry };
     }
 
@@ -598,10 +615,11 @@ const main = async () => {
     const fingerprints = loadOptionalJson<Fingerprints>(FINGERPRINTS_FILE, {});
     const notes = flattenStrings(loadOptionalJson(NOTES_FILE, {}));
     const ukFlat = flattenStrings(getTranslationRoot(SECONDARY_REFERENCE));
+    const languageNotes = loadOptionalJson<LanguageNotes>(LANGUAGE_NOTES_FILE, {});
     const usages = collectUsages();
 
     for (const lang of langs) {
-      await translateLanguage(lang, enFlat, ukFlat, notes, usages, fingerprints);
+      await translateLanguage(lang, enFlat, ukFlat, notes, languageNotes[lang] ?? [], usages, fingerprints);
       saveJsonFile(FINGERPRINTS_FILE, fingerprints);
     }
   } else if (command === "remove-excessive") {

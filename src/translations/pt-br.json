@@ -1,8 +1,8 @@
 {
     "translation": {
-        "appName": "Anori: nova aba de produtividade",
-        "appDescription": "Nova aba customizável: monte sua própria página com widgets",
-        "appActionTitle": "Abrir nova aba Anori",
+        "appName": "Anori: nova guia de produtividade",
+        "appDescription": "Nova guia customizável: monte sua própria página com widgets",
+        "appActionTitle": "Abrir nova guia Anori",
         "openAnori": "Abrir Anori",
         "icon": "Ícone",
         "title": "Título",
@@ -79,7 +79,7 @@
             "noAccount": "Não tem uma conta?",
             "createAccount": "Crie uma aqui",
             "userDataConflict": {
-                "description": "Este navegador tem dados do Anori Plus — por exemplo, suas Abas guardadas — que foram sincronizados com uma conta diferente da que você está entrando. O que deve acontecer com eles?",
+                "description": "Este navegador tem dados do Anori Plus — por exemplo, suas Guias guardadas — que foram sincronizados com uma conta diferente da que você está entrando. O que deve acontecer com eles?",
                 "upload": "Adicionar a esta conta",
                 "uploadHint": "Mantém esses dados e os mescla na conta em que você está entrando. Escolha esta opção se forem seus — por exemplo, se você mudou para uma nova conta.",
                 "discard": "Descartar dados locais",
@@ -104,8 +104,8 @@
             },
             "settings": {
                 "title": "Configurações",
-                "shareOpenTabs": "Compartilhar abas abertas com outros dispositivos conectados",
-                "shareOpenTabsHint": "Quando ativado, as abas abertas neste computador são compartilhadas com seus outros dispositivos conectados a esta conta Anori — para que você possa ver e reabrir abas em qualquer um deles."
+                "shareOpenTabs": "Compartilhar guias abertas com outros dispositivos conectados",
+                "shareOpenTabsHint": "Quando ativado, as guias abertas neste computador são compartilhadas com seus outros dispositivos conectados a esta conta Anori — para que você possa ver e reabrir guias em qualquer um deles."
             },
             "devices": {
                 "title": "Dispositivos",
@@ -144,10 +144,10 @@
                 "sidebarOrientationOption-vertical": "Sempre vertical",
                 "sidebarOrientationOption-horizontal": "Sempre horizontal",
                 "autoHideSidebar": "Ocultar barra lateral automaticamente",
-                "newTabTitle": "Título da nova aba",
-                "enableAnalytics": "Habilitar envio de dados analíticos",
+                "newTabTitle": "Título da nova guia",
+                "enableAnalytics": "Ativar envio de dados analíticos",
                 "analyticsHintP1": "Dados analíticos ajudam-nos a entender melhor como os usuários interagem com o Anori e quais funcionalidades são mais usadas. Não compartilhamos qualquer informação privada, como o conteúdo de notas ou URLs de favoritos.",
-                "analyticsHintP2": "Isso nos ajuda a desenvolver um produto melhor, então pedimos para você habilitar o envio de dados analíticos. <0>Saiba mais.</0>",
+                "analyticsHintP2": "Isso nos ajuda a desenvolver um produto melhor, então pedimos para você ativar o envio de dados analíticos. <0>Saiba mais.</0>",
                 "showBookmarksBar": "Mostrar barra de favoritos",
                 "automaticCompact": "Alternar automaticamente para o modo compacto com base no tamanho da tela",
                 "automaticCompactModeThreshold": "Alterne para o modo compacto se o tamanho da tela for menor que",
@@ -251,7 +251,7 @@
             "customization": {
                 "title": "Customização",
                 "p1": "Embora o Anori permita que você componha sua própria página inicial com widgets, ela pode ser ainda mais customizada.",
-                "p2": "Você pode alterar o título de uma nova aba, alterar o esquema de cores junto com a imagem de fundo e subir seus ícones customizados para usar em widgets (além de mais de 10.000 ícones integrados).",
+                "p2": "Você pode alterar o título de uma nova guia, alterar o esquema de cores junto com a imagem de fundo e subir seus ícones customizados para usar em widgets (além de mais de 10.000 ícones integrados).",
                 "p3": "E isso não é nem metade das opções. Verifique as configurações para descobrir todas elas."
             },
             "analytics": {
@@ -291,7 +291,7 @@
             "name": "Favoritos",
             "widgetName": "Favorito",
             "groupWidgetName": "Grupo de favoritos",
-            "openInGroup": "Abrir em um grupo de abas",
+            "openInGroup": "Abrir em um grupo de guias",
             "group": "Grupo",
             "searchBookmarks": "Pesquise favoritos",
             "checkStatus": "Checar o status da página",
@@ -329,9 +329,9 @@
             "exampleText": "Vegetais, ketchup, queijo, farinha, azeite de oliva"
         },
         "recently-closed-plugin": {
-            "name": "Abas fechadas recentemente",
+            "name": "Guias fechadas recentemente",
             "widgetTitle": "Recentemente fechado",
-            "tab": "Aba",
+            "tab": "Guia",
             "window": "Janela"
         },
         "system-status-plugin": {
@@ -340,33 +340,33 @@
             "cpuLoad": "Uso de CPU"
         },
         "tabs-plugin": {
-            "name": "Abas",
-            "tabGroup": "Grupo de abas",
+            "name": "Guias",
+            "tabGroup": "Grupo de guias",
             "contextMenu": {
-                "stashTab": "Guardar esta aba",
+                "stashTab": "Guardar esta guia",
                 "stashLink": "Guardar este link",
-                "stashGroup": "Guardar este grupo de abas"
+                "stashGroup": "Guardar este grupo de guias"
             },
             "stash": {
-                "title": "Abas guardadas",
+                "title": "Guias guardadas",
                 "inbox": "Entrada",
                 "empty": "Nada guardado ainda",
-                "emptyHint": "Adicione uma aba com o botão + acima ou abra o popup do Anori na barra de ferramentas do navegador.",
-                "stashTab": "Guardar uma aba",
+                "emptyHint": "Adicione uma guia com o botão + acima ou abra o popup do Anori na barra de ferramentas do navegador.",
+                "stashTab": "Guardar uma guia",
                 "remove": "Remover",
                 "rename": "Renomear",
                 "openAll": "Abrir todas",
-                "showAllTabs": "Mostrar todas as abas",
+                "showAllTabs": "Mostrar todas as guias",
                 "pasteUrl": "Cole um link",
                 "add": "Adicionar",
-                "tabCount_one": "{{count}} aba",
-                "tabCount_many": "{{count}} abas",
-                "tabCount_other": "{{count}} abas"
+                "tabCount_one": "{{count}} guia",
+                "tabCount_many": "{{count}} guias",
+                "tabCount_other": "{{count}} guias"
             },
             "popup": {
-                "stashTab": "Guardar uma aba",
-                "stashCurrentTab": "Guardar aba atual",
-                "stashGroup": "Guardar um grupo de abas",
+                "stashTab": "Guardar uma guia",
+                "stashCurrentTab": "Guardar guia atual",
+                "stashGroup": "Guardar um grupo de guias",
                 "stashWindow": "Guardar esta janela",
                 "window": "Janela",
                 "grantTabs": "Permissões adicionais são necessárias para o recurso $t(tabs-plugin.stash.title)",
@@ -374,14 +374,14 @@
                 "nothingStashed": "Nada guardado ainda"
             },
             "syncedTabs": {
-                "title": "Abas sincronizadas",
-                "loading": "Carregando abas...",
+                "title": "Guias sincronizadas",
+                "loading": "Carregando guias...",
                 "unnamedGroup": "Grupo",
-                "notConnectedTitle": "Veja as abas dos seus outros dispositivos",
-                "notConnectedDescription": "Conecte o Anori Plus para sincronizar abas abertas entre seus dispositivos.",
+                "notConnectedTitle": "Veja as guias dos seus outros dispositivos",
+                "notConnectedDescription": "Conecte o Anori Plus para sincronizar guias abertas entre seus dispositivos.",
                 "connect": "Conectar",
-                "emptyTitle": "Nenhum outro dispositivo está compartilhando abas ainda",
-                "emptyDescription": "Entre na sua conta Anori Plus em outro computador e ative a sincronização de abas lá."
+                "emptyTitle": "Nenhum outro dispositivo está compartilhando guias ainda",
+                "emptyDescription": "Entre na sua conta Anori Plus em outro computador e ative a sincronização de guias lá."
             }
         },
         "tasks-plugin": {
@@ -443,13 +443,13 @@
             "presetForDevelopersTitle": "Dev",
             "presetForDesignersTitle": "Design",
             "presetInterestingTitle": "Coisas interessantes",
-            "examplePostTitle1": "Como organizar sua nova aba Anori like a pro!",
+            "examplePostTitle1": "Como organizar sua nova guia Anori like a pro!",
             "examplePostDescription1": "Você começa com um bom e velho favorito e depois deixa seu coração guiá-lo. Às vezes tudo que você precisa é de um pouco de ordem...",
             "exampleFeedTitle1": "Blog Anori",
             "examplePostTitle2": "8 extensões de navegador mais úteis",
             "examplePostDescription2": "Hoje vou mostrar como transformar seu navegador em uma estação de produtividade com essas extensões obrigatórias. Apresentando a estrela do show - Anori.",
             "exampleFeedTitle2": "Produtividade 101",
-            "examplePostTitle3": "Uma extensão que permite criar sua própria nova aba a partir de widgets!",
+            "examplePostTitle3": "Uma extensão que permite criar sua própria nova guia a partir de widgets!",
             "examplePostDescription3": "Você pode criar sua própria nova guia a partir dos widgets fornecidos (tarefas, notas, marcadores, etc.) e organizá-los em pastas.",
             "exampleFeedTitle3": "Reddit"
         },
@@ -501,9 +501,9 @@
                 "lifeTitle": "A visão de longo prazo",
                 "lifeBody": "Veja sua vida de uma perspectiva mais ampla com o Progresso da vida: sua vida como uma grade de anos, preenchendo-se silenciosamente. Um suave memento mori, sem as caveiras. E se preferir observar os segundos, o Contador de idade mostra sua idade em tempo real.",
                 "focusTitle": "Mantenha à vista",
-                "focusBody": "O Foco mantém uma linha de texto na sua nova aba, para que o que importa não se perca em meio a tudo o mais. Use para a sua tarefa do dia, uma meta da semana ou algo pelo qual você é grato. Ele pode começar do zero todo dia, toda semana ou todo mês, ou permanecer até você alterá-lo.",
+                "focusBody": "O Foco mantém uma linha de texto na sua nova guia, para que o que importa não se perca em meio a tudo o mais. Use para a sua tarefa do dia, uma meta da semana ou algo pelo qual você é grato. Ele pode começar do zero todo dia, toda semana ou todo mês, ou permanecer até você alterá-lo.",
                 "counterTitle": "Conte os dias",
-                "counterBody": "Se o seu foco tem um prazo, ajuda ver os dias passando. É para isso que serve o contador de dias. Ele também conta no sentido inverso: parou de fumar há duas semanas? Coloque esse número na sua nova aba e veja crescer dia após dia.",
+                "counterBody": "Se o seu foco tem um prazo, ajuda ver os dias passando. É para isso que serve o contador de dias. Ele também conta no sentido inverso: parou de fumar há duas semanas? Coloque esse número na sua nova guia e veja crescer dia após dia.",
                 "minorLocalizedNumbers": "As porcentagens de uso de CPU e memória e a velocidade do vento agora seguem o formato numérico do seu idioma, como '12,3 %' em alemão ou '%12,3' em turco."
             }
         },
