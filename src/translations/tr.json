@@ -1,27 +1,27 @@
 {
     "translation": {
-        "appName": "Anori: Verimlilik Yeni Sekme",
-        "appDescription": "Özelleştirilebilir yeni sekme: widget'lardan kendi sayfanızı oluşturun",
+        "appName": "Anori: verimlilik için yeni sekme",
+        "appDescription": "Özelleştirilebilir yeni sekme: kendi sayfanızı widget'lardan oluşturun",
         "appActionTitle": "Anori yeni sekmesini aç",
-        "openAnori": "Anori'yi Aç",
-        "icon": "İkon",
+        "openAnori": "Anori'yi aç",
+        "icon": "Simge",
         "title": "Başlık",
         "url": "URL",
         "urls": "URL'ler",
         "save": "Kaydet",
-        "import": "İçe Aktar",
+        "import": "İçe aktar",
         "add": "Ekle",
-        "reload": "Yeniden Yükle",
+        "reload": "Yeniden yükle",
         "noResults": "Sonuç yok",
         "example": "Örnek",
-        "timezone": "Zaman Dilimi",
+        "timezone": "Saat dilimi",
         "refreshing": "Yenileniyor...",
         "refresh": "Yenile",
         "startTypingToSearch": "Aramak için yazmaya başlayın...",
         "search": "Ara...",
         "loading": "Yükleniyor...",
-        "lastUpdatedAt": "Son güncelleme {{datetime}} tarihinde yapıldı",
-        "home": "Ana Sayfa",
+        "lastUpdatedAt": "Son güncelleme: {{datetime}}",
+        "home": "Ana sayfa",
         "px": "px",
         "whatsNew": "Yenilikler",
         "editWidget": "Widget'ı düzenle",
@@ -43,27 +43,27 @@
         "next": "İleri",
         "back": "Geri",
         "reorder": "Yeniden sırala",
-        "icons": "İkonlar",
-        "customIcons": "Özel ikonlar",
-        "canBeEmpty": "Boş olabilir",
+        "icons": "Simgeler",
+        "customIcons": "Özel simgeler",
+        "canBeEmpty": "boş bırakılabilir",
         "duration": {
-            "hoursMinutes": "{{hours}}s {{minutes}}d",
-            "daysHours": "{{days}}g {{hours}}s",
+            "hoursMinutes": "{{hours}} sa {{minutes}} dk",
+            "daysHours": "{{days}} g {{hours}} sa",
             "days_one": "{{count}} gün",
             "days_other": "{{count}} gün"
         },
         "unsupportedWidget": {
             "short": "Kullanılamıyor",
             "title": "Widget kullanılamıyor",
-            "description": "Bu widget türü bu tarayıcıda kullanılamıyor. Diğer senkronize tarayıcılarınızda kalmaya devam eder ve burada taşıyabilir, yeniden boyutlandırabilir veya kaldırabilirsiniz."
+            "description": "Bu widget türü bu tarayıcıda kullanılamıyor. Senkronize edilen diğer tarayıcılarınızda yerinde kalır; burada da taşıyabilir, yeniden boyutlandırabilir veya kaldırabilirsiniz."
         },
         "widgetRenderError": {
-            "title": "Hata",
-            "description": "Widget oluşturulamadı, ayrıntılar için konsolu kontrol edin."
+            "title": "Hay aksi",
+            "description": "Widget görüntülenemedi, ayrıntılar için konsolu kontrol edin."
         },
         "cloud": {
             "connect": "Bağlan",
-            "connected": "Bağlandı",
+            "connected": "Bağlı",
             "disconnect": "Bağlantıyı kes",
             "cancel": "İptal",
             "account": "Anori Plus",
@@ -71,100 +71,100 @@
             "logout": "Çıkış yap",
             "email": "E-posta",
             "password": "Şifre",
-            "connectedAs": "Bağlı kullanıcı",
-            "syncPausedBehind": "Bu Anori kopyası, bu profildeki başka bir cihazdan daha eski olduğundan, güncellenene kadar senkronizasyon duraklatıldı. O zamana kadar yaptığınız değişiklikler diğer cihazlarınıza senkronize edilmeyecek, ancak ihtiyaç duymanız ihtimaline karşı güncelleme öncesinde bir yedeğe kaydedilecek.",
-            "preUpdateBackup": "Son güncellemeden önceki yedek ({{date}})",
+            "connectedAs": "Bağlı hesap",
+            "syncPausedBehind": "Anori'nin bu kopyası, bu profildeki başka bir cihazdakinden daha eski olduğu için güncellenene kadar senkronizasyon duraklatıldı. O zamana kadar yaptığınız değişiklikler diğer cihazlarınızla senkronize edilmez, ancak ihtiyaç duymanız ihtimaline karşı güncellemeden önce bir yedeğe kaydedilir.",
+            "preUpdateBackup": "Son güncellemenizden önceki yedek ({{date}})",
             "downloadBackup": "İndir",
             "noAccount": "Hesabınız yok mu?",
             "createAccount": "Buradan oluşturun",
             "userDataConflict": {
-                "description": "Bu tarayıcıda Anori Plus verileri var — örneğin Sekme saklama'nız — ve bu veriler oturum açtığınız hesaptan farklı bir hesaba senkronize edilmiş. Bu verilerle ne yapılsın?",
+                "description": "Bu tarayıcıda, giriş yaptığınız hesaptan farklı bir hesapla senkronize edilmiş Anori Plus verileri var (örneğin Sekme deponuz). Bu verilere ne olsun?",
                 "upload": "Bu hesaba ekle",
-                "uploadHint": "Bu verileri korur ve oturum açtığınız hesaba ekler. Veriler size aitse bunu seçin — örneğin yeni bir hesaba geçtiyseniz.",
-                "discard": "Yerel verileri sil",
-                "discardHint": "Bu tarayıcıdan kaldırır ve bunun yerine hesabın mevcut verilerini kullanır. Veriler diğer hesaba aitse veya burada ihtiyacınız yoksa bunu seçin."
+                "uploadHint": "Bu verileri korur ve giriş yaptığınız hesaptaki verilerle birleştirir. Veriler size aitse bunu seçin; örneğin yeni bir hesaba geçtiyseniz.",
+                "discard": "Verileri sil",
+                "discardHint": "Verileri bu tarayıcıdan kaldırır ve bunun yerine bu hesapta zaten bulunanları kullanır. Veriler diğer hesaba aitse veya burada onlara ihtiyacınız yoksa bunu seçin."
             },
-            "plusDescription": "Anori Plus, yapılandırmanızı birden fazla tarayıcı ve cihaz arasında gerçek zamanlı olarak senkronize etmenizi sağlayan Anori için ek bir hizmettir.",
+            "plusDescription": "Anori Plus, yapılandırmanızı birden fazla tarayıcı ve cihaz arasında gerçek zamanlı olarak senkronize etmenizi sağlayan, Anori için ek bir hizmettir.",
             "learnMore": "Daha fazla bilgi",
             "profiles": "Profiller",
-            "noProfiles": "Profil bulunamadı. Tarayıcılar arasında ayarları senkronize etmek için ilk profilinizi oluşturun.",
+            "noProfiles": "Profil bulunamadı. Ayarlarınızı tarayıcılar arasında senkronize etmek için ilk profilinizi oluşturun.",
             "createProfile": "Profil oluştur",
             "profileName": "Profil adı",
-            "createdAt": "{{date}} tarihinde oluşturuldu",
-            "lastSyncedAt": "Son kullanım {{date}}",
+            "createdAt": "Oluşturulma: {{date}}",
+            "lastSyncedAt": "Son kullanım: {{date}}",
             "create": "Oluştur",
-            "profileCreatedSuccess": "Profil oluşturuldu! Artık diğer tarayıcıları bu profile bağlayabilirsiniz; ayarlarınız aralarında senkronize edilecektir.",
+            "profileCreatedSuccess": "Profil oluşturuldu! Artık diğer tarayıcıları bu profile bağlayabilirsiniz; ayarlarınız aralarında senkronize edilir.",
             "confirm": "Onayla",
             "rename": "Yeniden adlandır",
             "delete": "Sil",
             "deleteConfirmation": "\"{{profileName}}\" profilini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
             "connectConfirmation": {
-                "message": "\"{{profileName}}\" profiline bağlanmak, mevcut yerel yapılandırmanızın üzerine profilde saklanan yapılandırmayı yazacaktır. Devam etmek istiyor musunuz?"
+                "message": "\"{{profileName}}\" profiline bağlanırsanız mevcut yerel yapılandırmanızın yerine profilde kayıtlı yapılandırma yazılır. Devam etmek istiyor musunuz?"
             },
             "settings": {
                 "title": "Ayarlar",
                 "shareOpenTabs": "Açık sekmeleri bağlı diğer cihazlarla paylaş",
-                "shareOpenTabsHint": "Etkinleştirildiğinde, bu bilgisayarda açık olan sekmeler aynı Anori hesabına giriş yapmış diğer cihazlarınızla paylaşılır — böylece herhangi bir cihazdan sekmeleri görebilir ve yeniden açabilirsiniz."
+                "shareOpenTabsHint": "Etkinleştirildiğinde, bu bilgisayarda açık olan sekmeler bu Anori hesabında giriş yapmış diğer cihazlarınızla paylaşılır — böylece sekmeleri herhangi bir cihazdan görüp yeniden açabilirsiniz."
             },
             "devices": {
                 "title": "Cihazlar",
                 "thisDevice": "Bu cihaz",
                 "rename": "Cihazı yeniden adlandır",
                 "remove": "Cihazı kaldır",
-                "removeConfirmation": "\"{{name}}\" hesabınızdan kaldırılsın mı? Oturumu kapatılacak ve senkronizasyon duracak.",
+                "removeConfirmation": "\"{{name}}\" cihazı hesabınızdan kaldırılsın mı? Cihazın oturumu kapatılacak ve senkronizasyonu duracak.",
                 "namePlaceholder": "Cihaz adı",
-                "lastActive": "{{date}} etkin",
-                "empty": "Bu hesaba henüz giriş yapmış cihaz yok"
+                "lastActive": "{{date}} etkindi",
+                "empty": "Bu hesapta henüz giriş yapmış cihaz yok"
             },
             "error": {
                 "invalidCredentials": "Geçersiz e-posta veya şifre",
                 "unknown": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
                 "failedToLoadProfiles": "Profiller yüklenemedi",
                 "failedToLoadDevices": "Cihazlar yüklenemedi",
-                "profileNameRequired": "Profil adı zorunludur",
+                "profileNameRequired": "Profil adı gerekli",
                 "failedToCreateProfile": "Profil oluşturulamadı"
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Özel ikonlar, Anori'de daha sonra kullanmak üzere yüklediğiniz ikonlardır.",
-            "customIconsAbsent": "Şu anda özel ikonlarınız yok. İlk özel ikonunuzu yüklemek için lütfen ayarlara gidin.",
-            "iconFamily": "İkon ailesi",
-            "allIcons": "Tüm ikonlar",
-            "selectFamilyOrSearch": "Belirli bir simge ailesi seçin veya daha fazla simge görmek için arama yapın."
+            "customIconsInfo": "Özel simgeler, Anori'de daha sonra kullanmak üzere yüklediğiniz simgelerdir.",
+            "customIconsAbsent": "Şu anda hiç özel simgeniz yok. İlk özel simgenizi yüklemek için lütfen ayarlara gidin.",
+            "iconFamily": "Simge ailesi",
+            "allIcons": "Tüm simgeler",
+            "selectFamilyOrSearch": "Belirli bir simge ailesi seçin veya simge önerileri görmek için arama yapın."
         },
         "settings": {
             "title": "Ayarlar",
             "general": {
                 "title": "Genel",
                 "language": "Dil",
-                "translationInfo": "İngilizce veya Ukraynaca dışındaki dillere yapılan çeviriler makine tarafından yapılmış olabilir. Bu çevirilerin gözden geçirilmesi için topluluğa güveniyoruz. Herhangi bir hata veya çevrilmemiş metin fark ederseniz, düzeltmemize yardımcı olun! <0>Burada</0> nasıl katılabileceğinize dair talimatlar var.",
+                "translationInfo": "İngilizce ve Ukraynaca dışındaki dillere yapılan çeviriler makine çevirisi olabilir. Bunların gözden geçirilmesi için topluluğa güveniyoruz. Bir hata ya da çevrilmemiş bir metin fark ederseniz düzeltmemize yardım edin! Nasıl katkıda bulunabileceğinizi <0>burada</0> bulabilirsiniz.",
                 "sidebarOrientation": "Kenar çubuğu yönü",
                 "sidebarOrientationOption-auto": "Pencere yönüne göre",
                 "sidebarOrientationOption-vertical": "Her zaman dikey",
                 "sidebarOrientationOption-horizontal": "Her zaman yatay",
                 "autoHideSidebar": "Kenar çubuğunu otomatik olarak gizle",
                 "newTabTitle": "Yeni sekme başlığı",
-                "enableAnalytics": "Analitik gönderimini etkinleştir",
-                "analyticsHintP1": "Analitikler, kullanıcıların Anori ile nasıl etkileşimde bulunduğunu ve hangi özelliklerin en çok kullanıldığını daha iyi anlamama yardımcı olur. Notların içeriği veya yer imi URL'leri gibi özel bilgileri paylaşmaz.",
-                "analyticsHintP2": "Bu, daha iyi bir ürün geliştirmeme yardımcı olur, bu yüzden analitik gönderimini etkinleştirmenizi rica ediyorum. <0>Daha fazla bilgi edinin.</0>",
+                "enableAnalytics": "Analitik veri gönderimini etkinleştir",
+                "analyticsHintP1": "Analitik veriler, kullanıcıların Anori'yi nasıl kullandığını ve hangi özelliklerin en çok kullanıldığını daha iyi anlamama yardımcı olur. Not içerikleri veya yer imi URL'leri gibi hiçbir özel bilgi paylaşılmaz.",
+                "analyticsHintP2": "Bu, daha iyi bir ürün geliştirmeme yardımcı olur; bu yüzden analitik veri gönderimini etkinleştirmenizi rica ediyorum. <0>Daha fazla bilgi.</0>",
                 "showBookmarksBar": "Yer imleri çubuğunu göster",
                 "automaticCompact": "Ekran boyutuna göre otomatik olarak kompakt moda geç",
-                "automaticCompactModeThreshold": "Ekran boyutu daha küçükse kompakt moda geç",
-                "automaticCompactModeThresholdHint": "Mevcut ekran genişliğiniz {{screenWidth}}px",
+                "automaticCompactModeThreshold": "Ekran boyutu şu değerden küçükse kompakt moda geç",
+                "automaticCompactModeThresholdHint": "Mevcut ekran genişliğiniz: {{screenWidth}}px",
                 "useCompact": "Her zaman kompakt modu kullan",
                 "showAnimationOnOpen": "Açılışta animasyon göster",
-                "showAnimationOnOpenHint": "Etkinleştirilirse, uzantı hızlı bir yükleme animasyonu gösterir, bu da veri yükleme sırasında oluşan başlangıç titremesini gizler ve daha iyi bir görünüm sağlar.",
+                "showAnimationOnOpenHint": "Etkinleştirilirse uzantı, veriler yüklenirken oluşan ilk titremeyi gizleyen ve daha iyi bir görünüm sağlayan kısa bir yükleme animasyonu gösterir.",
                 "rememberLastFolder": "Son açık klasörü hatırla"
             },
             "customIcons": {
-                "title": "Özel ikonlar",
-                "incorrectFormat": "Lütfen geçerli dosya(lar) sağlayın. Anori, .png, .jpg, .gif, .jpeg ve .svg formatlarını destekler.",
-                "noIcons": "Henüz özel ikonlarınız yok.",
-                "iconName": "İkon adı",
-                "invalidNames": "Bazı ikonların geçersiz bir adı var, lütfen kaydetmeden önce adları düzeltin.",
-                "nameContainsInvalidChars": "Ad geçersiz karakterler içeriyor, yalnızca harfler, rakamlar, - ve _ kabul edilir.",
-                "saveIcons": "İkonları kaydet",
-                "supportedFormats": "Anori, .png, .jpg, .gif ve .svg formatlarını destekler. Kare görüntüler kullanmak en iyisidir (128 ile 256 piksel genişliğinde, .svg için geçerli değildir).",
+                "title": "Özel simgeler",
+                "incorrectFormat": "Lütfen geçerli dosya(lar) seçin. Anori .png, .jpg, .gif, .jpeg ve .svg dosyalarını destekler",
+                "noIcons": "Henüz hiç özel simgeniz yok.",
+                "iconName": "Simge adı",
+                "invalidNames": "Bazı simgelerin adı geçersiz, lütfen kaydetmeden önce adları düzeltin.",
+                "nameContainsInvalidChars": "Ad geçersiz karakterler içeriyor; yalnızca harf, rakam, - ve _ kabul edilir.",
+                "saveIcons": "Simgeleri kaydet",
+                "supportedFormats": "Anori .png, .jpg, .gif ve .svg dosyalarını destekler. En iyisi, genişliği 128 ile 256 piksel arasında olan kare görseller kullanmaktır (.svg için geçerli değildir).",
                 "addIcons": "Simge ekle",
                 "removeIcon": "Simgeyi kaldır",
                 "newIcons": "Yeni simgeler",
@@ -195,76 +195,76 @@
                 "colorText": "Metin",
                 "colorCode": "Renk kodu",
                 "colorScheme": "Renk şeması",
-                "previewColorScheme": "Önizleme renk şeması",
+                "previewColorScheme": "Renk şemasını önizle",
                 "hideDotPattern": "Nokta desenini gizle",
                 "pixelatedBackground": "Keskin piksel ölçekleme",
-                "pixelatedBackgroundHint": "Tarayıcıların arka planı ölçeklendirirken uyguladığı görüntü yumuşatmayı devre dışı bırakır. Piksel sanatı için önerilir.",
+                "pixelatedBackgroundHint": "Tarayıcıların arka planı ölçeklerken uyguladığı görüntü yumuşatmayı kapatır. Piksel sanatı için önerilir.",
                 "colorSchemeSystem": "Sistem",
                 "colorSchemeLight": "Açık",
                 "colorSchemeDark": "Koyu"
             },
             "importExport": {
-                "title": "İçe aktar & dışa aktar",
+                "title": "İçe ve dışa aktarma",
                 "info": "Burada ayarlarınızı yedekleyebilir veya eski bir yedeği geri yükleyebilirsiniz.",
                 "import": "İçe aktar",
                 "export": "Dışa aktar",
-                "cloudWarning": "Bulut senkronizasyonu etkin. Yedek içe aktarıldığında senkronizasyon profilinizden bağlantınız kesilecektir. İçe aktarma işleminden sonra yeniden bağlanmanız gerekecektir. Devam edilsin mi?",
-                "cloudSyncHint": "Yapılandırmanızı buluta yedeklemek veya cihazlar arasında gerçek zamanlı senkronize etmek ister misiniz? Bunu sorunsuzca yapan <0>Anori Plus</0>'ı deneyin.",
+                "cloudWarning": "Bulut senkronizasyonu etkin. Bir yedeği içe aktarmak, senkronizasyon profilinizle bağlantınızı keser. İçe aktardıktan sonra yeniden bağlanmanız gerekir. Devam edilsin mi?",
+                "cloudSyncHint": "Yapılandırmanızı buluta yedeklemek veya cihazlar arasında gerçek zamanlı senkronize etmek mi istiyorsunuz? <0>Anori Plus</0> bunu zahmetsizce yapar, bir deneyin.",
                 "importError": "Yedek içe aktarılamadı: {{error}}"
             },
             "aboutHelp": {
-                "title": "Yardım & uzantı hakkında",
-                "onlyEnglishPlease": "Ben (projenin yazarı) çok fazla dil bilmiyorum, bu yüzden lütfen sorunlarınızı İngilizce olarak bildirin. Teşekkürler!",
-                "p1": "Anori, ücretsiz ve açık kaynaklı bir uzantıdır. Kaynak kodu <0>GitHub</0>'da bulunabilir. Bir özellik önermek veya bir hata bildirmek isterseniz, lütfen depoda <1>yeni bir sorun</1> oluşturun. Sadece teşekkür etmek istiyorsanız, o depoyu yıldızlayabilirsiniz :).",
-                "p2": "Bu uzantıyı değiştirmek, kendi eklentinizi veya widget'ınızı eklemek isterseniz, daha fazla bilgi için <0>readme</0>'ye bakın.",
-                "p3": "Yazarı <0>Twitter</0>'da takip edin ve <1>Ukrayna'yı destekleyin</1>.",
-                "p4": "Anori'nin geliştirilmesini biraz para ile desteklemek isterseniz, bunu <0>buradan</0> yapabilirsiniz. Kripto ve kredi kartı seçenekleri mevcuttur.",
+                "title": "Yardım ve uzantı hakkında",
+                "onlyEnglishPlease": "Ben (projenin yazarı) pek fazla dil bilmiyorum, bu yüzden lütfen sorun kayıtlarınızı İngilizce yazın. Teşekkürler!",
+                "p1": "Anori ücretsiz ve açık kaynaklı bir uzantıdır. Kaynak kodunu <0>GitHub</0> üzerinde bulabilirsiniz. Bir özellik önermek veya bir hata bildirmek isterseniz lütfen depoda <1>yeni bir sorun kaydı</1> açın. Sadece teşekkür etmek istiyorsanız depoya yıldız verebilirsiniz :).",
+                "p2": "Bu uzantıyı değiştirmek ya da kendi eklentinizi veya widget'ınızı eklemek isterseniz ayrıntılar için <0>readme</0> dosyasına bakın.",
+                "p3": "Yazarı <0>Twitter</0> üzerinden takip edin ve <1>Ukrayna'ya destek olun</1>.",
+                "p4": "Anori'nin geliştirilmesine biraz maddi destek olmak isterseniz bunu <0>buradan</0> yapabilirsiniz. Kripto para ve kredi kartı seçenekleri mevcuttur.",
                 "license": "Lisans"
             }
         },
         "shortcuts": {
-            "title": "Kısayollar",
-            "showCheatsheet": "Kısayol listesini göster/gizle",
+            "title": "Klavye kısayolları",
+            "showCheatsheet": "Klavye kısayolları listesini göster/gizle",
             "toggleSettings": "Ayarları göster/gizle",
-            "closeMenuOrModal": "Modal pencereyi kapat",
+            "closeMenuOrModal": "Açık pencereyi kapat",
             "switchToFolderAbove": "Üstteki klasöre geç",
             "switchToFolderBelow": "Alttaki klasöre geç",
-            "switchFolderWithWheel": "Fare tekerleği veya izleme turuyla klasörler arasında geçiş yapın",
-            "switchToNFolder": "1. klasöre geç (diğer sayılarla da çalışır!)",
+            "switchFolderWithWheel": "Fare tekerleği veya dokunmatik yüzeyle klasörler arasında geç",
+            "switchToNFolder": "1. klasöre geç (diğer rakamlarla da çalışır!)",
             "editCurrentFolder": "Geçerli klasörü düzenle",
             "addNewWidget": "Geçerli klasöre yeni widget ekle"
         },
         "onboarding": {
             "start": {
                 "title": "Anori'ye hoş geldiniz!",
-                "p1": "Sizi burada görmekten mutluluk duyuyoruz! Bu tanıtım {{languages}} dillerinde mevcuttur.",
-                "p2": "İdeal yeni sekmenizi oluşturmaya başlıyorsunuz. Anori başlangıç sayfası; notlar, yer imleri, yapılacaklar listesi gibi farklı widget'lardan oluşur. Neyi ekleyeceğinizi ve nasıl düzenleyeceğinizi siz seçersiniz.",
-                "p3": "İlk widget'ınızı eklemek için kenar çubuğundaki kalem ('$t(editFolder)') simgesine tıklayın. Bu, sayfayı düzenleme moduna geçirir. Bu modda yeni widget ekleyebilir, mevcut olanları yeniden konumlandırabilir veya kaldırabilirsiniz.",
-                "p4": "Yeni bir widget eklemek için '$t(addWidget)' düğmesine tıklayın ya da düzenleme modundan çıkmak için '$t(done)' düğmesine tıklayın. İlk widget'ınızı eklediğinizde bu tanıtım kaybolacaktır. Şimdi bir widget ekleyip eklentiyi kendiniz keşfedebilir ya da Anori'nin sunduğu özellikler hakkında biraz daha bilgi edinmek istiyorsanız '$t(next)'e tıklayabilirsiniz."
+                "p1": "Sizi burada görmek çok güzel! Bu tanıtım şu dillerde mevcut: {{languages}}.",
+                "p2": "İdeal yeni sekmenizi oluşturma yolundasınız. Anori başlangıç sayfası notlar, yer imleri, yapılacaklar listeleri gibi farklı widget'lardan oluşur. Neleri ekleyeceğinizi ve nasıl düzenleyeceğinizi siz seçersiniz.",
+                "p3": "İlk widget'ınızı eklemek için kenar çubuğundaki kalem simgesine ('$t(editFolder)') tıklayın. Bu, sayfayı düzenleme moduna geçirir. Burada yeni widget'lar ekleyebilir, mevcut widget'ları yeniden konumlandırabilir veya kaldırabilirsiniz.",
+                "p4": "Yeni bir widget eklemek için '$t(addWidget)' düğmesine, düzenleme modundan çıkmak için ise '$t(done)' düğmesine tıklayın. İlk widget'ınızı eklediğinizde bu tanıtım kaybolur. Hemen bir widget ekleyip uzantıyı kendi başınıza keşfedebilir ya da Anori'nin sunduğu özellikler hakkında biraz daha bilgi almak isterseniz '$t(next)' düğmesine tıklayabilirsiniz."
             },
             "folders": {
                 "title": "Klasörler",
-                "p1": "Varsayılan olarak tüm widget'larınız '$t(home)' klasörüne eklenir. Ancak widget'larınızı farklı klasörlerde de düzenleyebilirsiniz. Örneğin, iş ve kişisel widget'lar için ayrı klasörleriniz olabilir ya da her proje için ayrı bir klasör oluşturabilirsiniz.",
-                "p2": "Klasörleri yönetmek için sol alt köşedeki dişli simgesine tıklayın. Bu, Anori'yi istediğiniz gibi özelleştirebileceğiniz ayarları açar. Klasör yöneticisini açmak için orada '$t(settings.folders.title)'a tıklayın."
+                "p1": "Varsayılan olarak tüm widget'larınız '$t(home)' klasörüne eklenir. Ancak widget'larınızı farklı klasörlerde de düzenleyebilirsiniz. Örneğin iş ve kişisel widget'larınız için ayrı klasörleriniz olabilir. Ya da her proje için ayrı bir klasör kullanabilirsiniz.",
+                "p2": "Klasörleri yönetmek için sol alt köşedeki dişli simgesine tıklayın. Bu, Anori'yi zevkinize göre özelleştirebileceğiniz ayarları açar. Klasör yöneticisini açmak için orada '$t(settings.folders.title)' bölümüne tıklayın."
             },
             "customization": {
                 "title": "Özelleştirme",
-                "p1": "Anori, kendi başlangıç sayfanızı widget'lardan oluşturmanıza izin verirken daha da fazla özelleştirilebilir.",
-                "p2": "Yeni sekmenin başlığını değiştirebilir, renk şemasını ve arka plan görselini değiştirebilir ve widget'larda kullanmak üzere kendi özel ikonlarınızı yükleyebilirsiniz (10.000'den fazla yerleşik simgeye ek olarak).",
-                "p3": "Ve bu seçeneklerin yarısı bile değil. Tümünü görmek için ayarlara göz atmak isteyebilirsiniz."
+                "p1": "Anori kendi başlangıç sayfanızı widget'lardan oluşturmanızı sağlasa da daha da fazla özelleştirilebilir.",
+                "p2": "Yeni sekme başlığını değiştirebilir, renk şemasını ve arka plan görselini değiştirebilir, widget'larda kullanmak üzere özel simgelerinizi yükleyebilirsiniz (10.000'den fazla yerleşik simgeye ek olarak).",
+                "p3": "Üstelik bu, seçeneklerin yarısı bile değil. Hepsini görmek için ayarlara göz atabilirsiniz."
             },
             "analytics": {
                 "title": "Analitik",
-                "p1": "Neredeyse bittik. Ama son bir şey var. Varsayılan olarak Anori hiçbir izleme verisi toplamaz ve uzak sunuculara hiçbir şey göndermez. Ancak hangi özelliklerin en çok kullanıldığını ve nelerin biraz daha iyileştirilmesi gerektiğini görmek için kullanıcıların gönüllü olarak gönderdiği analitiği kullanıyorum.",
-                "p2": "Bu nedenle analitik göndermeyi etkinleştirmenizi istiyorum. Anori hiçbir özel veri göndermez (notlarınızın içeriği veya yer imlerinizin URL'leri gibi), yalnızca eklentiyi nasıl kullandığınıza dair metrikler gönderir (örneğin kaç klasörünüz olduğu ve kısayolları ne sıklıkla kullandığınız). Ancak bu tamamen size bağlıdır; analitiği etkinleştirmeseniz de Anori her zamanki gibi çalışmaya devam eder.",
-                "p3": "Hangi verilerin toplandığı hakkında daha fazla bilgi edinmek istiyorsanız <0>buraya</0> tıklayın."
+                "p1": "Neredeyse bitirdik. Ama son bir şey kaldı. Anori varsayılan olarak hiçbir izleme verisi toplamaz ve uzak sunuculara hiçbir şey göndermez. Ancak hangi özelliklerin en çok kullanıldığını ve nelerin biraz cilalanması gerektiğini görmek için kullanıcıların gönüllü olarak gönderdiği analitik verileri kullanıyorum.",
+                "p2": "Bu yüzden analitik veri gönderimini etkinleştirmenizi rica ediyorum. Anori hiçbir özel veri (notlarınız veya yer imlerinizin URL'leri gibi) göndermez; yalnızca uzantıyı nasıl kullandığınıza dair ölçümler gönderir (örneğin kaç klasörünüz olduğu ve klavye kısayollarını ne sıklıkla kullandığınız). Ama karar tamamen sizin; analitik veri gönderimini etkinleştirmeseniz de Anori her zamanki gibi çalışır.",
+                "p3": "Hangi verilerin toplandığı hakkında daha fazla bilgi almak isterseniz <0>buraya</0> tıklayın."
             },
             "presets": {
-                "title": "Yeni bir başlangıç",
-                "p1": "Hepsi bu kadar. Artık Anori'de hızlandırılmış bir eğitim aldınız ve kendi başlangıç sayfanızı oluşturmaya hazırsınız. İlk widget'ınızı ekleyin ve mükemmel kurulumunuzu oluşturmaya başlayın.",
-                "p2": "Seçimlerden bunaldınız mı? Sorun değil. Mükemmel sayfanızı ilk denemede oluşturmanız gerekmiyor. Hatta boş bir tuvalle başlamanız da gerekmiyor. Sizin için hazırlanmış üretken bir kurulum var.",
-                "p3": "Tüm ihtiyaçlarınıza tam olarak uymayabilir, ancak onu kendi sevdiğiniz kurulumunuzu oluşturmak için bir başlangıç noktası olarak kullanabilirsiniz.",
-                "cta": "🚀 Bana üretken bir kurulum ver"
+                "title": "Yeni başlangıç",
+                "p1": "Hepsi bu kadar. Artık Anori'de hızlandırılmış bir lisans diplomanız var ve kendi başlangıç sayfanızı oluşturmaya hazırsınız. İlk widget'ınızı ekleyin ve en iyi düzeninizi kurmaya başlayın.",
+                "p2": "Seçeneklerden yoruldunuz mu? Sorun değil. Mükemmel sayfanızı ilk denemede bulmanız gerekmiyor. Boş bir tuvalden başlamanız bile gerekmiyor. Sizin için verimli bir düzen hazırladık.",
+                "p3": "Tüm ihtiyaçlarınıza tam uymayabilir ama seveceğiniz kendi düzeninizi oluşturmak için temel olarak kullanabilirsiniz.",
+                "cta": "🚀 Bana hazır, verimli bir düzen ver"
             },
             "preset": {
                 "task": {
@@ -279,27 +279,27 @@
             "compactText": "Ek izinler gerekli. Ayrıntılar için tıklayın.",
             "text": "Bu widget ek izinler gerektiriyor:",
             "apiPermissions": "API izinleri",
-            "hostPermissions": "Ana bilgisayar izinleri",
-            "grant": "İzinleri ver"
+            "hostPermissions": "Site izinleri",
+            "grant": "İzin ver"
         },
         "calendarSettings": {
             "firstDayOfWeek": "Haftanın ilk günü",
             "calendarType": "Takvim türü"
         },
         "bookmark-plugin": {
-            "name": "Yer İmleri",
-            "widgetName": "Yer İmi",
+            "name": "Yer imleri",
+            "widgetName": "Yer imi",
             "groupWidgetName": "Yer imi grubu",
             "openInGroup": "Sekme grubunda aç",
             "group": "Grup",
             "searchBookmarks": "Yer imlerinde ara",
             "checkStatus": "Sayfa durumunu kontrol et",
-            "checkStatusHint": "Anori, sayfanın çalışıp çalışmadığını görmek için arka planda her 10-15 dakikada bir istek gönderir. Sunucuya ulaşılamazsa veya HTTP 5xx hatası dönerse sayfa çalışmıyor kabul edilir. Bu özellik ek izin gerektirir. Tarayıcı kapalıyken veya bilgisayar uyku modundayken kontroller yapılmaz.",
+            "checkStatusHint": "Anori, sayfanın çalışıp çalışmadığını görmek için arka planda 10-15 dakikada bir sayfaya istek gönderir. Sunucuya ulaşılamazsa veya sunucu HTTP 5xx hatası döndürürse sayfa çalışmıyor kabul edilir. Bu özellik ek izin gerektirir. Tarayıcı kapalıyken veya bilgisayar uyku modundayken kontrol yapılmaz.",
             "checkingStatus": "Sayfa durumu kontrol ediliyor...",
-            "status": "Sayfa şu anda {{status}}, son durum değişikliği {{lastChange}} tarihindeydi. Son kontrol {{lastCheck}}.",
+            "status": "Sayfa şu anda {{status}}. Son durum değişikliği: {{lastChange}}. Son kontrol: {{lastCheck}}.",
             "statusUp": "çalışıyor",
             "statusDown": "çalışmıyor",
-            "permissionExplanation": "Anori, CORS'u aşmak için bu izne ihtiyaç duyar. Tarayıcınızın gösterdiği ifade ürkütücü görünebilir, ancak Anori yer imlerinizdeki web sitelerinden herhangi bir veri okumaz veya değiştirmez.",
+            "permissionExplanation": "Anori'nin CORS kısıtlamasını aşmak için bu izne ihtiyacı var. Tarayıcınızın gösterdiği ifade ürkütücü görünebilir, ancak Anori yer imine eklediğiniz sitelerdeki hiçbir veriyi okumaz veya değiştirmez.",
             "openInNewTab": "Yeni sekmede aç",
             "openInIframe": "Açılır pencerede aç",
             "pages": "Sayfalar",
@@ -315,7 +315,7 @@
             "name": "Tarih ve saat",
             "widgetNameS": "Tarih ve saat - S boyutu",
             "widgetNameM": "Tarih ve saat - M boyutu",
-            "withoutDate": "Tarifsiz",
+            "withoutDate": "Tarihsiz",
             "timeFormat": "Saat biçimi",
             "dateFormat": "Tarih biçimi",
             "24hours": "24 saat"
@@ -335,23 +335,23 @@
         },
         "system-status-plugin": {
             "name": "Sistem durumu",
-            "ramLoad": "RAM yükü",
-            "cpuLoad": "CPU yükü"
+            "ramLoad": "RAM kullanımı",
+            "cpuLoad": "CPU kullanımı"
         },
         "tabs-plugin": {
             "name": "Sekmeler",
             "tabGroup": "Sekme grubu",
             "contextMenu": {
-                "stashTab": "Bu sekmeyi sakla",
-                "stashLink": "Bu bağlantıyı sakla",
-                "stashGroup": "Bu sekme grubunu sakla"
+                "stashTab": "Bu sekmeyi depoya ekle",
+                "stashLink": "Bu bağlantıyı depoya ekle",
+                "stashGroup": "Bu sekme grubunu depoya ekle"
             },
             "stash": {
-                "title": "Sekme saklama",
+                "title": "Sekme deposu",
                 "inbox": "Gelen kutusu",
-                "empty": "Henüz hiçbir şey saklanmadı",
-                "emptyHint": "Yukarıdaki + düğmesiyle sekme ekleyin veya tarayıcınızın araç çubuğundan Anori açılır penceresini açın.",
-                "stashTab": "Sekme sakla",
+                "empty": "Depoda henüz bir şey yok",
+                "emptyHint": "Yukarıdaki + düğmesiyle bir sekme ekleyin veya tarayıcınızın araç çubuğundan Anori açılır penceresini açın.",
+                "stashTab": "Depoya sekme ekle",
                 "remove": "Kaldır",
                 "rename": "Yeniden adlandır",
                 "openAll": "Tümünü aç",
@@ -362,23 +362,23 @@
                 "tabCount_other": "{{count}} sekme"
             },
             "popup": {
-                "stashTab": "Sekme sakla",
-                "stashCurrentTab": "Mevcut sekmeyi sakla",
-                "stashGroup": "Sekme grubunu sakla",
-                "stashWindow": "Bu pencereyi sakla",
+                "stashTab": "Depoya sekme ekle",
+                "stashCurrentTab": "Geçerli sekmeyi depoya ekle",
+                "stashGroup": "Depoya sekme grubu ekle",
+                "stashWindow": "Bu pencereyi depoya ekle",
                 "window": "Pencere",
-                "grantTabs": "$t(tabs-plugin.stash.title) özelliği için ek izinler gerekiyor",
-                "recentlyStashed": "Son saklananlar",
-                "nothingStashed": "Henüz hiçbir şey saklanmadı"
+                "grantTabs": "$t(tabs-plugin.stash.title) özelliği için ek izinler gerekli",
+                "recentlyStashed": "Depoya son eklenenler",
+                "nothingStashed": "Depoda henüz bir şey yok"
             },
             "syncedTabs": {
                 "title": "Senkronize sekmeler",
                 "loading": "Sekmeler yükleniyor...",
                 "unnamedGroup": "Grup",
                 "notConnectedTitle": "Diğer cihazlarınızdaki sekmeleri görün",
-                "notConnectedDescription": "Cihazlarınız arasında açık sekmeleri senkronize etmek için Anori Plus'ı bağlayın.",
+                "notConnectedDescription": "Açık sekmeleri cihazlarınız arasında senkronize etmek için Anori Plus'a bağlanın.",
                 "connect": "Bağlan",
-                "emptyTitle": "Henüz sekme paylaşan başka cihaz yok",
+                "emptyTitle": "Henüz sekmelerini paylaşan başka cihaz yok",
                 "emptyDescription": "Başka bir bilgisayarda Anori Plus hesabınıza giriş yapın ve orada sekme senkronizasyonunu açın."
             }
         },
@@ -388,10 +388,10 @@
             "completeTask": "\"{{task}}\" görevini tamamla",
             "taskDescription": "Görev açıklaması...",
             "noTasks": "Henüz görev yok",
-            "exampleTask0": "Aptal bir yürüyüş, aptal bir ruh sağlığı için",
-            "exampleTask1": "Uzanmak kanepede",
-            "exampleTask2": "Uzanmak yerde",
-            "exampleTask3": "Ağlamamaya çalış"
+            "exampleTask0": "Saçma ruh sağlığı için saçma bir yürüyüş",
+            "exampleTask1": "Kanepede uzanmak",
+            "exampleTask2": "Yerde uzanmak",
+            "exampleTask3": "Ağlamamaya çalışmak"
         },
         "top-sites-plugin": {
             "name": "En çok ziyaret edilenler",
@@ -401,12 +401,12 @@
         },
         "weather-plugin": {
             "name": "Hava durumu",
-            "weatherForecast": "Hava tahmini",
+            "weatherForecast": "Hava durumu tahmini",
             "forecast": "Tahmin",
-            "currentWeather": "Anlık hava durumu",
-            "kmh": "km/s",
+            "currentWeather": "Güncel hava durumu",
+            "kmh": "km/sa",
             "ms": "m/s",
-            "mph": "mil/s",
+            "mph": "mil/sa",
             "clearSky": "Açık gökyüzü",
             "partlyCloudy": "Parçalı bulutlu",
             "fog": "Sis",
@@ -416,53 +416,53 @@
             "freezingRain": "Dondurucu yağmur",
             "snow": "Kar",
             "rainShower": "Sağanak yağmur",
-            "thunderstorm": "Fırtına",
-            "unknownCode": "Bilinmeyen hava kodu",
+            "thunderstorm": "Gök gürültülü fırtına",
+            "unknownCode": "Bilinmeyen hava durumu kodu",
             "selectCity": "Şehir seçin",
             "temperatureUnit": "Sıcaklık birimi",
             "speedUnit": "Rüzgar hızı birimi",
-            "weatherCode": "hava kodu {{code}}",
-            "attribution": "Hava verileri <0>Open-Meteo</0> tarafından sağlanmaktadır"
+            "weatherCode": "hava durumu kodu {{code}}",
+            "attribution": "Hava durumu verileri <0>Open-Meteo</0> tarafından sağlanır"
         },
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "RSS akışı",
-            "widgetLatestPostName": "RSS akışından son gönderi",
-            "feedUrl": "RSS akış URL'si",
-            "feedUrls": "RSS akış URL'leri",
+            "widgetLatestPostName": "RSS akışındaki son gönderi",
+            "feedUrl": "RSS akışı URL'si",
+            "feedUrls": "RSS akışı URL'leri",
             "noPosts": "Bu akışta henüz gönderi yok",
             "compactView": "Kompakt görünüm",
-            "presetsTitle": "Favori akışlarınızı buraya ekleyin veya hazır seçeneklerden birini seçin:",
-            "presetsText": "Henüz akış eklemedi mi? <0>Geliştiriciler</0>, <1>tasarımcılar</1> ve <2>her türden ilginç içerikler</2> için ön ayarlarımız var.",
+            "presetsTitle": "Sevdiğiniz akışları buraya ekleyin veya hazır listelerden birini seçin:",
+            "presetsText": "Henüz akış eklemediniz mi? <0>Geliştiriciler</0> ve <1>tasarımcılar</1> için, bir de <2>her türden ilginç şey</2> içeren hazır listelerimiz var.",
             "addFeed": "Akış ekle",
             "presetForDevelopers": "Geliştiriciler için",
             "presetForDesigners": "Tasarımcılar için",
-            "presetInteresting": "İlginç şeyler",
+            "presetInteresting": "Sadece ilginç şeyler",
             "presetForDevelopersTitle": "Geliştirme",
             "presetForDesignersTitle": "Tasarım",
             "presetInterestingTitle": "İlginç şeyler",
-            "examplePostTitle1": "Anori yeni sekmenizi bir profesyonel gibi nasıl düzenlersiniz!",
-            "examplePostDescription1": "İyi eski bir yer imiyle başlayın ve kalbinizin sizi yönlendirmesine izin verin. Bazen ihtiyacınız olan tek şey biraz düzendir...",
+            "examplePostTitle1": "Anori yeni sekmenizi bir profesyonel gibi düzenleyin!",
+            "examplePostDescription1": "Eski güzel bir yer imiyle başlayın, gerisini kalbinize bırakın. Bazen tek ihtiyacınız biraz düzendir...",
             "exampleFeedTitle1": "Anori blogu",
             "examplePostTitle2": "En kullanışlı 8 tarayıcı uzantısı",
-            "examplePostDescription2": "Bugün tarayıcınızı bu olmazsa olmaz uzantılarla bir verimlilik merkezine nasıl dönüştüreceğinizi göstereceğim. Gösterinin yıldızı — Anori.",
+            "examplePostDescription2": "Bugün size bu olmazsa olmaz uzantılarla tarayıcınızı nasıl bir verimlilik istasyonuna dönüştüreceğinizi göstereceğim. Gösterinin yıldızı da elbette Anori.",
             "exampleFeedTitle2": "Verimlilik 101",
-            "examplePostTitle3": "Yeni sekmenizi widget'lardan oluşturmanıza olanak tanıyan bir uzantı!",
-            "examplePostDescription3": "Yeni sekmenizi sağlanan widget'lardan (görevler, notlar, yer imleri vb.) oluşturabilir ve bunları klasörler halinde düzenleyebilirsiniz.",
+            "examplePostTitle3": "Yeni sekmenizi widget'lardan kendiniz oluşturmanızı sağlayan bir uzantı!",
+            "examplePostDescription3": "Hazır widget'lardan (görevler, notlar, yer imleri vb.) kendi yeni sekmenizi oluşturabilir ve bunları klasörlere ayırabilirsiniz.",
             "exampleFeedTitle3": "Reddit"
         },
         "iframe-plugin": {
-            "name": "Web sayfası göm",
-            "expandWidgetName": "Web sayfası göm — genişletilebilir",
-            "showLink": "Orijinal sayfaya bağlantı göster",
+            "name": "Web sayfası yerleştir",
+            "expandWidgetName": "Web sayfası yerleştir — genişletilebilir",
+            "showLink": "Orijinal sayfanın bağlantısını göster",
             "openPage": "Sayfayı aç",
-            "limitations": "Gömme işlemi tüm sayfalarla çalışmaz. Bazı siteler gömülü sayfa olarak görüntülenmeye aktif olarak direnir ve ne yazık ki Anori bu konuda fazla bir şey yapamaz. Bu durum sayfaların yüklenmemesiyle (Gmail'de olduğu gibi) veya düzgün çalışmamasıyla sonuçlanabilir."
+            "limitations": "Yerleştirme her sayfada çalışmaz. Bazı siteler başka bir sayfaya yerleştirilmeye karşı önlem alır ve ne yazık ki Anori bu konuda pek bir şey yapamaz. Bu da sayfaların hiç yüklenmemesine (Gmail'de olduğu gibi) veya düzgün çalışmamasına yol açabilir."
         },
         "math-plugin": {
             "name": "Matematik",
             "calculator": "Hesap makinesi",
             "expandWidgetName": "Hesap makinesi — genişletilebilir",
-            "cantCalc": "Bunu hesaplayamıyorum"
+            "cantCalc": "Bu hesaplanamıyor"
         },
         "picture-plugin": {
             "name": "Resim",
@@ -482,27 +482,27 @@
             "good": "İyi",
             "hard": "Zor",
             "errorTitle": "AnkiConnect'e ulaşılamıyor",
-            "error": "Anki'nin çalıştığından ve AnkiConnect eklentisinin yüklü olduğundan emin olun.",
+            "error": "Anki'nin açık olduğundan ve Anki'de AnkiConnect eklentisinin kurulu olduğundan emin olun.",
             "widgetName": "Anki"
         },
         "releaseNotes": {
             "alsoInThisRelease": "Bu sürümde ayrıca",
-            "tagNew": "Yeni",
+            "tagNew": "Eklendi",
             "tagImproved": "İyileştirildi",
             "tagFixed": "Düzeltildi",
             "changelogNote": "Eski sürümlerin değişiklik günlüğünü mü arıyorsunuz? <0>GitHub'da</0> bulabilirsiniz.",
             "v2_3_0": {
                 "headline": "Yeni $t(motivation-plugin.name) eklentisiyle tanışın: zamanınızı takip etmek, büyük resmi gözden kaçırmamak, odaklanmak ve önemli günleri saymak için sekiz widget.",
                 "periodsTitle": "Gün nereye gitti?",
-                "periodsBody": "Yeni ilerleme widget'ları, günün, haftanın, ayın veya yılın ne kadarının geride kaldığını gösterir. Gün ve hafta ilerlemesi yalnızca belirli bir bölümü kapsayabilir; böylece iş gününüzü ve iş haftanızı takip edebilir ya da hafta sonundan ne kadar kaldığını görebilirsiniz.",
-                "periodsCalendar": "Ay ve yıl ilerlemesi, günlük hayatınızda kullandığınız takvim türüne göre farklı bir takvim sistemini de takip edebilir.",
+                "periodsBody": "Yeni ilerleme widget'ları günün, haftanın, ayın veya yılın ne kadarının geride kaldığını gösterir. Gün ve hafta ilerlemesi yalnızca bir bölümü kapsayabilir; böylece iş gününüzü ve iş haftanızı takip edebilir ya da hafta sonundan ne kadar kaldığına göz kulak olabilirsiniz.",
+                "periodsCalendar": "Günlük hayatınızda farklı bir takvim kullanıyorsanız ay ve yıl ilerlemesi de o takvim sistemine göre işleyebilir.",
                 "lifeTitle": "Uzun vadeli bakış",
-                "lifeBody": "Yaşam ilerlemesi ile tamamen uzaklaşın: hayatınız, sessizce dolmakta olan bir yıllar ızgarası olarak karşınızda. Kafatasları olmayan, nazik bir memento mori. Saniyeleri izlemeyi tercih ediyorsanız, yaş sayacı kaç yaşında olduğunuzu canlı olarak sayar.",
-                "focusTitle": "Gözden kaçırma",
-                "focusBody": "Odak, yeni sekmenizde tek satırlık bir metin tutar; böylece önemli olan şey diğer her şeyin altında kaybolmaz. Günün görevi, haftanın hedefi veya minnettar olduğunuz bir şey için kullanabilirsiniz. Her gün, hafta ya da ayda sıfırlanabilir veya siz değiştirene kadar sabit kalabilir.",
-                "counterTitle": "Günleri say",
-                "counterBody": "Odağınızın bir son tarihi varsa, günlerin tükenmesini görmek işe yarar. Gün sayacı bunun için var. Ters yönde de sayar: iki hafta önce sigarayı bıraktınız mı? O sayıyı yeni sekmenize koyun ve her geçen gün büyümesini izleyin.",
-                "minorLocalizedNumbers": "CPU ve bellek kullanım yüzdeleri ile rüzgar hızı artık dilinizin sayı biçimini takip ediyor; Almanca'da '12,3 %', Türkçe'de '%12,3' gibi."
+                "lifeBody": "Yaşam ilerlemesiyle iyice geri çekilip hayatınızın tamamına bakın: sessizce dolan bir yıllar ızgarası olarak hayatınız. Nazik bir memento mori, ama kafatasları olmadan. Saniyeleri izlemeyi tercih ederseniz yaş sayacı kaç yaşında olduğunuzu canlı olarak sayar.",
+                "focusTitle": "Gözünüzün önünde tutun",
+                "focusBody": "Odak, yeni sekmenizde tek satırlık bir metin tutar; böylece önemli olan şey diğer her şeyin altında kaybolmaz. Bunu günün görevi, haftanın hedefi ya da minnettar olduğunuz bir şey için kullanın. Her gün, her hafta veya her ay sıfırlanabilir ya da siz değiştirene kadar kalabilir.",
+                "counterTitle": "Günleri sayın",
+                "counterBody": "Odağınızın bir son tarihi varsa günlerin azaldığını görmek işe yarar. Gün sayacı tam da bunun için. Tersine de sayar: iki hafta önce sigarayı mı bıraktınız? Bu sayıyı yeni sekmenize koyun ve her geçen gün büyümesini izleyin.",
+                "minorLocalizedNumbers": "CPU ve bellek kullanım yüzdeleri ile rüzgar hızı artık dilinizin sayı biçimini kullanıyor: Almancada '12,3 %', Türkçede '%12,3' gibi."
             }
         },
         "motivation-plugin": {
@@ -538,7 +538,7 @@
                 "daily": "Her gün",
                 "weekly": "Her hafta",
                 "monthly": "Her ay",
-                "manual": "Manuel"
+                "manual": "Elle"
             },
             "markDone": "Tamamlandı olarak işaretle",
             "markNotDone": "Tamamlanmadı olarak işaretle",
@@ -547,11 +547,11 @@
             "today": "Bugün",
             "daysLeft_one": "gün kaldı",
             "daysLeft_other": "gün kaldı",
-            "daysSince_one": "gün önce",
-            "daysSince_other": "gün önce",
+            "daysSince_one": "gün geçti",
+            "daysSince_other": "gün geçti",
             "hoursLeft_one": "saat kaldı",
             "hoursLeft_other": "saat kaldı",
-            "mockFocusText": "Üç aylık raporu bitir",
+            "mockFocusText": "Üç aylık raporu bitirmek",
             "mockCounterTitle": "Tatil",
             "defaultPrompt": "Bugünün odağı"
         }

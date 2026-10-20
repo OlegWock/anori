@@ -1,7 +1,7 @@
 {
     "translation": {
-        "appName": "Anori: tab baru produktivitas",
-        "appDescription": "Tab baru yang dapat dikustomisasi: susun halaman Anda sendiri dari widget",
+        "appName": "Anori: tab baru untuk produktivitas",
+        "appDescription": "Tab baru yang dapat disesuaikan: susun halaman Anda sendiri dari widget",
         "appActionTitle": "Buka tab baru Anori",
         "openAnori": "Buka Anori",
         "icon": "Ikon",
@@ -17,16 +17,16 @@
         "timezone": "Zona waktu",
         "refreshing": "Memperbarui...",
         "refresh": "Perbarui",
-        "startTypingToSearch": "Mulai mengetik untuk mencari...",
+        "startTypingToSearch": "Mulai ketik untuk mencari...",
         "search": "Cari...",
         "loading": "Memuat...",
-        "lastUpdatedAt": "Terakhir diperbarui pukul {{datetime}}",
+        "lastUpdatedAt": "Terakhir diperbarui pada {{datetime}}",
         "home": "Beranda",
         "px": "px",
         "whatsNew": "Yang baru",
         "editWidget": "Edit widget",
         "removeWidget": "Hapus widget",
-        "moveWidget": "Pindah widget",
+        "moveWidget": "Pindahkan widget",
         "resizeWidget": "Ubah ukuran widget",
         "configureWidget": "Konfigurasi widget",
         "addWidget": "Tambah widget",
@@ -39,26 +39,26 @@
         "info": "Info",
         "success": "Berhasil",
         "warning": "Peringatan",
-        "error": "Error",
+        "error": "Kesalahan",
         "next": "Berikutnya",
         "back": "Kembali",
-        "reorder": "Urutkan ulang",
+        "reorder": "Ubah urutan",
         "icons": "Ikon",
         "customIcons": "Ikon kustom",
         "canBeEmpty": "boleh kosong",
         "duration": {
-            "hoursMinutes": "{{hours}}j {{minutes}}m",
-            "daysHours": "{{days}}h {{hours}}j",
+            "hoursMinutes": "{{hours}} j {{minutes}} mnt",
+            "daysHours": "{{days}} hr {{hours}} j",
             "days_other": "{{count}} hari"
         },
         "unsupportedWidget": {
             "short": "Tidak tersedia",
             "title": "Widget tidak tersedia",
-            "description": "Jenis widget ini tidak tersedia di browser ini. Widget tetap ada di browser lain yang tersinkronisasi, dan Anda masih dapat memindahkan, mengubah ukuran, atau menghapusnya di sini."
+            "description": "Jenis widget ini tidak tersedia di browser ini. Widget ini tetap ada di browser lain yang tersinkron, dan Anda masih dapat memindahkan, mengubah ukuran, atau menghapusnya di sini."
         },
         "widgetRenderError": {
             "title": "Ups",
-            "description": "Widget gagal dirender, periksa konsol untuk detailnya."
+            "description": "Widget gagal ditampilkan, periksa konsol untuk detailnya."
         },
         "cloud": {
             "connect": "Hubungkan",
@@ -69,54 +69,54 @@
             "login": "Masuk",
             "logout": "Keluar",
             "email": "Email",
-            "password": "Kata sandi",
+            "password": "Sandi",
             "connectedAs": "Terhubung sebagai",
-            "syncPausedBehind": "Salinan Anori ini lebih lama dari perangkat lain di profil ini, sehingga sinkronisasi dijeda hingga diperbarui. Perubahan yang Anda buat sebelum itu tidak akan disinkronkan ke perangkat lain, tetapi disimpan ke cadangan sebelum pembaruan, jika Anda membutuhkannya.",
-            "preUpdateBackup": "Cadangan sebelum pembaruan terakhir Anda ({{date}})",
+            "syncPausedBehind": "Salinan Anori ini lebih lama daripada versi di perangkat lain pada profil ini, jadi sinkronisasi dijeda sampai salinan ini diperbarui. Perubahan yang Anda buat sampai saat itu tidak akan disinkronkan ke perangkat Anda yang lain, tetapi akan disimpan ke cadangan sebelum pembaruan, untuk berjaga-jaga jika Anda membutuhkannya.",
+            "preUpdateBackup": "Cadangan dari sebelum pembaruan terakhir Anda ({{date}})",
             "downloadBackup": "Unduh",
             "noAccount": "Belum punya akun?",
             "createAccount": "Buat di sini",
             "userDataConflict": {
-                "description": "Browser ini memiliki data Anori Plus — misalnya Simpanan tab Anda — yang telah disinkronkan ke akun berbeda dari akun yang Anda masuki. Apa yang harus dilakukan dengan data tersebut?",
+                "description": "Browser ini memiliki data Anori Plus — misalnya tab yang Anda sisihkan — yang disinkronkan ke akun lain, bukan akun yang sedang Anda gunakan untuk masuk. Apa yang harus dilakukan dengan data ini?",
                 "upload": "Tambahkan ke akun ini",
-                "uploadHint": "Menyimpan data ini dan menggabungkannya ke akun yang Anda masuki. Pilih ini jika data tersebut milik Anda — misalnya jika Anda beralih ke akun baru.",
-                "discard": "Buang data lokal",
-                "discardHint": "Menghapusnya dari browser ini dan menggunakan data yang sudah ada di akun ini. Pilih ini jika data tersebut milik akun lain atau Anda tidak membutuhkannya di sini."
+                "uploadHint": "Menyimpan data ini dan menggabungkannya ke akun yang sedang Anda gunakan untuk masuk. Pilih ini jika data ini milik Anda — misalnya jika Anda beralih ke akun baru.",
+                "discard": "Buang",
+                "discardHint": "Menghapusnya dari browser ini dan menggunakan data yang sudah ada di akun ini. Pilih ini jika data ini milik akun lain atau Anda tidak membutuhkannya di sini."
             },
             "plusDescription": "Anori Plus adalah layanan tambahan untuk Anori yang memungkinkan Anda menyinkronkan konfigurasi antara beberapa browser dan perangkat secara real time.",
             "learnMore": "Pelajari lebih lanjut",
             "profiles": "Profil",
-            "noProfiles": "Tidak ada profil ditemukan. Buat profil pertama Anda untuk menyinkronkan pengaturan antar browser.",
+            "noProfiles": "Tidak ada profil. Buat profil pertama Anda untuk menyinkronkan pengaturan antar-browser.",
             "createProfile": "Buat profil",
             "profileName": "Nama profil",
-            "createdAt": "Dibuat {{date}}",
+            "createdAt": "Dibuat pada {{date}}",
             "lastSyncedAt": "Terakhir digunakan {{date}}",
             "create": "Buat",
-            "profileCreatedSuccess": "Profil dibuat! Anda sekarang dapat menghubungkan browser lain ke profil ini dan pengaturan Anda akan disinkronkan di antara mereka.",
+            "profileCreatedSuccess": "Profil dibuat! Sekarang Anda dapat menghubungkan browser lain ke profil ini, dan pengaturan Anda akan disinkronkan di antara semuanya.",
             "confirm": "Konfirmasi",
             "rename": "Ganti nama",
             "delete": "Hapus",
-            "deleteConfirmation": "Apakah Anda yakin ingin menghapus profil \"{{profileName}}\"? Tindakan ini tidak dapat dibatalkan.",
+            "deleteConfirmation": "Yakin ingin menghapus profil \"{{profileName}}\"? Tindakan ini tidak dapat diurungkan.",
             "connectConfirmation": {
-                "message": "Menghubungkan ke profil \"{{profileName}}\" akan menimpa konfigurasi lokal Anda saat ini dengan yang tersimpan di profil. Apakah Anda ingin melanjutkan?"
+                "message": "Menghubungkan ke profil \"{{profileName}}\" akan menimpa konfigurasi lokal Anda saat ini dengan konfigurasi yang tersimpan di profil. Lanjutkan?"
             },
             "settings": {
                 "title": "Pengaturan",
                 "shareOpenTabs": "Bagikan tab yang terbuka dengan perangkat lain yang terhubung",
-                "shareOpenTabsHint": "Jika diaktifkan, tab yang terbuka di komputer ini akan dibagikan ke perangkat lain yang masuk ke akun Anori ini — sehingga Anda dapat melihat dan membuka kembali tab dari perangkat mana pun."
+                "shareOpenTabsHint": "Jika diaktifkan, tab yang terbuka di komputer ini akan dibagikan ke perangkat Anda yang lain yang masuk ke akun Anori ini — sehingga Anda dapat melihat dan membuka kembali tab dari perangkat mana pun."
             },
             "devices": {
                 "title": "Perangkat",
                 "thisDevice": "Perangkat ini",
                 "rename": "Ganti nama perangkat",
                 "remove": "Hapus perangkat",
-                "removeConfirmation": "Hapus \"{{name}}\" dari akun Anda? Perangkat akan keluar dan berhenti menyinkronkan.",
+                "removeConfirmation": "Hapus \"{{name}}\" dari akun Anda? Perangkat ini akan dikeluarkan dari akun dan berhenti menyinkronkan.",
                 "namePlaceholder": "Nama perangkat",
                 "lastActive": "aktif {{date}}",
                 "empty": "Belum ada perangkat yang masuk ke akun ini"
             },
             "error": {
-                "invalidCredentials": "Email atau kata sandi tidak valid",
+                "invalidCredentials": "Email atau sandi salah",
                 "unknown": "Terjadi kesalahan. Silakan coba lagi.",
                 "failedToLoadProfiles": "Gagal memuat profil",
                 "failedToLoadDevices": "Gagal memuat perangkat",
@@ -125,8 +125,8 @@
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Ikon kustom adalah ikon yang Anda unggah untuk digunakan nanti di Anori.",
-            "customIconsAbsent": "Saat ini Anda tidak memiliki ikon kustom. Untuk mengunggah ikon kustom pertama Anda, silakan buka pengaturan.",
+            "customIconsInfo": "Ikon kustom adalah ikon yang Anda unggah untuk digunakan di Anori.",
+            "customIconsAbsent": "Saat ini Anda belum memiliki ikon kustom. Untuk mengunggah ikon kustom pertama Anda, buka pengaturan.",
             "iconFamily": "Keluarga ikon",
             "allIcons": "Semua ikon",
             "selectFamilyOrSearch": "Pilih keluarga ikon tertentu atau coba cari untuk melihat saran ikon."
@@ -136,34 +136,34 @@
             "general": {
                 "title": "Umum",
                 "language": "Bahasa",
-                "translationInfo": "Terjemahan ke bahasa selain Inggris atau Ukraina mungkin dilakukan oleh mesin. Kami mengandalkan komunitas untuk meninjaunya. Jika Anda menemukan kesalahan atau string yang belum diterjemahkan, bantu kami memperbaikinya! <0>Di sini</0> adalah petunjuk cara Anda dapat berpartisipasi.",
+                "translationInfo": "Terjemahan ke bahasa selain Inggris dan Ukraina mungkin dibuat oleh mesin. Kami mengandalkan komunitas untuk memeriksanya. Jika Anda menemukan kesalahan atau teks yang belum diterjemahkan, bantu kami memperbaikinya! <0>Di sini</0> ada petunjuk cara berpartisipasi.",
                 "sidebarOrientation": "Orientasi bilah sisi",
-                "sidebarOrientationOption-auto": "Berdasarkan orientasi jendela",
+                "sidebarOrientationOption-auto": "Sesuai orientasi jendela",
                 "sidebarOrientationOption-vertical": "Selalu vertikal",
                 "sidebarOrientationOption-horizontal": "Selalu horizontal",
                 "autoHideSidebar": "Sembunyikan bilah sisi secara otomatis",
                 "newTabTitle": "Judul tab baru",
                 "enableAnalytics": "Aktifkan pengiriman analitik",
-                "analyticsHintP1": "Analitik membantu saya memahami lebih baik bagaimana pengguna berinteraksi dengan Anori dan fitur mana yang paling banyak digunakan. Ini tidak membagikan informasi pribadi apa pun, seperti konten catatan atau URL bookmark.",
+                "analyticsHintP1": "Analitik membantu saya memahami dengan lebih baik cara pengguna berinteraksi dengan Anori dan fitur mana yang paling sering digunakan. Analitik tidak membagikan informasi pribadi apa pun, seperti isi catatan atau URL bookmark.",
                 "analyticsHintP2": "Ini membantu saya mengembangkan produk yang lebih baik, jadi saya meminta Anda untuk mengaktifkan pengiriman analitik. <0>Pelajari lebih lanjut.</0>",
                 "showBookmarksBar": "Tampilkan bilah bookmark",
-                "automaticCompact": "Otomatis beralih ke mode ringkas berdasarkan ukuran layar",
+                "automaticCompact": "Beralih otomatis ke mode ringkas berdasarkan ukuran layar",
                 "automaticCompactModeThreshold": "Beralih ke mode ringkas jika ukuran layar lebih kecil dari",
-                "automaticCompactModeThresholdHint": "Lebar layar Anda saat ini adalah {{screenWidth}}px",
+                "automaticCompactModeThresholdHint": "Lebar layar Anda saat ini {{screenWidth}}px",
                 "useCompact": "Selalu gunakan mode ringkas",
                 "showAnimationOnOpen": "Tampilkan animasi saat dibuka",
-                "showAnimationOnOpenHint": "Jika diaktifkan, ekstensi akan menampilkan animasi pemuatan cepat yang akan menyembunyikan kedipan awal saat memuat data dan memberikan tampilan yang lebih baik.",
-                "rememberLastFolder": "Ingat folder terakhir yang dibuka"
+                "showAnimationOnOpenHint": "Jika diaktifkan, ekstensi akan menampilkan animasi pemuatan singkat yang menyembunyikan kedipan awal saat data dimuat dan membuat tampilan lebih rapi.",
+                "rememberLastFolder": "Ingat folder yang terakhir dibuka"
             },
             "customIcons": {
                 "title": "Ikon kustom",
-                "incorrectFormat": "Harap gunakan file yang valid. Anori mendukung .png, .jpg, .gif, .jpeg dan .svg",
+                "incorrectFormat": "Harap pilih file yang valid. Anori mendukung .png, .jpg, .gif, .jpeg, dan .svg",
                 "noIcons": "Anda belum memiliki ikon kustom.",
                 "iconName": "Nama ikon",
-                "invalidNames": "Beberapa ikon memiliki nama yang tidak valid, harap perbaiki nama sebelum menyimpan.",
-                "nameContainsInvalidChars": "Nama mengandung karakter yang tidak valid, hanya huruf, angka, - dan _ yang diterima.",
+                "invalidNames": "Beberapa ikon memiliki nama yang tidak valid. Perbaiki namanya sebelum menyimpan.",
+                "nameContainsInvalidChars": "Nama mengandung karakter yang tidak valid, hanya huruf, angka, - dan _ yang diizinkan.",
                 "saveIcons": "Simpan ikon",
-                "supportedFormats": "Anori mendukung .png, .jpg, .gif dan .svg. Sebaiknya gunakan gambar persegi antara 128 hingga 256 piksel (tidak berlaku untuk .svg).",
+                "supportedFormats": "Anori mendukung .png, .jpg, .gif, dan .svg. Sebaiknya gunakan gambar persegi dengan lebar antara 128 dan 256 piksel (tidak berlaku untuk .svg).",
                 "addIcons": "Tambah ikon",
                 "removeIcon": "Hapus ikon",
                 "newIcons": "Ikon baru",
@@ -173,7 +173,7 @@
                 "title": "Folder",
                 "createNew": "Folder baru",
                 "defaultName": "Folder baru",
-                "reorder": "Urutkan ulang",
+                "reorder": "Ubah urutan",
                 "changeIcon": "Ganti ikon",
                 "removeFolder": "Hapus folder"
             },
@@ -188,16 +188,16 @@
                 "removeTheme": "Hapus tema",
                 "selectBackground": "Pilih latar belakang",
                 "changeBackground": "Ganti latar belakang",
-                "blur": "Blur",
+                "blur": "Buram",
                 "colorAccent": "Aksen",
                 "colorBackground": "Latar belakang",
                 "colorText": "Teks",
                 "colorCode": "Kode warna",
                 "colorScheme": "Skema warna",
-                "previewColorScheme": "Skema warna pratinjau",
+                "previewColorScheme": "Pratinjau skema warna",
                 "hideDotPattern": "Sembunyikan pola titik",
                 "pixelatedBackground": "Penskalaan piksel tajam",
-                "pixelatedBackgroundHint": "Menonaktifkan penghalusan gambar yang diterapkan browser saat menskalakan latar belakang. Direkomendasikan untuk pixel art.",
+                "pixelatedBackgroundHint": "Menonaktifkan penghalusan gambar yang diterapkan browser saat menskalakan latar belakang. Disarankan untuk pixel art.",
                 "colorSchemeSystem": "Sistem",
                 "colorSchemeLight": "Terang",
                 "colorSchemeDark": "Gelap"
@@ -207,75 +207,75 @@
                 "info": "Di sini Anda dapat mencadangkan pengaturan atau memulihkan cadangan lama.",
                 "import": "Impor",
                 "export": "Ekspor",
-                "cloudWarning": "Anda telah mengaktifkan sinkronisasi cloud. Mengimpor cadangan akan memutuskan Anda dari profil sinkronisasi. Anda perlu menghubungkan kembali setelah impor. Lanjutkan?",
-                "cloudSyncHint": "Ingin mencadangkan konfigurasi ke cloud atau menyinkronkannya di berbagai perangkat secara real time? Coba <0>Anori Plus</0> — ini melakukannya dengan mulus.",
+                "cloudWarning": "Sinkronisasi cloud Anda aktif. Mengimpor cadangan akan memutuskan Anda dari profil sinkronisasi. Anda perlu menghubungkannya kembali setelah impor. Lanjutkan?",
+                "cloudSyncHint": "Ingin mencadangkan konfigurasi Anda ke cloud atau menyinkronkannya antarperangkat secara real time? Coba <0>Anori Plus</0> — semuanya berjalan otomatis.",
                 "importError": "Tidak dapat mengimpor cadangan: {{error}}"
             },
             "aboutHelp": {
                 "title": "Bantuan & tentang ekstensi",
-                "onlyEnglishPlease": "Saya (penulis proyek ini) tidak berbicara banyak bahasa, jadi harap ajukan masalah Anda dalam bahasa Inggris. Terima kasih!",
-                "p1": "Anori adalah ekstensi gratis dan open source. Kode sumber dapat ditemukan di <0>GitHub</0>. Jika Anda ingin menyarankan fitur atau melaporkan bug, silakan buat <1>isu baru</1> di repositori. Jika hanya ingin mengucapkan terima kasih, Anda bisa memberi bintang pada repo tersebut :).",
-                "p2": "Jika Anda ingin memodifikasi ekstensi ini, menambahkan plugin atau widget sendiri, silakan lihat <0>readme</0> untuk informasi lebih lanjut.",
-                "p3": "Ikuti penulisnya di <0>Twitter</0> dan <1>dukung Ukraina</1>.",
+                "onlyEnglishPlease": "Saya (pembuat proyek ini) tidak menguasai banyak bahasa, jadi harap laporkan masalah dalam bahasa Inggris. Terima kasih!",
+                "p1": "Anori adalah ekstensi gratis dan open source. Kode sumbernya tersedia di <0>GitHub</0>. Jika Anda ingin menyarankan fitur atau melaporkan bug, silakan buat <1>issue baru</1> di repositori. Jika hanya ingin berterima kasih, Anda bisa memberi bintang pada repo tersebut :).",
+                "p2": "Jika Anda ingin memodifikasi ekstensi ini atau menambahkan plugin atau widget sendiri, lihat <0>readme</0> untuk info lebih lanjut.",
+                "p3": "Ikuti pembuatnya di <0>Twitter</0> dan <1>dukung Ukraina</1>.",
                 "p4": "Jika Anda ingin mendukung pengembangan Anori dengan sedikit dana, Anda bisa melakukannya <0>di sini</0>. Tersedia opsi kripto dan kartu kredit.",
                 "license": "Lisensi"
             }
         },
         "shortcuts": {
-            "title": "Pintasan",
-            "showCheatsheet": "Tampilkan/sembunyikan lembar pintasan",
+            "title": "Pintasan keyboard",
+            "showCheatsheet": "Tampilkan/sembunyikan daftar pintasan keyboard",
             "toggleSettings": "Tampilkan/sembunyikan pengaturan",
             "closeMenuOrModal": "Tutup jendela modal",
             "switchToFolderAbove": "Beralih ke folder di atas",
             "switchToFolderBelow": "Beralih ke folder di bawah",
-            "switchFolderWithWheel": "Ganti folder dengan roda mouse atau trackpad",
-            "switchToNFolder": "Beralih ke folder ke-1 (berlaku untuk angka lain juga!)",
+            "switchFolderWithWheel": "Beralih folder dengan roda mouse atau trackpad",
+            "switchToNFolder": "Beralih ke folder ke-1 (berlaku juga untuk angka lain!)",
             "editCurrentFolder": "Edit folder saat ini",
             "addNewWidget": "Tambahkan widget baru ke folder saat ini"
         },
         "onboarding": {
             "start": {
                 "title": "Selamat datang di Anori!",
-                "p1": "Senang melihat Anda! Pengantar ini tersedia dalam {{languages}}.",
-                "p2": "Anda sedang dalam perjalanan untuk menyiapkan tab baru yang ideal. Halaman awal Anori terdiri dari berbagai widget, seperti catatan, bookmark, daftar tugas, dll. Anda memilih apa yang ingin ditambahkan dan bagaimana mengaturnya.",
-                "p3": "Anda dapat menambahkan widget pertama dengan mengklik ikon pensil ('$t(editFolder)') di sidebar. Ini akan mengalihkan halaman ke mode pengeditan. Di sini Anda dapat menambahkan widget baru serta memindahkan atau menghapus yang sudah ada.",
-                "p4": "Untuk menambahkan widget baru, klik tombol '$t(addWidget)', atau klik '$t(done)' untuk keluar dari mode pengeditan. Setelah Anda menambahkan widget pertama, panduan ini akan hilang. Anda bisa menambahkan widget sekarang dan menjelajahi ekstensi sendiri, atau jika ingin mengetahui lebih banyak tentang fitur yang ditawarkan Anori, klik '$t(next)'."
+                "p1": "Senang bertemu Anda! Pengantar ini tersedia dalam {{languages}}.",
+                "p2": "Anda akan segera menyiapkan tab baru yang ideal. Halaman awal Anori terdiri dari berbagai widget, seperti catatan, bookmark, daftar tugas, dll. Anda yang memilih apa yang ditambahkan dan cara mengaturnya.",
+                "p3": "Anda dapat menambahkan widget pertama dengan mengklik ikon pensil ('$t(editFolder)') di bilah sisi. Halaman akan beralih ke mode edit. Di sini Anda dapat menambahkan widget baru serta memindahkan atau menghapus widget yang sudah ada.",
+                "p4": "Untuk menambahkan widget baru, klik tombol '$t(addWidget)', atau klik '$t(done)' untuk keluar dari mode edit. Setelah Anda menambahkan widget pertama, panduan ini akan hilang. Anda bisa langsung menambahkan widget dan menjelajahi ekstensi ini sendiri, atau jika ingin tahu lebih banyak tentang fitur yang ditawarkan Anori, klik '$t(next)'."
             },
             "folders": {
                 "title": "Folder",
-                "p1": "Secara default semua widget Anda ditambahkan ke folder '$t(home)'. Namun, Anda juga dapat mengatur widget dalam folder yang berbeda. Misalnya, Anda bisa memiliki folder terpisah untuk widget pekerjaan dan pribadi. Atau Anda bisa memiliki folder tersendiri untuk setiap proyek individual.",
-                "p2": "Untuk mengelola folder, klik ikon roda gigi di sudut kiri bawah. Ini akan membuka pengaturan, di mana Anda dapat menyesuaikan Anori sesuai keinginan. Klik '$t(settings.folders.title)' di sana untuk membuka pengelola folder."
+                "p1": "Secara default, semua widget Anda ditambahkan ke folder '$t(home)'. Namun, Anda juga dapat mengelompokkan widget ke dalam folder yang berbeda. Misalnya, Anda bisa membuat folder terpisah untuk widget pekerjaan dan pribadi. Atau satu folder tersendiri untuk setiap proyek.",
+                "p2": "Untuk mengelola folder, klik ikon roda gigi di sudut kiri bawah. Ini akan membuka pengaturan, tempat Anda dapat menyesuaikan Anori sesuai selera. Di sana, klik '$t(settings.folders.title)' untuk membuka pengelola folder."
             },
             "customization": {
-                "title": "Kustomisasi",
-                "p1": "Selain memungkinkan Anda menyusun halaman awal sendiri dari widget, Anori dapat dikustomisasi lebih jauh.",
-                "p2": "Anda dapat mengubah judul tab baru, mengubah skema warna beserta gambar latar belakang, dan mengunggah ikon kustom untuk digunakan di widget (selain 10.000+ ikon bawaan).",
-                "p3": "Dan ini bahkan belum setengah dari semua opsi yang ada. Anda mungkin ingin melihat pengaturan untuk menemukan semuanya."
+                "title": "Penyesuaian",
+                "p1": "Selain memungkinkan Anda menyusun halaman awal sendiri dari widget, Anori juga dapat disesuaikan lebih jauh lagi.",
+                "p2": "Anda dapat mengubah judul tab baru, mengganti skema warna beserta gambar latar belakang, dan mengunggah ikon kustom untuk digunakan di widget (selain lebih dari 10.000 ikon bawaan).",
+                "p3": "Dan itu belum setengahnya. Lihat pengaturan untuk menemukan semua opsinya."
             },
             "analytics": {
                 "title": "Analitik",
-                "p1": "Kita hampir selesai. Tapi ada satu hal terakhir. Secara default Anori tidak mengumpulkan data pelacakan apa pun dan tidak mengirim apa pun ke server jarak jauh. Namun saya menggunakan analitik yang secara sukarela dikirim oleh pengguna untuk melihat fitur mana yang paling banyak digunakan dan mana yang perlu sedikit penyempurnaan.",
-                "p2": "Oleh karena itu saya meminta Anda untuk mengaktifkan pengiriman analitik. Anori tidak mengirim data pribadi apa pun (seperti catatan atau URL bookmark Anda), hanya metrik tentang cara Anda menggunakan ekstensi (misalnya, berapa banyak folder yang Anda miliki dan seberapa sering Anda menggunakan pintasan). Namun ini sepenuhnya terserah Anda, Anori akan tetap berfungsi seperti biasa meskipun Anda tidak mengaktifkan analitik.",
-                "p3": "Jika Anda ingin mengetahui lebih lanjut tentang data apa yang dikumpulkan, klik <0>di sini</0>."
+                "p1": "Kita hampir selesai, tinggal satu hal lagi. Secara default, Anori tidak mengumpulkan data pelacakan apa pun dan tidak mengirim apa pun ke server jarak jauh. Namun, saya menggunakan analitik yang dikirim pengguna secara sukarela untuk melihat fitur mana yang paling sering digunakan dan mana yang masih perlu disempurnakan.",
+                "p2": "Karena itu, saya meminta Anda untuk mengaktifkan pengiriman analitik. Anori tidak mengirim data pribadi apa pun (seperti catatan Anda atau URL bookmark Anda), hanya metrik tentang cara Anda menggunakan ekstensi (misalnya, berapa banyak folder yang Anda miliki dan seberapa sering Anda menggunakan pintasan keyboard). Namun, ini sepenuhnya terserah Anda. Anori akan tetap berfungsi seperti biasa meskipun Anda tidak mengaktifkan analitik.",
+                "p3": "Jika Anda ingin tahu lebih lanjut tentang data apa saja yang dikumpulkan, klik <0>di sini</0>."
             },
             "presets": {
                 "title": "Awal baru",
-                "p1": "Itu saja. Sekarang Anda memiliki gelar sarjana kilat di Anori dan siap untuk membuat halaman awal Anda sendiri. Tambahkan widget pertama Anda dan mulailah membangun setup terbaik.",
-                "p2": "Lelah dengan pilihan? Tidak apa-apa. Anda tidak perlu langsung mendapatkan halaman sempurna pada percobaan pertama. Anda bahkan tidak perlu memulai dari kanvas kosong. Kami telah menyiapkan setup produktif untuk Anda.",
-                "p3": "Mungkin tidak sepenuhnya sesuai dengan semua kebutuhan Anda, tetapi Anda dapat menggunakannya sebagai dasar untuk membuat setup Anda sendiri yang akan Anda sukai.",
-                "cta": "🚀 Berikan saya setup yang produktif"
+                "p1": "Sudah, itu saja. Sekarang Anda sudah meraih gelar sarjana kilat di bidang Anori dan siap membuat halaman awal sendiri. Tambahkan widget pertama Anda dan mulailah membangun susunan terbaik.",
+                "p2": "Bingung memilih? Tidak apa-apa. Anda tidak harus langsung mendapatkan halaman yang sempurna pada percobaan pertama. Anda bahkan tidak perlu mulai dari kanvas kosong. Kami sudah menyiapkan susunan yang produktif untuk Anda.",
+                "p3": "Mungkin tidak sesuai dengan semua kebutuhan Anda, tetapi Anda dapat menjadikannya dasar untuk membuat susunan sendiri yang akan Anda sukai.",
+                "cta": "🚀 Beri saya susunan yang produktif saja"
             },
             "preset": {
                 "task": {
-                    "themes": "Coba tema berbeda di pengaturan",
+                    "themes": "Coba berbagai tema di pengaturan",
                     "anoriPlus": "Lihat Anori Plus",
                     "widgets": "Jelajahi widget yang tersedia"
                 }
             }
         },
         "requirePermissions": {
-            "modalTitle": "Izin tambahan diperlukan",
-            "compactText": "Izin tambahan diperlukan. Klik untuk melihat detail.",
+            "modalTitle": "Perlu izin tambahan",
+            "compactText": "Perlu izin tambahan. Klik untuk melihat detail.",
             "text": "Widget ini memerlukan izin tambahan:",
             "apiPermissions": "Izin API",
             "hostPermissions": "Izin host",
@@ -283,7 +283,7 @@
         },
         "calendarSettings": {
             "firstDayOfWeek": "Hari pertama dalam seminggu",
-            "calendarType": "Tipe kalender"
+            "calendarType": "Jenis kalender"
         },
         "bookmark-plugin": {
             "name": "Bookmark",
@@ -293,12 +293,12 @@
             "group": "Grup",
             "searchBookmarks": "Cari bookmark",
             "checkStatus": "Periksa status halaman",
-            "checkStatusHint": "Anori akan membuat permintaan ke halaman setiap 10-15 menit di latar belakang untuk melihat apakah halaman aktif. Jika server tidak dapat dijangkau atau mengembalikan error HTTP 5xx, halaman akan dianggap tidak aktif. Ini memerlukan izin tambahan. Pemeriksaan tidak akan dilakukan saat browser ditutup atau komputer dalam mode tidur.",
+            "checkStatusHint": "Anori akan mengirim permintaan ke halaman setiap 10-15 menit di latar belakang untuk memeriksa apakah halaman aktif. Jika server tidak dapat dijangkau atau mengembalikan error HTTP 5xx, halaman dianggap tidak aktif. Fitur ini memerlukan izin tambahan. Pemeriksaan tidak dilakukan saat browser ditutup atau komputer dalam mode tidur.",
             "checkingStatus": "Memeriksa status halaman...",
-            "status": "Halaman saat ini {{status}}, perubahan status terakhir adalah {{lastChange}}. Terakhir diperiksa {{lastCheck}}.",
+            "status": "Halaman saat ini {{status}}, status terakhir berubah {{lastChange}}. Terakhir diperiksa {{lastCheck}}.",
             "statusUp": "aktif",
             "statusDown": "tidak aktif",
-            "permissionExplanation": "Anori memerlukan izin ini untuk mengatasi CORS. Kata-kata yang ditampilkan oleh browser Anda mungkin terkesan mengkhawatirkan, tetapi Anori tidak mengubah atau membaca data apa pun dari situs web yang di-bookmark.",
+            "permissionExplanation": "Anori memerlukan izin ini untuk mengatasi CORS. Kata-kata yang ditampilkan browser mungkin terdengar mengkhawatirkan, tetapi Anori tidak mengubah atau membaca data apa pun dari situs yang di-bookmark.",
             "openInNewTab": "Buka di tab baru",
             "openInIframe": "Buka di popup",
             "pages": "Halaman",
@@ -324,7 +324,7 @@
             "noteTitle": "Judul catatan",
             "noteText": "Teks catatan (mendukung markdown)",
             "exampleTitle": "Daftar belanja",
-            "exampleText": "Sayuran, saus tomat, keju, tepung, minyak zaitun"
+            "exampleText": "Sayur, saus tomat, keju, tepung, minyak zaitun"
         },
         "recently-closed-plugin": {
             "name": "Tab yang baru ditutup",
@@ -341,55 +341,55 @@
             "name": "Tab",
             "tabGroup": "Grup tab",
             "contextMenu": {
-                "stashTab": "Simpan tab ini",
-                "stashLink": "Simpan tautan ini",
-                "stashGroup": "Simpan grup tab ini"
+                "stashTab": "Sisihkan tab ini",
+                "stashLink": "Sisihkan link ini",
+                "stashGroup": "Sisihkan grup tab ini"
             },
             "stash": {
-                "title": "Simpanan tab",
+                "title": "Tab disisihkan",
                 "inbox": "Kotak masuk",
-                "empty": "Belum ada yang disimpan",
+                "empty": "Belum ada yang disisihkan",
                 "emptyHint": "Tambahkan tab dengan tombol + di atas, atau buka popup Anori dari toolbar browser Anda.",
-                "stashTab": "Simpan tab",
+                "stashTab": "Sisihkan tab",
                 "remove": "Hapus",
                 "rename": "Ganti nama",
                 "openAll": "Buka semua",
                 "showAllTabs": "Tampilkan semua tab",
-                "pasteUrl": "Tempel tautan",
+                "pasteUrl": "Tempel link",
                 "add": "Tambah",
                 "tabCount_other": "{{count}} tab"
             },
             "popup": {
-                "stashTab": "Simpan tab",
-                "stashCurrentTab": "Simpan tab saat ini",
-                "stashGroup": "Simpan grup tab",
-                "stashWindow": "Simpan jendela ini",
+                "stashTab": "Sisihkan tab",
+                "stashCurrentTab": "Sisihkan tab saat ini",
+                "stashGroup": "Sisihkan grup tab",
+                "stashWindow": "Sisihkan jendela ini",
                 "window": "Jendela",
-                "grantTabs": "Izin tambahan diperlukan untuk fitur $t(tabs-plugin.stash.title)",
-                "recentlyStashed": "Baru saja disimpan",
-                "nothingStashed": "Belum ada yang disimpan"
+                "grantTabs": "Fitur $t(tabs-plugin.stash.title) memerlukan izin tambahan",
+                "recentlyStashed": "Baru disisihkan",
+                "nothingStashed": "Belum ada yang disisihkan"
             },
             "syncedTabs": {
                 "title": "Tab tersinkron",
                 "loading": "Memuat tab...",
                 "unnamedGroup": "Grup",
-                "notConnectedTitle": "Lihat tab dari perangkat lain Anda",
+                "notConnectedTitle": "Lihat tab dari perangkat Anda yang lain",
                 "notConnectedDescription": "Hubungkan Anori Plus untuk menyinkronkan tab yang terbuka di semua perangkat Anda.",
                 "connect": "Hubungkan",
-                "emptyTitle": "Belum ada perangkat lain yang berbagi tab",
+                "emptyTitle": "Belum ada perangkat lain yang membagikan tab",
                 "emptyDescription": "Masuk ke akun Anori Plus Anda di komputer lain dan aktifkan sinkronisasi tab di sana."
             }
         },
         "tasks-plugin": {
             "name": "Tugas",
-            "todo": "ToDo",
+            "todo": "Daftar tugas",
             "completeTask": "Selesaikan \"{{task}}\"",
             "taskDescription": "Deskripsi tugas...",
             "noTasks": "Belum ada tugas di sini",
-            "exampleTask0": "Jalan-jalan santai untuk kesehatan mental",
+            "exampleTask0": "Jalan-jalan sebentar biar otak waras",
             "exampleTask1": "Rebahan di sofa",
             "exampleTask2": "Rebahan di lantai",
-            "exampleTask3": "Coba untuk tidak menangis"
+            "exampleTask3": "Usahakan jangan nangis"
         },
         "top-sites-plugin": {
             "name": "Situs teratas",
@@ -405,15 +405,15 @@
             "kmh": "km/j",
             "ms": "m/d",
             "mph": "mph",
-            "clearSky": "Langit cerah",
-            "partlyCloudy": "Berawan sebagian",
+            "clearSky": "Cerah",
+            "partlyCloudy": "Cerah berawan",
             "fog": "Kabut",
             "drizzle": "Gerimis",
             "freezingDrizzle": "Gerimis beku",
             "rain": "Hujan",
             "freezingRain": "Hujan beku",
             "snow": "Salju",
-            "rainShower": "Hujan lebat",
+            "rainShower": "Hujan lokal",
             "thunderstorm": "Badai petir",
             "unknownCode": "Kode cuaca tidak dikenal",
             "selectCity": "Pilih kota",
@@ -424,43 +424,43 @@
         },
         "rss-plugin": {
             "name": "RSS",
-            "widgetFeedName": "Umpan RSS",
-            "widgetLatestPostName": "Postingan terbaru dari umpan RSS",
-            "feedUrl": "URL umpan RSS",
+            "widgetFeedName": "Feed RSS",
+            "widgetLatestPostName": "Postingan terbaru dari feed RSS",
+            "feedUrl": "URL feed RSS",
             "feedUrls": "URL feed RSS",
             "noPosts": "Belum ada postingan di feed ini",
             "compactView": "Tampilan ringkas",
-            "presetsTitle": "Tambahkan feed favorit Anda atau pilih dari salah satu preset:",
-            "presetsText": "Belum menambahkan feed? Kami punya preset untuk <0>developer</0>, <1>desainer</1>, dan satu dengan <2>berbagai hal menarik</2>.",
+            "presetsTitle": "Masukkan feed favorit Anda di sini atau pilih salah satu preset:",
+            "presetsText": "Belum menambahkan feed? Kami punya preset untuk <0>developer</0>, untuk <1>desainer</1>, dan satu lagi berisi <2>berbagai hal menarik</2>.",
             "addFeed": "Tambah feed",
-            "presetForDevelopers": "Untuk pengembang",
+            "presetForDevelopers": "Untuk developer",
             "presetForDesigners": "Untuk desainer",
-            "presetInteresting": "Hal-hal menarik",
+            "presetInteresting": "Hal-hal menarik saja",
             "presetForDevelopersTitle": "Dev",
             "presetForDesignersTitle": "Desain",
             "presetInterestingTitle": "Hal menarik",
-            "examplePostTitle1": "Cara mengatur tab baru Anori Anda seperti seorang pro!",
-            "examplePostDescription1": "Mulailah dengan bookmark lama yang baik lalu biarkan hati Anda memandu. Terkadang yang Anda butuhkan hanyalah sedikit keteraturan...",
+            "examplePostTitle1": "Cara menata tab baru Anori Anda layaknya seorang pro!",
+            "examplePostDescription1": "Cukup mulai dengan bookmark sederhana, lalu ikuti kata hati Anda. Terkadang yang Anda butuhkan hanyalah sedikit keteraturan...",
             "exampleFeedTitle1": "Blog Anori",
             "examplePostTitle2": "8 ekstensi browser paling berguna",
-            "examplePostDescription2": "Hari ini saya akan menunjukkan cara mengubah browser Anda menjadi mesin produktivitas dengan ekstensi-ekstensi wajib ini. Menampilkan bintang utama — Anori.",
-            "exampleFeedTitle2": "Produktivitas 101",
+            "examplePostDescription2": "Hari ini saya akan menunjukkan cara mengubah browser Anda menjadi pusat produktivitas dengan ekstensi-ekstensi wajib ini. Dengan bintang utamanya: Anori.",
+            "exampleFeedTitle2": "Dasar-dasar produktivitas",
             "examplePostTitle3": "Ekstensi yang memungkinkan Anda menyusun tab baru sendiri dari widget!",
-            "examplePostDescription3": "Anda dapat menyusun tab baru Anda sendiri dari widget yang tersedia (tugas, catatan, bookmark, dll) dan mengaturnya ke dalam folder.",
+            "examplePostDescription3": "Anda dapat menyusun tab baru sendiri dari widget yang tersedia (tugas, catatan, bookmark, dll.) dan mengelompokkannya ke dalam folder.",
             "exampleFeedTitle3": "Reddit"
         },
         "iframe-plugin": {
             "name": "Sematkan halaman web",
             "expandWidgetName": "Sematkan halaman web — dapat diperluas",
-            "showLink": "Tampilkan tautan ke halaman asli",
+            "showLink": "Tampilkan link ke halaman asli",
             "openPage": "Buka halaman",
-            "limitations": "Penyematan tidak berfungsi untuk semua halaman. Beberapa situs secara aktif menolak ditampilkan sebagai halaman yang disematkan, dan sayangnya Anori tidak banyak bisa melakukan hal tersebut. Ini dapat mengakibatkan halaman tidak dapat dimuat (seperti Gmail) atau bekerja dengan buruk."
+            "limitations": "Penyematan tidak berfungsi di semua halaman. Beberapa situs secara aktif menolak ditampilkan sebagai halaman sematan, dan sayangnya Anori tidak banyak bisa berbuat apa-apa. Akibatnya, halaman mungkin tidak dimuat (seperti Gmail) atau tidak berfungsi dengan baik."
         },
         "math-plugin": {
             "name": "Matematika",
             "calculator": "Kalkulator",
             "expandWidgetName": "Kalkulator — dapat diperluas",
-            "cantCalc": "Tidak dapat menghitung itu"
+            "cantCalc": "Tidak dapat menghitungnya"
         },
         "picture-plugin": {
             "name": "Gambar",
@@ -480,27 +480,27 @@
             "good": "Baik",
             "hard": "Sulit",
             "errorTitle": "AnkiConnect tidak dapat dijangkau",
-            "error": "Pastikan Anki sedang berjalan dan add-on AnkiConnect telah terpasang.",
+            "error": "Pastikan Anki sedang berjalan dan add-on AnkiConnect sudah terpasang.",
             "widgetName": "Anki"
         },
         "releaseNotes": {
-            "alsoInThisRelease": "Juga dalam rilis ini",
+            "alsoInThisRelease": "Juga di rilis ini",
             "tagNew": "Baru",
             "tagImproved": "Ditingkatkan",
             "tagFixed": "Diperbaiki",
-            "changelogNote": "Mencari changelog untuk versi lama? Anda dapat menemukannya <0>di GitHub</0>.",
+            "changelogNote": "Mencari changelog versi lama? Anda dapat menemukannya <0>di GitHub</0>.",
             "v2_3_0": {
-                "headline": "Kenali plugin $t(motivation-plugin.name) baru: delapan widget untuk melacak waktu, melihat gambaran besar, tetap fokus, dan menghitung hari-hari yang penting.",
+                "headline": "Kenalan dengan plugin baru $t(motivation-plugin.name): delapan widget untuk memantau waktu, melihat gambaran besar, tetap fokus, dan menghitung hari-hari yang berarti.",
                 "periodsTitle": "Ke mana perginya hari ini?",
-                "periodsBody": "Widget progres baru menampilkan seberapa banyak hari, minggu, bulan, atau tahun yang sudah berlalu. Progres hari dan minggu bisa mencakup sebagian saja, sehingga kamu bisa mengikuti hari kerja dan minggu kerja, atau memantau sisa akhir pekan yang masih ada.",
-                "periodsCalendar": "Progres bulan dan tahun juga bisa mengikuti sistem kalender lain, jika itulah yang kamu gunakan sehari-hari.",
-                "lifeTitle": "Pandangan jangka panjang",
-                "lifeBody": "Lihat hidupmu dari perspektif yang lebih luas dengan Progres hidup: hidupmu sebagai kisi-kisi tahun yang perlahan terisi. Sebuah memento mori yang lembut, tanpa tengkorak. Dan jika kamu lebih suka memantau detik demi detik, Penghitung usia menampilkan berapa umurmu secara langsung.",
-                "focusTitle": "Tetap dalam pandangan",
-                "focusBody": "Fokus menampilkan satu baris teks di tab baru kamu, agar hal penting tidak tenggelam di balik hal lainnya. Gunakan untuk tugas hari ini, tujuan minggu ini, atau satu hal yang kamu syukuri. Bisa dimulai ulang setiap hari, minggu, atau bulan, atau tetap ada sampai kamu mengubahnya.",
-                "counterTitle": "Hitung hari",
-                "counterBody": "Jika fokusmu punya tenggat waktu, melihat hari-hari yang tersisa bisa sangat membantu. Itulah kegunaan penghitung hari. Widget ini juga bisa menghitung ke arah sebaliknya: berhenti merokok dua minggu lalu? Tampilkan angka itu di tab baru dan saksikan terus bertambah hari demi hari.",
-                "minorLocalizedNumbers": "Persentase penggunaan CPU dan memori serta kecepatan angin kini mengikuti format angka bahasamu, seperti '12,3 %' dalam bahasa Jerman atau '%12,3' dalam bahasa Turki."
+                "periodsBody": "Widget progres baru menunjukkan berapa banyak hari, minggu, bulan, atau tahun yang sudah Anda lewati. Progres hari dan minggu bisa mencakup sebagian saja, jadi Anda dapat mengikuti jam kerja dan hari kerja, atau memantau berapa banyak akhir pekan yang masih tersisa.",
+                "periodsCalendar": "Progres bulan dan tahun juga bisa mengikuti sistem kalender lain, jika itu kalender yang Anda gunakan sehari-hari.",
+                "lifeTitle": "Gambaran seumur hidup",
+                "lifeBody": "Lihat hidup Anda secara utuh dengan Progres hidup: hidup Anda sebagai kisi tahun yang perlahan terisi. Pengingat memento mori yang lembut, tanpa tengkorak. Dan jika Anda lebih suka melihat detik berjalan, Penghitung usia menunjukkan usia Anda secara langsung.",
+                "focusTitle": "Tetap terlihat",
+                "focusBody": "Fokus menampilkan satu baris teks di tab baru Anda, agar hal penting tidak tenggelam di antara hal lainnya. Gunakan untuk tugas hari ini, target minggu ini, atau satu hal yang Anda syukuri. Teksnya bisa dimulai ulang setiap hari, minggu, atau bulan, atau tetap ada sampai Anda mengubahnya.",
+                "counterTitle": "Hitung harinya",
+                "counterBody": "Jika fokus Anda punya tenggat, melihat hari-hari yang tersisa bisa sangat membantu. Untuk itulah ada Penghitung hari. Widget ini juga bisa menghitung ke arah sebaliknya: berhenti merokok dua minggu lalu? Pasang angka itu di tab baru Anda dan lihat angkanya bertambah dari hari ke hari.",
+                "minorLocalizedNumbers": "Persentase penggunaan CPU dan memori serta kecepatan angin kini mengikuti format angka bahasa Anda, seperti '12,3 %' dalam bahasa Jerman atau '%12,3' dalam bahasa Turki."
             }
         },
         "motivation-plugin": {
@@ -519,7 +519,7 @@
                 "month": "Bulan",
                 "year": "Tahun"
             },
-            "elapsedTooltip": "{{percent}} telah berlalu · {{duration}}",
+            "elapsedTooltip": "{{percent}} berlalu · {{duration}}",
             "remainingTooltip": "{{percent}} tersisa · {{duration}}",
             "countOnlyPartOfDay": "Hitung hanya sebagian hari",
             "countOnlyPartOfWeek": "Hitung hanya sebagian minggu",
@@ -528,24 +528,24 @@
             "dateOfBirth": "Tanggal lahir",
             "expectedLifespan": "Perkiraan usia hidup, tahun",
             "yearsLived_other": "{{lived}} dari {{count}} tahun telah dijalani",
-            "yourAge": "Usiamu",
-            "focusPlaceholder": "Ketik dan tekan Enter",
+            "yourAge": "Usia Anda",
+            "focusPlaceholder": "Ketik lalu tekan Enter",
             "resetCadence": "Atur ulang",
             "cadences": {
                 "daily": "Setiap hari",
                 "weekly": "Setiap minggu",
                 "monthly": "Setiap bulan",
-                "manual": "Secara manual"
+                "manual": "Manual"
             },
-            "markDone": "Tandai sebagai selesai",
-            "markNotDone": "Tandai sebagai belum selesai",
+            "markDone": "Tandai selesai",
+            "markNotDone": "Tandai belum selesai",
             "editFocus": "Edit",
             "targetDate": "Tanggal",
             "today": "Hari ini",
-            "daysLeft_other": "hari tersisa",
+            "daysLeft_other": "hari lagi",
             "daysSince_other": "hari berlalu",
-            "hoursLeft_other": "jam tersisa",
-            "mockFocusText": "Selesaikan laporan kuartalan",
+            "hoursLeft_other": "jam lagi",
+            "mockFocusText": "Selesaikan laporan triwulanan",
             "mockCounterTitle": "Liburan",
             "defaultPrompt": "Fokus hari ini"
         }

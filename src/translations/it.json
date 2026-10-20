@@ -1,8 +1,8 @@
 {
     "translation": {
-        "appName": "Anori: la tua scheda per la produttività",
+        "appName": "Anori: nuova scheda per la produttività",
         "appDescription": "Nuova scheda personalizzabile: componi la tua pagina con i widget",
-        "appActionTitle": "Apri scheda Anori",
+        "appActionTitle": "Apri la nuova scheda di Anori",
         "openAnori": "Apri Anori",
         "icon": "Icona",
         "title": "Titolo",
@@ -15,7 +15,7 @@
         "noResults": "Nessun risultato",
         "example": "Esempio",
         "timezone": "Fuso orario",
-        "refreshing": "Aggiornamento in corso...",
+        "refreshing": "Aggiornamento...",
         "refresh": "Aggiorna",
         "startTypingToSearch": "Inizia a digitare per cercare...",
         "search": "Cerca...",
@@ -37,7 +37,7 @@
         "done": "Fatto",
         "close": "Chiudi",
         "info": "Info",
-        "success": "Successo",
+        "success": "Operazione riuscita",
         "warning": "Avviso",
         "error": "Errore",
         "next": "Avanti",
@@ -45,10 +45,10 @@
         "reorder": "Riordina",
         "icons": "Icone",
         "customIcons": "Icone personalizzate",
-        "canBeEmpty": "può essere vuoto",
+        "canBeEmpty": "può restare vuoto",
         "duration": {
-            "hoursMinutes": "{{hours}}h {{minutes}}m",
-            "daysHours": "{{days}}g {{hours}}h",
+            "hoursMinutes": "{{hours}} h {{minutes}} min",
+            "daysHours": "{{days}} g {{hours}} h",
             "days_one": "{{count}} giorno",
             "days_many": "{{count}} giorni",
             "days_other": "{{count}} giorni"
@@ -56,11 +56,11 @@
         "unsupportedWidget": {
             "short": "Non disponibile",
             "title": "Widget non disponibile",
-            "description": "Questo tipo di widget non è disponibile in questo browser. Rimane sugli altri browser sincronizzati e puoi comunque spostarlo, ridimensionarlo o rimuoverlo qui."
+            "description": "Questo tipo di widget non è disponibile in questo browser. Resta sugli altri browser sincronizzati e qui puoi comunque spostarlo, ridimensionarlo o rimuoverlo."
         },
         "widgetRenderError": {
             "title": "Ops",
-            "description": "Il widget non è riuscito a renderizzarsi, controlla la console per i dettagli."
+            "description": "Impossibile visualizzare il widget, controlla la console per i dettagli."
         },
         "cloud": {
             "connect": "Connetti",
@@ -72,40 +72,40 @@
             "logout": "Esci",
             "email": "Email",
             "password": "Password",
-            "connectedAs": "Connesso come",
-            "syncPausedBehind": "Questa copia di Anori è più vecchia di un altro dispositivo su questo profilo, quindi la sincronizzazione è in pausa finché non viene aggiornata. Le modifiche apportate nel frattempo non verranno sincronizzate con gli altri dispositivi, ma verranno salvate in un backup prima dell'aggiornamento, nel caso in cui ne avessi bisogno.",
+            "connectedAs": "Accesso effettuato come",
+            "syncPausedBehind": "Questa copia di Anori è meno recente di quella di un altro dispositivo di questo profilo, quindi la sincronizzazione è in pausa finché non verrà aggiornata. Le modifiche che fai nel frattempo non verranno sincronizzate con gli altri dispositivi, ma prima dell'aggiornamento verranno salvate in un backup, nel caso ti servissero.",
             "preUpdateBackup": "Backup precedente all'ultimo aggiornamento ({{date}})",
             "downloadBackup": "Scarica",
             "noAccount": "Non hai un account?",
             "createAccount": "Creane uno qui",
             "userDataConflict": {
-                "description": "Questo browser contiene dati di Anori Plus — ad esempio il tuo Archivio schede — che erano stati sincronizzati con un account diverso da quello a cui stai accedendo. Cosa vuoi fare con questi dati?",
+                "description": "Questo browser contiene dati di Anori Plus — ad esempio le tue Schede accantonate — sincronizzati con un account diverso da quello a cui stai accedendo. Cosa vuoi farne?",
                 "upload": "Aggiungili a questo account",
-                "uploadHint": "Mantiene questi dati e li unisce all'account a cui stai accedendo. Scegli questa opzione se sono tuoi — ad esempio se hai cambiato account.",
-                "discard": "Elimina i dati locali",
-                "discardHint": "Li rimuove da questo browser e usa i dati già presenti in questo account. Scegli questa opzione se appartengono all'altro account o non ti servono qui."
+                "uploadHint": "Mantiene questi dati e li unisce all'account a cui stai accedendo. Scegli questa opzione se sono tuoi, ad esempio se hai cambiato account.",
+                "discard": "Scartali",
+                "discardHint": "Li rimuove da questo browser e usa invece i dati già presenti in questo account. Scegli questa opzione se appartengono all'altro account o se qui non ti servono."
             },
-            "plusDescription": "Anori Plus è un servizio aggiuntivo per Anori che ti permette di sincronizzare la tua configurazione tra più browser e dispositivi in tempo reale.",
+            "plusDescription": "Anori Plus è un servizio aggiuntivo per Anori che ti permette di sincronizzare la configurazione tra più browser e dispositivi in tempo reale.",
             "learnMore": "Scopri di più",
             "profiles": "Profili",
             "noProfiles": "Nessun profilo trovato. Crea il tuo primo profilo per sincronizzare le impostazioni tra i browser.",
             "createProfile": "Crea profilo",
-            "profileName": "Nome profilo",
-            "createdAt": "Creato {{date}}",
+            "profileName": "Nome del profilo",
+            "createdAt": "Creato il {{date}}",
             "lastSyncedAt": "Ultimo utilizzo {{date}}",
             "create": "Crea",
-            "profileCreatedSuccess": "Profilo creato! Ora puoi connettere altri browser a questo profilo e le tue impostazioni verranno sincronizzate tra di essi.",
+            "profileCreatedSuccess": "Profilo creato! Ora puoi connettere altri browser a questo profilo e le impostazioni verranno sincronizzate tra loro.",
             "confirm": "Conferma",
             "rename": "Rinomina",
             "delete": "Elimina",
-            "deleteConfirmation": "Sei sicuro di voler eliminare il profilo \"{{profileName}}\"? Questa azione non può essere annullata.",
+            "deleteConfirmation": "Vuoi davvero eliminare il profilo \"{{profileName}}\"? Questa azione non può essere annullata.",
             "connectConfirmation": {
-                "message": "La connessione al profilo \"{{profileName}}\" sovrascriverà la tua configurazione locale attuale con quella memorizzata nel profilo. Vuoi continuare?"
+                "message": "Connettendoti al profilo \"{{profileName}}\", la configurazione locale attuale verrà sovrascritta con quella salvata nel profilo. Vuoi continuare?"
             },
             "settings": {
                 "title": "Impostazioni",
                 "shareOpenTabs": "Condividi le schede aperte con gli altri dispositivi connessi",
-                "shareOpenTabsHint": "Se abilitato, le schede aperte su questo computer vengono condivise con gli altri dispositivi collegati a questo account Anori, così puoi vederle e riaprirle da qualsiasi di essi."
+                "shareOpenTabsHint": "Se l'opzione è attiva, le schede aperte su questo computer vengono condivise con gli altri tuoi dispositivi connessi a questo account Anori, così puoi vederle e riaprirle da uno qualsiasi di essi."
             },
             "devices": {
                 "title": "Dispositivi",
@@ -113,7 +113,7 @@
                 "rename": "Rinomina dispositivo",
                 "remove": "Rimuovi dispositivo",
                 "removeConfirmation": "Rimuovere \"{{name}}\" dal tuo account? Verrà disconnesso e smetterà di sincronizzarsi.",
-                "namePlaceholder": "Nome dispositivo",
+                "namePlaceholder": "Nome del dispositivo",
                 "lastActive": "attivo {{date}}",
                 "empty": "Nessun dispositivo ha ancora effettuato l'accesso a questo account"
             },
@@ -127,45 +127,45 @@
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Le icone personalizzate sono icone che carichi in Anori per un uso futuro.",
-            "customIconsAbsent": "Attualmente, non hai nessuna icona personalizzata. Per caricare la tua prima icona personalizzata vai alle impostazioni.",
+            "customIconsInfo": "Le icone personalizzate sono icone che carichi tu per usarle in Anori.",
+            "customIconsAbsent": "Al momento non hai icone personalizzate. Per caricare la tua prima icona personalizzata, vai nelle impostazioni.",
             "iconFamily": "Famiglia di icone",
             "allIcons": "Tutte le icone",
-            "selectFamilyOrSearch": "Seleziona una famiglia di icone specifica o prova a cercare per vedere suggerimenti di icone."
+            "selectFamilyOrSearch": "Seleziona una famiglia di icone o prova a cercare per vedere dei suggerimenti."
         },
         "settings": {
             "title": "Impostazioni",
             "general": {
                 "title": "Generali",
                 "language": "Lingua",
-                "translationInfo": "Le traduzioni in lingue diverse dall'inglese o dall'ucraino possono essere effettuate da macchine. Ci affidiamo alla comunità per la loro revisione. Se noti errori o stringhe non tradotte, aiutaci a correggerli! <0>Ecco</0> le istruzioni su come puoi partecipare.",
+                "translationInfo": "Le traduzioni in lingue diverse dall'inglese e dall'ucraino possono essere automatiche. Contiamo sulla comunità per revisionarle. Se noti un errore o una stringa non tradotta, aiutaci a correggerli! <0>Qui</0> trovi le istruzioni per partecipare.",
                 "sidebarOrientation": "Orientamento della barra laterale",
-                "sidebarOrientationOption-auto": "Basato sull'orientamento della finestra",
+                "sidebarOrientationOption-auto": "In base all'orientamento della finestra",
                 "sidebarOrientationOption-vertical": "Sempre verticale",
                 "sidebarOrientationOption-horizontal": "Sempre orizzontale",
                 "autoHideSidebar": "Nascondi automaticamente la barra laterale",
                 "newTabTitle": "Titolo della nuova scheda",
-                "enableAnalytics": "Abilita l'invio dei dati di analisi",
-                "analyticsHintP1": "L'analisi dei dati ci aiuta a capire meglio come gli utenti interagiscono con Anori e quali funzionalità vengono utilizzate di più. Non vengono condivise le informazioni private, come il contenuto delle note o gli URL dei segnalibri.",
-                "analyticsHintP2": "Questo ci aiuta a sviluppare un prodotto migliore, quindi ti chiediamo di abilitare l'invio dei dati di analisi. <0>Scopri di più.</0>",
-                "showBookmarksBar": "Mostra barra segnalibri",
-                "automaticCompact": "Passa automaticamente alla modalità compatta in base alla dimensione dello schermo",
-                "automaticCompactModeThreshold": "Passa alla modalità compatta se la dimensione dello schermo è inferiore a",
-                "automaticCompactModeThresholdHint": "La larghezza dello schermo attuale è di {{screenWidth}}px",
+                "enableAnalytics": "Abilita l'invio delle statistiche d'uso",
+                "analyticsHintP1": "Le statistiche d'uso mi aiutano a capire meglio come gli utenti usano Anori e quali funzionalità sono le più usate. Non vengono condivise informazioni private, come il contenuto delle note o gli URL dei segnalibri.",
+                "analyticsHintP2": "Mi aiutano a sviluppare un prodotto migliore, per questo ti chiedo di abilitare l'invio delle statistiche d'uso. <0>Scopri di più.</0>",
+                "showBookmarksBar": "Mostra la barra dei segnalibri",
+                "automaticCompact": "Passa automaticamente alla modalità compatta in base alle dimensioni dello schermo",
+                "automaticCompactModeThreshold": "Passa alla modalità compatta se lo schermo è più piccolo di",
+                "automaticCompactModeThresholdHint": "La larghezza attuale del tuo schermo è {{screenWidth}}px",
                 "useCompact": "Usa sempre la modalità compatta",
-                "showAnimationOnOpen": "Mostra animazione all'apertura",
-                "showAnimationOnOpenHint": "Se abilitata, l'estensione mostrerà un'animazione di caricamento veloce che nasconderà l'iniziale sfarfallio durante il caricamento dei dati e fornirà un esperienza migliore.",
+                "showAnimationOnOpen": "Mostra un'animazione all'apertura",
+                "showAnimationOnOpenHint": "Se l'opzione è attiva, l'estensione mostrerà una breve animazione di caricamento che nasconde lo sfarfallio iniziale durante il caricamento dei dati e offre un aspetto più curato.",
                 "rememberLastFolder": "Ricorda l'ultima cartella aperta"
             },
             "customIcons": {
                 "title": "Icone personalizzate",
-                "incorrectFormat": "Fornisci file validi. Anori supporta .png, .jpg, .gif, .jpeg e .svg",
-                "noIcons": "Non hai ancora nessuna icona personalizzata.",
-                "iconName": "Nome icona",
-                "invalidNames": "Alcune delle icone hanno un nome non valido, correggili prima di salvare.",
-                "nameContainsInvalidChars": "Il nome contiene caratteri non validi, sono accettate solo lettere, cifre, - e _.",
+                "incorrectFormat": "Carica file validi. Anori supporta .png, .jpg, .gif, .jpeg e .svg",
+                "noIcons": "Non hai ancora icone personalizzate.",
+                "iconName": "Nome dell'icona",
+                "invalidNames": "Alcune icone hanno un nome non valido: correggi i nomi prima di salvare.",
+                "nameContainsInvalidChars": "Il nome contiene caratteri non validi: sono ammessi solo lettere, cifre, - e _.",
                 "saveIcons": "Salva icone",
-                "supportedFormats": "Anori supporta .png, .jpg, .gif e .svg. È meglio utilizzare immagini quadrate tra i 128 e 256 pixel di larghezza (non si applica ai file svg).",
+                "supportedFormats": "Anori supporta .png, .jpg, .gif e .svg. È meglio usare immagini quadrate larghe tra 128 e 256 pixel (non vale per .svg).",
                 "addIcons": "Aggiungi icone",
                 "removeIcon": "Rimuovi icona",
                 "newIcons": "Nuove icone",
@@ -180,11 +180,11 @@
                 "removeFolder": "Rimuovi cartella"
             },
             "pluginSettings": {
-                "title": "Impostazioni del plugin"
+                "title": "Impostazioni dei plugin"
             },
             "theme": {
                 "title": "Tema",
-                "createCustom": "Crea tema personalizzato",
+                "createCustom": "Crea un tema personalizzato",
                 "newTheme": "Nuovo tema",
                 "editTheme": "Modifica tema",
                 "removeTheme": "Rimuovi tema",
@@ -196,75 +196,75 @@
                 "colorText": "Testo",
                 "colorCode": "Codice colore",
                 "colorScheme": "Schema colori",
-                "previewColorScheme": "Schema colori dell'anteprima",
-                "hideDotPattern": "Nascondi motivo a punti",
-                "pixelatedBackground": "Ridimensionamento pixel nitido",
-                "pixelatedBackgroundHint": "Disabilita la sfumatura delle immagini applicata dai browser durante il ridimensionamento dello sfondo. Consigliato per la pixel art.",
+                "previewColorScheme": "Anteprima dello schema colori",
+                "hideDotPattern": "Nascondi il motivo a punti",
+                "pixelatedBackground": "Pixel nitidi nel ridimensionamento",
+                "pixelatedBackgroundHint": "Disattiva lo smussamento che i browser applicano quando ridimensionano lo sfondo. Consigliato per la pixel art.",
                 "colorSchemeSystem": "Sistema",
                 "colorSchemeLight": "Chiaro",
                 "colorSchemeDark": "Scuro"
             },
             "importExport": {
                 "title": "Importa ed esporta",
-                "info": "Qui puoi eseguire il backup delle tue impostazioni o ripristinare un backup precedente.",
+                "info": "Qui puoi fare il backup delle impostazioni o ripristinare un backup precedente.",
                 "import": "Importa",
                 "export": "Esporta",
-                "cloudWarning": "Hai la sincronizzazione cloud attiva. L'importazione di un backup ti disconnetterà dal profilo di sincronizzazione. Dovrai riconnetterti dopo l'importazione. Continuare?",
-                "cloudSyncHint": "Vuoi salvare la tua configurazione nel cloud o sincronizzarla tra dispositivi in tempo reale? Prova <0>Anori Plus</0> — lo fa in modo trasparente.",
+                "cloudWarning": "La sincronizzazione cloud è attiva. Importare un backup ti disconnetterà dal profilo di sincronizzazione e dopo l'importazione dovrai riconnetterti. Continuare?",
+                "cloudSyncHint": "Vuoi fare il backup della configurazione nel cloud o sincronizzarla tra dispositivi in tempo reale? Prova <0>Anori Plus</0> — lo fa senza intoppi.",
                 "importError": "Impossibile importare il backup: {{error}}"
             },
             "aboutHelp": {
                 "title": "Aiuto e informazioni sull'estensione",
-                "onlyEnglishPlease": "Io (autore del progetto) non parlo molte lingue, quindi per favore invia i tuoi problemi in inglese. Grazie!",
-                "p1": "Anori è un'estensione gratuita e open source. Il codice sorgente si trova su <0>GitHub</0>. Se vuoi suggerire una funzionalità o segnalare un bug, crea <1>un nuovo problema</1> nel repository. Se vuoi semplicemente dire grazie, puoi mettere una stella al repository :).",
-                "p2": "Se desideri modificare questa estensione, aggiungere il tuo plugin o widget, consulta il <0>readme</0> per ulteriori informazioni.",
-                "p3": "Segui l'autore su <0>Twitter</0> e <1>supporta l'Ucraina</1>.",
-                "p4": "Se desideri supportare lo sviluppo di Anori con una donazione, puoi farlo <0>qui</0>. Sono disponibili opzioni con carta di credito e criptovaluta.",
+                "onlyEnglishPlease": "Io (l'autore del progetto) non parlo molte lingue, quindi ti chiedo di scrivere le segnalazioni in inglese. Grazie!",
+                "p1": "Anori è un'estensione gratuita e open source. Il codice sorgente è su <0>GitHub</0>. Se vuoi suggerire una funzionalità o segnalare un bug, apri <1>una nuova segnalazione</1> nel repository. Se vuoi solo dire grazie, puoi lasciare una stella al repository :).",
+                "p2": "Se vuoi modificare questa estensione o aggiungere un tuo plugin o widget, consulta il <0>readme</0> per maggiori informazioni.",
+                "p3": "Segui l'autore su <0>Twitter</0> e <1>sostieni l'Ucraina</1>.",
+                "p4": "Se vuoi sostenere lo sviluppo di Anori con un piccolo contributo, puoi farlo <0>qui</0>. Si può pagare con criptovalute o carta di credito.",
                 "license": "Licenza"
             }
         },
         "shortcuts": {
-            "title": "Scorciatoie",
-            "showCheatsheet": "Mostra/nascondi la cheatsheet delle scorciatoie",
+            "title": "Scorciatoie da tastiera",
+            "showCheatsheet": "Mostra/nascondi l'elenco delle scorciatoie da tastiera",
             "toggleSettings": "Mostra/nascondi le impostazioni",
-            "closeMenuOrModal": "Chiudi menu dei comandi o finestra modale",
+            "closeMenuOrModal": "Chiudi la finestra modale",
             "switchToFolderAbove": "Passa alla cartella sopra",
             "switchToFolderBelow": "Passa alla cartella sotto",
             "switchFolderWithWheel": "Passa da una cartella all'altra con la rotella del mouse o il trackpad",
-            "switchToNFolder": "Passa alla prima cartella (funziona anche con altri numeri!)",
+            "switchToNFolder": "Passa alla 1ª cartella (funziona anche con gli altri numeri!)",
             "editCurrentFolder": "Modifica la cartella corrente",
             "addNewWidget": "Aggiungi un nuovo widget alla cartella corrente"
         },
         "onboarding": {
             "start": {
-                "title": "Benvenuto in Anori!",
-                "p1": "Felice di vederti! Questa introduzione è disponibile in {{languages}}.",
-                "p2": "Stai per configurare la tua nuova scheda ideale. La pagina d'avvio di Anori è composta da diversi widget, come note, segnalibri, elenchi di task, ecc. Tu scegli cosa aggiungere e come organizzarli.",
-                "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita ('$t(editFolder)') nella barra laterale. Questo passerà alla modalità di modifica. Qui puoi aggiungere nuovi widget e riposizionare o rimuovere quelli esistenti.",
-                "p4": "Per aggiungere un nuovo widget, clicca sul pulsante '$t(addWidget)', oppure clicca su '$t(done)' per uscire dalla modalità di modifica. Una volta aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget ora ed esplorare l'estensione da solo, altrimenti, se desideri conoscere un po' meglio le funzionalità che Anori offre, clicca su '$t(next)'."
+                "title": "Un caloroso benvenuto in Anori!",
+                "p1": "Che bello vederti! Questa introduzione è disponibile in {{languages}}.",
+                "p2": "Stai per configurare la tua nuova scheda ideale. La pagina iniziale di Anori è composta da diversi widget, come note, segnalibri, liste di cose da fare e così via. Sei tu a scegliere cosa aggiungere e come organizzarlo.",
+                "p3": "Puoi aggiungere il tuo primo widget cliccando sulla matita ('$t(editFolder)') nella barra laterale. La pagina passerà alla modalità di modifica, dove puoi aggiungere nuovi widget e riposizionare o rimuovere quelli esistenti.",
+                "p4": "Per aggiungere un nuovo widget, clicca sul pulsante '$t(addWidget)', oppure clicca su '$t(done)' per uscire dalla modalità di modifica. Quando avrai aggiunto il tuo primo widget, questa introduzione scomparirà. Puoi aggiungere un widget subito ed esplorare l'estensione in autonomia oppure, se vuoi saperne un po' di più sulle funzionalità di Anori, clicca su '$t(next)'."
             },
             "folders": {
                 "title": "Cartelle",
-                "p1": "Per impostazione predefinita, tutti i tuoi widget vengono aggiunti alla cartella '$t(home)'. Tuttavia, puoi anche organizzare i tuoi widget in diverse cartelle. Ad esempio, potresti avere cartelle separate per i widget di lavoro e personali. Oppure potresti avere una cartella separata per ogni singolo progetto.",
-                "p2": "Per gestire le cartelle, clicca sull'icona dell'ingranaggio nell'angolo in basso a sinistra. Questo aprirà le impostazioni, dove puoi personalizzare Anori a tuo piacimento. Clicca su '$t(settings.folders.title)' per aprire il gestore delle cartelle."
+                "p1": "Per impostazione predefinita, tutti i widget vengono aggiunti alla cartella '$t(home)'. Però puoi anche organizzarli in cartelle diverse. Ad esempio, puoi avere cartelle separate per i widget di lavoro e per quelli personali. Oppure una cartella per ogni progetto.",
+                "p2": "Per gestire le cartelle, clicca sull'icona dell'ingranaggio nell'angolo in basso a sinistra. Si apriranno le impostazioni, dove puoi personalizzare Anori come preferisci. Lì, clicca su '$t(settings.folders.title)' per aprire la gestione delle cartelle."
             },
             "customization": {
                 "title": "Personalizzazione",
-                "p1": "Anori ti consente di comporre la tua pagina di avvio con i widget, ma può essere personalizzato ulteriormente.",
-                "p2": "Puoi cambiare il titolo della nuova scheda, modificare la combinazione di colori insieme all'immagine di sfondo e caricare icone personalizzate da utilizzare nei widget (oltre a 10.000 icone integrate).",
-                "p3": "E questo non è nemmeno la metà delle opzioni. Controlla le impostazioni per scoprirle tutte."
+                "p1": "Anori ti permette di comporre la tua pagina iniziale con i widget, ma puoi personalizzarla ancora di più.",
+                "p2": "Puoi cambiare il titolo della nuova scheda, lo schema colori e l'immagine di sfondo, e caricare icone personalizzate da usare nei widget (oltre alle più di 10.000 icone integrate).",
+                "p3": "E non è nemmeno la metà delle opzioni. Dai un'occhiata alle impostazioni per scoprirle tutte."
             },
             "analytics": {
-                "title": "Analisi",
-                "p1": "Abbiamo quasi finito. Ma c'è un altra cosa. Per impostazione predefinita, Anori non raccoglie alcun dato di tracciamento e non invia nulla a server remoti. Ma usiamo volentieri i dati d'analisi inviati dagli utenti per vedere quali funzionalità vengono utilizzate maggiormente e cosa ha bisogno di essere migliorato.",
-                "p2": "Pertanto, ti chiedo di abilitare l'invio dei dati d'analisi. Anori non invia dati privati (come le tue note o gli URL dei segnalibri), solo le metriche su come usi l'estensione (ad esempio quante cartelle hai e quanto spesso usi le scorciatoie). Ma questa è una scelta completamente tua, Anori funzionerà normalmente anche se non abiliti l'analisi dei dati.",
+                "title": "Statistiche d'uso",
+                "p1": "Abbiamo quasi finito. Manca solo un'ultima cosa. Per impostazione predefinita, Anori non raccoglie dati di tracciamento e non invia nulla a server remoti. Però uso le statistiche d'uso inviate volontariamente dagli utenti per capire quali funzionalità sono le più usate e cosa va rifinito.",
+                "p2": "Per questo ti chiedo di abilitare l'invio delle statistiche d'uso. Anori non invia dati privati (come le tue note o gli URL dei tuoi segnalibri), ma solo dati su come usi l'estensione (ad esempio quante cartelle hai e quanto spesso usi le scorciatoie da tastiera). La scelta però è solo tua: Anori funzionerà normalmente anche se non abiliti le statistiche d'uso.",
                 "p3": "Se vuoi saperne di più su quali dati vengono raccolti, clicca <0>qui</0>."
             },
             "presets": {
                 "title": "Un nuovo inizio",
-                "p1": "Questo è tutto. Ora hai una laurea magistrale in Anori, sei pronto a creare la tua pagina di avvio personalizzata. Aggiungi il tuo primo widget e inizia a costruire la configurazione definitiva.",
-                "p2": "Stufo dalle scelte? Va bene. Non devi creare la tua pagina perfetta al primo tentativo. Non devi nemmeno partire da una tela bianca. Abbiamo una configurazione produttiva preparata per te.",
-                "p3": "Potrebbe non essere adatta a tutte le tue esigenze, ma puoi usarla come base per creare la configurazione che amerai.",
+                "p1": "È tutto. Ora hai una laurea lampo in Anori e tutto ciò che serve per creare la tua pagina iniziale. Aggiungi il tuo primo widget e inizia a costruire la configurazione perfetta.",
+                "p2": "Troppe scelte? Nessun problema. Non serve azzeccare la pagina perfetta al primo colpo. E non serve nemmeno partire da una tela bianca: abbiamo preparato per te una configurazione produttiva.",
+                "p3": "Forse non risponderà a tutte le tue esigenze, ma puoi usarla come base per creare una configurazione tutta tua che amerai.",
                 "cta": "🚀 Dammi una configurazione produttiva"
             },
             "preset": {
@@ -276,8 +276,8 @@
             }
         },
         "requirePermissions": {
-            "modalTitle": "Autorizzazioni aggiuntive richieste",
-            "compactText": "Autorizzazioni aggiuntive richieste. Fai clic per vedere i dettagli.",
+            "modalTitle": "Servono autorizzazioni aggiuntive",
+            "compactText": "Servono autorizzazioni aggiuntive. Clicca per i dettagli.",
             "text": "Questo widget richiede autorizzazioni aggiuntive:",
             "apiPermissions": "Autorizzazioni API",
             "hostPermissions": "Autorizzazioni host",
@@ -290,19 +290,19 @@
         "bookmark-plugin": {
             "name": "Segnalibri",
             "widgetName": "Segnalibro",
-            "groupWidgetName": "Gruppo segnalibri",
+            "groupWidgetName": "Gruppo di segnalibri",
             "openInGroup": "Apri in un gruppo di schede",
             "group": "Gruppo",
-            "searchBookmarks": "Cerca segnalibri",
-            "checkStatus": "Controlla stato della pagina",
-            "checkStatusHint": "Anori invierà una richiesta alla pagina ogni 10-15 minuti in background per verificarne la disponibilità. Se il server non è raggiungibile o restituisce un errore HTTP 5xx, verrà considerato non disponibile. Questa funzione richiede un'autorizzazione aggiuntiva. I controlli non verranno eseguiti mentre il browser è chiuso o il computer è in sospensione.",
-            "checkingStatus": "Controllo stato della pagina...",
-            "status": "La pagina è attualmente {{status}}, l'ultimo cambio di stato è avvenuto {{lastChange}}. Ultimo controllo {{lastCheck}}.",
-            "statusUp": "attiva",
-            "statusDown": "non attiva",
-            "permissionExplanation": "Anori ha bisogno di questa autorizzazione per aggirare il CORS. La formulazione presentata dal tuo browser potrebbe sembrare allarmante, ma Anori non legge né modifica alcun dato dai siti nei segnalibri.",
+            "searchBookmarks": "Cerca nei segnalibri",
+            "checkStatus": "Controlla lo stato della pagina",
+            "checkStatusHint": "Anori invierà in background una richiesta alla pagina ogni 10-15 minuti per verificare che sia online. Se il server non è raggiungibile o restituisce un errore HTTP 5xx, la pagina verrà considerata offline. Serve un'autorizzazione aggiuntiva. I controlli non vengono eseguiti mentre il browser è chiuso o il computer è in sospensione.",
+            "checkingStatus": "Controllo dello stato della pagina...",
+            "status": "La pagina al momento è {{status}}, ultimo cambio di stato {{lastChange}}. Ultimo controllo {{lastCheck}}.",
+            "statusUp": "online",
+            "statusDown": "offline",
+            "permissionExplanation": "Anori ha bisogno di questa autorizzazione per aggirare le restrizioni CORS. Il messaggio mostrato dal browser potrebbe sembrare allarmante, ma Anori non legge né modifica alcun dato dei siti nei tuoi segnalibri.",
             "openInNewTab": "Apri in una nuova scheda",
-            "openInIframe": "Apri nel popup",
+            "openInIframe": "Apri in un popup",
             "pages": "Pagine",
             "addPage": "Aggiungi pagina"
         },
@@ -317,42 +317,42 @@
             "widgetNameS": "Data e ora - dimensione S",
             "widgetNameM": "Data e ora - dimensione M",
             "withoutDate": "Senza data",
-            "timeFormat": "Formato ora",
-            "dateFormat": "Formato data",
+            "timeFormat": "Formato dell'ora",
+            "dateFormat": "Formato della data",
             "24hours": "24 ore"
         },
         "notes-plugin": {
             "name": "Note",
-            "noteTitle": "Titolo nota",
-            "noteText": "Testo nota (supporta markdown)",
+            "noteTitle": "Titolo della nota",
+            "noteText": "Testo della nota (supporta il markdown)",
             "exampleTitle": "Lista della spesa",
-            "exampleText": "Verdure, pomodoro, formaggio, farina, olio d'oliva"
+            "exampleText": "Verdura, ketchup, formaggio, farina, olio d'oliva"
         },
         "recently-closed-plugin": {
-            "name": "Schede chiuse recentemente",
-            "widgetTitle": "Recentemente chiuse",
+            "name": "Schede chiuse di recente",
+            "widgetTitle": "Chiuse di recente",
             "tab": "Scheda",
             "window": "Finestra"
         },
         "system-status-plugin": {
-            "name": "System status",
-            "ramLoad": "RAM load",
-            "cpuLoad": "CPU load"
+            "name": "Stato del sistema",
+            "ramLoad": "Carico RAM",
+            "cpuLoad": "Carico CPU"
         },
         "tabs-plugin": {
             "name": "Schede",
             "tabGroup": "Gruppo di schede",
             "contextMenu": {
-                "stashTab": "Archivia questa scheda",
-                "stashLink": "Archivia questo link",
-                "stashGroup": "Archivia questo gruppo di schede"
+                "stashTab": "Accantona questa scheda",
+                "stashLink": "Accantona questo link",
+                "stashGroup": "Accantona questo gruppo di schede"
             },
             "stash": {
-                "title": "Archivio schede",
-                "inbox": "In arrivo",
-                "empty": "Nessun elemento archiviato",
-                "emptyHint": "Aggiungi una scheda con il pulsante + in alto, oppure apri il popup di Anori dalla barra degli strumenti del browser.",
-                "stashTab": "Archivia una scheda",
+                "title": "Schede accantonate",
+                "inbox": "Da smistare",
+                "empty": "Ancora niente di accantonato",
+                "emptyHint": "Aggiungi una scheda con il pulsante + qui sopra, oppure apri il popup di Anori dalla barra degli strumenti del browser.",
+                "stashTab": "Accantona una scheda",
                 "remove": "Rimuovi",
                 "rename": "Rinomina",
                 "openAll": "Apri tutto",
@@ -364,36 +364,36 @@
                 "tabCount_other": "{{count}} schede"
             },
             "popup": {
-                "stashTab": "Archivia una scheda",
-                "stashCurrentTab": "Archivia la scheda corrente",
-                "stashGroup": "Archivia un gruppo di schede",
-                "stashWindow": "Archivia questa finestra",
+                "stashTab": "Accantona una scheda",
+                "stashCurrentTab": "Accantona la scheda corrente",
+                "stashGroup": "Accantona un gruppo di schede",
+                "stashWindow": "Accantona questa finestra",
                 "window": "Finestra",
-                "grantTabs": "Sono necessarie autorizzazioni aggiuntive per la funzione $t(tabs-plugin.stash.title)",
-                "recentlyStashed": "Archiviati di recente",
-                "nothingStashed": "Nessun elemento archiviato"
+                "grantTabs": "Servono autorizzazioni aggiuntive per la funzione $t(tabs-plugin.stash.title)",
+                "recentlyStashed": "Accantonati di recente",
+                "nothingStashed": "Ancora niente di accantonato"
             },
             "syncedTabs": {
                 "title": "Schede sincronizzate",
-                "loading": "Caricamento schede...",
+                "loading": "Caricamento delle schede...",
                 "unnamedGroup": "Gruppo",
-                "notConnectedTitle": "Visualizza le schede dagli altri tuoi dispositivi",
-                "notConnectedDescription": "Connetti Anori Plus per sincronizzare le schede aperte su tutti i tuoi dispositivi.",
+                "notConnectedTitle": "Vedi le schede degli altri tuoi dispositivi",
+                "notConnectedDescription": "Connetti Anori Plus per sincronizzare le schede aperte tra i tuoi dispositivi.",
                 "connect": "Connetti",
-                "emptyTitle": "Nessun altro dispositivo sta ancora condividendo le schede",
-                "emptyDescription": "Accedi al tuo account Anori Plus su un altro computer e attiva la sincronizzazione delle schede lì."
+                "emptyTitle": "Nessun altro dispositivo condivide ancora le schede",
+                "emptyDescription": "Accedi al tuo account Anori Plus su un altro computer e attiva lì la sincronizzazione delle schede."
             }
         },
         "tasks-plugin": {
             "name": "Attività",
-            "todo": "ToDo",
+            "todo": "Da fare",
             "completeTask": "Completa \"{{task}}\"",
-            "taskDescription": "Descrizione attività...",
-            "noTasks": "Nessuna attività",
-            "exampleTask0": "Stupida passeggiata per la mia stupida salute mentale",
-            "exampleTask1": "Sdraiati sul divano",
-            "exampleTask2": "Sdraiati sul pavimento",
-            "exampleTask3": "Cerca di non piangere"
+            "taskDescription": "Descrizione dell'attività...",
+            "noTasks": "Ancora nessuna attività",
+            "exampleTask0": "Stupida passeggiata per la stupida salute mentale",
+            "exampleTask1": "Stendersi sul divano",
+            "exampleTask2": "Stendersi sul pavimento",
+            "exampleTask3": "Cercare di non piangere"
         },
         "top-sites-plugin": {
             "name": "Siti più visitati",
@@ -411,13 +411,13 @@
             "mph": "mph",
             "clearSky": "Cielo sereno",
             "partlyCloudy": "Parzialmente nuvoloso",
-            "fog": "Nebbioso",
+            "fog": "Nebbia",
             "drizzle": "Pioggerella",
-            "freezingDrizzle": "Pioggerella ghiacciata",
+            "freezingDrizzle": "Pioggerella gelata",
             "rain": "Pioggia",
-            "freezingRain": "Pioggia ghiacciata",
+            "freezingRain": "Pioggia gelata",
             "snow": "Neve",
-            "rainShower": "Pioggia a rovesci",
+            "rainShower": "Rovesci di pioggia",
             "thunderstorm": "Temporale",
             "unknownCode": "Codice meteo sconosciuto",
             "selectCity": "Seleziona città",
@@ -429,47 +429,47 @@
         "rss-plugin": {
             "name": "RSS",
             "widgetFeedName": "Feed RSS",
-            "widgetLatestPostName": "Ultimi post dal feed RSS",
+            "widgetLatestPostName": "Ultimo post dal feed RSS",
             "feedUrl": "URL del feed RSS",
             "feedUrls": "URL dei feed RSS",
-            "noPosts": "Nessun post in questo feed",
+            "noPosts": "Ancora nessun post in questo feed",
             "compactView": "Vista compatta",
-            "presetsTitle": "Inserisci i tuoi feed RSS preferiti qui o seleziona uno dei predefiniti:",
-            "presetsText": "Non hai ancora aggiunto feed? Abbiamo preset per <0>sviluppatori</0>, <1>designer</1>, e uno con <2>ogni sorta di curiosità</2>.",
+            "presetsTitle": "Inserisci qui i tuoi feed preferiti o scegli uno dei preset:",
+            "presetsText": "Non hai ancora aggiunto feed? Abbiamo dei preset per <0>sviluppatori</0>, per <1>designer</1> e uno con <2>curiosità di ogni genere</2>.",
             "addFeed": "Aggiungi feed",
             "presetForDevelopers": "Per sviluppatori",
             "presetForDesigners": "Per designer",
-            "presetInteresting": "Cose interessanti",
-            "presetForDevelopersTitle": "Dev",
+            "presetInteresting": "Solo cose interessanti",
+            "presetForDevelopersTitle": "Sviluppo",
             "presetForDesignersTitle": "Design",
             "presetInterestingTitle": "Cose interessanti",
-            "examplePostTitle1": "Come organizzare Anori al meglio!",
-            "examplePostDescription1": "Comincia con il giusto segnalibro e poi lascia che il tuo cuore ti guidi. A volte tutto ciò di cui hai bisogno è un po' di ordine...",
+            "examplePostTitle1": "Come organizzare la tua nuova scheda Anori da professionista!",
+            "examplePostDescription1": "Si parte da un buon vecchio segnalibro e poi si lascia fare al cuore. A volte basta solo un po' d'ordine...",
             "exampleFeedTitle1": "Blog di Anori",
-            "examplePostTitle2": "Le 8 estensioni del browser più utili",
-            "examplePostDescription2": "Oggi ti mostrerò come trasformare il tuo browser in una macchina per la produttività. La star dello spettacolo - Anori.",
-            "exampleFeedTitle2": "produttività 101",
-            "examplePostTitle3": "Un estensione che ti permette di comporre la tua nuova scheda con i widget!",
-            "examplePostDescription3": "Puoi comporre la tua nuova scheda con i widget e organizzarli in cartelle.",
+            "examplePostTitle2": "Le 8 estensioni per il browser più utili",
+            "examplePostDescription2": "Oggi ti mostro come trasformare il browser in una centrale della produttività con queste estensioni indispensabili. Con la star dello spettacolo: Anori.",
+            "exampleFeedTitle2": "Produttività 101",
+            "examplePostTitle3": "Un'estensione che ti permette di comporre la tua nuova scheda con i widget!",
+            "examplePostDescription3": "Puoi comporre la tua nuova scheda con i widget disponibili (attività, note, segnalibri, ecc.) e organizzarli in cartelle.",
             "exampleFeedTitle3": "Reddit"
         },
         "iframe-plugin": {
-            "name": "Incorpora pagina web",
-            "expandWidgetName": "Incorpora pagina web — espandibile",
-            "showLink": "Mostra link alla pagina originale",
+            "name": "Pagina web incorporata",
+            "expandWidgetName": "Pagina web incorporata — espandibile",
+            "showLink": "Mostra il link alla pagina originale",
             "openPage": "Apri pagina",
-            "limitations": "L'incorporamento non funziona con tutte le pagine. Alcuni siti resistono attivamente all'essere visualizzati come pagina incorporata e, purtroppo, Anori non può fare molto al riguardo. Ciò potrebbe causare il mancato caricamento delle pagine (come nel caso di Gmail) o un funzionamento non ottimale."
+            "limitations": "L'incorporamento non funziona con tutte le pagine. Alcuni siti impediscono attivamente di essere mostrati come pagina incorporata e, purtroppo, Anori non può farci molto. Di conseguenza, le pagine potrebbero non caricarsi (come succede con Gmail) o funzionare male."
         },
         "math-plugin": {
             "name": "Matematica",
             "calculator": "Calcolatrice",
             "expandWidgetName": "Calcolatrice — espandibile",
-            "cantCalc": "Impossibile calcolare"
+            "cantCalc": "Impossibile calcolarlo"
         },
         "picture-plugin": {
             "name": "Immagine",
             "widgetName": "Immagine",
-            "imageSource": "Sorgente immagine",
+            "imageSource": "Origine dell'immagine",
             "localFile": "File locale",
             "image": "Immagine",
             "selectImage": "Seleziona immagine",
@@ -483,28 +483,28 @@
             "again": "Di nuovo",
             "good": "Bene",
             "hard": "Difficile",
-            "errorTitle": "AnkiConnect non è raggiungibile",
+            "errorTitle": "Impossibile raggiungere AnkiConnect",
             "error": "Assicurati che Anki sia in esecuzione e che il componente aggiuntivo AnkiConnect sia installato.",
             "widgetName": "Anki"
         },
         "releaseNotes": {
-            "alsoInThisRelease": "Altro in questa versione",
+            "alsoInThisRelease": "Anche in questa versione",
             "tagNew": "Nuovo",
             "tagImproved": "Migliorato",
             "tagFixed": "Corretto",
-            "changelogNote": "Cerchi il changelog per le versioni precedenti? Puoi trovarlo <0>su GitHub</0>.",
+            "changelogNote": "Cerchi il changelog delle versioni precedenti? Lo trovi <0>su GitHub</0>.",
             "v2_3_0": {
-                "headline": "Scopri il nuovo plugin $t(motivation-plugin.name): otto widget per tenere traccia del tempo, mantenere la visione d'insieme, restare concentrati e contare i giorni che contano.",
+                "headline": "Ecco il nuovo plugin $t(motivation-plugin.name): otto widget per tenere traccia del tempo, non perdere di vista il quadro generale, mantenere la concentrazione e contare i giorni che contano.",
                 "periodsTitle": "Dov'è finita la giornata?",
-                "periodsBody": "I nuovi widget di avanzamento mostrano quanto del giorno, della settimana, del mese o dell'anno è già alle tue spalle. Giorno e settimana possono coprire solo una parte, così puoi seguire la tua giornata lavorativa e la settimana lavorativa, o tenere d'occhio quanto weekend ti rimane ancora.",
-                "periodsCalendar": "Mese e anno possono anche seguire un sistema di calendario diverso, se è quello con cui vivi.",
-                "lifeTitle": "La visione a lungo termine",
-                "lifeBody": "Allarga al massimo la prospettiva con l'avanzamento della vita: la tua vita come una griglia di anni, che si riempie in silenzio. Un delicato memento mori, senza teschi. E se preferisci guardare i secondi scorrere, il contatore dell'età calcola quanti anni hai, in tempo reale.",
-                "focusTitle": "Tienilo in vista",
-                "focusBody": "Focus mantiene una riga di testo sul tuo nuovo tab, così la cosa importante non viene sepolta da tutto il resto. Usalo per il tuo compito del giorno, un obiettivo per la settimana, o qualcosa per cui sei grato. Può ricominciare ogni giorno, settimana o mese, oppure restare finché non lo cambi.",
+                "periodsBody": "I nuovi widget di avanzamento mostrano quanta parte del giorno, della settimana, del mese o dell'anno è già passata. Per giorno e settimana puoi contarne anche solo una parte, così puoi seguire la tua giornata e la tua settimana lavorativa, o tenere d'occhio quanto ti resta del weekend.",
+                "periodsCalendar": "Mese e anno possono anche seguire un altro sistema di calendario, se è quello che usi nella vita di tutti i giorni.",
+                "lifeTitle": "Uno sguardo d'insieme",
+                "lifeBody": "Fai un passo indietro e guarda il quadro completo con l'avanzamento della vita: la tua vita come una griglia di anni che si riempie in silenzio. Un gentile memento mori, ma senza teschi. E se preferisci guardare scorrere i secondi, il contatore dell'età mostra quanti anni hai, in tempo reale.",
+                "focusTitle": "Sempre sotto gli occhi",
+                "focusBody": "Focus tiene una riga di testo sulla tua nuova scheda, così la cosa importante non finisce sepolta sotto tutto il resto. Usalo per l'attività del giorno, un obiettivo della settimana o qualcosa per cui provi gratitudine. Può ricominciare da capo ogni giorno, settimana o mese, oppure restare finché non lo cambi.",
                 "counterTitle": "Conta i giorni",
-                "counterBody": "Se il tuo focus ha una scadenza, aiuta vedere i giorni scorrere. È a questo che serve il contatore dei giorni. Conta anche nell'altro senso: hai smesso di fumare due settimane fa? Metti quel numero sul tuo nuovo tab e guardalo crescere giorno dopo giorno.",
-                "minorLocalizedNumbers": "Le percentuali di utilizzo di CPU e memoria e la velocità del vento seguono ora il formato numerico della tua lingua, come '12,3 %' in tedesco o '%12,3' in turco."
+                "counterBody": "Se il tuo focus ha una scadenza, vedere i giorni che passano aiuta. È a questo che serve il contatore dei giorni. E funziona anche al contrario: hai smesso di fumare due settimane fa? Metti quel numero sulla tua nuova scheda e guardalo crescere giorno dopo giorno.",
+                "minorLocalizedNumbers": "Le percentuali di utilizzo di CPU e memoria e la velocità del vento ora seguono il formato numerico della tua lingua, come '12,3 %' in tedesco o '%12,3' in turco."
             }
         },
         "motivation-plugin": {
@@ -536,29 +536,29 @@
             "yearsLived_other": "{{lived}} di {{count}} anni vissuti",
             "yourAge": "La tua età",
             "focusPlaceholder": "Scrivi e premi Invio",
-            "resetCadence": "Ripristino",
+            "resetCadence": "Azzeramento",
             "cadences": {
                 "daily": "Ogni giorno",
                 "weekly": "Ogni settimana",
                 "monthly": "Ogni mese",
-                "manual": "Manualmente"
+                "manual": "Manuale"
             },
-            "markDone": "Segna come completato",
-            "markNotDone": "Segna come non completato",
+            "markDone": "Segna come fatto",
+            "markNotDone": "Segna come non fatto",
             "editFocus": "Modifica",
             "targetDate": "Data",
             "today": "Oggi",
             "daysLeft_one": "giorno rimanente",
             "daysLeft_many": "giorni rimanenti",
             "daysLeft_other": "giorni rimanenti",
-            "daysSince_one": "giorno fa",
-            "daysSince_many": "giorni fa",
-            "daysSince_other": "giorni fa",
+            "daysSince_one": "giorno trascorso",
+            "daysSince_many": "giorni trascorsi",
+            "daysSince_other": "giorni trascorsi",
             "hoursLeft_one": "ora rimanente",
             "hoursLeft_many": "ore rimanenti",
             "hoursLeft_other": "ore rimanenti",
-            "mockFocusText": "Finire il report trimestrale",
-            "mockCounterTitle": "Vacanza",
+            "mockFocusText": "Finire la relazione trimestrale",
+            "mockCounterTitle": "Vacanze",
             "defaultPrompt": "Focus di oggi"
         }
     }

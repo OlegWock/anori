@@ -11,13 +11,13 @@
         "save": "Uložiť",
         "import": "Importovať",
         "add": "Pridať",
-        "reload": "Znovu načítať",
+        "reload": "Znova načítať",
         "noResults": "Žiadne výsledky",
         "example": "Príklad",
         "timezone": "Časové pásmo",
         "refreshing": "Obnovuje sa...",
         "refresh": "Obnoviť",
-        "startTypingToSearch": "Začnite písať pre vyhľadávanie...",
+        "startTypingToSearch": "Na vyhľadávanie začnite písať...",
         "search": "Hľadať...",
         "loading": "Načítava sa...",
         "lastUpdatedAt": "Naposledy aktualizované o {{datetime}}",
@@ -30,7 +30,7 @@
         "resizeWidget": "Zmeniť veľkosť widgetu",
         "configureWidget": "Nastaviť widget",
         "addWidget": "Pridať widget",
-        "addWidgetConfigInvalid": "Nepodarilo sa pridať widget: jeho konfigurácia je neplatná. Podrobnosti nájdete v konzole.",
+        "addWidgetConfigInvalid": "Widget sa nepodarilo pridať: jeho konfigurácia je neplatná. Podrobnosti nájdete v konzole.",
         "saveWidgetConfigInvalid": "Nepodarilo sa uložiť: konfigurácia widgetu je neplatná. Podrobnosti nájdete v konzole.",
         "edit": "Upraviť",
         "editFolder": "Upraviť priečinok",
@@ -45,27 +45,27 @@
         "reorder": "Zmeniť poradie",
         "icons": "Ikony",
         "customIcons": "Vlastné ikony",
-        "canBeEmpty": "môže byť prázdne",
+        "canBeEmpty": "môže zostať prázdne",
         "duration": {
-            "hoursMinutes": "{{hours}}h {{minutes}}m",
-            "daysHours": "{{days}}d {{hours}}h",
+            "hoursMinutes": "{{hours}} h {{minutes}} min",
+            "daysHours": "{{days}} d {{hours}} h",
             "days_one": "{{count}} deň",
             "days_few": "{{count}} dni",
-            "days_many": "{{count}} dní",
+            "days_many": "{{count}} dňa",
             "days_other": "{{count}} dní"
         },
         "unsupportedWidget": {
             "short": "Nedostupné",
-            "title": "Widget nedostupný",
-            "description": "Tento typ widgetu nie je dostupný v tomto prehliadači. Zostáva na vašich ostatných synchronizovaných prehliadačoch a stále ho tu môžete presunúť, zmeniť jeho veľkosť alebo ho odstrániť."
+            "title": "Widget je nedostupný",
+            "description": "Tento typ widgetu nie je v tomto prehliadači dostupný. V ostatných synchronizovaných prehliadačoch zostáva a tu ho stále môžete presunúť, zmeniť jeho veľkosť alebo ho odstrániť."
         },
         "widgetRenderError": {
             "title": "Ups",
-            "description": "Widget sa nepodarilo vykresliť, skontrolujte konzolu pre podrobnosti."
+            "description": "Widget sa nepodarilo vykresliť, podrobnosti nájdete v konzole."
         },
         "cloud": {
             "connect": "Pripojiť",
-            "connected": "Pripojené",
+            "connected": "Pripojený",
             "disconnect": "Odpojiť",
             "cancel": "Zrušiť",
             "account": "Anori Plus",
@@ -73,100 +73,100 @@
             "logout": "Odhlásiť sa",
             "email": "E-mail",
             "password": "Heslo",
-            "connectedAs": "Pripojený ako",
-            "syncPausedBehind": "Táto kópia Anori je staršia ako iné zariadenie v tomto profile, preto je synchronizácia pozastavená, kým sa neaktualizuje. Zmeny, ktoré medzitým vykonáte, sa nesynchronizujú s vašimi ostatnými zariadeniami, ale pred aktualizáciou sa uložia do zálohy pre prípad, že by ste ich niekedy potrebovali.",
-            "preUpdateBackup": "Záloha pred poslednou aktualizáciou ({{date}})",
+            "connectedAs": "Prihlásený účet",
+            "syncPausedBehind": "Táto kópia Anori je staršia ako iné zariadenie v tomto profile, preto je synchronizácia pozastavená, kým sa neaktualizuje. Zmeny, ktoré dovtedy urobíte, sa do vašich ostatných zariadení nesynchronizujú, no pred aktualizáciou sa uložia do zálohy pre prípad, že by ste ich niekedy potrebovali.",
+            "preUpdateBackup": "Záloha spred vašej poslednej aktualizácie ({{date}})",
             "downloadBackup": "Stiahnuť",
             "noAccount": "Nemáte účet?",
             "createAccount": "Vytvorte si ho tu",
             "userDataConflict": {
-                "description": "Tento prehliadač obsahuje údaje Anori Plus — napríklad vaše Odložené karty — ktoré boli synchronizované s iným účtom, než do ktorého sa prihlasujete. Čo sa s nimi má stať?",
+                "description": "V tomto prehliadači sú údaje Anori Plus — napríklad vaše Odložené karty — ktoré boli synchronizované s iným účtom než s tým, do ktorého sa prihlasujete. Čo sa s nimi má stať?",
                 "upload": "Pridať do tohto účtu",
-                "uploadHint": "Zachová tieto údaje a zlúči ich s účtom, do ktorého sa prihlasujete. Vyberte túto možnosť, ak sú vaše — napríklad ak ste prešli na nový účet.",
-                "discard": "Zahodiť lokálne údaje",
-                "discardHint": "Odstráni ich z tohto prehliadača a použije namiesto nich to, čo už tento účet obsahuje. Vyberte túto možnosť, ak patria inému účtu alebo ich tu nepotrebujete."
+                "uploadHint": "Ponechá tieto údaje a zlúči ich s účtom, do ktorého sa prihlasujete. Vyberte túto možnosť, ak sú vaše — napríklad ak ste prešli na nový účet.",
+                "discard": "Zahodiť",
+                "discardHint": "Odstráni ich z tohto prehliadača a namiesto nich použije to, čo už tento účet obsahuje. Vyberte túto možnosť, ak patria inému účtu alebo ich tu nepotrebujete."
             },
-            "plusDescription": "Anori Plus je doplnková služba pre Anori, ktorá vám umožňuje synchronizovať konfiguráciu medzi viacerými prehliadačmi a zariadeniami v reálnom čase.",
+            "plusDescription": "Anori Plus je doplnková služba pre Anori, s ktorou môžete synchronizovať konfiguráciu medzi viacerými prehliadačmi a zariadeniami v reálnom čase.",
             "learnMore": "Zistiť viac",
             "profiles": "Profily",
-            "noProfiles": "Žiadne profily nenájdené. Vytvorte svoj prvý profil na synchronizáciu nastavení medzi prehliadačmi.",
+            "noProfiles": "Nenašli sa žiadne profily. Vytvorte si prvý profil a synchronizujte nastavenia medzi prehliadačmi.",
             "createProfile": "Vytvoriť profil",
             "profileName": "Názov profilu",
-            "createdAt": "Vytvorené {{date}}",
-            "lastSyncedAt": "Naposledy použité {{date}}",
+            "createdAt": "Vytvorený {{date}}",
+            "lastSyncedAt": "Naposledy použitý {{date}}",
             "create": "Vytvoriť",
-            "profileCreatedSuccess": "Profil vytvorený! Teraz môžete pripojiť ďalšie prehliadače k tomuto profilu a vaše nastavenia budú medzi nimi synchronizované.",
+            "profileCreatedSuccess": "Profil je vytvorený! Teraz k nemu môžete pripojiť ďalšie prehliadače a vaše nastavenia sa medzi nimi budú synchronizovať.",
             "confirm": "Potvrdiť",
             "rename": "Premenovať",
-            "delete": "Odstrániť",
-            "deleteConfirmation": "Naozaj chcete odstrániť profil \"{{profileName}}\"? Túto akciu nie je možné vrátiť späť.",
+            "delete": "Vymazať",
+            "deleteConfirmation": "Naozaj chcete vymazať profil \"{{profileName}}\"? Túto akciu nie je možné vrátiť späť.",
             "connectConfirmation": {
                 "message": "Pripojenie k profilu \"{{profileName}}\" prepíše vašu aktuálnu lokálnu konfiguráciu tou, ktorá je uložená v profile. Chcete pokračovať?"
             },
             "settings": {
                 "title": "Nastavenia",
                 "shareOpenTabs": "Zdieľať otvorené karty s ostatnými pripojenými zariadeniami",
-                "shareOpenTabsHint": "Keď je táto možnosť zapnutá, karty otvorené na tomto počítači sú zdieľané s vašimi ostatnými zariadeniami prihlásenými do tohto účtu Anori — takže ich môžete vidieť a znova otvoriť na ktoromkoľvek z nich."
+                "shareOpenTabsHint": "Keď je táto možnosť zapnutá, karty otvorené na tomto počítači sa zdieľajú s vašimi ostatnými zariadeniami prihlásenými do tohto účtu Anori — takže ich môžete vidieť a znova otvoriť na ktoromkoľvek z nich."
             },
             "devices": {
                 "title": "Zariadenia",
                 "thisDevice": "Toto zariadenie",
                 "rename": "Premenovať zariadenie",
                 "remove": "Odstrániť zariadenie",
-                "removeConfirmation": "Odstrániť \"{{name}}\" z vášho účtu? Zariadenie bude odhlásené a prestane synchronizovať.",
+                "removeConfirmation": "Odstrániť \"{{name}}\" z vášho účtu? Zariadenie sa odhlási a prestane sa synchronizovať.",
                 "namePlaceholder": "Názov zariadenia",
                 "lastActive": "aktívne {{date}}",
-                "empty": "Do tohto účtu zatiaľ nie sú prihlásené žiadne zariadenia"
+                "empty": "Do tohto účtu sa zatiaľ neprihlásilo žiadne zariadenie"
             },
             "error": {
-                "invalidCredentials": "Neplatný e-mail alebo heslo",
-                "unknown": "Niečo sa pokazilo. Skúste to prosím znova.",
-                "failedToLoadProfiles": "Nepodarilo sa načítať profily",
-                "failedToLoadDevices": "Nepodarilo sa načítať zariadenia",
+                "invalidCredentials": "Nesprávny e-mail alebo heslo",
+                "unknown": "Niečo sa pokazilo. Skúste to znova.",
+                "failedToLoadProfiles": "Profily sa nepodarilo načítať",
+                "failedToLoadDevices": "Zariadenia sa nepodarilo načítať",
                 "profileNameRequired": "Názov profilu je povinný",
-                "failedToCreateProfile": "Nepodarilo sa vytvoriť profil"
+                "failedToCreateProfile": "Profil sa nepodarilo vytvoriť"
             }
         },
         "iconsPicker": {
-            "customIconsInfo": "Vlastné ikony sú ikony, ktoré ste nahrali a môžete ich používať v Anori.",
-            "customIconsAbsent": "Momentálne nemáte žiadne vlastné ikony. Ak chcete nahrať prvú vlastnú ikonu, prejdite do nastavení.",
+            "customIconsInfo": "Vlastné ikony sú ikony, ktoré si nahráte a potom ich môžete používať v Anori.",
+            "customIconsAbsent": "Zatiaľ nemáte žiadne vlastné ikony. Prvú vlastnú ikonu môžete nahrať v nastaveniach.",
             "iconFamily": "Sada ikon",
             "allIcons": "Všetky ikony",
-            "selectFamilyOrSearch": "Vyberte konkrétnu sadu ikon alebo skúste vyhľadávanie, aby ste videli návrhy ikon."
+            "selectFamilyOrSearch": "Vyberte konkrétnu sadu ikon alebo skúste vyhľadávanie a zobrazia sa návrhy ikon."
         },
         "settings": {
             "title": "Nastavenia",
             "general": {
                 "title": "Všeobecné",
                 "language": "Jazyk",
-                "translationInfo": "Preklady do iných jazykov ako angličtina alebo ukrajinčina môžu byť vytvorené strojovo. Spoliehame sa na komunitu pri ich kontrole. Ak objavíte chybu alebo nepreložený reťazec, pomôžte nám to opraviť! <0>Tu</0> nájdete návod, ako sa môžete zapojiť.",
+                "translationInfo": "Preklady do iných jazykov ako angličtina a ukrajinčina môžu byť strojové. Pri ich kontrole sa spoliehame na komunitu. Ak nájdete chybu alebo nepreložený text, pomôžte nám ich opraviť! <0>Tu</0> je návod, ako sa môžete zapojiť.",
                 "sidebarOrientation": "Orientácia bočného panela",
                 "sidebarOrientationOption-auto": "Podľa orientácie okna",
-                "sidebarOrientationOption-vertical": "Vždy vertikálny",
-                "sidebarOrientationOption-horizontal": "Vždy horizontálny",
-                "autoHideSidebar": "Automaticky skryť bočný panel",
+                "sidebarOrientationOption-vertical": "Vždy zvisle",
+                "sidebarOrientationOption-horizontal": "Vždy vodorovne",
+                "autoHideSidebar": "Automaticky skrývať bočný panel",
                 "newTabTitle": "Názov novej karty",
                 "enableAnalytics": "Povoliť odosielanie analytiky",
-                "analyticsHintP1": "Analytika mi pomáha lepšie pochopiť, ako používatelia interagujú s Anori a ktoré funkcie sú najpoužívanejšie. Nezdieľa žiadne súkromné informácie, ako napríklad obsah poznámok alebo URL adresy záložiek.",
-                "analyticsHintP2": "Pomáha mi to vyvíjať lepší produkt, preto vás prosím o povolenie odosielania analytiky. <0>Zistiť viac.</0>",
+                "analyticsHintP1": "Analytika mi pomáha lepšie pochopiť, ako používatelia pracujú s Anori a ktoré funkcie sa používajú najviac. Nezdieľa žiadne súkromné informácie, ako je obsah poznámok alebo URL adresy záložiek.",
+                "analyticsHintP2": "Pomáha mi to vyvíjať lepší produkt, preto vás prosím, aby ste odosielanie analytiky povolili. <0>Zistiť viac.</0>",
                 "showBookmarksBar": "Zobraziť panel záložiek",
                 "automaticCompact": "Automaticky prepínať do kompaktného režimu podľa veľkosti obrazovky",
-                "automaticCompactModeThreshold": "Prepnúť do kompaktného režimu ak je veľkosť obrazovky menšia ako",
-                "automaticCompactModeThresholdHint": "Aktuálna šírka vašej obrazovky je {{screenWidth}}px",
+                "automaticCompactModeThreshold": "Prepnúť do kompaktného režimu, ak je obrazovka menšia ako",
+                "automaticCompactModeThresholdHint": "Aktuálna šírka vašej obrazovky je {{screenWidth}} px",
                 "useCompact": "Vždy používať kompaktný režim",
                 "showAnimationOnOpen": "Zobraziť animáciu pri otvorení",
-                "showAnimationOnOpenHint": "Ak je táto možnosť povolená, rozšírenie zobrazí krátku načítavaciu animáciu, ktorá skryje počiatočné blikanie pri načítaní dát a poskytne lepší vizuálny dojem.",
-                "rememberLastFolder": "Zapamätať poslednú otvorenú priečinok"
+                "showAnimationOnOpenHint": "Ak je táto možnosť zapnutá, rozšírenie zobrazí krátku animáciu načítania, ktorá skryje počiatočné blikanie pri načítavaní údajov a stránka bude vyzerať lepšie.",
+                "rememberLastFolder": "Pamätať si naposledy otvorený priečinok"
             },
             "customIcons": {
                 "title": "Vlastné ikony",
-                "incorrectFormat": "Prosím použite platné súbory. Anori podporuje .png, .jpg, .gif, .jpeg a .svg",
+                "incorrectFormat": "Vyberte platné súbory. Anori podporuje .png, .jpg, .gif, .jpeg a .svg",
                 "noIcons": "Zatiaľ nemáte žiadne vlastné ikony.",
                 "iconName": "Názov ikony",
-                "invalidNames": "Niektoré ikony majú neplatný názov, prosím opravte názvy pred uložením.",
-                "nameContainsInvalidChars": "Názov obsahuje neplatné znaky, povolené sú iba písmená, číslice, - a _.",
+                "invalidNames": "Niektoré ikony majú neplatný názov, pred uložením názvy opravte.",
+                "nameContainsInvalidChars": "Názov obsahuje neplatné znaky, povolené sú len písmená, číslice, - a _.",
                 "saveIcons": "Uložiť ikony",
-                "supportedFormats": "Anori podporuje .png, .jpg, .gif a .svg. Najlepšie je používať štvorcové obrázky so šírkou 128 až 256 pixelov (nevzťahuje sa na .svg).",
+                "supportedFormats": "Anori podporuje .png, .jpg, .gif a .svg. Najlepšie je použiť štvorcové obrázky so šírkou 128 až 256 pixelov (neplatí pre .svg).",
                 "addIcons": "Pridať ikony",
                 "removeIcon": "Odstrániť ikonu",
                 "newIcons": "Nové ikony",
@@ -192,7 +192,7 @@
                 "selectBackground": "Vybrať pozadie",
                 "changeBackground": "Zmeniť pozadie",
                 "blur": "Rozmazanie",
-                "colorAccent": "Akcent",
+                "colorAccent": "Zvýraznenie",
                 "colorBackground": "Pozadie",
                 "colorText": "Text",
                 "colorCode": "Kód farby",
@@ -200,38 +200,38 @@
                 "previewColorScheme": "Farebná schéma náhľadu",
                 "hideDotPattern": "Skryť bodkovaný vzor",
                 "pixelatedBackground": "Ostré škálovanie pixelov",
-                "pixelatedBackgroundHint": "Vypína vyhladzovanie obrázkov, ktoré prehliadače aplikujú pri škálovaní pozadia. Odporúča sa pre pixel art.",
-                "colorSchemeSystem": "Systém",
+                "pixelatedBackgroundHint": "Vypne vyhladzovanie obrázka, ktoré prehliadače používajú pri škálovaní pozadia. Odporúča sa pre pixel art.",
+                "colorSchemeSystem": "Systémová",
                 "colorSchemeLight": "Svetlá",
                 "colorSchemeDark": "Tmavá"
             },
             "importExport": {
                 "title": "Import a export",
-                "info": "Tu môžete zálohovať svoje nastavenia alebo obnoviť staršiu zálohu.",
-                "import": "Import",
-                "export": "Export",
-                "cloudWarning": "Máte povolené cloudové synchronizovanie. Import zálohy vás odpojí od profilu synchronizácie. Po importe sa budete musieť znovu pripojiť. Pokračovať?",
-                "cloudSyncHint": "Chcete zálohovať konfiguráciu do cloudu alebo ju synchronizovať naprieč zariadeniami v reálnom čase? Vyskúšajte <0>Anori Plus</0> — robí to bezproblémovo.",
-                "importError": "Nepodarilo sa importovať zálohu: {{error}}"
+                "info": "Tu môžete zálohovať nastavenia alebo obnoviť staršiu zálohu.",
+                "import": "Importovať",
+                "export": "Exportovať",
+                "cloudWarning": "Máte zapnutú synchronizáciu s cloudom. Import zálohy vás odpojí od synchronizačného profilu. Po importe sa budete musieť znova pripojiť. Pokračovať?",
+                "cloudSyncHint": "Chcete si konfiguráciu zálohovať do cloudu alebo ju synchronizovať medzi zariadeniami v reálnom čase? Vyskúšajte <0>Anori Plus</0> — zvládne to bez námahy.",
+                "importError": "Zálohu sa nepodarilo importovať: {{error}}"
             },
             "aboutHelp": {
                 "title": "Pomoc a o rozšírení",
-                "onlyEnglishPlease": "Ja (autor projektu) neovládam veľa jazykov, preto prosím zadávajte svoje hlásenia v angličtine. Ďakujem!",
-                "p1": "Anori je bezplatné rozšírenie s otvoreným zdrojovým kódom. Zdrojový kód nájdete na <0>GitHub</0>. Ak chcete navrhnúť funkciu alebo nahlásiť chybu, vytvorte <1>nový issue</1> v repozitári. Ak chcete jednoducho poďakovať, môžete mu dať hviezdičku :).",
-                "p2": "Ak chcete toto rozšírenie upraviť, pridať vlastný plugin alebo widget, viac informácií nájdete v <0>readme</0>.",
-                "p3": "Sledujte autora na <0>Twittere</0> a <1>podporujte Ukrajinu</1>.",
-                "p4": "Ak chcete podporiť vývoj Anori nejakou tou korunkou, môžete tak urobiť <0>tu</0>. K dispozícii sú možnosti platby kartou alebo kryptomenou.",
+                "onlyEnglishPlease": "Ja (autor projektu) neovládam veľa jazykov, preto prosím píšte hlásenia v angličtine. Ďakujem!",
+                "p1": "Anori je bezplatné rozšírenie s otvoreným zdrojovým kódom. Zdrojový kód nájdete na <0>GitHube</0>. Ak chcete navrhnúť funkciu alebo nahlásiť chybu, vytvorte v repozitári <1>nové hlásenie</1>. Ak chcete len poďakovať, môžete repozitáru dať hviezdičku :).",
+                "p2": "Ak chcete toto rozšírenie upraviť alebo doň pridať vlastný plugin či widget, viac informácií nájdete v <0>readme</0>.",
+                "p3": "Sledujte autora na <0>Twitteri</0> a <1>podporte Ukrajinu</1>.",
+                "p4": "Ak chcete vývoj Anori podporiť nejakým tým eurom, môžete tak urobiť <0>tu</0>. K dispozícii je platba kryptomenou aj kartou.",
                 "license": "Licencia"
             }
         },
         "shortcuts": {
-            "title": "Skratky",
-            "showCheatsheet": "Zobraziť/skryť prehľad skratiek",
+            "title": "Klávesové skratky",
+            "showCheatsheet": "Zobraziť/skryť prehľad klávesových skratiek",
             "toggleSettings": "Zobraziť/skryť nastavenia",
             "closeMenuOrModal": "Zavrieť modálne okno",
-            "switchToFolderAbove": "Prejsť do priečinka vyššie",
+            "switchToFolderAbove": "Prepnúť na priečinok vyššie",
             "switchToFolderBelow": "Prepnúť na priečinok nižšie",
-            "switchFolderWithWheel": "Prepínanie priečinkov pomocou kolieska myši alebo trackpadu",
+            "switchFolderWithWheel": "Prepínať priečinky kolieskom myši alebo touchpadom",
             "switchToNFolder": "Prepnúť na 1. priečinok (funguje aj s inými číslami!)",
             "editCurrentFolder": "Upraviť aktuálny priečinok",
             "addNewWidget": "Pridať nový widget do aktuálneho priečinka"
@@ -239,48 +239,48 @@
         "onboarding": {
             "start": {
                 "title": "Vitajte v Anori!",
-                "p1": "Radi vás vidíme! Tento úvod je dostupný v týchto jazykoch: {{languages}}.",
-                "p2": "Ste na ceste k ideálnej novej karte. Úvodná stránka Anori sa skladá z rôznych widgetov, ako sú poznámky, záložky, zoznamy úloh atď. Vy si vyberiete, čo pridať a ako to usporiadať.",
-                "p3": "Prvý widget môžete pridať kliknutím na ceruzku ('$t(editFolder)') v bočnom paneli. Tým sa stránka prepne do režimu úprav. Tu môžete pridávať nové widgety a premiestňovať alebo odstraňovať existujúce.",
-                "p4": "Ak chcete pridať nový widget, kliknite na tlačidlo '$t(addWidget)', alebo kliknite na '$t(done)', čím ukončíte režim úprav. Po pridaní prvého widgetu toto uvítanie zmizne. Widget môžete pridať hneď teraz a rozšírenie preskúmať sami, alebo ak sa chcete dozvedieť viac o funkciách, ktoré Anori ponúka, kliknite na '$t(next)'."
+                "p1": "Je fajn, že ste tu! Tento úvod je dostupný v jazykoch: {{languages}}.",
+                "p2": "Ste na najlepšej ceste k ideálnej novej karte. Úvodná stránka Anori sa skladá z rôznych widgetov, ako sú poznámky, záložky, zoznamy úloh atď. Vy rozhodujete, čo pridáte a ako to usporiadate.",
+                "p3": "Prvý widget pridáte kliknutím na ceruzku ('$t(editFolder)') na bočnom paneli. Stránka sa tým prepne do režimu úprav. V ňom môžete pridávať nové widgety a presúvať alebo odstraňovať existujúce.",
+                "p4": "Nový widget pridáte kliknutím na tlačidlo '$t(addWidget)' a kliknutím na '$t(done)' režim úprav ukončíte. Keď pridáte prvý widget, tento úvod zmizne. Widget môžete pridať hneď teraz a rozšírenie preskúmať na vlastnú päsť, alebo ak sa chcete dozvedieť viac o funkciách, ktoré Anori ponúka, kliknite na '$t(next)'."
             },
             "folders": {
                 "title": "Priečinky",
-                "p1": "Štandardne sú všetky vaše widgety pridávané do priečinka '$t(home)'. Môžete ich však organizovať aj do rôznych priečinkov. Napríklad môžete mať samostatné priečinky pre pracovné a osobné widgety alebo samostatný priečinok pre každý jednotlivý projekt.",
-                "p2": "Na správu priečinkov kliknite na ikonu ozubeného kolieska v ľavom dolnom rohu. Otvorí sa nastavenia, kde môžete Anori prispôsobiť podľa svojich predstáv. Kliknite tam na '$t(settings.folders.title)' a otvorí sa správca priečinkov."
+                "p1": "Všetky widgety sa predvolene pridávajú do priečinka '$t(home)'. Widgety si však môžete usporiadať aj do rôznych priečinkov. Môžete mať napríklad samostatné priečinky pre pracovné a osobné widgety. Alebo samostatný priečinok pre každý projekt.",
+                "p2": "Priečinky spravujete kliknutím na ikonu ozubených koliesok v ľavom dolnom rohu. Otvoria sa nastavenia, kde si Anori môžete prispôsobiť podľa seba. Tam kliknite na '$t(settings.folders.title)' a otvorí sa správca priečinkov."
             },
             "customization": {
                 "title": "Prispôsobenie",
-                "p1": "Okrem skladania vlastnej úvodnej stránky z widgetov môžete Anori prispôsobiť ešte viac.",
-                "p2": "Môžete zmeniť názov novej karty, farebné schémy spolu s obrázkom na pozadí a nahrať vlastné ikony na použitie vo widgetoch (okrem 10 000+ vstavaných ikon).",
-                "p3": "A to nie je ani polovica možností. Odporúčame pozrieť si nastavenia, kde nájdete všetky."
+                "p1": "Anori vám umožňuje zostaviť si úvodnú stránku z widgetov, no prispôsobiť sa dá ešte oveľa viac.",
+                "p2": "Môžete zmeniť názov novej karty, farebnú schému aj obrázok na pozadí a nahrať vlastné ikony do widgetov (navyše k viac ako 10 000 vstavaným ikonám).",
+                "p3": "A to nie je ani polovica možností. Všetky nájdete v nastaveniach, oplatí sa do nich pozrieť."
             },
             "analytics": {
                 "title": "Analytika",
-                "p1": "Už sme skoro hotoví. Zostáva ešte jedna vec. Štandardne Anori nezbiera žiadne sledovacie údaje a nič neodosiela na vzdialené servery. Analytiku, ktorú mi používatelia dobrovoľne posielajú, však využívam na to, aby som videl, ktoré funkcie sú najpoužívanejšie a čo potrebuje trochu vylepšiť.",
-                "p2": "Preto vás prosím o povolenie odosielania analytiky. Anori neodosiela žiadne súkromné údaje (ako obsah vašich poznámok alebo URL vašich záložiek), iba metriky o tom, ako rozšírenie používate (napr. koľko priečinkov máte a ako často používate skratky). Je to však úplne na vás – Anori bude fungovať rovnako aj bez povolenia analytiky.",
-                "p3": "Ak sa chcete dozvedieť viac o tom, aké údaje sa zbierajú, kliknite <0>tu</0>."
+                "p1": "Sme takmer na konci. Zostáva ešte posledná vec. Anori predvolene nezbiera žiadne sledovacie údaje a nič neposiela na vzdialené servery. Používam však analytiku, ktorú používatelia posielajú dobrovoľne, aby som videl, ktoré funkcie sa používajú najviac a čo treba trochu vyladiť.",
+                "p2": "Preto vás prosím, aby ste odosielanie analytiky povolili. Anori neposiela žiadne súkromné údaje (ako vaše poznámky alebo URL adresy záložiek), iba metriky o tom, ako rozšírenie používate (napr. koľko máte priečinkov a ako často používate klávesové skratky). Je to však úplne na vás, Anori bude fungovať rovnako, aj keď analytiku nepovolíte.",
+                "p3": "Ak sa chcete dozvedieť viac o tom, aké údaje sa zbierajú, kliknite <0>sem</0>."
             },
             "presets": {
                 "title": "Nový začiatok",
-                "p1": "To je všetko. Teraz máte expresný bakalársky titul z Anori a ste pripravení vytvoriť si vlastnú úvodnú stránku. Pridajte svoj prvý widget a začnite budovať dokonalý setup.",
-                "p2": "Unavuje vás výber? To sa stáva. Nemusíte hneď na prvý pokus vytvoriť dokonalú stránku. Nemusíte ani začínať od prázdneho plátna. Máme pre vás pripravený produktívny setup.",
-                "p3": "Nemusí byť šitý na mieru všetkým vašim potrebám, ale môžete ho použiť ako základ pre vlastný setup, ktorý si zamilujete.",
-                "cta": "🚀 Daj mi produktívny setup"
+                "p1": "To je všetko. Teraz máte expresný bakalársky titul z Anori a môžete si vytvoriť vlastnú úvodnú stránku. Pridajte prvý widget a začnite budovať dokonalú zostavu.",
+                "p2": "Máte už dosť rozhodovania? To nevadí. Dokonalú stránku nemusíte vytvoriť na prvý pokus. Dokonca nemusíte začínať ani s prázdnym plátnom. Máme pre vás pripravenú produktívnu zostavu.",
+                "p3": "Nemusí vyhovovať všetkým vašim potrebám, ale môžete ju použiť ako základ pre vlastnú zostavu, ktorú si zamilujete.",
+                "cta": "🚀 Chcem rovno produktívnu zostavu"
             },
             "preset": {
                 "task": {
-                    "themes": "Vyskúšajte rôzne témy v nastaveniach",
-                    "anoriPlus": "Pozrite si Anori Plus",
-                    "widgets": "Preskúmajte dostupné widgety"
+                    "themes": "Vyskúšať rôzne témy v nastaveniach",
+                    "anoriPlus": "Pozrieť si Anori Plus",
+                    "widgets": "Preskúmať dostupné widgety"
                 }
             }
         },
         "requirePermissions": {
             "modalTitle": "Vyžadujú sa ďalšie oprávnenia",
-            "compactText": "Vyžadujú sa ďalšie oprávnenia. Kliknite pre podrobnosti.",
+            "compactText": "Vyžadujú sa ďalšie oprávnenia. Kliknutím zobrazíte podrobnosti.",
             "text": "Tento widget vyžaduje ďalšie oprávnenia:",
-            "apiPermissions": "API oprávnenia",
+            "apiPermissions": "Oprávnenia API",
             "hostPermissions": "Oprávnenia hostiteľa",
             "grant": "Udeliť oprávnenia"
         },
@@ -294,15 +294,15 @@
             "groupWidgetName": "Skupina záložiek",
             "openInGroup": "Otvoriť v skupine kariet",
             "group": "Skupina",
-            "searchBookmarks": "Hľadať záložky",
+            "searchBookmarks": "Hľadať v záložkách",
             "checkStatus": "Kontrolovať stav stránky",
-            "checkStatusHint": "Anori bude každých 10–15 minút na pozadí odosielať požiadavku na stránku, aby zistil, či je dostupná. Ak server nie je dostupný alebo vráti HTTP chybu 5xx, bude považovaný za nedostupný. Táto funkcia vyžaduje ďalšie oprávnenie. Kontroly sa nevykonávajú, kým je prehliadač zatvorený alebo počítač v režime spánku.",
-            "checkingStatus": "Kontrola stavu stránky...",
-            "status": "Stránka je momentálne {{status}}, posledná zmena stavu bola {{lastChange}}. Naposledy skontrolované {{lastCheck}}.",
+            "checkStatusHint": "Anori bude na pozadí každých 10 – 15 minút posielať na stránku požiadavku a zisťovať, či je dostupná. Ak je server nedostupný alebo vráti chybu HTTP 5xx, stránka sa bude považovať za nedostupnú. Vyžaduje si to ďalšie oprávnenie. Kým je prehliadač zatvorený alebo počítač v režime spánku, kontroly neprebiehajú.",
+            "checkingStatus": "Kontroluje sa stav stránky...",
+            "status": "Stránka je momentálne {{status}}, stav sa naposledy zmenil {{lastChange}}. Naposledy skontrolované {{lastCheck}}.",
             "statusUp": "dostupná",
             "statusDown": "nedostupná",
-            "permissionExplanation": "Anori potrebuje toto oprávnenie na obídenie CORS. Formulácia, ktorú zobrazuje váš prehliadač, môže pôsobiť znepokojujúco, ale Anori nečíta ani nemení žiadne údaje na stránkach z vašich záložiek.",
-            "openInNewTab": "Otvoriť v novej karte",
+            "permissionExplanation": "Anori potrebuje toto oprávnenie na obídenie CORS. Znenie, ktoré zobrazuje váš prehliadač, môže pôsobiť znepokojivo, ale Anori nečíta ani nemení žiadne údaje na stránkach uložených v záložkách.",
+            "openInNewTab": "Otvoriť na novej karte",
             "openInIframe": "Otvoriť vo vyskakovacom okne",
             "pages": "Stránky",
             "addPage": "Pridať stránku"
@@ -320,7 +320,7 @@
             "withoutDate": "Bez dátumu",
             "timeFormat": "Formát času",
             "dateFormat": "Formát dátumu",
-            "24hours": "24 hodín"
+            "24hours": "24-hodinový"
         },
         "notes-plugin": {
             "name": "Poznámky",
@@ -338,22 +338,22 @@
         "system-status-plugin": {
             "name": "Stav systému",
             "ramLoad": "Zaťaženie RAM",
-            "cpuLoad": "Záťaž CPU"
+            "cpuLoad": "Zaťaženie CPU"
         },
         "tabs-plugin": {
             "name": "Karty",
             "tabGroup": "Skupina kariet",
             "contextMenu": {
-                "stashTab": "Uložiť túto kartu",
-                "stashLink": "Uložiť tento odkaz",
-                "stashGroup": "Uložiť túto skupinu kariet"
+                "stashTab": "Odložiť túto kartu",
+                "stashLink": "Odložiť tento odkaz",
+                "stashGroup": "Odložiť túto skupinu kariet"
             },
             "stash": {
                 "title": "Odložené karty",
-                "inbox": "Doručené",
-                "empty": "Zatiaľ nič neuložené",
+                "inbox": "Nezaradené",
+                "empty": "Zatiaľ nie je nič odložené",
                 "emptyHint": "Pridajte kartu tlačidlom + vyššie alebo otvorte vyskakovacie okno Anori na paneli nástrojov prehliadača.",
-                "stashTab": "Uložiť kartu",
+                "stashTab": "Odložiť kartu",
                 "remove": "Odstrániť",
                 "rename": "Premenovať",
                 "openAll": "Otvoriť všetky",
@@ -362,45 +362,45 @@
                 "add": "Pridať",
                 "tabCount_one": "{{count}} karta",
                 "tabCount_few": "{{count}} karty",
-                "tabCount_many": "{{count}} kariet",
+                "tabCount_many": "{{count}} karty",
                 "tabCount_other": "{{count}} kariet"
             },
             "popup": {
-                "stashTab": "Uložiť kartu",
-                "stashCurrentTab": "Uložiť aktuálnu kartu",
-                "stashGroup": "Uložiť skupinu kariet",
-                "stashWindow": "Uložiť toto okno",
+                "stashTab": "Odložiť kartu",
+                "stashCurrentTab": "Odložiť aktuálnu kartu",
+                "stashGroup": "Odložiť skupinu kariet",
+                "stashWindow": "Odložiť toto okno",
                 "window": "Okno",
-                "grantTabs": "Pre funkciu $t(tabs-plugin.stash.title) sú potrebné ďalšie oprávnenia",
-                "recentlyStashed": "Nedávno uložené",
-                "nothingStashed": "Zatiaľ nič neuložené"
+                "grantTabs": "Funkcia $t(tabs-plugin.stash.title) vyžaduje ďalšie oprávnenia",
+                "recentlyStashed": "Nedávno odložené",
+                "nothingStashed": "Zatiaľ nie je nič odložené"
             },
             "syncedTabs": {
                 "title": "Synchronizované karty",
-                "loading": "Načítavanie kariet...",
+                "loading": "Načítavajú sa karty...",
                 "unnamedGroup": "Skupina",
-                "notConnectedTitle": "Zobrazte karty z vašich ostatných zariadení",
-                "notConnectedDescription": "Pripojte Anori Plus a synchronizujte otvorené karty naprieč vašimi zariadeniami.",
+                "notConnectedTitle": "Zobrazte si karty z ostatných zariadení",
+                "notConnectedDescription": "Pripojte Anori Plus a synchronizujte otvorené karty medzi svojimi zariadeniami.",
                 "connect": "Pripojiť",
-                "emptyTitle": "Žiadne iné zariadenia zatiaľ nezdieľajú karty",
-                "emptyDescription": "Prihláste sa do svojho účtu Anori Plus na inom počítači a zapnite tam synchronizáciu kariet."
+                "emptyTitle": "Karty zatiaľ nezdieľa žiadne iné zariadenie",
+                "emptyDescription": "Prihláste sa do účtu Anori Plus na inom počítači a zapnite tam synchronizáciu kariet."
             }
         },
         "tasks-plugin": {
             "name": "Úlohy",
             "todo": "Zoznam úloh",
-            "completeTask": "Označiť \"{{task}}\" ako dokončené",
+            "completeTask": "Dokončiť úlohu \"{{task}}\"",
             "taskDescription": "Popis úlohy...",
             "noTasks": "Zatiaľ tu nie sú žiadne úlohy",
-            "exampleTask0": "Ísť na hlúpu prechádzku pre duševné zdravie",
-            "exampleTask1": "Poležať na gauči",
-            "exampleTask2": "Poležať na podlahe",
-            "exampleTask3": "Pokúsiť sa neplakať"
+            "exampleTask0": "Ísť na hlúpu prechádzku kvôli hlúpemu duševnému zdraviu",
+            "exampleTask1": "Poležať si na gauči",
+            "exampleTask2": "Poležať si na zemi",
+            "exampleTask3": "Skúsiť sa nerozplakať"
         },
         "top-sites-plugin": {
             "name": "Najnavštevovanejšie stránky",
-            "widgetHorizontal": "Najnavštevovanejšie stránky - horizontálny",
-            "widgetVertical": "Najnavštevovanejšie stránky - vertikálny",
+            "widgetHorizontal": "Najnavštevovanejšie stránky - vodorovne",
+            "widgetVertical": "Najnavštevovanejšie stránky - zvisle",
             "removeSite": "Odstrániť stránku"
         },
         "weather-plugin": {
@@ -411,15 +411,15 @@
             "kmh": "km/h",
             "ms": "m/s",
             "mph": "mph",
-            "clearSky": "Jasná obloha",
-            "partlyCloudy": "Čiastočne oblačno",
+            "clearSky": "Jasno",
+            "partlyCloudy": "Polojasno",
             "fog": "Hmla",
             "drizzle": "Mrholenie",
             "freezingDrizzle": "Mrznúce mrholenie",
             "rain": "Dážď",
             "freezingRain": "Mrznúci dážď",
             "snow": "Sneh",
-            "rainShower": "Prehánky",
+            "rainShower": "Dažďová prehánka",
             "thunderstorm": "Búrka",
             "unknownCode": "Neznámy kód počasia",
             "selectCity": "Vyberte mesto",
@@ -436,23 +436,23 @@
             "feedUrls": "URL adresy RSS kanálov",
             "noPosts": "V tomto kanáli zatiaľ nie sú žiadne príspevky",
             "compactView": "Kompaktné zobrazenie",
-            "presetsTitle": "Pridajte svoje obľúbené kanály alebo vyberte jeden z predvolených nastavení:",
-            "presetsText": "Ešte ste nepridali žiadne kanály? Máme predvoľby pre <0>vývojárov</0>, <1>dizajnérov</1> a jednu s <2>rôznymi zaujímavými vecami</2>.",
+            "presetsTitle": "Sem pridajte svoje obľúbené kanály alebo vyberte niektorú z predvolieb:",
+            "presetsText": "Ešte ste nepridali žiadne kanály? Máme predvoľby <0>pre vývojárov</0>, <1>pre dizajnérov</1> a jednu so <2>všelijakými zaujímavosťami</2>.",
             "addFeed": "Pridať kanál",
             "presetForDevelopers": "Pre vývojárov",
             "presetForDesigners": "Pre dizajnérov",
-            "presetInteresting": "Len zaujímavé veci",
-            "presetForDevelopersTitle": "Dev",
+            "presetInteresting": "Len zaujímavosti",
+            "presetForDevelopersTitle": "Vývoj",
             "presetForDesignersTitle": "Dizajn",
-            "presetInterestingTitle": "Zaujímavé veci",
-            "examplePostTitle1": "Ako si usporiadať novú kartu v Anori ako profík!",
-            "examplePostDescription1": "Začnite so starými dobrými záložkami a nechajte sa viesť srdcom. Niekedy stačí trochu poriadku...",
+            "presetInterestingTitle": "Zaujímavosti",
+            "examplePostTitle1": "Ako si profesionálne usporiadať novú kartu v Anori!",
+            "examplePostDescription1": "Začnite starou dobrou záložkou a potom sa nechajte viesť srdcom. Niekedy stačí trochu poriadku...",
             "exampleFeedTitle1": "Blog Anori",
             "examplePostTitle2": "8 najužitočnejších rozšírení prehliadača",
-            "examplePostDescription2": "Dnes vám ukážem, ako premeniť váš prehliadač na stanicu produktivity pomocou týchto nevyhnutných rozšírení. V hlavnej úlohe hviezda šou — Anori.",
+            "examplePostDescription2": "Dnes vám ukážem, ako z prehliadača spraviť stanicu produktivity pomocou týchto nevyhnutných rozšírení. V hlavnej úlohe hviezda večera - Anori.",
             "exampleFeedTitle2": "Produktivita 101",
-            "examplePostTitle3": "Rozšírenie, ktoré vám umožní vytvoriť vlastnú novú kartu z widgetov!",
-            "examplePostDescription3": "Môžete si vytvoriť vlastnú novú kartu z dostupných widgetov (úlohy, poznámky, záložky atď.) a usporiadať ich do priečinkov.",
+            "examplePostTitle3": "Rozšírenie, s ktorým si zostavíte vlastnú novú kartu z widgetov!",
+            "examplePostDescription3": "Z dostupných widgetov (úlohy, poznámky, záložky atď.) si zostavíte vlastnú novú kartu a widgety usporiadate do priečinkov.",
             "exampleFeedTitle3": "Reddit"
         },
         "iframe-plugin": {
@@ -460,13 +460,13 @@
             "expandWidgetName": "Vložená stránka — rozbaľovacia",
             "showLink": "Zobraziť odkaz na pôvodnú stránku",
             "openPage": "Otvoriť stránku",
-            "limitations": "Vkladanie nefunguje so všetkými stránkami. Niektoré stránky sa aktívne bránia zobrazeniu ako vložená stránka a Anori s tým, žiaľ, veľa nezmôže. Môže to mať za následok, že sa stránky nenačítajú (ako je to napríklad s Gmailom) alebo fungujú zle."
+            "limitations": "Vkladanie nefunguje so všetkými stránkami. Niektoré weby sa aktívne bránia tomu, aby sa zobrazovali ako vložená stránka, a Anori s tým, žiaľ, veľa nenarobí. Stránky sa potom nemusia vôbec načítať (ako napríklad Gmail) alebo nemusia fungovať správne."
         },
         "math-plugin": {
             "name": "Matematika",
             "calculator": "Kalkulačka",
             "expandWidgetName": "Kalkulačka — rozbaľovacia",
-            "cantCalc": "Toto nedokážem vypočítať"
+            "cantCalc": "Toto sa nedá vypočítať"
         },
         "picture-plugin": {
             "name": "Obrázok",
@@ -481,32 +481,32 @@
             "name": "Anki",
             "deck": "Balíček",
             "showAnswer": "Zobraziť odpoveď",
-            "easy": "Ľahko",
+            "easy": "Ľahké",
             "again": "Znova",
-            "good": "Dobre",
+            "good": "Dobré",
             "hard": "Ťažké",
-            "errorTitle": "AnkiConnect nie je dostupný",
-            "error": "Uistite sa, že Anki beží a doplnok AnkiConnect je nainštalovaný.",
+            "errorTitle": "AnkiConnect je nedostupný",
+            "error": "Skontrolujte, či je Anki spustené a doplnok AnkiConnect nainštalovaný.",
             "widgetName": "Anki"
         },
         "releaseNotes": {
-            "alsoInThisRelease": "Tiež v tejto verzii",
+            "alsoInThisRelease": "Ďalej v tejto verzii",
             "tagNew": "Nové",
             "tagImproved": "Vylepšené",
             "tagFixed": "Opravené",
-            "changelogNote": "Hľadáte changelog pre staršie verzie? Nájdete ho <0>na GitHube</0>.",
+            "changelogNote": "Hľadáte zoznam zmien starších verzií? Nájdete ho <0>na GitHube</0>.",
             "v2_3_0": {
-                "headline": "Spoznajte nový plugin $t(motivation-plugin.name): osem widgetov na sledovanie času, udržanie prehľadu, sústredenie a počítanie dní, na ktorých záleží.",
-                "periodsTitle": "Kam sa podal deň?",
-                "periodsBody": "Nové widgety priebehu ukazujú, koľko z dňa, týždňa, mesiaca alebo roka je už za vami. Deň a týždeň môžu pokrývať len ich časť, takže môžete sledovať pracovný deň a pracovný týždeň, alebo mať prehľad o tom, koľko víkendu vám ešte zostáva.",
-                "periodsCalendar": "Mesiac a rok môžu tiež sledovať iný kalendárny systém, ak podľa neho žijete.",
-                "lifeTitle": "Dlhý pohľad",
-                "lifeBody": "Pozrite sa na svoj život z nadhľadu pomocou Priebehu života: váš život ako mriežka rokov, ktorá sa ticho vypĺňa. Jemné memento mori, bez lebiek. A ak radšej sledujete sekundy, Počítadlo veku ukazuje, koľko máte rokov, naživo.",
+                "headline": "Spoznajte nový plugin $t(motivation-plugin.name): osem widgetov, s ktorými budete mať prehľad o svojom čase, neprestanete vidieť celkový obraz, udržíte pozornosť a budete počítať dni, na ktorých záleží.",
+                "periodsTitle": "Kam sa podel deň?",
+                "periodsBody": "Nové widgety priebehu ukazujú, koľko z dňa, týždňa, mesiaca alebo roka už máte za sebou. Deň a týždeň môžu zahŕňať len svoju časť, takže môžete sledovať pracovný deň a pracovný týždeň alebo mať prehľad o tom, koľko víkendu vám ešte zostáva.",
+                "periodsCalendar": "Mesiac a rok sa môžu riadiť aj iným kalendárnym systémom, ak podľa neho žijete.",
+                "lifeTitle": "Pohľad na celý život",
+                "lifeBody": "Pozrite sa na všetko z odstupu s widgetom Priebeh života: váš život ako mriežka rokov, ktorá sa potichu zapĺňa. Jemné memento mori, len bez lebiek. A ak radšej sledujete sekundy, Počítadlo veku naživo ukazuje, koľko máte rokov.",
                 "focusTitle": "Majte to na očiach",
-                "focusBody": "Fokus zobrazuje jeden riadok textu na vašej novej karte, aby dôležitá vec nezapadla pod všetko ostatné. Použite ho pre svoju úlohu dňa, cieľ týždňa alebo niečo, za čo ste vďační. Môže sa obnoviť každý deň, týždeň alebo mesiac, alebo zostať, kým ho nezmeníte.",
+                "focusBody": "Fokus drží na vašej novej karte jeden riadok textu, aby sa to dôležité nestratilo pod všetkým ostatným. Použite ho na úlohu dňa, cieľ týždňa alebo jednu vec, za ktorú cítite vďaku. Môže začínať odznova každý deň, týždeň alebo mesiac, alebo zostať, kým ho nezmeníte.",
                 "counterTitle": "Počítajte dni",
-                "counterBody": "Ak má váš fokus termín, pomáha vidieť, ako dni ubúdajú. Na to slúži počítadlo dní. Počíta aj opačným smerom: prestali ste fajčiť pred dvoma týždňami? Dajte to číslo na svoju novú kartu a sledujte, ako deň po dni rastie.",
-                "minorLocalizedNumbers": "Percentá využitia CPU a pamäte a rýchlosť vetra teraz zodpovedajú formátu čísel vášho jazyka, napríklad '12,3 %' v nemčine alebo '%12,3' v turečtine."
+                "counterBody": "Ak má váš fokus termín, pomáha vidieť, ako dni ubúdajú. Na to slúži Počítadlo dní. Počíta aj opačným smerom: prestali ste fajčiť pred dvoma týždňami? Dajte si to číslo na novú kartu a sledujte, ako deň po dni rastie.",
+                "minorLocalizedNumbers": "Percentá využitia CPU a pamäte a rýchlosť vetra teraz používajú formát čísel vášho jazyka, napríklad '12,3 %' v nemčine alebo '%12,3' v turečtine."
             }
         },
         "motivation-plugin": {
@@ -533,18 +533,18 @@
             "to": "Do",
             "dateOfBirth": "Dátum narodenia",
             "expectedLifespan": "Očakávaná dĺžka života, roky",
-            "yearsLived_one": "{{lived}} z {{count}} roka prežitého",
-            "yearsLived_few": "{{lived}} z {{count}} rokov prežitých",
-            "yearsLived_many": "{{lived}} z {{count}} rokov prežitých",
-            "yearsLived_other": "{{lived}} z {{count}} rokov prežitých",
+            "yearsLived_one": "Za vami je {{lived}} z {{count}} roka",
+            "yearsLived_few": "Za vami je {{lived}} z {{count}} rokov",
+            "yearsLived_many": "Za vami je {{lived}} z {{count}} roka",
+            "yearsLived_other": "Za vami je {{lived}} z {{count}} rokov",
             "yourAge": "Váš vek",
-            "focusPlaceholder": "Napíšte a stlačte Enter",
+            "focusPlaceholder": "Napíšte text a stlačte Enter",
             "resetCadence": "Resetovať",
             "cadences": {
                 "daily": "Každý deň",
                 "weekly": "Každý týždeň",
                 "monthly": "Každý mesiac",
-                "manual": "Manuálne"
+                "manual": "Ručne"
             },
             "markDone": "Označiť ako hotové",
             "markNotDone": "Označiť ako nehotové",
@@ -553,19 +553,19 @@
             "today": "Dnes",
             "daysLeft_one": "zostávajúci deň",
             "daysLeft_few": "zostávajúce dni",
-            "daysLeft_many": "zostávajúcich dní",
+            "daysLeft_many": "zostávajúceho dňa",
             "daysLeft_other": "zostávajúcich dní",
-            "daysSince_one": "deň uplynul",
-            "daysSince_few": "dni uplynuli",
-            "daysSince_many": "dní uplynulo",
-            "daysSince_other": "dní uplynulo",
+            "daysSince_one": "uplynulý deň",
+            "daysSince_few": "uplynulé dni",
+            "daysSince_many": "uplynulého dňa",
+            "daysSince_other": "uplynulých dní",
             "hoursLeft_one": "zostávajúca hodina",
             "hoursLeft_few": "zostávajúce hodiny",
-            "hoursLeft_many": "zostávajúcich hodín",
+            "hoursLeft_many": "zostávajúcej hodiny",
             "hoursLeft_other": "zostávajúcich hodín",
             "mockFocusText": "Dokončiť štvrťročnú správu",
             "mockCounterTitle": "Dovolenka",
-            "defaultPrompt": "Dnešné zameranie"
+            "defaultPrompt": "Dnešný fokus"
         }
     }
 }

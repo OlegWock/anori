@@ -26,6 +26,7 @@ const MAX_USAGES_PER_KEY = 3;
 let verbose = false;
 // Toggled by the --strict CLI flag; makes `status` exit non-zero when any key is missing or stale (for CI).
 let strict = false;
+let force = false;
 
 const FINISHED_TRANSLATIONS = [
   "en",
@@ -71,6 +72,10 @@ const LANGUAGE_ENGLISH_NAMES: Record<string, string> = {
   id: "Indonesian",
   fil: "Filipino",
   hi: "Hindi",
+};
+
+const TYPOGRAPHY_FIXES: Record<string, (value: string) => string> = {
+  fr: (value) => value.replace(/ ([:;?!])/g, "\u00a0$1"),
 };
 
 type Fingerprints = Record<string, Record<string, string>>;
@@ -197,7 +202,7 @@ const placeholdersMatch = (english: string, translated: string): boolean => {
 // frequent failure where models emit an unescaped quote inside a value and break the JSON.
 const parseKeyedBlocks = (content: string): Record<string, string> => {
   const result: Record<string, string> = {};
-  const markerRe = /^\s*\[\[\[(.+?)\]\]\]\s*$/;
+  const markerRe = /^\s*\[{2,3}([^[\]]+?)\]{2,3}\s*$/;
   let key: string | null = null;
   let buffer: string[] = [];
   const flush = () => {
@@ -242,11 +247,14 @@ const callOpenRouter = async (
     `- "note" and "usage" are context only — never translate them. The "usage" lines are raw code excerpts, so they may include characters around the string (e.g. a trailing colon, quotes, or brackets) that are NOT part of it; never copy that punctuation into the translation. The translation's punctuation must follow the "en" value alone.`,
     `- Preserve every interpolation placeholder EXACTLY: {{variables}}, numbered tags like <0>...</0> or <1/>, and $t(...) references. Never translate text inside {{ }} or tag contents.`,
     `- Mirror the source's trailing punctuation: if the English ends with an ellipsis ("..."), a colon, or other trailing punctuation, keep the same in the translation; if it doesn't, don't add any.`,
-    `- Keep it concise and natural for UI, matching the punctuation and capitalization style of the source.`,
+    `- Keep it concise and natural for UI, matching the punctuation style of the source. Where reasonably possible, keep buttons, labels and other short strings close to the English length, as they sit in fixed-width UI.`,
+    `- Use sentence case: capitalize only the first word and whatever the target language's grammar requires (proper nouns, brand names, German nouns). Never carry over English Title Case.`,
+    `- Keep the speaker as in the English. "I"/"me"/"my" is the app's solo developer speaking personally — keep it first person singular, never turn it into "we". "We"/"us" stays plural.`,
+    `- Address the user the same way in every string, using the form of address from the ${languageName} conventions below when they give one.`,
     `- For quotation marks use ONLY straight quotes — the apostrophe ' (U+0027) and the double quote " (U+0022). Never use typographic, curly, or angled quotes (such as “ ” ‘ ’ „ ‚ « » 「 」); replace any of them with the matching straight quote.`,
     ...(languageNotes.length > 0
       ? [
-          `- Follow these ${languageName}-specific conventions, collected from native-speaker feedback. They override any conflicting wording in "previous" or "uk":`,
+          `- Follow these ${languageName} conventions (form of address, style, and the glossary of established terms). They override any conflicting wording in "previous" or "uk":`,
           ...languageNotes.map((note) => `  - ${note}`),
         ]
       : []),
@@ -491,12 +499,18 @@ const translateLanguage = async (
   const { langFlat, missing, stale } = computeOutdated(lang, expectedKeys, enFlat, fingerprints);
   // Keys other notes reference go first, so their fresh translations seed the terms those notes carry.
   const termKeys = referencedTermKeys(notes);
-  const outdated = [...missing, ...stale].sort((a, b) => Number(termKeys.has(b.key)) - Number(termKeys.has(a.key)));
+  const outdated = (force ? [...expectedKeys] : [...missing, ...stale]).sort(
+    (a, b) => Number(termKeys.has(b.key)) - Number(termKeys.has(a.key)),
+  );
   if (outdated.length === 0) {
     console.log(`✅ ${lang}: already up to date.`);
     return;
   }
-  console.log(`🌐 ${lang}: translating ${outdated.length} keys (${missing.length} missing, ${stale.length} stale)...`);
+  console.log(
+    force
+      ? `🌐 ${lang}: retranslating all ${outdated.length} keys (--force)...`
+      : `🌐 ${lang}: translating ${outdated.length} keys (${missing.length} missing, ${stale.length} stale)...`,
+  );
 
   const langFingerprints = fingerprints[lang] ?? {};
   let failures = 0;
@@ -513,7 +527,7 @@ const translateLanguage = async (
         key: expected.key,
         en: enFlat[expected.enKey],
         uk: lang === SECONDARY_REFERENCE ? undefined : ukFlat[expected.key],
-        previous: langFlat[expected.key] || undefined,
+        previous: force ? undefined : langFlat[expected.key] || undefined,
         note: note ? hydrateTermReferences(note, lang, langFlat, enFlat) : undefined,
         usage: usage || undefined,
       };
@@ -540,6 +554,13 @@ const translateLanguage = async (
         failures++;
         continue;
       }
+      if (value.includes("[[") && !enFlat[expected.enKey].includes("[[")) {
+        console.warn(
+          `  ⚠️  ${expected.key}: translation contains a leaked key marker. Keeping previous value (will retry next run).`,
+        );
+        failures++;
+        continue;
+      }
       if (!placeholdersMatch(enFlat[expected.enKey], value)) {
         const wanted = describePlaceholders(extractPlaceholders(enFlat[expected.enKey]));
         const got = describePlaceholders(extractPlaceholders(value));
@@ -549,7 +570,7 @@ const translateLanguage = async (
         failures++;
         continue;
       }
-      langFlat[expected.key] = value;
+      langFlat[expected.key] = TYPOGRAPHY_FIXES[lang]?.(value) ?? value;
       langFingerprints[expected.key] = fingerprint(enFlat[expected.enKey]);
     }
   }
@@ -574,6 +595,10 @@ const main = async () => {
   const args = process.argv.slice(2).filter((arg) => {
     if (arg === "-v" || arg === "--verbose") {
       verbose = true;
+      return false;
+    }
+    if (arg === "--force") {
+      force = true;
       return false;
     }
     if (arg === "--strict") {
@@ -659,7 +684,7 @@ const main = async () => {
     });
   } else {
     console.error(`Unknown command: ${command}`);
-    console.error("Available: status, translate <lang|all>, remove-excessive, generate-locales");
+    console.error("Available: status, translate <lang|all> [--force], remove-excessive, generate-locales");
     process.exit(1);
   }
 };

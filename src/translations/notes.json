@@ -35,8 +35,8 @@
     "customIcons": "Option/tab label in the icon picker for the user's own uploaded icon set.",
     "canBeEmpty": "Inline parenthetical hint next to an optional form field label, indicating it may be left blank.",
     "duration": {
-        "hoursMinutes": "Compact duration, e.g. '6h 20m'. Keep it short; unit letters may be localized.",
-        "daysHours": "Compact duration, e.g. '3d 4h'. Keep it short.",
+        "hoursMinutes": "Compact duration, e.g. '6h 20m'. Keep it short. Use the target language's standard short abbreviations for hours and minutes (often 'h' and 'min'); don't make up a letter from the local word.",
+        "daysHours": "Compact duration, e.g. '3d 4h'. Keep it short. Use the target language's standard short abbreviations for days and hours; don't make up a letter from the local word.",
         "days": "Duration in whole days, e.g. '3 days'. Uses i18next plural forms."
     },
     "cloud": {
@@ -388,6 +388,7 @@
         "noPosts": "Empty-state shown when a feed has no posts yet.",
         "compactView": "Toggle in the RSS config for a compact post layout.",
         "presetsTitle": "Intro text in the RSS config inviting the user to add feeds or pick a preset.",
+        "presetsText": "Shown in the RSS widget's config screen when no feeds are added yet. The three tagged parts are links that add the matching preset. Name the audiences exactly as the preset buttons do: developers = '$(rss-plugin.presetForDevelopers)', designers = '$(rss-plugin.presetForDesigners)' (inflected as the sentence requires).",
         "presetForDevelopers": "Full label of the developer-focused feed preset.",
         "presetForDesigners": "Full label of the designer-focused feed preset.",
         "presetInteresting": "Full label of the general-interest feed preset.",
@@ -442,9 +443,9 @@
     },
     "releaseNotes": {
         "alsoInThisRelease": "Heading of the card in the What's new modal that lists smaller changes, below the highlighted feature cards.",
-        "tagNew": "Short badge label before a change in the What's new list, marking a newly added capability. Keep it to one word if possible.",
-        "tagImproved": "Short badge label before a change in the What's new list, marking an improvement to something that already existed. Keep it to one word if possible.",
-        "tagFixed": "Short badge label before a change in the What's new list, marking a bug fix. Keep it to one word if possible.",
+        "tagNew": "Short badge label before a change in the What's new list, marking a newly added capability. Keep it to one word if possible. The three tags ($(releaseNotes.tagNew), $(releaseNotes.tagImproved), $(releaseNotes.tagFixed)) appear side by side in the same list; use the same grammatical form for all three.",
+        "tagImproved": "Short badge label before a change in the What's new list, marking an improvement to something that already existed. Keep it to one word if possible. The three tags ($(releaseNotes.tagNew), $(releaseNotes.tagImproved), $(releaseNotes.tagFixed)) appear side by side in the same list; use the same grammatical form for all three.",
+        "tagFixed": "Short badge label before a change in the What's new list, marking a bug fix. Keep it to one word if possible. The three tags ($(releaseNotes.tagNew), $(releaseNotes.tagImproved), $(releaseNotes.tagFixed)) appear side by side in the same list; use the same grammatical form for all three.",
         "changelogNote": "Muted footnote at the bottom of the What's new modal. <0>...</0> wraps the link text pointing to the changelog file on GitHub; keep the tags around whatever words become the link in the target language.",
         "v2_3_0": {
             "headline": "One-sentence summary of release 2.3.0, shown large on an accent-coloured banner in the What's new modal, right under the version number. Introduces the new plugin and its eight widgets in four groups (time progress, life progress, focus, day counter), which match the cards below. Informal, enthusiastic but not salesy. The $t(...) placeholder expands to the plugin name.",
