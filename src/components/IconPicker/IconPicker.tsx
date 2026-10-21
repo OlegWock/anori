@@ -7,6 +7,7 @@ import { Input } from "@anori/design-system/components/Input/Input";
 import type { PopoverRenderProps } from "@anori/design-system/components/Popover/Popover";
 import { Select } from "@anori/design-system/components/Select/Select";
 import { Tooltip } from "@anori/design-system/components/Tooltip/Tooltip";
+import { useDebouncedValue } from "@anori/utils/hooks";
 import {
   createContext,
   type KeyboardEvent,
@@ -82,6 +83,7 @@ const COLUMNS = 8;
 const ICON_SIZE = 32;
 const PADDING = 10;
 const GRID_WIDTH = COLUMNS * (ICON_SIZE + PADDING * 2) + 8;
+const SEARCH_DEBOUNCE_MS = 300;
 
 const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void; x: number; y: number }) => {
   const registerRef = (el: HTMLButtonElement | null) => {
@@ -112,7 +114,7 @@ const IconCell = ({ icon, onClick, x, y }: { icon: string; onClick?: () => void;
         onClick={onClick}
         onKeyDown={onKeyDown}
       >
-        <Icon icon={icon} cache={false} width={ICON_SIZE} height={ICON_SIZE} />
+        <Icon icon={icon} cache={false} batched width={ICON_SIZE} height={ICON_SIZE} />
       </button>
     </Tooltip>
   );
@@ -225,7 +227,8 @@ export const IconPicker = ({ data, close }: IconPickerProps) => {
   const rowRefs = useRef<IconPickerContextType["rowRefs"]["current"]>({});
   const [selectedFamily, setSelectedFamily] = useState(ALL_SETS);
   const [query, setQuery] = useState("");
-  const deferredQuery = useDeferredValue(query);
+  const debouncedQuery = useDebouncedValue(query, SEARCH_DEBOUNCE_MS);
+  const deferredQuery = useDeferredValue(debouncedQuery);
   const deferredSelectedFamily = useDeferredValue(selectedFamily);
   const { t } = useTranslation();
 

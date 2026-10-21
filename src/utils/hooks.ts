@@ -204,6 +204,17 @@ export const useAsyncEffect = (func: () => unknown, deps?: DependencyList | unde
   }, deps);
 };
 
+export const useDebouncedValue = <T>(value: T, delayMs: number): T => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delayMs);
+    return () => clearTimeout(timer);
+  }, [value, delayMs]);
+
+  return debouncedValue;
+};
+
 export const useAsyncLayoutEffect = (func: () => unknown, deps?: DependencyList | undefined) => {
   // This hook needed only to please typescript, as it's angry when you pass async function into useEffect
   useLayoutEffect(() => {

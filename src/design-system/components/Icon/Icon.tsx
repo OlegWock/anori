@@ -5,7 +5,17 @@ import { useMemo } from "react";
 import { css, cx } from "styled-system/css";
 import { splitCssProps } from "styled-system/jsx";
 
-export const Icon = ({ icon, cache = true, size = "md", className, width, height, transition, ...rest }: IconProps) => {
+export const Icon = ({
+  icon,
+  cache = true,
+  batched,
+  size = "md",
+  className,
+  width,
+  height,
+  transition,
+  ...rest
+}: IconProps) => {
   const [cssProps, forwardProps] = splitCssProps(rest);
   const mergedClassName = cx(css(cssProps), className) || undefined;
   // `size` sets the height; width stays automatic so non-square icons keep their aspect ratio. An
@@ -21,5 +31,5 @@ export const Icon = ({ icon, cache = true, size = "md", className, width, height
     return <CustomIcon {...shared} icon={iconName} />;
   }
 
-  return <SvgIcon {...shared} icon={icon} />;
+  return <SvgIcon {...shared} icon={icon} batched={batched} />;
 };

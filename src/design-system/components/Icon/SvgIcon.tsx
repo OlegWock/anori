@@ -1,12 +1,13 @@
+import { requestBatchedRemoteIcon } from "@anori/design-system/components/Icon/batched-remote-icons";
 import { getBuiltinIcon } from "@anori/design-system/components/Icon/builtin-icons";
 import { IconPlaceholder, iconEnter } from "@anori/design-system/components/Icon/IconPlaceholder";
 import { ICONIFY_API_BASE } from "@anori/design-system/components/Icon/remote-icons";
 import { globalSvgIconsCache, SvgIconRenderer } from "@anori/design-system/components/Icon/SvgIconRenderer";
 import type { IconRenderProps } from "@anori/design-system/components/Icon/types";
 import { useAsyncLayoutEffect } from "@anori/utils/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRenderProps) => {
+export const SvgIcon = ({ children, icon, cache = true, batched = false, ref, ...props }: IconRenderProps) => {
   const [family, iconName] = icon.split(":");
   // Built-in icons resolve synchronously — seed state during render so there's no placeholder flash or
   // extra commit per icon; only remote/custom icons fall through to the async effect below.
@@ -18,8 +19,13 @@ export const SvgIcon = ({ children, icon, cache = true, ref, ...props }: IconRen
     setSvgText(getBuiltinIcon(icon) ?? null);
   }
 
+  useEffect(() => {
+    if (!batched || getBuiltinIcon(icon) || family === "custom") return;
+    return requestBatchedRemoteIcon(icon, setSvgText);
+  }, [icon, family, batched]);
+
   useAsyncLayoutEffect(async () => {
-    if (getBuiltinIcon(icon)) {
+    if (batched || getBuiltinIcon(icon)) {
       // Resolved synchronously during render.
       return;
     }

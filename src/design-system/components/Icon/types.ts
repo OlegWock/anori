@@ -24,9 +24,9 @@ export type BaseIconProps = {
   ref?: Ref<HTMLElement>;
 } & IconMotionProps;
 
-export type IconRenderProps = { icon: string; cache?: boolean } & Omit<BaseIconProps, "size">;
+export type IconRenderProps = { icon: string; cache?: boolean; batched?: boolean } & Omit<BaseIconProps, "size">;
 
-export type IconProps = { icon: string; cache?: boolean } & BaseIconProps & IconStyleProps;
+export type IconProps = { icon: string; cache?: boolean; batched?: boolean } & BaseIconProps & IconStyleProps;
 
 export type SvgIconCacheDescriptor = {
   svgText: string;
